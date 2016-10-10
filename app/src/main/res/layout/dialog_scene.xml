@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_400"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/color_fff">
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_weight="3.5"
+                android:layout_height="@dimen/dp_50"
+                android:gravity="center"
+                android:text="新增情景"
+                android:background="@color/color_0095D9"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_24" />
+            <ImageView
+                android:id="@+id/scene_iv_cancel"
+                android:layout_width="@dimen/dp_0"
+                android:layout_weight="0.5"
+                android:layout_height="@dimen/dp_50"
+                android:background="@color/color_0095D9"
+                android:src="@drawable/xiaocha"
+                android:scaleType="centerCrop"
+                android:padding="@dimen/dp_5"
+                android:gravity="center_vertical"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_80"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_20"
+                android:text="情景名称"
+                android:textColor="@color/color_88222223"
+                android:textSize="@dimen/sp_24" />
+
+            <EditText
+                android:id="@+id/scene_et_name"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_weight="2"
+                android:background="@drawable/rect_gray1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_70"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/scene_btn_sure"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_weight="1"
+                android:background="@drawable/rect_blue4"
+                android:text="确认"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_24" />
+
+            <Button
+                android:id="@+id/scene_btn_cancel"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_20"
+                android:layout_weight="1"
+                android:background="@drawable/rect_blue5"
+                android:text="取消"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_24" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

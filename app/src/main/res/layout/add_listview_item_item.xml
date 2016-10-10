@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginBottom="@dimen/dp_10"
+    android:layout_marginTop="@dimen/dp_10"
+    android:background="@drawable/tiao1"
+    android:id="@+id/add_item_ll"
+    android:visibility="gone"
+    android:orientation="horizontal">
+
+    <ScrollView
+        android:id="@+id/equipment_out_sv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_weight="6"
+        android:scrollbars="none">
+
+        <cn.etsoft.smarthome.widget.ListViewForScrollView
+            android:id="@+id/equipment_out_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </ScrollView>
+</LinearLayout>

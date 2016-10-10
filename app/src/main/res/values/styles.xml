@@ -1,0 +1,65 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <!--底边栏的样式-->
+    <style name="BottomRadioButtonStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:button">@null</item>
+        <item name="android:paddingLeft">@dimen/dp_0</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+        <item name="android:textColor">@color/color_radiobutton_text</item>
+        <item name="android:background">@drawable/selector_radiobutton_bg</item>
+    </style>
+    <!--左边栏的样式-->
+    <style name="LeftRadioButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_0</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:paddingTop">@dimen/dp_10</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+        <item name="android:textColor">@color/color_radiobutton_text</item>
+        <item name="android:background">@drawable/selector_radiobutton_bg</item>
+    </style>
+
+    <!--竖线的样式-->
+    <style name="PortraitViewGrayStyle">
+        <item name="android:layout_width">@dimen/dp_1</item>
+        <item name="android:layout_height">@dimen/dp_70</item>
+        <item name="android:background">@color/color_f0f0f0</item>
+    </style>
+    <!--横线的样式-->
+    <style name="LandscapeViewGrayStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_1</item>
+        <item name="android:background">@color/color_CCD1D9</item>
+    </style>
+    <!--自定义dialog的样式-->
+    <style name="customDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:background">@color/color_fff</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <!--dialog_normal_layout中Button的样式-->
+    <style name="DialogButtonStyle">
+        <item name="android:layout_width">@dimen/dp_0</item>
+        <item name="android:layout_height">@dimen/dp_35</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/selector_dialog_btn</item>
+        <item name="android:textColor">@color/color_565656</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+</resources>

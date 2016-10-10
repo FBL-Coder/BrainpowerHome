@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.etsoft.smarthome">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <!--主页面-->
+        <activity
+            android:name=".ui.HomeActivity"
+            android:screenOrientation="landscape"
+            android:launchMode="singleTop" ></activity>
+
+        <activity
+            android:name=".ui.WelcomeActivity"
+            android:screenOrientation="landscape">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <!--系统设置-联网模块-->
+        <activity
+            android:name=".ui.NetworkActivity"
+            android:screenOrientation="landscape" />
+        <!--系统设置-房间设置-->
+        <activity
+            android:name=".ui.RoomActivity"
+            android:screenOrientation="landscape" />
+        <!--系统设置-情景设置-->
+        <activity
+            android:name=".ui.SceneActivity"
+            android:screenOrientation="landscape" />
+        <!--系统设置-情景设置-各种模式-->
+        <activity
+            android:name=".ui.SceneSetActivity"
+            android:screenOrientation="landscape" />
+        <!--系统设置-情景设置-各种模式-一楼客厅-->
+        <activity
+            android:name=".ui.ParlourActivity"
+            android:screenOrientation="landscape" />
+        <!--系统设置-组合设置-->
+        <activity
+            android:name=".ui.GroupActivity"
+            android:screenOrientation="landscape" />
+        <!--系统设置-组合设置-一楼客厅四键-->
+        <activity
+            android:name=".ui.ParlourFourActivity"
+            android:screenOrientation="landscape" />
+        <!--系统设置-组合设置-一楼客厅四键-->
+        <activity
+            android:name=".ui.ParlourFourOutActivity"
+            android:screenOrientation="landscape" />
+        <!--系统设置-组合设置-一楼客厅四键-新增设备控制-->
+        <activity
+            android:name=".ui.EquipmentControlActivity"
+            android:screenOrientation="landscape" />
+        <!--系统设置-组合设置-一楼客厅四键-新增设备控制-->
+        <activity
+            android:name=".ui.EquipmentControlOutActivity"
+            android:screenOrientation="landscape" />
+        <!--系统设置-组合设置-一楼客厅四键-设备配置-->
+        <activity
+            android:name=".ui.EquipmentDeployActivity"
+            android:screenOrientation="landscape" />
+        <!--系统设置-组合设置-一楼客厅四键-新增按键控制-->
+        <activity
+            android:name=".ui.AddActivity"
+            android:screenOrientation="landscape" />
+        <!--验证设备编号-->
+        <activity
+            android:name=".ui.LoginActivity"
+            android:screenOrientation="landscape" />
+
+
+        <service
+            android:name=".udpService"
+            android:exported="true"/>
+
+
+    </application>
+
+</manifest>

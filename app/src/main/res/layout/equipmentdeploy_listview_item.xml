@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@drawable/tiao"
+    >
+    <TextView
+        android:id="@+id/deploy_tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_70"
+        android:background="@drawable/tiao"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_30"
+        android:text="-- 模块 -- 键"
+        android:textColor="@color/color_88222223"
+        android:textSize="@dimen/sp_22" />
+    <TextView
+        android:id="@+id/deploy_choose"
+        android:layout_alignParentRight="true"
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_70"
+        android:background="@color/color_10AEFF"
+        android:textColor="@color/color_fff"
+        android:text="开关"
+        android:drawableRight="@drawable/more"
+        android:paddingRight="@dimen/dp_20"
+        android:paddingLeft="@dimen/dp_20"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/sp_22"
+        android:clickable="true"
+        />
+</RelativeLayout>

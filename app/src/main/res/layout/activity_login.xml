@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/dp_50"
+            android:text="智能家电"
+            android:textSize="@dimen/sp_52" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="上海易同科技"
+            android:textSize="@dimen/sp_40" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_40"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/dp_150"
+            android:layout_marginRight="@dimen/dp_100">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请输入设备编号："
+                android:textSize="@dimen/sp_30" />
+
+            <EditText
+                android:id="@+id/login_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="37ffdb05424e323416702443"
+                android:textSize="@dimen/sp_30" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_40"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/dp_150"
+            android:layout_marginRight="@dimen/dp_100">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请输入设备密码："
+                android:textSize="@dimen/sp_30" />
+
+            <EditText
+                android:id="@+id/login_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16702443"
+                android:textSize="@dimen/sp_30" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/lobin_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="验证编号"
+            android:padding="@dimen/dp_5"
+            android:layout_marginLeft="@dimen/dp_150"
+            android:layout_marginRight="@dimen/dp_150"
+            android:layout_marginTop="@dimen/dp_40"
+            android:background="#8ee5ee"
+            android:textSize="@dimen/dp_40"/>
+
+    </LinearLayout>
+</LinearLayout>

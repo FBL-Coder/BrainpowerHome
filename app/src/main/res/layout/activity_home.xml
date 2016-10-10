@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+        <RadioGroup
+            android:id="@+id/rg_equipment"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="1"
+            android:background="@drawable/dibulan"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rb_equipment_airCondition"
+                style="@style/LeftRadioButtonStyle"
+                android:drawableTop="@drawable/selector_aircondition"
+                android:text="@string/rb_equipment_airCondition" />
+
+            <View style="@style/LandscapeViewGrayStyle" />
+
+            <RadioButton
+                android:id="@+id/rb_equipment_tv"
+                style="@style/LeftRadioButtonStyle"
+                android:drawableTop="@drawable/selector_tv"
+                android:text="@string/rb_equipment_tv" />
+
+            <View style="@style/LandscapeViewGrayStyle" />
+
+            <RadioButton
+                android:id="@+id/rb_equipment_STB"
+                style="@style/LeftRadioButtonStyle"
+                android:drawableTop="@drawable/selector_stb"
+                android:text="@string/rb_equipment_STB" />
+
+            <View style="@style/LandscapeViewGrayStyle" />
+
+            <RadioButton
+                android:id="@+id/rb_equipment_lamplight"
+                style="@style/LeftRadioButtonStyle"
+                android:drawableTop="@drawable/selector_lamplight"
+                android:text="@string/rb_equipment_lamplight" />
+
+            <View style="@style/LandscapeViewGrayStyle" />
+
+            <RadioButton
+                android:id="@+id/rb_equipment_curtain"
+                style="@style/LeftRadioButtonStyle"
+                android:drawableTop="@drawable/selector_curtain"
+                android:text="@string/rb_equipment_curtain" />
+
+            <View style="@style/LandscapeViewGrayStyle" />
+
+            <RadioButton
+                android:id="@+id/rb_equipment_scene"
+                style="@style/LeftRadioButtonStyle"
+                android:drawableTop="@drawable/selector_scene"
+                android:text="@string/rb_equipment_scene" />
+
+            <View style="@style/LandscapeViewGrayStyle" />
+            <RadioButton
+                android:id="@+id/rb_home_setting"
+                style="@style/LeftRadioButtonStyle"
+                android:drawableTop="@drawable/selector_set"
+                android:text="@string/rb_home_setting" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/home"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_above="@+id/rg_home"
+                android:layout_alignParentRight="true"
+                android:layout_weight="8" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="1.2"
+                android:background="@drawable/dibulan"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+
+                    android:orientation="horizontal">
+                    <View
+                        android:layout_width="@dimen/dp_1"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_CCD1D9"/>
+
+                    <Button
+                        android:id="@+id/home_home"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_button_bg"
+                        android:text="@string/rb_home_home"
+                        android:textColor="@color/color_radiobutton_text"
+                        android:textSize="@dimen/sp_18" />
+                    <View
+                        android:layout_width="@dimen/dp_1"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_CCD1D9"/>
+
+                    <Button
+                        android:id="@+id/home_equipmentClose"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/dp_1"
+                        android:layout_marginRight="@dimen/dp_1"
+                        android:background="@drawable/selector_button_bg"
+                        android:text="@string/rb_home_equipmentClose"
+                        android:textColor="@color/color_radiobutton_text"
+                        android:textSize="@dimen/sp_18" />
+                    <View
+                        android:layout_width="@dimen/dp_1"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_CCD1D9"/>
+
+                    <Button
+                        android:id="@+id/home_equipmentOpen"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/dp_1"
+                        android:layout_marginRight="@dimen/dp_1"
+                        android:background="@drawable/selector_button_bg"
+                        android:text="@string/rb_home_equipmentOpen"
+                        android:textColor="@color/color_radiobutton_text"
+                        android:textSize="@dimen/sp_18" />
+
+                    <View
+                        android:layout_width="@dimen/dp_1"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_CCD1D9"/>
+                    <Button
+                        android:id="@+id/home_lamplight"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/dp_1"
+                        android:layout_marginRight="@dimen/dp_1"
+                        android:background="@drawable/selector_button_bg"
+                        android:text="@string/rb_home_lamplight"
+                        android:textColor="@color/color_radiobutton_text"
+                        android:textSize="@dimen/sp_18" />
+
+                    <View
+                        android:layout_width="@dimen/dp_1"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_CCD1D9"/>
+                    <Button
+                        android:id="@+id/home_curtain"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/dp_1"
+                        android:background="@drawable/selector_button_bg"
+                        android:text="@string/rb_home_curtain"
+                        android:textColor="@color/color_radiobutton_text"
+                        android:textSize="@dimen/sp_18" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

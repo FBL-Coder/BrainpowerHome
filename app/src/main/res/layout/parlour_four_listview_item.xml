@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@drawable/tiao"
+    >
+
+    <TextView
+        android:id="@+id/parlour_four_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="一楼客厅窗帘"
+        android:paddingBottom="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:paddingLeft="@dimen/dp_30"
+        android:layout_centerVertical="true"
+        android:textColor="@color/color_88222223"
+        android:textSize="@dimen/sp_20" />
+    <Button
+        android:id="@+id/parlour_four_deploy"
+        android:layout_alignParentRight="true"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_60"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/parlour_four_deploy"
+        android:background="@color/color_546A78"
+        android:textColor="@color/color_fff"
+        android:text="配置"
+        android:textSize="@dimen/sp_22"
+        android:paddingLeft="@dimen/dp_1"
+        android:clickable="true"
+        />
+    <Button
+        android:id="@+id/parlour_four_text"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_60"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/parlour_four_deploy"
+        android:background="@color/color_0095D9"
+        android:textColor="@color/color_fff"
+        android:text="测试"
+        android:textSize="@dimen/sp_22"
+        />
+
+</RelativeLayout>
