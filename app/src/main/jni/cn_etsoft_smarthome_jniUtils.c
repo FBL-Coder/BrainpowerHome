@@ -16,7 +16,7 @@ extern "C" {
 JNIEXPORT jstring JNICALL Java_cn_etsoft_smarthome_jniUtils_udpServer
   (JNIEnv *env, jclass obj) {
 
-    udp_server();
+    udp_server("");
 }
 
 #ifdef __cplusplus

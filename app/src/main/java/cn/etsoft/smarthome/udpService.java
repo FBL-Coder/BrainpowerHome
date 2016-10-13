@@ -143,7 +143,7 @@ public class udpService extends Service {
             public void run() {
                 wareData = new WareData();
 
-                byte[] lMsg = new byte[1024];
+                byte[] lMsg = new byte[5012];
                 DatagramPacket packet = new DatagramPacket(lMsg, lMsg.length);
                 try {
                     while (true) {

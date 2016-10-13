@@ -6,6 +6,41 @@
 
 static int ware_dev_get_num = 0;
 static int ware_scene_get_num = 0;
+static int pkt_num = 0;
+
+int timer_num, timer_space; //i代表定时器的个数；t表示时间，逐秒递增
+struct Timer { //Timer结构体，用来保存一个定时器的信息
+    int total_time;  //每隔total_time秒
+    int left_time;   //还剩left_time秒
+    int func;        //该定时器超时，要执行的代码的标志
+} myTimer[N];   //定义Timer类型的数组，用来保存所有的定时器
+
+u8 recvbuf[BUFF_SIZE];
+u8 sendbuf[BUFF_SIZE];
+char local_ip[IP_SIZE];
+SOCKET  primary_udp;
+struct sockaddr_in sender;
+int sender_len;
+
+
+int ret_thrd1;
+pthread_t thread1;
+int pthread_flag;
+
+ware_linked_list ware_list;
+aircond_linked_list aircond_list;
+light_linked_list light_list;
+curtain_linked_list curtain_list;
+scene_linked_list scene_list;
+rcu_linked_list rcu_list;
+board_linked_list board_list;
+keyinput_linked_list keyinput_list;
+chnop_item_linked_list chnop_item_list;
+keyop_item_linked_list keyop_item_list;
+
+gw_client_linked_list gw_client_list;
+app_client_linked_list app_client_list;
+udp_msg_queue_linked_list msg_queue_list;
 
 //5s search info
 void get_info_from_gw_shorttime()
@@ -18,14 +53,11 @@ void get_info_from_gw_shorttime()
     //ware_display(&ware_list);
     ware_aircond_display(&aircond_list);
     ware_light_display(&light_list);
-    //ware_scene_display(&scene_list);
-    //board_display(&board_list);
-    //keyinput_display(&keyinput_list);
+    ware_scene_display(&scene_list);
+    board_display(&board_list);
+    keyinput_display(&keyinput_list);
     //keyop_item_display(&keyop_item_list);
     //chnop_item_display(&chnop_item_list);
-
-    gw_client_display(&gw_client_list);
-    app_client_display(&app_client_list);
 
     for(; head; head = head->next) {
         if(head->flag == 0) {
@@ -33,7 +65,7 @@ void get_info_from_gw_shorttime()
             for (; gw_head; gw_head = gw_head->next) {
                 if (memcmp(head->devUnitID, gw_head->gw_id, 12) == 0) {
 
-                    char rcu_ip[15] = { 0 };
+                    char rcu_ip[16] = { 0 };
                     sprintf(rcu_ip, "%d.%d.%d.%d", gw_head->rcu_ip[0], gw_head->rcu_ip[1], gw_head->rcu_ip[2], gw_head->rcu_ip[3]);
                     LOGI("rcu_ip = %s\n", rcu_ip);
                     UDPPROPKT *send_pkt = pre_send_udp_pkt(inet_addr(rcu_ip), 0, 0, head->cmd, gw_head->gw_id, gw_head->gw_pass, IS_ACK, 0, head->id);
@@ -58,7 +90,7 @@ void get_info_from_gw_longtime()
         for (; gw_head; gw_head = gw_head->next) {
             for(; head; head = head->next) {
                 if (memcmp(head->devUnitID, gw_head->gw_id, 12) == 0) {
-                    char rcu_ip[15] = { 0 };
+                    char rcu_ip[16] = { 0 };
                     sprintf(rcu_ip, "%d.%d.%d.%d", gw_head->rcu_ip[0], gw_head->rcu_ip[1], gw_head->rcu_ip[2], gw_head->rcu_ip[3]);
 
                     UDPPROPKT *send_pkt = pre_send_udp_pkt(inet_addr(rcu_ip), 0, 0, head->cmd, gw_head->gw_id, gw_head->gw_pass, IS_ACK, 0, head->id);
@@ -110,29 +142,6 @@ void *singal_msg(void *arg)
     }
 }
 
-
-void udp_broadcast(u8 *devUnitID)
-{
-    //u8 devUnitID[12];
-    //37ffdb05424e323416702443
-    //string_to_bytes(uid, devUnitID, 24);
-    UDPPROPKT *pkt = udp_pkt_bradcast(devUnitID);
-
-    int optval = 1;//这个值一定要设置，否则可能导致sendto()失败
-    setsockopt(primary_udp, SOL_SOCKET, SO_BROADCAST, &optval, sizeof(int));
-    struct sockaddr_in theirAddr;
-    memset(&theirAddr, 0, sizeof(struct sockaddr_in));
-    theirAddr.sin_family = AF_INET;
-    theirAddr.sin_addr.s_addr = inet_addr("255.255.255.255");
-    theirAddr.sin_port = htons(ClOUD_SERVER_PORT);
-
-    if((sendto(primary_udp, pkt, sizeof(UDPPROPKT), 0,
-               (struct sockaddr *)&theirAddr, sizeof(struct sockaddr))) == -1) {
-        LOGI("sendto fail, errno=%d\n", errno);
-        return ;
-    }
-}
-
 void extract_json(u8 *buffer, SOCKADDR_IN send_client)
 {
     int devType;
@@ -169,7 +178,7 @@ void extract_json(u8 *buffer, SOCKADDR_IN send_client)
     //datType
     int datType = cJSON_GetObjectItem(root_json, "datType")->valueint;
     switch (datType) {
-        case e_udpPro_broadCast:
+        case e_udpPro_getBroadCast:
             udp_broadcast(devUnitID);
             break;
         case e_udpPro_getRcuInfo:
@@ -330,13 +339,13 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
         return;
     }
 
+    if (udp_pro_pkt->datType != 2) {
+        LOGI("datType = %d + ******* + subType1 = %d + ******* + subType2 = %d\n", udp_pro_pkt->datType, udp_pro_pkt->subType1, udp_pro_pkt->subType2);
+    }
+
     if (udp_pro_pkt->bAck == 2) {
         LOGI("应答的数据包\n");
         return;
-    }
-
-    if (udp_pro_pkt->datType != 2) {
-        printf("datType = %d + ******* + subType1 = %d + ******* + subType2 = %d\n", udp_pro_pkt->datType, udp_pro_pkt->subType1, udp_pro_pkt->subType2);
     }
 
     switch (udp_pro_pkt->datType) {
@@ -344,12 +353,14 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
             if (udp_pro_pkt->subType2 == 1) {
                 //联网模块发送信息到服务器
                 set_rcuinfo(udp_pro_pkt, sender);
+                //给UI发送收到消息info
+                get_broadcast_reply_json(udp_pro_pkt);
                 //启动线程，定时发送获取数据命令
                 if(pthread_flag == 0) {
                     ret_thrd1 = pthread_create(&thread1, NULL, singal_msg, NULL);
                     // 线程创建成功，返回0,失败返回失败号
                     if (ret_thrd1 != 0) {
-                        LOGI ("线程1创建失败\n");
+                        PR_ERR ("线程1创建失败\n");
                     } else {
                         LOGI("线程1创建成功\n");
                         pthread_flag = 1;
@@ -394,7 +405,6 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
             if (udp_pro_pkt->subType1 == 0 && udp_pro_pkt->subType2 == 1) {
                 set_events_info (udp_pro_pkt);
                 ware_scene_get_num++;
-
                 if(ware_scene_get_num == 15) {
                     udp_msg_queue_add (&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getSceneEvents, 0, 1, msg_queue_list.size);
                 }
@@ -453,6 +463,7 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
                 if (udp_pro_pkt->subType2 == 1) {
                     del_board_info(udp_pro_pkt);
                 }
+                //forward_gwdat_toapp(udp_pro_pkt, dat_len);
             }
             break;
 
@@ -515,7 +526,28 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
     }
 }
 
-void udp_server()
+void udp_broadcast(u8 *uid)
+{
+    u8 devUnitID[12];
+    string_to_bytes(uid, devUnitID, 24);
+    UDPPROPKT *pkt = udp_pkt_bradcast(devUnitID);
+
+    int optval = 1;//这个值一定要设置，否则可能导致sendto()失败
+    setsockopt(primary_udp, SOL_SOCKET, SO_BROADCAST, &optval, sizeof(int));
+    struct sockaddr_in theirAddr;
+    memset(&theirAddr, 0, sizeof(struct sockaddr_in));
+    theirAddr.sin_family = AF_INET;
+    theirAddr.sin_addr.s_addr = inet_addr("255.255.255.255");
+    theirAddr.sin_port = htons(ClOUD_SERVER_PORT);
+
+    if((sendto(primary_udp, pkt, sizeof(UDPPROPKT), 0,
+                           (struct sockaddr *)&theirAddr, sizeof(struct sockaddr))) == -1) {
+        printf("sendto fail, errno=%d\n", errno);
+        return ;
+    }
+}
+
+void udp_server(char *ip)
 {
     primary_udp = init_socket(SOCK_TYPE); //SOCK_DGRAM
 
@@ -526,20 +558,21 @@ void udp_server()
 
     int result = bind(primary_udp, (struct sockaddr*)&local, sizeof(local));
     if (result == SOCKET_ERROR) {
-        LOGI("bind");
+        PR_ERR("bind");
     }
 
     LOGI("Cloud sever bind to port %d\n", ClOUD_SERVER_PORT);
     LOGI("Sever begin to listen......\n");
 
-    //get_local_ip("wlan0", local_ip);
+    get_local_ip("wanl0", local_ip);
+    udp_broadcast("37ffdb05424e323416702443");
 
     memset(&recvbuf, 0, sizeof(recvbuf));
 
     timer_num = 0;
     timer_space = 1;
     pthread_flag = 0;
-    setTimer (5,1);
+    setTimer (2,1);
     setTimer (60*30,2);
     //signal (SIGALRM,timeout);
 
@@ -567,9 +600,7 @@ void udp_server()
             continue;
         } else {
             /* 显示client端的网络地址*/
-            //LOGI ("Received a string from client %s port %d\n", inet_ntoa(sender.sin_addr), sender.sin_port);
-            //if(memcmp(inet_ntoa(sender.sin_addr), local_ip, 13) == 0)
-             //   continue;
+            LOGI ("Received a string from client %s port %d\n", inet_ntoa(sender.sin_addr), sender.sin_port);
             if (memcmp(recvbuf, HEAD_STRING, 4) != 0) {
                 extract_json(recvbuf, sender);
             } else {

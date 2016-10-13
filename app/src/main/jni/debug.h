@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
-#include <android/log.h>
+#include "android/log.h"
 
 #define DEBUG_SWITCH        1       /* 打开调试信息打印功能 */
 #define ERR_DEBUG_SWITCH    1   /* 打印错误信息打印功能 */
@@ -14,11 +14,11 @@
  * 简单打印调试信息
  */
 #if    DEBUG_SWITCH
-//#define LOGI(fmt,args...) fprintf(stderr,fmt, ##args)
+//#define PR_DEBUG(fmt,args...) fprintf(stderr,fmt, ##args)
 #define LOG    "smartserver-jni" // 这个是自定义的LOG的标识
 #define LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG,__VA_ARGS__) // 定义LOGI类型
 #else
-#define LOGI(fmt,args...) /*do nothing */
+#define PR_DEBUG(fmt,args...) /*do nothing */
 #endif
 
 /**

@@ -3,7 +3,6 @@
 
 static int sn = 0;
 
-
 SOCKET init_socket(int type)
 {
     SOCKET sock = socket(AF_INET, type, 0);
@@ -41,7 +40,7 @@ UDPPROPKT *pre_send_udp_pkt(unsigned long sender_ip, u8 *dat, int dat_len, u8 cm
         pkt->srcIp[i] = srcip[i] & 0xff;
     }
 
-    //LOGI("%d.%d.%d.%d\n", pkt->dstIp[0], pkt->dstIp[1], pkt->dstIp[2], pkt->dstIp[3]);
+    //printf("%d.%d.%d.%d\n", pkt->dstIp[0], pkt->dstIp[1], pkt->dstIp[2], pkt->dstIp[3]);
     memset(pkt->uidSrc, 0xff, 12);
     memset(pkt->pwdDst, 0xff, 8);
 //    if (rcu_pwd != NULL)
@@ -73,7 +72,6 @@ UDPPROPKT *pre_send_udp_pkt(unsigned long sender_ip, u8 *dat, int dat_len, u8 cm
     return pkt;
 }
 
-
 UDPPROPKT *udp_pkt_bradcast(u8 *devUnitID)
 {
     UDPPROPKT *pkt = (UDPPROPKT*)malloc(sizeof(UDPPROPKT));
@@ -96,11 +94,17 @@ UDPPROPKT *udp_pkt_bradcast(u8 *devUnitID)
 
     memset(pkt->uidSrc, 0xff, 12);
     memset(pkt->pwdDst, 0xff, 8);
+//    if (rcu_pwd != NULL)
+//       memcpy(pkt->pwdDst, rcu_pwd, 8);
+//   else
+//    memset(pkt->pwdDst, 0xff, 8);
 
     if (devUnitID != NULL)
         memcpy(pkt->uidDst, devUnitID, 12);
     else
         memset(pkt->uidDst, 0xff, 12);
+
+    //memcpy(pkt->pwdDst, "16702443", 8);
 
     pkt->bAck     = IS_ACK;
     pkt->datType  = e_udpPro_getRcuInfoNoPwd;

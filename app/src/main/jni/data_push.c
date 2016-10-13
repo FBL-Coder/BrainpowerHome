@@ -1,5 +1,20 @@
 #include "data_push.h"
 
+void get_broadcast_reply_json(UDPPROPKT *pkt)
+{
+    u8 devUnitID[25] = {0};
+    bytes_to_string(pkt->uidSrc, devUnitID, 12);
+
+    char *json_str = create_broadcast_reply_json(devUnitID, e_udpPro_getBroadCast, 0, 0);
+
+    node_app_client *head = app_client_list.head;
+    for (; head; head = head->next) {
+        sendto(primary_udp, json_str, strlen(json_str), 0, (struct sockaddr *)&head->app_sender, sizeof(head->app_sender));
+    }
+
+    free(json_str);
+}
+
 void get_rcu_info_json(u8 *devUnitID, u8 *devPass, SOCKADDR_IN sender_client)
 {
     if(rcu_list.size ==0)

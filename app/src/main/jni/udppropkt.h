@@ -427,7 +427,7 @@ typedef enum
    e_udpPro_get_soft_version,
    e_udpPro_bc_key_ctrl,
    e_udpPro_ctrl_allDevs,
-    e_udpPro_broadCast = 60,
+    e_udpPro_getBroadCast=60,
 }E_UDP_PRO_DAT;
 
 typedef enum

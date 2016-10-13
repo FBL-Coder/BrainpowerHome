@@ -15,7 +15,7 @@ void set_rcuinfo(UDPPROPKT * pkt , SOCKADDR_IN sender)
     //LOGI("添加查询命令\n");
     udp_msg_queue_add (&msg_queue_list,rcuinfo->devUnitID, e_udpPro_getDevsInfo, 0, 0, msg_queue_list.size);
     udp_msg_queue_add (&msg_queue_list,rcuinfo->devUnitID, e_udpPro_getBoards, e_board_chnOut, 0, msg_queue_list.size);
-    //udp_msg_queue_add (&msg_queue_list,rcuinfo->devUnitID, e_udpPro_getBoards, e_board_keyInput, 0, msg_queue_list.size);
+    udp_msg_queue_add (&msg_queue_list,rcuinfo->devUnitID, e_udpPro_getBoards, e_board_keyInput, 0, msg_queue_list.size);
     udp_msg_queue_add (&msg_queue_list,rcuinfo->devUnitID, e_udpPro_getKeyOpItems, 0, 0, msg_queue_list.size);
     udp_msg_queue_add (&msg_queue_list,rcuinfo->devUnitID, e_udpPro_getChnOpItems, 0, 0, msg_queue_list.size);
     udp_msg_queue_add (&msg_queue_list,rcuinfo->devUnitID, e_udpPro_getSceneEvents, 0, 0, msg_queue_list.size);
@@ -139,7 +139,6 @@ void fresh_dev_info(UDPPROPKT *pkt)
     }
 }
 
-
 void del_dev_info(UDPPROPKT *pkt)
 {
     if (pkt->datLen > 255)
@@ -168,6 +167,8 @@ void set_events_info(UDPPROPKT *pkt)
         SCENE_EVENT *event = (SCENE_EVENT*)(pkt->dat + i * SCENE_SIZE);
 
         ware_scene_add (&scene_list, *event, pkt->uidSrc, scene_list.size);
+
+        ware_scene_display(&scene_list);
     }
 }
 
@@ -175,7 +176,9 @@ void del_scene_info(UDPPROPKT *pkt)
 {
     SCENE_EVENT *event = (SCENE_EVENT*)pkt->dat;
 
-    ware_scene_remove (&scene_list, *event, pkt->uidDst);
+    ware_scene_remove (&scene_list, *event, pkt->uidSrc);
+
+    ware_scene_display(&scene_list);
 }
 
 void set_board_info(UDPPROPKT *pkt)

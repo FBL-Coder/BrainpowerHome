@@ -1,5 +1,8 @@
 #include <stdio.h>
+#include <stdarg.h>
 #include <stdlib.h>
+#include <string.h>
+
 #include "link_list.h"
 #include "debug.h"
 
@@ -151,7 +154,7 @@ void rcu_display (rcu_linked_list* _this)
     if (size == 0)
         LOGI("no item\n\n");
     else {
-        //printf("has %d items\n", size);
+        //LOGI("has %d items\n", size);
         u8 str[25] = {0};
         node_rcu* node = _this->head;
         for (i = 0; i < size; i++) {
@@ -343,11 +346,11 @@ void ware_display (ware_linked_list* _this)
     if (size == 0)
         LOGI("no item\n\n");
     else {
-        printf("设备 has %d items\n", size);
+        LOGI("设备 has %d items\n", size);
         Node* node = _this->head;
         for (i = 0; i < size; i++) {
 
-            printf("设备类型：%d  设备ID：%d\n", node->ware_dev.devType, node->ware_dev.devId);
+            LOGI("设备类型：%d  设备ID：%d\n", node->ware_dev.devType, node->ware_dev.devId);
             node = node->next;
         }
         LOGI("\n\n");
@@ -507,7 +510,7 @@ void ware_aircond_display (aircond_linked_list* _this)
     if (size == 0)
         LOGI("no item\n\n");
     else {
-        printf("空调 has %d items\n", size);
+        LOGI("空调 has %d items\n", size);
         Node_aircond* node = _this->head;
         for (i = 0; i < size; i++) {
             LOGI("空调设备类型：%d  设备ID：%d, 设备状态:%d", node->ware_dev.devType, node->ware_dev.devId, node->aircond.bOnOff);
@@ -696,9 +699,10 @@ void ware_light_display (light_linked_list* _this)
     if (size == 0)
         LOGI("no item\n\n");
     else {
-        printf("灯光 has %d items\n", size);
+        LOGI("灯光 has %d items\n", size);
         Node_light* node = _this->head;
         for (i = 0; i < size; i++) {
+
             LOGI("灯光设备类型：%d  设备ID：%d 设备状态:%d\n", node->ware_dev.devType, node->ware_dev.devId, node->light.bOnOff);
             node = node->next;
         }
@@ -1075,10 +1079,10 @@ void ware_scene_display (scene_linked_list* _this)
     if (size == 0)
         LOGI("no item\n\n");
     else {
-        printf("情景模式 has %d items\n", size);
+        LOGI("情景模式 has %d items\n", size);
         node_scene* node = _this->head;
         for (i = 0; i < size; i++) {
-            printf("情景模式名称: %s 情景模式ID：%d\n", node->scene.sceneName, node->scene.eventId);
+            LOGI("情景模式名称: %s 情景模式ID：%d\n", node->scene.sceneName, node->scene.eventId);
             node = node->next;
         }
         LOGI("\n\n");
@@ -1257,13 +1261,13 @@ void board_display (board_linked_list* _this)
     if (size == 0)
         LOGI("no item\n\n");
     else {
-        printf("输出板 has %d items\n", size);
+        LOGI("输出板 has %d items\n", size);
         node_board* node = _this->head;
         u8 str[25] = {0};
 
         for (i = 0; i < size; i++) {
             bytes_to_string (node->board.devUnitID, str, 12);
-            printf("输出板ID：%s\n", str);
+            LOGI("输出板ID：%s\n", str);
             node = node->next;
         }
         LOGI("\n\n");
@@ -1444,11 +1448,11 @@ void keyinput_display (keyinput_linked_list* _this)
         LOGI("no item\n\n");
     else {
         u8 uid[25] = {0};
-        printf("输入板 has %d items\n", size);
+        LOGI("输入板 has %d items\n", size);
         node_keyinput* node = _this->head;
         for (i = 0; i < size; i++) {
             bytes_to_string (node->keyinput.devUnitID, uid, 12);
-            printf("输入板uid：%s\n", uid);
+            LOGI("输入板uid：%s\n", uid);
             node = node->next;
         }
         LOGI("\n\n");
@@ -1628,13 +1632,13 @@ void chnop_item_display (chnop_item_linked_list* _this)
     if (size == 0)
         LOGI("no item\n\n");
     else {
-        printf("输出按键 has %d items\n", size);
+        LOGI("输出按键 has %d items\n", size);
         u8 uid[25] = {0};
         node_chnop_item* node = _this->head;
         for (i = 0; i < size; i++) {
             bytes_to_string (node->chnop_item.devUnitID, uid, 12);
 
-            printf("输出按键ID：%s\n", uid);
+            LOGI("输出按键ID：%s\n", uid);
             node = node->next;
         }
         LOGI("\n\n");

@@ -6,6 +6,7 @@
 #include <net/if.h>
 #include <arpa/inet.h>
 
+
 // 可打印字符串转换为字节数据
 // 如："C8329BFD0E01" --> {0xC8, 0x32, 0x9B, 0xFD, 0x0E, 0x01}
 // pSrc: 源字符串指针
@@ -16,11 +17,7 @@ int string_to_bytes(const char* pSrc, u8* pDst, int nSrcLength)
 {
     for(int i=0; i<nSrcLength; i+=2) {
         // 输出高4位
-        if(*pSrc>='0' && *pSrc<='9') {
-            *pDst = (*pSrc - '0') << 4;
-        } else {
-            *pDst = (*pSrc - 'a' + 10) << 4;
-        }
+        *pDst = (*pSrc >= '0' && *pSrc <= '9' ? *pSrc - '0' : *pSrc - 'a' + 10) << 4;
 
         pSrc++;
 
@@ -63,37 +60,6 @@ int bytes_to_string(const u8* pSrc, u8* pDst, int nSrcLength)
 
     // 返回目标字符串长度
     return nSrcLength * 2;
-}
-
-void my_strtok(char *tmp ,char flag, char **p1, char **p2, char **p3, char **p4)
-{
-    //三个二级指针必须要在调用函数中定义，这样在这个函数内的赋值才能传出去。
-
-    int i = 0,j = 0;
-
-    int a[3]; //这个数组的定义随着截取出串的多少你需要改动，最好是自己传入一个数组，这样就好了
-
-    char *ptr=tmp;
-
-    while(*tmp) {
-        if(*tmp==flag) {
-            a[j++]=i; //记录分割符出现的位置
-
-            *tmp='\0';//把原来的分割符替换为’/0′
-        }
-        tmp++;
-        i++;
-
-    }
-
-    *p1=ptr;
-
-    *p2=ptr+a[0]+1;
-
-    *p3=ptr+a[1]+1;
-
-    *p4=ptr+a[2]+1;
-
 }
 
 int itoa_bin(u16 data, char *str)
