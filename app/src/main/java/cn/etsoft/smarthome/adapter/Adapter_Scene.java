@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
@@ -90,6 +91,7 @@ public class Adapter_Scene extends BaseAdapter {
         return convertView;
 
     }
+
     private void createSceneEvents(int flag, int postion) {
         int pos = -1;
         for (int i = 0; i < mWareSceneEvents.size(); i++) {
@@ -109,24 +111,24 @@ public class Adapter_Scene extends BaseAdapter {
             return;
         }
 
-
-
         if (flag == 0) {
-//            GlobalVars.setSenddata(CommonUtils.preSendUdpProPkt(
-//                    GlobalVars.getDstip(), CommonUtils.getLocalIp(),
-//                    UdpProPkt.E_UDP_RPO_DAT.e_udpPro_delSceneEvents.getValue(),
-//                    0, 0, devBuff, devBuff.length));
-            final String del_str = "";
+            String del_str = "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
+                    ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_delSceneEvents.getValue() +
+                    ",\"subType1\":0" +
+                    ",\"subType2\":0" +
+                    ",\"eventId\":" + pos + "}";
             CommonUtils.sendMsg(del_str);
         } else if (flag == 1) {
-//            GlobalVars.setSenddata(CommonUtils.preSendUdpProPkt(
-//                    GlobalVars.getDstip(), CommonUtils.getLocalIp(),
-//                    UdpProPkt.E_UDP_RPO_DAT.e_udpPro_exeSceneEvents.getValue(),
-//                    0, 0, devBuff, devBuff.length));
-            final String exec_str = "";
+            String exec_str = "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
+                    ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_exeSceneEvents.getValue() +
+                    ",\"subType1\":0" +
+                    ",\"subType2\":0" +
+                    ",\"eventId\":" + pos + "}";
             CommonUtils.sendMsg(exec_str);
+            System.out.println(exec_str);
         }
     }
+
     private class ViewHolder {
         RelativeLayout image;
         TextView item_tv;

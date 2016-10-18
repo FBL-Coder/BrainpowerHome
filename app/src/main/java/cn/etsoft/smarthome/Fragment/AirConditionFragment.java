@@ -140,7 +140,7 @@ public class AirConditionFragment extends Fragment implements View.OnClickListen
 
         if (IsCanClick) {
             String str_Fixed = "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
-                    ",\"datType\":4" +
+                    ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrlDev.getValue() +
                     ",\"subType1\":0" +
                     ",\"subType2\":0" +
                     ",\"canCpuID\":\"" + MyApplication.getWareData().getAirConds().get(0).getDev().getCanCpuId() +

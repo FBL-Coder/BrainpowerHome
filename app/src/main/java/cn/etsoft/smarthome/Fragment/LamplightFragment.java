@@ -61,7 +61,7 @@ public class LamplightFragment extends Fragment implements AdapterView.OnItemCli
                 if (wareLight.get(position).getbOnOff() == 0) {
 
                    ctlStr = "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
-                            ",\"datType\":4" +
+                            ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrlDev.getValue() +
                             ",\"subType1\":0" +
                             ",\"subType2\":0" +
                             ",\"canCpuID\":\"" + MyApplication.getWareData().getLights().get(position).getDev().getCanCpuId() +
@@ -74,7 +74,7 @@ public class LamplightFragment extends Fragment implements AdapterView.OnItemCli
                 } else {
 
                     ctlStr = "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
-                            ",\"datType\":4" +
+                            ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrlDev.getValue() +
                             ",\"subType1\":0" +
                             ",\"subType2\":0" +
                             ",\"canCpuID\":\"" + MyApplication.getWareData().getLights().get(position).getDev().getCanCpuId() +
@@ -118,7 +118,7 @@ public class LamplightFragment extends Fragment implements AdapterView.OnItemCli
             switch (v.getId()) {
                 case R.id.light_open_all:
                     String open_str =  "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
-                            ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrl_allDevs +
+                            ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrl_allDevs.getValue() +
                             ",\"subType1\":0" +
                             ",\"subType2\":0" +
                             ",\"canCpuID\":0\"" +
@@ -130,7 +130,7 @@ public class LamplightFragment extends Fragment implements AdapterView.OnItemCli
                     break;
                 case R.id.light_close_all:
                     String close_str =  "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
-                            ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrl_allDevs +
+                            ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrl_allDevs.getValue() +
                             ",\"subType1\":0" +
                             ",\"subType2\":0" +
                             ",\"canCpuID\":0\"" +

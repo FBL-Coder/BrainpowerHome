@@ -812,7 +812,7 @@ char *create_ctl_scene_reply_json(UDPPROPKT *pkt) {
         return NULL;
     }
 
-    u8 devUnitID[24] = {0};
+    u8 devUnitID[25] = {0};
     bytes_to_string(pkt->uidSrc, devUnitID, 12);
     cJSON_AddItemToObject(root, "devUnitID", cJSON_CreateString((char *) devUnitID));
     cJSON_AddItemToObject(root, "datType", cJSON_CreateNumber(pkt->datType));
@@ -844,7 +844,7 @@ char *create_get_chn_opitem_reply_json(u8 *devUnitID, u8 *cpuCanID, int devType,
             item_num++;
 
             cJSON_AddItemToObject(root, "chn_opitem_rows", chn_opitem_rows = cJSON_CreateArray());
-            u8 key_cpuCanID[24] = {0};
+            u8 key_cpuCanID[25] = {0};
             bytes_to_string(item->chnop_item.devUnitID, key_cpuCanID, 12);
             cJSON_AddItemToObject(chn_opitem_rows, "key_cpuCanID",
                                   cJSON_CreateString((char *) key_cpuCanID));
@@ -861,7 +861,7 @@ char *create_get_chn_opitem_reply_json(u8 *devUnitID, u8 *cpuCanID, int devType,
         }
     }
 
-    u8 uid[24] = {0};
+    u8 uid[25] = {0};
     bytes_to_string(devUnitID, uid, 12);
     cJSON_AddItemToObject(root, "devUnitID", cJSON_CreateString((char *) uid));
     cJSON_AddItemToObject(root, "datType", cJSON_CreateNumber(e_udpPro_getChnOpItems));
@@ -880,14 +880,14 @@ char *create_set_chn_opitem_reply_json(UDPPROPKT *pkt) {
         return NULL;
     }
 
-    u8 devUnitID[24] = {0};
+    u8 devUnitID[25] = {0};
     bytes_to_string(pkt->uidSrc, devUnitID, 12);
     cJSON_AddItemToObject(root, "devUnitID", cJSON_CreateString((char *) devUnitID));
     cJSON_AddItemToObject(root, "datType", cJSON_CreateNumber(pkt->datType));
     cJSON_AddItemToObject(root, "subType1", cJSON_CreateNumber(pkt->subType1));
     cJSON_AddItemToObject(root, "subType2", cJSON_CreateNumber(pkt->subType2));
 
-    u8 canCpuID[24] = {0};
+    u8 canCpuID[25] = {0};
     bytes_to_string(pkt->dat, canCpuID, 12);
     cJSON_AddItemToObject(root, "canCpuID", cJSON_CreateString((char *) canCpuID));
     cJSON_AddItemToObject(root, "result", cJSON_CreateNumber(pkt->dat[12]));
@@ -962,10 +962,10 @@ char *create_get_key_opitem_reply_json(u8 *devUnitID, u8 *cpuCanID, int key_inde
             item_num++;
             cJSON_AddItemToObject(root, "key_opitem_rows", key_opitem_rows = cJSON_CreateArray());
 
-            u8 key_cpuCanID[24] = {0};
+            u8 key_cpuCanID[25] = {0};
             bytes_to_string(item->keyinput_board_id, key_cpuCanID, 12);
 
-            u8 out_cpuCanID[24] = {0};
+            u8 out_cpuCanID[25] = {0};
             bytes_to_string(item->keyop_item.devUnitID, out_cpuCanID, 12);
 
             cJSON_AddItemToObject(key_opitem_rows, "key_cpuCanID",
@@ -983,7 +983,7 @@ char *create_get_key_opitem_reply_json(u8 *devUnitID, u8 *cpuCanID, int key_inde
         }
     }
 
-    u8 uid[24] = {0};
+    u8 uid[25] = {0};
     bytes_to_string(devUnitID, uid, 12);
     cJSON_AddItemToObject(root, "devUnitID", cJSON_CreateString((char *) uid));
     cJSON_AddItemToObject(root, "datType", cJSON_CreateNumber(e_udpPro_getChnOpItems));
@@ -1049,14 +1049,14 @@ char *create_set_key_opitem_reply_json(UDPPROPKT *pkt) {
         return NULL;
     }
 
-    u8 devUnitID[24] = {0};
+    u8 devUnitID[25] = {0};
     bytes_to_string(pkt->uidSrc, devUnitID, 12);
     cJSON_AddItemToObject(root, "devUnitID", cJSON_CreateString((char *) devUnitID));
     cJSON_AddItemToObject(root, "datType", cJSON_CreateNumber(pkt->datType));
     cJSON_AddItemToObject(root, "subType1", cJSON_CreateNumber(pkt->subType1));
     cJSON_AddItemToObject(root, "subType2", cJSON_CreateNumber(pkt->subType2));
 
-    u8 canCpuID[24] = {0};
+    u8 canCpuID[25] = {0};
     bytes_to_string(pkt->dat, canCpuID, 12);
     cJSON_AddItemToObject(root, "canCpuID", cJSON_CreateString((char *) canCpuID));
     cJSON_AddItemToObject(root, "result", cJSON_CreateNumber(pkt->dat[12]));
