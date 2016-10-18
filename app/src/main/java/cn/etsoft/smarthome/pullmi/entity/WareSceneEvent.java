@@ -12,7 +12,7 @@ public class WareSceneEvent implements Serializable {
 	private byte eventld;
 	private byte rev2;
 	private byte rev3;
-	private WareSceneDevItem[] itemAry;
+	private WareSceneDevItem itemAry;
 
 	public String getSceneName() {
 		return sceneName;
@@ -54,11 +54,11 @@ public class WareSceneEvent implements Serializable {
 		this.rev3 = rev3;
 	}
 
-	public WareSceneDevItem[] getItemAry() {
+	public WareSceneDevItem getItemAry() {
 		return itemAry;
 	}
 
-	public void setItemAry(WareSceneDevItem[] itemAry) {
+	public void setItemAry(WareSceneDevItem itemAry) {
 		this.itemAry = itemAry;
 	}
 }

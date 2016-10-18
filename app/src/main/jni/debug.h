@@ -6,7 +6,7 @@
 #include <stdarg.h>
 #include "android/log.h"
 
-#define DEBUG_SWITCH        1       /* 打开调试信息打印功能 */
+#define DEBUG_SWITCH        0       /* 打开调试信息打印功能 */
 #define ERR_DEBUG_SWITCH    1   /* 打印错误信息打印功能 */
 #define EXAM_ASSERT_TEST_   1    /* 开启断言 */
 
@@ -19,6 +19,7 @@
 #define LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG,__VA_ARGS__) // 定义LOGI类型
 #else
 #define PR_DEBUG(fmt,args...) /*do nothing */
+#define LOGI(...)
 #endif
 
 /**

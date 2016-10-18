@@ -41,7 +41,7 @@ void get_rcu_info_json(u8 *devUnitID, u8 *devPass, SOCKADDR_IN sender_client)
 
 void get_devs_info_json(u8 *devUnitID, SOCKADDR_IN sender_client)
 {
-    char *json_str = create_dev_json(devUnitID, e_udpPro_getDevsInfo, 0, 0);
+    char *json_str = create_dev_json(devUnitID, e_udpPro_getDevsInfo, 1, 0);
     int len = strlen(json_str);
 
     sendto(primary_udp, json_str, len, 0, (struct sockaddr *)&sender_client, sizeof(sender_client));
@@ -50,7 +50,7 @@ void get_devs_info_json(u8 *devUnitID, SOCKADDR_IN sender_client)
 
 void get_events_info_json(u8 *devUnitID, SOCKADDR_IN sender_client)
 {
-    char *json_str = create_events_json(devUnitID, e_udpPro_getSceneEvents, 1, 0);
+    char *json_str = create_events_json(devUnitID, e_udpPro_getSceneEvents, 0, 1);
 
     sendto(primary_udp, json_str, strlen(json_str), 0, (struct sockaddr *)&sender_client, sizeof(sender_client));
     free(json_str);
@@ -102,7 +102,7 @@ void get_all_ctl_reply_json(UDPPROPKT *pkt)
 
 void get_light_ctr_reply_json(UDPPROPKT *pkt)
 {
-    char *json_str = create_chn_status_json(pkt->uidSrc, e_ware_light, 1, 1);
+    char *json_str = create_chn_status_json(pkt->uidSrc, e_udpPro_chns_status, 1, 1);
     node_app_client *head = app_client_list.head;
     for (; head; head = head->next) {
         sendto(primary_udp, json_str, strlen(json_str), 0, (struct sockaddr *)&head->app_sender, sizeof(head->app_sender));

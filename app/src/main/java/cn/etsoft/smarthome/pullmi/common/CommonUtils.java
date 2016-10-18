@@ -165,6 +165,17 @@ public class CommonUtils {
         return "";
     }
 
+    public static String getGBstr(byte[] bytes) {
+        try {
+            return new String(bytes, "GB2312");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
     public static void sendMsg(final String msg) {
         new Thread(new Runnable() {
             @Override

@@ -70,7 +70,7 @@ public class Adapter_Scene extends BaseAdapter {
         } else {
             viewHolder.image.setBackgroundResource(R.drawable.scene19);//情景全关
         }
-        viewHolder.item_tv.setText(CommonUtils.getGBstr(mWareSceneEvents.get(position).getSceneName()));
+        viewHolder.item_tv.setText(mWareSceneEvents.get(position).getSceneName());
 
         viewHolder.image.setOnClickListener(new View.OnClickListener() {
             @Override

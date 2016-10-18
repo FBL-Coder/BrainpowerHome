@@ -1,4 +1,3 @@
-
 #include "udp.h"
 #include  "data_get.h"
 #include "data_push.h"
@@ -18,7 +17,7 @@ struct Timer { //Timer结构体，用来保存一个定时器的信息
 u8 recvbuf[BUFF_SIZE];
 u8 sendbuf[BUFF_SIZE];
 char local_ip[IP_SIZE];
-SOCKET  primary_udp;
+SOCKET primary_udp;
 struct sockaddr_in sender;
 int sender_len;
 
@@ -43,34 +42,37 @@ app_client_linked_list app_client_list;
 udp_msg_queue_linked_list msg_queue_list;
 
 //5s search info
-void get_info_from_gw_shorttime()
-{
+void get_info_from_gw_shorttime() {
     node_udp_msg_queue *head = msg_queue_list.head;
 
-    LOGI("短时查询命令数量 = %d\n", udp_msg_queue_get (&msg_queue_list, 0));
+    LOGI("短时查询命令数量 = %d\n", udp_msg_queue_get(&msg_queue_list, 0));
 
     rcu_display(&rcu_list);
     //ware_display(&ware_list);
-    ware_aircond_display(&aircond_list);
-    ware_light_display(&light_list);
-    ware_scene_display(&scene_list);
-    board_display(&board_list);
-    keyinput_display(&keyinput_list);
+    //ware_aircond_display(&aircond_list);
+    //ware_light_display(&light_list);
+    //ware_scene_display(&scene_list);
+    //board_display(&board_list);
+    //keyinput_display(&keyinput_list);
     //keyop_item_display(&keyop_item_list);
     //chnop_item_display(&chnop_item_list);
 
-    for(; head; head = head->next) {
-        if(head->flag == 0) {
+    for (; head; head = head->next) {
+        if (head->flag == 0) {
             node_gw_client *gw_head = gw_client_list.head;
             for (; gw_head; gw_head = gw_head->next) {
                 if (memcmp(head->devUnitID, gw_head->gw_id, 12) == 0) {
 
-                    char rcu_ip[16] = { 0 };
-                    sprintf(rcu_ip, "%d.%d.%d.%d", gw_head->rcu_ip[0], gw_head->rcu_ip[1], gw_head->rcu_ip[2], gw_head->rcu_ip[3]);
+                    char rcu_ip[16] = {0};
+                    sprintf(rcu_ip, "%d.%d.%d.%d", gw_head->rcu_ip[0], gw_head->rcu_ip[1],
+                            gw_head->rcu_ip[2], gw_head->rcu_ip[3]);
                     LOGI("rcu_ip = %s\n", rcu_ip);
-                    UDPPROPKT *send_pkt = pre_send_udp_pkt(inet_addr(rcu_ip), 0, 0, head->cmd, gw_head->gw_id, gw_head->gw_pass, IS_ACK, 0, head->id);
+                    UDPPROPKT *send_pkt = pre_send_udp_pkt(inet_addr(rcu_ip), 0, 0, head->cmd,
+                                                           gw_head->gw_id, gw_head->gw_pass, IS_ACK,
+                                                           0, head->id);
 
-                    sendto(primary_udp, (u8 *)send_pkt, sizeof(UDPPROPKT), 0, (struct sockaddr *)&gw_head->gw_sender, sizeof(gw_head->gw_sender));
+                    sendto(primary_udp, (u8 *) send_pkt, sizeof(UDPPROPKT), 0,
+                           (struct sockaddr *) &gw_head->gw_sender, sizeof(gw_head->gw_sender));
                     sleep(1);
                 }
             }
@@ -79,22 +81,25 @@ void get_info_from_gw_shorttime()
 }
 
 //30m search info
-void get_info_from_gw_longtime()
-{
+void get_info_from_gw_longtime() {
     node_udp_msg_queue *head = msg_queue_list.head;
 
-    LOGI("长时查询命令数量 = %d\n", udp_msg_queue_get (&msg_queue_list, 1));
+    LOGI("长时查询命令数量 = %d\n", udp_msg_queue_get(&msg_queue_list, 1));
 
-    if(head->flag == 1) {
+    if (head->flag == 1) {
         node_gw_client *gw_head = gw_client_list.head;
         for (; gw_head; gw_head = gw_head->next) {
-            for(; head; head = head->next) {
+            for (; head; head = head->next) {
                 if (memcmp(head->devUnitID, gw_head->gw_id, 12) == 0) {
-                    char rcu_ip[16] = { 0 };
-                    sprintf(rcu_ip, "%d.%d.%d.%d", gw_head->rcu_ip[0], gw_head->rcu_ip[1], gw_head->rcu_ip[2], gw_head->rcu_ip[3]);
+                    char rcu_ip[16] = {0};
+                    sprintf(rcu_ip, "%d.%d.%d.%d", gw_head->rcu_ip[0], gw_head->rcu_ip[1],
+                            gw_head->rcu_ip[2], gw_head->rcu_ip[3]);
 
-                    UDPPROPKT *send_pkt = pre_send_udp_pkt(inet_addr(rcu_ip), 0, 0, head->cmd, gw_head->gw_id, gw_head->gw_pass, IS_ACK, 0, head->id);
-                    sendto(primary_udp, send_pkt, sizeof(UDPPROPKT), 0, (struct sockaddr *)&gw_head->gw_sender, sizeof(gw_head->gw_sender));
+                    UDPPROPKT *send_pkt = pre_send_udp_pkt(inet_addr(rcu_ip), 0, 0, head->cmd,
+                                                           gw_head->gw_id, gw_head->gw_pass, IS_ACK,
+                                                           0, head->id);
+                    sendto(primary_udp, send_pkt, sizeof(UDPPROPKT), 0,
+                           (struct sockaddr *) &gw_head->gw_sender, sizeof(gw_head->gw_sender));
                     sleep(1);
                 }
             }
@@ -102,48 +107,46 @@ void get_info_from_gw_longtime()
     }
 }
 
-void setTimer(int time,int fun) //新建一个计时器
+void setTimer(int time, int fun) //新建一个计时器
 {
     struct Timer a;
     a.total_time = time;
     a.left_time = time;
     a.func = fun;
-    myTimer[timer_num++]=a;
+    myTimer[timer_num++] = a;
 }
 
 void timeout(int arg)  //判断定时器是否超时，以及超时时所要执行的动作
 {
-    LOGI("Time: %d\n",timer_space++);
+    LOGI("Time: %d\n", timer_space++);
     int j;
-    for(j=0; j<timer_num; j++) {
-        if(myTimer[j].left_time!=0)
+    for (j = 0; j < timer_num; j++) {
+        if (myTimer[j].left_time != 0)
             myTimer[j].left_time--;
         else {
-            switch(myTimer[j].func) { //通过匹配myTimer[j].func，判断下一步选择哪种操作
+            switch (myTimer[j].func) { //通过匹配myTimer[j].func，判断下一步选择哪种操作
                 case 1:
-                    get_info_from_gw_shorttime ();
+                    get_info_from_gw_shorttime();
                     break;
                 case 2:
-                    get_info_from_gw_longtime ();
+                    get_info_from_gw_longtime();
                     break;
             }
-            myTimer[j].left_time=myTimer[j].total_time;     //循环计时
+            myTimer[j].left_time = myTimer[j].total_time;     //循环计时
         }
     }
 }
 
-void *singal_msg(void *arg)
-{
-    while(1) {
+void *singal_msg(void *arg) {
+    while (1) {
         sleep(1); //每隔一秒发送一个SIGALRM
         //kill(getpid(),SIGALRM);
         //arg = NULL;
-        timeout((int)arg);
+        timeout((int) arg);
     }
 }
 
-void extract_json(u8 *buffer, SOCKADDR_IN send_client)
-{
+void extract_json(u8 *buffer, SOCKADDR_IN send_client) {
     int devType;
     int devID;
     int subType2 = -1;
@@ -152,7 +155,7 @@ void extract_json(u8 *buffer, SOCKADDR_IN send_client)
 
     LOGI("收到的字符串:%s\n", buffer);
     //解析JSON数据
-    cJSON *root_json = cJSON_Parse((char *)buffer);    //将字符串解析成json结构体
+    cJSON *root_json = cJSON_Parse((char *) buffer);    //将字符串解析成json结构体
     if (NULL == root_json) {
         PR_ERR("error:%s\n", cJSON_GetErrorPtr());
         cJSON_Delete(root_json);
@@ -182,7 +185,7 @@ void extract_json(u8 *buffer, SOCKADDR_IN send_client)
             udp_broadcast(devUnitID);
             break;
         case e_udpPro_getRcuInfo:
-            get_rcu_info_json(devUnitID, (u8 *)devUnitPass, send_client);
+            get_rcu_info_json(devUnitID, (u8 *) devUnitPass, send_client);
             break;
         case e_udpPro_getDevsInfo:
             get_devs_info_json(devUnitID, send_client);
@@ -221,15 +224,21 @@ void extract_json(u8 *buffer, SOCKADDR_IN send_client)
             cJSON *canCpuID_str = cJSON_GetObjectItem(root_json, "canCpuID");
 
             u8 canCpuID[12];
-            string_to_bytes(cJSON_Print(canCpuID_str)+1, canCpuID, 24);
+            string_to_bytes(canCpuID_str->valuestring, canCpuID, 24);
             ctrl_devs_json(devUnitID, canCpuID, e_udpPro_ctrlDev, devType, devID, cmd);
         }
             break;
+        case e_udpPro_ctrl_allDevs:
+            devType = cJSON_GetObjectItem(root_json, "devType")->valueint;
+            int ctrl_cmd = cJSON_GetObjectItem(root_json, "cmd")->valueint;
+
+            ctrl_all_devs_json(devUnitID, e_udpPro_ctrl_allDevs, devType, ctrl_cmd);
+            break;
         case e_udpPro_getBoards: {
             subType2 = cJSON_GetObjectItem(root_json, "subType2")->valueint;
-            if(subType2 == e_board_chnOut)
+            if (subType2 == e_board_chnOut)
                 get_board_chnout_json(devUnitID, send_client);
-            else if(subType2 == e_board_keyInput)
+            else if (subType2 == e_board_keyInput)
                 get_board_keyinput_json(devUnitID, send_client);
         }
             break;
@@ -254,10 +263,10 @@ void extract_json(u8 *buffer, SOCKADDR_IN send_client)
             break;
         case e_udpPro_getKeyOpItems: {
             char *canCpuID_str = cJSON_GetObjectItem(root_json, "canCpuID")->valuestring;
-            if(canCpuID_str == NULL)
+            if (canCpuID_str == NULL)
                 return;
             u8 canCpuID[12];
-            string_to_bytes(canCpuID_str+1, canCpuID, 24);
+            string_to_bytes(canCpuID_str + 1, canCpuID, 24);
 
             int key_index = cJSON_GetObjectItem(root_json, "key_index")->valueint;
 
@@ -274,7 +283,8 @@ void extract_json(u8 *buffer, SOCKADDR_IN send_client)
             int cnt = cJSON_GetObjectItem(root_json, "cnt")->valueint;
             cJSON *keyop_item = cJSON_GetObjectItem(root_json, "keyop_item");
 
-            set_key_opitem_json(devUnitID, canCpuID, key_index, cnt, keyop_item, e_udpPro_setKeyOpItems);
+            set_key_opitem_json(devUnitID, canCpuID, key_index, cnt, keyop_item,
+                                e_udpPro_setKeyOpItems);
         }
             break;
         case e_udpPro_delKeyOpItems: {
@@ -287,7 +297,8 @@ void extract_json(u8 *buffer, SOCKADDR_IN send_client)
             int cnt = cJSON_GetObjectItem(root_json, "cnt")->valueint;
             cJSON *keyop_item = cJSON_GetObjectItem(root_json, "keyop_item");
 
-            set_key_opitem_json(devUnitID, canCpuID, key_index, cnt, keyop_item, e_udpPro_delKeyOpItems);
+            set_key_opitem_json(devUnitID, canCpuID, key_index, cnt, keyop_item,
+                                e_udpPro_delKeyOpItems);
         }
             break;
         case e_udpPro_getChnOpItems: {
@@ -311,7 +322,8 @@ void extract_json(u8 *buffer, SOCKADDR_IN send_client)
             int cnt = cJSON_GetObjectItem(root_json, "cnt")->valueint;
             cJSON *chnop_item = cJSON_GetObjectItem(root_json, "chnop_item");
 
-            set_chn_opitem_json(devUnitID, canCpuID, devType, devID, cnt, chnop_item, e_udpPro_setChnOpItems);
+            set_chn_opitem_json(devUnitID, canCpuID, devType, devID, cnt, chnop_item,
+                                e_udpPro_setChnOpItems);
         }
             break;
         case e_udpPro_delChnOpItems: {
@@ -324,7 +336,8 @@ void extract_json(u8 *buffer, SOCKADDR_IN send_client)
             int cnt = cJSON_GetObjectItem(root_json, "cnt")->valueint;
             cJSON *chnop_item = cJSON_GetObjectItem(root_json, "chnop_item");
 
-            set_chn_opitem_json(devUnitID, canCpuID, devType, devID, cnt, chnop_item, e_udpPro_delChnOpItems);
+            set_chn_opitem_json(devUnitID, canCpuID, devType, devID, cnt, chnop_item,
+                                e_udpPro_delChnOpItems);
         }
             break;
 
@@ -333,14 +346,14 @@ void extract_json(u8 *buffer, SOCKADDR_IN send_client)
     }
 }
 
-void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
-{
+void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender) {
     if (dat_len < BUFF_MIN_SIZE) {
         return;
     }
 
     if (udp_pro_pkt->datType != 2) {
-        LOGI("datType = %d + ******* + subType1 = %d + ******* + subType2 = %d\n", udp_pro_pkt->datType, udp_pro_pkt->subType1, udp_pro_pkt->subType2);
+        LOGI("datType = %d + ******* + subType1 = %d + ******* + subType2 = %d\n",
+             udp_pro_pkt->datType, udp_pro_pkt->subType1, udp_pro_pkt->subType2);
     }
 
     if (udp_pro_pkt->bAck == 2) {
@@ -356,7 +369,7 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
                 //给UI发送收到消息info
                 get_broadcast_reply_json(udp_pro_pkt);
                 //启动线程，定时发送获取数据命令
-                if(pthread_flag == 0) {
+                if (pthread_flag == 0) {
                     ret_thrd1 = pthread_create(&thread1, NULL, singal_msg, NULL);
                     // 线程创建成功，返回0,失败返回失败号
                     if (ret_thrd1 != 0) {
@@ -377,9 +390,10 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
                 set_dev_info(udp_pro_pkt);
 
                 ware_dev_get_num++;
-                if(ware_dev_get_num == 5) {
+                if (ware_dev_get_num == 5) {
                     ware_dev_get_num = 0;
-                    udp_msg_queue_add (&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getDevsInfo, 0, 1, msg_queue_list.size);
+                    udp_msg_queue_add(&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getDevsInfo, 0,
+                                      1, msg_queue_list.size);
                 }
             }
             break;
@@ -388,7 +402,7 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
         case e_udpPro_editDev:
             if (udp_pro_pkt->subType1 == 1) {
                 //控制设备之后，返回设备的最新数据，直接更新链表
-                fresh_dev_info (udp_pro_pkt);
+                fresh_dev_info(udp_pro_pkt);
                 get_all_ctl_reply_json(udp_pro_pkt);
             }
             break;
@@ -403,10 +417,11 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
 
         case e_udpPro_getSceneEvents:
             if (udp_pro_pkt->subType1 == 0 && udp_pro_pkt->subType2 == 1) {
-                set_events_info (udp_pro_pkt);
+                set_events_info(udp_pro_pkt);
                 ware_scene_get_num++;
-                if(ware_scene_get_num == 15) {
-                    udp_msg_queue_add (&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getSceneEvents, 0, 1, msg_queue_list.size);
+                if (ware_scene_get_num == 15) {
+                    udp_msg_queue_add(&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getSceneEvents,
+                                      0, 1, msg_queue_list.size);
                 }
             }
             break;
@@ -432,16 +447,20 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
 
                 switch (udp_pro_pkt->subType2) {
                     case e_board_chnOut:
-                        udp_msg_queue_add (&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getBoards, e_board_chnOut, 1, msg_queue_list.size);
+                        udp_msg_queue_add(&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getBoards,
+                                          e_board_chnOut, 1, msg_queue_list.size);
                         break;
                     case e_board_keyInput:
-                        udp_msg_queue_add (&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getBoards, e_board_keyInput, 1, msg_queue_list.size);
+                        udp_msg_queue_add(&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getBoards,
+                                          e_board_keyInput, 1, msg_queue_list.size);
                         break;
                     case e_board_wlessIR:
-                        udp_msg_queue_add (&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getBoards, e_board_keyInput, 1, msg_queue_list.size);
+                        udp_msg_queue_add(&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getBoards,
+                                          e_board_keyInput, 1, msg_queue_list.size);
                         break;
                     case e_board_envDetect:
-                        udp_msg_queue_add (&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getBoards, e_board_envDetect, 1, msg_queue_list.size);
+                        udp_msg_queue_add(&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getBoards,
+                                          e_board_envDetect, 1, msg_queue_list.size);
                         break;
                     default:
                         break;
@@ -470,7 +489,8 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
         case e_udpPro_getKeyOpItems:
             if (udp_pro_pkt->subType1 == 1) {
                 set_key_opitem(udp_pro_pkt);
-                udp_msg_queue_add (&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getKeyOpItems, 0, 1, msg_queue_list.size);
+                udp_msg_queue_add(&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getKeyOpItems, 0,
+                                  1, msg_queue_list.size);
             }
             break;
         case e_udpPro_setKeyOpItems:
@@ -484,7 +504,7 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
             break;
         case e_udpPro_delKeyOpItems:
             if (udp_pro_pkt->subType1 == 1) {
-                int result = (int)udp_pro_pkt->dat[12];
+                int result = (int) udp_pro_pkt->dat[12];
                 if (result == 1) {
                     del_key_opitem(udp_pro_pkt);
                 }
@@ -494,13 +514,14 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
         case e_udpPro_getChnOpItems:
             if (udp_pro_pkt->subType1 == 1) {
                 set_chn_opitem(udp_pro_pkt);
-                udp_msg_queue_add (&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getChnOpItems, 0, 1, msg_queue_list.size);
+                udp_msg_queue_add(&msg_queue_list, udp_pro_pkt->uidSrc, e_udpPro_getChnOpItems, 0,
+                                  1, msg_queue_list.size);
             }
             break;
 
         case e_udpPro_setChnOpItems:
             if (udp_pro_pkt->subType1 == 1) {
-                int result = (int)udp_pro_pkt->dat[12];
+                int result = (int) udp_pro_pkt->dat[12];
                 if (result == 1) {
                     set_chn_opitem(udp_pro_pkt);
                 }
@@ -510,9 +531,9 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
 
         case e_udpPro_delChnOpItems:
             if (udp_pro_pkt->subType1 == 1) {
-                int result = (int)udp_pro_pkt->dat[12];
+                int result = (int) udp_pro_pkt->dat[12];
                 if (result == 1) {
-                    del_chn_opitem (udp_pro_pkt);
+                    del_chn_opitem(udp_pro_pkt);
                 }
                 set_chn_opitem_reply_json(udp_pro_pkt);
             }
@@ -526,10 +547,10 @@ void extract_data(UDPPROPKT *udp_pro_pkt, int dat_len, SOCKADDR_IN sender)
     }
 }
 
-void udp_broadcast(u8 *uid)
-{
-    u8 devUnitID[12];
-    string_to_bytes(uid, devUnitID, 24);
+void udp_broadcast(u8 *devUnitID) {
+    //u8 devUnitID[12];
+    //string_to_bytes(uid, devUnitID, 24);
+    LOGI("UID:%s\n", devUnitID);
     UDPPROPKT *pkt = udp_pkt_bradcast(devUnitID);
 
     int optval = 1;//这个值一定要设置，否则可能导致sendto()失败
@@ -540,23 +561,22 @@ void udp_broadcast(u8 *uid)
     theirAddr.sin_addr.s_addr = inet_addr("255.255.255.255");
     theirAddr.sin_port = htons(ClOUD_SERVER_PORT);
 
-    if((sendto(primary_udp, pkt, sizeof(UDPPROPKT), 0,
-                           (struct sockaddr *)&theirAddr, sizeof(struct sockaddr))) == -1) {
+    if ((sendto(primary_udp, pkt, sizeof(UDPPROPKT), 0,
+                (struct sockaddr *) &theirAddr, sizeof(struct sockaddr))) == -1) {
         printf("sendto fail, errno=%d\n", errno);
-        return ;
+        return;
     }
 }
 
-void udp_server(char *ip)
-{
+void udp_server(char *ip) {
     primary_udp = init_socket(SOCK_TYPE); //SOCK_DGRAM
 
     struct sockaddr_in local;
-    local.sin_family      = AF_INET;
-    local.sin_port        = htons(ClOUD_SERVER_PORT);
+    local.sin_family = AF_INET;
+    local.sin_port = htons(ClOUD_SERVER_PORT);
     local.sin_addr.s_addr = htonl(INADDR_ANY);
 
-    int result = bind(primary_udp, (struct sockaddr*)&local, sizeof(local));
+    int result = bind(primary_udp, (struct sockaddr *) &local, sizeof(local));
     if (result == SOCKET_ERROR) {
         PR_ERR("bind");
     }
@@ -564,47 +584,50 @@ void udp_server(char *ip)
     LOGI("Cloud sever bind to port %d\n", ClOUD_SERVER_PORT);
     LOGI("Sever begin to listen......\n");
 
-    get_local_ip("wanl0", local_ip);
-    udp_broadcast("37ffdb05424e323416702443");
+    get_local_ip("wlan0", local_ip);
+    LOGI("local_ip = %s\n", local_ip);
+    //udp_broadcast("37ffdb05424e323416702443");
 
     memset(&recvbuf, 0, sizeof(recvbuf));
 
     timer_num = 0;
     timer_space = 1;
     pthread_flag = 0;
-    setTimer (2,1);
-    setTimer (60*30,2);
+    setTimer(2, 1);
+    setTimer(60 * 30, 2);
     //signal (SIGALRM,timeout);
 
-    rcu_list = rcu_create_linked_list ();
+    rcu_list = rcu_create_linked_list();
     ware_list = ware_create_linked_list();
     aircond_list = ware_aircond_create_linked_list();
-    light_list = ware_light_create_linked_list ();
-    curtain_list = ware_curtain_create_linked_list ();
-    scene_list = ware_scene_create_linked_list ();
-    board_list = board_create_linked_list ();
-    keyinput_list = keyinput_create_linked_list ();
-    chnop_item_list = chnop_item_create_linked_list ();
-    keyop_item_list = keyop_item_create_linked_list ();
-    gw_client_list = gw_client_create_linked_list ();
-    app_client_list = app_client_create_linked_list ();
-    msg_queue_list = udp_msg_queue_create_linked_list ();
+    light_list = ware_light_create_linked_list();
+    curtain_list = ware_curtain_create_linked_list();
+    scene_list = ware_scene_create_linked_list();
+    board_list = board_create_linked_list();
+    keyinput_list = keyinput_create_linked_list();
+    chnop_item_list = chnop_item_create_linked_list();
+    keyop_item_list = keyop_item_create_linked_list();
+    gw_client_list = gw_client_create_linked_list();
+    app_client_list = app_client_create_linked_list();
+    msg_queue_list = udp_msg_queue_create_linked_list();
 
     while (1) {
         sender_len = sizeof(sender);
 
-        int ret = recvfrom(primary_udp, (u8*)&recvbuf, BUFF_SIZE, 0, (struct sockaddr *)&sender, (socklen_t*)&sender_len);
+        int ret = recvfrom(primary_udp, (u8 *) &recvbuf, BUFF_SIZE, 0, (struct sockaddr *) &sender,
+                           (socklen_t *) &sender_len);
 
         if (ret <= 0) {
             usleep(1000);   //printf("recv error");
             continue;
         } else {
             /* 显示client端的网络地址*/
-            LOGI ("Received a string from client %s port %d\n", inet_ntoa(sender.sin_addr), sender.sin_port);
+            LOGI ("Received a string from client %s port %d\n", inet_ntoa(sender.sin_addr),
+                  sender.sin_port);
             if (memcmp(recvbuf, HEAD_STRING, 4) != 0) {
                 extract_json(recvbuf, sender);
             } else {
-                extract_data((UDPPROPKT*)recvbuf, ret, sender);
+                extract_data((UDPPROPKT *) recvbuf, ret, sender);
             }
         }
     }

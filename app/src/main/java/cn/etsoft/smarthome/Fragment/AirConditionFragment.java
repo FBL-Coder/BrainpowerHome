@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
 import cn.etsoft.smarthome.pullmi.entity.WareAirCondDev;
@@ -34,7 +33,7 @@ public class AirConditionFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_aircondition, container, false);
         //初始化控件
-        //initView(view);
+        initView(view);
         return view;
     }
 
@@ -49,10 +48,13 @@ public class AirConditionFragment extends Fragment implements View.OnClickListen
     }
 
     private void upData() {
+        if (MyApplication.getWareData().getAirConds().size() == 0) {
+            return;
+        }
         wareAirCondDev = MyApplication.getWareData().getAirConds().get(0);
         curValue = MyApplication.getWareData().getAirConds().get(0).getSelTemp();
         name.setText("空调名称");
-        name1.setText(CommonUtils.getGBstr(MyApplication.getWareData().getAirConds().get(0).getDev().getDevName()));
+        name1.setText(MyApplication.getWareData().getAirConds().get(0).getDev().getDevName());
         temperature.setText("当前温度 :" + MyApplication.getWareData().getAirConds().get(0).getSelTemp() + "℃");
         temperature1.setText("设置温度 :" + MyApplication.getWareData().getAirConds().get(0).getSelTemp() + "℃");
 
@@ -103,11 +105,13 @@ public class AirConditionFragment extends Fragment implements View.OnClickListen
         low = (TextView) view.findViewById(R.id.condition_low);
         action_mode = (TextView) view.findViewById(R.id.action_mode);
         action_wind = (TextView) view.findViewById(R.id.action_wind);
-        if (MyApplication.getWareData().getAirConds() != null && MyApplication.getWareData().getAirConds().size() > 0) {
-            upData();
-            initEvent();
-            IsCanClick = true;
-        }else{
+        if (MyApplication.getWareData() != null) {
+            if (MyApplication.getWareData().getAirConds() != null && MyApplication.getWareData().getAirConds().size() > 0) {
+                upData();
+                initEvent();
+                IsCanClick = true;
+            }
+        } else {
             Toast.makeText(getActivity(), "没有找到可控空调", Toast.LENGTH_SHORT).show();
         }
         choose.setOnClickListener(this);
@@ -123,10 +127,28 @@ public class AirConditionFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+//        {
+//            "devUnitID": "37ffdb05424e323416702443",
+//                "datType": 4,
+//                "subType1": 0,
+//                "subType2": 0,
+//                "canCpuID": "31ffdf054257313827502543",
+//                "devType": 3,
+//                "devID": 6,
+//                "cmd": 1
+//        }
+
         if (IsCanClick) {
+            String str_Fixed = "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
+                    ",\"datType\":4" +
+                    ",\"subType1\":0" +
+                    ",\"subType2\":0" +
+                    ",\"canCpuID\":\"" + MyApplication.getWareData().getAirConds().get(0).getDev().getCanCpuId() +
+                    "\",\"devType\":" + MyApplication.getWareData().getAirConds().get(0).getDev().getType() +
+                    ",\"devID\":" + MyApplication.getWareData().getAirConds().get(0).getDev().getDevId();
             switch (v.getId()) {
                 case R.id.condition_switch:
-                    if (MyApplication.getWareData().getAirConds().get(0).getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
+                    if (wareAirCondDev.getbOnOff() == 0) {
                         cmdValue = UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue();//打开空调
                     } else {
                         cmdValue = UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue();//关闭空调
@@ -141,175 +163,179 @@ public class AirConditionFragment extends Fragment implements View.OnClickListen
                     curValue++;
                     if (curValue > 30) {
                         curValue = 30;
-                    }
-                    temperature1.setText("设置温度 :" + curValue + "℃");
-                    switch (curValue) {
-                        case 14:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp14.getValue();
-                            break;
-                        case 15:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp15.getValue();
-                            break;
-                        case 16:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp16.getValue();
-                            break;
-                        case 17:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp17.getValue();
-                            break;
-                        case 18:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp18.getValue();
-                            break;
-                        case 19:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp19.getValue();
-                            break;
-                        case 20:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp20.getValue();
-                            break;
-                        case 21:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp21.getValue();
-                            break;
-                        case 22:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp22.getValue();
-                            break;
-                        case 23:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp23.getValue();
-                            break;
-                        case 24:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp24.getValue();
-                            break;
-                        case 25:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp25.getValue();
-                            break;
-                        case 26:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp26.getValue();
-                            break;
-                        case 27:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp27.getValue();
-                            break;
-                        case 28:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp28.getValue();
-                            break;
-                        case 29:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp29.getValue();
-                            break;
-                        case 30:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp30.getValue();
-                            break;
-                        default:
-                            break;
+                    } else {
+                        temperature1.setText("设置温度 :" + curValue + "℃");
+                        switch (curValue) {
+                            case 14:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp14.getValue();
+                                break;
+                            case 15:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp15.getValue();
+                                break;
+                            case 16:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp16.getValue();
+                                break;
+                            case 17:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp17.getValue();
+                                break;
+                            case 18:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp18.getValue();
+                                break;
+                            case 19:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp19.getValue();
+                                break;
+                            case 20:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp20.getValue();
+                                break;
+                            case 21:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp21.getValue();
+                                break;
+                            case 22:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp22.getValue();
+                                break;
+                            case 23:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp23.getValue();
+                                break;
+                            case 24:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp24.getValue();
+                                break;
+                            case 25:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp25.getValue();
+                                break;
+                            case 26:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp26.getValue();
+                                break;
+                            case 27:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp27.getValue();
+                                break;
+                            case 28:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp28.getValue();
+                                break;
+                            case 29:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp29.getValue();
+                                break;
+                            case 30:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp30.getValue();
+                                break;
+                            default:
+                                break;
+                        }
                     }
                     break;
                 case R.id.condition_cooling:
                     //设置降温
-                    if (wareAirCondDev.getbOnOff() == 0) {
+                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
                         Toast.makeText(getActivity(), "请先开机，再操作", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     curValue--;
                     if (curValue < 14) {
                         curValue = 14;
-                    }
-                    temperature1.setText("设置温度 :" + curValue + "℃");
-                    switch (curValue) {
-                        case 14:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp14.getValue();
-                            break;
-                        case 15:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp15.getValue();
-                            break;
-                        case 16:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp16.getValue();
-                            break;
-                        case 17:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp17.getValue();
-                            break;
-                        case 18:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp18.getValue();
-                            break;
-                        case 19:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp19.getValue();
-                            break;
-                        case 20:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp20.getValue();
-                            break;
-                        case 21:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp21.getValue();
-                            break;
-                        case 22:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp22.getValue();
-                            break;
-                        case 23:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp23.getValue();
-                            break;
-                        case 24:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp24.getValue();
-                            break;
-                        case 25:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp25.getValue();
-                            break;
-                        case 26:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp26.getValue();
-                            break;
-                        case 27:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp27.getValue();
-                            break;
-                        case 28:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp28.getValue();
-                            break;
-                        case 29:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp29.getValue();
-                            break;
-                        case 30:
-                            cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp30.getValue();
-                            break;
-                        default:
-                            break;
+                    } else {
+                        temperature1.setText("设置温度 :" + curValue + "℃");
+                        switch (curValue) {
+                            case 14:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp14.getValue();
+                                break;
+                            case 15:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp15.getValue();
+                                break;
+                            case 16:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp16.getValue();
+                                break;
+                            case 17:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp17.getValue();
+                                break;
+                            case 18:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp18.getValue();
+                                break;
+                            case 19:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp19.getValue();
+                                break;
+                            case 20:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp20.getValue();
+                                break;
+                            case 21:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp21.getValue();
+                                break;
+                            case 22:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp22.getValue();
+                                break;
+                            case 23:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp23.getValue();
+                                break;
+                            case 24:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp24.getValue();
+                                break;
+                            case 25:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp25.getValue();
+                                break;
+                            case 26:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp26.getValue();
+                                break;
+                            case 27:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp27.getValue();
+                                break;
+                            case 28:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp28.getValue();
+                                break;
+                            case 29:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp29.getValue();
+                                break;
+                            case 30:
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp30.getValue();
+                                break;
+                            default:
+                                break;
+                        }
                     }
                     break;
 
                 case R.id.condition_windsweeper:
-//                cmdValue = UdpProPkt.E_AIR_CMD.e_air_drctUpDn1.getValue();
                     cmdValue = UdpProPkt.E_AIR_CMD.e_air_drctLfRt1.getValue();
                     break;
                 case R.id.condition_refrigeration:
-                    if (wareAirCondDev.getbOnOff() == 0) {
+                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
                         Toast.makeText(getActivity(), "请先开机，再操作", Toast.LENGTH_SHORT).show();
-                        return;
+                        break;
                     }
                     modelValue = UdpProPkt.E_AIR_MODE.e_air_cool.getValue();
                     break;
                 case R.id.condition_heating:
-                    if (wareAirCondDev.getbOnOff() == 0) {
+                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
                         Toast.makeText(getActivity(), "请先开机，再操作", Toast.LENGTH_SHORT).show();
-                        return;
+                        break;
                     }
                     modelValue = UdpProPkt.E_AIR_MODE.e_air_hot.getValue();
                     break;
                 case R.id.condition_high:
-                    if (wareAirCondDev.getbOnOff() == 0) {
+                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
                         Toast.makeText(getActivity(), "请先开机，再操作", Toast.LENGTH_SHORT).show();
-                        return;
+                        break;
                     }
                     cmdValue = UdpProPkt.E_AIR_CMD.e_air_spdHigh.getValue();
                     break;
                 case R.id.condition_middle:
-                    if (wareAirCondDev.getbOnOff() == 0) {
+                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
                         Toast.makeText(getActivity(), "请先开机，再操作", Toast.LENGTH_SHORT).show();
-                        return;
+                        break;
                     }
                     cmdValue = UdpProPkt.E_AIR_CMD.e_air_spdMid.getValue();
                     break;
                 case R.id.condition_low:
-                    if (wareAirCondDev.getbOnOff() == 0) {
+                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
                         Toast.makeText(getActivity(), "请先开机，再操作", Toast.LENGTH_SHORT).show();
-                        return;
+                        break;
                     }
+
                     cmdValue = UdpProPkt.E_AIR_CMD.e_air_spdLow.getValue();
                     break;
             }
             int value = (modelValue << 5) | cmdValue;
-            CommonUtils.sendMsg("");
+
+            str_Fixed = str_Fixed +
+                    ",\"cmd\":" + value + "}";
+            CommonUtils.sendMsg(str_Fixed);
         }
     }
-
 }

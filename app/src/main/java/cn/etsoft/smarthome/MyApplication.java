@@ -50,6 +50,14 @@ public class MyApplication extends Application implements udpService.Callback {
         } catch (SocketException e) {
             e.printStackTrace();
         }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                jniUtils.udpServer();
+            }
+        }).start();
+
     }
 
 
@@ -79,7 +87,24 @@ public class MyApplication extends Application implements udpService.Callback {
     @Override
     public void getGwData(WareData wareData) {
         //CommonUtils.getDevInfo();
+        final String getDevStr = "{\"devUnitID\":\"37ffdb05424e323416702443\"," +
+                "\"devPass\":\"16072443\"," +
+                "\"datType\":3," +
+                "\"subType1\":0," +
+                "\"subType2\":0}";
+
+        CommonUtils.sendMsg(getDevStr);
+
+
+        final String getSceneStr = "{\"devUnitID\":\"37ffdb05424e323416702443\"," +
+                "\"devPass\":\"16072443\"," +
+                "\"datType\":22," +
+                "\"subType1\":0," +
+                "\"subType2\":0}";
+
+        CommonUtils.sendMsg(getSceneStr);
     }
+
 
     public static void setWareData(WareData wareData) {
         MyApplication.wareData = wareData;
@@ -108,14 +133,6 @@ public class MyApplication extends Application implements udpService.Callback {
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
             // TODO Auto-generated method stub
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    jniUtils.udpServer();
-                }
-            }).start();
-
             service = ((udpService.LocalBinder) binder).getService();
             service.runUdpServer(mhandler);
             // 将当前activity添加到接口集合中

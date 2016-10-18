@@ -16,7 +16,6 @@ import java.util.List;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter.Adapter_Lights;
-import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
 import cn.etsoft.smarthome.pullmi.entity.WareLight;
@@ -41,8 +40,6 @@ public class LamplightFragment extends Fragment implements AdapterView.OnItemCli
         initGridView(view);
         return view;
     }
-
-
     private void initGridView(View view) {
         gridView = (GridView) view.findViewById(R.id.light_gv);
         light_open_all = (ImageView) view.findViewById(R.id.light_open_all);
@@ -55,17 +52,42 @@ public class LamplightFragment extends Fragment implements AdapterView.OnItemCli
         } else {
             Toast.makeText(getActivity(), "没有找到可控制灯具", Toast.LENGTH_SHORT).show();
         }
-
     }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (IsCanClick) {
             if (wareLight.get(position).getbTuneEn() == 0) {
+                String ctlStr;
                 if (wareLight.get(position).getbOnOff() == 0) {
+
+                   ctlStr = "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
+                            ",\"datType\":4" +
+                            ",\"subType1\":0" +
+                            ",\"subType2\":0" +
+                            ",\"canCpuID\":\"" + MyApplication.getWareData().getLights().get(position).getDev().getCanCpuId() +
+                            "\",\"devType\":" + MyApplication.getWareData().getLights().get(position).getDev().getType() +
+                            ",\"devID\":" + MyApplication.getWareData().getLights().get(position).getDev().getDevId() +
+                            ",\"cmd\":0" +
+                           "" +
+                            "}";
+                    CommonUtils.sendMsg(ctlStr);
                 } else {
 
+                    ctlStr = "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
+                            ",\"datType\":4" +
+                            ",\"subType1\":0" +
+                            ",\"subType2\":0" +
+                            ",\"canCpuID\":\"" + MyApplication.getWareData().getLights().get(position).getDev().getCanCpuId() +
+                            "\",\"devType\":" + MyApplication.getWareData().getLights().get(position).getDev().getType() +
+                            ",\"devID\":" + MyApplication.getWareData().getLights().get(position).getDev().getDevId() +
+                            ",\"cmd\":1" +
+                            "}";
+
+                    CommonUtils.sendMsg(ctlStr);
+
                 }
+
+                System.out.println(ctlStr);
             }
         }
     }
@@ -74,7 +96,10 @@ public class LamplightFragment extends Fragment implements AdapterView.OnItemCli
         MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData() {
+                //更新界面
                 adapter_lights.notifyDataSetChanged();
+                //更新数据
+                wareLight = MyApplication.getWareData().getLights();
             }
         });
     }
@@ -92,12 +117,28 @@ public class LamplightFragment extends Fragment implements AdapterView.OnItemCli
         if (IsCanClick) {
             switch (v.getId()) {
                 case R.id.light_open_all:
-                    byte[] data = new byte[1];
-                    data[0] = 0x01;
+                    String open_str =  "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
+                            ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrl_allDevs +
+                            ",\"subType1\":0" +
+                            ",\"subType2\":0" +
+                            ",\"canCpuID\":0\"" +
+                            "\",\"devType\":" + UdpProPkt.E_WARE_TYPE.e_ware_light +
+                            ",\"devID\":0"  +
+                            ",\"cmd\": 1" +
+                            "}";
+                    CommonUtils.sendMsg(open_str);
                     break;
                 case R.id.light_close_all:
-                    byte[] data1 = new byte[1];
-                    data1[0] = 0x00;
+                    String close_str =  "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
+                            ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrl_allDevs +
+                            ",\"subType1\":0" +
+                            ",\"subType2\":0" +
+                            ",\"canCpuID\":0\"" +
+                            "\",\"devType\":" + UdpProPkt.E_WARE_TYPE.e_ware_light +
+                            ",\"devID\":0"  +
+                            ",\"cmd\": 0" +
+                            "}";
+                    CommonUtils.sendMsg(close_str);
                     break;
             }
         }

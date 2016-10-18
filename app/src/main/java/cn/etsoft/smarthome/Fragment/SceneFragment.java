@@ -27,7 +27,6 @@ import cn.etsoft.smarthome.pullmi.entity.WareSceneEvent;
  */
 public class SceneFragment extends Fragment {
     private GridView gridView;
-    byte[] devBuff;
     private boolean IsCanClick = false;
     private WareData wareData;
     private int OUTTIME_DOWNLOAD = 1111;
@@ -35,13 +34,11 @@ public class SceneFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        getSceneInfo();
+        initEvent();
+
         super.onCreate(savedInstanceState);
     }
 
-    public static void getSceneInfo() {
-
-    }
 
     @Nullable
     @Override
@@ -63,7 +60,7 @@ public class SceneFragment extends Fragment {
                 if (MyApplication.getWareData().getSceneEvents() != null && MyApplication.getWareData().getSceneEvents().size() > 0) {
                     initEvent();
                     IsCanClick = true;
-                    gridView.setAdapter(new Adapter_Scene(getListData(),getActivity()));
+                    gridView.setAdapter(new Adapter_Scene(getListData(), getActivity()));
                     gridView.setSelector(R.drawable.selector_gridview_item);
                 } else {
                     Toast.makeText(getActivity(), "没有找到情景模式", Toast.LENGTH_SHORT).show();
@@ -74,7 +71,7 @@ public class SceneFragment extends Fragment {
         if (MyApplication.getWareData().getSceneEvents() != null && MyApplication.getWareData().getSceneEvents().size() > 0) {
             initEvent();
             IsCanClick = true;
-            gridView.setAdapter(new Adapter_Scene(getListData(),getActivity()));
+            gridView.setAdapter(new Adapter_Scene(getListData(), getActivity()));
             gridView.setSelector(R.drawable.selector_gridview_item);
         } else {
             Toast.makeText(getActivity(), "没有找到情景模式", Toast.LENGTH_SHORT).show();

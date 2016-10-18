@@ -63,7 +63,7 @@ public class Adapter_Lights extends BaseAdapter {
         } else {
             viewHolder.image.setBackgroundResource(R.drawable.light4);//打开
         }
-        viewHolder.item_tv.setText(CommonUtils.getGBstr(wareData.getLights().get(position).getDev().getDevName()));
+        viewHolder.item_tv.setText(wareData.getLights().get(position).getDev().getDevName());
 
         return convertView;
     }

@@ -102,7 +102,7 @@ int get(int num, int index)
 void ctrl_dev_reply(UDPPROPKT *pkt)
 {
     CHNS_STATUS *status = (CHNS_STATUS *)pkt->dat;
-    char bin_string[12];
+    char bin_string[13];
     itoa_bin(status->state, bin_string);
     LOGI("二进制字符串:%s\n", bin_string);
 

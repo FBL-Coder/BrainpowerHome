@@ -23,6 +23,8 @@ extern char* create_rcu_json(u8 *devUnitID, int datType, int subType1, int subTy
 
 extern void ctrl_devs_json(u8 *devUnitID, u8 *canCpuID, int datType, int devType, int devID, int cmd);
 
+extern void ctrl_all_devs_json(u8 *devUnitID, int datType, int devType, int cmd);
+
 extern char* create_ctl_reply_info_json(UDPPROPKT *pkt);
 
 extern char *create_chn_status_json(u8 *devUnitID, int datType, int subType1, int subType2);

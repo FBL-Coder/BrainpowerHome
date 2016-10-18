@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
 import cn.etsoft.smarthome.pullmi.entity.WareSetBox;
@@ -92,59 +91,73 @@ public class STBFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (IsCanClick) {
+
+            String str_Fixed = "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
+                    ",\"datType\":4" +
+                    ",\"subType1\":0" +
+                    ",\"subType2\":0" +
+                    ",\"canCpuID\":" + MyApplication.getWareData().getStbs().get(0).getDev().getCanCpuId() +
+                    ".\"devType\":" + MyApplication.getWareData().getStbs().get(0).getDev().getType() +
+                    ".\"devID\":" + MyApplication.getWareData().getStbs().get(0).getDev().getDevId();
+            int Value = -1;
             switch (v.getId()) {
                 case R.id.stb_switch_tv:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_offOn.getValue();
                     break;
                 case R.id.stb_switch:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_offOn.getValue();
                     break;
                 case R.id.stb_one:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_num1.getValue();
                     break;
                 case R.id.stb_two:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_num2.getValue();
                     break;
                 case R.id.stb_three:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_num3.getValue();
                     break;
                 case R.id.stb_four:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_num4.getValue();
                     break;
                 case R.id.stb_five:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_num5.getValue();
                     break;
                 case R.id.stb_six:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_num6.getValue();
                     break;
                 case R.id.stb_seven:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_num7.getValue();
                     break;
                 case R.id.stb_eight:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_num8.getValue();
                     break;
                 case R.id.stb_nine:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_num9.getValue();
                     break;
                 case R.id.stb_zero:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_num0.getValue();
                     break;
                 case R.id.stb_hundred:
                     break;
                 case R.id.stb_last:
                     break;
                 case R.id.stb_jia:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_numVInc.getValue();
                     break;
                 case R.id.stb_jian:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_numLf.getValue();
                     break;
                 case R.id.stb_shang:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_numUp.getValue();
                     break;
                 case R.id.stb_xia:
-
+                    Value = UdpProPkt.E_TVUP_CMD.e_tvUP_numDn.getValue();
                     break;
+            }
+            if (Value != -1) {
+                str_Fixed = str_Fixed +
+                        ".\"cmd:" + Value + "}";
+                CommonUtils.sendMsg(str_Fixed);
             }
         }
     }

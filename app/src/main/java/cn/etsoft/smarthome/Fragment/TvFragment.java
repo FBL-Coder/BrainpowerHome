@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
 import cn.etsoft.smarthome.pullmi.entity.WareTv;
@@ -49,7 +48,7 @@ public class TvFragment extends Fragment implements View.OnClickListener {
             wareTv = MyApplication.getWareData().getTvs().get(0);
             initEvent();
             IsCanClick = true;
-        }else{
+        } else {
             Toast.makeText(getActivity(), "没有找到可控电视", Toast.LENGTH_SHORT).show();
         }
         choose = (Button) view.findViewById(R.id.tv_switch);
@@ -91,56 +90,70 @@ public class TvFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (IsCanClick) {
+
+            String str_Fixed = "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
+                    ",\"datType\":4" +
+                    ",\"subType1\":0" +
+                    ",\"subType2\":0" +
+                    ",\"canCpuID\":" + MyApplication.getWareData().getStbs().get(0).getDev().getCanCpuId() +
+                    ".\"devType\":" + MyApplication.getWareData().getStbs().get(0).getDev().getType() +
+                    ".\"devID\":" + MyApplication.getWareData().getStbs().get(0).getDev().getDevId();
+            int Value = -1;
             switch (v.getId()) {
                 case R.id.tv_switch:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_offOn.getValue();
                     break;
                 case R.id.tv_one:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_num1.getValue();
                     break;
                 case R.id.tv_two:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_num2.getValue();
                     break;
                 case R.id.tv_three:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_num3.getValue();
                     break;
                 case R.id.tv_four:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_num4.getValue();
                     break;
                 case R.id.tv_five:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_num5.getValue();
                     break;
                 case R.id.tv_six:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_num6.getValue();
                     break;
                 case R.id.tv_seven:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_num7.getValue();
                     break;
                 case R.id.tv_eight:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_num8.getValue();
                     break;
                 case R.id.tv_nine:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_num9.getValue();
                     break;
                 case R.id.tv_zero:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_num0.getValue();
                     break;
                 case R.id.tv_hundred:
                     break;
                 case R.id.tv_last:
                     break;
                 case R.id.tv_jia:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_numRt.getValue();
                     break;
                 case R.id.tv_jian:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_numLf.getValue();
                     break;
                 case R.id.tv_shang:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_numLf.getValue();
                     break;
                 case R.id.tv_xia:
-
+                    Value = UdpProPkt.E_TV_CMD.e_tv_numDn.getValue();
                     break;
+            }
+            if (Value != -1) {
+                str_Fixed = str_Fixed +
+                        ".\"cmd:" + Value + "}";
+                CommonUtils.sendMsg(str_Fixed);
             }
         }
     }

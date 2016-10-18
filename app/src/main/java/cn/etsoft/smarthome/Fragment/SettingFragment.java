@@ -30,7 +30,6 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         initView(view);
         return view;
     }
-
     /**
      * 初始化控件
      */
@@ -47,9 +46,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         room.setOnClickListener(this);
         scene.setOnClickListener(this);
         group.setOnClickListener(this);
-
     }
-
     @Override
     public void onClick(View v) {
         Intent intent;
