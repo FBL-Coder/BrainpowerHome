@@ -36,15 +36,8 @@ public class SceneActivity extends Activity implements AdapterView.OnItemClickLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getSceneInfo();
         super.onCreate(savedInstanceState);
 
-    }
-
-    public static void getSceneInfo() {
-
-        final String str = "{\"devUnitID\":\"37ffdb05424e323416702443\",\"devPass\":\"16072443\",\"datType\":22,\"subType1\":0,\"subType2\":0}";
-        CommonUtils.sendMsg(str);
     }
 
     @Override
@@ -119,7 +112,6 @@ public class SceneActivity extends Activity implements AdapterView.OnItemClickLi
         int listSize = MyApplication.getWareData().getSceneEvents().size();
 
         if (listSize > 0) {
-
             if (position < listSize) {
                 Intent intent = new Intent(SceneActivity.this, SceneSetActivity.class);
                 intent.putExtra("title", MyApplication.getWareData().getSceneEvents().get(position).getSceneName());

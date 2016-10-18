@@ -71,7 +71,7 @@ public class SceneAdapter extends BaseAdapter {
 
             if (position < mcount) {
                 viewHolder.image.setImageResource(image[position]);
-                viewHolder.title.setText(CommonUtils.getGBstr(mSceneEvents.get(position).getSceneName()));
+                viewHolder.title.setText(mSceneEvents.get(position).getSceneName());
                 viewHolder.hui.setImageResource(R.drawable.huijiantou);
             } else {
                 viewHolder.image.setImageResource(R.drawable.xingzengmoshi);

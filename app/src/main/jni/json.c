@@ -630,7 +630,6 @@ void ctrl_all_devs_json(u8 *devUnitID, int datType, int devType, int cmd) {
             char gw_ip[16] = {0};
             sprintf(gw_ip, "%d.%d.%d.%d", gw->rcu_ip[0] & 0xff, gw->rcu_ip[1] & 0xff,
                     gw->rcu_ip[2] & 0xff, gw->rcu_ip[3] & 0xff);
-            //canCpuID, devid, devtype, ctrl_cmd, statue
 
             u8 data_buf[1] = {0};
             data_buf[0] = cmd;

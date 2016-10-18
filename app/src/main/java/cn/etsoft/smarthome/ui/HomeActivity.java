@@ -22,6 +22,8 @@ import cn.etsoft.smarthome.Fragment.SettingFragment;
 import cn.etsoft.smarthome.Fragment.TvFragment;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.pullmi.common.CommonUtils;
+import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
 import cn.etsoft.smarthome.pullmi.utils.Dtat_Cache;
 
 public class HomeActivity extends FragmentActivity implements View.OnClickListener {
@@ -33,6 +35,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             curtainFragment, sceneFragment;
     private Button home, equipmentClose, equipmentOpen, lamplightControl, curtainControl;
     private TextView mTitle;
+    private int ledflag = 0, curflag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         equipmentOpen = (Button) findViewById(R.id.home_equipmentOpen);
         lamplightControl = (Button) findViewById(R.id.home_lamplight);
         curtainControl = (Button) findViewById(R.id.home_curtain);
+        home.setOnClickListener(this);
+        equipmentOpen.setOnClickListener(this);
+        equipmentClose.setOnClickListener(this);
+        lamplightControl.setOnClickListener(this);
+        curtainControl.setOnClickListener(this);
     }
 
     /**
@@ -135,20 +143,76 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
         return false;
     }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.home_home:
                 break;
             case R.id.home_equipmentClose:
+                ctrl_all_devs(UdpProPkt.E_WARE_TYPE.e_ware_airCond.getValue(), 1);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ctrl_all_devs(UdpProPkt.E_WARE_TYPE.e_ware_light.getValue(), 1);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ctrl_all_devs(UdpProPkt.E_WARE_TYPE.e_ware_curtain.getValue(), 1);
                 break;
             case R.id.home_equipmentOpen:
+                ctrl_all_devs(UdpProPkt.E_WARE_TYPE.e_ware_airCond.getValue(), 0);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ctrl_all_devs(UdpProPkt.E_WARE_TYPE.e_ware_light.getValue(), 0);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ctrl_all_devs(UdpProPkt.E_WARE_TYPE.e_ware_curtain.getValue(), 0);
                 break;
             case R.id.home_lamplight:
+                if(ledflag == 0) {
+                    ctrl_all_devs(UdpProPkt.E_WARE_TYPE.e_ware_light.getValue(), 1);
+                    ledflag = 1;
+                }else{
+                    ctrl_all_devs(UdpProPkt.E_WARE_TYPE.e_ware_light.getValue(), 0);
+                    ledflag = 0;
+                }
                 break;
             case R.id.home_curtain:
+                if(curflag == 0) {
+                    ctrl_all_devs(UdpProPkt.E_WARE_TYPE.e_ware_curtain.getValue(), 1);
+                    curflag = 1;
+                }else{
+                    ctrl_all_devs(UdpProPkt.E_WARE_TYPE.e_ware_curtain.getValue(), 0);
+                    curflag = 0;
+                }
                 break;
 
         }
+    }
+
+    void ctrl_all_devs(int devType, int cmd) {
+        String ctrl_str = "{\"devUnitID\":\"37ffdb05424e323416702443\"" +
+                ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrl_allDevs.getValue() +
+                ",\"subType1\":0" +
+                ",\"subType2\":0" +
+                ",\"canCpuID\":0" +
+                ",\"devType\":" + devType +
+                ",\"devID\":0" +
+                ",\"cmd\":" + cmd +
+                "}";
+        CommonUtils.sendMsg(ctrl_str);
+
+        System.out.println(ctrl_str);
     }
 }
