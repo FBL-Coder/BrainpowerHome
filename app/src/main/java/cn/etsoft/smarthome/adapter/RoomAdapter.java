@@ -64,7 +64,7 @@ public class RoomAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.image.setImageResource(image[position]);
-        viewHolder.title.setText(CommonUtils.getGBstr(mWareDev.get(position).getRoomName()));
+        viewHolder.title.setText(mWareDev.get(position).getRoomName());
         viewHolder.hui.setImageResource(R.drawable.huijiantou);
         return convertView;
     }

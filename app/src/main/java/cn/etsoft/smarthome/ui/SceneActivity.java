@@ -37,7 +37,6 @@ public class SceneActivity extends Activity implements AdapterView.OnItemClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override

@@ -55,7 +55,7 @@ public class ParlourGridViewAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.title.setText(CommonUtils.getGBstr(listViewItems.get(position).getDevName()));
+        viewHolder.title.setText(listViewItems.get(position).getDevName());
         return convertView;
     }
 

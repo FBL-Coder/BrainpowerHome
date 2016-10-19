@@ -19,9 +19,7 @@ import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter.GridViewAdapter2;
 import cn.etsoft.smarthome.adapter.ParlourGridViewAdapter;
-import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.WareDev;
-import cn.etsoft.smarthome.pullmi.entity.WareLight;
 import cn.etsoft.smarthome.widget.CustomDialog;
 
 /**
@@ -33,12 +31,13 @@ public class ParlourActivity extends Activity {
     private String[] text = {"窗帘", "空调", "电视", "新风", "门锁", "阀门"};
     private int[] pic1 = {R.drawable.blind2, R.drawable.blind4, R.drawable.blind5};
     private String[] des1 = {"全开", "半开", "全关"};
-    private int[] pic2 = {R.drawable.air_choose1, R.drawable.air_wind1, R.drawable.air_makecool1,R.drawable.air_makehot2, R.drawable.air_high2, R.drawable.air_middle1,R.drawable.air_low1};
-    private String[] des2 = {"开关", "扫风", "制冷","制热", "风速高", "风速中","风速低"};
+    private int[] pic2 = {R.drawable.air_choose1, R.drawable.air_wind1, R.drawable.air_makecool1, R.drawable.air_makehot2, R.drawable.air_high2, R.drawable.air_middle1, R.drawable.air_low1};
+    private String[] des2 = {"开关", "扫风", "制冷", "制热", "风速高", "风速中", "风速低"};
     private Button save;
     private ImageView dialog_back;
     private ParlourGridViewAdapter parlourGridViewAdapter;
     private List<WareDev> listViewItems;
+    private String RoomName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,7 @@ public class ParlourActivity extends Activity {
         //初始化GridView
         initGridView();
 
-        final Handler mHandler = new Handler(){
+        final Handler mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 initGridView();
@@ -76,7 +75,8 @@ public class ParlourActivity extends Activity {
      */
     private void initTitleBar() {
         mTitle = (TextView) findViewById(R.id.tv_home);
-        mTitle.setText(getIntent().getStringExtra("title"));
+        RoomName = getIntent().getStringExtra("title");
+        mTitle.setText(RoomName);
     }
 
     /**
@@ -84,17 +84,17 @@ public class ParlourActivity extends Activity {
      */
     private void initGridView() {
         gridView = (GridView) findViewById(R.id.parlour_gv);
-        listViewItems = MyApplication.getWareData().getDevs();
-        List<WareLight> lights = MyApplication.getWareData().getLights();
-        List<WareLight> list = new ArrayList<>();
-        list.addAll(lights);
-
-        for (int i = 0; i < list.size(); i++) {
-            listViewItems.add(list.get(i).getDev());
+        listViewItems = new ArrayList<>();
+        for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
+            if (RoomName.equals(MyApplication.getWareData().getDevs().get(i).getRoomName()))
+                listViewItems.add(MyApplication.getWareData().getDevs().get(i));
+            else
+                continue;
         }
-        if (parlourGridViewAdapter != null){
+
+        if (parlourGridViewAdapter != null) {
             parlourGridViewAdapter.notifyDataSetChanged();
-        }else {
+        } else {
             parlourGridViewAdapter = new ParlourGridViewAdapter(this, listViewItems);
             gridView.setAdapter(parlourGridViewAdapter);
         }
@@ -106,6 +106,7 @@ public class ParlourActivity extends Activity {
             }
         });
     }
+
 
     /**
      * 初始化自定义dialog
@@ -125,7 +126,7 @@ public class ParlourActivity extends Activity {
      */
     private void initDialogGridView(int position) {
         gridView = (GridView) dialog.findViewById(R.id.parlour_dialog_gv);
-        switch (position){
+        switch (position) {
             case 0:
                 gridView.setAdapter(new GridViewAdapter2(pic1, des1, this));
                 break;

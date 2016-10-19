@@ -192,6 +192,10 @@ public class udpService extends Service {
                 if (subType1 == 1) {
                     getDevsInfo(info);
                     isFreshData = true;
+                    //删除重复的设备
+                    List<WareDev> devs = removeDuplicateDevs(MyApplication.getWareData().getDevs());
+                    MyApplication.getWareData().setDevs(devs);
+
                     Message message = mhandler.obtainMessage();
                     if (mhandler != null) {
                         mhandler.sendMessage(message);
@@ -462,7 +466,6 @@ public class udpService extends Service {
                 List<WareAirCondDev> list = new ArrayList<>();
 
                 WareAirCondDev airCondDev = new WareAirCondDev();
-
                 JSONArray jsonArray = jsonObject.getJSONArray("aircond_rows");
                 for (int i = 0; i < devnum_air; i++) {
 
@@ -474,6 +477,9 @@ public class udpService extends Service {
                     dev.setDevId((byte)jsonobj.getInt("devID"));
                     dev.setType((byte)jsonobj.getInt("devType"));
                     airCondDev.setDev(dev);
+                    //add dev to devlist
+                    MyApplication.getWareData().getDevs().add(dev);
+
                     airCondDev.setbOnOff((byte) jsonobj.getInt("bOnOff"));
                     airCondDev.setPowChn(jsonobj.getInt("powChn"));
                     airCondDev.setRev1((byte) jsonobj.getInt("rev1"));
@@ -503,6 +509,9 @@ public class udpService extends Service {
                     dev.setDevId((byte)jsonobj.getInt("devID"));
                     dev.setType((byte)jsonobj.getInt("devType"));
                     light.setDev(dev);
+
+                    MyApplication.getWareData().getDevs().add(dev);
+
                     light.setbOnOff((byte) jsonobj.getInt("bOnOff"));
                     light.setPowChn((byte) jsonobj.getInt("powChn"));
                     light.setLmVal((byte) jsonobj.getInt("lmVal"));
@@ -529,6 +538,8 @@ public class udpService extends Service {
                     dev.setType((byte)jsonobj.getInt("devType"));
                     tv.setDev(dev);
 
+                    MyApplication.getWareData().getDevs().add(dev);
+
                     list.add(tv);
                 }
 
@@ -550,6 +561,8 @@ public class udpService extends Service {
                     dev.setType((byte)jsonobj.getInt("devType"));
                     box.setDev(dev);
 
+                    MyApplication.getWareData().getDevs().add(dev);
+
                     list.add(box);
                 }
 
@@ -570,6 +583,8 @@ public class udpService extends Service {
                     dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
                     dev.setDevId((byte)jsonobj.getInt("devID"));
                     dev.setType((byte)jsonobj.getInt("devType"));
+
+                    MyApplication.getWareData().getDevs().add(dev);
 
                     curtain.setDev(dev);
                     curtain.setbOnOff((byte) jsonobj.getInt("bOnOff"));
@@ -940,5 +955,25 @@ public class udpService extends Service {
         } catch (JSONException e) {
             System.out.println(e.toString());
         }
+    }
+
+    private static List<WareDev> removeDuplicateDevs(List<WareDev> list) {
+        List<WareDev> devs = new ArrayList<WareDev>();
+
+        for (int i = 0; i < list.size(); i++) {
+            devs.add(list.get(i));
+        }
+
+        for (int i = 0; i < devs.size() - 1; i++) {
+            for (int j = devs.size() - 1; j > i; j--) {
+                if (devs.get(i).getCanCpuId().equals(devs.get(j).getCanCpuId())
+                        && devs.get(i).getDevId() == devs.get(j).getDevId()
+                        && devs.get(i).getType() == devs.get(j).getType()) {
+                    devs.remove(j);
+                }
+            }
+        }
+
+        return devs;
     }
 }

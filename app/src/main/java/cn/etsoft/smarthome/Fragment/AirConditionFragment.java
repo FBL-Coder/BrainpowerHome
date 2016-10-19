@@ -75,11 +75,14 @@ public class AirConditionFragment extends Fragment implements View.OnClickListen
             action_wind.setText("扫风 : 关闭");
         }
         Log.i("WelCome", MyApplication.getWareData().getAirConds().get(0).getSelSpd() + "");
-        if (MyApplication.getWareData().getAirConds().get(0).getSelSpd() == 2) {
+        if (MyApplication.getWareData().getAirConds().get(0).getSelSpd()
+                == UdpProPkt.E_AIR_CMD.e_air_spdLow.getValue()) {
             wind.setText("风速 : 低风");
-        } else if (MyApplication.getWareData().getAirConds().get(0).getSelSpd() == UdpProPkt.E_AIR_CMD.e_air_spdMid.getValue()) {
+        } else if (MyApplication.getWareData().getAirConds().get(0).getSelSpd()
+                == UdpProPkt.E_AIR_CMD.e_air_spdMid.getValue()) {
             wind.setText("风速 : 中风");
-        } else {
+        } else if (MyApplication.getWareData().getAirConds().get(0).getSelSpd()
+                == UdpProPkt.E_AIR_CMD.e_air_spdHigh.getValue()) {
             wind.setText("风速 : 高风");
         }
     }
@@ -156,7 +159,7 @@ public class AirConditionFragment extends Fragment implements View.OnClickListen
                     break;
                 case R.id.condition_warming:
                     //设置升温
-                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
+                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue()) {
                         Toast.makeText(getActivity(), "请先开机，再操作", Toast.LENGTH_SHORT).show();
                         break;
                     }
@@ -224,7 +227,7 @@ public class AirConditionFragment extends Fragment implements View.OnClickListen
                     break;
                 case R.id.condition_cooling:
                     //设置降温
-                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
+                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue()) {
                         Toast.makeText(getActivity(), "请先开机，再操作", Toast.LENGTH_SHORT).show();
                         break;
                     }
@@ -295,35 +298,35 @@ public class AirConditionFragment extends Fragment implements View.OnClickListen
                     cmdValue = UdpProPkt.E_AIR_CMD.e_air_drctLfRt1.getValue();
                     break;
                 case R.id.condition_refrigeration:
-                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
+                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue()) {
                         Toast.makeText(getActivity(), "请先开机，再操作", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     modelValue = UdpProPkt.E_AIR_MODE.e_air_cool.getValue();
                     break;
                 case R.id.condition_heating:
-                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
+                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue()) {
                         Toast.makeText(getActivity(), "请先开机，再操作", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     modelValue = UdpProPkt.E_AIR_MODE.e_air_hot.getValue();
                     break;
                 case R.id.condition_high:
-                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
+                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue()) {
                         Toast.makeText(getActivity(), "请先开机，再操作", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     cmdValue = UdpProPkt.E_AIR_CMD.e_air_spdHigh.getValue();
                     break;
                 case R.id.condition_middle:
-                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
+                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue()) {
                         Toast.makeText(getActivity(), "请先开机，再操作", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     cmdValue = UdpProPkt.E_AIR_CMD.e_air_spdMid.getValue();
                     break;
                 case R.id.condition_low:
-                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue()) {
+                    if (wareAirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue()) {
                         Toast.makeText(getActivity(), "请先开机，再操作", Toast.LENGTH_SHORT).show();
                         break;
                     }

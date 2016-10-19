@@ -43,27 +43,4 @@ public class GlobalVars {
 		GlobalVars.devpass = devpass;
 	}
 
-	public static String getDstip() {
-		return dstip;
-	}
-
-	public static void setDstip(String dstip) {
-		GlobalVars.dstip = dstip;
-	}
-
-	public static byte[] getSenddata() {
-		return senddata;
-	}
-
-	public static void setSenddata(byte[] senddata) {
-		GlobalVars.senddata = senddata;
-	}
-
-	public static boolean isTwoPane() {
-		return isTwoPane;
-	}
-
-	public static void setTwoPane(boolean isTwoPane) {
-		GlobalVars.isTwoPane = isTwoPane;
-	}
 }

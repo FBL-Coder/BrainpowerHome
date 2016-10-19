@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.MyApplication;
@@ -34,7 +35,6 @@ public class SceneSetActivity extends Activity implements AdapterView.OnItemClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sceneset_listview);
-
     }
 
     @Override
@@ -77,14 +77,18 @@ public class SceneSetActivity extends Activity implements AdapterView.OnItemClic
         sv = (ScrollView) findViewById(R.id.sceneset_sv);
         sv.smoothScrollTo(0, 0);
 
-        mWareDev = MyApplication.getWareData().getDevs();
+        mWareDev = new ArrayList<>();
+        for(int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
+            mWareDev.add(MyApplication.getWareData().getDevs().get(i));
+        }
         for (int i = 0; i < mWareDev.size() - 1; i++) {
             for (int j = mWareDev.size() - 1; j > i; j--) {
-                if (CommonUtils.getGBstr(mWareDev.get(i).getRoomName()).equals(CommonUtils.getGBstr(mWareDev.get(j).getRoomName()))) {
+                if (mWareDev.get(i).getRoomName().equals(mWareDev.get(j).getRoomName())) {
                     mWareDev.remove(j);
                 }
             }
         }
+
         if (roomAdapter != null){
             roomAdapter.notifyDataSetChanged();
         }else{
@@ -97,7 +101,7 @@ public class SceneSetActivity extends Activity implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id){
         Intent intent = new Intent(SceneSetActivity.this, ParlourActivity.class);
-        intent.putExtra("title", CommonUtils.getGBstr(MyApplication.getWareData().getDevs().get(position).getRoomName()));
+        intent.putExtra("title", mWareDev.get(position).getRoomName());
         startActivity(intent);
     }
 }
