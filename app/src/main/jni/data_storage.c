@@ -12,7 +12,6 @@ void set_rcuinfo(UDPPROPKT * pkt , SOCKADDR_IN sender)
     gw_client_add (&gw_client_list, sender, pkt->uidSrc, (u8 *)"", rcuinfo->IpAddr, gw_client_list.size);
     gw_client_display(&gw_client_list);
 
-    //LOGI("添加查询命令\n");
     udp_msg_queue_add (&msg_queue_list,rcuinfo->devUnitID, e_udpPro_getDevsInfo, 0, 0, msg_queue_list.size);
     udp_msg_queue_add (&msg_queue_list,rcuinfo->devUnitID, e_udpPro_getBoards, e_board_chnOut, 0, msg_queue_list.size);
     udp_msg_queue_add (&msg_queue_list,rcuinfo->devUnitID, e_udpPro_getBoards, e_board_keyInput, 0, msg_queue_list.size);

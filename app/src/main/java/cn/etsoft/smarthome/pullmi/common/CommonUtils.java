@@ -177,6 +177,7 @@ public class CommonUtils {
     }
 
     public static void sendMsg(final String msg) {
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1077,7 +1078,7 @@ public class CommonUtils {
 
         // frame no
         /*
-		 * byte[] frameNoByte = new byte[2]; frameNoByte[1] = (byte)((frameNo >>
+         * byte[] frameNoByte = new byte[2]; frameNoByte[1] = (byte)((frameNo >>
 		 * 8) & 0xff); frameNoByte[0] = (byte)(frameNo & 0xff);
 		 * copyBytes(frameNoByte, data, 0, 63, frameNoByte.length);
 		 */
@@ -1085,8 +1086,8 @@ public class CommonUtils {
         data[64] = (byte) ((frameNo >> 8) & 0xff);
 
         // frame len
-		/*
-		 * byte[] frameLenByte = new byte[4]; frameLenByte[3] = (byte)((frameLen
+        /*
+         * byte[] frameLenByte = new byte[4]; frameLenByte[3] = (byte)((frameLen
 		 * >> 24) & 0xff); frameLenByte[2] = (byte)((frameLen >> 16) & 0xff);
 		 * frameLenByte[1] = (byte)((frameLen >> 8) & 0xff); frameLenByte[0] =
 		 * (byte)((frameLen) & 0xff); copyBytes(frameLenByte, data, 0, 65,

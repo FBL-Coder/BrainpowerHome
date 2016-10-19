@@ -12,7 +12,7 @@ void rcu_add (rcu_linked_list* _this, RCU_INFO item, int position)
 {
     // index out of list size
     if (position > _this->size) {
-        LOGI("rcu_linked_list#rcu_add: Index out of bound");
+        printf("rcu_linked_list#rcu_add: Index out of bound");
         system("PAUSE");
         exit(0);
     }
@@ -114,7 +114,7 @@ void rcu_remove (rcu_linked_list* _this, u8 *devUnitID)
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("rcu_linked_list#_rcu_remove: The list is empty.");
+        printf("rcu_linked_list#_rcu_remove: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -152,18 +152,18 @@ void rcu_display (rcu_linked_list* _this)
 {
     int i, size = _this->size;
     if (size == 0)
-        LOGI("no item\n\n");
+        printf("no item\n\n");
     else {
-        //LOGI("has %d items\n", size);
+        //printf("has %d items\n", size);
         u8 str[25] = {0};
         node_rcu* node = _this->head;
         for (i = 0; i < size; i++) {
 
             bytes_to_string (node->item.devUnitID, str , 12);
-            LOGI("联网模块名称：%s  设备ID：%s\n", node->item.name, str);
+            printf("联网模块名称：%s  设备ID：%s\n", node->item.name, str);
             node = node->next;
         }
-        LOGI("\n\n");
+        printf("\n\n");
     }
 }
 
@@ -204,7 +204,7 @@ void ware_add (ware_linked_list* _this, WARE_DEV ware_dev, u8 *devUnitID, int po
 {
     // index out of list size
     if (position > _this->size) {
-        LOGI("ware_linked_list#ware_add: Index out of bound");
+        printf("ware_linked_list#ware_add: Index out of bound");
         system("PAUSE");
         exit(0);
     }
@@ -279,7 +279,7 @@ WARE_DEV ware_get (ware_linked_list* _this, WARE_DEV ware_dev, u8 *devUnitID)
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("ware_linked_list#ware_get: The list is empty.");
+        printf("ware_linked_list#ware_get: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -306,7 +306,7 @@ void ware_remove (ware_linked_list* _this, WARE_DEV ware_dev, u8 *devUnitID)
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("ware_linked_list#_remove: The list is empty.");
+        printf("ware_linked_list#_remove: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -344,16 +344,16 @@ void ware_display (ware_linked_list* _this)
 {
     int i, size = _this->size;
     if (size == 0)
-        LOGI("no item\n\n");
+        printf("no item\n\n");
     else {
-        LOGI("设备 has %d items\n", size);
+        printf("设备 has %d items\n", size);
         Node* node = _this->head;
         for (i = 0; i < size; i++) {
 
-            LOGI("设备类型：%d  设备ID：%d\n", node->ware_dev.devType, node->ware_dev.devId);
+            printf("设备类型：%d  设备ID：%d\n", node->ware_dev.devType, node->ware_dev.devId);
             node = node->next;
         }
-        LOGI("\n\n");
+        printf("\n\n");
     }
 }
 
@@ -395,7 +395,7 @@ void ware_aircond_add (aircond_linked_list* _this, WARE_DEV ware_dev, DEV_PRO_AI
 {
     // index out of list size
     if (position > _this->size) {
-        LOGI("LinkedList#ware_add: Index out of bound");
+        printf("LinkedList#ware_add: Index out of bound");
         system("PAUSE");
         exit(0);
     }
@@ -472,7 +472,7 @@ void ware_aircond_remove (aircond_linked_list* _this, WARE_DEV ware_dev, u8 *dev
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#_remove: The list is empty.");
+        printf("LinkedList#_remove: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -508,15 +508,15 @@ void ware_aircond_display (aircond_linked_list* _this)
 {
     int i, size = _this->size;
     if (size == 0)
-        LOGI("no item\n\n");
+        printf("no item\n\n");
     else {
-        LOGI("空调 has %d items\n", size);
+        printf("空调 has %d items\n", size);
         Node_aircond* node = _this->head;
         for (i = 0; i < size; i++) {
-            LOGI("空调设备类型：%d  设备ID：%d, 设备状态:%d", node->ware_dev.devType, node->ware_dev.devId, node->aircond.bOnOff);
+            printf("空调设备类型：%d  设备ID：%d, 设备状态:%d", node->ware_dev.devType, node->ware_dev.devId, node->aircond.bOnOff);
             node = node->next;
         }
-        LOGI("\n\n");
+        printf("\n\n");
     }
 }
 
@@ -560,7 +560,7 @@ void ware_light_add (light_linked_list* _this, WARE_DEV ware_dev, DEV_PRO_LIGHT 
 {
     // index out of list size
     if (position > _this->size) {
-        LOGI("LinkedList#ware_add: Index out of bound");
+        printf("LinkedList#ware_add: Index out of bound");
         system("PAUSE");
         exit(0);
     }
@@ -638,7 +638,7 @@ Node_light *ware_light_get (light_linked_list* _this, WARE_DEV ware_dev, u8 *dev
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#get: The list is empty.");
+        printf("LinkedList#get: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -662,7 +662,7 @@ void ware_light_remove (light_linked_list* _this, WARE_DEV ware_dev, u8 *devUnit
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#_remove: The list is empty.");
+        printf("LinkedList#_remove: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -697,16 +697,16 @@ void ware_light_display (light_linked_list* _this)
 {
     int i, size = _this->size;
     if (size == 0)
-        LOGI("no item\n\n");
+        printf("no item\n\n");
     else {
-        LOGI("灯光 has %d items\n", size);
+        printf("灯光 has %d items\n", size);
         Node_light* node = _this->head;
         for (i = 0; i < size; i++) {
 
-            LOGI("灯光设备类型：%d  设备ID：%d 设备状态:%d\n", node->ware_dev.devType, node->ware_dev.devId, node->light.bOnOff);
+            printf("灯光设备类型：%d  设备ID：%d 设备状态:%d\n", node->ware_dev.devType, node->ware_dev.devId, node->light.bOnOff);
             node = node->next;
         }
-        LOGI("\n\n");
+        printf("\n\n");
     }
 }
 
@@ -752,7 +752,7 @@ void ware_curtain_add (curtain_linked_list* _this, WARE_DEV ware_dev, DEV_PRO_CU
 {
     // index out of list size
     if (position > _this->size) {
-        LOGI("LinkedList#ware_add: Index out of bound");
+        printf("LinkedList#ware_add: Index out of bound");
         system("PAUSE");
         exit(0);
     }
@@ -829,7 +829,7 @@ node_curtain *ware_curtain_get (curtain_linked_list* _this, WARE_DEV ware_dev, u
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#get: The list is empty.");
+        printf("LinkedList#get: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -853,7 +853,7 @@ void ware_curtain_remove (curtain_linked_list* _this, WARE_DEV ware_dev, u8 *dev
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#_remove: The list is empty.");
+        printf("LinkedList#_remove: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -890,16 +890,16 @@ void ware_curtain_display (curtain_linked_list* _this)
 {
     int i, size = _this->size;
     if (size == 0)
-        LOGI("no item\n\n");
+        printf("no item\n\n");
     else {
-        LOGI("窗帘 has %d items\n", size);
+        printf("窗帘 has %d items\n", size);
         node_curtain* node = _this->head;
         for (i = 0; i < size; i++) {
 
-            LOGI("窗帘设备类型：%d  设备ID：%d\n", node->ware_dev.devType, node->ware_dev.devId);
+            printf("窗帘设备类型：%d  设备ID：%d\n", node->ware_dev.devType, node->ware_dev.devId);
             node = node->next;
         }
-        LOGI("\n\n");
+        printf("\n\n");
     }
 }
 
@@ -943,7 +943,7 @@ void ware_scene_add (scene_linked_list* _this, SCENE_EVENT scene, u8 *devUnitID,
 {
     // index out of list size
     if (position > _this->size) {
-        LOGI("LinkedList#ware_add: Index out of bound");
+        printf("LinkedList#ware_add: Index out of bound");
         system("PAUSE");
         exit(0);
     }
@@ -1007,7 +1007,7 @@ void ware_scene_addLast (scene_linked_list* _this,  SCENE_EVENT scene, u8 *devUn
         _this->tail = newNode;
         _this->size++;
 
-        LOGI("scene_list size = %d\n", _this->size);
+        printf("scene_list size = %d\n", _this->size);
     }
 }
 
@@ -1018,7 +1018,7 @@ node_scene *ware_scene_get (scene_linked_list* _this, SCENE_EVENT scene, u8 *dev
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#get: The list is empty.");
+        printf("LinkedList#get: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -1040,7 +1040,7 @@ void ware_scene_remove (scene_linked_list* _this, SCENE_EVENT scene_event, u8 *d
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#_remove: The list is empty.");
+        printf("LinkedList#_remove: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -1077,7 +1077,7 @@ void ware_scene_display (scene_linked_list* _this)
 {
     int i, size = _this->size;
     if (size == 0)
-        LOGI("no item\n\n");
+        printf("no item\n\n");
     else {
         LOGI("情景模式 has %d items\n", size);
         node_scene* node = _this->head;
@@ -1130,7 +1130,7 @@ void board_add (board_linked_list* _this, BOARD_CHNOUT board, u8 *devUnitID, int
 {
     // index out of list size
     if (position > _this->size) {
-        LOGI("LinkedList#ware_add: Index out of bound");
+        printf("LinkedList#ware_add: Index out of bound");
         system("PAUSE");
         exit(0);
     }
@@ -1205,7 +1205,7 @@ node_board *board_get (board_linked_list* _this, BOARD_CHNOUT board, u8 *devUnit
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#get: The list is empty.");
+        printf("LinkedList#get: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -1226,7 +1226,7 @@ void board_remove (board_linked_list* _this, BOARD_CHNOUT board, u8 *devUnitID)
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#_remove: The list is empty.");
+        printf("LinkedList#_remove: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -1259,7 +1259,7 @@ void board_display (board_linked_list* _this)
 {
     int i, size = _this->size;
     if (size == 0)
-        LOGI("no item\n\n");
+        printf("no item\n\n");
     else {
         LOGI("输出板 has %d items\n", size);
         node_board* node = _this->head;
@@ -1315,7 +1315,7 @@ void keyinput_add (keyinput_linked_list* _this, BOARD_KEYINPUT keyinput, u8 *dev
 {
     // index out of list size
     if (position > _this->size) {
-        LOGI("LinkedList#ware_add: Index out of bound");
+        printf("LinkedList#ware_add: Index out of bound");
         system("PAUSE");
         exit(0);
     }
@@ -1390,7 +1390,7 @@ node_keyinput *keyinput_get (keyinput_linked_list* _this, BOARD_KEYINPUT keyinpu
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#get: The list is empty.");
+        printf("LinkedList#get: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -1412,7 +1412,7 @@ void keyinput_remove (keyinput_linked_list* _this, BOARD_KEYINPUT keyinput, u8 *
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#_remove: The list is empty.");
+        printf("LinkedList#_remove: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -1445,7 +1445,7 @@ void keyinput_display (keyinput_linked_list* _this)
 {
     int i, size = _this->size;
     if (size == 0)
-        LOGI("no item\n\n");
+        printf("no item\n\n");
     else {
         u8 uid[25] = {0};
         LOGI("输入板 has %d items\n", size);
@@ -1500,7 +1500,7 @@ void chnop_item_add (chnop_item_linked_list* _this, CHNOP_ITEM chnop_item, u8 *d
 {
     // index out of list size
     if (position > _this->size) {
-        LOGI("LinkedList#ware_add: Index out of bound");
+        printf("LinkedList#ware_add: Index out of bound");
         system("PAUSE");
         exit(0);
     }
@@ -1575,7 +1575,7 @@ node_chnop_item *chnop_item_get (chnop_item_linked_list* _this, CHNOP_ITEM chnop
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#get: The list is empty.");
+        printf("LinkedList#get: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -1597,7 +1597,7 @@ void chnop_item_remove (chnop_item_linked_list* _this, CHNOP_ITEM chnop_item, u8
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#_remove: The list is empty.");
+        printf("LinkedList#_remove: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -1630,18 +1630,18 @@ void chnop_item_display (chnop_item_linked_list* _this)
 {
     int i, size = _this->size;
     if (size == 0)
-        LOGI("no item\n\n");
+        printf("no item\n\n");
     else {
-        LOGI("输出按键 has %d items\n", size);
+        printf("输出按键 has %d items\n", size);
         u8 uid[25] = {0};
         node_chnop_item* node = _this->head;
         for (i = 0; i < size; i++) {
             bytes_to_string (node->chnop_item.devUnitID, uid, 12);
 
-            LOGI("输出按键ID：%s\n", uid);
+            printf("输出按键ID：%s\n", uid);
             node = node->next;
         }
-        LOGI("\n\n");
+        printf("\n\n");
     }
 }
 
@@ -1688,7 +1688,7 @@ void keyop_item_add (keyop_item_linked_list* _this, KEYOP_ITEM keyop_item, u8 *d
 {
     // index out of list size
     if (position > _this->size) {
-        LOGI("LinkedList#ware_add: Index out of bound");
+        printf("LinkedList#ware_add: Index out of bound");
         system("PAUSE");
         exit(0);
     }
@@ -1764,7 +1764,7 @@ node_keyop_item *keyop_item_get (keyop_item_linked_list* _this, u8 *devUnitID, u
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#get: The list is empty.");
+        printf("LinkedList#get: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -1788,7 +1788,7 @@ void keyop_item_remove (keyop_item_linked_list* _this, u8 *devUnitID, u8 *keyinp
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#_remove: The list is empty.");
+        printf("LinkedList#_remove: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -1823,15 +1823,15 @@ void keyop_item_display (keyop_item_linked_list* _this)
 {
     int i, size = _this->size;
     if (size == 0)
-        LOGI("no item\n\n");
+        printf("no item\n\n");
     else {
         node_keyop_item* node = _this->head;
         for (i = 0; i < size; i++) {
             if (i > 0)
-                LOGI(", ");
+                printf(", ");
             node = node->next;
         }
-        LOGI("\n\n");
+        printf("\n\n");
     }
 }
 
@@ -1877,7 +1877,7 @@ void gw_client_add (gw_client_linked_list* _this, struct sockaddr_in sender, u8 
 {
     // index out of list size
     if (position > _this->size) {
-        LOGI("LinkedList#ware_add: Index out of bound");
+        printf("LinkedList#ware_add: Index out of bound");
         system("PAUSE");
         exit(0);
     }
@@ -1949,18 +1949,18 @@ void gw_client_display (gw_client_linked_list* _this)
 {
     int i, size = _this->size;
     if (size == 0)
-        LOGI("no item\n\n");
+        printf("no item\n\n");
     else {
-        LOGI("联网模块 has %d items\n", size);
+        printf("联网模块 has %d items\n", size);
         node_gw_client* node = _this->head;
         for (i = 0; i < size; i++) {
             char rcu_ip[16] = { 0 };
             sprintf(rcu_ip, "%d.%d.%d.%d", node->rcu_ip[0], node->rcu_ip[1], node->rcu_ip[2], node->rcu_ip[3]);
 
-            LOGI("联网模块SCKET IP:%s 端口：%d 模块IP：%s\n", inet_ntoa(node->gw_sender.sin_addr), node->gw_sender.sin_port, rcu_ip);
+            printf("联网模块SCKET IP:%s 端口：%d 模块IP：%s\n", inet_ntoa(node->gw_sender.sin_addr), node->gw_sender.sin_port, rcu_ip);
             node = node->next;
         }
-        LOGI("\n\n");
+        printf("\n\n");
     }
 }
 
@@ -2004,7 +2004,7 @@ void app_client_add (app_client_linked_list* _this, struct sockaddr_in sender, u
 {
     // index out of list size
     if (position > _this->size) {
-        LOGI("LinkedList#ware_add: Index out of bound");
+        printf("LinkedList#ware_add: Index out of bound");
         system("PAUSE");
         exit(0);
     }
@@ -2075,16 +2075,16 @@ void app_client_display (app_client_linked_list* _this)
 {
     int i, size = _this->size;
     if (size == 0)
-        LOGI("no item\n\n");
+        printf("no item\n\n");
     else {
-        LOGI("APP模块 has %d items\n", size);
+        printf("APP模块 has %d items\n", size);
         node_app_client* node = _this->head;
         for (i = 0; i < size; i++) {
 
-            LOGI("APP模块IP:%s 端口：%d\n", inet_ntoa(node->app_sender.sin_addr), node->app_sender.sin_port);
+            printf("APP模块IP:%s 端口：%d\n", inet_ntoa(node->app_sender.sin_addr), node->app_sender.sin_port);
             node = node->next;
         }
-        LOGI("\n\n");
+        printf("\n\n");
     }
 }
 
@@ -2127,7 +2127,7 @@ void udp_msg_queue_add (udp_msg_queue_linked_list* _this, u8 *devUnitID, int cmd
 {
     // index out of list size
     if (position > _this->size) {
-        LOGI("LinkedList#ware_add: Index out of bound");
+        printf("LinkedList#ware_add: Index out of bound");
         system("PAUSE");
         exit(0);
     }
@@ -2201,7 +2201,7 @@ int udp_msg_queue_get (udp_msg_queue_linked_list* _this, int flag)
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#get: The list is empty.");
+        printf("LinkedList#get: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -2224,7 +2224,7 @@ void udp_msg_queue_remove (udp_msg_queue_linked_list* _this, u8 *devUnitID, int 
 {
     // list is empty
     if (_this->size == 0) {
-        LOGI("LinkedList#_remove: The list is empty.");
+        printf("LinkedList#_remove: The list is empty.");
         system("PAUSE");
         exit(0);
     }
@@ -2254,15 +2254,15 @@ void udp_msg_queue_display (udp_msg_queue_linked_list* _this)
 {
     int i, size = _this->size;
     if (size == 0)
-        LOGI("no item\n\n");
+        printf("no item\n\n");
     else {
-        LOGI("消息队列 has %d items\n", size);
+        printf("消息队列 has %d items\n", size);
         node_udp_msg_queue* node = _this->head;
         for (i = 0; i < size; i++) {
-            LOGI("消息id：%d\n", node->cmd);
+            printf("消息id：%d\n", node->cmd);
             node = node->next;
         }
-        LOGI("\n\n");
+        printf("\n\n");
     }
 }
 

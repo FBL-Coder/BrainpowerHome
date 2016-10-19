@@ -8,8 +8,6 @@ public class GlobalVars {
 	private static int sn;
 	private static String devid, devpass;
 	private static String dstip;
-	private static byte[] senddata;
-	private static boolean isTwoPane; // 是否是双页模式
 
 	public static void init(Context c) {
 		context = c;
@@ -17,14 +15,6 @@ public class GlobalVars {
 
 	public static Context getContext() {
 		return context;
-	}
-
-	public static int getSn() {
-		return sn;
-	}
-
-	public static void setSn(int num) {
-		sn = num;
 	}
 
 	public static String getDevid() {

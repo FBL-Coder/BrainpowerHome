@@ -63,14 +63,17 @@ public class WelcomeActivity extends Activity {
         mRcuInfos = getGwList();
         if (mRcuInfos != null && mRcuInfos.size() > 0) {
 
+            GlobalVars.setDevid(mRcuInfos.get(0).getDevUnitID());
+            GlobalVars.setDevpass(mRcuInfos.get(0).getDevUnitPass());
+
             mDataHandler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     if (msg.what == OUTTIME_INITUID) {
-                        setRcuDevIDtoLocal();
+                        MyApplication.setRcuDevIDtoLocal();
                     }
                     if (msg.what == OUTTIME_DOWNLOAD) {
-                        getRcuInfo();
+                        MyApplication.getRcuInfo();
                     }
                     super.handleMessage(msg);
                 }
@@ -96,7 +99,7 @@ public class WelcomeActivity extends Activity {
                 GlobalVars.setDevid(mRcuInfos.get(0).getDevUnitID());
                 GlobalVars.setDevpass(mRcuInfos.get(0).getDevUnitPass());
 
-                getRcuInfo();
+                MyApplication.getRcuInfo();
             } else {
                 mHandler = new Handler();
                 MyApplication.mInstance.setHandler(mHandler);
@@ -106,25 +109,11 @@ public class WelcomeActivity extends Activity {
                 GlobalVars.setDevid(mRcuInfos.get(0).getDevUnitID());
                 GlobalVars.setDevpass(mRcuInfos.get(0).getDevUnitPass());
 
-                getRcuInfo();
+                MyApplication.getRcuInfo();
             }
         } else {
             startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
         }
-    }
-
-    private void setRcuDevIDtoLocal() {
-
-        final String str = "{\"devUnitID\":\"37ffdb05424e323416702443\",\"devPass\":\"16072443\",\"datType\":60,\"subType1\":0,\"subType2\":0}";
-        Log.i(TAG, str);
-        CommonUtils.sendMsg(str);
-    }
-
-    private void getRcuInfo() {
-
-        final String rcu_str = "{\"devUnitID\":\"37ffdb05424e323416702443\",\"devPass\":\"16072443\",\"datType\":0,\"subType1\":0,\"subType2\":0}";
-
-        CommonUtils.sendMsg(rcu_str);
     }
 
     private List<RcuInfo> getGwList() {

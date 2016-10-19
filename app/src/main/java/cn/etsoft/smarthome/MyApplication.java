@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
+import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
 import cn.etsoft.smarthome.pullmi.entity.WareData;
 import cn.etsoft.smarthome.ui.WelcomeActivity;
 
@@ -85,26 +87,78 @@ public class MyApplication extends Application implements udpService.Callback {
     }
 
     @Override
-    public void getGwData(WareData wareData) {
-        //CommonUtils.getDevInfo();
-        final String getDevStr = "{\"devUnitID\":\"37ffdb05424e323416702443\"," +
-                "\"devPass\":\"16072443\"," +
-                "\"datType\":3," +
+    public void getGwData() {
+
+        final String getDevStr = "{" +
+                "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
+                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getDevsInfo.getValue() + "," +
                 "\"subType1\":0," +
                 "\"subType2\":0}";
 
-        CommonUtils.sendMsg(getDevStr);
-
-
-        final String getSceneStr = "{\"devUnitID\":\"37ffdb05424e323416702443\"," +
-                "\"devPass\":\"16072443\"," +
-                "\"datType\":22," +
+        final String getSceneStr = "{" +
+                "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
+                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getSceneEvents.getValue() + "," +
                 "\"subType1\":0," +
                 "\"subType2\":0}";
 
-        CommonUtils.sendMsg(getSceneStr);
+        final String getChnBoardStr = "{" +
+                "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
+                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getBoards.getValue() + "," +
+                "\"subType1\":0," +
+                "\"subType2\":" + UdpProPkt.E_BOARD_TYPE.e_board_chnOut.getValue() +
+                " }";
+
+        final String getKeyInputStr = "{" +
+                "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
+                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getBoards.getValue() + "," +
+                "\"subType1\":0," +
+                "\"subType2\":" + UdpProPkt.E_BOARD_TYPE.e_board_keyInput.getValue() +
+                " }";
+
+        if (MyApplication.getWareData().getAirConds().size() == 0
+                || MyApplication.getWareData().getLights().size() == 0) {
+            CommonUtils.sendMsg(getDevStr);
+        }
+
+        if (MyApplication.getWareData().getSceneEvents().size() < 2) {
+            CommonUtils.sendMsg(getSceneStr);
+        }
+
+        if (MyApplication.getWareData().getBoardChnouts().size() == 0) {
+            CommonUtils.sendMsg(getChnBoardStr);
+        }
+        if (MyApplication.getWareData().getKeyInputs().size() == 0) {
+            CommonUtils.sendMsg(getKeyInputStr);
+        }
+
     }
 
+    public static void setRcuDevIDtoLocal() {
+
+        final String str = "{" +
+                "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
+                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_boardCast.getValue() + "," +
+                "\"subType1\":0," +
+                "\"subType2\":0}";
+        CommonUtils.sendMsg(str);
+    }
+
+    public static void getRcuInfo() {
+
+        final String rcu_str = "{" +
+                "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
+                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue() + "," +
+                "\"subType1\":0," +
+                "\"subType2\":0}";
+
+        CommonUtils.sendMsg(rcu_str);
+    }
 
     public static void setWareData(WareData wareData) {
         MyApplication.wareData = wareData;

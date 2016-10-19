@@ -55,7 +55,7 @@ public class AirConditionFragment extends Fragment implements View.OnClickListen
         curValue = MyApplication.getWareData().getAirConds().get(0).getSelTemp();
         name.setText("空调名称");
         name1.setText(MyApplication.getWareData().getAirConds().get(0).getDev().getDevName());
-        temperature.setText("当前温度 :" + MyApplication.getWareData().getAirConds().get(0).getSelTemp() + "℃");
+        temperature.setText("当前温度 :" + 10 + "℃");
         temperature1.setText("设置温度 :" + MyApplication.getWareData().getAirConds().get(0).getSelTemp() + "℃");
 
         if (MyApplication.getWareData().getAirConds().get(0).getbOnOff() == 0) {

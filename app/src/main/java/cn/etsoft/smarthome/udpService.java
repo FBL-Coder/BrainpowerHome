@@ -81,7 +81,7 @@ public class udpService extends Service {
         void getWareData(WareData wareData);
 
         //获取网关接口
-        void getGwData(WareData wareData);
+        void getGwData();
     }
 
     private Handler handler = new Handler() {
@@ -90,24 +90,22 @@ public class udpService extends Service {
             // TODO Auto-generated method stub
             switch (msg.what) {
                 case REFSH_DATA_MSG:
-                    Log.i("REFSH_DATA_MSG", "handleMessage: ---list.size()-->" + list.size());
                     // 遍历集合，通知所有的实现类，即activity
                     for (int i = 0; i < list.size(); i++) {
                         list.get(i).getWareData(wareData);
                     }
                     break;
                 case GET_GWINFO_MSG:
-                    Log.i("GET_GWINFO_MSG", "handleMessage: ---list.size()-->" + list.size());
                     // 遍历集合，通知所有的实现类，即activity
+                    Log.i("", "获取数据:***************");
                     for (int i = 0; i < list.size(); i++) {
-                        list.get(i).getGwData(wareData);
+                        list.get(i).getGwData();
                     }
             }
         }
     };
 
     public void runUdpServer(final Handler handler) {
-        LogUtils.LOGE("", ">>>rev data ");
 
         Handler handler1 = MyApplication.mInstance.getAllHandler();
         Message message = handler1.obtainMessage(OUTTIME_INITUID);
@@ -118,47 +116,46 @@ public class udpService extends Service {
                 @Override
                 public void run() {
                     try {
-                        do {
+                        while (!isDownLoad_OK) {
                             Thread.sleep(2000);
                             Handler handler1 = MyApplication.mInstance.getAllHandler();
                             Message message = handler1.obtainMessage(OUTTIME_DOWNLOAD);
                             handler1.sendMessage(message);
-                        } while (!isDownLoad_OK);
-
+                        }
                     } catch (InterruptedException e) {
                         Log.i("Exception", "异常信息:" + e);
                     }
                 }
             }).start();
-        }
 
-        new Thread(new Runnable() {//执行接收数据接口，有数据，则执行；
-            @Override
-            public void run() {
-                wareData = new WareData();
-                MyApplication.setWareData(wareData);
+            new Thread(new Runnable() {//执行接收数据接口，有数据，则执行；
+                @Override
+                public void run() {
+                    wareData = new WareData();
+                    MyApplication.setWareData(wareData);
 
-                byte[] lMsg = new byte[1024 * 4];
-                DatagramPacket packet = new DatagramPacket(lMsg, lMsg.length);
-                try {
-                    while (true) {
-                        MyApplication.mInstance.getSocket().receive(packet);
-                        // 处理消息
-                        String info = new String(packet.getData(), 0, packet.getLength());
-                        Log.i("接收信息：", info);
-                        extractData(info, handler);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } catch (Error a) {
-                    a.printStackTrace();
-                } finally {
-                    if (MyApplication.mInstance.getSocket() != null) {
-                        MyApplication.mInstance.getSocket().close();
+                    byte[] lMsg = new byte[1024 * 4];
+                    DatagramPacket packet = new DatagramPacket(lMsg, lMsg.length);
+                    try {
+                        while (true) {
+                            MyApplication.mInstance.getSocket().receive(packet);
+                            // 处理消息
+                            String info = new String(packet.getData(), 0, packet.getLength());
+                            //Log.i("接收信息：", info);
+                            extractData(info, handler);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } catch (Error a) {
+                        a.printStackTrace();
+                    } finally {
+                        if (MyApplication.mInstance.getSocket() != null) {
+                            MyApplication.mInstance.getSocket().close();
+                        }
                     }
                 }
-            }
-        }).start();
+            }).start();
+        }
     }
 
     public void extractData(String info, Handler mhandler) {
@@ -175,17 +172,23 @@ public class udpService extends Service {
             System.out.println(e.toString());
         }
 
-        if(MyApplication.getWareData().getAirConds().size() > 0
+
+        if (MyApplication.getWareData().getAirConds().size() > 0
                 && MyApplication.getWareData().getLights().size() > 0
-                && MyApplication.getWareData().getSceneEvents().size() >= 2){
-            isDownLoad_OK = true;
+                && MyApplication.getWareData().getSceneEvents().size() >= 2
+                && MyApplication.getWareData().getBoardChnouts().size() > 0
+                && MyApplication.getWareData().getKeyInputs().size() > 0) {
+
             isFreshGw = false;
         }
+
         switch (datType) {
             case 0:// e_udpPro_getRcuinfo
                 if (subType2 == 1) {
                     setRcuInfo(info);
+                    isDownLoad_OK = true;
                     isFreshGw = true;
+                    new Thread(new MyThread()).start();
                 }
                 break;
             case 3: // getDevsInfo
@@ -251,6 +254,7 @@ public class udpService extends Service {
                 if (subType2 == 1) {
                     getSceneEvents(info);
                     isFreshData = true;
+                    Log.i(TAG, "情景模式:" + MyApplication.getWareData().getSceneEvents().size() + "");
                 }
                 break;
             case 23: // e_udpPro_addSceneEvents
@@ -288,9 +292,22 @@ public class udpService extends Service {
             Dtat_Cache.writeFile(MyApplication.getWareData());
             isFreshData = false;
         }
-        if (isFreshGw && datType != 2) {
-            handler.sendMessage(handler.obtainMessage(GET_GWINFO_MSG, wareData));
-            isFreshGw = false;
+    }
+
+    public class MyThread implements Runnable {
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+            Log.e("参数状态:", isFreshGw+"");
+            while (isFreshGw) {
+                try {
+                    Thread.sleep(1000);// 线程暂停1秒，单位毫秒
+                    handler.sendMessage(handler.obtainMessage(GET_GWINFO_MSG));
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -343,7 +360,6 @@ public class udpService extends Service {
         } catch (JSONException e) {
             System.out.println(e.toString());
         }
-        Log.i(TAG, "setRcuInfo: " + info);
         list.add(info1);
         MyApplication.getWareData().setRcuInfos(list);
     }
@@ -448,7 +464,6 @@ public class udpService extends Service {
 //            "curtain":	0
 //        }
 
-        Log.i(TAG, "DevsInfo" + info);
         int devnum_air = 0;
         int devnum_cur = 0;
         int devnum_box = 0;
@@ -474,8 +489,8 @@ public class udpService extends Service {
                     dev.setCanCpuId(jsonobj.getString("canCpuID"));
                     dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
                     dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
-                    dev.setDevId((byte)jsonobj.getInt("devID"));
-                    dev.setType((byte)jsonobj.getInt("devType"));
+                    dev.setDevId((byte) jsonobj.getInt("devID"));
+                    dev.setType((byte) jsonobj.getInt("devType"));
                     airCondDev.setDev(dev);
                     //add dev to devlist
                     MyApplication.getWareData().getDevs().add(dev);
@@ -506,8 +521,8 @@ public class udpService extends Service {
                     dev.setCanCpuId(jsonobj.getString("canCpuID"));
                     dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
                     dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
-                    dev.setDevId((byte)jsonobj.getInt("devID"));
-                    dev.setType((byte)jsonobj.getInt("devType"));
+                    dev.setDevId((byte) jsonobj.getInt("devID"));
+                    dev.setType((byte) jsonobj.getInt("devType"));
                     light.setDev(dev);
 
                     MyApplication.getWareData().getDevs().add(dev);
@@ -534,8 +549,8 @@ public class udpService extends Service {
                     dev.setCanCpuId(jsonobj.getString("canCpuID"));
                     dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
                     dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
-                    dev.setDevId((byte)jsonobj.getInt("devID"));
-                    dev.setType((byte)jsonobj.getInt("devType"));
+                    dev.setDevId((byte) jsonobj.getInt("devID"));
+                    dev.setType((byte) jsonobj.getInt("devType"));
                     tv.setDev(dev);
 
                     MyApplication.getWareData().getDevs().add(dev);
@@ -557,8 +572,8 @@ public class udpService extends Service {
                     dev.setCanCpuId(jsonobj.getString("canCpuID"));
                     dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
                     dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
-                    dev.setDevId((byte)jsonobj.getInt("devID"));
-                    dev.setType((byte)jsonobj.getInt("devType"));
+                    dev.setDevId((byte) jsonobj.getInt("devID"));
+                    dev.setType((byte) jsonobj.getInt("devType"));
                     box.setDev(dev);
 
                     MyApplication.getWareData().getDevs().add(dev);
@@ -581,8 +596,8 @@ public class udpService extends Service {
                     dev.setCanCpuId(jsonobj.getString("canCpuID"));
                     dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
                     dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
-                    dev.setDevId((byte)jsonobj.getInt("devID"));
-                    dev.setType((byte)jsonobj.getInt("devType"));
+                    dev.setDevId((byte) jsonobj.getInt("devID"));
+                    dev.setType((byte) jsonobj.getInt("devType"));
 
                     MyApplication.getWareData().getDevs().add(dev);
 
@@ -624,7 +639,6 @@ public class udpService extends Service {
 //        }]
 //        }
 
-        Log.i(TAG, "refreshDevData" + info);
         int devType = -1;
 
         try {
@@ -641,8 +655,8 @@ public class udpService extends Service {
                 dev.setCanCpuId(jsonobj.getString("canCpuID"));
                 dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
                 dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
-                dev.setDevId((byte)jsonobj.getInt("devID"));
-                dev.setType((byte)jsonobj.getInt("devType"));
+                dev.setDevId((byte) jsonobj.getInt("devID"));
+                dev.setType((byte) jsonobj.getInt("devType"));
                 curtain.setDev(dev);
                 curtain.setbOnOff((byte) jsonobj.getInt("bOnOff"));
                 curtain.setPowChn(jsonobj.getInt("powChn"));
@@ -657,8 +671,8 @@ public class udpService extends Service {
                 dev.setCanCpuId(jsonobj.getString("canCpuID"));
                 dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
                 dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
-                dev.setDevId((byte)jsonobj.getInt("devID"));
-                dev.setType((byte)jsonobj.getInt("devType"));
+                dev.setDevId((byte) jsonobj.getInt("devID"));
+                dev.setType((byte) jsonobj.getInt("devType"));
                 airCondDev.setDev(dev);
                 airCondDev.setbOnOff((byte) jsonobj.getInt("bOnOff"));
                 airCondDev.setPowChn(jsonobj.getInt("powChn"));
@@ -668,10 +682,10 @@ public class udpService extends Service {
                 airCondDev.setSelSpd((byte) jsonobj.getInt("selSpd"));
                 airCondDev.setSelTemp((byte) jsonobj.getInt("selTemp"));
 
-                for(int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++){
+                for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
                     WareAirCondDev air = MyApplication.getWareData().getAirConds().get(i);
-                    if(air.getDev().getCanCpuId().equals(airCondDev.getDev().getCanCpuId())
-                            && air.getDev().getDevId() == airCondDev.getDev().getDevId()){
+                    if (air.getDev().getCanCpuId().equals(airCondDev.getDev().getCanCpuId())
+                            && air.getDev().getDevId() == airCondDev.getDev().getDevId()) {
                         MyApplication.getWareData().getAirConds().remove(i);
                     }
                 }
@@ -686,7 +700,6 @@ public class udpService extends Service {
     public void getkeyOutBoard(String info) {
 
 //        返回数据类型；
-//        get_chn_board_return
 //        {
 //            "devUnitID": "37ffdb05424e323416702443",
 //                "datType": 8,
@@ -695,23 +708,23 @@ public class udpService extends Service {
 //                "chnout_rows": [
 //            {
 //                "canCpuID": "31ffdf054257313827502543",
-//                    "boardName": "3132cda8b5c0303031000000",
+//                    "boardName": "3132cda8b5c0303031000",
 //                    "boardType": 0,
 //                    "chnCnt": 12,
 //                    "bOnline": 0,
 //                    "chnName_rows": [
-//                        "cda8b5c03000000000000000",
-//                        "cda8b5c03100000000000000",
-//                        "cda8b5c03200000000000000",
-//                        "cda8b5c03300000000000000",
-//                        "cda8b5c03400000000000000",
-//                        "cda8b5c03500000000000000",
-//                        "cda8b5c03600000000000000",
-//                        "cda8b5c03700000000000000",
-//                        "cda8b5c03800000000000000",
-//                        "cda8b5c03900000000000000",
-//                        "cda8b5c03130000000000000",
-//                        "cda8b5c03131000000000000"
+//                "cda8b5c0300000000",
+//                        "cda8b5c0310000000",
+//                        "cda8b5c0320000000",
+//                        "cda8b5c0330000000",
+//                        "cda8b5c0340000000",
+//                        "cda8b5c0350000000",
+//                        "cda8b5c0360000000",
+//                        "cda8b5c0370000000",
+//                        "cda8b5c0380000000",
+//                        "cda8b5c0390000000",
+//                        "cda8b5c03130000000",
+//                        "cda8b5c03131000000"
 //                ]
 //            }
 //            ],
@@ -723,14 +736,13 @@ public class udpService extends Service {
 
             WareBoardChnout chnout = new WareBoardChnout();
 
-            chnout.setDevUnitID(jsonObject.getString("devUnitID"));
-
-            JSONArray array = jsonObject.getJSONArray("chnName_rows");
+            JSONArray array = jsonObject.getJSONArray("chnout_rows");
 
             for (int i = 0; i < array.length(); i++) {
 
                 JSONObject object = array.getJSONObject(i);
 
+                chnout.setDevUnitID(object.getString("canCpuID"));
                 chnout.setBoardName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(object.getString("boardName"))));
                 chnout.setBoardType((byte) object.getInt("boardType"));
                 chnout.setbOnline((byte) object.getInt("bOnline"));
@@ -754,29 +766,62 @@ public class udpService extends Service {
     public void getKyeInputBoard(String info) {
 
 //        返回数据类型；
-//        get_key_board_return
 //        {
-//            "devUnitID":	"37ffdb05424e323416702443",
-//                "datType":	8,
-//                "subType1":	1,
-//                "subType2":	1,
-//                "keyinput_rows":	[],
-//            "keyinput":	0
+//        "devUnitID": "37ffdb05424e323416702443",
+//                "datType": 8,
+//                "subType1": 1,
+//                "subType2": 1,
+//                "keyinput_rows": [
+//        {
+//            "canCpuID": "50ff6c067184515640421267",
+//                "boardName": "b0b4bcfcb0e53132363700",
+//                "boardType": 1,
+//                "keyCnt": 6,
+//                "ledBkType": 0,
+//                "keyName_rows": [
+//                    "b0b4bcfc310000000",
+//                    "b0b4bcfc320000000",
+//                    "b0b4bcfc330000000",
+//                    "b0b4bcfc340000000",
+//                    "b0b4bcfc350000000",
+//                    "b0b4bcfc360000000",
+//                    0,
+//                    0,
+//                    0,
+//                    0,
+//                    0,
+//                    0
+//            ],
+//            "keyAllCtrlType_rows": []
 //        }
-
+//        ],
+//        "keyinput": 1
+//    }
+        Log.i(TAG, "keyinput: " + info);
         try {
             JSONObject jsonObject = new JSONObject(info);
 
             WareBoardKeyInput input = new WareBoardKeyInput();
 
-            input.setDevUnitID(jsonObject.getString("devUnitID"));
-
             JSONArray array = jsonObject.getJSONArray("keyinput_rows");
-            byte[] type = new byte[array.length()];
             for (int i = 0; i < array.length(); i++) {
-                type[i] = (byte) array.getInt(i);
+
+                JSONObject object = array.getJSONObject(i);
+                input.setDevUnitID(object.getString("canCpuID"));
+                input.setBoardName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(object.getString("boardName"))));
+                input.setBoardType((byte) object.getInt("boardType"));
+                input.setKeyCnt((byte) object.getInt("keyCnt"));
+                input.setLedBkType((byte) object.getInt("ledBkType"));
+
+                JSONArray array1 = object.getJSONArray("keyName_rows");
+                String[] name = new String[array1.length()];
+                for (int j = 0; j < array1.length(); j++) {
+                    name[j] = array1.getString(j);
+                }
+                input.setKeyName(name);
             }
-            input.setKeyAllCtrlType(type);
+
+            MyApplication.getWareData().getKeyInputs().add(input);
 
         } catch (JSONException e) {
             System.out.println(e.toString());
@@ -823,7 +868,7 @@ public class udpService extends Service {
                 event.setDevCnt((byte) objcet.getInt("devCnt"));
                 event.setSceneName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(objcet.getString("sceneName"))));
                 int devCnt = objcet.getInt("devCnt");
-                if(devCnt > 0){
+                if (devCnt > 0) {
                     WareSceneDevItem item = new WareSceneDevItem();
                     item.setbOnOff((byte) objcet.getInt("bOnOff"));
                     item.setDevID((byte) objcet.getInt("devID"));
@@ -939,8 +984,8 @@ public class udpService extends Service {
                 dev.setCanCpuId(jsonobj.getString("canCpuID"));
                 dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
                 dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
-                dev.setDevId((byte)jsonobj.getInt("devID"));
-                dev.setType((byte)jsonobj.getInt("devType"));
+                dev.setDevId((byte) jsonobj.getInt("devID"));
+                dev.setType((byte) jsonobj.getInt("devType"));
                 light.setDev(dev);
                 light.setbOnOff((byte) jsonobj.getInt("bOnOff"));
                 light.setPowChn((byte) jsonobj.getInt("powChn"));

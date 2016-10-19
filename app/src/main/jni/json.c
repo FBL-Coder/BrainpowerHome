@@ -420,7 +420,7 @@ char *create_board_chnout_json(u8 *devUnitID, int datType, int subType1, int sub
             item_num++;
             cJSON_AddItemToArray(chnout_rows, item = cJSON_CreateObject());
 
-            u8 canCpuID[24] = {0};
+            u8 canCpuID[25] = {0};
             bytes_to_string(board->board.devUnitID, canCpuID, 12);
             cJSON_AddItemToObject(item, "canCpuID", cJSON_CreateString((char *) canCpuID));
 

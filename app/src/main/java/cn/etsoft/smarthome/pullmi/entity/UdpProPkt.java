@@ -254,6 +254,21 @@ public class UdpProPkt {
 		}
 	}
 
+	public static enum E_BOARD_TYPE{
+		e_board_chnOut(0),
+		e_board_keyInput(1),
+		e_board_wlessIR(2),
+		e_board_envDetect(3);
+
+
+		private int value;
+		E_BOARD_TYPE(int value)
+		{
+			this.value = value;
+		}
+		public int getValue(){return this.value;}
+	}
+
 	public static enum E_86KEY_AIR_CMD {
 		e_86key_air_power(0), e_86key_air_mode(1), e_86key_air_spd(2), e_86key_air_tempInc(3), e_86key_air_tempDec(
 				4);
@@ -297,117 +312,5 @@ public class UdpProPkt {
 		public int getValue() {
 			return value;
 		}
-	}
-
-	public int isAck;
-	public byte[] uidDst;
-	public byte[] pwdDst;
-	public byte[] uidSrc;
-	public byte[] dstIp;
-	public byte[] srcIp;
-	public int snPkt;
-	public int sumPkt;
-	public int currPkt;
-	public int datType;
-	public int subType1;
-	public int subType2;
-	public int dataLen;
-
-	public int rev;
-	public byte[] dat;
-
-	public UdpProPkt() {
-	}
-
-	public UdpProPkt(byte[] srcIp, byte[] dstIp, byte[] uidDst, byte[] pwdDst, byte[] uidSrc,
-					 int snPkt, int sumPkt, int currPkt, int isAck, int datType, int subType1, int subType2,
-					 int dataLen, int rev) {
-
-		this.uidDst = uidDst;
-		this.pwdDst = pwdDst;
-		this.uidSrc = uidSrc;
-		this.srcIp = srcIp;
-		this.dstIp = dstIp;
-		this.snPkt = snPkt;
-		this.sumPkt = sumPkt;
-		this.currPkt = currPkt;
-		this.isAck = isAck;
-		this.datType = datType;
-		this.subType1 = subType1;
-		this.subType2 = subType2;
-		this.rev = rev;
-		this.dataLen = dataLen;
-
-	}
-
-	public byte[] getData() {
-		byte[] data = new byte[56 + dat.length];
-
-		byte[] header = "head".getBytes();
-		for (int i = 0; i < header.length; i++) {
-			data[i] = header[i];
-		}
-
-		// src addr
-		data[4] = this.srcIp[0];
-		data[5] = this.srcIp[1];
-		data[6] = this.srcIp[2];
-		data[7] = this.srcIp[3];
-
-		// dst addr
-		data[8] = this.dstIp[0];
-		data[9] = this.dstIp[1];
-		data[10] = this.dstIp[2];
-		data[11] = this.dstIp[3];
-
-		// udiDst
-		for (int i = 0; i < 12; i++) {
-			data[i + 12] = this.uidDst[i];
-		}
-		// pwdDst
-		for (int i = 0; i < 8; i++) {
-			data[i + 12 + 12] = this.pwdDst[i];
-		}
-
-		// uidSrc
-		for (int i = 0; i < 12; i++) {
-			data[i + 12 + 12 + 8] = this.uidSrc[i];
-		}
-
-		// snPkt
-		data[44] = (byte) snPkt;
-		data[45] = 0;
-
-		// sumPkt
-		data[46] = (byte) (this.sumPkt & 0xff);
-
-		// currPkt
-		data[47] = (byte) (this.currPkt & 0xff);
-
-		// isAck
-		data[48] = (byte) (this.isAck & 0xff);
-
-		// datType
-		data[49] = (byte) (this.datType & 0xff);
-
-		// subType1
-		data[50] = (byte) (this.subType1 & 0xff);
-
-		// subType2
-		data[51] = (byte) (this.subType2 & 0xff);
-
-		// dataLen
-		data[52] = (byte) dataLen;
-		data[53] = 0x0;
-
-		// rev
-		data[54] = 0x0;
-		data[55] = 0x0;
-
-		for (int i = 0; i < this.dataLen; i++) {
-			data[56 + i] = dat[i];
-		}
-
-		return data;
 	}
 }
