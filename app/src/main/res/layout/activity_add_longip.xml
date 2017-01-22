@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_40"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="远程IP："
+                android:textColor="@color/color_000"
+                android:textSize="@dimen/sp_24" />
+
+            <EditText
+                android:id="@+id/long_ip_num_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="3"
+                android:textColor="@color/color_E9573F"
+                android:textColorHint="@color/color_000"
+                android:background="#eee"
+                android:gravity="center"
+                android:minWidth="@dimen/dp_100"
+                android:textSize="@dimen/sp_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="."
+                android:textColor="@color/color_000"
+                android:textSize="@dimen/sp_18" />
+
+            <EditText
+                android:id="@+id/long_ip_num_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="3"
+                android:textColor="@color/color_E9573F"
+                android:textColorHint="@color/color_000"
+                android:background="#eee"
+                android:gravity="center"
+                android:minWidth="@dimen/dp_100"
+                android:textSize="@dimen/sp_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="."
+                android:textColor="@color/color_000"
+                android:textSize="@dimen/sp_18" />
+
+            <EditText
+                android:id="@+id/long_ip_num_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:gravity="center"
+                android:textColor="@color/color_E9573F"
+                android:textColorHint="@color/color_000"
+                android:background="#eee"
+                android:maxLength="3"
+                android:minWidth="@dimen/dp_100"
+                android:textSize="@dimen/sp_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="."
+                android:textColor="@color/color_000"
+                android:textSize="@dimen/sp_18" />
+
+            <EditText
+                android:id="@+id/long_ip_num_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textColor="@color/color_E9573F"
+                android:textColorHint="@color/color_000"
+                android:background="#eee"
+                android:gravity="center"
+                android:minWidth="@dimen/dp_100"
+                android:maxLength="3"
+                android:textSize="@dimen/sp_24" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/long_ip_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_200"
+            android:layout_marginRight="@dimen/dp_200"
+            android:background="@drawable/air_item_selector_3"
+            android:padding="@dimen/dp_5"
+            android:text="保存"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_50"
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/dp_22" />
+
+    </RelativeLayout>
+</LinearLayout>

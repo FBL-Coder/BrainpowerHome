@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- new attr  2016.7.6-->
+    <dimen name="statubar_padding_top">25dp</dimen>
+
+</resources>

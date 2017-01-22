@@ -1,0 +1,226 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/activity_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="#eee">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="设备名称 :"
+            android:textSize="@dimen/sp_22" />
+
+        <EditText
+            android:id="@+id/add_dev_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/dp_100"
+            android:layout_weight="1"
+            android:hint="请输入设备名称"
+            android:textColorHint="@color/color_898C92"
+            android:gravity="center_vertical"
+            android:maxLength="6"
+            android:textColor="#000"
+            android:textSize="@dimen/sp_22" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:background="#eee">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="设备类型 :"
+            android:textSize="@dimen/sp_22" />
+
+        <TextView
+            android:id="@+id/add_dev_type"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_100"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_weight="1"
+            android:background="@drawable/save_click_selector"
+            android:clickable="true"
+            android:drawableRight="@drawable/more"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            android:textColor="#fff"
+            android:textSize="@dimen/sp_22" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:background="#eee">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:text="设备房间 :"
+                android:textSize="@dimen/sp_22" />
+
+            <TextView
+                android:id="@+id/add_dev_room"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_100"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_weight="1"
+                android:background="@drawable/save_click_selector"
+                android:clickable="true"
+                android:drawableRight="@drawable/more"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10"
+                android:textColor="#fff"
+                android:textSize="@dimen/sp_22" />
+
+            <EditText
+                android:id="@+id/edit_dev_room"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dp_100"
+                android:layout_weight="1"
+                android:hint="请输入设备房间"
+                android:textColorHint="@color/color_898C92"
+                android:gravity="center_vertical"
+                android:maxLength="6"
+                android:textColor="#000"
+                android:textSize="@dimen/sp_22"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/edit_roomname"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:padding="@dimen/dp_10"
+            android:src="@drawable/edit_roomname" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:background="#eee">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="控制模块 :"
+            android:textSize="@dimen/sp_22" />
+
+        <TextView
+            android:id="@+id/add_dev_board"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_100"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_weight="1"
+            android:background="@drawable/save_click_selector"
+            android:clickable="true"
+            android:drawableRight="@drawable/more"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            android:textColor="#fff"
+            android:textSize="@dimen/sp_22" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:background="#eee">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="设备通道 :"
+            android:textSize="@dimen/sp_22" />
+
+        <TextView
+            android:id="@+id/add_dev_way"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_100"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_weight="1"
+            android:background="@drawable/save_click_selector"
+            android:clickable="true"
+            android:drawableRight="@drawable/more"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            android:textColor="#fff"
+            android:textSize="@dimen/sp_22" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20">
+
+        <TextView
+            android:id="@+id/add_dev_save"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dp_8"
+            android:layout_weight="1"
+            android:background="@drawable/save_click_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="保   存"
+            android:textColor="#fff"
+            android:textSize="@dimen/sp_22" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

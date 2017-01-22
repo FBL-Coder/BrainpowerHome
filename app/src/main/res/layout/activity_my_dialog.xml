@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="#E6E6E6"
+            android:gravity="center"
+            android:text="选择绑定房产方式"
+            android:textColor="#231815" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tab_1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/view_bg_selector1"
+                android:gravity="center"
+                android:text="输入房产信息绑定"
+                android:textColor="#408CFF" />
+
+            <TextView
+                android:id="@+id/tab_2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/view_bg_selector1"
+                android:gravity="center"
+                android:text="向业主申请绑定"
+                android:textColor="#408CFF" />
+
+            <TextView
+                android:id="@+id/tab_3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/view_bg_selector1"
+                android:gravity="center"
+                android:text="扫描业主二维码添加"
+                android:textColor="#408CFF" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/red_close" />
+
+
+</RelativeLayout>

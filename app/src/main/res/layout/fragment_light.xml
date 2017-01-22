@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <GridView
+        android:id="@+id/gridView_light"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/dp_10"
+        android:clipToPadding="true"
+        android:numColumns="3"
+        android:horizontalSpacing="@dimen/dp_10"
+        android:verticalSpacing="@dimen/dp_10"
+        android:scrollbars="none" />
+</LinearLayout>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white1"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/statubar_padding_top"
+    tools:context="cn.semtec.community2.activity.MemberManageTwoActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_title_height">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="成员管理"
+            android:textColor="@color/title_text"
+            android:textSize="@dimen/activity_title_textSize"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/view_bg_selector1"
+            android:scaleType="center"
+            android:src="@drawable/btn_back" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorD9" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorF2"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/btn_delete"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/view_bg_selector1"
+            android:drawableRight="@drawable/arrow_right"
+            android:gravity="center_vertical|left"
+            android:paddingLeft="10dp"
+            android:paddingRight="30dp"
+            android:text="删除成员"
+            android:textColor="@color/text666" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorD9" />
+
+        <TextView
+            android:id="@+id/btn_up"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/view_bg_selector1"
+            android:drawableRight="@drawable/arrow_right"
+            android:gravity="center_vertical|left"
+            android:paddingLeft="10dp"
+            android:paddingRight="30dp"
+            android:text="把该成员设为户主"
+            android:textColor="@color/text666" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorD9" />
+    </LinearLayout>
+</LinearLayout>

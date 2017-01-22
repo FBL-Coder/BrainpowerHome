@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="fill_parent"  
+     android:layout_height="wrap_content"  
+     android:gravity="center">  
+  
+<!--     内容  
+  
+    <RelativeLayout  
+        android:id="@+id/head_contentLayout"  
+        android:layout_width="fill_parent"  
+        android:layout_height="wrap_content"  
+        android:paddingLeft="30dp" >   -->
+  
+        <!-- 箭头图像、进度条 -->  
+  
+        <FrameLayout  
+            android:layout_width="wrap_content"  
+            android:layout_height="wrap_content"  
+            >  
+  
+            <!-- 箭头 -->  
+  
+            <ImageView  
+                android:id="@+id/lvHeaderArrowIv"  
+                android:layout_width="24dp"  
+                android:layout_height="36dp"  
+                android:layout_gravity="center"  
+                android:src="@drawable/message_refresh"
+                android:scaleType="fitXY"/>  
+  
+            <!-- 进度条 -->  
+  
+            <ProgressBar  
+                android:id="@+id/lvHeaderProgressBar"  
+                style="?android:attr/progressBarStyle"  
+                android:layout_width="wrap_content"  
+                android:layout_height="wrap_content"  
+                android:layout_gravity="center"  
+                android:visibility="gone"
+                 />  
+        </FrameLayout>  
+  
+        <!-- 提示、最近更新 -->  
+  
+<!--         <LinearLayout  
+            android:layout_width="wrap_content"  
+            android:layout_height="40dp"  
+            android:layout_centerHorizontal="true"  
+            android:gravity="center_horizontal"  
+            android:orientation="vertical" >  
+  
+            提示  
+  
+            <TextView  
+                android:id="@+id/lvHeaderTipsTv"  
+                android:layout_width="wrap_content"  
+                android:layout_height="wrap_content"  
+                android:text="下拉刷新"  
+                android:textColor="@color/main_blue1"  
+                android:textSize="20sp" />  
+  
+            最近更新  
+  
+            <TextView  
+                android:id="@+id/lvHeaderLastUpdatedTv"  
+                android:layout_width="wrap_content"  
+                android:layout_height="wrap_content"  
+                android:text="上次更新"  
+                android:textColor="@color/main_blue1"  
+                android:textSize="10sp" />   
+        </LinearLayout>  
+    </RelativeLayout>  -->
+
+</LinearLayout>

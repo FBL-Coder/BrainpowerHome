@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="310dp"
+        android:layout_height="210dp"
+        android:layout_gravity="center"
+        android:background="@color/white1"
+        android:paddingBottom="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:text="不同房产对应不同的门禁及其他智能设备您是否需要切换？"
+            android:textColor="#333333" />
+
+        <TextView
+            android:id="@+id/btn_agree"
+            android:layout_width="85dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/member_check_agree"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/white1"
+            android:textSize="@dimen/main_textSize12" />
+
+        <TextView
+            android:id="@+id/btn_disagree"
+            android:layout_width="85dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/member_check_disagree"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/white1"
+            android:textSize="@dimen/main_textSize12" />
+    </RelativeLayout>
+</RelativeLayout>

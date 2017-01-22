@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white1"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/statubar_padding_top">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_title_height">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/title_height"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/usertool_title"
+            android:textColor="@color/title_text"
+            android:textSize="@dimen/activity_title_textSize"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:scaleType="center"
+            android:src="@drawable/btn_back" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorD9" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorF2"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:id="@+id/btn_advanced"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/view_bg_selector1"
+            android:paddingLeft="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="高级设置"
+                android:textColor="@color/text666"
+                android:textSize="@dimen/main_textSize14" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/arrow_right" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/main_border" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/btn_clear"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/view_bg_selector1"
+            android:paddingLeft="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/usertool_clear"
+                android:textColor="@color/text666"
+                android:textSize="@dimen/main_textSize14" />
+
+            <TextView
+                android:id="@+id/tv_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:textColor="@color/text666"
+                android:textSize="@dimen/main_textSize14" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/main_border" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/white1"
+            android:paddingLeft="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/usertool_versions"
+                android:textColor="@color/text666"
+                android:textSize="@dimen/main_textSize14" />
+
+            <TextView
+                android:id="@+id/tv_versions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:textColor="@color/text666"
+                android:textSize="@dimen/main_textSize14" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/main_border" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/login_out"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/view_bg_selector1"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="退出登录"
+            android:textColor="@color/text666"
+            android:textSize="@dimen/main_textSize14" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="20dp"
+            android:background="@color/main_border" />
+    </LinearLayout>
+</LinearLayout>
+

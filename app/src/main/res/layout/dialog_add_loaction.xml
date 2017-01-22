@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_500"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_viewpager">
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:orientation="vertical"
+        android:scrollbars="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:padding="@dimen/dp_5"
+            android:text="输入城市"
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_20" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_weight="2"
+            android:background="@null"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_10"
+                android:text="城市名称:"
+                android:lines="1"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_20" />
+
+            <EditText
+                android:id="@+id/city_et_name"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:lines="1"
+                android:background="@drawable/bg_edit"
+                android:paddingBottom="@dimen/dp_10"
+                android:paddingLeft="@dimen/dp_5"
+                android:hint="城市名称（“北京市”就输入“北京”）"
+                android:textColorHint="@color/color_E3E8F2"
+                android:paddingTop="@dimen/dp_10"
+                android:textColor="@color/color_fff"
+                android:textCursorDrawable="@drawable/color_cursor" />
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_weight="1"
+            android:background="@null"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/city_btn_sure"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginRight="@dimen/dp_20"
+                android:layout_weight="1"
+                android:background="@drawable/selector_network_blue_sure"
+                android:text="确认"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_20" />
+
+            <Button
+                android:id="@+id/city_btn_cancel"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_40"
+                android:layout_weight="1"
+                android:background="@drawable/selector_network_blue_cancel"
+                android:text="取消"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_20" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

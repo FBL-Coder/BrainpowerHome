@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white1"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/statubar_padding_top"
+    tools:context="cn.semtec.community2.activity.AdevancedSettingActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_title_height">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/title_height"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="高级设置"
+            android:textColor="@color/title_text"
+            android:textSize="@dimen/activity_title_textSize"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:scaleType="center"
+            android:src="@drawable/btn_back" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorD9" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorF2"
+        android:orientation="vertical"
+        android:paddingTop="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:background="@color/colorFA"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/usertool_DND"
+                android:textColor="@color/text666"
+                android:textSize="@dimen/main_textSize14" />
+
+            <Switch
+                android:id="@+id/btn_switch_dnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_from"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@drawable/view_bg_selector1"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="从"
+                android:textColor="@color/text666"
+                android:textSize="@dimen/main_textSize14" />
+
+            <TextView
+                android:id="@+id/tv_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:drawablePadding="8dp"
+                android:drawableRight="@drawable/arrow_right"
+                android:text="time"
+                android:textColor="@color/text999"
+                android:textSize="@dimen/main_textSize14" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_to"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="1px"
+            android:background="@drawable/view_bg_selector1"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="至"
+                android:textColor="@color/text666"
+                android:textSize="@dimen/main_textSize14" />
+
+            <TextView
+                android:id="@+id/tv_to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:drawablePadding="8dp"
+                android:drawableRight="@drawable/arrow_right"
+                android:text="time"
+                android:textColor="@color/text999"
+                android:textSize="@dimen/main_textSize14" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/tab_cp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
+            android:background="@color/colorFA"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/usertool_CP"
+                android:textColor="@color/text666"
+                android:textSize="@dimen/main_textSize14" />
+
+            <Switch
+                android:id="@+id/btn_switch_cp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/auto_open"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorFA"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/usertool_AUTO"
+                android:textColor="@color/text666"
+                android:textSize="@dimen/main_textSize14" />
+
+            <Switch
+                android:id="@+id/btn_switch_auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="20dp"
+            android:text="“SIM卡呼叫手机”开启门禁设备通过内置的SIM卡 呼叫手机。"
+            android:textColor="@color/text999" />
+    </LinearLayout>
+</LinearLayout>
