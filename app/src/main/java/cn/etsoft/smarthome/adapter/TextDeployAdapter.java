@@ -33,6 +33,18 @@ public class TextDeployAdapter extends BaseAdapter {
         }
     }
 
+    public TextDeployAdapter(List<String> title, List<String> text, List<String> deploy, Context context, IClick listener) {
+        super();
+        listViewItems = new ArrayList<ParlourFourBean>();
+        mInflater = LayoutInflater.from(context);
+        mListener = listener;
+
+        for (int i = 0; i < title.size(); i++) {
+            ParlourFourBean item = new ParlourFourBean(title.get(i), text.get(i), deploy.get(i));
+            listViewItems.add(item);
+        }
+    }
+
     @Override
     public int getCount() {
         if (null != listViewItems) {

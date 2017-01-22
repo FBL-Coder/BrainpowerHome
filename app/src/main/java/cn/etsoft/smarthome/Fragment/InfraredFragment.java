@@ -1,4 +1,4 @@
-package cn.etsoft.smarthome.Fragment;
+package cn.etsoft.smarthome.fragment;
 
 import android.support.v4.app.Fragment;
 

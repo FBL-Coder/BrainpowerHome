@@ -20,12 +20,12 @@ public class PopupWindowAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private List<PopBean> listViewItems;
 
-    public PopupWindowAdapter(String[] text, Context context) {
+    public PopupWindowAdapter(List<String> text, Context context) {
         super();
         listViewItems = new ArrayList<PopBean>();
         mInflater = LayoutInflater.from(context);
-        for (int i = 0; i < text.length; i++) {
-            PopBean item = new PopBean(text[i]);
+        for (int i = 0; i < text.size(); i++) {
+            PopBean item = new PopBean(text.get(i));
             listViewItems.add(item);
         }
     }

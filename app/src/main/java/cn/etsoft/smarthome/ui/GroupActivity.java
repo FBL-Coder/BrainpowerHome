@@ -5,14 +5,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import cn.etsoft.smarthome.Fragment.InPutFragment;
-import cn.etsoft.smarthome.Fragment.InfraredFragment;
-import cn.etsoft.smarthome.Fragment.OutPutFragment;
+
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.fragment.InPutFragment;
+import cn.etsoft.smarthome.fragment.InfraredFragment;
+import cn.etsoft.smarthome.fragment.OutPutFragment;
 
 /**
  * Created by Say GoBay on 2016/8/23.
@@ -24,6 +27,7 @@ public class GroupActivity extends FragmentActivity {
     private FragmentTransaction transaction;
     private Fragment outPutFragment, inPutFragment, infraredFragment;
     private TextView mTitle;
+    private ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,13 @@ public class GroupActivity extends FragmentActivity {
     private void initTitleBar() {
         mTitle = (TextView) findViewById(R.id.tv_home);
         mTitle.setText(getIntent().getStringExtra("title"));
+        back = (ImageView) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     /**

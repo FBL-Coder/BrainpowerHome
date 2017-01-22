@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.domain.DevControl_Result;
+import cn.etsoft.smarthome.domain.SetEquipmentResult;
+
 public class WareData implements Serializable {
 
     private List<RcuInfo> rcuInfos;
@@ -17,6 +20,14 @@ public class WareData implements Serializable {
     private List<WareSceneEvent> sceneEvents;
     private List<WareBoardChnout> boardChnouts;
     private List<WareBoardKeyInput> keyInputs;
+    private List<WareChnOpItem> chnOpItems;
+    private List<WareKeyOpItem> keyOpItems;
+    private SetEquipmentResult result;
+    private DevControl_Result dev_result;
+    private int login_result;
+    private int addNewNet_reslut;
+    private int addUser_reslut;
+    private boolean DATA_LOCAL_FLAG ;
 
     public WareData() {
 
@@ -55,6 +66,14 @@ public class WareData implements Serializable {
         if (boardChnouts == null) {
             setBoardChnouts(new ArrayList<WareBoardChnout>());
         }
+
+        if (keyOpItems == null) {
+            setKeyOpItems(new ArrayList<WareKeyOpItem>());
+        }
+
+        if (chnOpItems == null) {
+            setChnOpItems(new ArrayList<WareChnOpItem>());
+        }
     }
 
     public List<RcuInfo> getRcuInfos() {
@@ -70,6 +89,8 @@ public class WareData implements Serializable {
     }
 
     public void setDevs(List<WareDev> devs) {
+        if (this.devs != null)
+            this.devs.clear();
         this.devs = devs;
     }
 
@@ -78,6 +99,8 @@ public class WareData implements Serializable {
     }
 
     public void setLights(List<WareLight> lights) {
+        if (this.lights != null)
+            this.lights.clear();
         this.lights = lights;
     }
 
@@ -86,6 +109,8 @@ public class WareData implements Serializable {
     }
 
     public void setAirConds(List<WareAirCondDev> airConds) {
+        if (this.airConds != null)
+            this.airConds.clear();
         this.airConds = airConds;
     }
 
@@ -94,6 +119,8 @@ public class WareData implements Serializable {
     }
 
     public void setCurtains(List<WareCurtain> curtains) {
+        if (this.curtains != null)
+            this.curtains.clear();
         this.curtains = curtains;
     }
 
@@ -118,6 +145,8 @@ public class WareData implements Serializable {
     }
 
     public void setTvs(List<WareTv> tvs) {
+        if (this.tvs != null)
+            this.tvs.clear();
         this.tvs = tvs;
     }
 
@@ -144,4 +173,69 @@ public class WareData implements Serializable {
     public void setKeyInputs(List<WareBoardKeyInput> keyInputs) {
         this.keyInputs = keyInputs;
     }
+
+    public List<WareChnOpItem> getChnOpItems() {
+        return chnOpItems;
+    }
+
+    public void setChnOpItems(List<WareChnOpItem> chnOpItems) {
+        this.chnOpItems = chnOpItems;
+    }
+
+    public List<WareKeyOpItem> getKeyOpItems() {
+        return keyOpItems;
+    }
+
+    public void setKeyOpItems(List<WareKeyOpItem> keyOpItems) {
+        this.keyOpItems = keyOpItems;
+    }
+
+    public SetEquipmentResult getResult() {
+        return result;
+    }
+
+    public void setResult(SetEquipmentResult result) {
+        this.result = result;
+    }
+
+    public DevControl_Result getDev_result() {
+        return dev_result;
+    }
+
+    public void setDev_result(DevControl_Result dev_result) {
+        this.dev_result = dev_result;
+    }
+
+    public boolean isDATA_LOCAL_FLAG() {
+        return DATA_LOCAL_FLAG;
+    }
+
+    public void setDATA_LOCAL_FLAG(boolean DATA_IP_FLAG) {
+        this.DATA_LOCAL_FLAG = DATA_IP_FLAG;
+    }
+
+    public int getLogin_result() {
+        return login_result;
+    }
+
+    public void setLogin_result(int login_result) {
+        this.login_result = login_result;
+    }
+
+    public int getAddNewNet_reslut() {
+        return addNewNet_reslut;
+    }
+
+    public void setAddNewNet_reslut(int addNewNet_reslut) {
+        this.addNewNet_reslut = addNewNet_reslut;
+    }
+
+    public int getAddUser_reslut() {
+        return addUser_reslut;
+    }
+
+    public void setAddUser_reslut(int addUser_reslut) {
+        this.addUser_reslut = addUser_reslut;
+    }
 }
+

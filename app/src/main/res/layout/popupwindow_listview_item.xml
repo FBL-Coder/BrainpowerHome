@@ -7,11 +7,11 @@
     <TextView
         android:id="@+id/popupWindow_equipment_tv"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_60"
-        android:paddingTop="@dimen/dp_5"
+        android:layout_height="@dimen/dp_40"
+        android:paddingTop="@dimen/dp_2"
         android:gravity="center"
         android:textColor="@color/color_fff"
-        android:textSize="@dimen/sp_20" />
+        android:textSize="@dimen/sp_18" />
 
     <View
         android:layout_width="match_parent"

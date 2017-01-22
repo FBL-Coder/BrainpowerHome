@@ -31,9 +31,9 @@ public class CustomDialog_comment extends Dialog {
         private String neutralButtonText;
         private String negativeButtonText;
         private View contentView;
-        private DialogInterface.OnClickListener positiveButtonClickListener;
-        private DialogInterface.OnClickListener neutralButtonClickListener;
-        private DialogInterface.OnClickListener negativeButtonClickListener;
+        private OnClickListener positiveButtonClickListener;
+        private OnClickListener neutralButtonClickListener;
+        private OnClickListener negativeButtonClickListener;
 
         public Builder(Context context) {
             this.context = context;
@@ -84,7 +84,7 @@ public class CustomDialog_comment extends Dialog {
          * @return
          */
         public Builder setPositiveButton(int positiveButtonText,
-                                         DialogInterface.OnClickListener listener) {
+                                         OnClickListener listener) {
             this.positiveButtonText = (String) context
                     .getText(positiveButtonText);
             this.positiveButtonClickListener = listener;
@@ -92,13 +92,13 @@ public class CustomDialog_comment extends Dialog {
         }
 
         public Builder setPositiveButton(String positiveButtonText,
-                                         DialogInterface.OnClickListener listener) {
+                                         OnClickListener listener) {
             this.positiveButtonText = positiveButtonText;
             this.positiveButtonClickListener = listener;
             return this;
         }
         public Builder setNeutralButton(int neutralButtonText,
-                                         DialogInterface.OnClickListener listener) {
+                                         OnClickListener listener) {
             this.neutralButtonText = (String) context
                     .getText(neutralButtonText);
             this.neutralButtonClickListener = listener;
@@ -106,13 +106,13 @@ public class CustomDialog_comment extends Dialog {
         }
 
         public Builder setNeutralButton(String neutralButtonText,
-                                         DialogInterface.OnClickListener listener) {
+                                         OnClickListener listener) {
             this.neutralButtonText = neutralButtonText;
             this.neutralButtonClickListener= listener;
             return this;
         }
         public Builder setNegativeButton(int negativeButtonText,
-                                         DialogInterface.OnClickListener listener) {
+                                         OnClickListener listener) {
             this.negativeButtonText = (String) context
                     .getText(negativeButtonText);
             this.negativeButtonClickListener = listener;
@@ -120,7 +120,7 @@ public class CustomDialog_comment extends Dialog {
         }
 
         public Builder setNegativeButton(String negativeButtonText,
-                                         DialogInterface.OnClickListener listener) {
+                                         OnClickListener listener) {
             this.negativeButtonText = negativeButtonText;
             this.negativeButtonClickListener = listener;
             return this;

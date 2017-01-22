@@ -1,111 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/dp_400"
+    android:layout_width="@dimen/dp_500"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@color/color_fff">
+    android:background="@drawable/bg_viewpager">
 
     <LinearLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@null"
         android:orientation="vertical"
         android:scrollbars="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:text="联网模块"
-                android:gravity="center"
-                android:background="@color/color_0095D9"
-                android:textColor="@color/color_fff"
-                android:textSize="@dimen/sp_24" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:padding="@dimen/dp_5"
+            android:text="联网模块"
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_20" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_70"
+            android:layout_height="@dimen/dp_0"
             android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_10"
+            android:layout_weight="2"
+            android:background="@null"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@null"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_20"
-                android:text="模块名称"
-                android:textColor="@color/color_88222223"
-                android:textSize="@dimen/sp_24" />
+                android:paddingLeft="@dimen/dp_10"
+                android:text="模块名称:"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_20" />
 
             <EditText
                 android:id="@+id/network_et_name"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_20"
-                android:layout_marginTop="@dimen/dp_10"
-                android:layout_weight="2"
-                android:background="@drawable/rect_gray1" />
+                android:layout_weight="3"
+                android:background="@drawable/bg_edit"
+                android:paddingBottom="@dimen/dp_10"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingTop="@dimen/dp_10"
+                android:textColor="@color/color_fff"
+                android:textCursorDrawable="@drawable/color_cursor" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_70"
+            android:layout_height="@dimen/dp_0"
             android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_5"
+            android:layout_weight="2"
+            android:background="@null"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@null"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_20"
-                android:text="设备ID"
-                android:textColor="@color/color_88222223"
-                android:textSize="@dimen/sp_24" />
+                android:paddingLeft="@dimen/dp_10"
+                android:text="模块ID:"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_20" />
 
             <EditText
                 android:id="@+id/network_et_id"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_20"
-                android:layout_marginTop="@dimen/dp_10"
-                android:layout_weight="2"
-                android:background="@drawable/rect_gray1" />
+                android:layout_weight="3"
+                android:background="@drawable/bg_edit"
+                android:paddingBottom="@dimen/dp_10"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_10"
+                android:text="39ffdb05484d303430690543"
+                android:textColor="@color/color_fff"
+                android:textCursorDrawable="@drawable/color_cursor" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_70"
+            android:layout_height="@dimen/dp_0"
             android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_5"
+            android:layout_weight="2"
+            android:background="@null"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@null"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_20"
-                android:text="设备密码"
-                android:textColor="@color/color_88222223"
-                android:textSize="@dimen/sp_24" />
+                android:paddingLeft="@dimen/dp_10"
+                android:text="模块密码:"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_20" />
 
             <EditText
                 android:id="@+id/network_et_pwd"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_20"
-                android:layout_marginTop="@dimen/dp_10"
-                android:layout_weight="2"
-                android:background="@drawable/rect_gray1" />
+                android:layout_weight="3"
+                android:background="@drawable/bg_edit"
+                android:paddingBottom="@dimen/dp_10"
+                android:text="30690543"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_10"
+                android:textColor="@color/color_fff"
+                android:textCursorDrawable="@drawable/color_cursor" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_70"
-            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_height="@dimen/dp_0"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_weight="2"
+            android:background="@null"
             android:orientation="horizontal">
 
             <Button
@@ -115,10 +146,11 @@
                 android:layout_marginLeft="@dimen/dp_20"
                 android:layout_marginRight="@dimen/dp_10"
                 android:layout_weight="1"
-                android:background="@drawable/rect_blue4"
+                android:background="@drawable/selector_network_blue_sure"
+                android:padding="@dimen/dp_10"
                 android:text="确认"
                 android:textColor="@color/color_fff"
-                android:textSize="@dimen/sp_24" />
+                android:textSize="@dimen/sp_20" />
 
             <Button
                 android:id="@+id/network_btn_cancel"
@@ -127,10 +159,11 @@
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginRight="@dimen/dp_20"
                 android:layout_weight="1"
-                android:background="@drawable/rect_blue5"
+                android:background="@drawable/selector_network_blue_cancel"
+                android:padding="@dimen/dp_10"
                 android:text="取消"
                 android:textColor="@color/color_fff"
-                android:textSize="@dimen/sp_24" />
+                android:textSize="@dimen/sp_20" />
         </LinearLayout>
     </LinearLayout>
 

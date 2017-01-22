@@ -3,21 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <include layout="@layout/activity_title"/>
+
+    <include layout="@layout/activity_title" />
+
     <ScrollView
-        android:id="@+id/sceneset_sv"
+        android:id="@+id/sceneSet_sv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:layout_marginTop="@dimen/dp_10"
         android:layout_marginBottom="@dimen/dp_10"
-        >
-    <cn.etsoft.smarthome.widget.ListViewForScrollView
-        android:id="@+id/sceneset_lv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/color_00000000"
-        android:dividerHeight="@dimen/dp_10"
-        />
+        android:layout_marginTop="@dimen/dp_10"
+        android:scrollbars="none">
+
+        <cn.etsoft.smarthome.widget.ListViewForScrollView
+            android:id="@+id/sceneSet_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/color_00000000"
+            android:dividerHeight="@dimen/dp_10" />
     </ScrollView>
 </LinearLayout>

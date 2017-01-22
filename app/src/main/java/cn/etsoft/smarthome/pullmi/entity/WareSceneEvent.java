@@ -1,6 +1,7 @@
 package cn.etsoft.smarthome.pullmi.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class WareSceneEvent implements Serializable {
 	/**
@@ -12,7 +13,9 @@ public class WareSceneEvent implements Serializable {
 	private byte eventld;
 	private byte rev2;
 	private byte rev3;
-	private WareSceneDevItem itemAry;
+
+
+	private List<WareSceneDevItem> itemAry;
 
 	public String getSceneName() {
 		return sceneName;
@@ -54,11 +57,11 @@ public class WareSceneEvent implements Serializable {
 		this.rev3 = rev3;
 	}
 
-	public WareSceneDevItem getItemAry() {
+	public List<WareSceneDevItem> getItemAry() {
 		return itemAry;
 	}
 
-	public void setItemAry(WareSceneDevItem itemAry) {
+	public void setItemAry(List<WareSceneDevItem> itemAry) {
 		this.itemAry = itemAry;
 	}
 }

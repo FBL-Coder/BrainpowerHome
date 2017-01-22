@@ -1,4 +1,4 @@
-package cn.etsoft.smarthome.Fragment;
+package cn.etsoft.smarthome.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.adapter.BoardInOutAdapter;
+import cn.etsoft.smarthome.MyApplication;
+import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
 import cn.etsoft.smarthome.ui.ParlourFourActivity;
 
 /**
@@ -20,15 +23,6 @@ import cn.etsoft.smarthome.ui.ParlourFourActivity;
 public class InPutFragment extends Fragment implements AdapterView.OnItemClickListener {
     private ScrollView sv;
     private ListView lv;
-    private int[] image = {R.drawable.ketingsijian, R.drawable.chufangsanjian,
-            R.drawable.ketingchuanglian, R.drawable.ketingkongtiao,
-            R.drawable.weishengjiansijan, R.drawable.guodaoliangjian,
-            R.drawable.xiuxianquyijan, R.drawable.erzinverfangzi,
-            R.drawable.erzinverfangzi,};
-    private int[] hui = {R.drawable.huijiantou, R.drawable.huijiantou, R.drawable.huijiantou,
-            R.drawable.huijiantou, R.drawable.huijiantou, R.drawable.huijiantou,
-            R.drawable.huijiantou, R.drawable.huijiantou, R.drawable.huijiantou};
-    private String[] title = {"一楼客厅四键", "厨房三键", "一楼客厅窗帘", "一楼客厅空调", "一楼卫生间四键", "二楼过道两键", "休闲区一键", "二楼儿子房四键", "二楼女儿房四键"};
 
     @Nullable
     @Override
@@ -46,14 +40,17 @@ public class InPutFragment extends Fragment implements AdapterView.OnItemClickLi
         lv = (ListView) view.findViewById(R.id.group_lv);
         sv = (ScrollView) view.findViewById(R.id.group_sv);
         sv.smoothScrollTo(0, 0);
-//        lv.setAdapter(new SceneAdapter(image, title, hui, getActivity()));
-//        lv.setOnItemClickListener(this);
+        if(MyApplication.getWareData().getKeyInputs().size() > 0) {
+            lv.setAdapter(new BoardInOutAdapter(getActivity(), null, MyApplication.getWareData().getKeyInputs(), UdpProPkt.E_BOARD_TYPE.e_board_keyInput.getValue()));
+            lv.setOnItemClickListener(this);
+        }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), ParlourFourActivity.class);
-        intent.putExtra("title", title[position]);
+        intent.putExtra("title", MyApplication.getWareData().getKeyInputs().get(position).getBoardName());
+        intent.putExtra("uid", MyApplication.getWareData().getKeyInputs().get(position).getDevUnitID());
         startActivity(intent);
     }
 }

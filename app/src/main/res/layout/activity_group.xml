@@ -5,65 +5,61 @@
     android:orientation="vertical">
 
     <include layout="@layout/activity_title" />
+
     <FrameLayout
         android:id="@+id/group"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
-        android:layout_weight="6"
-        android:layout_marginTop="@dimen/dp_10"
         android:layout_marginBottom="@dimen/dp_10"
-        >
-    </FrameLayout>
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_weight="6"></FrameLayout>
+
     <RadioGroup
         android:id="@+id/rg_group"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
-        android:orientation="horizontal"
-        android:background="@color/color_10AEFF"
-        android:layout_weight="1"
         android:layout_alignParentBottom="true"
-        >
+        android:layout_weight="1"
+        android:background="@color/color_10AEFF"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/group_output"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="输出"
             android:button="@null"
-            android:textColor="@color/color_group_text"
-            android:textSize="@dimen/sp_18"
-            android:gravity="center_horizontal"
             android:drawableTop="@drawable/selector_group_output"
+            android:gravity="center_horizontal"
             android:paddingTop="@dimen/dp_5"
-            />
+            android:text="输出"
+            android:textColor="@color/color_group_text"
+            android:textSize="@dimen/sp_18" />
 
         <RadioButton
             android:id="@+id/group_input"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="输入"
             android:button="@null"
-            android:textColor="@color/color_group_text"
-            android:textSize="@dimen/sp_18"
-            android:gravity="center_horizontal"
             android:drawableTop="@drawable/selector_group_input"
+            android:gravity="center_horizontal"
             android:paddingTop="@dimen/dp_5"
-            />
+            android:text="输入"
+            android:textColor="@color/color_group_text"
+            android:textSize="@dimen/sp_18" />
 
         <RadioButton
             android:id="@+id/group_infrared"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="红外"
             android:button="@null"
-            android:textColor="@color/color_group_text"
-            android:textSize="@dimen/sp_18"
-            android:gravity="center_horizontal"
             android:drawableTop="@drawable/selector_group_infrared"
+            android:gravity="center_horizontal"
             android:paddingTop="@dimen/dp_5"
-            />
+            android:text="红外"
+            android:textColor="@color/color_group_text"
+            android:textSize="@dimen/sp_18" />
     </RadioGroup>
 </LinearLayout>

@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_40"
-    android:orientation="vertical">
+    android:layout_height="@dimen/dp_50"
+    android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/selector_back"
+        android:padding="@dimen/dp_10"
+        android:src="@drawable/back" />
+
     <TextView
         android:id="@+id/tv_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_4B667D"
-        android:text="空调控制"
+        android:background="@color/color_0095D9"
         android:gravity="center"
         android:textColor="@color/color_fff"
-        android:textSize="@dimen/sp_18"
-        />
+        android:textSize="@dimen/sp_18" />
 </LinearLayout>

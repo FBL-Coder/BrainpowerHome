@@ -10,39 +10,11 @@ import android.view.View.OnTouchListener;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
-import cn.etsoft.smarthome.pullmi.entity.GPIO_INPUT_INFO;
-import cn.etsoft.smarthome.pullmi.entity.GPIO_OUTPUT_INFO;
-import cn.etsoft.smarthome.pullmi.entity.RUN_DEV_ITEM;
-import cn.etsoft.smarthome.pullmi.entity.RUN_IOOUT_ITEM;
-import cn.etsoft.smarthome.pullmi.entity.RcuInfo;
-import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
-import cn.etsoft.smarthome.pullmi.entity.WareAirCondDev;
-import cn.etsoft.smarthome.pullmi.entity.WareBoardChnout;
-import cn.etsoft.smarthome.pullmi.entity.WareBoardKeyInput;
-import cn.etsoft.smarthome.pullmi.entity.WareChnOpItem;
-import cn.etsoft.smarthome.pullmi.entity.WareCurtain;
-import cn.etsoft.smarthome.pullmi.entity.WareDev;
-import cn.etsoft.smarthome.pullmi.entity.WareFreshAir;
-import cn.etsoft.smarthome.pullmi.entity.WareKeyOpItem;
-import cn.etsoft.smarthome.pullmi.entity.WareLight;
-import cn.etsoft.smarthome.pullmi.entity.WareLock;
-import cn.etsoft.smarthome.pullmi.entity.WareSceneDevItem;
-import cn.etsoft.smarthome.pullmi.entity.WareSceneEvent;
-import cn.etsoft.smarthome.pullmi.entity.WareSetBox;
-import cn.etsoft.smarthome.pullmi.entity.WareTv;
-import cn.etsoft.smarthome.pullmi.entity.WareValve;
 import cn.etsoft.smarthome.pullmi.utils.LogUtils;
 
 //import com.example.smarthouse.MyApplication;
@@ -184,7 +156,7 @@ public class CommonUtils {
                 DatagramPacket packet;
                 try {
                     packet = new DatagramPacket(msg.getBytes(), msg.getBytes().length,
-                            InetAddress.getByName("127.0.0.1"), 8300);
+                            InetAddress.getByName("127.0.0.1"), 8400);
 
                     MyApplication.mInstance.getSocket().send(packet);
                 } catch (UnknownHostException e) {

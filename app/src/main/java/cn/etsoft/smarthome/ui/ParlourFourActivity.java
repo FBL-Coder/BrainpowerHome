@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -13,18 +14,23 @@ import android.widget.Toast;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter.IClick;
 import cn.etsoft.smarthome.adapter.TextDeployAdapter;
+import cn.etsoft.smarthome.MyApplication;
 
 /**
  * Created by Say GoBay on 2016/8/24.
  */
-public class ParlourFourActivity extends Activity implements AdapterView.OnItemClickListener{
+public class ParlourFourActivity extends Activity implements AdapterView.OnItemClickListener {
     private TextView mTitle;
+    private ImageView back;
     private ScrollView sv;
     private ListView lv;
 
-    private String[] text = {"测试", "测试", "测试", "测试"};
-    private String[] deploy = {"配置", "配置", "配置", "配置"};
-    private String[] title = { "一楼客厅窗帘", "一楼客厅空调", "一楼客厅灯", "一楼客厅电视"};
+    private String[] text = {"测试", "测试", "测试", "测试", "测试", "测试"};
+    private String[] deploy = {"配置", "配置", "配置", "配置", "配置", "配置"};
+    private String title;
+    private int index = -1;
+    private String uid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,22 +40,45 @@ public class ParlourFourActivity extends Activity implements AdapterView.OnItemC
         //初始化ListView
         initListView();
     }
+
     /**
      * 初始化标题栏
      */
     private void initTitleBar() {
         mTitle = (TextView) findViewById(R.id.tv_home);
-        mTitle.setText(getIntent().getStringExtra("title"));
+        title = getIntent().getStringExtra("title");
+        mTitle.setText(title);
+        uid = getIntent().getStringExtra("uid");
+
+        back = (ImageView) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
+
     /**
-     * 初始化ListView
+     * 初始化ListView]
      */
     private void initListView() {
         lv = (ListView) findViewById(R.id.parlour_four_lv);
         sv = (ScrollView) findViewById(R.id.parlour_four_sv);
         sv.smoothScrollTo(0, 0);
-        lv.setAdapter(new TextDeployAdapter(title,text,deploy,this,mListener));
-        lv.setOnItemClickListener(this);
+
+        if (MyApplication.getWareData().getKeyOpItems() != null) {
+            int size = MyApplication.getWareData().getKeyInputs().size();
+            if (size > 0) {
+                for (int i = 0; i < size; i++)
+                    if (title.equals(MyApplication.getWareData().getKeyInputs().get(i).getBoardName())) {
+                        index = i;
+                        lv.setAdapter(new TextDeployAdapter(MyApplication.getWareData().getKeyInputs().get(i).getKeyName(),
+                                text, deploy, this, mListener));
+                        lv.setOnItemClickListener(this);
+                    }
+            }
+        }
     }
 
     @Override
@@ -68,8 +97,12 @@ public class ParlourFourActivity extends Activity implements AdapterView.OnItemC
                 case R.id.parlour_four_text:
                     break;
                 case R.id.parlour_four_deploy:
-                    Intent intent = new Intent(ParlourFourActivity.this, EquipmentControlActivity.class);
-                    intent.putExtra("title", title[position]);
+                    Intent intent = new Intent(ParlourFourActivity.this, AddEquipmentControlActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("key_index", position);
+                    bundle.putString("title", MyApplication.getWareData().getKeyInputs().get(index).getKeyName()[position]);
+                    bundle.putString("uid", uid);
+                    intent.putExtras(bundle);
                     startActivity(intent);
                     break;
             }

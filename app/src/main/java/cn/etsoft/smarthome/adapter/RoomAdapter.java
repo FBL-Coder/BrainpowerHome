@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.WareDev;
 
 /**
@@ -26,7 +25,7 @@ public class RoomAdapter extends BaseAdapter {
             R.drawable.weishengjiansijan, R.drawable.erzinverfangzi,
             R.drawable.ketingchuanglian, R.drawable.xiuxianquyijan};
 
-    public RoomAdapter(Context context,List<WareDev> mWareDev) {
+    public RoomAdapter(Context context, List<WareDev> mWareDev) {
         this.mWareDev = mWareDev;
         mInflater = LayoutInflater.from(context);
     }

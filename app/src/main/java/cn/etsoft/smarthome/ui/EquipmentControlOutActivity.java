@@ -2,6 +2,8 @@ package cn.etsoft.smarthome.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import cn.etsoft.smarthome.R;
  */
 public class EquipmentControlOutActivity extends Activity {
     private TextView mTitle;
+    private ImageView back;
     private ScrollView sv;
     private ListView lv;
     @Override
@@ -32,5 +35,12 @@ public class EquipmentControlOutActivity extends Activity {
     private void initTitleBar() {
         mTitle = (TextView) findViewById(R.id.tv_home);
         mTitle.setText("新增按键控制");
+        back = (ImageView) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

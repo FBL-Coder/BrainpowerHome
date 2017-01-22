@@ -1,44 +1,52 @@
 package cn.etsoft.smarthome.domain;
 
 /**
- * Created by Say GoBay on 2016/8/24.
+ * Created by Say GoBay on 2016/9/1.
  */
 public class SceneBean {
-        private int imageId;
-        private String titleId;
-        private int huiId;
 
-        public SceneBean() {
-            super();
-        }
+    private int timeId;
+    private String titleId;
+    private String moudleId;
 
-        public SceneBean(int imageId, String titleId, int huiId) {
-            super();
-            this.imageId = imageId;
-            this.titleId = titleId;
-            this.huiId = huiId;
-        }
 
-        public String getTitle() {
-            return titleId;
-        }
 
-        public void setTitle(String title) {
-            this.titleId = title;
-        }
 
-        public int getImageId() {
-            return imageId;
-        }
+    public String getMoudleId() {
+        return moudleId;
+    }
 
-        public void setImageId(int imageId) {
-            this.imageId = imageId;
-        }
-        public int getHuiId() {
-            return huiId;
-        }
+    public void setMoudleId(String moudleId) {
+        this.moudleId = moudleId;
+    }
 
-        public void setHuiId(int huiId) {
-            this.huiId = huiId;
-        }
+
+    public int getTimeId() {
+        return timeId;
+    }
+
+    public void setTimeId(int timeId) {
+        this.timeId = timeId;
+    }
+
+
+
+    public String getTitleId() {
+        return titleId;
+    }
+
+    public void setTitleId(String titleId) {
+        this.titleId = titleId;
+    }
+
+    public SceneBean() {
+        super();
+    }
+
+    public SceneBean( String titleId, int timeId, String moudleId ) {
+        this.moudleId = moudleId;
+        this.titleId = titleId;
+        this.timeId = timeId;
+    }
+
 }

@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/activity_title" />
     <ScrollView
         android:id="@+id/parlour_four_sv"
         android:layout_width="match_parent"

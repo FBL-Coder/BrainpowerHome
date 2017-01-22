@@ -8,13 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.pullmi.entity.Alarm;
-import cn.etsoft.smarthome.pullmi.entity.UnitNode;
-import cn.etsoft.smarthome.pullmi.entity.WareDev;
 
 public class DatabaseUtil {
 

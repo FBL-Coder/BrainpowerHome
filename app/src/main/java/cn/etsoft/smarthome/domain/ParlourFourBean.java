@@ -13,7 +13,7 @@ public class ParlourFourBean {
         super();
     }
 
-    public ParlourFourBean( String titleId, String textId,String deployId) {
+    public ParlourFourBean(String titleId, String textId, String deployId) {
         super();
         this.titleId = titleId;
         this.textId = textId;

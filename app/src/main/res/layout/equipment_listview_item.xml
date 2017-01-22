@@ -7,8 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_60"
-        android:background="@drawable/tiao1">
-
+        >
         <TextView
             android:id="@+id/equipment_tv"
             android:layout_width="match_parent"
@@ -29,6 +28,10 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingRight="@dimen/dp_40"
-            android:src="@drawable/selector_equipment" />
+             />
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1_5"
+        android:background="@color/color_EEEEDE"/>
 </LinearLayout>
