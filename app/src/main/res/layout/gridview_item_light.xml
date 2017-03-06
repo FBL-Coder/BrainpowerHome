@@ -27,7 +27,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        >
         <ImageView
             android:id="@+id/time"
             android:layout_width="@dimen/dp_0"

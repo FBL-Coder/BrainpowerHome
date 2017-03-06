@@ -18,6 +18,8 @@ import cn.etsoft.smarthome.MyApplication;
 
 /**
  * Created by Say GoBay on 2016/8/24.
+ *
+ * 输入板
  */
 public class ParlourFourActivity extends Activity implements AdapterView.OnItemClickListener {
     private TextView mTitle;

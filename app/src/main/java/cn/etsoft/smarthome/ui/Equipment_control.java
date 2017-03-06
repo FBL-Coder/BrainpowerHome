@@ -259,7 +259,7 @@ public class Equipment_control extends Activity implements View.OnClickListener 
 //                        }
 
                         final String chn_str = "{" +
-                                "\"devUnitID\":\"" + MyApplication.getWareData().getRcuInfos().get(0).getDevUnitID() + "\"," +
+                                "\"devUnitID\":\"" + MyApplication.mInstance.getRcuInfo().getDevUnitID() + "\"," +
                                 "\"datType\":" + 7 + "," +
                                 "\"subType1\":0," +
                                 "\"subType2\":0," +
@@ -304,8 +304,6 @@ public class Equipment_control extends Activity implements View.OnClickListener 
 
         Dev_Adapter() {
             devs = new ArrayList<>();
-//            if (MyApplication.getWareData().getDevs() == null && MyApplication.getWareData().getDevs().size() == 0)
-//                return;
             for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                 devs.add(MyApplication.getWareData().getDevs().get(i));
             }

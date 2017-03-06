@@ -128,7 +128,8 @@ public class squirrelCallImpl extends MyApplication {
      */
 
     public static final int serverport = 9647;
-    public static final String HANGUP = "qingguajiba";
+    public static final String HANGUP = "qingguajiba :-)";
+    public static final String OPENDOOR = "squirrelunlock";
 
     public int currentCallId = -1;
     private int currentCallState = -1;

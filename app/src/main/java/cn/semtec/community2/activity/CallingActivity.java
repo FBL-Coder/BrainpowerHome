@@ -29,12 +29,11 @@ import org.linphone.squirrel.squirrelCallImpl;
 import java.io.File;
 import java.util.Date;
 
-import cc.ldsd.common.util.SipCompress;
+import cn.etsoft.smarthome.R;
 import cn.semtec.community2.MyApplication;
 import cn.semtec.community2.database.DBhelper;
 import cn.semtec.community2.util.CatchUtil;
 import cn.semtec.community2.util.ToastUtil;
-import cn.etsoft.smarthome.R;
 
 @SuppressLint("HandlerLeak")
 public class CallingActivity extends MyBaseActivity implements OnClickListener {
@@ -297,9 +296,9 @@ public class CallingActivity extends MyBaseActivity implements OnClickListener {
         switch (v.getId()) {
             case R.id.btn_open:
                 // 开门
-                String s = SipCompress.compress(MyApplication.houseProperty.sipnum, MyApplication.cellphone);
+//                String s = SipCompress.compress(MyApplication.houseProperty.sipnum, MyApplication.cellphone);
                 ((squirrelCallImpl) getApplication()).squirrelSendMessage(username, MyApplication.houseProperty.sipaddr,
-                        squirrelCallImpl.serverport, s, 100);
+                        squirrelCallImpl.serverport, squirrelCallImpl.OPENDOOR, 100);
 
                 break;
             case R.id.btn_pic:

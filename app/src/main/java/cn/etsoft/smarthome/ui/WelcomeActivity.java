@@ -136,20 +136,91 @@ public class WelcomeActivity extends Activity {
 
 
 //                MyApplication.setWareData((WareData) Dtat_Cache.readFile());
-            GlobalVars.setDevid(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitID());
-            GlobalVars.setDevpass(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitPass());
+//            GlobalVars.setDevid(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitID());
+//            GlobalVars.setDevpass(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitPass());
+            MyApplication.mInstance.setRcuInfo(mRcuInfos.get(0));
             startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
             finish();
 
         } else if (mRcuInfos != null && mRcuInfos.size() > 1) {
-            startActivity(new Intent(WelcomeActivity.this, SettingActivity.class));
-            finish();
+            SharedPreferences sharedPreferences1 = getSharedPreferences("profile",
+                    Context.MODE_PRIVATE);
+            String module_str = sharedPreferences1.getString("module_str", "");
+            if (!"".equals(module_str)) {
+                String DevID = module_str.substring(0, module_str.indexOf("-"));
+                GlobalVars.setDevid(DevID);
+                GlobalVars.setDevpass(module_str.substring(module_str.indexOf("-"))+1);
+
+                mDataHandler = new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        if (msg.what == OUTTIME_INITUID) {
+                            LogUtils.LOGE("", GlobalVars.getDstip() + "获取数据");
+                            MyApplication.setRcuDevIDtoLocal();
+                            /**
+                             * 局域网内 300秒发送一次数据请求；
+                             */
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        for (; ; ) {
+//                                        Log.i("TIME", "局域网内数据请求-----------------");
+                                            Thread.sleep(300 * 1000);
+                                            if (MyApplication.getWareData().getRcuInfos() == null
+                                                    || MyApplication.getWareData().getRcuInfos().size() == 0) {
+                                                GlobalVars.setDstip(MyApplication.LOCAL_IP);
+                                            }
+                                            MyApplication.setRcuDevIDtoLocal();
+                                        }
+                                    } catch (Exception e) {
+                                    }
+                                }
+                            }).start();
+
+//                        /**
+//                         * 局域网内 30秒发送一次数据请求；
+//                         */
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                try {
+//                                    for (; ; ) {
+////                                        Log.i("TIME", "局域网内数据请求-----------------");
+//                                        Thread.sleep(30 * 1000);
+//                                        if (MyApplication.getWareData().getRcuInfos() == null
+//                                                || MyApplication.getWareData().getRcuInfos().size() == 0) {
+//                                        }
+//                                        MyApplication.getlife();
+//                                    }
+//                                } catch (Exception e) {
+//                                }
+//                            }
+//                        }).start();
+                        }
+                        super.handleMessage(msg);
+                    }
+                };
+                for (int i = 0; i < mRcuInfos.size(); i++) {
+                    if (DevID.equals(mRcuInfos.get(i).getDevUnitID())) {
+                        MyApplication.mInstance.setRcuInfo(mRcuInfos.get(i));
+                        break;
+                    }
+                }
+                MyApplication.mInstance.setAllHandler(mDataHandler);
+
+                startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
+                finish();
+            } else {
+                startActivity(new Intent(WelcomeActivity.this, SettingActivity.class));
+                finish();
+            }
         } else {
             if (login == LOGIN_OK) {
                 startActivity(new Intent(WelcomeActivity.this, SettingActivity.class));
                 finish();
             } else {
-                startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+                startActivity(new Intent(WelcomeActivity.this, cn.semtec.community2.activity.LoginActivity.class));
 //                startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
                 finish();
             }

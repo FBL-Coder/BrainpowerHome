@@ -48,7 +48,7 @@ public class UdpProPkt {
 				43), e_udpPro_report_cardInput(44), e_udpPro_irDev_exeRet(45), e_udpPro_quick_setDevKey(
 				46), e_udpPro_quick_delDevKey(47), e_udpPro_get_modulePos(48),e_udpPro_soft_iap_data(49),
 		e_udpPro_get_soft_version(50),e_udpPro_bc_key_ctrl(51),e_udpPro_ctrl_allDevs(52),e_udpPro_hotel_signal(53),
-		e_udpPro_confirm_signal(54),e_udpPro_boardCast(60),e_add_user(61),e_login(62),e_addnewnet(63);
+		e_udpPro_confirm_signal(54),e_udpPro_boardCast(60),e_add_user(61),e_login(62),e_addnewnet(63),e_deleteNet(64);
 
 		private int value;
 

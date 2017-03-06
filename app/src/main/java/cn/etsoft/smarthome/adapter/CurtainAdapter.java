@@ -80,7 +80,8 @@ public class CurtainAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                if (System.currentTimeMillis() - TimeExit > 1500) {
+                if (System.currentTimeMillis() - TimeExit > 1000) {
+                    MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                     TimeExit = System.currentTimeMillis();
                     int Value = UdpProPkt.E_CURT_CMD.e_curt_stop.getValue();
 
@@ -100,7 +101,8 @@ public class CurtainAdapter extends BaseAdapter {
         viewHolder.left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (System.currentTimeMillis() - TimeExit1 > 1500) {
+                if (System.currentTimeMillis() - TimeExit1 > 1000) {
+                    MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                     TimeExit1 = System.currentTimeMillis();
                     int Value = UdpProPkt.E_CURT_CMD.e_curt_offOn.getValue();
 
@@ -120,7 +122,8 @@ public class CurtainAdapter extends BaseAdapter {
         viewHolder.right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (System.currentTimeMillis() - TimeExit2 > 1500) {
+                if (System.currentTimeMillis() - TimeExit2 > 1000) {
+                    MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                     TimeExit2 = System.currentTimeMillis();
                     int Value = UdpProPkt.E_CURT_CMD.e_curt_offOff.getValue();
 

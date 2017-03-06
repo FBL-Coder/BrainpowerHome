@@ -270,6 +270,8 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
         }
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         isRegister = true;
+        startActivity(new Intent(new Intent(this, VideoActivity.class)));
+        finish();
     }
 
     @Override

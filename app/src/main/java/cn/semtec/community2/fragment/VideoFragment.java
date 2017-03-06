@@ -19,7 +19,6 @@ import org.linphone.squirrel.squirrelCallImpl;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import cc.ldsd.common.util.SipCompress;
 import cn.etsoft.smarthome.R;
 import cn.semtec.community2.MyApplication;
 import cn.semtec.community2.activity.CallingActivity;
@@ -89,10 +88,11 @@ public class VideoFragment extends Fragment {
                         LoseAndAgian();
                         return;
                     }
-                    String s = SipCompress.compress(MyApplication.houseProperty.sipnum, MyApplication.cellphone);
+//                    String s = SipCompress.compress(MyApplication.houseProperty.sipnum, MyApplication.cellphone);
                     // 开门
-                    ((squirrelCallImpl) getActivity().getApplication()).squirrelSendMessage(map.get("obj_sipnum"),
-                            MyApplication.houseProperty.sipaddr, squirrelCallImpl.serverport, s, 100);
+                    ((squirrelCallImpl) getActivity().getApplication()).squirrelSendMessage(map.get("obj_sipnum")
+                            ,MyApplication.houseProperty.sipaddr,squirrelCallImpl.serverport
+                            ,squirrelCallImpl.OPENDOOR,100);
                 }
             });
             holder.image.setOnClickListener(new View.OnClickListener() {

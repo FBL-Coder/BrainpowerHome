@@ -69,7 +69,8 @@ public class Main_SceneFragment extends Fragment {
         gridView_light.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (System.currentTimeMillis() - TimeExit > 1500) {
+                if (System.currentTimeMillis() - TimeExit > 1000) {
+                    MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                     TimeExit = System.currentTimeMillis();
 
                     String exec_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +

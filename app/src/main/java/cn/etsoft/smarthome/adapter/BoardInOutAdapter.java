@@ -52,7 +52,7 @@ public class BoardInOutAdapter extends BaseAdapter {
             } else {
                 return 0;
             }
-        }else {
+        } else {
             return 0;
         }
     }
@@ -71,7 +71,7 @@ public class BoardInOutAdapter extends BaseAdapter {
             } else {
                 return 0;
             }
-        }else {
+        } else {
             return 0;
         }
     }
@@ -100,7 +100,7 @@ public class BoardInOutAdapter extends BaseAdapter {
         } else if (board_id == UdpProPkt.E_BOARD_TYPE.e_board_keyInput.getValue()) {
             viewHolder.title.setText(inputListItems.get(position).getBoardName());
         }
-        viewHolder.image.setImageResource(image[position]);
+        viewHolder.image.setImageResource(image[position % 5]);
         viewHolder.hui.setImageResource(R.drawable.huijiantou);
 
         return convertView;

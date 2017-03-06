@@ -59,15 +59,24 @@ public class Setting_MainFrameFragment extends Fragment implements View.OnClickL
     private Button sure, cancel;
     private ListView equi_list;
     private Equi_ListAdapter adapter;
-    private SharedPreferences sharedPreferences;
     private View view;
     private String UnitID = GlobalVars.getDevid();
     private String str;
+    private SharedPreferences sharedPreferences;
+    private String json_user;
+    private String json_rcuinfo_list;
+    private User user;
+    private Gson gson;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_network, container, false);
+        sharedPreferences = MyApplication.mInstance.getSharedPreferences("profile", Context.MODE_PRIVATE);
+        json_user = sharedPreferences.getString("user", "");
+        json_rcuinfo_list = sharedPreferences.getString("list", "");
+        gson = new Gson();
+        user = gson.fromJson(json_user, User.class);
         //初始化空件
         initView();
 
@@ -95,6 +104,30 @@ public class Setting_MainFrameFragment extends Fragment implements View.OnClickL
                         if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue()) {
                             initView();
                         }
+
+                        if (what == UdpProPkt.E_UDP_RPO_DAT.e_deleteNet.getValue()){
+                            int reslut = MyApplication.getWareData().getDeleteNetReslut().getInt("Reslut",2);
+                            if (reslut == 0) {
+                                ToastUtil.showToast(getActivity(),"删除成功");
+                                Gson gson = new Gson();
+                                List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
+                                }.getType());
+                                String DevId =  MyApplication.getWareData().getDeleteNetReslut().getString("id");
+                                for (int i = 0; i < json_list.size(); i++) {
+                                    if (json_list.get(i).getDevUnitID().equals(DevId)){
+                                        json_list.remove(i);
+                                    }
+                                }
+                                String json = gson.toJson(json_list);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("list", json);
+                                editor.commit();
+                                initView();
+                            }else if (reslut == 1)
+                                ToastUtil.showToast(getActivity(),"模块已删除");
+                            else
+                                ToastUtil.showToast(getActivity(),"删除失败");
+                        }
                     }
                 });
         return view;
@@ -106,25 +139,21 @@ public class Setting_MainFrameFragment extends Fragment implements View.OnClickL
     private void initView() {
         if ("".equals(UnitID) || UnitID == null)
             UnitID = "00";
-        sharedPreferences = MyApplication.getContext().getSharedPreferences("profile", Context.MODE_PRIVATE);
-        String json_rcuinfo_list = sharedPreferences.getString("list", "");
+        sharedPreferences = MyApplication.mInstance.getSharedPreferences("profile", Context.MODE_PRIVATE);
+        json_user = sharedPreferences.getString("user", "");
+        json_rcuinfo_list = sharedPreferences.getString("list", "");
         add = (LinearLayout) view.findViewById(R.id.network_add);
         add.setOnClickListener(this);
         equi_list = (ListView) view.findViewById(R.id.equi_list);
         add.setOnClickListener(this);
         if (!"".equals(json_rcuinfo_list)) {
-            adapter = new Equi_ListAdapter();
+            adapter = new Equi_ListAdapter(json_rcuinfo_list);
             equi_list.setAdapter(adapter);
         }
-
 
         equi_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
-                //list条目点击事件；
-//                startActivity(new Intent(NetWorkActivity.this, SetNewWorkActivity.class).putExtra("id", position));
-
-
                 CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(getActivity());
                 builder.setTitle("提示 :");
 
@@ -139,8 +168,6 @@ public class Setting_MainFrameFragment extends Fragment implements View.OnClickL
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        String json_rcuinfo_list = sharedPreferences.getString("list", "");
-                        Gson gson = new Gson();
                         List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
                         }.getType());
 
@@ -151,17 +178,19 @@ public class Setting_MainFrameFragment extends Fragment implements View.OnClickL
                         }
                         RcuInfo info = json_list.get(position);
                         Log.i("RcuInfo", info.getDevUnitID());
-
                         if (UnitID.equals(info.getDevUnitID())) {
                             ToastUtil.showToast(getActivity(), "正在使用中");
                             dialog.dismiss();
                             return;
                         }
+
+                        MyApplication.mInstance.setRcuInfo(info);
                         json_list.remove(position);
                         json_list.add(info);
                         String str1 = gson.toJson(json_list);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("list", str1);
+                        editor.putString("module_str",info.getDevUnitID()+"-"+info.getDevUnitPass());
                         editor.commit();
                         GlobalVars.setDevid(json_list.get(json_list.size() - 1).getDevUnitID());
                         GlobalVars.setDevpass(json_list.get(json_list.size() - 1).getDevUnitPass());
@@ -183,7 +212,6 @@ public class Setting_MainFrameFragment extends Fragment implements View.OnClickL
                         //销毁已启动的主页
                         if (MyApplication.getmHomeActivity() != null)
                             MyApplication.getmHomeActivity().finish();
-
                         //重新启动主页
                         startActivity(new Intent(getActivity(), HomeActivity.class));
 
@@ -197,7 +225,6 @@ public class Setting_MainFrameFragment extends Fragment implements View.OnClickL
                 builder.create().show();
             }
         });
-
         equi_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
@@ -214,17 +241,19 @@ public class Setting_MainFrameFragment extends Fragment implements View.OnClickL
                 builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String json_rcuinfo_list = sharedPreferences.getString("list", "");
                         Gson gson = new Gson();
                         List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
                         }.getType());
-
-                        json_list.remove(position);
-                        String json = gson.toJson(json_list);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("list", json);
-                        editor.commit();
-                        initView();
+                        final String key_str = "{" +
+                                "\"userName\":\"" +user.getId() + "\"," +
+                                "\"passwd\":\"" + user.getPass() + "\"," +
+                                "\"devUnitID\":\"" + json_list.get(position).getDevUnitID() + "\"," +
+                                "\"devPass\":\"" + json_list.get(position).getDevUnitPass() + "\"," +
+                                "\"canCpuName\":\"" + json_list.get(position).getCanCpuName() + "\"," +
+                                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_deleteNet.getValue() + "," +
+                                "\"subType1\":0," +
+                                "\"subType2\":0" + "}";
+                        MyApplication.sendMsg(key_str);
                         dialog.dismiss();
                     }
                 });
@@ -233,7 +262,6 @@ public class Setting_MainFrameFragment extends Fragment implements View.OnClickL
             }
         });
     }
-
     /**
      * 初始化自定义dialog
      */
@@ -261,7 +289,6 @@ public class Setting_MainFrameFragment extends Fragment implements View.OnClickL
                 String name_equi = name.getText().toString();
                 String id_equi = id.getText().toString();
                 String pass_equi = pwd.getText().toString();
-                String json_rcuinfo_list = sharedPreferences.getString("list", "");
 
                 Gson gson = new Gson();
                 List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
@@ -292,9 +319,6 @@ public class Setting_MainFrameFragment extends Fragment implements View.OnClickL
 //                    "subType1": 0,
 //                    "subType2": 0
 //            }
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("profile", Context.MODE_PRIVATE);
-                String json_user = sharedPreferences.getString("user", "");
-                User user = gson.fromJson(json_user, User.class);
                 final String key_str = "{" +
                         "\"userName\":\"" + user.getId() + "\"," +
                         "\"passwd\":\"" + user.getPass() + "\"," +
@@ -313,40 +337,13 @@ public class Setting_MainFrameFragment extends Fragment implements View.OnClickL
     }
 
     class Equi_ListAdapter extends BaseAdapter {
-        String json_rcuinfo_list = sharedPreferences.getString("list", "");
         List<RcuInfo> json_list;
-
-        Equi_ListAdapter() {
+        Equi_ListAdapter(String json_rcuinfo_list) {
             json_list = new Gson().fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
             }.getType());
             if (json_list == null) {
                 json_list = new ArrayList<>();
             }
-////            [{"devUnitID":"39ffe005484d303433630443","devUnitPass":"33630443","name":"手机","rev1":0,"rev2":0,"bDhcp":0}]
-//            Log.i("JSON", json_rcuinfo_list);
-//
-//            json_list = new ArrayList<>();
-//            try {
-//                JSONArray array = new JSONArray(json_rcuinfo_list);
-//                for (int i = 0; i < array.length(); i++) {
-//                    JSONObject object = array.getJSONObject(i);
-//                    RcuInfo info = new RcuInfo();
-//                    info.setDevUnitID(object.getString("devUnitID"));
-//                    info.setDevUnitPass(object.getString("devUnitPass"));
-//                    info.setName(object.getString("name"));
-//                    json_list.add(info);
-//                }
-//
-//            } catch (JSONException e) {
-////                e.printStackTrace();
-//                Log.i("NetWorkActivity", e + "");
-//            }
-//
-//            for (int i = 0; i < json_list.size(); i++) {
-//                if (rcuinfo.getDevUnitID().equals(json_list.get(i).getDevUnitID())) {
-//                    json_list.set(i, rcuinfo);
-//                }
-//            }
         }
 
         @Override

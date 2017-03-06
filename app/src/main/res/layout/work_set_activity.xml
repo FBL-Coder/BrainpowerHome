@@ -29,6 +29,7 @@
             android:textColorHint="@color/color_000"
             android:background="#eee"
             android:gravity="center_vertical"
+            android:textCursorDrawable="@drawable/moduledetails_cursor"
              />
     </LinearLayout>
 
@@ -79,6 +80,7 @@
             android:textColor="@color/color_E9573F"
             android:textColorHint="@color/color_000"
             android:background="#eee"
+            android:textCursorDrawable="@drawable/moduledetails_cursor"
             android:inputType="number"
             android:gravity="center_vertical"
              />
@@ -109,6 +111,7 @@
             android:background="#eee"
             android:inputType="number"
             android:gravity="center_vertical"
+            android:textCursorDrawable="@drawable/moduledetails_cursor"
              />
     </LinearLayout>
 
@@ -133,6 +136,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:inputType="number"
+            android:textCursorDrawable="@drawable/moduledetails_cursor"
             android:textColor="@color/color_E9573F"
             android:textColorHint="@color/color_000"
             android:background="#eee"
@@ -161,6 +165,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:inputType="number"
+            android:textCursorDrawable="@drawable/moduledetails_cursor"
             android:textColor="@color/color_E9573F"
             android:textColorHint="@color/color_000"
             android:background="#eee"
@@ -191,6 +196,7 @@
             android:textColor="@color/color_E9573F"
             android:textColorHint="@color/color_000"
             android:background="#eee"
+            android:textCursorDrawable="@drawable/moduledetails_cursor"
             android:inputType="number"
             android:gravity="center_vertical"
              />

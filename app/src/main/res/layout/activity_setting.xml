@@ -149,7 +149,8 @@
             android:paddingLeft="16dp"
             android:text="退出登录"
             android:textColor="@color/text666"
-            android:textSize="@dimen/main_textSize14" />
+            android:textSize="@dimen/main_textSize14"
+            android:visibility="gone"/>
 
         <View
             android:layout_width="match_parent"

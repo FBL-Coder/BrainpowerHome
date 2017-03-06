@@ -56,6 +56,7 @@ public class ApplianceAdapter extends BaseAdapter {
 
     WareAirCondDev AirCondDev;
     List<WareAirCondDev> AicList;
+    List<WareTv> TVList;
     WareTv tvs;
     WareSetBox boss;
     private int modelValue = 0, curValue = 0, cmdValue = 0;
@@ -88,7 +89,7 @@ public class ApplianceAdapter extends BaseAdapter {
             AicList = MyApplication.getWareData().getAirConds();
             for (int i = 0; i < AicList.size(); i++) {
                 if (dev_list.get(position).getDevId() == AicList.get(i).getDev().getDevId() &&
-                        dev_list.get(position).getType() == AicList.get(i).getDev().getType()) {
+                        dev_list.get(position).getCanCpuId().equals(AicList.get(i).getDev().getCanCpuId())) {
                     AirCondDev = AicList.get(i);
                 }
             }
@@ -147,9 +148,9 @@ public class ApplianceAdapter extends BaseAdapter {
         } else if (dev_list.get(position).getType() == 1) {
 
             List<WareTv> TvsList = MyApplication.getWareData().getTvs();
-            for (int i = 0; i < AicList.size(); i++) {
+            for (int i = 0; i < TvsList.size(); i++) {
                 if (dev_list.get(position).getDevId() == TvsList.get(i).getDev().getDevId() &&
-                        dev_list.get(position).getType() == TvsList.get(i).getDev().getType()) {
+                        dev_list.get(position).getCanCpuId().equals(TvsList.get(i).getDev().getCanCpuId())){
                     tvs = TvsList.get(i);
                 }
             }
@@ -204,11 +205,11 @@ public class ApplianceAdapter extends BaseAdapter {
         viewHolder.btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                 str_Fixed = getDevCmdstr(position);//获取当前点击发送的命令头
                 int value = 0;
                 if (dev_list.get(position).getType() == 0) {
-                    if (IsAirOpen(position, AicList,false))
+                    if (IsAirOpen(position, AicList, false))
                         return;//判断空调是否关机，并提示用户；
 
                     cmdValue = UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue();//关闭空调
@@ -228,11 +229,11 @@ public class ApplianceAdapter extends BaseAdapter {
         viewHolder.btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                 str_Fixed = getDevCmdstr(position);//获取当前点击发送的命令头
                 int value = 0;
                 if (dev_list.get(position).getType() == 0) {
-                    if (!IsAirOpen(position, AicList,false))
+                    if (!IsAirOpen(position, AicList, false))
                         return;//判断空调是否关机，并提示用户；
                     cmdValue = UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue();//打开空调
                     value = (modelValue << 5) | cmdValue;
@@ -251,12 +252,12 @@ public class ApplianceAdapter extends BaseAdapter {
         viewHolder.btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                 str_Fixed = getDevCmdstr(position);//获取当前点击发送的命令头
                 int value = 1;
                 if (dev_list.get(position).getType() == 0) {
                     //设置降温
-                    if (IsAirOpen(position, AicList,true))
+                    if (IsAirOpen(position, AicList, true))
                         return;//判断空调是否关机，并提示用户；
 
                     for (int i = 0; i < AicList.size(); i++) {//获取当前空调的温度
@@ -285,12 +286,12 @@ public class ApplianceAdapter extends BaseAdapter {
         viewHolder.btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                 str_Fixed = getDevCmdstr(position); //获取当前点击发送的命令头
                 int value = 0;
                 if (dev_list.get(position).getType() == 0) {
 
-                    if (IsAirOpen(position, AicList,true))
+                    if (IsAirOpen(position, AicList, true))
                         return;//判断空调是否关机，并提示用户；
                     //设置升温
                     for (int i = 0; i < AicList.size(); i++) {//获取当前的温度
@@ -322,12 +323,12 @@ public class ApplianceAdapter extends BaseAdapter {
         viewHolder.btn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                 str_Fixed = getDevCmdstr(position); //获取当前点击发送的命令头
                 int value = 0;
                 if (dev_list.get(position).getType() == 0) {
 
-                    if (IsAirOpen(position, AicList,true))
+                    if (IsAirOpen(position, AicList, true))
                         return;//判断空调是否关机，并提示用户；
 
                     cmdValue = UdpProPkt.E_AIR_CMD.e_air_spdLow.getValue();
@@ -345,11 +346,11 @@ public class ApplianceAdapter extends BaseAdapter {
         viewHolder.btn6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                 str_Fixed = getDevCmdstr(position); //获取当前点击发送的命令头
                 int value = 0;
                 if (dev_list.get(position).getType() == 0) {
-                    if (IsAirOpen(position, AicList,true))
+                    if (IsAirOpen(position, AicList, true))
                         return;//判断空调是否关机，并提示用户；
 
                     cmdValue = UdpProPkt.E_AIR_CMD.e_air_spdMid.getValue();
@@ -368,11 +369,11 @@ public class ApplianceAdapter extends BaseAdapter {
         viewHolder.btn7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                 str_Fixed = getDevCmdstr(position); //获取当前点击发送的命令头
 
                 if (dev_list.get(position).getType() == 0) {
-                    if (IsAirOpen(position, AicList,true))
+                    if (IsAirOpen(position, AicList, true))
                         return;//判断空调是否关机，并提示用户；
                     cmdValue = UdpProPkt.E_AIR_CMD.e_air_spdHigh.getValue();
 
@@ -397,12 +398,13 @@ public class ApplianceAdapter extends BaseAdapter {
 
     /**
      * 判断空调状态（开/关）
-     * @param item 集合数引
+     *
+     * @param item  集合数引
      * @param list  集合
-     * @param toast  是都提醒用户
+     * @param toast 是都提醒用户
      * @return
      */
-    public boolean IsAirOpen(int item, List<WareAirCondDev> list,boolean toast) {
+    public boolean IsAirOpen(int item, List<WareAirCondDev> list, boolean toast) {
         for (int i = 0; i < list.size(); i++) {//获取当前的温度
             if (dev_list.get(item).getDevId() == list.get(i).getDev().getDevId()
                     && dev_list.get(item).getType() == list.get(i).getDev().getType()) {
@@ -411,7 +413,7 @@ public class ApplianceAdapter extends BaseAdapter {
         }
         if (AirCondDev.getbOnOff() == UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue()) {
             if (toast)
-            ToastUtil.showToast(context, "请先开机，再操作");
+                ToastUtil.showToast(context, "请先开机，再操作");
             return true;
         } else {
             return false;

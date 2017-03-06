@@ -144,8 +144,9 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
                         GlobalVars.setDevid("");
                         GlobalVars.setDevpass("");
 
-                        MyApplication.getmHomeActivity().finish();
-                        startActivity(new Intent(SettingActivity.this, LoginActivity.class));
+                        if (MyApplication.getmHomeActivity() != null)
+                            MyApplication.getmHomeActivity().finish();
+                        startActivity(new Intent(SettingActivity.this, cn.semtec.community2.activity.LoginActivity.class));
                         dialogInterface.dismiss();
                         finish();
                     }

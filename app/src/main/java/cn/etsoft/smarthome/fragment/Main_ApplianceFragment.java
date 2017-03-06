@@ -25,7 +25,7 @@ public class Main_ApplianceFragment extends Fragment implements AdapterView.OnIt
 
     private ListView listView_appliance;
     private ApplianceAdapter listViewAdapter;
-    private List<WareDev> AirConds;
+    private List<WareDev> AllDevs;
     private List<String> room_list;
     private int room_position = 0;
     private int DEVS_ALL_ROOM = -1;
@@ -70,23 +70,23 @@ public class Main_ApplianceFragment extends Fragment implements AdapterView.OnIt
      * 数据加载；
      */
     public void upData() {
-        AirConds = new ArrayList<>();
+        AllDevs = new ArrayList<>();
         for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
-            AirConds.add(MyApplication.getWareData().getDevs().get(i));
+            AllDevs.add(MyApplication.getWareData().getDevs().get(i));
         }
         //房间内的灯集合
-        List<WareDev> AirCond_room = new ArrayList<>();
+        List<WareDev> AllDevs_room = new ArrayList<>();
         //房间集合
         room_list = MyApplication.getRoom_list();
         //房间id；
         room_position = getArguments().getInt("room_position", 0);
         //根据房间id获取设备；
         if (room_position == DEVS_ALL_ROOM) {
-            AirCond_room = AirConds;
+            AllDevs_room = AllDevs;
         } else {
-            for (int i = 0; i < AirConds.size(); i++) {
-                if (AirConds.get(i).getRoomName().equals(room_list.get(room_position))) {
-                    AirCond_room.add(AirConds.get(i));
+            for (int i = 0; i < AllDevs.size(); i++) {
+                if (AllDevs.get(i).getRoomName().equals(room_list.get(room_position))) {
+                    AllDevs_room.add(AllDevs.get(i));
                 }
             }
         }
@@ -94,7 +94,7 @@ public class Main_ApplianceFragment extends Fragment implements AdapterView.OnIt
         if (listViewAdapter != null) {
             listViewAdapter.notifyDataSetChanged();
         } else {
-            listViewAdapter = new ApplianceAdapter(AirCond_room, getActivity(), inflater);
+            listViewAdapter = new ApplianceAdapter(AllDevs_room, getActivity(), inflater);
             listView_appliance.setAdapter(listViewAdapter);
         }
         listView_appliance.setOnItemClickListener(this);

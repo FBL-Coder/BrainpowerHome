@@ -32,6 +32,7 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
 
 /**
  * Created by Say GoBay on 2016/9/2.
+ * 情景房间之设备设置
  */
 public class ParlourActivity extends Activity implements View.OnClickListener {
     private GridView gridView;
@@ -118,8 +119,9 @@ public class ParlourActivity extends Activity implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //在这里，确定设置设备。
                 TextView tv = (TextView) view.findViewById(R.id.light_gv_title);
+                ImageView imageView = (ImageView) view.findViewById(R.id.light_gv_img);
                 List list = new ArrayList();
-                getDialog(position, list, tv);
+                getDialog(position, list, imageView);
             }
         });
     }
@@ -129,18 +131,18 @@ public class ParlourActivity extends Activity implements View.OnClickListener {
      */
     CustomDialog dialog;
 
-    public void getDialog(int position, List list, TextView tv) {
+    public void getDialog(int position, List list, ImageView imageView) {
         dialog = new CustomDialog(this, R.style.customDialog, R.layout.dialog_parlour_curtain);
         dialog.getWindow().setGravity(Gravity.BOTTOM);
         dialog.show();
         //初始化DialogGridView
-        initDialogGridView(position, list, tv);
+        initDialogGridView(position, list, imageView);
     }
 
     /**
      * 初始化DialogGridView
      */
-    private void initDialogGridView(final int parent_position, final List list, final TextView tv) {
+    private void initDialogGridView(final int parent_position, final List list, final ImageView imageView) {
         gridView = (GridView) dialog.findViewById(R.id.parlour_dialog_gv);
         int devType = listViewItems.get(parent_position).getType();
         switch (devType) {
@@ -158,96 +160,104 @@ public class ParlourActivity extends Activity implements View.OnClickListener {
         }
         gridView.setSelector(R.drawable.selector_gridview_item);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String cpuid = listViewItems.get(parent_position).getCanCpuId();
-                int type = listViewItems.get(parent_position).getType();
-                int devid = listViewItems.get(parent_position).getDevId();
-                if (type == 3) {
-                    if (position == 1) {
-                        tv.setBackgroundResource(R.drawable.lightoff);
-                        list.add(0);
-                        list.add(cpuid);
-                        list.add(type);
-                        list.add(devid);
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                String cpuid = listViewItems.get(parent_position).getCanCpuId();
+                                                int type = listViewItems.get(parent_position).getType();
+                                                int devid = listViewItems.get(parent_position).getDevId();
+                                                if (type == 3) {
+                                                    if (position == 1) {
+                                                        imageView.setImageResource(R.drawable.lightoff);
+                                                        list.add(0);
+                                                        list.add(cpuid);
+                                                        list.add(type);
+                                                        list.add(devid);
 
-                    } else {
-                        tv.setBackgroundResource(R.drawable.lighton);
-                        list.add(1);
-                        list.add(cpuid);
-                        list.add(type);
-                        list.add(devid);
+                                                    } else {
+                                                        imageView.setImageResource(R.drawable.lighton);
+                                                        list.add(1);
+                                                        list.add(cpuid);
+                                                        list.add(type);
+                                                        list.add(devid);
 
-                    }
-                } else if (type == 0) {//空调
-                    if (position == 1) {
-                        tv.setBackgroundResource(R.drawable.off3);
-                        list.add(0);
-                        list.add(cpuid);
-                        list.add(type);
-                        list.add(devid);
-                    } else {
-                        tv.setBackgroundResource(R.drawable.on3);
-                        list.add(1);
-                        list.add(cpuid);
-                        list.add(type);
-                        list.add(devid);
-                    }
-                } else if (type == 4) {//窗帘
-                    if (position == 2) {
-                        tv.setBackgroundResource(R.drawable.blind5);
-                        list.add(0);
-                        list.add(cpuid);
-                        list.add(type);
-                        list.add(devid);
-                    } else if (position == 1) {
-                        tv.setBackgroundResource(R.drawable.blind3);
-                        list.add(1);
-                        list.add(cpuid);
-                        list.add(type);
-                        list.add(devid);
-                    } else {
-                        tv.setBackgroundResource(R.drawable.blind6);
-                        list.add(2);
-                        list.add(cpuid);
-                        list.add(type);
-                        list.add(devid);
-                    }
-                } else if (type == 1) {//电视
-                    if (position == 1) {
-                        tv.setBackgroundResource(R.drawable.air_choose2);
-                        list.add(0);
-                        list.add(cpuid);
-                        list.add(type);
-                        list.add(devid);
-                    } else {
-                        tv.setBackgroundResource(R.drawable.air_choose1);
-                        list.add(1);
-                        list.add(cpuid);
-                        list.add(type);
-                        list.add(devid);
-                    }
-                } else if (type == 2) {//机顶盒
-                    if (position == 1) {
-                        tv.setBackgroundResource(R.drawable.air_choose2);
-                        list.add(0);
-                        list.add(cpuid);
-                        list.add(type);
-                        list.add(devid);
-                    } else {
-                        tv.setBackgroundResource(R.drawable.air_choose1);
-                        list.add(1);
-                        list.add(cpuid);
-                        list.add(type);
-                        list.add(devid);
-                    }
-                }
+                                                    }
+                                                } else if (type == 0) {//空调
+                                                    if (position == 1) {
+                                                        imageView.setImageResource(R.drawable.off3);
+                                                        list.add(0);
+                                                        list.add(cpuid);
+                                                        list.add(type);
+                                                        list.add(devid);
+                                                    } else {
+                                                        imageView.setImageResource(R.drawable.on3);
+                                                        list.add(1);
+                                                        list.add(cpuid);
+                                                        list.add(type);
+                                                        list.add(devid);
+                                                    }
+                                                } else if (type == 4) {//窗帘
 
-                dialog.dismiss();
-                mList.set(parent_position, list);
-            }
+                                                    if (position == 2) {
+                                                        imageView.setImageResource(R.drawable.clg);
+                                                        list.add(1);
+                                                        list.add(cpuid);
+                                                        list.add(type);
+                                                        list.add(devid);
 
-        });
+                                                    } else if (position == 1) {
+                                                        imageView.setImageResource(R.drawable.clbk);
+                                                        list.add(1);
+                                                        list.add(cpuid);
+                                                        list.add(type);
+                                                        list.add(devid);
+                                                    } else {
+                                                        imageView.setImageResource(R.drawable.clk);
+                                                        list.add(2);
+                                                        list.add(cpuid);
+                                                        list.add(type);
+                                                        list.add(devid);
+                                                    }
+                                                } else if (type == 1)
+
+                                                {//电视
+                                                    if (position == 1) {
+                                                        imageView.setImageResource(R.drawable.dsg);
+                                                        list.add(0);
+                                                        list.add(cpuid);
+                                                        list.add(type);
+                                                        list.add(devid);
+                                                    } else {
+                                                        imageView.setImageResource(R.drawable.dsk);
+                                                        list.add(1);
+                                                        list.add(cpuid);
+                                                        list.add(type);
+                                                        list.add(devid);
+                                                    }
+                                                } else if (type == 2)
+
+                                                {//机顶盒
+                                                    if (position == 1) {
+                                                        imageView.setImageResource(R.drawable.jdhg);
+                                                        list.add(0);
+                                                        list.add(cpuid);
+                                                        list.add(type);
+                                                        list.add(devid);
+                                                    } else {
+                                                        imageView.setImageResource(R.drawable.jdhk);
+                                                        list.add(1);
+                                                        list.add(cpuid);
+                                                        list.add(type);
+                                                        list.add(devid);
+                                                    }
+                                                }
+
+                                                dialog.dismiss();
+                                                mList.set(parent_position, list);
+                                            }
+
+                                        }
+
+        );
         dialog_back = (ImageView) dialog.findViewById(R.id.dialog_back);
         dialog_back.setOnClickListener(this);
     }

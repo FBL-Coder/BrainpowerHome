@@ -71,7 +71,7 @@
     <style name="LandscapeViewStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_1</item>
-        <item name="android:background">@color/color_E5E5E5</item>
+        <item name="android:background">@color/color_fff</item>
     </style>
     <!--背景透明-->
     <style name="myTransparent">

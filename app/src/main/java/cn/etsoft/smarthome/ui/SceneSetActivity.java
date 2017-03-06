@@ -33,6 +33,8 @@ import cn.etsoft.smarthome.widget.SwipeListView;
 
 /**
  * Created by Say GoBay on 2016/9/2.
+ * 情景设置 页面
+ *
  */
 public class SceneSetActivity extends Activity implements AdapterView.OnItemClickListener, View.OnClickListener {
     private ImageView iv_cancel, back;

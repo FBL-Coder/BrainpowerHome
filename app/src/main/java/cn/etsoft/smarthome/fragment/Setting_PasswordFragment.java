@@ -52,7 +52,7 @@ public class Setting_PasswordFragment extends Fragment implements View.OnClickLi
             ToastUtil.showToast(getActivity(),"没有数据！");
             return;
         }
-        rcuinfo =  MyApplication.getWareData().getRcuInfos().get(0);
+        rcuinfo =  MyApplication.mInstance.getRcuInfo();
         bDhcp = rcuinfo.getbDhcp();
 
         devUnitID = (TextView) view.findViewById(R.id.work_devUnitID);

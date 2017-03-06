@@ -22,6 +22,7 @@ import cn.etsoft.smarthome.pullmi.entity.WareDev;
 
 /**
  * Created by Say GoBay on 2016/8/26.
+ * 输出板通道详情
  */
 public class ParlourFourOutActivity extends Activity implements AdapterView.OnItemClickListener {
     private TextView mTitle;

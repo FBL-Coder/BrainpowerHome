@@ -22,13 +22,16 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/dp_5"
         android:layout_marginTop="@dimen/dp_5"
-        android:background="@color/color_fff" />
+        android:background="@color/color_fff"
+        />
 
     <LinearLayout
         android:id="@+id/ll_scene_time"
         android:layout_width="@dimen/dp_0"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:visibility="invisible"
+        >
         <ImageView
             android:id="@+id/time"
             android:layout_width="@dimen/dp_0"

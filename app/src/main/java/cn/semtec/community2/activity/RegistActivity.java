@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.lidroid.xutils.exception.HttpException;
@@ -23,8 +22,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.semtec.community2.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
+import cn.semtec.community2.MyApplication;
 import cn.semtec.community2.model.MyHttpUtil;
 import cn.semtec.community2.tool.Constants;
 import cn.semtec.community2.util.CatchUtil;
@@ -39,12 +39,13 @@ public class RegistActivity extends MyBaseActivity implements View.OnClickListen
     private EditText et_verify;
     private Button btn_verify;
     private View btn_commit;
-    private CheckBox check_clause;
-    private View tv_clause;
+    //    private CheckBox check_clause;
+//    private View tv_clause;
     private String cellphone;
     private String verify;
     private String password;
     private Intent intent;
+    private int ADDOK = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +63,13 @@ public class RegistActivity extends MyBaseActivity implements View.OnClickListen
         btn_verify = (Button) findViewById(R.id.btn_verify);
         et_password = (EditText) findViewById(R.id.et_password);
         btn_commit = findViewById(R.id.btn_commit);
-        check_clause = (CheckBox) findViewById(R.id.check_clause);
-        tv_clause = findViewById(R.id.tv_clause);
+
     }
 
     private void setListener() {
         btn_back.setOnClickListener(this);
         btn_verify.setOnClickListener(this);
         btn_commit.setOnClickListener(this);
-        tv_clause.setOnClickListener(this);
     }
 
     @Override
@@ -79,18 +78,10 @@ public class RegistActivity extends MyBaseActivity implements View.OnClickListen
             case R.id.btn_back:
                 finish();
                 break;
-            case R.id.tv_clause:
-                ToastUtil.s(this, "建设中，敬请期待！");
-                //用户条款
-                break;
             case R.id.btn_verify:
                 getVerifycode();
                 break;
             case R.id.btn_commit:
-                if (!check_clause.isChecked()) {
-                    ToastUtil.s(this, "请先阅读《用户使用条款》");
-                    break;
-                }
                 if (!CheckInput()) {
                     break;
                 }
@@ -153,15 +144,35 @@ public class RegistActivity extends MyBaseActivity implements View.OnClickListen
                     String mResult = responseInfo.result.toString();
                     try {
                         JSONObject jo = new JSONObject(mResult);
-                        if (jo.getInt("returnCode") == 0) {
-                            ToastUtil.s(RegistActivity.this, getString(R.string.regist_regist_s));
-                            LogUtils.i(getString(R.string.regist_regist_s));
-                            MyApplication.getSharedPreferenceUtil().putString("cellphone", cellphone);
-                            MyApplication.getSharedPreferenceUtil().putString("password", password);
-                            intent.putExtra("cellphone", cellphone);
-                            intent.putExtra("password", password);
-                            setResult(RESULT_OK, intent);
-                            finish();
+                        if (jo.getInt("returnCode") == ADDOK) {
+                            //添加智能家居后台用户注册
+                            cn.etsoft.smarthome.MyApplication.mInstance.setOnGetWareDataListener(new cn.etsoft.smarthome.MyApplication.OnGetWareDataListener() {
+                                @Override
+                                public void upDataWareData(int what) {
+                                    if (what == UdpProPkt.E_UDP_RPO_DAT.e_add_user.getValue()) {
+                                        if (cn.etsoft.smarthome.MyApplication.getWareData().getAddUser_reslut() == ADDOK) {
+
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("id", cellphone);
+                                            bundle.putString("pass", password);
+                                            ToastUtil.s(RegistActivity.this, getString(R.string.regist_regist_s));
+                                            LogUtils.i(getString(R.string.regist_regist_s));
+                                            MyApplication.getSharedPreferenceUtil().putString("cellphone", cellphone);
+                                            MyApplication.getSharedPreferenceUtil().putString("password", password);
+                                            setResult(0, getIntent().putExtra("bundle", bundle));
+                                            finish();
+                                        } else if (cn.etsoft.smarthome.MyApplication.getWareData().getLogin_result() == 1) {
+                                            cn.etsoft.smarthome.utils.ToastUtil.showToast(RegistActivity.this, "用户名已存在");
+                                            return;
+                                        } else {
+                                            cn.etsoft.smarthome.utils.ToastUtil.showToast(RegistActivity.this, "注册失败");
+                                            return;
+                                        }
+                                    }
+                                }
+                            });
+                            cn.etsoft.smarthome.MyApplication.addUserData(cellphone, password);
+
                         } else {
                             ToastUtil.s(RegistActivity.this, jo.getString("msg"));
                             LogUtils.i(jo.getString("msg"));
@@ -218,6 +229,7 @@ public class RegistActivity extends MyBaseActivity implements View.OnClickListen
                                     if (!args.isNull("smscode")) {
                                         String smscode = args.getString("smscode");
                                         ToastUtil.l(getApplication(), smscode);
+                                        et_verify.setText(smscode);
                                     }
                                 } else {
                                     ToastUtil.s(getApplication(), jo.getString("msg"));

@@ -60,7 +60,8 @@
         android:layout_height="@dimen/dp_100"
         android:layout_marginBottom="@dimen/dp_5"
         android:layout_marginTop="@dimen/dp_5"
-        android:background="@color/color_fff" />
+        android:background="@color/color_fff"
+        />
 
     <ImageView
         android:id="@+id/time"
@@ -69,7 +70,9 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_weight="0.5"
-        android:src="@drawable/setting" />
+        android:src="@drawable/setting"
+        android:visibility="invisible"
+        />
 
     <TextView
         android:id="@+id/pattern"
@@ -79,5 +82,7 @@
         android:layout_weight="0.5"
         android:text="vdbf"
         android:textColor="@color/color_fff"
-        android:textSize="@dimen/sp_16" />
+        android:textSize="@dimen/sp_16"
+        android:visibility="invisible"
+        />
 </LinearLayout>

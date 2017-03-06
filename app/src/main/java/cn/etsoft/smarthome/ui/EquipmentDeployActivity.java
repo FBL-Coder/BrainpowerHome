@@ -37,6 +37,7 @@ import cn.etsoft.smarthome.pullmi.entity.Iclick_Tag;
 import cn.etsoft.smarthome.pullmi.entity.WareBoardKeyInput;
 import cn.etsoft.smarthome.pullmi.entity.WareChnOpItem;
 import cn.etsoft.smarthome.pullmi.utils.Sixteen2Two;
+import cn.etsoft.smarthome.utils.ToastUtil;
 import cn.etsoft.smarthome.widget.CustomDialog_comment;
 import cn.etsoft.smarthome.widget.SwipeListView;
 
@@ -107,22 +108,28 @@ public class EquipmentDeployActivity extends Activity implements View.OnClickLis
      * 初始化标题栏
      */
     private void initTitleBar() {
-        mTitle = (TextView) findViewById(R.id.tv_home);
-        mTitle.setText(getIntent().getStringExtra("title"));
+        try {
+            mTitle = (TextView) findViewById(R.id.tv_home);
+            mTitle.setText(getIntent().getStringExtra("title"));
 
-        devtype = getIntent().getIntExtra("devType", -1);
-        devid = getIntent().getIntExtra("devID", -1);
-        uid = getIntent().getExtras().getString("uid");
+            devtype = getIntent().getIntExtra("devType", -1);
+            devid = getIntent().getIntExtra("devID", -1);
+            uid = getIntent().getExtras().getString("uid");
 
-        MyApplication.getChnItemInfo(uid, devtype, devid);
-        System.out.println("加载数据");
-        Board_text = new ArrayList<>();
-        list_board = MyApplication.getWareData().getKeyInputs();
-        for (int i = 0; i < list_board.size(); i++) {
-            Board_text.add(list_board.get(i).getBoardName());
+            MyApplication.getChnItemInfo(uid, devtype, devid);
+            System.out.println("加载数据");
+            Board_text = new ArrayList<>();
+            list_board = MyApplication.getWareData().getKeyInputs();
+            for (int i = 0; i < list_board.size(); i++) {
+                Board_text.add(list_board.get(i).getBoardName());
+            }
+            ChnOpItem = new ArrayList<>();
+            listData = new ArrayList<>();
+        }catch (Exception e){
+
+        }catch (Error error){
+
         }
-        ChnOpItem = new ArrayList<>();
-        listData = new ArrayList<>();
     }
 
     /**
@@ -271,6 +278,10 @@ public class EquipmentDeployActivity extends Activity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.equipment_out_rl:
 
+                if (list_board.size() == 0){
+                    ToastUtil.showToast(EquipmentDeployActivity.this,"没有输入模块");
+                    return;
+                }
                 tv_equipment_parlour.setText(list_board.get(0).getBoardName());
                 tv_equipment_parlour.setTag(list_board.get(0));
                 //添加页面的item点击，以及listview的初始化

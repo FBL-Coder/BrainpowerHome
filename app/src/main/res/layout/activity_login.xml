@@ -1,13 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_viewpager">
 
-    <cn.semtec.community2.view.PanningView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/login_bg" />
+    <!--<cn.semtec.community2.view.PanningView-->
+    <!--android:id="@+id/image"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:src="@drawable/login_bg" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,90 +26,95 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="centerInside"
-                android:src="@drawable/logo" />
+                android:src="@drawable/log1" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:text="智慧社区，智慧城市"
-                android:textColor="#11EEA2"
-                android:textSize="14sp"
-                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="280dp"
+            android:layout_width="@dimen/dp_300"
             android:layout_height="44dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="44dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/login_iv_bg"
-                android:scaleType="centerInside"
-                android:src="@drawable/login_account" />
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="44dp"
+                android:layout_weight="1.5"
+                android:text="账    号:"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_18" />
 
             <EditText
                 android:id="@+id/et_account"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/login_et_bg"
-                android:gravity="center"
-                android:hint="@string/login_phoneNum"
-                android:inputType="phone"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="44dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_weight="4"
+                android:background="@null"
+                android:hint="请输入账号"
                 android:maxLength="11"
-                android:paddingRight="50dp"
-                android:textColor="@color/text999"
-                android:textSize="@dimen/login_textSize14" />
+                android:inputType="number"
+                android:textColor="@color/color_fff"
+                android:textColorHint="@color/color_D9D4CC"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
+        <View
+            style="@style/LandscapeViewStyle"
+            android:layout_width="@dimen/dp_300"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_5" />
+
         <LinearLayout
-            android:layout_width="280dp"
+            android:layout_width="@dimen/dp_300"
             android:layout_height="44dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="36dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="44dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/login_iv_bg"
-                android:scaleType="centerInside"
-                android:src="@drawable/login_password" />
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="密    码:"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_18" />
 
             <EditText
                 android:id="@+id/et_password"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/login_et_bg"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="44dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_weight="4"
+                android:background="@null"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-                android:gravity="center"
-                android:hint="@string/login_password"
-                android:inputType="textPassword"
-                android:maxLength="12"
-                android:paddingRight="50dp"
-                android:singleLine="true"
-                android:textColor="@color/text999"
-                android:textSize="@dimen/login_textSize14" />
+                android:hint="请输入账号"
+                android:textColor="@color/color_fff"
+                android:textColorHint="@color/color_D9D4CC"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="@dimen/sp_16" />
         </LinearLayout>
+
+        <View
+            style="@style/LandscapeViewStyle"
+            android:layout_width="@dimen/dp_300"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_5" />
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="280dp"
             android:layout_height="44dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="65dp"
-            android:background="@drawable/login_bg_selector"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/selector_network_blue"
             android:gravity="center"
             android:text="@string/login_login"
             android:textColor="@color/white1"
-            android:textSize="@dimen/login_textSize14" />
+            android:textSize="@dimen/sp_20"
+            android:textStyle="bold"/>
 
 
         <LinearLayout
@@ -121,7 +127,6 @@
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="游客登录"
                 android:textColor="@color/white1"
                 android:textSize="14dp" />
 
@@ -156,13 +161,14 @@
 
         <TextView
             android:id="@+id/btn_regist"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/login_rigst"
             android:textColor="@color/white1"
-            android:textSize="14sp" />
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
         <View
             android:layout_width="0dp"

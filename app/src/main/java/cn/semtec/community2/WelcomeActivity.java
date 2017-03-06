@@ -23,7 +23,6 @@ import org.json.JSONObject;
 import cn.etsoft.smarthome.R;
 import cn.jpush.android.api.JPushInterface;
 import cn.semtec.community2.activity.BaseActivity;
-import cn.semtec.community2.activity.LoginActivity;
 import cn.semtec.community2.activity.MyBaseActivity;
 import cn.semtec.community2.model.MyHttpUtil;
 import cn.semtec.community2.tool.Constants;
@@ -164,24 +163,24 @@ public class WelcomeActivity extends MyBaseActivity {
             @Override
             public void run() {
                 super.run();
-                try {
-                    sleep(2500);
-                } catch (InterruptedException e) {
-                    CatchUtil.catchM(e);
-                }
+//                try {
+//                    sleep(2500);
+//                } catch (InterruptedException e) {
+//                    CatchUtil.catchM(e);
+//                }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (MyApplication.logined) {
-                            Intent intent = new Intent(WelcomeActivity.this, BaseActivity.class);
-                            startActivity(intent);
-                            WelcomeActivity.this.finish();
+//                        if (MyApplication.logined) {
+                        Intent intent = new Intent(WelcomeActivity.this, BaseActivity.class);
+                        startActivity(intent);
+                        WelcomeActivity.this.finish();
 
-                        } else {
-                            Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                            WelcomeActivity.this.finish();
-                        }
+//                        } else {
+//                            Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+//                            startActivity(intent);
+//                            WelcomeActivity.this.finish();
+//                        }
                         cancelProgress();
                     }
                 });

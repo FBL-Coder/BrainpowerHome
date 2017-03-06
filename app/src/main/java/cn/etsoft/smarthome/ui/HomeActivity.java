@@ -214,8 +214,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         mLocationClient.setLocationListener(mLocationListener);
-        if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
-            ToastUtil.showToast(this, "正在定位...");
+        if (NetUtil.getNetworkState(HomeActivity.this) != NetUtil.NETWORN_NONE) {
+            ToastUtil.showToast(HomeActivity.this, "正在定位...");
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -224,7 +224,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 }
             }).start();
         } else {
-            ToastUtil.showToast(this, "没有网络...");
+            ToastUtil.showToast(HomeActivity.this, "没有网络...");
         }
         final Calendar c = Calendar.getInstance();
         int month = c.get(Calendar.MONTH) + 1;
@@ -298,7 +298,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
                 if (code == 0)
                     weather.setImageResource(wrathers[0]);
-                else if (code == 1)
+                else if (code == 1 || code == 2)
                     weather.setImageResource(wrathers[1]);
                 else if (code == 3)
                     weather.setImageResource(wrathers[2]);
@@ -344,7 +344,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 String shidu = MyApplication.mInstance.getResults().getResult().getHumidity() + "%";
 
                 String qujian = MyApplication.mInstance.getResults().getResult().getTemplow() + "℃ ~ " + MyApplication.mInstance.getResults().getResult().getTemphigh() + "℃";
-                String pm = MyApplication.mInstance.getResults().getResult().getAqi().getIpm2_5();
+                String pm = MyApplication.mInstance.getResults().getResult().getAqi().getPm2_5();
                 String zhiliang = MyApplication.mInstance.getResults().getResult().getAqi().getQuality();
                 weather_shidu.setText(shidu);
                 weather_pm.setText(pm);
@@ -386,11 +386,17 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         Log.i("DATA", "返回结果" + weatherResult);
 
         Gson gson = new Gson();
-        Weather_All_Bean results = gson.fromJson(weatherResult, Weather_All_Bean.class);
 
-        MyApplication.mInstance.setResults(results);
+        if (!"".equals(weatherResult)) {
 
-        weather_handler.sendMessage(weather_handler.obtainMessage());
+            Weather_All_Bean results = gson.fromJson(weatherResult, Weather_All_Bean.class);
+
+            MyApplication.mInstance.setResults(results);
+
+            weather_handler.sendMessage(weather_handler.obtainMessage());
+        } else {
+            ToastUtil.showToast(HomeActivity.this, "获取天气信息失败");
+        }
     }
 
     // 请求服务器，获取返回数据
@@ -409,7 +415,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     // 取得返回的数据
                     strResult = EntityUtils.toString(httpResponse.getEntity());
             } catch (Exception e) {
-                e.printStackTrace();
             }
         }
         return strResult; // 返回结果
@@ -623,6 +628,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             return false;
         if (System.currentTimeMillis() - TimeExit < 1500) {
             Dtat_Cache.writeFile(MyApplication.getWareData());
+            MyApplication.mInstance.setDevUnitID(MyApplication.mInstance.getRcuInfo().getDevUnitID());
             MyApplication.mInstance.getActivity().finish();
             System.exit(0);
         } else {

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import cn.jpush.android.api.JPushInterface;
 import cn.semtec.community2.database.DBhelper;
 import cn.semtec.community2.entity.HouseProperty;
-import cn.semtec.community2.exception.CrashHandler;
 import cn.semtec.community2.util.SharedPreferenceUtil;
 import cn.semtec.community2.util.Util;
 
@@ -46,8 +45,8 @@ public class MyApplication extends cn.etsoft.smarthome.MyApplication {
         LogUtils.allowI = true;
         Util.audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext());
+//        CrashHandler crashHandler = CrashHandler.getInstance();
+//        crashHandler.init(getApplicationContext());
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
     }

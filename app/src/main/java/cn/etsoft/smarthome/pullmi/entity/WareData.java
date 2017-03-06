@@ -1,5 +1,7 @@
 package cn.etsoft.smarthome.pullmi.entity;
 
+import android.os.Bundle;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +28,10 @@ public class WareData implements Serializable {
     private DevControl_Result dev_result;
     private int login_result;
     private int addNewNet_reslut;
-    private int addUser_reslut;
-    private boolean DATA_LOCAL_FLAG ;
+    private int addUser_reslut = -1;
+    private boolean DATA_LOCAL_FLAG;
+    private int DeleteNetReslut;
+    private String DeleteDevid;
 
     public WareData() {
 
@@ -85,6 +89,8 @@ public class WareData implements Serializable {
     }
 
     public List<WareDev> getDevs() {
+        if(devs==null)
+            devs = new ArrayList<>();
         return devs;
     }
 
@@ -236,6 +242,18 @@ public class WareData implements Serializable {
 
     public void setAddUser_reslut(int addUser_reslut) {
         this.addUser_reslut = addUser_reslut;
+    }
+    public Bundle getDeleteNetReslut() {
+        Bundle bundle = new Bundle();
+        bundle.putString("id",DeleteDevid);
+        bundle.putInt("Reslut",DeleteNetReslut);
+        return bundle;
+
+    }
+
+    public void setDeleteNetReslut(String DeleteDevid,int DeleteNetReslut) {
+        this.DeleteNetReslut = DeleteNetReslut;
+        this.DeleteDevid = DeleteDevid;
     }
 }
 

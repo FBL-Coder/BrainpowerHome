@@ -202,7 +202,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
 //			mailInfo.setToAddress(to);
 //			mailInfo.setSubject(fileName);
 //			mailInfo.setContent(sb.toString());
-
             // 这个类主要来发送邮件
 //			new SimpleMailSender().sendTextMail(mailInfo);// 发送文体格式
         } catch (Exception e) {

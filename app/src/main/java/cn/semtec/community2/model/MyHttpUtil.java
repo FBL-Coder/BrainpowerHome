@@ -5,7 +5,6 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -74,17 +73,17 @@ public class MyHttpUtil {
 
     private void loginAgain() {
         try {
-            JSONObject user = new JSONObject();
-            user.put("cellphone", cellphone);
-            user.put("password", password);
+            JSONObject user_json = new JSONObject();
+            user_json.put("cellphone", cellphone);
+            user_json.put("password", password);
 
             RequestParams params = new RequestParams();
             params.addHeader("Content-type", "application/json; charset=utf-8");
             params.setHeader("Accept", "application/json");
-            StringEntity entity = new StringEntity(user.toString(), "UTF-8");
+            StringEntity entity = new StringEntity(user_json.toString(), "UTF-8");
             params.setBodyEntity(entity);
 
-            String url = Constants.CONTENT_LOGIN;
+            final String url = Constants.CONTENT_LOGIN;
             HttpUtils httpUtil = MyApplication.getHttpUtils();
             httpUtil.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
                 @Override
@@ -93,7 +92,7 @@ public class MyHttpUtil {
                     try {
                         JSONObject jo = new JSONObject(mResult);
                         if (jo.getInt("returnCode") == 0) {
-                            LogUtils.i("登录成功");
+
                             MyHttpUtil.this.send();
                         }
                     } catch (Exception e) {

@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "cn.etsoft.smarthome"
         minSdkVersion 11
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
 
@@ -56,7 +56,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/activation.jar')
     compile files('libs/additionnal.jar')
-    compile files('libs/mail.jar')
     compile files('libs/voiceRecog.jar')
     compile files('libs/xUtils-2.6.14.jar')
     compile files('libs/zxing.jar')
@@ -70,7 +69,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
-    compile files('libs/BaiduLBS_Android.jar')
     compile files('libs/AMap_Location_V3.2.1_20161228.jar')
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile files('libs/bugly_crash_release.jar')
 }

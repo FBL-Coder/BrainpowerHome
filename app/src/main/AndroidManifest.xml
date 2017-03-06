@@ -3,7 +3,7 @@
     package="cn.etsoft.smarthome">
 
     <permission
-        android:name="cn.semtec.community2.permission.JPUSH_MESSAGE"
+        android:name="cn.etsoft.smarthome.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
     <!-- bluethooch -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- Required -->
-    <uses-permission android:name="cn.semtec.community2.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="cn.etsoft.smarthome.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <!-- Optional. Required for location feature -->
@@ -25,6 +25,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
 
     <!-- 这个权限用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -118,7 +119,7 @@
                 <action android:name="cn.jpush.android.ui.PushActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="cn.semtec.community2" />
+                <category android:name="cn.etsoft.smarthome" />
             </intent-filter>
         </activity>
         <!-- Required  SDK核心功能 -->
@@ -150,7 +151,7 @@
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
 
-                <category android:name="cn.semtec.community2" />
+                <category android:name="cn.etsoft.smarthome" />
             </intent-filter>
         </service>
 
@@ -161,7 +162,7 @@
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
                 <!-- Required  显示通知栏 -->
-                <category android:name="cn.semtec.community2" />
+                <category android:name="cn.etsoft.smarthome" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -200,7 +201,7 @@
                 <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
                 <action android:name="cn.jpush.android.intent.CONNECTION" />
                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="cn.semtec.community2" />
+                <category android:name="cn.etsoft.smarthome" />
             </intent-filter>
         </receiver>
         <!-- Required  . Enable it you can get statistics data with channel -->
@@ -211,7 +212,7 @@
         <!--<meta-data-->
             <!--android:name="JPUSH_APPKEY"-->
             <!--android:value="8ba03b857169cb3a6d03e7ae" />-->
-        //现程序  APPKEY
+        //现程序  APPKEY  极光推送
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="af17846b8bec05b92a711ed6" />
@@ -327,9 +328,6 @@
             android:name=".ui.MainActivity"
             android:screenOrientation="landscape" />
         <!--登录页面-->
-        <activity
-            android:name=".ui.AddUser"
-            android:screenOrientation="landscape" />
         <!--登录页面-->
         <activity
             android:name=".ui.LoginActivity"
@@ -400,13 +398,11 @@
         //高德地图定位
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="1be941d86c39ed969a5eb9eb8f29e1c2"/>
-
+            android:value="cfa69e94e72e80aef433032fe101ff65"/>
         <receiver android:name=".NetBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
     </application>
-
 </manifest>

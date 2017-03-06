@@ -18,14 +18,14 @@ import org.linphone.squirrel.squirrelCallImpl;
 import java.util.HashSet;
 import java.util.Set;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import cn.semtec.community2.MyApplication;
 import cn.semtec.community2.adapter.MyActAdapter;
 import cn.semtec.community2.entity.HouseProperty;
 import cn.semtec.community2.tool.Constants;
 import cn.semtec.community2.util.CatchUtil;
 import cn.semtec.community2.util.SharedPreferenceUtil;
-import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.TagAliasCallback;
 
 public class LoginHelper {
     private SharedPreferenceUtil prefernceUtil = MyApplication.getSharedPreferenceUtil();
@@ -33,11 +33,12 @@ public class LoginHelper {
 
     public LoginHelper(Handler handler) {
         LoginHandler = handler;
-    }
 
+    }
     public void loginServer(final String cellphone, final String password) {
+
         try {
-            JSONObject user = new JSONObject();
+            final JSONObject user = new JSONObject();
             user.put("cellphone", cellphone);
             user.put("password", password);
 
@@ -116,7 +117,6 @@ public class LoginHelper {
                         LoginHandler.sendEmptyMessage(MyHttpUtil.CATCH);
                     }
                 }
-
                 @Override
                 public void onFailure(HttpException error, String msg) {
                     LogUtils.i("网络异常:" + msg);

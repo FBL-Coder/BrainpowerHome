@@ -22,6 +22,8 @@ import cn.etsoft.smarthome.pullmi.entity.WareDev;
 
 /**
  * Created by Say GoBay on 2016/9/2.
+ *
+ * 情景详情设置
  */
 public class SceneSettingActivity extends Activity implements AdapterView.OnItemClickListener{
     private ScrollView sv;

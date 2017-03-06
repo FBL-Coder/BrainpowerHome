@@ -52,7 +52,7 @@ public class Main_LightFragment extends Fragment {
         MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int what) {
-                if (what == 35)
+                if (what == 35 || what == 4)
                     //更新数据
                     upData();
             }
@@ -61,6 +61,7 @@ public class Main_LightFragment extends Fragment {
 
     long TimeExit = 0;
     List<WareLight> light_room;
+
 
     public void upData() {
         lights = new ArrayList<>();
@@ -84,6 +85,7 @@ public class Main_LightFragment extends Fragment {
         final List<WareLight> light_room_clck = light_room;
         gridView_light = (GridView) view.findViewById(R.id.gridView_light);
 
+
         if (gridViewAdapter == null) {
             gridViewAdapter = new LightAdapter(light_room, getActivity(), inflater);
             gridView_light.setAdapter(gridViewAdapter);
@@ -94,7 +96,9 @@ public class Main_LightFragment extends Fragment {
         gridView_light.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (System.currentTimeMillis() - TimeExit > 1500) {
+
+                if (System.currentTimeMillis() - TimeExit > 1000) {
+                    MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                     TimeExit = System.currentTimeMillis();
                     if (light_room_clck.get(position).getbTuneEn() == 0) {
                         String ctlStr;

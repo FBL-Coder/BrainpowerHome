@@ -8,10 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,6 +37,7 @@ import cn.etsoft.smarthome.domain.Weather_All_Bean;
 import cn.etsoft.smarthome.domain.Weather_Bean;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
+import cn.etsoft.smarthome.pullmi.entity.RcuInfo;
 import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
 import cn.etsoft.smarthome.pullmi.entity.WareData;
 import cn.etsoft.smarthome.ui.WelcomeActivity;
@@ -90,7 +95,10 @@ public class MyApplication extends Application implements udpService.Callback, N
      * 主页的Activity对象
      */
     private static Activity mHomeActivity;
-
+    /**
+     * 联网模块大于一个的时候，保存最近使用的联网模块ID；
+     */
+    private String devUnitID;
     /**
      * 本地IP地址
      */
@@ -112,11 +120,26 @@ public class MyApplication extends Application implements udpService.Callback, N
     private static final String FORMAT = "^[a-z,A-Z].*$";
     private static SharedPreferences sharedPreferences;
 
-    @Override
+    private RcuInfo rcuInfo;
 
+    public void setRcuInfo(RcuInfo rcuInfo) {
+        this.rcuInfo = rcuInfo;
+    }
+
+    public RcuInfo getRcuInfo() {
+        return rcuInfo;
+    }
+
+    private SoundPool sp;//声明一个SoundPool
+    private int music;//定义一个整型用load（）；来设置suondID
+
+    @Override
     public void onCreate() {
         super.onCreate();
-
+        /**
+         * 腾讯 bugly
+         */
+        CrashReport.initCrashReport(getApplicationContext(), "f623f31b48", false);
         /**
          * 初始化网络状态监听
          */
@@ -140,7 +163,6 @@ public class MyApplication extends Application implements udpService.Callback, N
          */
         CommonUtils.CommonUtils_init();
 
-
         //初始化城市
         initCityList();
 //        mLocationClient = new LocationClient(getApplicationContext());
@@ -163,7 +185,6 @@ public class MyApplication extends Application implements udpService.Callback, N
             }
         }).start();
 
-
         /**
          * 天气对应的图标id
          */
@@ -178,7 +199,25 @@ public class MyApplication extends Application implements udpService.Callback, N
                 }
             }
         }).start();
+
+        sp= new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
+        music = sp.load(this, R.raw.key_sound, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
     }
+
+    public SoundPool getSp() {
+        if (sp==null){
+            sp= new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
+        }
+        return sp;
+    }
+
+    public int getMusic() {
+        if (music == 0){
+            music = sp.load(getActivity(), R.raw.key_sound, 1);
+        }
+        return music;
+    }
+
 
     private void initCityList() {
         mCityList = new ArrayList<City>();
@@ -263,6 +302,15 @@ public class MyApplication extends Application implements udpService.Callback, N
             mCityDB = openCityDB();
         return mCityDB;
     }
+
+    public String getDevUnitID() {
+        return devUnitID;
+    }
+
+    public void setDevUnitID(String devUnitID) {
+        this.devUnitID = devUnitID;
+    }
+
 
     /**
      * 获取Socket对象
@@ -376,17 +424,6 @@ public class MyApplication extends Application implements udpService.Callback, N
         sendMsg(str);
     }
 
-    public static void getRcuInfo() {
-
-        final String rcu_str = "{" +
-                "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
-                "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
-                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue() + "," +
-                "\"subType1\":0," +
-                "\"subType2\":0}";
-
-        sendMsg(rcu_str);
-    }
     /**
      * 启动应用并且启动服务后  发送的数据包；
      */
