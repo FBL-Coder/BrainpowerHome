@@ -270,7 +270,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             }
         }).start();
 
-        if (c.getFirstDayOfWeek() == Calendar.MONDAY)
+        if (c.get(Calendar.DAY_OF_WEEK)  == Calendar.MONDAY)
             week.setText("星期一");
         else if (c.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY)
             week.setText("星期二");
@@ -617,7 +617,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(new Intent(HomeActivity.this, cn.semtec.community2.WelcomeActivity.class));
                 break;
         }
-
     }
 
     private long TimeExit = 0;
@@ -627,7 +626,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         if (keyCode != KeyEvent.KEYCODE_BACK)
             return false;
         if (System.currentTimeMillis() - TimeExit < 1500) {
-            Dtat_Cache.writeFile(MyApplication.getWareData());
+//            GlobalVars.getDevid();
+
+            Dtat_Cache.writeFile(GlobalVars.getDevid(),MyApplication.getWareData());
             MyApplication.mInstance.setDevUnitID(MyApplication.mInstance.getRcuInfo().getDevUnitID());
             MyApplication.mInstance.getActivity().finish();
             System.exit(0);

@@ -311,8 +311,8 @@ public class udpService extends Service {
                 break;
             case 35:// e_udpPro_chns_status
 
-                ctrlDevReply(info);
-                isFreshData = true;
+//                ctrlDevReply(info);
+//                isFreshData = true;
                 break;
         }
 
@@ -789,17 +789,13 @@ public class udpService extends Service {
                 airCondDev.setSelSpd((byte) jsonobj.getInt("selSpd"));
                 airCondDev.setSelTemp((byte) jsonobj.getInt("selTemp"));
 
-//                int id = 0;
                 for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
                     WareAirCondDev air = MyApplication.getWareData().getAirConds().get(i);
                     if (air.getDev().getCanCpuId().equals(airCondDev.getDev().getCanCpuId())
                             && air.getDev().getDevId() == airCondDev.getDev().getDevId()) {
-//                        MyApplication.getWareData().getAirConds().remove(i);
-//                        id = airCondDev.getDev().getDevId();
                         MyApplication.getWareData().getAirConds().set(i, airCondDev);
                     }
                 }
-//                MyApplication.getWareData().getAirConds().set(id, airCondDev);
             } else if (devType == 3) {
 
                 WareLight wareLight = new WareLight();
@@ -893,7 +889,9 @@ public class udpService extends Service {
         Log.i(TAG, "keyOutBoard: " + info);
         try {
             JSONObject jsonObject = new JSONObject(info);
-
+            int board = jsonObject.getInt("board");
+            if (board == 0)
+                return;
             WareBoardChnout chnout = new WareBoardChnout();
 
             JSONArray array = jsonObject.getJSONArray("chnout_rows");
@@ -915,13 +913,19 @@ public class udpService extends Service {
                 }
                 chnout.setChnName(name);
 
-                for (int k = 0; k < MyApplication.getWareData().getKeyInputs().size(); k++) {
-                    if (!chnout.getDevUnitID().equals(MyApplication.getWareData().getBoardChnouts().get(k).getDevUnitID())) {
-                        MyApplication.getWareData().getBoardChnouts().add(chnout);
+                if (MyApplication.getWareData().getBoardChnouts().size() > 0) {
+                    for (int k = 0; k < MyApplication.getWareData().getBoardChnouts().size(); k++) {
+                        if (!chnout.getBoardName().equals(MyApplication.getWareData().getBoardChnouts().get(k).getBoardName())) {
+                            MyApplication.getWareData().getBoardChnouts().add(chnout);
+                        }
                     }
+                } else {
+                    MyApplication.getWareData().getBoardChnouts().add(chnout);
                 }
             }
-        } catch (Exception e) {
+
+
+        } catch (JSONException e) {
             System.out.println(e.toString());
         }
     }
@@ -957,6 +961,9 @@ public class udpService extends Service {
         Log.i(TAG, "keyinput: " + info);
         try {
             JSONObject jsonObject = new JSONObject(info);
+            int keyinput = jsonObject.getInt("keyinput");
+            if (keyinput == 0)
+                return;
 
             WareBoardKeyInput input = new WareBoardKeyInput();
 
@@ -977,15 +984,20 @@ public class udpService extends Service {
                 }
                 input.setKeyName(name);
             }
-            for (int k = 0; k < MyApplication.getWareData().getKeyInputs().size(); k++) {
-                if (!input.getDevUnitID().equals(MyApplication.getWareData().getKeyInputs().get(k).getDevUnitID())) {
-                    MyApplication.getWareData().getKeyInputs().add(input);
+            if (MyApplication.getWareData().getKeyInputs().size() > 0) {
+                for (int k = 0; k < MyApplication.getWareData().getKeyInputs().size(); k++) {
+                    if (!input.getDevUnitID().equals(MyApplication.getWareData().getKeyInputs().get(k).getDevUnitID())) {
+                        MyApplication.getWareData().getKeyInputs().add(input);
+                    }
                 }
+            } else {
+                MyApplication.getWareData().getKeyInputs().add(input);
             }
         } catch (JSONException e) {
             System.out.println(e.toString());
         }
     }
+
 
     public void getKeyOpItem(String info) {
 

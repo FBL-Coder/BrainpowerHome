@@ -39,6 +39,7 @@ import cn.etsoft.smarthome.widget.SwipeListView;
 
 /**
  * Created by Say GoBay on 2016/8/29.
+ * 按键配置
  */
 public class AddEquipmentControlActivity extends Activity implements View.OnClickListener {
     private TextView mTitle, equipment_close, tv_equipment_parlour, ref_equipment, del_equipment, save_equipment;
@@ -57,7 +58,7 @@ public class AddEquipmentControlActivity extends Activity implements View.OnClic
     private List<WareDev> mWareDev_room;
     private List<WareDev> mWareDev;
     private EquipmentAdapter Equipadapter;
-    private int DATTYPE_SET = 12,DATTYPE_DEL = 13, POP_TYPE_DOWNUP = 1, POP_TYPE_STATE = 0, POP_TYPR_ROOM = 2;
+    private int DATTYPE_SET = 12, DATTYPE_DEL = 13, POP_TYPE_DOWNUP = 1, POP_TYPE_STATE = 0, POP_TYPR_ROOM = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +70,6 @@ public class AddEquipmentControlActivity extends Activity implements View.OnClic
         initView();
 //        //初始化listView
 //        initListView();
-
-
         final Handler mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -119,8 +118,7 @@ public class AddEquipmentControlActivity extends Activity implements View.OnClic
 
         for (int i = 0; i < mWareDev_room.size() - 1; i++) {
             for (int j = mWareDev_room.size() - 1; j > i; j--) {
-                if (mWareDev_room.get(i).getRoomName().equals(mWareDev_room.get(j).getRoomName())
-                        || !(mWareDev_room.get(i).getCanCpuId()).equals(MyApplication.getWareData().getBoardChnouts().get(j).getDevUnitID())) {
+                if (mWareDev_room.get(i).getRoomName().equals(mWareDev_room.get(j).getRoomName())) {
                     mWareDev_room.remove(j);
                 }
             }
@@ -211,8 +209,8 @@ public class AddEquipmentControlActivity extends Activity implements View.OnClic
                             if (adapter != null)
                                 adapter.notifyDataSetChanged();
                             else {
-                                adapter = new SwipeAdapter(AddEquipmentControlActivity.this,keyOpItems,mListener );
-                                lv.setAdapter(Equipadapter);
+                                adapter = new SwipeAdapter(AddEquipmentControlActivity.this, keyOpItems, mListener);
+                                lv.setAdapter(adapter);
                             }
                         }
                     }

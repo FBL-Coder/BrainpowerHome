@@ -17,6 +17,8 @@ import java.util.List;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.entity.RcuInfo;
+import cn.etsoft.smarthome.pullmi.entity.WareData;
+import cn.etsoft.smarthome.pullmi.utils.Dtat_Cache;
 import cn.etsoft.smarthome.pullmi.utils.LogUtils;
 import cn.etsoft.smarthome.R;
 
@@ -149,7 +151,10 @@ public class WelcomeActivity extends Activity {
             if (!"".equals(module_str)) {
                 String DevID = module_str.substring(0, module_str.indexOf("-"));
                 GlobalVars.setDevid(DevID);
-                GlobalVars.setDevpass(module_str.substring(module_str.indexOf("-"))+1);
+                GlobalVars.setDevpass(module_str.substring(module_str.indexOf("-")+1));
+
+                //读缓存数据
+                MyApplication.setWareData((WareData) Dtat_Cache.readFile(DevID));
 
                 mDataHandler = new Handler() {
                     @Override

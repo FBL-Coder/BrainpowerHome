@@ -20,7 +20,6 @@ public class Dtat_Cache {
 
     /**
      * 数据缓存——文件缓存；
-     *
      * @param data
      */
     public static void writeFileToSD(String data, String name) {

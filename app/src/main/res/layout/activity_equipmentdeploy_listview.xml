@@ -97,7 +97,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-
                     android:layout_centerInParent="true">
 
                     <ImageView
@@ -174,12 +173,12 @@
                     android:textSize="@dimen/sp_20" />
             </LinearLayout>
 
-            <ListView
+            <cn.etsoft.smarthome.widget.ListViewForScrollView
                 android:id="@+id/equipment_loyout_lv"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_0"
                 android:layout_weight="1">
-            </ListView>
+            </cn.etsoft.smarthome.widget.ListViewForScrollView>
 
             <TextView
                 android:id="@+id/equipment_close"

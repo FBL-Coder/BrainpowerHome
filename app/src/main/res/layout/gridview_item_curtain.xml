@@ -61,6 +61,7 @@
         android:layout_marginBottom="@dimen/dp_5"
         android:layout_marginTop="@dimen/dp_5"
         android:background="@color/color_fff"
+        android:visibility="gone"
         />
 
     <ImageView
@@ -71,7 +72,7 @@
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_weight="0.5"
         android:src="@drawable/setting"
-        android:visibility="invisible"
+        android:visibility="gone"
         />
 
     <TextView

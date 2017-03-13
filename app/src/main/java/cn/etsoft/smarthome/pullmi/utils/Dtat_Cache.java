@@ -16,23 +16,21 @@ import cn.etsoft.smarthome.pullmi.entity.WareData;
  * 数据本地缓存；（文件形式）
  */
 public class Dtat_Cache {
-
-
     /**
      * 数据缓存——文件缓存；
      *
      * @param
      */
-    public static void writeFile(WareData wareData) {
+    public static void writeFile(String id, WareData wareData) {
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         try {
-            fos = MyApplication.getContext().openFileOutput("WareData.txt", Context.MODE_PRIVATE);
+            fos = MyApplication.getContext().openFileOutput(id + ".txt", Context.MODE_PRIVATE);
             oos = new ObjectOutputStream(fos);
             oos.writeObject(wareData);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             // 这里是保存文件产生异常
         } finally {
             if (fos != null) {
@@ -40,7 +38,7 @@ public class Dtat_Cache {
                     fos.close();
                 } catch (IOException e) {
                     // fos流关闭异常
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             }
             if (oos != null) {
@@ -48,7 +46,7 @@ public class Dtat_Cache {
                     oos.close();
                 } catch (IOException e) {
                     // oos流关闭异常
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             }
         }
@@ -61,15 +59,15 @@ public class Dtat_Cache {
      * @throws IOException
      */
 
-    public static Object readFile() {
+    public static Object readFile(String id) {
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
-            fis = MyApplication.getContext().openFileInput("WareData.txt");
+            fis = MyApplication.getContext().openFileInput(id + ".txt");
             ois = new ObjectInputStream(fis);
             return ois.readObject();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             // 这里是读取文件产生异常
         } finally {
             if (fis != null) {
@@ -77,7 +75,7 @@ public class Dtat_Cache {
                     fis.close();
                 } catch (IOException e) {
                     // fis流关闭异常
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             }
             if (ois != null) {
@@ -85,7 +83,7 @@ public class Dtat_Cache {
                     ois.close();
                 } catch (IOException e) {
                     // ois流关闭异常
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             }
         }
