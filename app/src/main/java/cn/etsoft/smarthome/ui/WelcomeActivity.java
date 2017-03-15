@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,12 +16,12 @@ import com.google.gson.reflect.TypeToken;
 import java.util.List;
 
 import cn.etsoft.smarthome.MyApplication;
+import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.entity.RcuInfo;
 import cn.etsoft.smarthome.pullmi.entity.WareData;
 import cn.etsoft.smarthome.pullmi.utils.Dtat_Cache;
 import cn.etsoft.smarthome.pullmi.utils.LogUtils;
-import cn.etsoft.smarthome.R;
 
 
 /**
@@ -83,7 +84,7 @@ public class WelcomeActivity extends Activity {
 
             GlobalVars.setDevid(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitID());
             GlobalVars.setDevpass(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitPass());
-
+            MyApplication.setWareData((WareData) Dtat_Cache.readFile(GlobalVars.getDevid()));
             mDataHandler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
@@ -135,15 +136,9 @@ public class WelcomeActivity extends Activity {
                 }
             };
             MyApplication.mInstance.setAllHandler(mDataHandler);
-
-
-//                MyApplication.setWareData((WareData) Dtat_Cache.readFile());
-//            GlobalVars.setDevid(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitID());
-//            GlobalVars.setDevpass(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitPass());
             MyApplication.mInstance.setRcuInfo(mRcuInfos.get(0));
             startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
             finish();
-
         } else if (mRcuInfos != null && mRcuInfos.size() > 1) {
             SharedPreferences sharedPreferences1 = getSharedPreferences("profile",
                     Context.MODE_PRIVATE);
@@ -151,10 +146,14 @@ public class WelcomeActivity extends Activity {
             if (!"".equals(module_str)) {
                 String DevID = module_str.substring(0, module_str.indexOf("-"));
                 GlobalVars.setDevid(DevID);
-                GlobalVars.setDevpass(module_str.substring(module_str.indexOf("-")+1));
-
+                GlobalVars.setDevpass(module_str.substring(module_str.indexOf("-") + 1));
                 //读缓存数据
                 MyApplication.setWareData((WareData) Dtat_Cache.readFile(DevID));
+                if (cn.semtec.community2.MyApplication.getWareData().getDevs().size() > 0) {
+                    for (int i = 0; i < cn.semtec.community2.MyApplication.getWareData().getDevs().size(); i++) {
+                        Log.e("Exception", cn.semtec.community2.MyApplication.getWareData().getDevs().get(i).getDevName());
+                    }
+                }
 
                 mDataHandler = new Handler() {
                     @Override

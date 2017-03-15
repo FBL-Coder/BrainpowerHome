@@ -381,6 +381,10 @@
         <activity
             android:name=".ui.SceneSetActivity"
             android:screenOrientation="landscape" />
+        <!--用户界面-->
+        <activity
+            android:name=".ui.UserActivity"
+            android:screenOrientation="landscape" />
         <!--情景具体设置-->
         <activity
             android:name=".ui.ParlourActivity"

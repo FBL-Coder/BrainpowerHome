@@ -139,7 +139,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         MyApplication.setRoom_list(text_room);
         if (text_room.size() < 1)
             return;
-
         rl_nodata.setVisibility(View.GONE);
         //初始化ViewPager
         initViewPager();
@@ -627,7 +626,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             return false;
         if (System.currentTimeMillis() - TimeExit < 1500) {
 //            GlobalVars.getDevid();
-
             Dtat_Cache.writeFile(GlobalVars.getDevid(),MyApplication.getWareData());
             MyApplication.mInstance.setDevUnitID(MyApplication.mInstance.getRcuInfo().getDevUnitID());
             MyApplication.mInstance.getActivity().finish();

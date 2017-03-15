@@ -1,14 +1,14 @@
 package cn.etsoft.smarthome.pullmi.utils;
 
-import android.content.Context;
+import android.util.Log;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.pullmi.entity.WareData;
 
 /**
@@ -21,15 +21,25 @@ public class Dtat_Cache {
      *
      * @param
      */
+    private static String savePath = "/sdcard/Home/";
+
     public static void writeFile(String id, WareData wareData) {
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         try {
-            fos = MyApplication.getContext().openFileOutput(id + ".txt", Context.MODE_PRIVATE);
+            File file = new File(savePath);
+            if (!file.exists()) {
+                file.mkdir();
+            }
+            String saveFileName = "/sdcard/Home/" + id + ".txt";
+            File ApkFile = new File(saveFileName);
+            fos = new FileOutputStream(ApkFile);
+//            fos = MyApplication.getContext().openFileOutput(id + ".txt", Context.MODE_PRIVATE);
             oos = new ObjectOutputStream(fos);
             oos.writeObject(wareData);
-
+            Log.e("Exception", "写入成功");
         } catch (Exception e) {
+            Log.e("Exception", e + "");
             //e.printStackTrace();
             // 这里是保存文件产生异常
         } finally {
@@ -37,6 +47,7 @@ public class Dtat_Cache {
                 try {
                     fos.close();
                 } catch (IOException e) {
+                    Log.e("Exception", e + "");
                     // fos流关闭异常
                     //e.printStackTrace();
                 }
@@ -45,6 +56,7 @@ public class Dtat_Cache {
                 try {
                     oos.close();
                 } catch (IOException e) {
+                    Log.e("Exception", e + "");
                     // oos流关闭异常
                     //e.printStackTrace();
                 }
@@ -63,10 +75,13 @@ public class Dtat_Cache {
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
-            fis = MyApplication.getContext().openFileInput(id + ".txt");
+            String saveFileName = "/sdcard/Home/" + id + ".txt";
+            fis = new FileInputStream(saveFileName);
             ois = new ObjectInputStream(fis);
+            Log.e("Exception", "读取成功");
             return ois.readObject();
         } catch (Exception e) {
+            Log.e("Exception", e + "");
             //e.printStackTrace();
             // 这里是读取文件产生异常
         } finally {
@@ -74,6 +89,7 @@ public class Dtat_Cache {
                 try {
                     fis.close();
                 } catch (IOException e) {
+                    Log.e("Exception", e + "");
                     // fis流关闭异常
                     //e.printStackTrace();
                 }
@@ -82,6 +98,7 @@ public class Dtat_Cache {
                 try {
                     ois.close();
                 } catch (IOException e) {
+                    Log.e("Exception", e + "");
                     // ois流关闭异常
                     //e.printStackTrace();
                 }

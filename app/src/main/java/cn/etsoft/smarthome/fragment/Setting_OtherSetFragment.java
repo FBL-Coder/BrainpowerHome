@@ -13,6 +13,7 @@ import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.ui.Equipment_control;
 import cn.etsoft.smarthome.ui.GroupActivity;
 import cn.etsoft.smarthome.ui.SceneSetActivity;
+import cn.etsoft.smarthome.ui.UserActivity;
 
 /**
  * Created by Say GoBay on 2016/11/25.
@@ -20,7 +21,7 @@ import cn.etsoft.smarthome.ui.SceneSetActivity;
  */
 public class Setting_OtherSetFragment extends Fragment implements View.OnClickListener {
 
-    private TextView tv_dev, tv_other, tv_secne;
+    private TextView tv_dev, tv_other, tv_secne,tv_user;
 
     @Nullable
     @Override
@@ -35,10 +36,12 @@ public class Setting_OtherSetFragment extends Fragment implements View.OnClickLi
         tv_dev = (TextView) view.findViewById(R.id.tv_dev);
         tv_other = (TextView) view.findViewById(R.id.tv_other);
         tv_secne = (TextView) view.findViewById(R.id.tv_secne);
+        tv_user = (TextView) view.findViewById(R.id.tv_user);
 
         tv_dev.setOnClickListener(this);
         tv_other.setOnClickListener(this);
         tv_secne.setOnClickListener(this);
+        tv_user.setOnClickListener(this);
 
     }
 
@@ -53,6 +56,9 @@ public class Setting_OtherSetFragment extends Fragment implements View.OnClickLi
                 break;
             case R.id.tv_secne:
                 startActivity(new Intent(getActivity(), SceneSetActivity.class));
+                break;
+            case R.id.tv_user:
+                startActivity(new Intent(getActivity(), UserActivity.class));
                 break;
 
         }

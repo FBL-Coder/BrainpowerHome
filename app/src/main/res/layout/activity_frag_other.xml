@@ -12,46 +12,80 @@
         <TextView
             android:id="@+id/tv_other"
             android:layout_width="@dimen/dp_0"
-            android:layout_height="@dimen/dp_120"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/group_set_selector"
             android:clickable="true"
             android:drawableRight="@drawable/zuhe"
-            android:paddingRight="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_50"
+            android:drawablePadding="-50dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="组合设置"
-            android:textColor="#00f"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_229DBF"
             android:textSize="@dimen/sp_22" />
 
         <TextView
             android:id="@+id/tv_dev"
             android:layout_width="@dimen/dp_0"
-            android:layout_height="@dimen/dp_120"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/dev_set_selector"
             android:clickable="true"
             android:drawableRight="@drawable/fangjian"
-            android:paddingRight="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_50"
+            android:drawablePadding="-50dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="设备设置"
-            android:textColor="#0f0"
+            android:layout_marginRight="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_FFCCCC"
             android:textSize="@dimen/sp_22" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/tv_secne"
             android:layout_width="@dimen/dp_0"
-            android:layout_height="@dimen/dp_120"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawableRight="@drawable/qingjin"
-            android:paddingRight="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_50"
+            android:drawablePadding="-50dp"
             android:layout_gravity="center"
             android:background="@drawable/secne_set_selector"
             android:clickable="true"
             android:gravity="center"
             android:text="情景设置"
-            android:textColor="#f00"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:textColor="@color/color_E9573F"
             android:textSize="@dimen/sp_22" />
+        <TextView
+            android:id="@+id/tv_user"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/user_set_selector"
+            android:clickable="true"
+            android:drawableRight="@drawable/fangjian"
+            android:paddingRight="@dimen/dp_50"
+            android:drawablePadding="-50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="用户界面"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_30"
+            android:textColor="@color/color_32AB11"
+            android:textSize="@dimen/sp_22" />
+
     </LinearLayout>
 </LinearLayout>
