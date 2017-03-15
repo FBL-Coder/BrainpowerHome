@@ -145,7 +145,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         //初始化GridView
         initGridView();
     }
-
     Handler weather_handler;
     ProgressDialog dialog;
 

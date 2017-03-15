@@ -53,6 +53,7 @@ public class udpService extends Service {
     private boolean isFreshData = false;
     private static final int OUTTIME_INITUID = 1000;
 
+
     @Override
     public void onCreate() {
         // TODO Auto-generated method stub
@@ -98,10 +99,7 @@ public class udpService extends Service {
         new Thread(new Runnable() {//执行接收数据接口，有数据，则执行；
             @Override
             public void run() {
-                if (MyApplication.getWareData() == null) {
-                    wareData = new WareData();
-                    MyApplication.setWareData(wareData);
-                }
+                wareData = MyApplication.getWareData();
                 byte[] lMsg = new byte[1024 * 10];
                 DatagramPacket packet = new DatagramPacket(lMsg, lMsg.length);
                 try {
@@ -189,7 +187,7 @@ public class udpService extends Service {
                     //删除重复的设备
                     List<WareDev> devs = removeDuplicateDevs(MyApplication.getWareData().getDevs());
                     MyApplication.getWareData().setDevs(devs);
-//                    Log.i("Devs_Size", "设备总数 :  " + MyApplication.getWareData().getDevs().size() + "");
+                    Log.i("Devs_Size", "设备总数 :  " + MyApplication.getWareData().getDevs().size() + "");
                     for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                         if (MyApplication.getWareData().getDevs().get(i).getType() == 3)
                             Log.i("Devs_Size", "所有灯ID  :  " + MyApplication.getWareData().getDevs().get(i).getDevId());

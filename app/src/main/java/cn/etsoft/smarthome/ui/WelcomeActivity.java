@@ -81,10 +81,8 @@ public class WelcomeActivity extends Activity {
             }.getType());
         }
         if (mRcuInfos != null && mRcuInfos.size() == 1) {
-
             GlobalVars.setDevid(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitID());
             GlobalVars.setDevpass(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitPass());
-            MyApplication.setWareData((WareData) Dtat_Cache.readFile(GlobalVars.getDevid()));
             mDataHandler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
@@ -135,7 +133,12 @@ public class WelcomeActivity extends Activity {
                     super.handleMessage(msg);
                 }
             };
+            WareData wareData = new WareData();
+            MyApplication.setWareData(wareData);
             MyApplication.mInstance.setAllHandler(mDataHandler);
+            WareData wareData_locat = (WareData) Dtat_Cache.readFile(GlobalVars.getDevid());
+            if (wareData_locat != null)
+                MyApplication.setWareData(wareData_locat);
             MyApplication.mInstance.setRcuInfo(mRcuInfos.get(0));
             startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
             finish();
@@ -148,12 +151,7 @@ public class WelcomeActivity extends Activity {
                 GlobalVars.setDevid(DevID);
                 GlobalVars.setDevpass(module_str.substring(module_str.indexOf("-") + 1));
                 //读缓存数据
-                MyApplication.setWareData((WareData) Dtat_Cache.readFile(DevID));
-                if (cn.semtec.community2.MyApplication.getWareData().getDevs().size() > 0) {
-                    for (int i = 0; i < cn.semtec.community2.MyApplication.getWareData().getDevs().size(); i++) {
-                        Log.e("Exception", cn.semtec.community2.MyApplication.getWareData().getDevs().get(i).getDevName());
-                    }
-                }
+//
 
                 mDataHandler = new Handler() {
                     @Override
@@ -211,8 +209,18 @@ public class WelcomeActivity extends Activity {
                         break;
                     }
                 }
+                WareData wareData = new WareData();
+                MyApplication.setWareData(wareData);
                 MyApplication.mInstance.setAllHandler(mDataHandler);
-
+                WareData wareData_locat = (WareData) Dtat_Cache.readFile(GlobalVars.getDevid());
+                if (wareData_locat != null) {
+                    MyApplication.setWareData(wareData_locat);
+                    if (cn.semtec.community2.MyApplication.getWareData().getDevs().size() > 0) {
+                        for (int i = 0; i < cn.semtec.community2.MyApplication.getWareData().getDevs().size(); i++) {
+                            Log.e("Exception", cn.semtec.community2.MyApplication.getWareData().getDevs().get(i).getDevName());
+                        }
+                    }
+                }
                 startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
                 finish();
             } else {
