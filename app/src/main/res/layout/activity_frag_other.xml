@@ -21,9 +21,9 @@
             android:drawablePadding="-50dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="组合设置"
+            android:text="控制设置"
             android:layout_marginLeft="@dimen/dp_30"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
             android:textColor="@color/color_229DBF"
             android:textSize="@dimen/sp_22" />
 
@@ -39,9 +39,9 @@
             android:drawablePadding="-50dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="设备设置"
+            android:text="设备信息"
             android:layout_marginRight="@dimen/dp_30"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
             android:textColor="@color/color_FFCCCC"
             android:textSize="@dimen/sp_22" />
 
@@ -53,7 +53,7 @@
         android:layout_weight="1">
 
         <TextView
-            android:id="@+id/tv_secne"
+            android:id="@+id/tv_scene"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -66,7 +66,7 @@
             android:gravity="center"
             android:text="情景设置"
             android:layout_marginLeft="@dimen/dp_30"
-            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_10"
             android:textColor="@color/color_E9573F"
             android:textSize="@dimen/sp_22" />
         <TextView
@@ -80,12 +80,13 @@
             android:paddingRight="@dimen/dp_50"
             android:drawablePadding="-50dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dp_10"
             android:gravity="center"
             android:text="用户界面"
-            android:layout_marginBottom="@dimen/dp_20"
             android:layout_marginRight="@dimen/dp_30"
             android:textColor="@color/color_32AB11"
             android:textSize="@dimen/sp_22" />
 
     </LinearLayout>
+
 </LinearLayout>

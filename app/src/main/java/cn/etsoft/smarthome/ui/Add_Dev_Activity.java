@@ -1,6 +1,7 @@
 package cn.etsoft.smarthome.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +26,7 @@ import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.WareBoardChnout;
 import cn.etsoft.smarthome.pullmi.entity.WareDev;
 import cn.etsoft.smarthome.pullmi.utils.LogUtils;
+import cn.etsoft.smarthome.view.Circle_Progress;
 
 /**
  * Created by fbl on 16-11-17.
@@ -40,6 +42,16 @@ public class Add_Dev_Activity extends Activity implements View.OnClickListener {
     private List<String> home_text;
     private List<String> type_text;
     private boolean IsSave = true;
+    private Dialog mDialog;
+
+    //自定义加载进度条
+    private void initDialog(String str) {
+        Circle_Progress.setText(str);
+        mDialog = Circle_Progress.createLoadingDialog(this);
+        mDialog.setCancelable(true);//允许返回
+        mDialog.show();//显示
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -242,8 +254,8 @@ public class Add_Dev_Activity extends Activity implements View.OnClickListener {
 //                    "powChn":	6
 //            }
 
-                if (IsSave) {
-                    ToastUtil.showToast(Add_Dev_Activity.this, "设备信息不合适");
+                if (!IsSave) {
+                    ToastUtil.showToast(Add_Dev_Activity.this, "一个房间只能有一个窗帘");
                     return;
                 }
                 String name = add_dev_name.getText().toString();
@@ -254,7 +266,7 @@ public class Add_Dev_Activity extends Activity implements View.OnClickListener {
                 else
                     room = edit_dev_room.getText().toString();
                 String board = add_dev_board.getText().toString();
-                String way = add_dev_way.getText().toString();
+                final String way = add_dev_way.getText().toString();
 
 
                 if ("".equals(name) || "".equals(type) || "".equals(room) || "".equals(board) || "".equals(way))
@@ -281,7 +293,16 @@ public class Add_Dev_Activity extends Activity implements View.OnClickListener {
                             "\"powChn\":" + way_int + "}";
 
                     MyApplication.sendMsg(chn_str);
-                    finish();
+                    initDialog("正在添加...");
+                    MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
+                        @Override
+                        public void upDataWareData(int what) {
+                            if (what == 5)
+                                if (mDialog != null)
+                                    mDialog.dismiss();
+                                finish();
+                        }
+                    });
                 }
                 break;
         }

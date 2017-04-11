@@ -21,12 +21,11 @@ import cn.etsoft.smarthome.ui.UserActivity;
  */
 public class Setting_OtherSetFragment extends Fragment implements View.OnClickListener {
 
-    private TextView tv_dev, tv_other, tv_secne,tv_user;
+    private TextView tv_dev, tv_other, tv_scene,tv_user;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.activity_frag_other, container, false);
         initView(view);
         return view;
@@ -35,14 +34,12 @@ public class Setting_OtherSetFragment extends Fragment implements View.OnClickLi
     private void initView(View view) {
         tv_dev = (TextView) view.findViewById(R.id.tv_dev);
         tv_other = (TextView) view.findViewById(R.id.tv_other);
-        tv_secne = (TextView) view.findViewById(R.id.tv_secne);
+        tv_scene = (TextView) view.findViewById(R.id.tv_scene);
         tv_user = (TextView) view.findViewById(R.id.tv_user);
-
         tv_dev.setOnClickListener(this);
         tv_other.setOnClickListener(this);
-        tv_secne.setOnClickListener(this);
+        tv_scene.setOnClickListener(this);
         tv_user.setOnClickListener(this);
-
     }
 
     @Override
@@ -54,11 +51,13 @@ public class Setting_OtherSetFragment extends Fragment implements View.OnClickLi
             case R.id.tv_other:
                 startActivity(new Intent(getActivity(), GroupActivity.class));
                 break;
-            case R.id.tv_secne:
+            case R.id.tv_scene:
                 startActivity(new Intent(getActivity(), SceneSetActivity.class));
                 break;
             case R.id.tv_user:
-                startActivity(new Intent(getActivity(), UserActivity.class));
+                Intent intent = new Intent(getActivity(), UserActivity.class);
+                intent.putExtra("tag","user");
+                startActivity(intent);
                 break;
 
         }

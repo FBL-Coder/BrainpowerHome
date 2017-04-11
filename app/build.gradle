@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "cn.etsoft.smarthome"
         minSdkVersion 11
-        targetSdkVersion 19
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
 
@@ -52,7 +52,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile files('libs/activation.jar')
     compile files('libs/additionnal.jar')
@@ -72,4 +72,5 @@ dependencies {
     compile files('libs/AMap_Location_V3.2.1_20161228.jar')
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile files('libs/bugly_crash_release.jar')
+    compile 'com.android.support:recyclerview-v7:23.0.0'
 }

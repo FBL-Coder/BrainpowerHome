@@ -21,16 +21,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dp_20"
-                android:paddingTop="@dimen/dp_12"
                 android:paddingBottom="@dimen/dp_12"
+                android:paddingTop="@dimen/dp_12"
                 android:src="@drawable/title_location" />
 
             <TextView
                 android:id="@+id/loaction_text"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                 />
+                android:gravity="center_vertical" />
 
             <View
                 android:layout_width="@dimen/dp_0"
@@ -75,9 +74,9 @@
 
                         <TextView
                             android:id="@+id/date"
-                            android:layout_marginTop="@dimen/dp_15"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_15"
                             android:text="2016.11.24"
                             android:textColor="@color/color_795000"
                             android:textSize="@dimen/sp_18" />
@@ -129,9 +128,9 @@
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="@dimen/dp_5"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5">
 
                     <TextView
                         android:id="@+id/text_temp"
@@ -157,9 +156,9 @@
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="@dimen/dp_5"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5">
 
                     <TextView
                         android:id="@+id/weather_text"
@@ -186,9 +185,9 @@
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="@dimen/dp_5"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5">
 
                     <TextView
                         android:id="@+id/weather_temp2"
@@ -223,9 +222,9 @@
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="@dimen/dp_5"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5">
 
                     <TextView
                         android:id="@+id/weather_shidu"
@@ -251,9 +250,9 @@
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="@dimen/dp_5"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5">
 
                     <TextView
                         android:id="@+id/weather_pm"
@@ -280,9 +279,9 @@
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="@dimen/dp_5"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5">
 
                     <TextView
                         android:id="@+id/weather_zhiliang"
@@ -302,6 +301,21 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/setting"
+            android:drawableLeft="@drawable/selector_admin"
+            android:layout_marginLeft="@dimen/dp_100"
+            android:drawablePadding="@dimen/dp_10"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/dp_10"
+            android:gravity="center"
+            android:text="用户界面"
+            android:textColor="@color/color_admin_text"
+            android:textSize="@dimen/sp_18" />
+
+        <TextView
             android:id="@+id/setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -319,12 +333,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:drawableLeft="@drawable/video_open_net"
             android:drawablePadding="@dimen/dp_10"
             android:gravity="center_vertical"
             android:padding="@dimen/dp_15"
             android:text="监控"
-            android:layout_centerHorizontal="true"
             android:textColor="@color/color_setting_text"
             android:textSize="@dimen/sp_18" />
 

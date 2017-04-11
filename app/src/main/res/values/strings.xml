@@ -14,8 +14,15 @@
     <string name="telement_tab3">社区超市</string>
     <string name="search">搜索</string>
     <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
     <string name="compile">编辑</string>
     <string name="delete">删除</string>
+    <string name="networking">联网模块</string>
+    <string name="location">输入城市</string>
+    <string name="module_name">模块名称</string>
+    <string name="equipment_id">模块ID</string>
+    <string name="equipment_password">模块密码</string>
+    <string name="location_name">城市名称：</string>
     <string name="net_abnormal">网络异常</string>
     <string name="data_abnormal">数据异常</string>
     <string name="base_exit">再按一次退出程序</string>

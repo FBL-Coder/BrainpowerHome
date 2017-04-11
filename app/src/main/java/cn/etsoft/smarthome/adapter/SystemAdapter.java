@@ -33,7 +33,6 @@ public class SystemAdapter extends BaseAdapter {
         mSceneEvents = new ArrayList<>();
         mSceneEvents.addAll(listViewItems);
         mSceneEvents.add(null);
-
         mListener = listener;
     }
 

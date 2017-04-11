@@ -8,6 +8,7 @@ import java.util.List;
 
 import cn.etsoft.smarthome.domain.DevControl_Result;
 import cn.etsoft.smarthome.domain.SetEquipmentResult;
+import cn.etsoft.smarthome.domain.UserBean;
 
 public class WareData implements Serializable {
 
@@ -32,6 +33,17 @@ public class WareData implements Serializable {
     private boolean DATA_LOCAL_FLAG;
     private int DeleteNetReslut;
     private String DeleteDevid;
+
+    public UserBean getUserBeen() {
+        return userBeen;
+    }
+
+    public void setUserBeen(UserBean userBeen) {
+        this.userBeen = userBeen;
+    }
+
+    private UserBean userBeen;
+
 
     public WareData() {
 

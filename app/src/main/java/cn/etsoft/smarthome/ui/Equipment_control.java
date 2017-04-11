@@ -1,8 +1,11 @@
 package cn.etsoft.smarthome.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,17 +19,22 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.domain.DevControl_Result;
-import cn.etsoft.smarthome.MyApplication;
+import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.WareAirCondDev;
 import cn.etsoft.smarthome.pullmi.entity.WareCurtain;
 import cn.etsoft.smarthome.pullmi.entity.WareDev;
 import cn.etsoft.smarthome.pullmi.entity.WareLight;
+import cn.etsoft.smarthome.view.Circle_Progress;
 import cn.etsoft.smarthome.widget.CustomDialog_comment;
 
 /**
@@ -39,9 +47,18 @@ public class Equipment_control extends Activity implements View.OnClickListener 
     private ImageView back;
     private Dev_Adapter adapter;
     private List<WareDev> devs;
+    private Dialog mDialog;
+
+    //自定义加载进度条
+    private void initDialog(String str) {
+        Circle_Progress.setText(str);
+        mDialog = Circle_Progress.createLoadingDialog(this);
+        mDialog.setCancelable(true);//允许返回
+        mDialog.show();//显示
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.equi_cont);
         initView();
@@ -50,6 +67,10 @@ public class Equipment_control extends Activity implements View.OnClickListener 
         final Handler mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
+                if (msg.what == 5 || msg.what == 6 || msg.what == 7) {
+                    if (mDialog != null)
+                        mDialog.dismiss();
+                }
                 if (msg.what == 7) {
                     if (MyApplication.getWareData().getDev_result() != null
                             && MyApplication.getWareData().getDev_result().getSubType2() == 1) {
@@ -62,9 +83,7 @@ public class Equipment_control extends Activity implements View.OnClickListener 
                                         .equals(MyApplication.getWareData().getDev_result().getDev_rows().get(0).getCanCpuID())) {
                                     MyApplication.getWareData().getAirConds().remove(i);
                                 }
-
                             }
-
                         }
                         if (MyApplication.getWareData().getDev_result().getDev_rows().get(0).getDevType() == 3) {
                             for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
@@ -77,7 +96,7 @@ public class Equipment_control extends Activity implements View.OnClickListener 
                             }
                         }
                         if (MyApplication.getWareData().getDev_result().getDev_rows().get(0).getDevType() == 4) {
-                            for (int i = 0; i <MyApplication.getWareData().getCurtains().size() ; i++) {
+                            for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
                                 if (MyApplication.getWareData().getCurtains().size() <= i && MyApplication.getWareData().getCurtains().get(i).getDev().getDevId()
                                         == MyApplication.getWareData().getDev_result().getDev_rows().get(0).getDevID()
                                         && MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId()
@@ -87,12 +106,28 @@ public class Equipment_control extends Activity implements View.OnClickListener 
                             }
                         }
 
+                        SharedPreferences sharedPreferences = getSharedPreferences("profile",
+                                Context.MODE_PRIVATE);
+                        Gson gson = new Gson();
+                        String jsondata = sharedPreferences.getString(GlobalVars.getDevid(), "");
+
+                        List<WareDev> common_dev = new ArrayList<>();
+                        if (!jsondata.equals("")) {
+                            common_dev = gson.fromJson(jsondata, new TypeToken<List<WareDev>>() {
+                            }.getType());
+                        }
+
                         for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                             if (MyApplication.getWareData().getDevs().get(i).getType() == MyApplication.getWareData().getDev_result().getDev_rows().get(0).getDevType()
                                     && MyApplication.getWareData().getDevs().get(i).getDevId() == MyApplication.getWareData().getDev_result().getDev_rows().get(0).getDevID()
                                     && MyApplication.getWareData().getDevs().get(i).getCanCpuId().equals(MyApplication.getWareData().getDev_result().getDev_rows().get(0).getCanCpuID())) {
-                                MyApplication.getWareData().getDevs().remove(i);
 
+                                for (int j = 0; j < common_dev.size(); j++) {
+                                    if (common_dev.get(j).getDevId() == MyApplication.getWareData().getDevs().get(i).getDevId() && common_dev.get(j).getType() == MyApplication.getWareData().getDevs().get(i).getType() && common_dev.get(j).getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())) {
+                                        common_dev.remove(j);
+                                    }
+                                }
+                                MyApplication.getWareData().getDevs().remove(i);
                             }
                         }
                         if (adapter != null)
@@ -101,8 +136,13 @@ public class Equipment_control extends Activity implements View.OnClickListener 
                             adapter = new Dev_Adapter();
                             equi_control.setAdapter(adapter);
                         }
-
-                        Toast.makeText(Equipment_control.this, "操作成功", Toast.LENGTH_SHORT).show();
+                        String savdata = gson.toJson(common_dev);
+                        SharedPreferences.Editor edit = sharedPreferences.edit();
+                        edit.putString(GlobalVars.getDevid(), savdata);
+                        edit.commit();
+                        Toast.makeText(Equipment_control.this, "删除成功", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Equipment_control.this, "删除失败", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -118,7 +158,7 @@ public class Equipment_control extends Activity implements View.OnClickListener 
                                 return;
                             }
                         }
-                        Toast.makeText(Equipment_control.this, "操作成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Equipment_control.this, "添加成功", Toast.LENGTH_SHORT).show();
                         WareDev dev1 = new WareDev();
                         if (result.getDev_rows().get(0).getDevType() == 0) {
                             WareAirCondDev dev = new WareAirCondDev();
@@ -164,7 +204,7 @@ public class Equipment_control extends Activity implements View.OnClickListener 
                             equi_control.setAdapter(adapter);
                         }
                     } else {
-                        Toast.makeText(Equipment_control.this, "操作失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Equipment_control.this, "添加失败", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -184,10 +224,10 @@ public class Equipment_control extends Activity implements View.OnClickListener 
 //                        adapter = new Dev_Adapter();
 //                        equi_control.setAdapter(adapter);
 
-                        Toast.makeText(Equipment_control.this, "操作成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Equipment_control.this, "编辑成功", Toast.LENGTH_SHORT).show();
 
                     } else {
-                        Toast.makeText(Equipment_control.this, "操作失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Equipment_control.this, "编辑失败", Toast.LENGTH_SHORT).show();
                     }
                 }
                 MyApplication.getWareData().setDev_result(null);
@@ -246,7 +286,7 @@ public class Equipment_control extends Activity implements View.OnClickListener 
                 builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        dialog.dismiss();
 //                        {
 //                            "devUnitID": "37ffdb05424e323416702443",
 //                                "datType": 7,
@@ -259,7 +299,7 @@ public class Equipment_control extends Activity implements View.OnClickListener 
 //                        }
 
                         final String chn_str = "{" +
-                                "\"devUnitID\":\"" + MyApplication.mInstance.getRcuInfo().getDevUnitID() + "\"," +
+                                "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
                                 "\"datType\":" + 7 + "," +
                                 "\"subType1\":0," +
                                 "\"subType2\":0," +
@@ -269,8 +309,7 @@ public class Equipment_control extends Activity implements View.OnClickListener 
                                 "\"cmd\":" + 1 + "}";
 
                         MyApplication.sendMsg(chn_str);
-
-                        dialog.dismiss();
+                        initDialog("正在删除...");
                     }
                 });
                 builder.create().show();

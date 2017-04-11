@@ -1,6 +1,5 @@
 package cn.etsoft.smarthome.ui;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,15 +17,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import cn.etsoft.smarthome.MyApplication;
+import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.fragment.Setting_AccountNumberFragment;
 import cn.etsoft.smarthome.fragment.Setting_MainFrameFragment;
 import cn.etsoft.smarthome.fragment.Setting_OtherSetFragment;
 import cn.etsoft.smarthome.fragment.Setting_PasswordFragment;
-//import cn.etsoft.smarthome.fragment.Setting_RoomFragment;
 import cn.etsoft.smarthome.fragment.Setting_SafetyFragment;
 import cn.etsoft.smarthome.fragment.Setting_SystemFragment;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
-import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.widget.CustomDialog_comment;
+
+//import cn.etsoft.smarthome.fragment.Setting_RoomFragment;
 
 
 /**
@@ -121,7 +122,7 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
                 break;
             case R.id.login_out:
 
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                final CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(SettingActivity.this);
                 builder.setMessage("您确定要退出登录？");
                 builder.setTitle("提示");
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -151,7 +152,7 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
                         finish();
                     }
                 });
-                builder.show();
+                builder.create().show();
                 break;
         }
     }

@@ -44,6 +44,7 @@ import cn.etsoft.smarthome.adapter.GridViewItemAdapter;
 import cn.etsoft.smarthome.domain.City;
 import cn.etsoft.smarthome.domain.Weather_All_Bean;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
+import cn.etsoft.smarthome.pullmi.entity.WareBoardChnout;
 import cn.etsoft.smarthome.pullmi.entity.WareDev;
 import cn.etsoft.smarthome.pullmi.utils.Dtat_Cache;
 import cn.etsoft.smarthome.utils.CityDB;
@@ -62,7 +63,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private static final String 天气key = "APPCODE 500a3b58be714c519f83e8aa9a23810e";
     //    public static final String WEATHER_SIMPLE_URL = "http://mobile.weather.com.cn/data/sk/";// 简要天气信息
     private TextView date, week, time, setting, home_tv_ref, loaction_text, text_temp,
-            weather_text, weather_shidu, weather_temp2, weather_pm, weather_zhiliang, video;
+            weather_text, weather_shidu, weather_temp2, weather_pm, weather_zhiliang, video,user;
 
     private ImageView weather, edit_loaction;
     private LinearLayout ll_home_dots;
@@ -121,12 +122,25 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private void upData() {
         text_room = new ArrayList<>();
         mWareDev_room = new ArrayList<>();
-
         for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
             mWareDev_room.add(MyApplication.getWareData().getDevs().get(i));
         }
+//        for (int i = 0; i < mWareDev_room.size(); i++) {
+//            if (i == 0)
+//                text_room.add(mWareDev_room.get(i).getRoomName());
+//            else {
+//                for (int j = 0; j < text_room.size(); j++) {
+//                    String str_room = new String(text_room.get(j));
+//                    String str_dev = new String(mWareDev_room.get(i).getRoomName());
+//                    if (str_room.equals(str_dev)) {
+//                    } else {
+//                        text_room.add(mWareDev_room.get(i).getRoomName());
+//                    }
+//                }
+//            }
+//        }
 
-        for (int i = 0; i < mWareDev_room.size() - 1; i++) {
+        for (int i = 0; i < mWareDev_room.size(); i++) {
             for (int j = mWareDev_room.size() - 1; j > i; j--) {
                 if (mWareDev_room.get(i).getRoomName().equals(mWareDev_room.get(j).getRoomName())) {
                     mWareDev_room.remove(j);
@@ -145,6 +159,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         //初始化GridView
         initGridView();
     }
+
     Handler weather_handler;
     ProgressDialog dialog;
 
@@ -169,6 +184,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         weather_zhiliang = (TextView) findViewById(R.id.weather_zhiliang);
         video = (TextView) findViewById(R.id.video);
         video.setOnClickListener(this);
+        user = (TextView) findViewById(R.id.user);
+        user.setOnClickListener(this);
         ll_home_dots = (LinearLayout) findViewById(R.id.ll_home_dots);
         rl_nodata = (RelativeLayout) findViewById(R.id.rl_nodata);
         initEvent();
@@ -268,7 +285,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             }
         }).start();
 
-        if (c.get(Calendar.DAY_OF_WEEK)  == Calendar.MONDAY)
+        if (c.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
             week.setText("星期一");
         else if (c.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY)
             week.setText("星期二");
@@ -372,7 +389,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         //设置是否返回地址信息（默认返回地址信息）
         mLocationOption.setNeedAddress(true);
         //单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
-        mLocationOption.setHttpTimeOut(20000);
+        mLocationOption.setHttpTimeOut(30000);
         mLocationClient.setLocationOption(mLocationOption);
     }
 
@@ -502,23 +519,42 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
 
-            container.addView(mImageViews.get(position));
-            return mImageViews.get(position);
+            try {
+                container.addView(mImageViews.get(position));
+                return mImageViews.get(position);
+            } catch (Exception e) {
+                System.out.println("" + e);
+            }
+            return null;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView(mImageViews.get(position));
+            try {
+                container.removeView(mImageViews.get(position));
+            } catch (Exception e) {
+                System.out.println("" + e);
+            }
         }
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
-            return view == object;
+            try {
+                return view == object;
+            } catch (Exception e) {
+                System.out.println("" + e);
+            }
+            return false;
         }
 
         @Override
         public int getCount() {
-            return mImageViews.size();
+            try {
+                return mImageViews.size();
+            } catch (Exception e) {
+                System.out.println("" + e);
+            }
+            return 0;
         }
     }
 
@@ -570,6 +606,12 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.user:
+                MyApplication.setmHomeActivity(this);
+                Intent intent = new Intent(HomeActivity.this, UserActivity.class);
+                intent.putExtra("tag","home");
+                startActivity(intent);
+                break;
             case R.id.setting:
                 MyApplication.setmHomeActivity(this);
                 startActivity(new Intent(HomeActivity.this, SettingActivity.class));
@@ -625,7 +667,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             return false;
         if (System.currentTimeMillis() - TimeExit < 1500) {
 //            GlobalVars.getDevid();
-            Dtat_Cache.writeFile(GlobalVars.getDevid(),MyApplication.getWareData());
+            MyApplication.getWareData().setBoardChnouts(new ArrayList<WareBoardChnout>());
+            Dtat_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
             MyApplication.mInstance.setDevUnitID(MyApplication.mInstance.getRcuInfo().getDevUnitID());
             MyApplication.mInstance.getActivity().finish();
             System.exit(0);

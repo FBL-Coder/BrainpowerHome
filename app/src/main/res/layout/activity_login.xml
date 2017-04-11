@@ -90,7 +90,7 @@
                 android:layout_weight="4"
                 android:background="@null"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-                android:hint="请输入账号"
+                android:hint="请输入密码"
                 android:textColor="@color/color_fff"
                 android:textColorHint="@color/color_D9D4CC"
                 android:textCursorDrawable="@drawable/color_cursor"

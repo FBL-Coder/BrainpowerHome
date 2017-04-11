@@ -35,7 +35,14 @@ public class SwipeAdapter extends BaseAdapter {
         this.mContext = context;
         mListener = listener;
         keyOpItems = lst;
-//        System.out.println(lst.get(0).getDevId() +"---------"+lst.get(1).getDevId() +"---------"+lst.get(2).getDevId());
+    }
+
+    public SwipeAdapter(Context context, List<WareKeyOpItem> lst, IClick_PZ listener, ImageView view) {
+        this.mContext = context;
+        mListener = listener;
+        keyOpItems = lst;
+        if (lst.size() > 0)
+            view.setVisibility(View.GONE);
     }
 
     @Override
@@ -53,6 +60,11 @@ public class SwipeAdapter extends BaseAdapter {
             return keyOpItems.get(position);
         else
             return null;
+    }
+
+    public void notifyDataSetChanged(List<WareKeyOpItem> keyOpItems) {
+        this.keyOpItems = keyOpItems;
+        super.notifyDataSetChanged();
     }
 
     @Override
@@ -81,25 +93,27 @@ public class SwipeAdapter extends BaseAdapter {
         if (keyOpItems.get(position).getDevType() == 0) {
             List<WareAirCondDev> list = MyApplication.getWareData().getAirConds();
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getDev().getDevId() == keyOpItems.get(position).getDevId()) {
+                if (list.get(i).getDev().getDevId() == keyOpItems.get(position).getDevId()
+                        && list.get(i).getDev().getCanCpuId().equals(keyOpItems.get(position).getDevUnitID())) {
                     viewHolder.title.setText(list.get(i).getDev().getDevName() + "");
                 }
             }
-            text = new String[]{"未设置","开关", "模式", "风速", "温度+", "温度-"};
-            viewHolder.choose.setText(text[keyOpItems.get(position).getKeyOpCmd() ]);
+            text = new String[]{"未设置", "开关", "模式", "风速", "温度+", "温度-"};
+            viewHolder.choose.setText(text[keyOpItems.get(position).getKeyOpCmd()]);
             viewHolder.deploy_iv.setImageResource(image[0]);
             if (keyOpItems.get(position).getKeyOp() == 1) {
                 viewHolder.choose1.setText("弹起");
-            } else if (keyOpItems.get(position).getKeyOp() == 0){
+            } else if (keyOpItems.get(position).getKeyOp() == 0) {
                 viewHolder.choose1.setText("按下");
-            }else {
+            } else {
                 viewHolder.choose1.setText("未设置");
             }
 
         } else if (keyOpItems.get(position).getDevType() == 1) {
             List<WareTv> list = MyApplication.getWareData().getTvs();
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getDev().getDevId() == keyOpItems.get(position).getDevId()) {
+                if (list.get(i).getDev().getDevId() == keyOpItems.get(position).getDevId()
+                        && list.get(i).getDev().getCanCpuId().equals(keyOpItems.get(position).getDevUnitID())) {
                     viewHolder.title.setText(list.get(i).getDev().getDevName() + "");
                 }
             }
@@ -108,15 +122,16 @@ public class SwipeAdapter extends BaseAdapter {
             viewHolder.choose.setText("无操作");
             if (keyOpItems.get(position).getKeyOp() == 1) {
                 viewHolder.choose1.setText("弹起");
-            } else if (keyOpItems.get(position).getKeyOp() == 0){
+            } else if (keyOpItems.get(position).getKeyOp() == 0) {
                 viewHolder.choose1.setText("按下");
-            }else {
+            } else {
                 viewHolder.choose1.setText("未设置");
             }
         } else if (keyOpItems.get(position).getDevType() == 2) {
             List<WareSetBox> list = MyApplication.getWareData().getStbs();
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getDev().getDevId() == keyOpItems.get(position).getDevId()) {
+                if (list.get(i).getDev().getDevId() == keyOpItems.get(position).getDevId()
+                        && list.get(i).getDev().getCanCpuId().equals(keyOpItems.get(position).getDevUnitID())) {
                     viewHolder.title.setText(list.get(i).getDev().getDevName() + "");
                 }
             }
@@ -125,44 +140,45 @@ public class SwipeAdapter extends BaseAdapter {
             viewHolder.choose.setText("无操作");
             if (keyOpItems.get(position).getKeyOp() == 1) {
                 viewHolder.choose1.setText("弹起");
-            } else if (keyOpItems.get(position).getKeyOp() == 0){
+            } else if (keyOpItems.get(position).getKeyOp() == 0) {
                 viewHolder.choose1.setText("按下");
-            }else {
+            } else {
                 viewHolder.choose1.setText("未设置");
             }
         } else if (keyOpItems.get(position).getDevType() == 3) {
             List<WareLight> list = MyApplication.getWareData().getLights();
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getDev().getDevId() == keyOpItems.get(position).getDevId()) {
+                if (list.get(i).getDev().getDevId() == keyOpItems.get(position).getDevId()
+                        && list.get(i).getDev().getCanCpuId().equals(keyOpItems.get(position).getDevUnitID())) {
                     viewHolder.title.setText(list.get(i).getDev().getDevName() + "");
                 }
             }
             viewHolder.deploy_iv.setImageResource(image[3]);
-            text = new String[]{"未设置","打开", "关闭", "开关", "变暗", "变亮"};
-            viewHolder.choose.setText(text[keyOpItems.get(position).getKeyOpCmd() ]);
+            text = new String[]{"未设置", "打开", "关闭", "开关", "变暗", "变亮"};
+            viewHolder.choose.setText(text[keyOpItems.get(position).getKeyOpCmd()]);
 
             if (keyOpItems.get(position).getKeyOp() == 1) {
                 viewHolder.choose1.setText("弹起");
-            } else if (keyOpItems.get(position).getKeyOp() == 0){
+            } else if (keyOpItems.get(position).getKeyOp() == 0) {
                 viewHolder.choose1.setText("按下");
-            }else {
+            } else {
                 viewHolder.choose1.setText("未设置");
             }
         } else if (keyOpItems.get(position).getDevType() == 4) {
             List<WareCurtain> list = MyApplication.getWareData().getCurtains();
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getDev().getDevId() == keyOpItems.get(position).getDevId()) {
+                if (list.get(i).getDev().getDevId() == keyOpItems.get(position).getDevId() && list.get(i).getDev().getCanCpuId().equals(keyOpItems.get(position).getDevUnitID())) {
                     viewHolder.title.setText(list.get(i).getDev().getDevName() + "");
                 }
             }
             viewHolder.deploy_iv.setImageResource(image[4]);
-            text = new String[]{"未设置","打开", "关闭", "停止", "开关停"};
+            text = new String[]{"未设置", "打开", "关闭", "停止", "开关停"};
             viewHolder.choose.setText(text[keyOpItems.get(position).getKeyOpCmd()]);
             if (keyOpItems.get(position).getKeyOp() == 1) {
                 viewHolder.choose1.setText("弹起");
-            } else if (keyOpItems.get(position).getKeyOp() == 0){
+            } else if (keyOpItems.get(position).getKeyOp() == 0) {
                 viewHolder.choose1.setText("按下");
-            }else {
+            } else {
                 viewHolder.choose1.setText("未设置");
             }
         }

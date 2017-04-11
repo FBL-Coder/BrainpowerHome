@@ -34,7 +34,11 @@ public class ListViewAdapter extends BaseAdapter {
         }
         this.context = context;
     }
-
+    public ListViewAdapter(Context context,List<String> room_list) {
+        room_list_ok = new ArrayList<>();
+        room_list_ok = room_list;
+        this.context = context;
+    }
     @Override
     public int getCount() {
         return room_list_ok.size();

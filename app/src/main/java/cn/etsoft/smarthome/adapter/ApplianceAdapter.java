@@ -121,24 +121,24 @@ public class ApplianceAdapter extends BaseAdapter {
                 viewHolder.btn5.setBackgroundResource(R.drawable.rect_white1);
             } else {
                 viewHolder.btn1.setBackgroundResource(R.drawable.rect_white1);
-                viewHolder.btn2.setBackgroundResource(R.drawable.rect_red);
+                viewHolder.btn2.setBackgroundResource(R.drawable.rect_green2);
                 viewHolder.btn3.setBackgroundResource(R.drawable.air_temp);
                 viewHolder.btn4.setBackgroundResource(R.drawable.air_temp);
                 viewHolder.text_temp.setText("温度 :" + AicList.get(position).getSelTemp() + "°C");
 
                 if (AicList.get(position).getSelSpd()
                         == UdpProPkt.E_AIR_CMD.e_air_spdLow.getValue()) {
-                    viewHolder.btn5.setBackgroundResource(R.drawable.rect_red);
+                    viewHolder.btn5.setBackgroundResource(R.drawable.rect_green2);
                     viewHolder.btn6.setBackgroundResource(R.drawable.rect_white1);
                     viewHolder.btn7.setBackgroundResource(R.drawable.rect_white1);
                 } else if (AicList.get(position).getSelSpd()
                         == UdpProPkt.E_AIR_CMD.e_air_spdMid.getValue()) {
                     viewHolder.btn5.setBackgroundResource(R.drawable.rect_white1);
                     viewHolder.btn7.setBackgroundResource(R.drawable.rect_white1);
-                    viewHolder.btn6.setBackgroundResource(R.drawable.rect_red);
+                    viewHolder.btn6.setBackgroundResource(R.drawable.rect_green2);
                 } else if (AicList.get(position).getSelSpd()
                         == UdpProPkt.E_AIR_CMD.e_air_spdHigh.getValue()) {
-                    viewHolder.btn7.setBackgroundResource(R.drawable.rect_red);
+                    viewHolder.btn7.setBackgroundResource(R.drawable.rect_green2);
                     viewHolder.btn6.setBackgroundResource(R.drawable.rect_white1);
                     viewHolder.btn5.setBackgroundResource(R.drawable.rect_white1);
                 }

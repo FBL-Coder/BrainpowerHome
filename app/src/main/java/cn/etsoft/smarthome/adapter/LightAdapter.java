@@ -32,7 +32,6 @@ public class LightAdapter extends BaseAdapter {
         this.light_room = light_room;
         super.notifyDataSetChanged();
     }
-
     @Override
     public int getCount() {
         if (null != light_room) {
@@ -89,7 +88,6 @@ public class LightAdapter extends BaseAdapter {
         });
         return convertView;
     }
-
     private class ViewHolder {
         ImageView appliance,time,on;
         TextView title,pattern;

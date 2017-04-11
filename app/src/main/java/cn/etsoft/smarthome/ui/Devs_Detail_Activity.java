@@ -1,6 +1,7 @@
 package cn.etsoft.smarthome.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +23,7 @@ import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.WareDev;
 import cn.etsoft.smarthome.pullmi.utils.LogUtils;
+import cn.etsoft.smarthome.view.Circle_Progress;
 
 /**
  * Created by fbl on 16-11-17.
@@ -34,6 +36,15 @@ public class Devs_Detail_Activity extends Activity implements View.OnClickListen
     private WareDev dev;
     private int id;
     private PopupWindow popupWindow;
+    private Dialog mDialog;
+
+    //自定义加载进度条
+    private void initDialog(String str) {
+        Circle_Progress.setText(str);
+        mDialog = Circle_Progress.createLoadingDialog(this);
+        mDialog.setCancelable(true);//允许返回
+        mDialog.show();//显示
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,7 +191,6 @@ public class Devs_Detail_Activity extends Activity implements View.OnClickListen
                         }
                     }
                 }
-
                 dev.setDevName(dev_name.getText().toString());
 ////                发送：
 //            {
@@ -210,9 +220,19 @@ public class Devs_Detail_Activity extends Activity implements View.OnClickListen
                         "\"cmd\":" + 1 + "}";
 
                 MyApplication.sendMsg(chn_str);
+                initDialog("正在保存...");
+                MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
+                    @Override
+                    public void upDataWareData(int what) {
+                        if (what == 6) {
+                            if (mDialog != null)
+                                mDialog.dismiss();
+                            finish();
+                        }
+                    }
+                });
 
-                // =-----待向服务器交互数据
-                finish();
+
                 break;
             case R.id.dev_room:
                 final List<String> home_text = new ArrayList<>();

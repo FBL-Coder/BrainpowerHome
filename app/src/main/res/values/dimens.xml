@@ -1,7 +1,8 @@
 <resources>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
-
+    <dimen name="thumnail_default_width">100dip</dimen>
+    <dimen name="thumnail_default_height">100dip</dimen>
     <dimen name="title_height">40dp</dimen>
     <dimen name="title_textSize">16sp</dimen>
     <dimen name="activity_title_height">40dp</dimen>

@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.File;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.etsoft.smarthome.domain.City;
+import cn.etsoft.smarthome.domain.User;
 import cn.etsoft.smarthome.domain.Weather_All_Bean;
 import cn.etsoft.smarthome.domain.Weather_Bean;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
@@ -40,6 +42,7 @@ import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.RcuInfo;
 import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
 import cn.etsoft.smarthome.pullmi.entity.WareData;
+import cn.etsoft.smarthome.ui.GroupActivity;
 import cn.etsoft.smarthome.ui.WelcomeActivity;
 import cn.etsoft.smarthome.utils.CityDB;
 
@@ -64,6 +67,22 @@ public class MyApplication extends Application implements udpService.Callback, N
      * 全局数据
      */
     private static WareData wareData;
+
+    /**
+     * 情景备用全局数据
+     */
+    private static WareData wareData_scene;
+
+    public static WareData getWareData_Scene() {
+        return wareData_scene;
+    }
+
+    public static void setWareData_Scene(WareData wareData_scene) {
+        MyApplication.wareData_scene = wareData_scene;
+    }
+
+
+
     /**
      * 数据变更handler
      */
@@ -84,6 +103,7 @@ public class MyApplication extends Application implements udpService.Callback, N
      * 欢迎页面   这里只是为了销毁
      */
     private WelcomeActivity activity;
+    private GroupActivity groupActivity;
     private DatagramSocket socket = null;
     public static int local_server_flag = -1; //0 local 1 server
     /**
@@ -218,7 +238,6 @@ public class MyApplication extends Application implements udpService.Callback, N
         return music;
     }
 
-
     private void initCityList() {
         mCityList = new ArrayList<City>();
         mSections = new ArrayList<String>();
@@ -319,6 +338,14 @@ public class MyApplication extends Application implements udpService.Callback, N
      */
     public DatagramSocket getSocket() {
         return socket;
+    }
+
+    public GroupActivity getGroupActivity() {
+        return groupActivity;
+    }
+
+    public void setGroupActivity(GroupActivity groupActivity) {
+        this.groupActivity = groupActivity;
     }
 
     /**
@@ -493,6 +520,32 @@ public class MyApplication extends Application implements udpService.Callback, N
         sendMsg(chn_str);
     }
 
+    /**
+     * 获取用户面板数据
+     */
+    public static void getUserData() {
+//        {
+//              "userName": "17089111219",
+//              "passwd": "123456",
+//              "devUnitID": "39ffd905484d303429620443",
+//              "datType": 66,
+//              "subType1": 0,
+//              "subType2": 0
+//        }
+        sharedPreferences = context.getSharedPreferences("profile",
+                Context.MODE_PRIVATE);
+        User user = new Gson().fromJson(sharedPreferences.getString("user", ""), User.class);
+        final String chn_str = "{" +
+                "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                "\"passwd\":\"" + user.getPass() + "\"," +
+                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_user_data.getValue() + "," +
+                "\"userName\":\"" + user.getId() + "\"," +
+                "\"subType1\":0," +
+                "\"subType2\":0" +
+                "}";
+        sendMsg(chn_str);
+    }
+
 
     /**
      * 发送消息的方法；
@@ -523,7 +576,6 @@ public class MyApplication extends Application implements udpService.Callback, N
         }).start();
 
     }
-
 
     public static void setWareData(WareData wareData) {
         MyApplication.wareData = wareData;

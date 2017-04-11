@@ -349,35 +349,18 @@
             android:name=".ui.Devs_Detail_Activity"
             android:screenOrientation="landscape" />
         <!--组合设置-->
-        <activity
-            android:name=".ui.GroupActivity"
-            android:screenOrientation="landscape" />
         <!---->
         <activity
             android:name=".ui.EquipmentControlOutActivity"
             android:screenOrientation="landscape" />
         <!--输出板配置页面-->
-        <activity
-            android:name=".ui.EquipmentDeployActivity"
-            android:screenOrientation="landscape" />
         <!--输入输出配置测试-->
-        <activity
-            android:name=".ui.AddEquipmentControlActivity"
-            android:screenOrientation="landscape" />
 
         <!---->
-        <activity
-            android:name=".ui.ParlourFourActivity"
-            android:screenOrientation="landscape" />
         <!---->
-        <activity
-            android:name=".ui.ParlourFourOutActivity"
-            android:screenOrientation="landscape" />
         <!--情景设置-->
-        <activity
-            android:name=".ui.SceneSettingActivity"
-            android:screenOrientation="landscape" />
         <!--情景设置-->
+        <!--用户界面-->
         <activity
             android:name=".ui.SceneSetActivity"
             android:screenOrientation="landscape" />
@@ -385,10 +368,11 @@
         <activity
             android:name=".ui.UserActivity"
             android:screenOrientation="landscape" />
-        <!--情景具体设置-->
+        <!--组合设置-->
         <activity
-            android:name=".ui.ParlourActivity"
+            android:name=".ui.GroupActivity"
             android:screenOrientation="landscape" />
+        <!--情景具体设置-->
         <activity
             android:name="cn.semtec.community2.activity.AuthorizationActivity"
             android:label="@string/title_activity_authorization" />

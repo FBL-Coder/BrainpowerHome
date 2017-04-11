@@ -23,12 +23,22 @@ public class Swipe_CpnAdapter extends BaseAdapter {
     List<PrintCmd> listData;
     String[] cmd_name = null;
     String[] key_act = null;
+    private IClick_PZ mListener;
     private int[] image = new int[]{R.drawable.kongtiao, R.drawable.tv, R.drawable.jidinghe, R.drawable.dengguang, R.drawable.chuanglian};
 
-    public Swipe_CpnAdapter(Context context, List<PrintCmd> listData) {
+    public Swipe_CpnAdapter(Context context, List<PrintCmd> listData,IClick_PZ listener) {
         this.mContext = context;
+        mListener = listener;
         this.listData = listData;
-//        System.out.println(lst.get(0).getDevId() +"---------"+lst.get(1).getDevId() +"---------"+lst.get(2).getDevId());
+    }
+
+    public Swipe_CpnAdapter(Context context, List<PrintCmd> listData,IClick_PZ listener, ImageView view) {
+        this.mContext = context;
+        mListener = listener;
+        this.listData = listData;
+        if (listData.size() > 0) {
+            view.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -46,6 +56,11 @@ public class Swipe_CpnAdapter extends BaseAdapter {
             return listData.get(position);
         else
             return null;
+    }
+
+    public void notifyDataSetChanged(List<PrintCmd> listData) {
+        this.listData = listData;
+        super.notifyDataSetChanged();
     }
 
     @Override
@@ -71,7 +86,7 @@ public class Swipe_CpnAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) contentView.getTag();
         }
 
-        key_act = new String[]{ "按下", "弹起", "未设置"};
+        key_act = new String[]{"按下", "弹起", "未设置"};
         if (listData.get(position).getDevType() == 0) {
             cmd_name = new String[]{"未设置", "开关", "模式", "风速", "温度+", "温度-"};
         } else if (listData.get(position).getDevType() == 3) {
@@ -83,21 +98,25 @@ public class Swipe_CpnAdapter extends BaseAdapter {
         }
 
 
-        viewHolder.title.setText(listData.get(position).getKeyname());
-        viewHolder.choose.setText(cmd_name[listData.get(position).getKey_cmd()]);
-        viewHolder.choose1.setText(key_act[listData.get(position).getKeyAct_num()]);
+        try {
+            viewHolder.title.setText(listData.get(position).getKeyname());
+            viewHolder.choose.setText(cmd_name[listData.get(position).getKey_cmd()]);
+            viewHolder.choose1.setText(key_act[listData.get(position).getKeyAct_num()]);
 
-        Iclick_Tag tag = new Iclick_Tag();
-        tag.setPosition(position);
-        tag.setType(listData.get(position).getDevType());
-        tag.setText(cmd_name);
+            Iclick_Tag tag = new Iclick_Tag();
+            tag.setPosition(position);
+            tag.setType(listData.get(position).getDevType());
+            tag.setText(cmd_name);
 
-        viewHolder.choose.setOnClickListener(listData.get(position).getListener());
-        viewHolder.choose.setTag(tag);
-        viewHolder.choose1.setOnClickListener(listData.get(position).getListener());
-        viewHolder.choose1.setTag(tag);
-        viewHolder.delete.setOnClickListener(listData.get(position).getListener());
-        viewHolder.delete.setTag(tag);
+            viewHolder.choose.setOnClickListener(listData.get(position).getListener());
+            viewHolder.choose.setTag(tag);
+            viewHolder.choose1.setOnClickListener(listData.get(position).getListener());
+            viewHolder.choose1.setTag(tag);
+            viewHolder.delete.setOnClickListener(listData.get(position).getListener());
+            viewHolder.delete.setTag(tag);
+        } catch (Exception e) {
+            System.out.println(e + "");
+        }
 
         return contentView;
     }

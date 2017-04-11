@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    >
+    android:layout_margin="@dimen/dp_50"
+    android:background="@color/color_00000000">
 
     <LinearLayout
-        android:layout_width="800dp"
-        android:layout_height="500dp"
-        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:background="@color/color_fff"
         android:orientation="vertical">
 
@@ -32,8 +32,8 @@
             <TextView
                 android:id="@+id/tv_home"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@color/color_0095D9"
                 android:gravity="center"
                 android:text="设置"
@@ -47,7 +47,7 @@
                 android:background="@color/color_0095D9"
                 android:gravity="center"
                 android:text="退出登录"
-                android:textColor="@color/color_000"
+                android:textColor="@color/color_fff"
                 android:textSize="@dimen/sp_18" />
         </LinearLayout>
 
@@ -123,6 +123,7 @@
                     android:text="系统信息" />
 
                 <View style="@style/LandscapeViewStyle" />
+
                 <RadioButton
                     android:id="@+id/other_set"
                     style="@style/RadioButtonStyle"

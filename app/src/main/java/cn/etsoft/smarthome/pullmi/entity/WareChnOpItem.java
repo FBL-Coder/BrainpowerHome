@@ -1,6 +1,8 @@
 package cn.etsoft.smarthome.pullmi.entity;
 
-public class WareChnOpItem {
+import java.io.Serializable;
+
+public class WareChnOpItem implements Serializable{
 	private String cpuid; //12输出板
 	private byte devType;
 	private byte devid;

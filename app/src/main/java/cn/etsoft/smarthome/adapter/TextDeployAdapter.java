@@ -86,8 +86,6 @@ public class TextDeployAdapter extends BaseAdapter {
         viewHolder.deploy.setTag(position);
         return convertView;
     }
-
-
     public class ViewHolder {
         public TextView title;
         public Button text, deploy;
