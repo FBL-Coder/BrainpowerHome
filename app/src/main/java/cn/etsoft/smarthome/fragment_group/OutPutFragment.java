@@ -30,7 +30,7 @@ import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter.IClick_PZ;
 import cn.etsoft.smarthome.adapter.PopupWindowAdapter;
-import cn.etsoft.smarthome.adapter.Swipe_CpnAdapter;
+import cn.etsoft.smarthome.adapter_group.Swipe_CpnAdapter;
 import cn.etsoft.smarthome.domain.PrintCmd;
 import cn.etsoft.smarthome.domain.UpBoardKeyData;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;

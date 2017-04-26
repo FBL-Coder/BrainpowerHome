@@ -15,6 +15,7 @@ public class WareChnOpItem implements Serializable{
 	private int rev2;
 	private byte[] keyUpCmd; // 6
 	private int rev3;
+	private boolean isSelect = false;
 
 	public String getCpuid() {
 		return cpuid;
@@ -73,6 +74,8 @@ public class WareChnOpItem implements Serializable{
 	}
 
 	public byte[] getKeyDownCmd() {
+		if (keyDownCmd == null ||keyDownCmd.length == 0)
+			keyDownCmd = new byte[]{0,0,0,0,0,0,0,0};
 		return keyDownCmd;
 	}
 
@@ -89,6 +92,8 @@ public class WareChnOpItem implements Serializable{
 	}
 
 	public byte[] getKeyUpCmd() {
+		if (keyUpCmd == null ||keyUpCmd.length == 0)
+			keyUpCmd = new byte[]{0,0,0,0,0,0,0,0};
 		return keyUpCmd;
 	}
 
@@ -102,5 +107,13 @@ public class WareChnOpItem implements Serializable{
 
 	public void setRev3(int rev3) {
 		this.rev3 = rev3;
+	}
+
+	public boolean isSelect() {
+		return isSelect;
+	}
+
+	public void setSelect(boolean select) {
+		isSelect = select;
 	}
 }

@@ -51,7 +51,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
-
+    <!--全局对话框的权限-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
@@ -93,7 +94,12 @@
             android:name="cn.semtec.community2.activity.CallingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="landscape" />
-
+        <!-- 注册服务 -->
+        <service android:name="cn.etsoft.smarthome.ServiceSubclass">
+            <intent-filter >
+                <action android:name="cc.test.com"/>
+            </intent-filter>
+        </service>
         <service
             android:name="cn.semtec.community2.service.SIPService"
             android:exported="false" />
@@ -327,14 +333,30 @@
         <activity
             android:name=".ui.MainActivity"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.SceneSetActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.NotificationActivity"
+            android:screenOrientation="landscape" />
         <!--登录页面-->
         <!--登录页面-->
         <activity
             android:name=".ui.LoginActivity"
             android:screenOrientation="landscape" />
+        <!--登录页面-->
+        <activity
+            android:name=".ui.SafetyActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.AddEquipSafetyActivity"
+            android:screenOrientation="landscape" />
         <!--主页-->
         <activity
             android:name=".ui.HomeActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.GroupActivity2"
             android:screenOrientation="landscape" />
         <!--添加设备-->
         <activity
@@ -354,12 +376,10 @@
             android:name=".ui.EquipmentControlOutActivity"
             android:screenOrientation="landscape" />
         <!--输出板配置页面-->
-        <!--输入输出配置测试-->
-
-        <!---->
-        <!---->
-        <!--情景设置-->
-        <!--情景设置-->
+        <!--用户界面-->
+        <activity
+            android:name=".ui.SceneSetActivity2"
+            android:screenOrientation="landscape" />
         <!--用户界面-->
         <activity
             android:name=".ui.SceneSetActivity"

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.adapter.SocketAdapter;
+import cn.etsoft.smarthome.adapter_main.SocketAdapter;
 
 /**
  * Created by Say GoBay on 2016/11/28.

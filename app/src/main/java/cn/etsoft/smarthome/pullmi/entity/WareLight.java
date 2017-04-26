@@ -28,6 +28,7 @@ public class WareLight implements Serializable {
 
 	public void setbOnOff(byte bOnOff) {
 		this.bOnOff = bOnOff;
+		dev.setbOnOff(bOnOff);
 	}
 
 	public byte getbTuneEn() {

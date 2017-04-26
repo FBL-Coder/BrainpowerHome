@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_00000000"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1"
+        android:background="@color/color_4489CA"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_back"
+            android:padding="@dimen/dp_10"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/tv_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/color_0095D9"
+            android:gravity="center"
+            android:text="安防界面"
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_18" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="8"
+        android:background="@drawable/bg_viewpager"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_15"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="第一防区"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@drawable/rect_blue14"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_18" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/dp_10"
+                android:text="第二防区"
+                android:background="@drawable/rect_blue14"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_18" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/dp_10"
+                android:text="第三防区"
+                android:background="@drawable/rect_blue14"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_18" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="第四防区"
+                android:background="@drawable/rect_blue14"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_18" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/dp_15"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="第五防区"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@drawable/rect_blue14"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_18" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="第六防区"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@drawable/rect_blue14"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_18" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/dp_10"
+                android:text="第七防区"
+                android:background="@drawable/rect_blue14"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_18" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="第八防区"
+                android:background="@drawable/rect_blue14"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_18" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

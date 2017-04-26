@@ -9,6 +9,7 @@ public class WareTv implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private WareDev dev;
+	private byte bOnOff;
 
 	public byte getbOnOff() {
 		return bOnOff;
@@ -16,9 +17,8 @@ public class WareTv implements Serializable {
 
 	public void setbOnOff(byte bOnOff) {
 		this.bOnOff = bOnOff;
+		dev.setbOnOff(bOnOff);
 	}
-
-	private byte bOnOff;
 
 	public WareDev getDev() {
 		return dev;

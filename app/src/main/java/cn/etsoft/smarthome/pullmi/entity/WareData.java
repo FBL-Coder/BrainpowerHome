@@ -8,6 +8,8 @@ import java.util.List;
 
 import cn.etsoft.smarthome.domain.DevControl_Result;
 import cn.etsoft.smarthome.domain.SetEquipmentResult;
+import cn.etsoft.smarthome.domain.SetSafetyResult;
+import cn.etsoft.smarthome.domain.SetSafetyResult_alarm;
 import cn.etsoft.smarthome.domain.UserBean;
 
 public class WareData implements Serializable {
@@ -26,6 +28,27 @@ public class WareData implements Serializable {
     private List<WareChnOpItem> chnOpItems;
     private List<WareKeyOpItem> keyOpItems;
     private SetEquipmentResult result;
+    //防区模块显示信息
+    private SetSafetyResult result_safety;
+    public SetSafetyResult getResult_safety() {
+        return result_safety;
+    }
+
+    public void setResult_safety(SetSafetyResult result_safety) {
+        this.result_safety = result_safety;
+    }
+
+    //防区模块报警
+    private SetSafetyResult_alarm safetyResult_alarm;
+    public SetSafetyResult_alarm getSafetyResult_alarm() {
+        return safetyResult_alarm;
+    }
+
+    public void setSafetyResult_alarm(SetSafetyResult_alarm safetyResult_alarm) {
+        this.safetyResult_alarm = safetyResult_alarm;
+    }
+
+
     private DevControl_Result dev_result;
     private int login_result;
     private int addNewNet_reslut;

@@ -92,10 +92,8 @@ public class LightAdapter extends BaseAdapter {
                 Toast.makeText(context, "暂不可用", Toast.LENGTH_SHORT).show();
             }
         });
-
         return convertView;
     }
-
     private class ViewHolder {
         ImageView appliance, time, on;
         TextView title, pattern;

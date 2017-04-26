@@ -24,7 +24,7 @@ public class GlobalVars {
     }
 
     public static String getDstip() {
-        if (dstip == null ||"".equals(dstip))
+        if (dstip == null || "".equals(dstip))
             return MyApplication.LOCAL_IP;
         return dstip;
     }
@@ -42,6 +42,8 @@ public class GlobalVars {
     }
 
     public static String getDevid() {
+        if (devid == null)
+            return "";
         return devid;
     }
 

@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.etsoft.smarthome.domain.City;
+import cn.etsoft.smarthome.domain.Out_List_printcmd;
 import cn.etsoft.smarthome.domain.User;
 import cn.etsoft.smarthome.domain.Weather_All_Bean;
 import cn.etsoft.smarthome.domain.Weather_Bean;
@@ -42,6 +43,8 @@ import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.RcuInfo;
 import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
 import cn.etsoft.smarthome.pullmi.entity.WareData;
+import cn.etsoft.smarthome.pullmi.entity.WareDev;
+import cn.etsoft.smarthome.pullmi.entity.WareKeyOpItem;
 import cn.etsoft.smarthome.ui.GroupActivity;
 import cn.etsoft.smarthome.ui.WelcomeActivity;
 import cn.etsoft.smarthome.utils.CityDB;
@@ -81,7 +84,47 @@ public class MyApplication extends Application implements udpService.Callback, N
         MyApplication.wareData_scene = wareData_scene;
     }
 
+    /**
+     * 控制设置备用全局数据；
+     */
+    private List<WareKeyOpItem> input_key_data;
+    /**
+     * 控制设置备用全局数据；
+     */
+    private List<Out_List_printcmd> out_key_data;
+    /**
+     * 防区模块的全局变量
+     */
+    private List<WareDev> safety_data_dev;
 
+    public List<WareDev> getSafety_data_dev() {
+        if (safety_data_dev == null)
+            return new ArrayList<>();
+        return safety_data_dev;
+    }
+
+    public void setSafety_data_dev() {
+        onGetWareDataListener_safety.upDataWareData();
+        this.safety_data_dev = safety_data_dev;
+    }
+
+    public List<WareKeyOpItem> getInput_key_data() {
+        if (input_key_data == null)
+            return new ArrayList<>();
+        return input_key_data;
+    }
+
+    public void setInput_key_data(List<WareKeyOpItem> input_key_data) {
+        this.input_key_data = input_key_data;
+    }
+
+    public List<Out_List_printcmd> getOut_key_data() {
+        return out_key_data;
+    }
+
+    public void setOut_key_data(List<Out_List_printcmd> out_key_data) {
+        this.out_key_data = out_key_data;
+    }
 
     /**
      * 数据变更handler
@@ -220,19 +263,19 @@ public class MyApplication extends Application implements udpService.Callback, N
             }
         }).start();
 
-        sp= new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
+        sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
         music = sp.load(this, R.raw.key_sound, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
     }
 
     public SoundPool getSp() {
-        if (sp==null){
-            sp= new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
+        if (sp == null) {
+            sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
         }
         return sp;
     }
 
     public int getMusic() {
-        if (music == 0){
+        if (music == 0) {
             music = sp.load(getActivity(), R.raw.key_sound, 1);
         }
         return music;
@@ -385,6 +428,18 @@ public class MyApplication extends Application implements udpService.Callback, N
     @Override
     public void getWareData(int what, WareData wareData) {
         MyApplication.wareData = wareData;
+        if (what == 32 && MyApplication.getWareData().getSafetyResult_alarm() != null && MyApplication.getWareData().getSafetyResult_alarm().getSubType1() == 2) {
+            int SecDat = MyApplication.getWareData().getSafetyResult_alarm().getSecDat();
+            String SecDatlist = Integer.toBinaryString(SecDat);
+
+            Intent intent = new Intent();
+            if (!SecDatlist.contains("1"))
+                return;
+            intent.putExtra("index", SecDatlist);
+            intent.setAction("cc.test.com");
+            startService(intent);
+            MyApplication.getWareData().setSafetyResult_alarm(null);
+        }
         onGetWareDataListener.upDataWareData(what);
     }
 
@@ -619,6 +674,7 @@ public class MyApplication extends Application implements udpService.Callback, N
         bindService(new Intent(this, udpService.class), conn, BIND_AUTO_CREATE);
     }
 
+
     @Override
     public void onNetChange(int netMobile) {
         if (isAppRunning(this))
@@ -674,16 +730,31 @@ public class MyApplication extends Application implements udpService.Callback, N
         }
     }
 
+    /**
+     * 实现通知数据更新的接口；
+     */
     private static OnGetWareDataListener onGetWareDataListener;
 
     public void setOnGetWareDataListener(OnGetWareDataListener Listener) {
         onGetWareDataListener = Listener;
     }
 
-    /**
-     * 实现通知数据更新的接口；
-     */
     public interface OnGetWareDataListener {
         void upDataWareData(int what);
     }
+
+    /**
+     * 防区模块的回调
+     */
+    private static OnGetWareDataListener_safety onGetWareDataListener_safety;
+
+    public void setOnGetWareDataListener_safety(OnGetWareDataListener_safety Listener) {
+        onGetWareDataListener_safety = Listener;
+    }
+
+    public interface OnGetWareDataListener_safety {
+        void upDataWareData();
+    }
+
+
 }

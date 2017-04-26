@@ -20,6 +20,7 @@
             >
 
             <TextView
+                android:id="@+id/sceneSet_name"
                 android:layout_width="@dimen/dp_0"
                 android:layout_weight="3.5"
                 android:layout_height="match_parent"

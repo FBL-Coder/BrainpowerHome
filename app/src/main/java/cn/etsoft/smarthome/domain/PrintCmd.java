@@ -13,6 +13,7 @@ public class PrintCmd implements Serializable {
     int devType;
     int keyAct_num;
     int key_cmd;
+    boolean isSelect = false;
     String keyname;
     IClick_PZ listener;
 
@@ -54,6 +55,14 @@ public class PrintCmd implements Serializable {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 
     public int getDevType() {

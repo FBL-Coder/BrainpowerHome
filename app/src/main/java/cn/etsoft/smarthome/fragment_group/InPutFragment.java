@@ -27,7 +27,7 @@ import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter.IClick_PZ;
 import cn.etsoft.smarthome.adapter.PopupWindowAdapter;
-import cn.etsoft.smarthome.adapter.SwipeAdapter;
+import cn.etsoft.smarthome.adapter_group.SwipeAdapter;
 import cn.etsoft.smarthome.domain.Save_Quipment;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.entity.Iclick_Tag;

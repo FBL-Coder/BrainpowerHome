@@ -50,7 +50,7 @@ public class GroupActivity extends FragmentActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group2);
+        setContentView(R.layout.activity_group);
         MyApplication.mInstance.setGroupActivity(GroupActivity.this);
         //初始化控件
         initView();

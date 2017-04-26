@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/deploy_input"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:background="@drawable/save_click_selector"
+            android:clickable="true"
+            android:drawableRight="@drawable/more"
+            android:gravity="center"
+            android:paddingRight="@dimen/dp_5"
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_18" />
+
+        <ListView
+            android:id="@+id/input_listView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="8"
+            android:background="@color/color_60A7D5_null"
+            android:orientation="vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:orientation="vertical">
+        <FrameLayout
+            android:background="@drawable/bg_viewpager"
+            android:id="@+id/deploy"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="8"></FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/deploy_output"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:background="@drawable/save_click_selector"
+            android:clickable="true"
+            android:drawableRight="@drawable/more"
+            android:gravity="center"
+            android:paddingRight="@dimen/dp_5"
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_18" />
+
+        <ListView
+            android:id="@+id/output_listView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="8"
+            android:background="@color/color_60A7D5_null"
+            android:orientation="vertical" />
+    </LinearLayout>
+
+</LinearLayout>

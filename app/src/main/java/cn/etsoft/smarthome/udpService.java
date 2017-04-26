@@ -23,6 +23,8 @@ import java.util.List;
 
 import cn.etsoft.smarthome.domain.DevControl_Result;
 import cn.etsoft.smarthome.domain.SetEquipmentResult;
+import cn.etsoft.smarthome.domain.SetSafetyResult;
+import cn.etsoft.smarthome.domain.SetSafetyResult_alarm;
 import cn.etsoft.smarthome.domain.UserBean;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.RcuInfo;
@@ -314,6 +316,18 @@ public class udpService extends Service {
 //                    isFreshData = true;
                 }
                 break;
+            case 32: // e_udpPro_exeSceneEvents
+                if (subType2 == 255) {
+                     setSafetyEvents(info);
+                    isFreshData = true;
+                }else if(subType1 == 5){
+                    safety_result(info);
+                    isFreshData = true;
+                }else if(subType1 == 2){
+                    safety_alarm(info);
+                    isFreshData = true;
+                }
+                break;
             case 35:// e_udpPro_chns_status
                 ctrlDevReply(info);
                 isFreshData = true;
@@ -589,6 +603,7 @@ public class udpService extends Service {
                     dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
                     dev.setDevId((byte) jsonobj.getInt("devID"));
                     dev.setType((byte) jsonobj.getInt("devType"));
+                    dev.setbOnOff((byte) jsonobj.getInt("bOnOff"));
                     airCondDev.setDev(dev);
                     //add dev to devlist
                     MyApplication.getWareData().getDevs().add(dev);
@@ -624,6 +639,7 @@ public class udpService extends Service {
                     dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
                     dev.setDevId((byte) jsonobj.getInt("devID"));
                     dev.setType((byte) jsonobj.getInt("devType"));
+                    dev.setbOnOff((byte) jsonobj.getInt("bOnOff"));
                     light.setDev(dev);
 
                     MyApplication.getWareData().getDevs().add(dev);
@@ -714,6 +730,7 @@ public class udpService extends Service {
                     dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
                     dev.setDevId((byte) jsonobj.getInt("devID"));
                     dev.setType((byte) jsonobj.getInt("devType"));
+                    dev.setbOnOff((byte) jsonobj.getInt("bOnOff"));
 
                     MyApplication.getWareData().getDevs().add(dev);
 
@@ -775,6 +792,7 @@ public class udpService extends Service {
                 dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
                 dev.setDevId((byte) jsonobj.getInt("devID"));
                 dev.setType((byte) jsonobj.getInt("devType"));
+                dev.setbOnOff((byte) jsonobj.getInt("bOnOff"));
                 curtain.setDev(dev);
                 curtain.setbOnOff((byte) jsonobj.getInt("bOnOff"));
                 curtain.setPowChn(jsonobj.getInt("powChn"));
@@ -1090,6 +1108,28 @@ public class udpService extends Service {
         SetEquipmentResult result = gson.fromJson(info, SetEquipmentResult.class);
         MyApplication.getWareData().setResult(result);
     }
+    //防区信息
+    public void safety_result(String info) {
+//        {
+//            "devUnitID":	"37ffdb05424e323416702443",
+//                "datType":	12,
+//                "subType1":	1,
+//                "subType2":	0,
+//                "canCpuID":	"50ff6c067184515640421267",
+//                "result":	1
+//        }
+        MyApplication.getWareData().getChnOpItems().clear();
+        Gson gson = new Gson();
+        SetEquipmentResult result = gson.fromJson(info, SetEquipmentResult.class);
+        MyApplication.getWareData().setResult(result);
+    }
+    //防区警报
+    public void safety_alarm(String info) {
+        MyApplication.getWareData().getChnOpItems().clear();
+        Gson gson = new Gson();
+        SetSafetyResult_alarm result = gson.fromJson(info, SetSafetyResult_alarm.class);
+        MyApplication.getWareData().setSafetyResult_alarm(result);
+    }
 
     public void setKeyOpItem_result(String info) {
 //        {
@@ -1103,6 +1143,11 @@ public class udpService extends Service {
         Gson gson = new Gson();
         SetEquipmentResult result = gson.fromJson(info, SetEquipmentResult.class);
         MyApplication.getWareData().setResult(result);
+    }
+    public void setSafetyEvents(String info) {
+        Gson gson = new Gson();
+        SetSafetyResult result = gson.fromJson(info, SetSafetyResult.class);
+        MyApplication.getWareData().setResult_safety(result);
     }
 
 
@@ -1124,8 +1169,8 @@ public class udpService extends Service {
 //        }
         List<WareChnOpItem> inputs = new ArrayList<>();
         try {
+            boolean isNull = true;
             JSONObject object = new JSONObject(info);
-
             JSONArray array = object.getJSONArray("chn_opitem_rows");
             for (int i = 0; i < array.length(); i++) {
                 JSONObject object_rows = array.getJSONObject(i);
@@ -1133,7 +1178,6 @@ public class udpService extends Service {
                 item.setDevUnitID(object_rows.getString("key_cpuCanID"));
                 item.setKeyDownValid((byte) object_rows.getInt("keyDownValid"));
                 item.setKeyUpValid((byte) object_rows.getInt("keyUpValid"));
-
                 JSONArray array_up_cmd = object_rows.getJSONArray("keyUpCmd");
                 byte[] up_cmd = new byte[8];
                 for (int j = 0; j < array_up_cmd.length(); j++) {
@@ -1149,9 +1193,13 @@ public class udpService extends Service {
                 item.setKeyDownCmd(down_cmd);
                 inputs.add(item);
                 MyApplication.getWareData().setChnOpItems(inputs);
+                isNull = false;
+            }
+            if (isNull){
+                MyApplication.getWareData().setChnOpItems(new ArrayList<WareChnOpItem>());
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            System.out.println(e + "");
         }
     }
 
@@ -1382,6 +1430,7 @@ public class udpService extends Service {
                 dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
                 dev.setDevId((byte) jsonobj.getInt("devID"));
                 dev.setType((byte) jsonobj.getInt("devType"));
+                dev.setbOnOff((byte) jsonobj.getInt("bOnOff"));
                 light.setDev(dev);
                 light.setbOnOff((byte) jsonobj.getInt("bOnOff"));
                 light.setPowChn((byte) jsonobj.getInt("powChn"));

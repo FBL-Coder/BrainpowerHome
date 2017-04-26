@@ -89,6 +89,7 @@ public class CurtainAdapter extends BaseAdapter {
         } else {
             for (int i = 0; i < items.size(); i++) {//根据设给的数据判断状态以及显示图标
                 if (items.get(i).getDevID() == list_curtain.get(position).getDev().getDevId()
+                        && items.get(i).getUid().equals(list_curtain.get(position).getDev().getCanCpuId())
                         && items.get(i).getDevType() == 4
                         && items.get(i).getbOnOff() == 1) {
                     viewHolder.appliance.setImageResource(R.drawable.quankai_scene);

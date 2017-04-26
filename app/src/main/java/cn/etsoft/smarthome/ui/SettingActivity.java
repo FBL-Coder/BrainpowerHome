@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -18,12 +19,12 @@ import android.widget.TextView;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.fragment.Setting_AccountNumberFragment;
-import cn.etsoft.smarthome.fragment.Setting_MainFrameFragment;
-import cn.etsoft.smarthome.fragment.Setting_OtherSetFragment;
-import cn.etsoft.smarthome.fragment.Setting_PasswordFragment;
-import cn.etsoft.smarthome.fragment.Setting_SafetyFragment;
-import cn.etsoft.smarthome.fragment.Setting_SystemFragment;
+import cn.etsoft.smarthome.fragment_setting.Setting_LongIpFragment;
+import cn.etsoft.smarthome.fragment_setting.Setting_NetWorkFragment;
+import cn.etsoft.smarthome.fragment_setting.Setting_ModuleDetailFragment;
+import cn.etsoft.smarthome.fragment_setting.Setting_OtherSetFragment;
+import cn.etsoft.smarthome.fragment_setting.Setting_SystemFragment;
+import cn.etsoft.smarthome.fragment_setting.Setting_UserFragment;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.widget.CustomDialog_comment;
 
@@ -40,8 +41,9 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
     private RadioGroup radioGroup;
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
-    private Fragment setting_MainFrameFragment, setting_AccountNumberFragment, setting_PasswordFragment,
-            setting_SafetyFragment, setting_SystemFragment;
+    private Fragment setting_NetWorkFragment, setting_LongIpFragment, setting_NetWorkDetailFragment,
+            setting_userFragment, setting_SystemFragment;
+    private Handler handler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +51,17 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
         setContentView(R.layout.activity_etsoft_setting);
         //初始化控件
         initView();
+//        MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
+//            @Override
+//            public void upDataWareData(int what) {
+//                if (what == 10000){
+//                    transaction = fragmentManager.beginTransaction();
+//                    setting_SystemFragment = new Setting_OtherSetFragment();
+//                    transaction.replace(R.id.fragment, setting_SystemFragment);
+//                    transaction.commit();
+//                }
+//            }
+//        });
     }
 
     /**
@@ -73,31 +86,34 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
      * 初始化RadioGroup
      */
     private void initRadioGroup() {
-        setting_MainFrameFragment = new Setting_MainFrameFragment();
-        transaction.replace(R.id.fragment, setting_MainFrameFragment).commit();
+        setting_NetWorkFragment = new Setting_NetWorkFragment();
+        transaction.replace(R.id.fragment, setting_NetWorkFragment).commit();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 transaction = fragmentManager.beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putString("tag", "user");
                 switch (checkedId) {
                     case R.id.mainFrame:
-                        transaction.replace(R.id.fragment, setting_MainFrameFragment);
+                        transaction.replace(R.id.fragment, setting_NetWorkFragment);
                         break;
                     case R.id.accountNumber:
-                        setting_AccountNumberFragment = new Setting_AccountNumberFragment();
-                        transaction.replace(R.id.fragment, setting_AccountNumberFragment);
+                        setting_LongIpFragment = new Setting_LongIpFragment();
+                        transaction.replace(R.id.fragment, setting_LongIpFragment);
                         break;
                     case R.id.password:
-                        setting_PasswordFragment = new Setting_PasswordFragment();
-                        transaction.replace(R.id.fragment, setting_PasswordFragment);
+                        setting_NetWorkDetailFragment = new Setting_ModuleDetailFragment();
+                        transaction.replace(R.id.fragment, setting_NetWorkDetailFragment);
                         break;
 //                    case R.id.room:
 //                        setting_RoomFragment = new Setting_RoomFragment();
 //                        transaction.replace(R.id.fragment, setting_RoomFragment);
 //                        break;
-                    case R.id.safety:
-                        setting_SafetyFragment = new Setting_SafetyFragment();
-                        transaction.replace(R.id.fragment, setting_SafetyFragment);
+                    case R.id.user:
+                        setting_userFragment = new Setting_UserFragment();
+                        setting_userFragment.setArguments(bundle);
+                        transaction.replace(R.id.fragment, setting_userFragment);
                         break;
                     case R.id.system:
                         setting_SystemFragment = new Setting_SystemFragment();

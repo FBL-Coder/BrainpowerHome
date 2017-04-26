@@ -24,8 +24,8 @@
             android:text="控制设置"
             android:layout_marginLeft="@dimen/dp_30"
             android:layout_marginTop="@dimen/dp_10"
-            android:textColor="@color/color_229DBF"
-            android:textSize="@dimen/sp_22" />
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_24" />
 
         <TextView
             android:id="@+id/tv_dev"
@@ -42,8 +42,8 @@
             android:text="设备信息"
             android:layout_marginRight="@dimen/dp_30"
             android:layout_marginTop="@dimen/dp_10"
-            android:textColor="@color/color_FFCCCC"
-            android:textSize="@dimen/sp_22" />
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_24" />
 
 
     </LinearLayout>
@@ -67,25 +67,25 @@
             android:text="情景设置"
             android:layout_marginLeft="@dimen/dp_30"
             android:layout_marginBottom="@dimen/dp_10"
-            android:textColor="@color/color_E9573F"
-            android:textSize="@dimen/sp_22" />
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_24" />
         <TextView
-            android:id="@+id/tv_user"
+            android:id="@+id/tv_safety"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/user_set_selector"
             android:clickable="true"
-            android:drawableRight="@drawable/fangjian"
+            android:drawableRight="@drawable/anfang"
             android:paddingRight="@dimen/dp_50"
             android:drawablePadding="-50dp"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/dp_10"
             android:gravity="center"
-            android:text="用户界面"
+            android:text="安防设置"
             android:layout_marginRight="@dimen/dp_30"
-            android:textColor="@color/color_32AB11"
-            android:textSize="@dimen/sp_22" />
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_24" />
 
     </LinearLayout>
 

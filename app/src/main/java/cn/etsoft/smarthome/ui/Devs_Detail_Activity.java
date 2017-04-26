@@ -21,7 +21,13 @@ import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter.PopupWindowAdapter;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
+import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
+import cn.etsoft.smarthome.pullmi.entity.WareAirCondDev;
+import cn.etsoft.smarthome.pullmi.entity.WareCurtain;
 import cn.etsoft.smarthome.pullmi.entity.WareDev;
+import cn.etsoft.smarthome.pullmi.entity.WareLight;
+import cn.etsoft.smarthome.pullmi.entity.WareSetBox;
+import cn.etsoft.smarthome.pullmi.entity.WareTv;
 import cn.etsoft.smarthome.pullmi.utils.LogUtils;
 import cn.etsoft.smarthome.view.Circle_Progress;
 
@@ -30,11 +36,12 @@ import cn.etsoft.smarthome.view.Circle_Progress;
  */
 public class Devs_Detail_Activity extends Activity implements View.OnClickListener {
 
-    private TextView dev_type, dev_room, dev_save, dev_back, title, dev_way;
+    private TextView dev_type, dev_room, dev_save, dev_back, title, dev_way, dev_test;
     private EditText dev_name;
     private ImageView back;
     private WareDev dev;
-    private int id;
+    private int id, cmdValue = 0, modelValue = 0, curValue = 0;
+    private String str_Fixed;
     private PopupWindow popupWindow;
     private Dialog mDialog;
 
@@ -67,6 +74,7 @@ public class Devs_Detail_Activity extends Activity implements View.OnClickListen
         dev_back = (TextView) findViewById(R.id.dev_back);
         dev_name = (EditText) findViewById(R.id.dev_name);
         dev_way = (TextView) findViewById(R.id.dev_way);
+        dev_test = (TextView) findViewById(R.id.dev_test);
         back = (ImageView) findViewById(R.id.back);
 
 
@@ -110,6 +118,7 @@ public class Devs_Detail_Activity extends Activity implements View.OnClickListen
         dev_back.setOnClickListener(this);
         back.setOnClickListener(this);
         dev_room.setOnClickListener(this);
+        dev_test.setOnClickListener(this);
     }
 
 
@@ -261,8 +270,6 @@ public class Devs_Detail_Activity extends Activity implements View.OnClickListen
                 }
                 break;
             case R.id.dev_way:
-
-
                 List<Integer> list_voard_cancpuid = new ArrayList<>();
                 if (dev.getType() == 0) {
                     for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
@@ -304,18 +311,150 @@ public class Devs_Detail_Activity extends Activity implements View.OnClickListen
                     popupWindow.showAsDropDown(v, -widthOff, 0);
                 }
                 break;
+            case R.id.dev_test:
+                int type_dev = dev.getType();
+                int value = 0;
+                if (type_dev == 0) {
+                    for (int j = 0; j < MyApplication.getWareData().getAirConds().size(); j++) {
+                        WareAirCondDev AirCondDev = MyApplication.getWareData().getAirConds().get(j);
+                        if (dev.getCanCpuId().equals(AirCondDev.getDev().getCanCpuId())
+                                && dev.getDevId() == AirCondDev.getDev().getDevId()) {
+                            if (AirCondDev.getbOnOff() == 1) {
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue();//关闭空调
+                                value = (modelValue << 5) | cmdValue;
+                            } else {
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue();//打开空调
+                                value = (modelValue << 5) | cmdValue;
+                            }
+                            str_Fixed = getDevCmdstr();
+                            str_Fixed = str_Fixed +
+                                    ",\"cmd\":" + value + "}";
+                            MyApplication.sendMsg(str_Fixed);
+                        }
+                    }
+                } else if (type_dev == 1) {
+                    for (int j = 0; j < MyApplication.getWareData().getTvs().size(); j++) {
+                        WareTv tv = MyApplication.getWareData().getTvs().get(j);
+                        if (dev.getCanCpuId().equals(tv.getDev().getCanCpuId())
+                                && dev.getDevId() == tv.getDev().getDevId()) {
+                            if (tv.getbOnOff() == 0) {
+                                value = UdpProPkt.E_TV_CMD.e_tv_offOn.getValue();
+                            } else {
+                                value = UdpProPkt.E_TV_CMD.e_tv_numRt.getValue();
+                            }
+                            str_Fixed = getDevCmdstr();
+                            str_Fixed = str_Fixed +
+                                    ",\"cmd\":" + value + "}";
+                            MyApplication.sendMsg(str_Fixed);
+                        }
+                    }
+                } else if (type_dev == 2) {
+                    for (int j = 0; j < MyApplication.getWareData().getStbs().size(); j++) {
+                        WareSetBox box = MyApplication.getWareData().getStbs().get(j);
+                        if (dev.getCanCpuId().equals(box.getDev().getCanCpuId())
+                                && dev.getDevId() == box.getDev().getDevId()) {
+                            if (box.getbOnOff() == 0) {
+                                value = UdpProPkt.E_TVUP_CMD.e_tvUP_offOn.getValue();
+                            } else {
+                                value = UdpProPkt.E_TVUP_CMD.e_tvUP_numRt.getValue();
+                            }
+                            str_Fixed = getDevCmdstr();
+                            str_Fixed = str_Fixed +
+                                    ",\"cmd\":" + value + "}";
+                            MyApplication.sendMsg(str_Fixed);
+                        }
+                    }
+                } else if (type_dev == 3) {
+                    String ctlStr;
+                    for (int j = 0; j < MyApplication.getWareData().getLights().size(); j++) {
+                        WareLight Light = MyApplication.getWareData().getLights().get(j);
+                        if (dev.getCanCpuId().equals(Light.getDev().getCanCpuId())
+                                && dev.getDevId() == Light.getDev().getDevId()) {
+                            if (Light.getbOnOff() == 0) {
+                                ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                                        ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrlDev.getValue() +
+                                        ",\"subType1\":0" +
+                                        ",\"subType2\":0" +
+                                        ",\"canCpuID\":\"" + Light.getDev().getCanCpuId() +
+                                        "\",\"devType\":" + Light.getDev().getType() +
+                                        ",\"devID\":" + Light.getDev().getDevId() +
+                                        ",\"cmd\":0" +
+                                        "" +
+                                        "}";
+                                MyApplication.sendMsg(ctlStr);
+                            } else {
+                                ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                                        ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrlDev.getValue() +
+                                        ",\"subType1\":0" +
+                                        ",\"subType2\":0" +
+                                        ",\"canCpuID\":\"" + Light.getDev().getCanCpuId() +
+                                        "\",\"devType\":" + Light.getDev().getType() +
+                                        ",\"devID\":" + Light.getDev().getDevId() +
+                                        ",\"cmd\":1" +
+                                        "}";
+                                MyApplication.sendMsg(ctlStr);
+                            }
+                        }
+                    }
+                } else if (type_dev == 4) {
+                    for (int j = 0; j < MyApplication.getWareData().getCurtains().size(); j++) {
+                        WareCurtain Curtain = MyApplication.getWareData().getCurtains().get(j);
+                        if (dev.getCanCpuId().equals(Curtain.getDev().getCanCpuId())
+                                && dev.getDevId() == Curtain.getDev().getDevId()) {
+                            if (Curtain.getbOnOff() == 1) {
+                                int Value = UdpProPkt.E_CURT_CMD.e_curt_offOn.getValue();
+                                String str_Fixed = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                                        ",\"datType\":4" +
+                                        ",\"subType1\":0" +
+                                        ",\"subType2\":0" +
+                                        ",\"canCpuID\":\"" + Curtain.getDev().getCanCpuId() + "\"" +
+                                        ",\"devType\":" + Curtain.getDev().getType() +
+                                        ",\"devID\":" + Curtain.getDev().getDevId();
+                                str_Fixed = str_Fixed +
+                                        ",\"cmd\":" + Value + "}";
+                                MyApplication.sendMsg(str_Fixed);
+                            } else {
+                                int Value = UdpProPkt.E_CURT_CMD.e_curt_offOff.getValue();
+                                String str_Fixed = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                                        ",\"datType\":4" +
+                                        ",\"subType1\":0" +
+                                        ",\"subType2\":0" +
+                                        ",\"canCpuID\":\"" + Curtain.getDev().getCanCpuId() + "\"" +
+                                        ",\"devType\":" + Curtain.getDev().getType() +
+                                        ",\"devID\":" + Curtain.getDev().getDevId();
+                                str_Fixed = str_Fixed +
+                                        ",\"cmd\":" + Value + "}";
+                                MyApplication.sendMsg(str_Fixed);
+                            }
+                        }
+                    }
+
+                }
+                break;
         }
+    }
+    /**
+     * 空调控制  头命令字符串
+     * @return
+     */
+    public String getDevCmdstr() {
+        String data = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrlDev.getValue() +
+                ",\"subType1\":0" +
+                ",\"subType2\":0" +
+                ",\"canCpuID\":\"" + dev.getCanCpuId() +
+                "\",\"devType\":" + dev.getType() +
+                ",\"devID\":" + dev.getDevId();
+        return data;
     }
 
     public String Sutf2Sgbk(String string) {
-
         byte[] data = {0};
         try {
             data = string.getBytes("GB2312");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
         String str_gb = CommonUtils.bytesToHexString(data);
         LogUtils.LOGE("情景模式名称:%s", str_gb);
         return str_gb;
