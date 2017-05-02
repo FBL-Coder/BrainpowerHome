@@ -30,7 +30,7 @@ import cn.etsoft.smarthome.view.Circle_Progress;
 
 /**
  * Created by Say GoBay on 2017/4/20.
- * 防区添加设备页面
+ * 高级设置-安防设置-防区添加设备页面
  */
 public class AddEquipSafetyActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -111,6 +111,9 @@ public class AddEquipSafetyActivity extends FragmentActivity implements View.OnC
         }).start();
     }
 
+    /**
+     * 初始化控件
+     */
     private void initView() {
         safety_listView = (ListView) findViewById(R.id.safety_listView);
         radioGroup_sceneSet = (RadioGroup) findViewById(R.id.radioGroup_sceneSet);
@@ -160,32 +163,24 @@ public class AddEquipSafetyActivity extends FragmentActivity implements View.OnC
         });
     }
 
-    private static OnGetRoomListener onGetRoomListener;
-
-    public static void setOnGetRoomListener(OnGetRoomListener ongetRoomListener) {
-        onGetRoomListener = ongetRoomListener;
-    }
-
-    //房间变化接口
-    interface OnGetRoomListener {
-        void getRoomposition(int room_position_click);
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.confirm:
-//                Log.e("添加设备",MyApplication.getWareData().getResult_safety().getSec_info_rows().get(safety_position).getRun_dev_item().size());
+                //限制最多只能添加4个设备
                 if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(safety_position).getRun_dev_item().size() < 5) {
                     MyApplication.mInstance.setSafety_data_dev();
                     this.finish();
                 }else {
-                    ToastUtil.showToast(this,"最多添加4个设备");
+                    ToastUtil.showToast(this,"最多只能添加4个设备");
                 }
                 break;
         }
     }
 
+    /**
+     * 初始化设备的RadioGroup
+     */
     private void initRadioGroup() {
         radioGroup_sceneSet = (RadioGroup) findViewById(R.id.radioGroup_sceneSet);
         //初始设备类型
@@ -199,7 +194,6 @@ public class AddEquipSafetyActivity extends FragmentActivity implements View.OnC
         ((RadioButton) findViewById(R.id.light)).setChecked(true);
         transaction.replace(R.id.home_safety, main_LightFragment);
         transaction.commit();
-
         radioGroup_sceneSet.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -246,7 +240,6 @@ public class AddEquipSafetyActivity extends FragmentActivity implements View.OnC
 
     /**
      * 选择设备类型
-     *
      * @param bundle
      */
     private void selectDevType(Bundle bundle) {

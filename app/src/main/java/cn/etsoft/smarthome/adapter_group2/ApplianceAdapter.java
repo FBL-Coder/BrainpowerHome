@@ -114,27 +114,28 @@ public class ApplianceAdapter extends BaseAdapter {
                     AirCondDev = AicList.get(i);
                 }
             }
-            viewHolder.title.setText(AirCondDev.getDev().getDevName());
             //设备默认图标  或者是默认为关闭状态
-            viewHolder.appliance.setImageResource(R.drawable.kongtiao1);
             if (dev_list.get(position).isSelect()) {
                 viewHolder.mark.setImageResource(R.drawable.selected);
                 for (int i = 0; i < MyApplication.mInstance.getInput_key_data().size(); i++) {
                     if (MyApplication.mInstance.getInput_key_data().get(i).getDevUnitID().equals(dev_list.get(position).getCanCpuId()) && MyApplication.mInstance.getInput_key_data().get(i).getDevId() == dev_list.get(position).getDevId() && MyApplication.mInstance.getInput_key_data().get(i).getDevType() == dev_list.get(position).getType()) {
                         switch (MyApplication.mInstance.getInput_key_data().get(i).getKeyOpCmd()) {
                             case 0:
-                                viewHolder.on_off.setText("开关");
+                                viewHolder.on_off.setText("未设置");
                                 break;
                             case 1:
-                                viewHolder.on_off.setText("模式");
+                                viewHolder.on_off.setText("开关");
                                 break;
                             case 2:
-                                viewHolder.on_off.setText("风速");
+                                viewHolder.on_off.setText("模式");
                                 break;
                             case 3:
-                                viewHolder.on_off.setText("温度+");
+                                viewHolder.on_off.setText("风速");
                                 break;
                             case 4:
+                                viewHolder.on_off.setText("温度+");
+                                break;
+                            case 5:
                                 viewHolder.on_off.setText("温度—");
                                 break;
                             default:
@@ -152,7 +153,7 @@ public class ApplianceAdapter extends BaseAdapter {
                 });
             } else {
                 viewHolder.mark.setImageResource(R.drawable.select);
-                viewHolder.on_off.setText("关闭");
+                viewHolder.on_off.setText("未设置");
                 viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -160,103 +161,135 @@ public class ApplianceAdapter extends BaseAdapter {
                     }
                 });
             }
-
+            viewHolder.appliance.setImageResource(R.drawable.kongtiao1);
             on_off_name1 = new ArrayList<>();
-            on_off_name1.add(0, "开关");
-            on_off_name1.add(1, "模式");
-            on_off_name1.add(2, "风速");
-            on_off_name1.add(3, "温度+");
-            on_off_name1.add(4, "温度-");
+            on_off_name1.add(0, "未设置");
+            on_off_name1.add(1, "开关");
+            on_off_name1.add(2, "模式");
+            on_off_name1.add(3, "风速");
+            on_off_name1.add(4, "温度+");
+            on_off_name1.add(5, "温度-");
+            click(viewHolder, position);
+        } else if (dev_list.get(position).getType() == 1) {
+            TVList = MyApplication.getWareData().getTvs();
+            for (int i = 0; i < TVList.size(); i++) {
+                if (dev_list.get(position).getDevId() == TVList.get(i).getDev().getDevId() &&
+                        dev_list.get(position).getCanCpuId().equals(TVList.get(i).getDev().getCanCpuId())) {
+                    TV = TVList.get(i);
+                }
+            }
+            //设备默认图标  或者是默认为关闭状态
+            if (dev_list.get(position).isSelect()) {
+                viewHolder.mark.setImageResource(R.drawable.selected);
+                switch (dev_list.get(position).getbOnOff()) {
+                    case 0:
+                        viewHolder.on_off.setText("未设置");
+                        break;
+                    case 1:
+                        viewHolder.on_off.setText("电源");
+                        break;
+                    case 2:
+                        viewHolder.on_off.setText("音量+");
+                        break;
+                    case 3:
+                        viewHolder.on_off.setText("音量-");
+                        break;
+                    case 4:
+                        viewHolder.on_off.setText("频道+");
+                        break;
+                    case 5:
+                        viewHolder.on_off.setText("频道-");
+                        break;
+                    case 6:
+                        viewHolder.on_off.setText("V/AV");
+                        break;
+                }
+                viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        initPopupWindow(viewHolder.on_off, on_off_name2, position);
+                        popupWindow.showAsDropDown(v, -150, -80);
+                    }
+                });
+            } else {
+                viewHolder.mark.setImageResource(R.drawable.select);
+                viewHolder.on_off.setText("未设置");
+                viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ToastUtil.showToast(context, "设备未选中，选中才能操作...");
+                    }
+                });
+            }
+            viewHolder.appliance.setImageResource(R.drawable.ds);
+            on_off_name2 = new ArrayList<>();
+            on_off_name2.add(0, "未设置");
+            on_off_name2.add(1, "电源");
+            on_off_name2.add(2, "音量+");
+            on_off_name2.add(3, "音量-");
+            on_off_name2.add(4, "频道+");
+            on_off_name2.add(5, "频道-");
+            on_off_name2.add(6, "V/AV");
+            click(viewHolder, position);
+        } else if (dev_list.get(position).getType() == 2) {
+            tbsList = MyApplication.getWareData().getStbs();
+            for (int i = 0; i < tbsList.size(); i++) {
+                if (dev_list.get(position).getDevId() == tbsList.get(i).getDev().getDevId() &&
+                        dev_list.get(position).getCanCpuId().equals(tbsList.get(i).getDev().getCanCpuId())) {
+                    TVUP = tbsList.get(i);
+                }
+            }
+            //设备默认图标  或者是默认为关闭状态
+            if (dev_list.get(position).isSelect()) {
+                viewHolder.mark.setImageResource(R.drawable.selected);
+                switch (dev_list.get(position).getbOnOff()) {
+                    case 0:
+                        viewHolder.on_off.setText("未设置");
+                        break;
+                    case 1:
+                        viewHolder.on_off.setText("电源");
+                        break;
+                    case 2:
+                        viewHolder.on_off.setText("音量+");
+                        break;
+                    case 3:
+                        viewHolder.on_off.setText("音量—");
+                        break;
+                    case 4:
+                        viewHolder.on_off.setText("频道+");
+                        break;
+                    case 5:
+                        viewHolder.on_off.setText("频道—");
+                        break;
+                }
+                viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        initPopupWindow(viewHolder.on_off, on_off_name3, position);
+                        popupWindow.showAsDropDown(v, -150, -80);
+                    }
+                });
+            } else {
+                viewHolder.mark.setImageResource(R.drawable.select);
+                viewHolder.on_off.setText("未设置");
+                viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ToastUtil.showToast(context, "设备未选中，选中才能操作...");
+                    }
+                });
+            }
+            //设备默认图标  或者是默认为关闭状态
+            viewHolder.appliance.setImageResource(R.drawable.jidinghe1);
+            on_off_name3 = new ArrayList<>();
+            on_off_name3.add(0, "未设置");
+            on_off_name3.add(1, "电源");
+            on_off_name3.add(2, "音量+");
+            on_off_name3.add(3, "音量-");
+            on_off_name3.add(4, "频道+");
+            on_off_name3.add(5, "频道-");
             click(viewHolder, position);
         }
-
-//          else if (dev_list.get(position).getType() == 1) {
-//            TVList = MyApplication.getWareData().getTvs();
-//            for (int i = 0; i < TVList.size(); i++) {
-//                if (dev_list.get(position).getDevId() == TVList.get(i).getDev().getDevId() &&
-//                        dev_list.get(position).getCanCpuId().equals(TVList.get(i).getDev().getCanCpuId())) {
-//                    TV = TVList.get(i);
-//                }
-//            }
-//            viewHolder.title.setText(TVList.get(position).getDev().getDevName());
-//            //设备默认图标  或者是默认为关闭状态
-//            if (dev_list.get(position).isSelect()) {
-//                viewHolder.mark.setImageResource(R.drawable.selected);
-//                switch (dev_list.get(position).getbOnOff()) {
-//                    case 0:
-//                        viewHolder.on_off.setText("打开");
-//                        break;
-//                    case 1:
-//                        viewHolder.on_off.setText("关闭");
-//                        break;
-//                    case 2:
-//                        viewHolder.on_off.setText("停止");
-//                        break;
-//                    case 3:
-//                        viewHolder.on_off.setText("开关停");
-//                        break;
-//                }
-//                viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        initPopupWindow(viewHolder.on_off, on_off_name1, position);
-//                        popupWindow.showAsDropDown(v, -150, -80);
-//                    }
-//                });
-//            } else {
-//                viewHolder.mark.setImageResource(R.drawable.select);
-//                viewHolder.on_off.setText("关闭");
-//                viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        ToastUtil.showToast(context, "设备未选中，选中才能操作...");
-//                    }
-//                });
-//            }
-//            viewHolder.appliance.setImageResource(R.drawable.ds);
-//            on_off_name2 = new ArrayList<>();
-//            on_off_name2.add(0, "电源");
-//            on_off_name2.add(1, "音量+");
-//            on_off_name2.add(2, "音量-");
-//            on_off_name2.add(3, "频道+");
-//            on_off_name2.add(4, "频道-");
-//            on_off_name2.add(5, "V/AV");
-//            viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    initPopupWindow(viewHolder.on_off, on_off_name2, position);
-//                    popupWindow.showAsDropDown(v, -150, -80);
-//                }
-//            });
-//            click(viewHolder,position);
-//        } else if (dev_list.get(position).getType() == 2) {
-//            tbsList = MyApplication.getWareData().getStbs();
-//            for (int i = 0; i < tbsList.size(); i++) {
-//                if (dev_list.get(position).getDevId() == tbsList.get(i).getDev().getDevId() &&
-//                        dev_list.get(position).getCanCpuId().equals(tbsList.get(i).getDev().getCanCpuId())) {
-//                    TVUP = tbsList.get(i);
-//                }
-//            }
-//            viewHolder.title.setText(tbsList.get(position).getDev().getDevName());
-//            //设备默认图标  或者是默认为关闭状态
-//            viewHolder.appliance.setImageResource(R.drawable.jidinghe1);
-//            viewHolder.mark.setImageResource(R.drawable.select);
-//            viewHolder.on_off.setText("关");
-//            on_off_name3 = new ArrayList<>();
-//            on_off_name3.add(0, "电源");
-//            on_off_name3.add(1, "音量+");
-//            on_off_name3.add(2, "音量-");
-//            on_off_name3.add(3, "频道+");
-//            on_off_name3.add(4, "频道-");
-//            viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    initPopupWindow(viewHolder.on_off, on_off_name3, position);
-//                    popupWindow.showAsDropDown(v, -150, -80);
-//                }
-//            });
-//            click(viewHolder,position);
-//        }
         return convertView;
     }
 
@@ -356,7 +389,13 @@ public class ApplianceAdapter extends BaseAdapter {
                     viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            initPopupWindow(viewHolder.on_off, on_off_name1, position);
+                            if (dev_list.get(position).getType() == 0) {
+                                initPopupWindow(viewHolder.on_off, on_off_name1, position);
+                            }else if (dev_list.get(position).getType() == 1) {
+                                initPopupWindow(viewHolder.on_off, on_off_name2, position);
+                            }else if (dev_list.get(position).getType() == 2) {
+                                initPopupWindow(viewHolder.on_off, on_off_name3, position);
+                            }
                             popupWindow.showAsDropDown(v, -150, -80);
                         }
                     });

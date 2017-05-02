@@ -19,15 +19,21 @@ import cn.etsoft.smarthome.domain.PopBean;
 public class PopupWindowAdapter2 extends BaseAdapter {
     private LayoutInflater mInflater;
     private List<PopBean> listViewItems;
+    private Context context;
 
     public PopupWindowAdapter2(List<String> text, Context context) {
         super();
-        listViewItems = new ArrayList<PopBean>();
+        listViewItems = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
+        this.context = context;
+        if (text == null || "".equals(text)) {
+            text = new ArrayList<>();
+        }
         for (int i = 0; i < text.size(); i++) {
             PopBean item = new PopBean(text.get(i));
             listViewItems.add(item);
         }
+
     }
 
     @Override

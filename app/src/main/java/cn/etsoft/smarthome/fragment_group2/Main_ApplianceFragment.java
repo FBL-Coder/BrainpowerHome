@@ -63,11 +63,11 @@ public class Main_ApplianceFragment extends Fragment {
         //房间点击刷新界面回调；
         InPutFragment.setOnGetRoomListener(new InPutFragment.OnGetRoomListener() {
             @Override
-            public void getRoomposition(int room_position_click) {
-                if (room_position_click == 0) {
+            public void getRoomPosition(int room_position_click) {
+                if (room_position_click == -1) {
                     room_position = -1;
                 } else {
-                    room_position = room_position_click - 1;
+                    room_position = room_position_click;
                 }
                 upData(isClose);
             }

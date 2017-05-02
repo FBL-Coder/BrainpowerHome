@@ -15,7 +15,7 @@ import cn.etsoft.smarthome.fragment_group2.OutPutFragment;
 
 /**
  * Created by Say GoBay on 2016/9/5.
- * 输出，输入以及红外编辑页面
+ * 高级设置-控制设置页面
  */
 public class GroupActivity2 extends FragmentActivity {
     private RadioGroup group;

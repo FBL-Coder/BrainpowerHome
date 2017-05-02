@@ -63,11 +63,17 @@ public class RecyclerViewAdapter_Dev extends RecyclerView.Adapter<RecyclerViewAd
             }
 
         }else if (dev_list.get(position).getType() == 1){
-
-
+            if (dev_list.get(position).getbOnOff() == 0) {
+                holder.appliance.setImageResource(R.drawable.ds);
+            } else {
+                holder.appliance.setImageResource(R.drawable.ds);
+            }
         }else if (dev_list.get(position).getType() == 2){
-
-
+            if (dev_list.get(position).getbOnOff() == 0) {
+                holder.appliance.setImageResource(R.drawable.jidinghe);
+            } else {
+                holder.appliance.setImageResource(R.drawable.jidinghe);
+            }
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

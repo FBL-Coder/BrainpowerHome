@@ -20,7 +20,7 @@ import cn.etsoft.smarthome.pullmi.entity.WareDev;
  * Created by Say GoBay on 2016/11/28.
  * 情景设置——空调模块
  */
-public class Main_ApplianceFragment extends Fragment {
+public class  Main_ApplianceFragment extends Fragment {
 
     private GridView listView_appliance;
     private ApplianceAdapter listViewAdapter;
@@ -46,7 +46,7 @@ public class Main_ApplianceFragment extends Fragment {
      */
     private void initListView(View view) {
         listView_appliance = (GridView) view.findViewById(R.id.listView_appliance);
-        if (MyApplication.getWareData_Scene().getAirConds() == null || MyApplication.getWareData_Scene().getAirConds().size() == 0)
+        if (MyApplication.getWareData_Scene().getAirConds() == null || MyApplication.getWareData_Scene().getAirConds().size() == 0 || MyApplication.getWareData_Scene().getTvs() == null || MyApplication.getWareData_Scene().getTvs().size() == 0|| MyApplication.getWareData_Scene().getStbs() == null || MyApplication.getWareData_Scene().getStbs().size() == 0)
             return;
         upData();
     }

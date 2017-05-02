@@ -90,18 +90,21 @@ public class LightAdapter extends BaseAdapter {
                 if (MyApplication.mInstance.getInput_key_data().get(i).getDevUnitID().equals(light_room.get(position).getDev().getCanCpuId()) && MyApplication.mInstance.getInput_key_data().get(i).getDevId() == light_room.get(position).getDev().getDevId() && MyApplication.mInstance.getInput_key_data().get(i).getDevType() == light_room.get(position).getDev().getType()) {
                     switch (MyApplication.mInstance.getInput_key_data().get(i).getKeyOpCmd()) {
                         case 0:
-                            viewHolder.on_off.setText("打开");
+                            viewHolder.on_off.setText("未设置");
                             break;
                         case 1:
-                            viewHolder.on_off.setText("关闭");
+                            viewHolder.on_off.setText("打开");
                             break;
                         case 2:
-                            viewHolder.on_off.setText("开关");
+                            viewHolder.on_off.setText("关闭");
                             break;
                         case 3:
-                            viewHolder.on_off.setText("变亮");
+                            viewHolder.on_off.setText("开关");
                             break;
                         case 4:
+                            viewHolder.on_off.setText("变亮");
+                            break;
+                        case 5:
                             viewHolder.on_off.setText("变暗");
                             break;
                         default:
@@ -120,7 +123,7 @@ public class LightAdapter extends BaseAdapter {
             });
         } else {
             viewHolder.mark.setImageResource(R.drawable.select);
-            viewHolder.on_off.setText("关闭");
+            viewHolder.on_off.setText("未设置");
             viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -129,10 +132,11 @@ public class LightAdapter extends BaseAdapter {
             });
         }
         on_off_name = new ArrayList<>();
-        on_off_name.add(0, "打开");
-        on_off_name.add(1, "关闭");
-        on_off_name.add(2, "开关");
-        on_off_name.add(3, "变亮");
+        on_off_name.add(0, "未设置");
+        on_off_name.add(1, "打开");
+        on_off_name.add(2, "关闭");
+        on_off_name.add(3, "开关");
+        on_off_name.add(4, "变亮");
         on_off_name.add(4, "变暗");
         viewHolder.mark.setOnClickListener(new View.OnClickListener() {
             @Override

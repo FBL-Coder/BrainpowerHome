@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Created by fbl on 16-11-7.
+ * 高级设置-输入模块-保存设备的bean类
  */
 public class Save_Quipment {
 

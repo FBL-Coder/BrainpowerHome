@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by Say GoBay on 2017/4/21.
+ * 防区警报信息的bean类
  */
 public class SetSafetyResult_alarm implements Serializable {
 
@@ -65,7 +66,7 @@ public class SetSafetyResult_alarm implements Serializable {
     }
 
     public int getSecDat() {
-        return 5;
+        return secDat;
     }
 
     public void setSecDat(int secDat) {

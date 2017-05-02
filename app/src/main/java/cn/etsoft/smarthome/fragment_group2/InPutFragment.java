@@ -45,6 +45,7 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
 
 /**
  * Created by Say GoBay on 2016/8/25.
+ * 高级设置-控制设置-输入
  */
 public class InPutFragment extends Fragment implements View.OnClickListener {
     private android.support.v7.widget.RecyclerView RecyclerView;
@@ -73,10 +74,12 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view_p = inflater.inflate(R.layout.fragment_input2, container, false);
+        //横向滑动的RecyclerView
         RecyclerView = (android.support.v7.widget.RecyclerView) view_p.findViewById(R.id.RecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         RecyclerView.setLayoutManager(layoutManager);
+        //通知数据更新
         MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int what) {
@@ -89,6 +92,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
                 if (what == 12 && MyApplication.getWareData_Scene().getResult() != null
                         && MyApplication.getWareData_Scene().getResult().getResult() == 1) {
                     Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
+                    //保存成功之后将备用数据结果置空
                     MyApplication.getWareData_Scene().setResult(null);
                 }
             }
@@ -114,6 +118,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
         return view_p;
     }
 
+    //复写数据
     private void ReadWrite() {
         new Thread(new Runnable() {
             @Override
@@ -147,42 +152,45 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
             ToastUtil.showToast(getActivity(), "没有输入板");
             return;
         }
+        //获取按键板名称
         input_name = new ArrayList<>();
         for (int i = 0; i < MyApplication.getWareData_Scene().getKeyInputs().size(); i++) {
             input_name.add(MyApplication.getWareData_Scene().getKeyInputs().get(i).getBoardName());
         }
+        //设置按键板名称
         if (input_name.size() > 0)
-            equip_input.setText(input_name.get(0));
-        //输入板ListView
+            equip_input.setText(input_name.get(input_position));
+        //初始化按键RecycleView
         initRecycleView(view_p);
     }
 
     /**
-     * 输入板ListView
+     * 初始化按键RecycleView
      */
-    List<String> keyname_list;
-
+    private List<String> keyName_list;
     private int index;
     private String uid;
-
     private void initRecycleView(View view) {
-        String[] keyname = MyApplication.getWareData_Scene().getKeyInputs().get(input_position).getKeyName();
+        String[] keyName = MyApplication.getWareData_Scene().getKeyInputs().get(input_position).getKeyName();
         uid = MyApplication.getWareData_Scene().getKeyInputs().get(input_position).getDevUnitID();
+        //获取输入板对应设备的数据
         MyApplication.getKeyItemInfo(0, uid);
         initDialog("初始化按键数据中...");
-        if (keyname.length == 0)
+        if (keyName.length == 0)
             return;
-        keyname_list = new ArrayList<>();
-        for (int i = 0; i < keyname.length; i++) {
-            keyname_list.add(keyname[i]);
+        //按键名称集合
+        keyName_list = new ArrayList<>();
+        for (int i = 0; i < keyName.length; i++) {
+            keyName_list.add(keyName[i]);
         }
-        recyclerViewAdapter = new RecyclerViewAdapter(keyname_list);
+        recyclerViewAdapter = new RecyclerViewAdapter(keyName_list);
         RecyclerView.setAdapter(recyclerViewAdapter);
         //点击监听
         recyclerViewAdapter.setOnItemClick(new RecyclerViewAdapter.SceneViewHolder.OnItemClick() {
             @Override
             public void OnItemClick(View view, int position) {
                 index = position;
+                //获取输入板对应设备的数据
                 MyApplication.getKeyItemInfo(index, uid);
                 initDialog("初始化按键数据中...");
             }
@@ -200,20 +208,26 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
     private void initListView_room() {
         listViewAdapter = new ListViewAdapter(getActivity());
         //默认选中条目
-        listViewAdapter.changeSelected(1);
+        listViewAdapter.changeSelected(room_position + 1);
         input_listView_room.setAdapter(listViewAdapter);
-        input_listView_room.setItemsCanFocus(true);//让ListView的item获得焦点
-        input_listView_room.setChoiceMode(ListView.CHOICE_MODE_SINGLE);//单选模式
+        //让ListView的item获得焦点
+        input_listView_room.setItemsCanFocus(true);
+        //单选模式
+        input_listView_room.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         //点击监听
         input_listView_room.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listViewAdapter.changeSelected(position);//刷新
-                if (position == 0)
+                //刷新
+                listViewAdapter.changeSelected(position);
+                room_position = position - 1;
+                if (position == 0) {
                     room_position = DEVS_ALL_ROOM;
-                else
-                    room_position = position;
-                onGetRoomListener.getRoomposition(position);
+                } else {
+                    room_position = position - 1;
+                }
+                //房间变化回调
+                onGetRoomListener.getRoomPosition(room_position);
             }
         });
         //房间ListView选中监听
@@ -235,11 +249,13 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
     private void initRadioGroup(View view) {
         radioGroup_sceneSet = (RadioGroup) view.findViewById(R.id.radioGroup_sceneSet);
         //初始设备类型
-        Bundle bundle = new Bundle();//给具体设备类型带入房间id
+        Bundle bundle = new Bundle();
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
         main_LightFragment = new Main_LightFragment();
+        //给具体设备类型带入房间id
         bundle.putInt("room_position", room_position);
         bundle.putInt("index", index);
+        //是否打开只看关联设备模式
         bundle.putBoolean("isClose", IsClose);
         main_LightFragment.setArguments(bundle);
         ((RadioButton) view.findViewById(R.id.light)).setChecked(true);
@@ -250,9 +266,11 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                Bundle bundle = new Bundle();//给具体设备类型带入房间id
+                Bundle bundle = new Bundle();
+                //给具体设备类型带入房间id
                 bundle.putInt("room_position", room_position);
                 bundle.putInt("index", index);
+                //是否打开只看关联设备模式
                 bundle.putBoolean("isClose", IsClose);
                 switch (checkedId) {
                     case R.id.light:
@@ -300,10 +318,12 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         int widthOff = getActivity().getWindow().getWindowManager().getDefaultDisplay().getWidth() / 500;
         switch (v.getId()) {
+            //按键板
             case R.id.equip_input:
                 initPopupWindow(equip_input, input_name, 1);
                 popupWindow.showAsDropDown(v, -widthOff, 0);
                 break;
+            //是否打开只看关联设备模式
             case R.id.input_choose:
                 if (IsClose) {
                     IsClose = false;
@@ -312,8 +332,10 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
                     IsClose = true;
                     input_choose.setImageResource(R.drawable.on);
                 }
+                //是否打开只看关联设备模式回调
                 onIsCloseListener.getIsClose(IsClose);
                 break;
+            //保存
             case R.id.input_save:
                 CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(getActivity());
                 builder.setTitle("提示 :");
@@ -365,8 +387,10 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
     private void initDialog(String str) {
         Circle_Progress.setText(str);
         mDialog = Circle_Progress.createLoadingDialog(getActivity());
-        mDialog.setCancelable(true);//允许返回
-        mDialog.show();//显示
+        //允许返回
+        mDialog.setCancelable(true);
+        //显示
+        mDialog.show();
         final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -374,6 +398,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
                 mDialog.dismiss();
             }
         };
+        //加载数据进度条，5秒数据没加载出来自动消失
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -442,33 +467,37 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+    /**
+     * 是否为只看存在设备模式接口
+     */
     private static OnIsCloseListener onIsCloseListener;
-    private static OnGetRoomListener onGetRoomListener;
-    private static OnGetKeyInputDataListener onGetKeyInputDataListener;
-
     public static void setOnIsCloseListener(OnIsCloseListener onisCloseListener) {
         onIsCloseListener = onisCloseListener;
     }
+    interface OnIsCloseListener {
+        void getIsClose(boolean isClose);
+    }
 
+    /**
+     * 房间变化接口
+     */
+    private static OnGetRoomListener onGetRoomListener;
     public static void setOnGetRoomListener(OnGetRoomListener ongetRoomListener) {
         onGetRoomListener = ongetRoomListener;
     }
+    public interface OnGetRoomListener {
+        void getRoomPosition(int room_position_click);
+    }
+
+    /**
+     * 获取数据接口
+     */
+    private static OnGetKeyInputDataListener onGetKeyInputDataListener;
 
     public static void setOnGetKeyInputDataListener(OnGetKeyInputDataListener ongetKeyInputDataListener) {
         onGetKeyInputDataListener = ongetKeyInputDataListener;
     }
 
-    //是否为只看存在设备模式接口
-    interface OnIsCloseListener {
-        void getIsClose(boolean isClose);
-    }
-
-    //房间变化接口
-    public interface OnGetRoomListener {
-        void getRoomposition(int room_position_click);
-    }
-
-    //获取数据接口
     interface OnGetKeyInputDataListener {
         void getKeyInputData();
     }

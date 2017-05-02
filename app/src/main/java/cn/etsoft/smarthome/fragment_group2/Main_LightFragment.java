@@ -2,8 +2,6 @@ package cn.etsoft.smarthome.fragment_group2;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,12 +19,10 @@ import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter_group2.LightAdapter;
 import cn.etsoft.smarthome.pullmi.entity.WareKeyOpItem;
 import cn.etsoft.smarthome.pullmi.entity.WareLight;
-import cn.etsoft.smarthome.utils.ToastUtil;
-import cn.etsoft.smarthome.view.Circle_Progress;
 
 /**
  * Created by Say GoBay on 2016/11/28.
- * 灯光模块
+ * 高级设置-控制设置-输入-灯光模块
  */
 public class Main_LightFragment extends Fragment {
     private int room_position = 0;
@@ -47,8 +43,8 @@ public class Main_LightFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_light2, container, false);
-        //初始化控件
         this.inflater = inflater;
+        //初始化控件
         initGridView(view);
         //父Fragment获取按键数据后的回调
         InPutFragment.setOnGetKeyInputDataListener(new InPutFragment.OnGetKeyInputDataListener() {
@@ -72,11 +68,11 @@ public class Main_LightFragment extends Fragment {
         //房间点击刷新界面回调；
         InPutFragment.setOnGetRoomListener(new InPutFragment.OnGetRoomListener() {
             @Override
-            public void getRoomposition(int room_position_click) {
-                if (room_position_click == 0) {
+            public void getRoomPosition(int room_position_click) {
+                if (room_position_click == -1) {
                     room_position = -1;
                 } else {
-                    room_position = room_position_click - 1;
+                    room_position = room_position_click ;
                 }
                 upData(isClose);
             }
@@ -124,10 +120,11 @@ public class Main_LightFragment extends Fragment {
                 }
             }
             for (int i = 0; i < light_room.size(); ) {
-                if (!light_room.get(i).getDev().isSelect())
+                if (!light_room.get(i).getDev().isSelect()) {
                     light_room.remove(i);
-                else
+                } else {
                     i++;
+                }
             }
         } else {
             //房间内的灯集合
@@ -173,34 +170,5 @@ public class Main_LightFragment extends Fragment {
         if (keyOpItems == null)
             keyOpItems = new ArrayList<>();
         upData(isClose);
-    }
-
-    //自定义加载进度条
-    private void initDialog(String str) {
-        Circle_Progress.setText(str);
-        mDialog = Circle_Progress.createLoadingDialog(getActivity());
-        mDialog.setCancelable(true);//允许返回
-        mDialog.show();//显示
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                mDialog.dismiss();
-                ToastUtil.showToast(getActivity(), "数据加载失败");
-            }
-        };
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(3500);
-                    if (mDialog.isShowing()) {
-                        handler.sendMessage(handler.obtainMessage());
-                    }
-                } catch (Exception e) {
-                    System.out.println(e + "");
-                }
-            }
-        }).start();
     }
 }

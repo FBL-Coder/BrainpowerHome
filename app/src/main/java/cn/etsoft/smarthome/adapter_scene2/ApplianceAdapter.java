@@ -124,7 +124,6 @@ public class ApplianceAdapter extends BaseAdapter {
                     AirCondDev = AicList.get(i);
                 }
             }
-            viewHolder.title.setText(AicList.get(position).getDev().getDevName());
             //设备默认图标  或者是默认为关闭状态
             viewHolder.appliance.setImageResource(R.drawable.kongtiao1);
             on_off_name1 = new ArrayList<>();
@@ -135,6 +134,13 @@ public class ApplianceAdapter extends BaseAdapter {
             on_off_name1.add(4, "低风");
             on_off_name1.add(5, "中风");
             on_off_name1.add(6, "高风");
+            viewHolder.on_off.setText("关");
+            viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ToastUtil.showToast(context, "设备未选中，选中才能操作...");
+                }
+            });
         } else if (dev_list.get(position).getType() == 1) {
             TVList = MyApplication.getWareData_Scene().getTvs();
             for (int i = 0; i < TVList.size(); i++) {
@@ -143,16 +149,23 @@ public class ApplianceAdapter extends BaseAdapter {
                     TV = TVList.get(i);
                 }
             }
-            viewHolder.title.setText(TVList.get(position).getDev().getDevName());
             //设备默认图标  或者是默认为关闭状态
             viewHolder.appliance.setImageResource(R.drawable.ds);
             on_off_name2 = new ArrayList<>();
-            on_off_name2.add(0, "电源");
-            on_off_name2.add(1, "音量+");
-            on_off_name2.add(2, "音量-");
-            on_off_name2.add(3, "频道+");
-            on_off_name2.add(4, "频道-");
-            on_off_name2.add(5, "V/AV");
+            on_off_name2.add(0, "关");
+            on_off_name2.add(1, "开");
+            on_off_name2.add(2, "音量+");
+            on_off_name2.add(3, "音量-");
+            on_off_name2.add(4, "频道+");
+            on_off_name2.add(5, "频道-");
+            on_off_name2.add(6, "V/AV");
+            viewHolder.on_off.setText("关");
+            viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ToastUtil.showToast(context, "设备未选中，选中才能操作...");
+                }
+            });
         } else if (dev_list.get(position).getType() == 2) {
             tbsList = MyApplication.getWareData_Scene().getStbs();
             tbsList = MyApplication.getWareData_Scene().getStbs();
@@ -162,15 +175,22 @@ public class ApplianceAdapter extends BaseAdapter {
                     TVUP = tbsList.get(i);
                 }
             }
-            viewHolder.title.setText(tbsList.get(position).getDev().getDevName());
             //设备默认图标  或者是默认为关闭状态
             viewHolder.appliance.setImageResource(R.drawable.jidinghe1);
             on_off_name3 = new ArrayList<>();
-            on_off_name3.add(0, "电源");
-            on_off_name3.add(1, "音量+");
-            on_off_name3.add(2, "音量-");
-            on_off_name3.add(3, "频道+");
-            on_off_name3.add(4, "频道-");
+            on_off_name3.add(0, "关");
+            on_off_name3.add(1, "开");
+            on_off_name3.add(2, "音量+");
+            on_off_name3.add(3, "音量-");
+            on_off_name3.add(4, "频道+");
+            on_off_name3.add(5, "频道-");
+            viewHolder.on_off.setText("关");
+            viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ToastUtil.showToast(context, "设备未选中，选中才能操作...");
+                }
+            });
         }
 
         if (items == null) {
@@ -178,12 +198,15 @@ public class ApplianceAdapter extends BaseAdapter {
                 if (dev_list.get(position).getType() == 0) {
                     viewHolder.appliance.setImageResource(R.drawable.kongtiao1);
                     viewHolder.mark.setImageResource(R.drawable.select);
+                    viewHolder.on_off.setText("关");
                 } else if (dev_list.get(position).getType() == 1) {
                     viewHolder.appliance.setImageResource(R.drawable.tv1);
                     viewHolder.mark.setImageResource(R.drawable.select);
+                    viewHolder.on_off.setText("关");
                 } else if (dev_list.get(position).getType() == 2) {
                     viewHolder.appliance.setImageResource(R.drawable.jidinghe1);
                     viewHolder.mark.setImageResource(R.drawable.select);
+                    viewHolder.on_off.setText("关");
                 }
             }
         } else {
@@ -196,7 +219,7 @@ public class ApplianceAdapter extends BaseAdapter {
                                 if (AicList.get(j).getDev().getDevId() == dev_list.get(position).getDevId() &&
                                         AicList.get(j).getDev().getCanCpuId().equals(dev_list.get(position).getCanCpuId())) {
                                     isContan = true;
-                                    AicList.get(position).getDev().setSelect(true);
+                                    dev_list.get(position).setSelect(true);
                                     viewHolder.mark.setImageResource(R.drawable.selected);
                                     if (items.get(i).getbOnOff() == 0) {
                                         viewHolder.on_off.setText("关");
@@ -224,7 +247,7 @@ public class ApplianceAdapter extends BaseAdapter {
                             }
                             if (!isContan) {
                                 viewHolder.on_off.setText("关");
-                                AicList.get(position).getDev().setSelect(false);
+                                dev_list.get(position).setSelect(true);
                                 viewHolder.mark.setImageResource(R.drawable.select);
                                 viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -246,19 +269,21 @@ public class ApplianceAdapter extends BaseAdapter {
                                 if (TVList.get(j).getDev().getDevId() == dev_list.get(position).getDevId() &&
                                         TVList.get(j).getDev().getCanCpuId().equals(dev_list.get(position).getCanCpuId())) {
                                     isContan = true;
-                                    TVList.get(position).getDev().setSelect(true);
+                                    dev_list.get(position).setSelect(true);
                                     viewHolder.mark.setImageResource(R.drawable.selected);
                                     if (items.get(i).getbOnOff() == 0) {
-                                        viewHolder.on_off.setText("电源");
+                                        viewHolder.on_off.setText("关");
                                     } else if (items.get(i).getbOnOff() == 1) {
+                                        viewHolder.on_off.setText("开");
+                                    }else if (items.get(i).getbOnOff() == 2) {
                                         viewHolder.on_off.setText("音量+");
-                                    } else if (items.get(i).getbOnOff() == 2) {
+                                    } else if (items.get(i).getbOnOff() == 3) {
                                         viewHolder.on_off.setText("音量—");
-                                    }else if (items.get(i).getbOnOff() == 3) {
+                                    }else if (items.get(i).getbOnOff() == 4) {
                                         viewHolder.on_off.setText("频道+");
-                                    } else if (items.get(i).getbOnOff() == 4) {
+                                    } else if (items.get(i).getbOnOff() == 5) {
                                         viewHolder.on_off.setText("频道—");
-                                    }else if (items.get(i).getbOnOff() == 5) {
+                                    }else if (items.get(i).getbOnOff() == 6) {
                                         viewHolder.on_off.setText("V/AV");
                                     }
                                     viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
@@ -272,7 +297,7 @@ public class ApplianceAdapter extends BaseAdapter {
                             }
                             if (!isContan) {
                                 viewHolder.on_off.setText("关");
-                                TVList.get(position).getDev().setSelect(false);
+                                dev_list.get(position).setSelect(true);
                                 viewHolder.mark.setImageResource(R.drawable.select);
                                 viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -294,17 +319,19 @@ public class ApplianceAdapter extends BaseAdapter {
                                 if (tbsList.get(j).getDev().getDevId() == dev_list.get(position).getDevId() &&
                                         tbsList.get(j).getDev().getCanCpuId().equals(dev_list.get(position).getCanCpuId())) {
                                     isContan = true;
-                                    tbsList.get(position).getDev().setSelect(true);
+                                    dev_list.get(position).setSelect(true);
                                     viewHolder.mark.setImageResource(R.drawable.selected);
                                     if (items.get(i).getbOnOff() == 0) {
-                                        viewHolder.on_off.setText("电源");
+                                        viewHolder.on_off.setText("关");
                                     } else if (items.get(i).getbOnOff() == 1) {
+                                        viewHolder.on_off.setText("开");
+                                    }else if (items.get(i).getbOnOff() == 2) {
                                         viewHolder.on_off.setText("音量+");
-                                    } else if (items.get(i).getbOnOff() == 2) {
+                                    } else if (items.get(i).getbOnOff() == 3) {
                                         viewHolder.on_off.setText("音量—");
-                                    }else if (items.get(i).getbOnOff() == 3) {
+                                    }else if (items.get(i).getbOnOff() == 4) {
                                         viewHolder.on_off.setText("频道+");
-                                    } else if (items.get(i).getbOnOff() == 4) {
+                                    } else if (items.get(i).getbOnOff() == 5) {
                                         viewHolder.on_off.setText("频道—");
                                     }
                                     viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
@@ -318,7 +345,7 @@ public class ApplianceAdapter extends BaseAdapter {
                             }
                             if (!isContan) {
                                 viewHolder.on_off.setText("关");
-                                tbsList.get(position).getDev().setSelect(false);
+                                dev_list.get(position).setSelect(true);
                                 viewHolder.mark.setImageResource(R.drawable.select);
                                 viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
                                     @Override

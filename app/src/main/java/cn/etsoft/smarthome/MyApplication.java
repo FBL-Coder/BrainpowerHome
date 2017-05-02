@@ -84,16 +84,10 @@ public class MyApplication extends Application implements udpService.Callback, N
         MyApplication.wareData_scene = wareData_scene;
     }
 
+
+
     /**
-     * 控制设置备用全局数据；
-     */
-    private List<WareKeyOpItem> input_key_data;
-    /**
-     * 控制设置备用全局数据；
-     */
-    private List<Out_List_printcmd> out_key_data;
-    /**
-     * 防区模块的全局变量
+     * 安防设置备用全局数据；
      */
     private List<WareDev> safety_data_dev;
 
@@ -108,20 +102,25 @@ public class MyApplication extends Application implements udpService.Callback, N
         this.safety_data_dev = safety_data_dev;
     }
 
+    /**
+     * 控制设置备用全局数据-输入；
+     */
+    private List<WareKeyOpItem> input_key_data;
     public List<WareKeyOpItem> getInput_key_data() {
         if (input_key_data == null)
             return new ArrayList<>();
         return input_key_data;
     }
-
     public void setInput_key_data(List<WareKeyOpItem> input_key_data) {
         this.input_key_data = input_key_data;
     }
-
+    /**
+     * 控制设置备用全局数据-输出；
+     */
+    private List<Out_List_printcmd> out_key_data;
     public List<Out_List_printcmd> getOut_key_data() {
         return out_key_data;
     }
-
     public void setOut_key_data(List<Out_List_printcmd> out_key_data) {
         this.out_key_data = out_key_data;
     }
@@ -428,14 +427,17 @@ public class MyApplication extends Application implements udpService.Callback, N
     @Override
     public void getWareData(int what, WareData wareData) {
         MyApplication.wareData = wareData;
+        //在任何页面，触发安防警报要发出警报信息
         if (what == 32 && MyApplication.getWareData().getSafetyResult_alarm() != null && MyApplication.getWareData().getSafetyResult_alarm().getSubType1() == 2) {
             int SecDat = MyApplication.getWareData().getSafetyResult_alarm().getSecDat();
-            String SecDatlist = Integer.toBinaryString(SecDat);
+            //对SecDat进行二进制转码，数字为1的位置即为触发警报的防区
+            String SecDatList = Integer.toBinaryString(SecDat);
 
             Intent intent = new Intent();
-            if (!SecDatlist.contains("1"))
+            if (!SecDatList.contains("1"))
                 return;
-            intent.putExtra("index", SecDatlist);
+            intent.putExtra("index", SecDatList);
+            intent.setPackage("cn.etsoft.smarthome");
             intent.setAction("cc.test.com");
             startService(intent);
             MyApplication.getWareData().setSafetyResult_alarm(null);
@@ -536,12 +538,10 @@ public class MyApplication extends Application implements udpService.Callback, N
 
     /**
      * 获取输入板对应设备的数据包
-     *
      * @param key_index
      * @param uid
      */
     public static void getKeyItemInfo(int key_index, String uid) {
-
         final String key_str = "{" +
                 "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
                 "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
@@ -550,7 +550,6 @@ public class MyApplication extends Application implements udpService.Callback, N
                 "\"subType1\":0," +
                 "\"subType2\":0," +
                 "\"key_index\":" + key_index + "}";
-
         sendMsg(key_str);
     }
 

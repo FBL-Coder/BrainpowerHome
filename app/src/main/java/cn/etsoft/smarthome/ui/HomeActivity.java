@@ -660,7 +660,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //            GlobalVars.getDevid();
             MyApplication.getWareData().setBoardChnouts(new ArrayList<WareBoardChnout>());
             Dtat_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
-                MyApplication.mInstance.setDevUnitID(GlobalVars.getDevid());
+            MyApplication.mInstance.setDevUnitID(GlobalVars.getDevid());
             MyApplication.mInstance.getActivity().finish();
             System.exit(0);
         } else {

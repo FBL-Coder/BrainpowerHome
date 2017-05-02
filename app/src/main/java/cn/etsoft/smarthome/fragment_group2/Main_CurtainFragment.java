@@ -64,11 +64,11 @@ public class Main_CurtainFragment extends Fragment {
         //房间点击刷新界面回调；
         InPutFragment.setOnGetRoomListener(new InPutFragment.OnGetRoomListener() {
             @Override
-            public void getRoomposition(int room_position_click) {
-                if (room_position_click == 0) {
+            public void getRoomPosition(int room_position_click) {
+                if (room_position_click == -1) {
                     room_position = -1;
                 } else {
-                    room_position = room_position_click - 1;
+                    room_position = room_position_click ;
                 }
                 upData(isClose);
             }
@@ -114,10 +114,11 @@ public class Main_CurtainFragment extends Fragment {
                 }
             }
             for (int i = 0; i < curtain_room.size(); ) {
-                if (!curtain_room.get(i).getDev().isSelect())
+                if (!curtain_room.get(i).getDev().isSelect()) {
                     curtain_room.remove(i);
-                else
+                } else {
                     i++;
+                }
             }
         } else {
             //房间内的灯集合
@@ -136,7 +137,7 @@ public class Main_CurtainFragment extends Fragment {
             }
         }
         if (gridViewAdapter == null) {
-            gridViewAdapter = new CurtainAdapter(curtain_room, getActivity(), inflater,index);
+            gridViewAdapter = new CurtainAdapter(curtain_room, getActivity(), inflater, index);
             gridView_light.setAdapter(gridViewAdapter);
         } else {
             gridViewAdapter.notifyDataSetChanged(curtain_room);

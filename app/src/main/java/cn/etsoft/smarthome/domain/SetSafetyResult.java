@@ -7,6 +7,7 @@ import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 
 /**
  * Created by Say GoBay on 2017/4/21.
+ * 查询联网模块防区信息bean类
  */
 public class SetSafetyResult implements Serializable {
 

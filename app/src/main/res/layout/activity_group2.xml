@@ -26,10 +26,12 @@
         <RadioButton
             android:id="@+id/group_input"
             style="@style/GroupRadioButtonStyle"
+            android:drawableTop="@drawable/selector_group_input"
             android:text="@string/input" />
 
         <RadioButton
             android:id="@+id/group_infrared"
+            android:drawableTop="@drawable/selector_group_infrared"
             style="@style/GroupRadioButtonStyle"
             android:text="@string/infrared" />
 

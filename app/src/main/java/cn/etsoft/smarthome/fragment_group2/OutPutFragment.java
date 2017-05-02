@@ -510,6 +510,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                             for (int j = 0; j < listData.size(); j++) {
                                 if (listData.get(j).isSelect() && listData.get(j).getKey_cmd() == 0) {
                                     ToastUtil.showToast(getActivity(), "存在未设置，请设置完成后保存");
+                                    mDialog.dismiss();
                                     return;
                                 }
                             }

@@ -37,12 +37,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(final SceneViewHolder holder, final int position) {
 
-            if (mPosition == position) {
-                holder.itemView.setBackgroundResource(R.color.color_334eade6);  //选中项背景
-            } else {
-                holder.itemView.setBackgroundResource(R.color.color_60A7D5_null);  //其他项背景
-            }
-            holder.tv.setText(board_name.get(position));
+        if (mPosition == position) {
+            holder.itemView.setBackgroundResource(R.color.color_334eade6);  //选中项背景
+        } else {
+            holder.itemView.setBackgroundResource(R.color.color_60A7D5_null);  //其他项背景
+        }
+        holder.tv.setText(board_name.get(position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

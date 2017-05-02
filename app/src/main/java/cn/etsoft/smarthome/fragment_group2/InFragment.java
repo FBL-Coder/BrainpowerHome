@@ -17,7 +17,6 @@ import cn.etsoft.smarthome.adapter_group2.InAdapter;
 import cn.etsoft.smarthome.domain.Out_List_printcmd;
 import cn.etsoft.smarthome.domain.PrintCmd;
 import cn.etsoft.smarthome.pullmi.entity.WareChnOpItem;
-import cn.etsoft.smarthome.utils.ToastUtil;
 
 /**
  * Created by Say GoBay on 2016/11/28.
@@ -64,7 +63,6 @@ public class InFragment extends Fragment {
     private void initData() {
         listData_all = MyApplication.mInstance.getOut_key_data();
         if (listData_all == null || listData_all.size() == 0) {
-            ToastUtil.showToast(getActivity(), "没有数据");
             return;
         }
         if (ISCHOOSE) {

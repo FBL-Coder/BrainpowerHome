@@ -56,6 +56,7 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
 
 /**
  * Created by Say GoBay on 2017/3/14.
+ * 高级设置-情景设置的Activity页面
  */
 public class SceneSetActivity2 extends FragmentActivity implements View.OnClickListener {
     private Button sceneSet_back;
@@ -87,6 +88,26 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
         mDialog = Circle_Progress.createLoadingDialog(this);
         mDialog.setCancelable(true);//允许返回
         mDialog.show();//显示
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                mDialog.dismiss();
+            }
+        };
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(5000);
+                    if (mDialog.isShowing()) {
+                        handler.sendMessage(handler.obtainMessage());
+                    }
+                } catch (Exception e) {
+                    System.out.println(e + "");
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -96,7 +117,6 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
         //进度条
         initDialog("初始化数据中...");
         mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -236,7 +256,7 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
     }
 
     /**
-     * //初始化情景的ListView
+     * 初始化情景的ListView
      */
     private void initHorizontalListView() {
         event.clear();
@@ -265,19 +285,22 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                                 break;
                             }
                         }
-
-                        List<WareDev> weredev_interim = new ArrayList<>();
+                        //复写数据里的设备
+                        List<WareDev> wareDev_interim = new ArrayList<>();
                         for (int i = 0; i < MyApplication.getWareData_Scene().getDevs().size(); i++) {
-                            weredev_interim.add(MyApplication.getWareData_Scene().getDevs().get(i));
+                            wareDev_interim.add(MyApplication.getWareData_Scene().getDevs().get(i));
                         }
-
                         if (items != null) {
-                            for (int a = 0; a < items.size(); a++) {//循环情景内的所有条目
-                                for (int i = 0; i < MyApplication.getWareData_Scene().getDevs().size(); i++) {//循环本地所有设备
-                                    WareDev dev = MyApplication.getWareData_Scene().getDevs().get(i);//拿到其中一个设备
-                                    if (items.get(a).getDevID() == dev.getDevId() && items.get(a).getUid().equals(dev.getCanCpuId())
+                            //循环情景内的所有条目
+                            for (int a = 0; a < items.size(); a++) {
+                                //循环本地所有设备
+                                for (int i = 0; i < MyApplication.getWareData_Scene().getDevs().size(); i++) {
+                                    //拿到其中一个设备
+                                    WareDev dev = MyApplication.getWareData_Scene().getDevs().get(i);
+                                    if (items.get(a).getDevID() == dev.getDevId()
+                                            && items.get(a).getUid().equals(dev.getCanCpuId())
                                             && items.get(a).getDevType() == dev.getType()) {
-                                        weredev_interim.remove(dev);
+                                        wareDev_interim.remove(dev);
                                         if (dev.getType() == 0) {
                                             for (int j = 0; j < MyApplication.getWareData_Scene().getAirConds().size(); j++) {
                                                 WareAirCondDev AirCondDev = MyApplication.getWareData_Scene().getAirConds().get(j);
@@ -309,11 +332,14 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                                     }
                                 }
                             }
-                            for (int a = 0; a < weredev_interim.size(); a++) {//循环情景内的所有条目
-                                for (int i = 0; i < MyApplication.getWareData_Scene().getDevs().size(); i++) {//循环本地所有设备
-                                    WareDev dev = MyApplication.getWareData_Scene().getDevs().get(i);//拿到其中一个设备
-                                    if (weredev_interim.get(a).getDevId() == dev.getDevId() && weredev_interim.get(a).getCanCpuId().equals(dev.getCanCpuId())
-                                            && weredev_interim.get(a).getType() == dev.getType()) {
+                            //循环情景内的所有条目
+                            for (int a = 0; a < wareDev_interim.size(); a++) {
+                                //循环本地所有设备
+                                for (int i = 0; i < MyApplication.getWareData_Scene().getDevs().size(); i++) {
+                                    //拿到其中一个设备
+                                    WareDev dev = MyApplication.getWareData_Scene().getDevs().get(i);
+                                    if (wareDev_interim.get(a).getDevId() == dev.getDevId() && wareDev_interim.get(a).getCanCpuId().equals(dev.getCanCpuId())
+                                            && wareDev_interim.get(a).getType() == dev.getType()) {
                                         if (dev.getType() == 0) {
                                             for (int j = 0; j < MyApplication.getWareData_Scene().getAirConds().size(); j++) {
                                                 WareAirCondDev AirCondDev = MyApplication.getWareData_Scene().getAirConds().get(j);
@@ -389,6 +415,7 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 }
             }
 
+            //长按删除情景
             @Override
             public void OnItemLongClick(View view, final int position) {
                 int listSize = event.size();
@@ -576,7 +603,12 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 dialog.dismiss();
                 break;
             case R.id.sceneSet_save:
-                save();
+                if (sceneid < 2) {
+                    ToastUtil.showToast(SceneSetActivity2.this, "全开、全关模式不可操作");
+                    return;
+                }else{
+                    save();
+                }
 //                ReadWrite();
 //                String abc = "";
 //                for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
@@ -715,6 +747,7 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 ",\"param1\":0" +
                 ",\"param2\":0" +
                 "}]}";
+        LogUtils.LOGE("情景模式测试数据:", ctlStr);
         MyApplication.sendMsg(ctlStr);
     }
 

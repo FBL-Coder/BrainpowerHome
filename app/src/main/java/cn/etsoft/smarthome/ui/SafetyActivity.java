@@ -31,7 +31,7 @@ import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter.PopupWindowAdapter2;
 import cn.etsoft.smarthome.adapter.RecyclerViewAdapter_safety;
 import cn.etsoft.smarthome.domain.SetSafetyResult;
-import cn.etsoft.smarthome.fragment_main.SafetyFragment;
+import cn.etsoft.smarthome.fragment_safety.SafetyFragment;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.utils.ToastUtil;
@@ -41,6 +41,7 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
 
 /**
  * Created by Say GoBay on 2017/4/11.
+ * 高级设置-安防设置的Activity页面
  */
 public class SafetyActivity extends FragmentActivity implements View.OnClickListener {
     private RecyclerView recyclerView;
@@ -86,15 +87,26 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
                 if (what == 32) {
                     if (MyApplication.getWareData().getResult() != null && MyApplication.getWareData().getResult().getSubType1() == 5) {
                         ToastUtil.showToast(SafetyActivity.this, "保存成功");
+                        //保存成功之后获取最新数据
                         MyApplication.getWareData().setResult(null);
+                        String ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                                ",\"datType\":32" +
+                                ",\"subType1\":3" +
+                                ",\"subType2\":255" +
+                                "}";
+                        MyApplication.sendMsg(ctlStr);
                         return;
                     }
+                    //初始化防区名称
                     initRecycleView();
                 }
             }
         });
     }
 
+    /**
+     * 初始化控件
+     */
     private void initView() {
         safetyName = (EditText) findViewById(R.id.name);
         setSafety = (TextView) findViewById(R.id.setSafety);
@@ -112,6 +124,9 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
         setSafety_list.add(3, "撤防状态");
     }
 
+    /**
+     * 初始化防区名称
+     */
     private void initRecycleView() {
         if (MyApplication.getWareData().getResult_safety() == null || MyApplication.getWareData().getResult_safety().getSec_info_rows() == null) {
             return;
@@ -122,20 +137,21 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
             recyclerAdapter = new RecyclerViewAdapter_safety(MyApplication.getWareData().getResult_safety());
             recyclerView.setAdapter(recyclerAdapter);
         }
-         safetyName_list = new ArrayList<>();
+        safetyName_list = new ArrayList<>();
         for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
             safetyName_list.add(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecName());
         }
         transaction = getSupportFragmentManager().beginTransaction();
+        //加最后一个新增按钮
         safetyName_list.add("");
-        safetyName.setText(safetyName_list.get(0));
+        safetyName.setText(safetyName_list.get(safety_position));
         Bundle bundle = new Bundle();
         safetyFragment = new SafetyFragment();
+        //防区位置
         bundle.putInt("safety_position", safety_position);
         safetyFragment.setArguments(bundle);
         transaction.replace(R.id.safety, safetyFragment);
         transaction.commit();
-        safety_position = 0;
         recyclerAdapter.setOnItemClick(new RecyclerViewAdapter_safety.SceneViewHolder.OnItemClick() {
             @Override
             public void OnItemClick(View view, int position) {
@@ -167,7 +183,7 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
 
     /**
      * 初始化自定义dialog
-     * 新增情景
+     * 新增防区
      */
     CustomDialog dialog;
     TextView sceneSet_name;
@@ -197,7 +213,6 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 mDialog.dismiss();
-                ToastUtil.showToast(SafetyActivity.this, "数据加载失败");
             }
         };
         new Thread(new Runnable() {
@@ -215,10 +230,12 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
         }).start();
     }
 
-    String sceneName;
     int sceneId;
     int secType;
 
+    /**
+     * 初始化防区类型和关联情景
+     */
     private void initData() {
         if (MyApplication.getWareData().getResult_safety() == null || MyApplication.getWareData().getResult_safety().getSec_info_rows() == null) {
             return;
@@ -226,8 +243,11 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
         sceneName_list = new ArrayList<>();
         sceneId = MyApplication.getWareData().getResult_safety().getSec_info_rows().get(safety_position).getSceneId();
         secType = MyApplication.getWareData().getResult_safety().getSec_info_rows().get(safety_position).getSecType();
-        if (secType == 255) setSafety.setText(setSafety_list.get(3));
-        else setSafety.setText(setSafety_list.get(secType));
+        if (secType == 255) {
+            setSafety.setText(setSafety_list.get(3));
+        } else {
+            setSafety.setText(setSafety_list.get(secType));
+        }
         for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
             sceneName_list.add((MyApplication.getWareData().getSceneEvents().get(i).getSceneName()));
             if (sceneId == MyApplication.getWareData().getSceneEvents().get(i).getEventld()) {
@@ -248,7 +268,7 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
     /**
      * 初始化自定义设备的状态以及设备PopupWindow
      */
-    private void initPopupWindow(final View view_parent, final List<String> text) {
+    private void initPopupWindow(final View view_parent, final List<String> text, final int type) {
 
         //获取自定义布局文件pop.xml的视图
         final View customView = view_parent.inflate(this, R.layout.popupwindow_equipment_listview, null);
@@ -276,8 +296,12 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView tv = (TextView) view_parent;
-                sceneId = position;
                 tv.setText(text.get(position));
+                if (type == 0){
+                    secType = position;
+                }else if (type == 1){
+                    sceneId = position;
+                }
                 popupWindow.dismiss();
             }
         });
@@ -303,11 +327,11 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.setSafety:
-                initPopupWindow(setSafety, setSafety_list);
+                initPopupWindow(setSafety, setSafety_list,0);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
             case R.id.scene:
-                initPopupWindow(scene, sceneName_list);
+                initPopupWindow(scene, sceneName_list,1);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
             case R.id.scene_iv_cancel:
@@ -315,7 +339,6 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
                 break;
             case R.id.scene_btn_sure:
                 dialog.dismiss();
-//                initDialog("正在添加...");
                 break;
             case R.id.scene_btn_cancel:
                 dialog.dismiss();
@@ -330,8 +353,10 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
     }
 
     /**
-     * 保存情景设置；
+     * 保存防区
      */
+    int secDev = 0;
+
     public void save() {
         CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(this);
         builder.setTitle("提示 :");
@@ -353,6 +378,11 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
                 String more_data = "";
                 div = ",";
                 SecInfoRowsBean = MyApplication.getWareData().getResult_safety().getSec_info_rows().get(safety_position);
+                if (SecInfoRowsBean.getRun_dev_item().size() > 0) {
+                    secDev = 1;
+                } else {
+                    secDev = 0;
+                }
                 for (int j = 0; j < SecInfoRowsBean.getRun_dev_item().size(); j++) {
                     data_str = "{" +
                             "\"uid\":\"" + SecInfoRowsBean.getRun_dev_item().get(j).getCanCpuID() + "\"," +
@@ -386,9 +416,9 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
                         "\"subType1\":5" + "," +
                         "\"subType2\":" + safety_position + "," +
                         "\"secName\":\"" + str_gb + "\"," +
-                        "\"secType\":" + SecInfoRowsBean.getSecType() + "," +
-                        "\"sceneId\":" + SecInfoRowsBean.getSceneId() + "," +
-                        "\"secDev\":" + SecInfoRowsBean.getSecDev() + "," +
+                        "\"secType\":" + secType + "," +
+                        "\"sceneId\":" + sceneId + "," +
+                        "\"secDev\":" + secDev + "," +
                         "\"itemCnt\":" + SecInfoRowsBean.getRun_dev_item().size() + "," +
                         "\"run_item_dev\":[" + more_data + "]}";
                 Log.e("情景模式测试:", data_hoad);

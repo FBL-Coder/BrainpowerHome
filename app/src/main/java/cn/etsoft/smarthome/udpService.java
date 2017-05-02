@@ -149,6 +149,9 @@ public class udpService extends Service {
         }
     }
 
+    //警报时间间隔
+    long time = 0;
+
     public void extractData(String info, Handler mhandler) {
         // TODO Auto-generated method stub
         int datType = 0;
@@ -316,16 +319,23 @@ public class udpService extends Service {
 //                    isFreshData = true;
                 }
                 break;
-            case 32: // e_udpPro_exeSceneEvents
+            case 32:
                 if (subType2 == 255) {
-                     setSafetyEvents(info);
+                    //查询联网模块防区信息
+                    setSafetyEvents(info);
                     isFreshData = true;
-                }else if(subType1 == 5){
+                } else if (subType1 == 5) {
+                    //修改联网模块防区信息
                     safety_result(info);
                     isFreshData = true;
-                }else if(subType1 == 2){
-                    safety_alarm(info);
-                    isFreshData = true;
+                } else if (subType1 == 2) {
+                    //解决多个警报5秒自动消失问题
+                    if (System.currentTimeMillis() - time > 2000) {
+                        time = System.currentTimeMillis();
+                        //防区报警信息
+                        safety_alarm(info);
+                        isFreshData = true;
+                    }
                 }
                 break;
             case 35:// e_udpPro_chns_status
@@ -1108,22 +1118,16 @@ public class udpService extends Service {
         SetEquipmentResult result = gson.fromJson(info, SetEquipmentResult.class);
         MyApplication.getWareData().setResult(result);
     }
-    //防区信息
+
+    //修改联网模块防区信息
     public void safety_result(String info) {
-//        {
-//            "devUnitID":	"37ffdb05424e323416702443",
-//                "datType":	12,
-//                "subType1":	1,
-//                "subType2":	0,
-//                "canCpuID":	"50ff6c067184515640421267",
-//                "result":	1
-//        }
         MyApplication.getWareData().getChnOpItems().clear();
         Gson gson = new Gson();
         SetEquipmentResult result = gson.fromJson(info, SetEquipmentResult.class);
         MyApplication.getWareData().setResult(result);
     }
-    //防区警报
+
+    //防区警报信息
     public void safety_alarm(String info) {
         MyApplication.getWareData().getChnOpItems().clear();
         Gson gson = new Gson();
@@ -1144,6 +1148,11 @@ public class udpService extends Service {
         SetEquipmentResult result = gson.fromJson(info, SetEquipmentResult.class);
         MyApplication.getWareData().setResult(result);
     }
+
+    /**
+     * 查询联网模块防区信息
+     * @param info
+     */
     public void setSafetyEvents(String info) {
         Gson gson = new Gson();
         SetSafetyResult result = gson.fromJson(info, SetSafetyResult.class);
@@ -1195,7 +1204,7 @@ public class udpService extends Service {
                 MyApplication.getWareData().setChnOpItems(inputs);
                 isNull = false;
             }
-            if (isNull){
+            if (isNull) {
                 MyApplication.getWareData().setChnOpItems(new ArrayList<WareChnOpItem>());
             }
         } catch (JSONException e) {
