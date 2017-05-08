@@ -13,7 +13,7 @@ import cn.etsoft.smarthome.R;
 
 /**
  * Created by Say GoBay on 2016/11/28.
- * 监控模块
+ * 高级设置-控制设置-输入—监控
  */
 public class Main_ControlFragment extends Fragment {
     private ImageView control_back,refrush;

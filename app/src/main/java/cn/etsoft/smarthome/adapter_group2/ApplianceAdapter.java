@@ -153,7 +153,7 @@ public class ApplianceAdapter extends BaseAdapter {
                 });
             } else {
                 viewHolder.mark.setImageResource(R.drawable.select);
-                viewHolder.on_off.setText("未设置");
+                viewHolder.on_off.setText("开关");
                 viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -213,7 +213,7 @@ public class ApplianceAdapter extends BaseAdapter {
                 });
             } else {
                 viewHolder.mark.setImageResource(R.drawable.select);
-                viewHolder.on_off.setText("未设置");
+                viewHolder.on_off.setText("电源");
                 viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -271,7 +271,7 @@ public class ApplianceAdapter extends BaseAdapter {
                 });
             } else {
                 viewHolder.mark.setImageResource(R.drawable.select);
-                viewHolder.on_off.setText("未设置");
+                viewHolder.on_off.setText("电源");
                 viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

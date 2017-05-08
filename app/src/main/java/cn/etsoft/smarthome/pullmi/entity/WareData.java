@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.domain.DevControl_Result;
 import cn.etsoft.smarthome.domain.SetEquipmentResult;
 import cn.etsoft.smarthome.domain.SetSafetyResult;
@@ -36,6 +37,16 @@ public class WareData implements Serializable {
 
     public void setResult_safety(SetSafetyResult result_safety) {
         this.result_safety = result_safety;
+    }
+
+    //高级设置-按键情景模块
+    private ChnOpItem_scene chnOpItem_scene;
+    public ChnOpItem_scene getChnOpItem_scene() {
+        return chnOpItem_scene;
+    }
+
+    public void setChnOpItem_scene(ChnOpItem_scene chnOpItem_scene) {
+        this.chnOpItem_scene = chnOpItem_scene;
     }
 
     //防区模块报警

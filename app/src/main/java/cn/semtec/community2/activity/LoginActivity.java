@@ -96,7 +96,7 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
         cn.etsoft.smarthome.MyApplication.mInstance.setOnGetWareDataListener(new cn.etsoft.smarthome.MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int what) {
-                if (what == UdpProPkt.E_UDP_RPO_DAT.e_login.getValue()) {
+                if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_loginUser.getValue()) {
                     if (cn.etsoft.smarthome.MyApplication.getWareData().getLogin_result() == 0) {
                         cn.etsoft.smarthome.utils.ToastUtil.showToast(LoginActivity.this, "登陆成功");
                         user = new User();
@@ -192,7 +192,7 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
             cn.etsoft.smarthome.MyApplication.mInstance.setOnGetWareDataListener(new cn.etsoft.smarthome.MyApplication.OnGetWareDataListener() {
                 @Override
                 public void upDataWareData(int what) {
-                    if (what == UdpProPkt.E_UDP_RPO_DAT.e_login.getValue()) {
+                    if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_loginUser.getValue()) {
                         if (cn.etsoft.smarthome.MyApplication.getWareData().getLogin_result() == 0) {
                             cn.etsoft.smarthome.utils.ToastUtil.showToast(LoginActivity.this, "登陆成功");
                             Gson gson = new Gson();

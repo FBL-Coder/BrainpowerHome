@@ -48,7 +48,8 @@ public class UdpProPkt {
 				43), e_udpPro_report_cardInput(44), e_udpPro_irDev_exeRet(45), e_udpPro_quick_setDevKey(
 				46), e_udpPro_quick_delDevKey(47), e_udpPro_get_modulePos(48),e_udpPro_soft_iap_data(49),
 		e_udpPro_get_soft_version(50),e_udpPro_bc_key_ctrl(51),e_udpPro_ctrl_allDevs(52),e_udpPro_hotel_signal(53),
-		e_udpPro_confirm_signal(54),e_udpPro_boardCast(60),e_add_user(61),e_login(62),e_addnewnet(63),e_deleteNet(64),e_udpPro_user_data(66),e_udpPro_user_data_save(67);
+		e_udpPro_confirm_signal(54),e_udpPro_set_86key_bkLgt(55), e_udpPro_set_IR_bkDat(56), e_udpPro_set_IR_param(57), e_udpPro_get_key2scene(58), e_udpPro_set_key2scene(59), e_udpPro_get_keyNameCtrls (60), e_udpPro_set_keyNameCtrls(61), e_udpPro_keyName_alarm(62), e_udpPro_test_dat(63), e_udpPro_report_io_info(64), e_udpPro_group_operation(65),
+		e_udpPro_getBroadCast(80),e_udpPro_regeditUser(81),e_udpPro_loginUser(82),e_udpPro_regeditRcu(83),e_udpPro_delRcu(84),e_udpPro_setRemoteAddr(85),e_udpPro_getShortcutKey(86),e_udpPro_setShortcutKey(87),e_udpPro_State(100);
 
 		private int value;
 

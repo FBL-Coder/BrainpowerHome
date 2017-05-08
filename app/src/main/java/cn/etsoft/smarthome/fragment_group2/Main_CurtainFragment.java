@@ -20,7 +20,7 @@ import cn.etsoft.smarthome.pullmi.entity.WareKeyOpItem;
 
 /**
  * Created by Say GoBay on 2016/11/28.
- * 情景设置——窗帘模块
+ * 高级设置-控制设置-输入—窗帘模块
  */
 public class Main_CurtainFragment extends Fragment {
     private int room_position = 0;

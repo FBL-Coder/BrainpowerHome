@@ -13,7 +13,7 @@ import cn.etsoft.smarthome.adapter_main.DoorAdapter;
 
 /**
  * Created by Say GoBay on 2016/11/28.
- * 门锁模块
+ * 高级设置-控制设置-输入—门锁模块
  */
 public class Main_DoorFragment extends Fragment {
     private GridView gridView;

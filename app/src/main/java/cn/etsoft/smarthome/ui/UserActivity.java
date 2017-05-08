@@ -89,7 +89,7 @@ public class UserActivity extends Activity implements View.OnClickListener {
                 if (what == 4) {
                     mGridViewAdapter.notifyDataSetChanged();
                 }
-                if (what == 66) {
+                if (what == 86) {
                     if (MyApplication.getWareData().getUserBeen() != null && MyApplication.getWareData().getUserBeen().getSubType2() == 0) {
                         initData();
                     }
@@ -362,7 +362,7 @@ public class UserActivity extends Activity implements View.OnClickListener {
                 ub.setUserName(user.getId());
                 ub.setPasswd(user.getPass());
             }
-            ub.setDatType(67);
+            ub.setDatType(87);
             ub.setSubType1(0);
             ub.setSubType2(0);
             List<UserBean.DevRowsBean> beanlist = new ArrayList<>();
@@ -398,7 +398,7 @@ public class UserActivity extends Activity implements View.OnClickListener {
                     MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
                         @Override
                         public void upDataWareData(int what) {
-                            if (what == 67)
+                            if (what == 87)
                                 timer.cancel();
                         }
                     });

@@ -33,7 +33,7 @@ import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter.ListViewAdapter;
 import cn.etsoft.smarthome.adapter.PopupWindowAdapter2;
-import cn.etsoft.smarthome.adapter_group2.RecyclerViewAdapter;
+import cn.etsoft.smarthome.adapter_group2.RecyclerViewAdapter_input;
 import cn.etsoft.smarthome.domain.Save_Quipment;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.entity.WareData;
@@ -54,7 +54,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
     private ImageView input_choose;
     private ListView input_listView_room;
     private RadioGroup radioGroup_sceneSet;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerViewAdapter_input recyclerViewAdapter;
     private Fragment main_LightFragment, main_CurtainFragment, main_ApplianceFragment, main_SocketFragment, main_DoorFragment, main_SafetyFragment, main_ControlFragment;
     private PopupWindow popupWindow;
     //全部房间
@@ -149,7 +149,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
     private void initData() {
         if (MyApplication.getWareData_Scene().getKeyInputs().size() == 0) {
             equip_input.setText("无");
-            ToastUtil.showToast(getActivity(), "没有输入板");
+            ToastUtil.showToast(getActivity(), "没有收到输入板信息");
             return;
         }
         //获取按键板名称
@@ -183,10 +183,10 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
         for (int i = 0; i < keyName.length; i++) {
             keyName_list.add(keyName[i]);
         }
-        recyclerViewAdapter = new RecyclerViewAdapter(keyName_list);
+        recyclerViewAdapter = new RecyclerViewAdapter_input(keyName_list);
         RecyclerView.setAdapter(recyclerViewAdapter);
         //点击监听
-        recyclerViewAdapter.setOnItemClick(new RecyclerViewAdapter.SceneViewHolder.OnItemClick() {
+        recyclerViewAdapter.setOnItemClick(new RecyclerViewAdapter_input.SceneViewHolder.OnItemClick() {
             @Override
             public void OnItemClick(View view, int position) {
                 index = position;
@@ -337,6 +337,10 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
                 break;
             //保存
             case R.id.input_save:
+                if (MyApplication.getWareData_Scene().getKeyInputs().size() == 0) {
+                    ToastUtil.showToast(getActivity(),"没有输入板信息，不能保存");
+                    return;
+                }
                 CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(getActivity());
                 builder.setTitle("提示 :");
                 builder.setMessage("您要保存这些设置吗？");

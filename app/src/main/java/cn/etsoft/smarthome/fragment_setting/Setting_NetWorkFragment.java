@@ -84,7 +84,7 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
                 new MyApplication.OnGetWareDataListener() {
                     @Override
                     public void upDataWareData(int what) {
-                        if (what == UdpProPkt.E_UDP_RPO_DAT.e_addnewnet.getValue()) {
+                        if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_regeditRcu.getValue()) {
 
                             if (MyApplication.getWareData().getAddNewNet_reslut() == 0) {
                                 //更新数据
@@ -105,7 +105,7 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
                             initView();
                         }
 
-                        if (what == UdpProPkt.E_UDP_RPO_DAT.e_deleteNet.getValue()){
+                        if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_delRcu.getValue()){
                             int reslut = MyApplication.getWareData().getDeleteNetReslut().getInt("Reslut",2);
                             if (reslut == 0) {
                                 ToastUtil.showToast(getActivity(),"删除成功");
@@ -250,7 +250,7 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
                                 "\"devUnitID\":\"" + json_list.get(position).getDevUnitID() + "\"," +
                                 "\"devPass\":\"" + json_list.get(position).getDevUnitPass() + "\"," +
                                 "\"canCpuName\":\"" + json_list.get(position).getCanCpuName() + "\"," +
-                                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_deleteNet.getValue() + "," +
+                                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_delRcu.getValue() + "," +
                                 "\"subType1\":0," +
                                 "\"subType2\":0" + "}";
                         MyApplication.sendMsg(key_str);
@@ -325,7 +325,7 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
                         "\"devUnitID\":\"" + id_equi + "\"," +
                         "\"devPass\":\"" + pass_equi + "\"," +
                         "\"canCpuName\":\"" + name_equi + "\"," +
-                        "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_addnewnet.getValue() + "," +
+                        "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_regeditRcu.getValue() + "," +
                         "\"subType1\":0," +
                         "\"subType2\":0" + "}";
                 MyApplication.sendMsg(key_str);

@@ -149,7 +149,7 @@ public class RegistActivity extends MyBaseActivity implements View.OnClickListen
                             cn.etsoft.smarthome.MyApplication.mInstance.setOnGetWareDataListener(new cn.etsoft.smarthome.MyApplication.OnGetWareDataListener() {
                                 @Override
                                 public void upDataWareData(int what) {
-                                    if (what == UdpProPkt.E_UDP_RPO_DAT.e_add_user.getValue()) {
+                                    if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_regeditUser.getValue()) {
                                         if (cn.etsoft.smarthome.MyApplication.getWareData().getAddUser_reslut() == ADDOK) {
 
                                             Bundle bundle = new Bundle();

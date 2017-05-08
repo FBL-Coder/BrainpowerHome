@@ -14,6 +14,11 @@ public class WareBoardKeyInput implements Serializable {
 	private byte bResetKey;
 	private byte ledBkType;
 	private String keyName[]; //6-12
+	/**
+	 * KeyAdapter_keyscene所需属性
+	 * 选中为1，不然为0，默认为键名数组长度的int数组全为0；
+	 */
+	private int keyIsSelect[]; //6-12
 	private byte keyAllCtrlType[]; //6
 
 	public String getDevUnitID() {
@@ -70,6 +75,14 @@ public class WareBoardKeyInput implements Serializable {
 
 	public void setKeyName(String[] keyName) {
 		this.keyName = keyName;
+	}
+
+	public int[] getKeyIsSelect() {
+		return keyIsSelect;
+	}
+
+	public void setKeyIsSelect(int[] keyIsSelect) {
+		this.keyIsSelect = keyIsSelect;
 	}
 
 	public byte[] getKeyAllCtrlType() {

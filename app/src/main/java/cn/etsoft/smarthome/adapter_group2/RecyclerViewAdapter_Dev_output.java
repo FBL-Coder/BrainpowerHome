@@ -15,12 +15,12 @@ import cn.etsoft.smarthome.pullmi.entity.WareDev;
 /**
  * Created by Say GoBay on 2017/3/29.
  */
-public class RecyclerViewAdapter_Dev extends RecyclerView.Adapter<RecyclerViewAdapter_Dev.SceneViewHolder> {
+public class RecyclerViewAdapter_Dev_output extends RecyclerView.Adapter<RecyclerViewAdapter_Dev_output.SceneViewHolder> {
     private List<WareDev> dev_list;
     private int mPosition = 0;
     private SceneViewHolder.OnItemClick onItemClick;
 
-    public RecyclerViewAdapter_Dev(List<WareDev> dev_list) {
+    public RecyclerViewAdapter_Dev_output(List<WareDev> dev_list) {
         this.dev_list = dev_list;
     }
 

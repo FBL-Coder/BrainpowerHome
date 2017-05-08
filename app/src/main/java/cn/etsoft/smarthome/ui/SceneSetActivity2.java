@@ -144,9 +144,12 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 if (mDialog != null)
                     mDialog.dismiss();
                 if (what == 23) {
-                    //初始化情景的listView
-                    initHorizontalListView();
                     ToastUtil.showToast(SceneSetActivity2.this, "添加成功");
+                    ReadWrite();
+//                    //初始化情景的listView
+//                    initHorizontalListView();
+
+
                 }
                 if (what == 24) {
                     ToastUtil.showToast(SceneSetActivity2.this, "保存成功");
@@ -175,7 +178,6 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
      */
     private void initView() {
         fragmentManager = getSupportFragmentManager();
-        transaction = fragmentManager.beginTransaction();
         sceneSet_back = (Button) findViewById(R.id.sceneSet_back);
         saveScene = (Button) findViewById(R.id.sceneSet_save);
         sceneSet_back.setOnClickListener(this);
@@ -196,6 +198,7 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
         main_LightFragment.setArguments(bundle);
         type_name = title[1];
         ((RadioButton) findViewById(R.id.light)).setChecked(true);
+        transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.home, main_LightFragment);
         transaction.commit();
 
@@ -264,12 +267,12 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
             event.add(MyApplication.getWareData().getSceneEvents().get(i));
         }
         event.add(new WareSceneEvent());
-        if (recyclerAdapter != null) {
-            recyclerAdapter.notifyDataSetChanged();
-        } else {
+//        if (recyclerAdapter != null) {
+//            recyclerAdapter.notifyDataSetChanged();
+//        } else {
             recyclerAdapter = new RecyclerViewAdapter(event);
             mRecyclerView.setAdapter(recyclerAdapter);
-        }
+//        }
 
         recyclerAdapter.setOnItemClick(new RecyclerViewAdapter.SceneViewHolder.OnItemClick() {
             @Override
@@ -606,7 +609,7 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 if (sceneid < 2) {
                     ToastUtil.showToast(SceneSetActivity2.this, "全开、全关模式不可操作");
                     return;
-                }else{
+                } else {
                     save();
                 }
 //                ReadWrite();

@@ -53,7 +53,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int what) {
-                if (what == UdpProPkt.E_UDP_RPO_DAT.e_login.getValue()) {
+                if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_loginUser.getValue()) {
                     dialog.dismiss();
                     if (MyApplication.getWareData().getLogin_result() == 0) {
                         ToastUtil.showToast(LoginActivity.this, "登陆成功");
@@ -122,7 +122,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
                 @Override
                 public void upDataWareData(int what) {
-                    if (what == UdpProPkt.E_UDP_RPO_DAT.e_login.getValue()) {
+                    if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_loginUser.getValue()) {
                         dialog.dismiss();
                         if (MyApplication.getWareData().getLogin_result() == 0) {
                             ToastUtil.showToast(LoginActivity.this, "登陆成功");

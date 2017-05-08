@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.etsoft.smarthome.domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.domain.City;
 import cn.etsoft.smarthome.domain.Out_List_printcmd;
 import cn.etsoft.smarthome.domain.User;
@@ -85,7 +86,6 @@ public class MyApplication extends Application implements udpService.Callback, N
     }
 
 
-
     /**
      * 安防设置备用全局数据；
      */
@@ -106,21 +106,39 @@ public class MyApplication extends Application implements udpService.Callback, N
      * 控制设置备用全局数据-输入；
      */
     private List<WareKeyOpItem> input_key_data;
+
     public List<WareKeyOpItem> getInput_key_data() {
         if (input_key_data == null)
             return new ArrayList<>();
         return input_key_data;
     }
+
     public void setInput_key_data(List<WareKeyOpItem> input_key_data) {
         this.input_key_data = input_key_data;
     }
+
+    /**
+     * 控制设置备用全局数据-按键情景；
+     */
+    private ChnOpItem_scene key_scene_data;
+    public ChnOpItem_scene getKey_scene_data() {
+        return key_scene_data;
+    }
+
+    public void setKey_scene_data(ChnOpItem_scene key_scene_data) {
+        this.key_scene_data = key_scene_data;
+    }
+
+
     /**
      * 控制设置备用全局数据-输出；
      */
     private List<Out_List_printcmd> out_key_data;
+
     public List<Out_List_printcmd> getOut_key_data() {
         return out_key_data;
     }
+
     public void setOut_key_data(List<Out_List_printcmd> out_key_data) {
         this.out_key_data = out_key_data;
     }
@@ -486,7 +504,7 @@ public class MyApplication extends Application implements udpService.Callback, N
         final String str = "{" +
                 "\"userName\":\"" + id + "\"," +
                 "\"passwd\":\"" + pos + "\"," +
-                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_add_user.getValue() + "," +
+                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_regeditUser.getValue() + "," +
                 "\"subType1\":0," +
                 "\"subType2\":0}";
         sendMsg(str);
@@ -502,7 +520,7 @@ public class MyApplication extends Application implements udpService.Callback, N
         final String str = "{" +
                 "\"userName\":\"" + id + "\"," +
                 "\"passwd\":\"" + pos + "\"," +
-                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_login.getValue() + "," +
+                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_loginUser.getValue() + "," +
                 "\"subType1\":0," +
                 "\"subType2\":0}";
         sendMsg(str);
@@ -517,7 +535,7 @@ public class MyApplication extends Application implements udpService.Callback, N
         final String str = "{" +
                 "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
                 "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
-                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_boardCast.getValue() + "," +
+                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getBroadCast.getValue() + "," +
                 "\"uuid\":\"" + appid + "\"," +
                 "\"subType1\":0," +
                 "\"subType2\":0}";
@@ -538,6 +556,7 @@ public class MyApplication extends Application implements udpService.Callback, N
 
     /**
      * 获取输入板对应设备的数据包
+     *
      * @param key_index
      * @param uid
      */
@@ -570,7 +589,6 @@ public class MyApplication extends Application implements udpService.Callback, N
                 "\"subType2\":0," +
                 "\"devID\":" + devID + "," +
                 "\"devType\":" + devType + "}";
-
         sendMsg(chn_str);
     }
 
@@ -592,7 +610,7 @@ public class MyApplication extends Application implements udpService.Callback, N
         final String chn_str = "{" +
                 "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
                 "\"passwd\":\"" + user.getPass() + "\"," +
-                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_user_data.getValue() + "," +
+                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getShortcutKey.getValue() + "," +
                 "\"userName\":\"" + user.getId() + "\"," +
                 "\"subType1\":0," +
                 "\"subType2\":0" +

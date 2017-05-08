@@ -69,6 +69,7 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
         setContentView(R.layout.activity_safety);
         //进度条
         initDialog("初始化数据中...");
+        //横向滑动RecyclerView
         recyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);

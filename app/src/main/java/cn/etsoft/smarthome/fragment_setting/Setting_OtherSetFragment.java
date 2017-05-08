@@ -19,7 +19,7 @@ import cn.etsoft.smarthome.ui.SceneSetActivity2;
 
 /**
  * Created by Say GoBay on 2016/11/25.
- * 其他设置
+ * 设置-高级设置
  */
 public class Setting_OtherSetFragment extends Fragment implements View.OnClickListener {
 
@@ -29,10 +29,15 @@ public class Setting_OtherSetFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_frag_other, container, false);
+        //初始化控件
         initView(view);
         return view;
     }
 
+    /**
+     * 初始化控件
+     * @param view
+     */
     private void initView(View view) {
         tv_dev = (TextView) view.findViewById(R.id.tv_dev);
         tv_other = (TextView) view.findViewById(R.id.tv_other);
@@ -59,6 +64,7 @@ public class Setting_OtherSetFragment extends Fragment implements View.OnClickLi
                 startActivity(new Intent(getActivity(), SceneSetActivity2.class));
                 break;
             case R.id.tv_safety:
+                //查询联网模块的防区信息
                 String ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
                         ",\"datType\":32" +
                         ",\"subType1\":3" +

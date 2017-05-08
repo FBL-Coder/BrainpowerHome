@@ -21,6 +21,7 @@ import java.net.DatagramPacket;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.domain.DevControl_Result;
 import cn.etsoft.smarthome.domain.SetEquipmentResult;
 import cn.etsoft.smarthome.domain.SetSafetyResult;
@@ -169,15 +170,15 @@ public class udpService extends Service {
         if (datType != 35)
             show(info);
         switch (datType) {
-            case 64:
+            case 84:
                 deleteNetReslut(info, subType2);
-            case 63:
+            case 83:
                 addNewNetReslut(subType2);
                 break;
-            case 62:
+            case 82:
                 getUserResult(subType2);
                 break;
-            case 61:
+            case 81:
                 addUserResult(subType2);
                 break;
             case 0:// e_udpPro_getRcuinfo
@@ -342,7 +343,13 @@ public class udpService extends Service {
                 ctrlDevReply(info);
                 isFreshData = true;
                 break;
-            case 66: // e_udpPro_addSceneEvents
+            case 58: // e_udpPro_getChnOpitems
+                if (subType1 == 1) {
+                    isFreshData = true;
+                    getChnOpItem_scene(info);
+                }
+                break;
+            case 86: // e_udpPro_addSceneEvents
                 if (subType2 == 0) {
                     isFreshData = true;
                     getUserEvents(info);
@@ -1023,7 +1030,13 @@ public class udpService extends Service {
                 for (int j = 0; j < array1.length(); j++) {
                     name[j] = CommonUtils.getGBstr(CommonUtils.hexStringToBytes(array1.getString(j)));
                 }
+                //============================================
+                int[] isSelect = new int[array1.length()];
+                for (int j = 0; j < array1.length(); j++) {
+                    isSelect[i] = 0;
+                }
                 input.setKeyName(name);
+                input.setKeyIsSelect(isSelect);
 
                 if (MyApplication.getWareData().getKeyInputs().size() > 0) {
                     for (int k = 0; k < MyApplication.getWareData().getKeyInputs().size(); k++) {
@@ -1151,12 +1164,24 @@ public class udpService extends Service {
 
     /**
      * 查询联网模块防区信息
+     *
      * @param info
      */
     public void setSafetyEvents(String info) {
         Gson gson = new Gson();
         SetSafetyResult result = gson.fromJson(info, SetSafetyResult.class);
         MyApplication.getWareData().setResult_safety(result);
+    }
+
+    /**
+     * 查询联网模块防区信息
+     *
+     * @param info
+     */
+    public void getChnOpItem_scene(String info) {
+        Gson gson = new Gson();
+        ChnOpItem_scene result = gson.fromJson(info, ChnOpItem_scene.class);
+        MyApplication.getWareData().setChnOpItem_scene(result);
     }
 
 

@@ -194,6 +194,7 @@ public class ApplianceAdapter extends BaseAdapter {
         }
 
         if (items == null) {
+            items = new ArrayList<>();
             for (int i = 0; i < dev_list.size(); i++) {
                 if (dev_list.get(position).getType() == 0) {
                     viewHolder.appliance.setImageResource(R.drawable.kongtiao1);
@@ -207,6 +208,12 @@ public class ApplianceAdapter extends BaseAdapter {
                     viewHolder.appliance.setImageResource(R.drawable.jidinghe1);
                     viewHolder.mark.setImageResource(R.drawable.select);
                     viewHolder.on_off.setText("关");
+                }
+            }
+            for (int i = 0; i < MyApplication.getWareData_Scene().getSceneEvents().size(); i++) {
+                if (sceneid == MyApplication.getWareData_Scene().getSceneEvents().get(i).getEventld()) {
+                    MyApplication.getWareData_Scene().getSceneEvents().get(i).setItemAry(items);
+                    break;
                 }
             }
         } else {

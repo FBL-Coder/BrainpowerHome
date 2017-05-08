@@ -10,7 +10,7 @@ import android.widget.RadioGroup;
 
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.fragment_group2.InPutFragment;
-import cn.etsoft.smarthome.fragment_group2.InfraredFragment;
+import cn.etsoft.smarthome.fragment_group2.KeySceneFragment;
 import cn.etsoft.smarthome.fragment_group2.OutPutFragment;
 
 /**
@@ -46,7 +46,7 @@ public class GroupActivity2 extends FragmentActivity {
     private void initData() {
         outPutFragment = new OutPutFragment();
         inPutFragment = new InPutFragment();
-        infraredFragment = new InfraredFragment();
+        infraredFragment = new KeySceneFragment();
 
         transaction.replace(R.id.group, inPutFragment).commit();
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

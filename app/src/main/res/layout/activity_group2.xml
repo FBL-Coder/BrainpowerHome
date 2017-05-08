@@ -33,7 +33,7 @@
             android:id="@+id/group_infrared"
             android:drawableTop="@drawable/selector_group_infrared"
             style="@style/GroupRadioButtonStyle"
-            android:text="@string/infrared" />
+            android:text="@string/key_scene" />
 
     </RadioGroup>
 </LinearLayout>

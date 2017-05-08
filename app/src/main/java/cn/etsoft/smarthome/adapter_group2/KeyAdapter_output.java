@@ -25,13 +25,13 @@ import cn.etsoft.smarthome.utils.ToastUtil;
  * Created by Say GoBay on 2016/9/1.
  * 情景设置——灯光
  */
-public class InAdapter extends BaseAdapter {
+public class KeyAdapter_output extends BaseAdapter {
     private Context context;
     List<PrintCmd> listData;
     int mSelect = 0;   //选中项
     private List<String> on_off_name;
 
-    public InAdapter(Context context, List<PrintCmd> listData) {
+    public KeyAdapter_output(Context context, List<PrintCmd> listData) {
         this.listData = listData;
         this.context = context;
     }

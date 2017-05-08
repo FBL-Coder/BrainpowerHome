@@ -1,26 +1,34 @@
 package cn.etsoft.smarthome.adapter_group2;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.pullmi.entity.WareSceneEvent;
+import cn.etsoft.smarthome.utils.ToastUtil;
 
 /**
  * Created by Say GoBay on 2017/3/29.
  */
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.SceneViewHolder> {
-    private List<String> board_name;
+public class RecyclerViewAdapter_keyScene extends RecyclerView.Adapter<RecyclerViewAdapter_keyScene.SceneViewHolder> {
+    private List<WareSceneEvent> list;
+    private Context context;
     private int mPosition = 0;
+    private int[] image = {R.drawable.zaijiamoshi, R.drawable.waichumoshi,
+            R.drawable.yingyuanmoshi, R.drawable.jiuqingmoshi,
+            R.drawable.huikemoshi};
     private SceneViewHolder.OnItemClick onItemClick;
 
-
-    public RecyclerViewAdapter(List<String> board_name) {
-        this.board_name = board_name;
+    public RecyclerViewAdapter_keyScene(Context context, List<WareSceneEvent> list) {
+        this.context = context;
+        this.list = list;
     }
 
     public void setOnItemClick(SceneViewHolder.OnItemClick onItemClick) {
@@ -29,26 +37,30 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public SceneViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_list_item3, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_list_item, null);
         SceneViewHolder holder = new SceneViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(final SceneViewHolder holder, final int position) {
-
-        if (mPosition == position) {
-            holder.itemView.setBackgroundResource(R.color.color_334eade6);  //选中项背景
+        if (list.size() == 1) {
+            ToastUtil.showToast(context, "没有情景");
         } else {
-            holder.itemView.setBackgroundResource(R.color.color_60A7D5_null);  //其他项背景
+            if (mPosition == position) {
+                holder.itemView.setBackgroundResource(R.color.color_334eade6);  //选中项背景
+            } else {
+                holder.itemView.setBackgroundResource(R.color.color_08143F);  //其他项背景
+            }
+            holder.iv.setImageResource(image[position % 5]);
+            holder.tv.setText(list.get(position).getSceneName());
         }
-        holder.tv.setText(board_name.get(position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemClick != null) {
                     int pos = holder.getLayoutPosition();
-                    if (holder.getLayoutPosition() != board_name.size())
+                    if (holder.getLayoutPosition() != list.size())
                         mPosition = pos;
                     onItemClick.OnItemClick(holder.itemView, pos);
                     notifyDataSetChanged();
@@ -69,15 +81,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return board_name.size();
+        return list.size();
     }
 
     public static class SceneViewHolder extends RecyclerView.ViewHolder {
+        private ImageView iv;
         private TextView tv;
 
         public SceneViewHolder(View itemView) {
             super(itemView);
-            tv = (TextView) itemView.findViewById(R.id.title);
+            iv = (ImageView) itemView.findViewById(R.id.img_list_item);
+            tv = (TextView) itemView.findViewById(R.id.text_list_item);
         }
 
         public interface OnItemClick {

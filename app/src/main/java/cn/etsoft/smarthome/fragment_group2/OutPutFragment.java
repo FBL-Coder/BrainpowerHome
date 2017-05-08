@@ -33,7 +33,7 @@ import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter.ListViewAdapter;
 import cn.etsoft.smarthome.adapter.PopupWindowAdapter2;
-import cn.etsoft.smarthome.adapter_group2.RecyclerViewAdapter_Dev;
+import cn.etsoft.smarthome.adapter_group2.RecyclerViewAdapter_Dev_output;
 import cn.etsoft.smarthome.adapter_group2.RecyclerViewAdapter_equip;
 import cn.etsoft.smarthome.domain.Out_List_printcmd;
 import cn.etsoft.smarthome.domain.PrintCmd;
@@ -50,6 +50,7 @@ import cn.etsoft.smarthome.widget.SpacesItemDecoration;
 
 /**
  * Created by Say GoBay on 2016/8/25.
+ * 高级设置-控制设置-输出
  */
 public class OutPutFragment extends Fragment implements View.OnClickListener {
     private TextView equip_input;
@@ -57,7 +58,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
     private ImageView input_choose;
     private ListView input_listView_room;
     private android.support.v7.widget.RecyclerView RecyclerView, RecyclerView_equip;
-    private RecyclerViewAdapter_Dev recyclerAdapter_light;
+    private RecyclerViewAdapter_Dev_output recyclerAdapter_light;
     private RecyclerViewAdapter_equip recyclerAdapter_equip;
     private List<String> board_name;
     private cn.etsoft.smarthome.adapter_group2.ListView_InputAdapter ListView_InputAdapter;
@@ -71,7 +72,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
     private ListViewAdapter listViewAdapter;
     private String[] title = {"灯光", "窗帘", "家电", "插座", "门锁", "安防", "监控"};
     private String type_name;
-    private Fragment inFragment;
+    private Fragment outPutFragment_key;
     private List<String> equip_input_name;
     private List<WareDev> list_Dev;
     private List<String> room_list;
@@ -353,22 +354,22 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
             MyApplication.getChnItemInfo(Dev_room.get(0).getCanCpuId(), Dev_room.get(0).getType(), Dev_room.get(0).getDevId());
         } catch (Exception e) {
         }
-        recyclerAdapter_light = new RecyclerViewAdapter_Dev(Dev_room);
+        recyclerAdapter_light = new RecyclerViewAdapter_Dev_output(Dev_room);
         RecyclerView.setAdapter(recyclerAdapter_light);
-        recyclerAdapter_light.setOnItemClick(new RecyclerViewAdapter_Dev.SceneViewHolder.OnItemClick() {
+        recyclerAdapter_light.setOnItemClick(new RecyclerViewAdapter_Dev_output.SceneViewHolder.OnItemClick() {
             @Override
             public void OnItemClick(View view, int position) {
                 transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 devPosition = position;
-                inFragment = new InFragment();
+                outPutFragment_key = new OutPutFragment_key();
                 Bundle bundle = new Bundle();
                 bundle.putInt("devtype", Dev_room.get(position).getType());
                 bundle.putInt("keyinput_position", position_keyinput);
                 bundle.putBoolean("ISCHOOSE", ISCHOOSE);
 
                 MyApplication.getChnItemInfo(Dev_room.get(position).getCanCpuId(), Dev_room.get(position).getType(), Dev_room.get(position).getDevId());
-                inFragment.setArguments(bundle);
-                transaction.replace(R.id.home, inFragment);
+                outPutFragment_key.setArguments(bundle);
+                transaction.replace(R.id.home, outPutFragment_key);
                 transaction.commit();
             }
 
@@ -397,26 +398,26 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
         recyclerAdapter_equip = new RecyclerViewAdapter_equip(input_name);
         RecyclerView_equip.setAdapter(recyclerAdapter_equip);
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        inFragment = new InFragment();
+        outPutFragment_key = new OutPutFragment_key();
         Bundle bundle = new Bundle();
         bundle.putInt("devtype", Dev_room.get(0).getType());
         bundle.putInt("keyinput_position", 0);
         bundle.putBoolean("ISCHOOSE", ISCHOOSE);
-        inFragment.setArguments(bundle);
-        transaction.replace(R.id.home, inFragment);
+        outPutFragment_key.setArguments(bundle);
+        transaction.replace(R.id.home, outPutFragment_key);
         transaction.commit();
         recyclerAdapter_equip.setOnItemClick(new RecyclerViewAdapter_equip.SceneViewHolder.OnItemClick() {
             @Override
             public void OnItemClick(View view, int position) {
                 transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                inFragment = new InFragment();
+                outPutFragment_key = new OutPutFragment_key();
                 Bundle bundle = new Bundle();
                 bundle.putInt("devtype", Dev_room.get(devPosition).getType());
                 bundle.putInt("keyinput_position", position);
                 bundle.putBoolean("ISCHOOSE", ISCHOOSE);
                 position_keyinput = position;
-                inFragment.setArguments(bundle);
-                transaction.replace(R.id.home, inFragment);
+                outPutFragment_key.setArguments(bundle);
+                transaction.replace(R.id.home, outPutFragment_key);
                 transaction.commit();
             }
 
@@ -490,6 +491,10 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                 popupWindow.showAsDropDown(v, -widthOff, 0);
                 break;
             case R.id.input_save:
+                if (MyApplication.getWareData_Scene().getKeyInputs().size() == 0) {
+                    ToastUtil.showToast(getActivity(),"没有输入板信息，不能保存");
+                    return;
+                }
                 CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(getActivity());
                 builder.setTitle("提示 :");
                 builder.setMessage("您要保存这些设置吗？");

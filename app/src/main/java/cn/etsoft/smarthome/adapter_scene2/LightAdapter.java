@@ -97,6 +97,12 @@ public class LightAdapter extends BaseAdapter {
                 viewHolder.appliance.setImageResource(R.drawable.light);
                 viewHolder.mark.setImageResource(R.drawable.select);
             }
+            for (int i = 0; i < MyApplication.getWareData_Scene().getSceneEvents().size(); i++) {
+                if (sceneid == MyApplication.getWareData_Scene().getSceneEvents().get(i).getEventld()) {
+                    MyApplication.getWareData_Scene().getSceneEvents().get(i).setItemAry(items);
+                    break;
+                }
+            }
         } else {
             for (int i = 0; i < items.size(); i++) {//根据设给的数据判断状态以及显示图标
                 if (items.get(i).getDevID() == light_room.get(position).getDev().getDevId()

@@ -13,20 +13,20 @@ import java.util.List;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.adapter_group2.InAdapter;
+import cn.etsoft.smarthome.adapter_group2.KeyAdapter_output;
 import cn.etsoft.smarthome.domain.Out_List_printcmd;
 import cn.etsoft.smarthome.domain.PrintCmd;
 import cn.etsoft.smarthome.pullmi.entity.WareChnOpItem;
 
 /**
  * Created by Say GoBay on 2016/11/28.
- * 情景设置——空调模块
+ * 高级设置-控制设置-输出—按键
  */
-public class InFragment extends Fragment {
+public class OutPutFragment_key extends Fragment {
     private LayoutInflater inflater;
     private GridView gridView_light;
     private String uid;
-    private InAdapter inAdapter;
+    private KeyAdapter_output keyAdapter_output;
     private int input_position = 0;
     private List<String> keyname_list;
     private List<WareChnOpItem> ChnOpItem_list;
@@ -84,12 +84,12 @@ public class InFragment extends Fragment {
         }
         if (listData == null)
             listData = new ArrayList<>();
-        if (inAdapter != null) {
-            inAdapter.notifyDataSetChanged(listData);
+        if (keyAdapter_output != null) {
+            keyAdapter_output.notifyDataSetChanged(listData);
         } else {
-            inAdapter = new InAdapter(getActivity(), listData);
+            keyAdapter_output = new KeyAdapter_output(getActivity(), listData);
         }
-        gridView_light.setAdapter(inAdapter);
+        gridView_light.setAdapter(keyAdapter_output);
     }
 
 

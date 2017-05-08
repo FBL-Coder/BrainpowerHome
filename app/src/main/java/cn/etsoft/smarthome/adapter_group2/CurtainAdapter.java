@@ -117,7 +117,7 @@ public class CurtainAdapter extends BaseAdapter {
             });
         }else {
             viewHolder.mark.setImageResource(R.drawable.select);
-            viewHolder.on_off.setText("未设置");
+            viewHolder.on_off.setText("打开");
             viewHolder.on_off.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
