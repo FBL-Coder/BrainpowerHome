@@ -54,7 +54,7 @@ public class udpService extends Service {
 
     private WareData wareData;
     private String TAG = this.getClass().getName();
-
+    //是否刷新数据
     private boolean isFreshData = false;
     private static final int OUTTIME_INITUID = 1000;
 
@@ -100,8 +100,8 @@ public class udpService extends Service {
     };
 
     public void runUdpServer() {
-
-        new Thread(new Runnable() {//执行接收数据接口，有数据，则执行；
+        //执行接收数据接口，有数据，则执行；
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 wareData = MyApplication.getWareData();
@@ -170,15 +170,15 @@ public class udpService extends Service {
         if (datType != 35)
             show(info);
         switch (datType) {
-            case 84:
+            case 84://e_udpPro_delRcu
                 deleteNetReslut(info, subType2);
-            case 83:
+            case 83://e_udpPro_regeditRcu
                 addNewNetReslut(subType2);
                 break;
-            case 82:
+            case 82://e_udpPro_loginUser
                 getUserResult(subType2);
                 break;
-            case 81:
+            case 81://e_udpPro_regeditUser
                 addUserResult(subType2);
                 break;
             case 0:// e_udpPro_getRcuinfo
@@ -242,6 +242,7 @@ public class udpService extends Service {
                 if (subType2 == 1) {
                     isFreshData = true;
                     getKyeInputBoard(info);
+                    Log.e("InputBoard",MyApplication.getWareData().getKeyInputs().get(0).getKeyIsSelect().length+"");
                 }
                 break;
             case 11: // e_udpPro_getKeyOpItems
@@ -320,8 +321,8 @@ public class udpService extends Service {
 //                    isFreshData = true;
                 }
                 break;
-            case 32:
-                if (subType2 == 255) {
+            case 32://e_udpPro_security_info
+                if (subType1 == 4 && subType2 == 255) {
                     //查询联网模块防区信息
                     setSafetyEvents(info);
                     isFreshData = true;
@@ -331,25 +332,35 @@ public class udpService extends Service {
                     isFreshData = true;
                 } else if (subType1 == 2) {
                     //解决多个警报5秒自动消失问题
-                    if (System.currentTimeMillis() - time > 2000) {
+                    if (System.currentTimeMillis() - time > 5000) {
                         time = System.currentTimeMillis();
                         //防区报警信息
                         safety_alarm(info);
                         isFreshData = true;
                     }
+                }else if (subType1 == 1) {
+                    //布防、撤防
+                    safety(info);
+                    isFreshData = true;
                 }
                 break;
             case 35:// e_udpPro_chns_status
                 ctrlDevReply(info);
                 isFreshData = true;
                 break;
-            case 58: // e_udpPro_getChnOpitems
+            case 58: // e_udpPro_get_key2scene
                 if (subType1 == 1) {
                     isFreshData = true;
                     getChnOpItem_scene(info);
                 }
                 break;
-            case 86: // e_udpPro_addSceneEvents
+            case 59: // e_udpPro_set_key2scene
+                if (subType1 == 1) {
+                    setKeyOpItem_result(info);
+                    isFreshData = true;
+                }
+                break;
+            case 86: // e_udpPro_getShortcutKey
                 if (subType2 == 0) {
                     isFreshData = true;
                     getUserEvents(info);
@@ -978,6 +989,11 @@ public class udpService extends Service {
         }
     }
 
+    /**
+     * 获取输入板按键
+     *
+     * @param info
+     */
     public void getKyeInputBoard(String info) {
 
 //        返回数据类型；
@@ -1030,13 +1046,7 @@ public class udpService extends Service {
                 for (int j = 0; j < array1.length(); j++) {
                     name[j] = CommonUtils.getGBstr(CommonUtils.hexStringToBytes(array1.getString(j)));
                 }
-                //============================================
-                int[] isSelect = new int[array1.length()];
-                for (int j = 0; j < array1.length(); j++) {
-                    isSelect[i] = 0;
-                }
                 input.setKeyName(name);
-                input.setKeyIsSelect(isSelect);
 
                 if (MyApplication.getWareData().getKeyInputs().size() > 0) {
                     for (int k = 0; k < MyApplication.getWareData().getKeyInputs().size(); k++) {
@@ -1134,6 +1144,13 @@ public class udpService extends Service {
 
     //修改联网模块防区信息
     public void safety_result(String info) {
+        MyApplication.getWareData().getChnOpItems().clear();
+        Gson gson = new Gson();
+        SetEquipmentResult result = gson.fromJson(info, SetEquipmentResult.class);
+        MyApplication.getWareData().setResult(result);
+    }
+    //撤防、布防
+    public void safety(String info) {
         MyApplication.getWareData().getChnOpItems().clear();
         Gson gson = new Gson();
         SetEquipmentResult result = gson.fromJson(info, SetEquipmentResult.class);
@@ -1269,15 +1286,15 @@ public class udpService extends Service {
             for (int i = 0; i < array.length(); i++) {
 
                 WareSceneEvent event = new WareSceneEvent();
-                JSONObject objcet = array.getJSONObject(i);
+                JSONObject object = array.getJSONObject(i);
 
-                event.setEventld((byte) objcet.getInt("eventID"));
-                event.setDevCnt((byte) objcet.getInt("devCnt"));
-                event.setSceneName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(objcet.getString("sceneName"))));
-                int devCnt = objcet.getInt("devCnt");
+                event.setEventld((byte) object.getInt("eventID"));
+                event.setDevCnt((byte) object.getInt("devCnt"));
+                event.setSceneName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(object.getString("sceneName"))));
+                int devCnt = object.getInt("devCnt");
                 if (devCnt > 0) {
                     event.setItemAry(new ArrayList<WareSceneDevItem>());
-                    JSONArray itemAry = objcet.getJSONArray("itemAry");
+                    JSONArray itemAry = object.getJSONArray("itemAry");
                     for (int j = 0; j < devCnt; j++) {
                         JSONObject object2 = itemAry.getJSONObject(j);
                         WareSceneDevItem item = new WareSceneDevItem();

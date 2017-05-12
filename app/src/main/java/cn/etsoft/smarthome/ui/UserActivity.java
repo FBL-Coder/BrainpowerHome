@@ -118,7 +118,8 @@ public class UserActivity extends Activity implements View.OnClickListener {
         add_equipment_Layout_ll = (LinearLayout) findViewById(R.id.add_equipment_Layout_ll);
         equipment_close = (TextView) findViewById(R.id.equipment_close);
         tv_equipment_parlour = (TextView) findViewById(R.id.tv_equipment_parlour);
-        tv_equipment_parlour.setText(home_text.get(0));
+        if (home_text != null && home_text.size() > 0)
+            tv_equipment_parlour.setText(home_text.get(0));
         back.setOnClickListener(this);
         edit.setOnClickListener(this);
         equipment_close.setOnClickListener(this);
@@ -160,8 +161,9 @@ public class UserActivity extends Activity implements View.OnClickListener {
             mWareDev.add(MyApplication.getWareData().getDevs().get(i));
         }
         for (int i = 0; i < mWareDev.size(); i++) {
-            if (mWareDev.get(i).getRoomName().equals(home_text.get(0)))
-                dev.add(mWareDev.get(i));
+            if (home_text != null && home_text.size() > 0)
+                if (mWareDev.get(i).getRoomName().equals(home_text.get(0)))
+                    dev.add(mWareDev.get(i));
         }
         gridView_user.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -406,74 +408,74 @@ public class UserActivity extends Activity implements View.OnClickListener {
             }).start();
 
         }
-            super.onStop();
-        }
+        super.onStop();
+    }
 
-        @Override
-        public void onClick (View v){
-            switch (v.getId()) {
-                case R.id.back:
-                    finish();
-                    break;
-                case R.id.edit:
-                    //添加页面的item点击，以及listview的初始化
-                    Equipadapter = new EquipmentAdapter(dev, UserActivity.this);
-                    add_equipment_Layout_lv.setAdapter(Equipadapter);
-                    add_equipment_Layout_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.back:
+                finish();
+                break;
+            case R.id.edit:
+                //添加页面的item点击，以及listview的初始化
+                Equipadapter = new EquipmentAdapter(dev, UserActivity.this);
+                add_equipment_Layout_lv.setAdapter(Equipadapter);
+                add_equipment_Layout_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                        for (int i = 0; i < mWareDev.size(); i++) {
 //                            if (mWareDev.get(i).getRoomName().equals(home_text.get(room_position)))
 //                                dev.add(mWareDev.get(i));
 //                        }
-                            WareDev item = dev.get(position);
-                            boolean tag = true;
-                            if (common_dev == null)
-                                common_dev = new ArrayList<>();
-                            if (common_dev.size() > 0) {
-                                for (int i = 0; i < common_dev.size(); i++) {
-                                    if (common_dev.get(i).getType() == item.getType()
-                                            && common_dev.get(i).getDevId() == item.getDevId()
-                                            && common_dev.get(i).getCanCpuId().equals(item.getCanCpuId())) {
-                                        tag = false;
-                                        Toast.makeText(UserActivity.this, "设备已存在！", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                            if (tag) {
-                                common_dev.add(item);
-                                if (mGridViewAdapter != null)
-                                    mGridViewAdapter.notifyDataSetChanged();
-                                else {
-                                    mGridViewAdapter = new GridViewAdapter(common_dev, UserActivity.this);
-                                    gridView_user.setAdapter(mGridViewAdapter);
+                        WareDev item = dev.get(position);
+                        boolean tag = true;
+                        if (common_dev == null)
+                            common_dev = new ArrayList<>();
+                        if (common_dev.size() > 0) {
+                            for (int i = 0; i < common_dev.size(); i++) {
+                                if (common_dev.get(i).getType() == item.getType()
+                                        && common_dev.get(i).getDevId() == item.getDevId()
+                                        && common_dev.get(i).getCanCpuId().equals(item.getCanCpuId())) {
+                                    tag = false;
+                                    Toast.makeText(UserActivity.this, "设备已存在！", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
-                    });
-                    add_equipment_Layout_ll.setVisibility(View.VISIBLE);
-                    break;
-                case R.id.equipment_close:
-                    //添加页面的关闭按钮
-                    add_equipment_Layout_ll.setVisibility(View.GONE);
-                    break;
-                case R.id.tv_equipment_parlour:
-                    //添加设备页的弹出框
-                    int widthOff = getWindow().getWindowManager().getDefaultDisplay().getWidth() / 500;
-                    if (popupWindow != null && popupWindow.isShowing()) {
-                        popupWindow.dismiss();
-                        popupWindow = null;
-                    } else {
-                        initPopupWindow(v, -1, home_text, POP_TYPR_ROOM);
-                        popupWindow.showAsDropDown(v, -widthOff, 0);
+                        if (tag) {
+                            common_dev.add(item);
+                            if (mGridViewAdapter != null)
+                                mGridViewAdapter.notifyDataSetChanged();
+                            else {
+                                mGridViewAdapter = new GridViewAdapter(common_dev, UserActivity.this);
+                                gridView_user.setAdapter(mGridViewAdapter);
+                            }
+                        }
                     }
-                    break;
-            }
+                });
+                add_equipment_Layout_ll.setVisibility(View.VISIBLE);
+                break;
+            case R.id.equipment_close:
+                //添加页面的关闭按钮
+                add_equipment_Layout_ll.setVisibility(View.GONE);
+                break;
+            case R.id.tv_equipment_parlour:
+                //添加设备页的弹出框
+                int widthOff = getWindow().getWindowManager().getDefaultDisplay().getWidth() / 500;
+                if (popupWindow != null && popupWindow.isShowing()) {
+                    popupWindow.dismiss();
+                    popupWindow = null;
+                } else {
+                    initPopupWindow(v, -1, home_text, POP_TYPR_ROOM);
+                    popupWindow.showAsDropDown(v, -widthOff, 0);
+                }
+                break;
         }
+    }
 
-        /**
-         * 初始化自定义设备的状态以及设备PopupWindow
-         */
+    /**
+     * 初始化自定义设备的状态以及设备PopupWindow
+     */
 
     private void initPopupWindow(final View view_parent, final int parent_position, final List<String> text, final int type) {
         //获取自定义布局文件pop.xml的视图

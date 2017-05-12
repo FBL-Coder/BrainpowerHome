@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
-        android:layout_weight="0.6"
+        android:layout_weight="0.7"
         android:orientation="horizontal">
 
         <android.support.v7.widget.RecyclerView
@@ -92,43 +92,72 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
-        android:layout_weight="3"
-        android:background="@drawable/bg_viewpager"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_0"
-            android:background="@color/color_2F2D2E"
-            android:layout_weight="0.6">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/dp_5"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="点击添加按钮添加设备，每个防区最多可添加4个设备"
-                android:textColor="@color/color_fff"
-                android:textSize="@dimen/sp_16" />
-            <ImageView
-                android:layout_alignParentRight="true"
-                android:id="@+id/add_safety"
-                android:layout_marginRight="@dimen/dp_20"
-                android:paddingTop="@dimen/dp_2"
-                android:paddingBottom="@dimen/dp_2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/jiaadd"
-                android:scaleType="centerCrop"
-                />
-        </RelativeLayout>
+        android:layout_weight="0.5"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="选择布防类型："
+            android:textColor="@color/color_000"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_5"
+            android:textSize="@dimen/sp_16"
+            />
+        <TextView
+            android:id="@+id/setSafety_new"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="-10dp"
+            android:background="@drawable/save_click_selector"
+            android:clickable="true"
+            android:drawableRight="@drawable/more"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_5"
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_18" />
+        <Button
+            android:id="@+id/che"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/selector_network_blue_sure"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="@dimen/dp_5"
+            android:text="全部撤防"
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_18" />
+        <Button
+            android:id="@+id/bu"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/selector_network_blue_sure"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="@dimen/dp_5"
+            android:text="布防"
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_18" />
+
+    </LinearLayout>
+
+
 
         <FrameLayout
             android:id="@+id/safety"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0"
-            android:layout_weight="6"
+            android:layout_weight="3"
+            android:background="@drawable/bg_viewpager"
             ></FrameLayout>
 
-    </LinearLayout>
 
 </LinearLayout>

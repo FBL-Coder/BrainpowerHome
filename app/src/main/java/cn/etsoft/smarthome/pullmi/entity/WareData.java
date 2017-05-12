@@ -42,6 +42,8 @@ public class WareData implements Serializable {
     //高级设置-按键情景模块
     private ChnOpItem_scene chnOpItem_scene;
     public ChnOpItem_scene getChnOpItem_scene() {
+        if (chnOpItem_scene == null)
+            return new ChnOpItem_scene();
         return chnOpItem_scene;
     }
 
@@ -184,10 +186,18 @@ public class WareData implements Serializable {
         this.freshAirs = freshAirs;
     }
 
+    /**
+     * 获取情景模块数据
+     * @return
+     */
     public List<WareSceneEvent> getSceneEvents() {
         return sceneEvents;
     }
 
+    /**
+     * 设置情景模块数据
+     * @param sceneEvents
+     */
     public void setSceneEvents(List<WareSceneEvent> sceneEvents) {
         this.sceneEvents = sceneEvents;
     }

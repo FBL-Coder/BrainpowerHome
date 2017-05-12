@@ -1,8 +1,9 @@
 package cn.etsoft.smarthome.ui;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,9 +48,8 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
 public class SafetyActivity extends FragmentActivity implements View.OnClickListener {
     private RecyclerView recyclerView;
     private EditText safetyName;
-    private ImageView add_safety;
-    private TextView setSafety, scene;
-    private Button save;
+    private TextView setSafety, scene, setSafety_new;
+    private Button save, che, bu;
     private RecyclerViewAdapter_safety recyclerAdapter;
     private List<String> setSafety_list;
     private ImageView iv_cancel;
@@ -66,6 +67,8 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //解决弹出键盘压缩布局的问题
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_safety);
         //进度条
         initDialog("初始化数据中...");
@@ -76,10 +79,7 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         //初始化控件
         initView();
-        //初始化防区名称
-        initRecycleView();
-        //初始化防区类型和关联情景
-        initData();
+        //查询联网模块的防区信息
         MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int what) {
@@ -98,11 +98,27 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
                         MyApplication.sendMsg(ctlStr);
                         return;
                     }
-                    //初始化防区名称
-                    initRecycleView();
+                    if (MyApplication.getWareData().getResult_safety() != null && MyApplication.getWareData().getResult_safety().getSubType2() == 255 && MyApplication.getWareData().getResult_safety().getSubType1() == 4) {
+                        //初始化防区名称
+                        initRecycleView();
+                        //初始化防区类型和关联情景
+                        initData();
+                    }
+                    if (MyApplication.getWareData().getResult() != null && MyApplication.getWareData().getResult().getSubType1() == 1) {
+                        ToastUtil.showToast(SafetyActivity.this, "布防成功");
+                        SharedPreferences sharedPreferences1 = getSharedPreferences("profile",
+                                Context.MODE_PRIVATE);
+                        sharedPreferences1.edit().putInt("safety_style", MyApplication.getWareData().getResult().getSubType2()).commit();
+                    }
                 }
             }
         });
+        String ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                ",\"datType\":32" +
+                ",\"subType1\":3" +
+                ",\"subType2\":255" +
+                "}";
+        MyApplication.sendMsg(ctlStr);
     }
 
     /**
@@ -111,18 +127,27 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
     private void initView() {
         safetyName = (EditText) findViewById(R.id.name);
         setSafety = (TextView) findViewById(R.id.setSafety);
+        setSafety_new = (TextView) findViewById(R.id.setSafety_new);
         scene = (TextView) findViewById(R.id.scene);
         save = (Button) findViewById(R.id.save);
-        add_safety = (ImageView) findViewById(R.id.add_safety);
+        che = (Button) findViewById(R.id.che);
+        bu = (Button) findViewById(R.id.bu);
         setSafety.setOnClickListener(this);
         scene.setOnClickListener(this);
-        add_safety.setOnClickListener(this);
         save.setOnClickListener(this);
+        setSafety_new.setOnClickListener(this);
+        che.setOnClickListener(this);
+        bu.setOnClickListener(this);
         setSafety_list = new ArrayList<>();
         setSafety_list.add(0, "24小时布防");
         setSafety_list.add(1, "在家布防");
         setSafety_list.add(2, "外出布防");
         setSafety_list.add(3, "撤防状态");
+        int position = getSharedPreferences("profile", Context.MODE_PRIVATE)
+                .getInt("safety_style", 0);
+        if (position == 255)
+            position = 3;
+        setSafety_new.setText(setSafety_list.get(position));
     }
 
     /**
@@ -255,16 +280,19 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
                 scene.setText(MyApplication.getWareData().getSceneEvents().get(i).getSceneName());
             }
         }
-
-        if (MyApplication.getWareData().getSceneEvents().size() == 0 || sceneId == 255) {
-            sceneName_list.add(0, "无");
+        if (MyApplication.getWareData().getSceneEvents().size() == 0) {
             scene.setText("无");
+            sceneName_list.add(0, "无");
+        } else if (MyApplication.getWareData().getSceneEvents().size() > 0 && sceneId == 255) {
+            scene.setText("无");
+            sceneName_list.add(MyApplication.getWareData().getSceneEvents().size(), "无");
         } else if (MyApplication.getWareData().getSceneEvents().size() > 0) {
             sceneName_list.add(MyApplication.getWareData().getSceneEvents().size(), "无");
         }
     }
 
     private PopupWindow popupWindow;
+    int subType2 = 0;
 
     /**
      * 初始化自定义设备的状态以及设备PopupWindow
@@ -298,10 +326,16 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView tv = (TextView) view_parent;
                 tv.setText(text.get(position));
-                if (type == 0){
+                if (type == 0) {
                     secType = position;
-                }else if (type == 1){
+                } else if (type == 1) {
                     sceneId = position;
+                } else if (type == 2) {
+                    if (position < 3) {
+                        subType2 = position;
+                    } else {
+                        subType2 = 255;
+                    }
                 }
                 popupWindow.dismiss();
             }
@@ -328,11 +362,15 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.setSafety:
-                initPopupWindow(setSafety, setSafety_list,0);
+                initPopupWindow(setSafety, setSafety_list, 0);
+                popupWindow.showAsDropDown(v, 0, 0);
+                break;
+            case R.id.setSafety_new:
+                initPopupWindow(setSafety_new, setSafety_list, 2);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
             case R.id.scene:
-                initPopupWindow(scene, sceneName_list,1);
+                initPopupWindow(scene, sceneName_list, 1);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
             case R.id.scene_iv_cancel:
@@ -347,8 +385,26 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
             case R.id.save:
                 save();
                 break;
-            case R.id.add_safety:
-                startActivity(new Intent(this, AddEquipSafetyActivity.class).putExtra("safety_position", safety_position));
+            case R.id.che:
+//                String ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+//                    ",\"datType\":32" +
+//                    ",\"subType1\":0" +
+//                    ",\"subType2\":" + subType2 +
+//                    "}";
+//                MyApplication.sendMsg(ctlStr);
+                getSharedPreferences("profile",
+                        Context.MODE_PRIVATE).edit().putBoolean("IsDisarming", true).commit();
+                ToastUtil.showToast(this, "撤防成功");
+                break;
+            case R.id.bu:
+                String ctlStr1 = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                        ",\"datType\":32" +
+                        ",\"subType1\":0" +
+                        ",\"subType2\":" + subType2 +
+                        "}";
+                MyApplication.sendMsg(ctlStr1);
+                getSharedPreferences("profile", Context.MODE_PRIVATE)
+                        .edit().putBoolean("IsDisarming", false).commit();
                 break;
         }
     }

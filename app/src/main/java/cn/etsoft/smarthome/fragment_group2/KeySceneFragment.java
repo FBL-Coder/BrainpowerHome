@@ -27,7 +27,6 @@ import cn.etsoft.smarthome.adapter_group2.RecyclerViewAdapter_equip;
 import cn.etsoft.smarthome.adapter_group2.RecyclerViewAdapter_keyScene;
 import cn.etsoft.smarthome.domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
-import cn.etsoft.smarthome.pullmi.entity.WareChnOpItem;
 import cn.etsoft.smarthome.pullmi.entity.WareData;
 import cn.etsoft.smarthome.pullmi.entity.WareSceneEvent;
 import cn.etsoft.smarthome.pullmi.utils.Dtat_Cache;
@@ -51,16 +50,12 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
     private List<WareSceneEvent> event;
     private RecyclerViewAdapter_keyScene recyclerAdapter;
     private RecyclerViewAdapter_equip recyclerAdapter_equip;
-    private int input_position = 0;
     private List<String> input_name;
     private Fragment keySceneFragment_key;
     private boolean ISCHOOSE = false;
     private byte sceneid = 0;
     private int position_keyinput = 0;
     private ChnOpItem_scene listData_all;
-    private List<WareChnOpItem> ChnOpItem_list;
-    private WareChnOpItem ChnOpItem;
-    private int KEY_ACTION_UP = 1;
 
     //自定义加载进度条
     private void initDialog(String str) {
@@ -114,7 +109,8 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
                     MyApplication.mInstance.setKey_scene_data(listData_all);
                     onGetKeySceneDataListeener.getKeySceneData();
                 }
-                if (what == 59 && MyApplication.getWareData().getChnOpItem_scene() != null && MyApplication.getWareData().getChnOpItem_scene().getSubType1() == 1) {
+
+                if (what == 59 && MyApplication.getWareData().getResult() != null && MyApplication.getWareData().getResult().getSubType1() == 1) {
                     Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
                 }
             }

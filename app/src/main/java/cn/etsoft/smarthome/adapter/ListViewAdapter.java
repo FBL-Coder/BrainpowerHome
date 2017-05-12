@@ -21,24 +21,33 @@ public class ListViewAdapter extends BaseAdapter {
     private Context context;
     private int[] image = {R.drawable.all, R.drawable.none, R.drawable.parlour,
             R.drawable.book, R.drawable.car, R.drawable.garden, R.drawable.kitchen, R.drawable.passage, R.drawable.bedroom};
+    //房间集合
     private List<String> room_list;
+    //加上"全部"的房间集合
     private List<String> room_list_ok;
-    int mSelect = 0;   //选中项
+    //默认选中项
+    int mSelect = 0;
 
     public ListViewAdapter(Context context) {
         room_list_ok = new ArrayList<>();
+        //房间集合
         room_list = MyApplication.getRoom_list();
         for (int i = 0; i < room_list.size() + 1; i++) {
-            if (i == 0) room_list_ok.add("全部");
-            else room_list_ok.add(room_list.get(i - 1));
+            if (i == 0) {
+                room_list_ok.add("全部");
+            } else {
+                room_list_ok.add(room_list.get(i - 1));
+            }
         }
         this.context = context;
     }
-    public ListViewAdapter(Context context,List<String> room_list) {
+
+    public ListViewAdapter(Context context, List<String> room_list) {
         room_list_ok = new ArrayList<>();
         room_list_ok = room_list;
         this.context = context;
     }
+
     @Override
     public int getCount() {
         return room_list_ok.size();
@@ -88,17 +97,21 @@ public class ListViewAdapter extends BaseAdapter {
         }
 
         viewHolder.text_main.setText(room_list_ok.get(position));
+
         if (mSelect == position) {
-            convertView.setBackgroundResource(R.color.color_334eade6);  //选中项背景
+            //选中项背景
+            convertView.setBackgroundResource(R.color.color_334eade6);
         } else {
-            convertView.setBackgroundResource(R.color.color_60A7D5_null);  //其他项背景
+            //其他项背景
+            convertView.setBackgroundResource(R.color.color_60A7D5_null);
         }
         return convertView;
     }
 
-    public void changeSelected(int positon) { //刷新方法
-        if (positon != mSelect) {
-            mSelect = positon;
+    //刷新方法
+    public void changeSelected(int position) {
+        if (position != mSelect) {
+            mSelect = position;
             notifyDataSetChanged();
         }
     }

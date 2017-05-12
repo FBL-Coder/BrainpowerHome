@@ -25,6 +25,7 @@ import cn.etsoft.smarthome.utils.ToastUtil;
 
 /**
  * Created by Say GoBay on 2016/11/29.
+ * 登录页面
  */
 public class LoginActivity extends Activity implements View.OnClickListener {
 
@@ -146,7 +147,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
             if (isShouldHideInput(v, ev)) {
-
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);

@@ -18,25 +18,26 @@ import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
 
 /**
  * Created by Say GoBay on 2016/11/28.
- * 情景模块
+ * 主页-情景模块
  */
 public class Main_SceneFragment extends Fragment {
+
     private GridView gridView_light;
     private LayoutInflater inflater;
+    private SceneAdapter sceneAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_light, container, false);
         this.inflater = inflater;
-        //初始化控件
+        //初始化GridView
         initGridView(view);
         return view;
     }
 
     /**
-     * 初始化控件
-     *
+     * 初始化GridView
      * @param view
      */
     long TimeExit = 0;
@@ -49,9 +50,8 @@ public class Main_SceneFragment extends Fragment {
                 if (what == 22) {
                     if (MyApplication.getWareData().getSceneEvents() != null
                             && MyApplication.getWareData().getSceneEvents().size() > 0) {
-                        SceneAdapter gridViewAdapter =
-                                new SceneAdapter(MyApplication.getWareData().getSceneEvents(), getActivity(),inflater);
-                        gridView_light.setAdapter(gridViewAdapter);
+                        sceneAdapter = new SceneAdapter(MyApplication.getWareData().getSceneEvents(), getActivity(),inflater);
+                        gridView_light.setAdapter(sceneAdapter);
                     } else {
                         Toast.makeText(getActivity(), "没有找到情景模式", Toast.LENGTH_SHORT).show();
                     }
@@ -60,9 +60,8 @@ public class Main_SceneFragment extends Fragment {
         });
 
         if (MyApplication.getWareData().getSceneEvents() != null && MyApplication.getWareData().getSceneEvents().size() > 0) {
-            SceneAdapter gridViewAdapter =
-                    new SceneAdapter(MyApplication.getWareData().getSceneEvents(), getActivity(),inflater);
-            gridView_light.setAdapter(gridViewAdapter);
+            sceneAdapter = new SceneAdapter(MyApplication.getWareData().getSceneEvents(), getActivity(),inflater);
+            gridView_light.setAdapter(sceneAdapter);
         } else {
             Toast.makeText(getActivity(), "没有找到情景模式", Toast.LENGTH_SHORT).show();
         }

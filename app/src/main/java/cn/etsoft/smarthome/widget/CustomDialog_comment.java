@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import cn.etsoft.smarthome.R;
 
+/**
+ * 自定义 dialog 类
+ */
 
 public class CustomDialog_comment extends Dialog {
 

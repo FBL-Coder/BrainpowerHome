@@ -26,12 +26,13 @@ import cn.etsoft.smarthome.pullmi.utils.LogUtils;
 
 /**
  * 作者：FBL  时间： 2016/8/31.
+ * 欢迎页面
  */
 public class WelcomeActivity extends Activity {
 
     private List<RcuInfo> mRcuInfos;
     private String TAG = "WelCome";
-    private Handler mHandler, mDataHandler;
+    private Handler mDataHandler;
     private int OUTTIME_DOWNLOAD = 1111;
     private int OUTTIME_INITUID = 1000;
     private int count = 1;
@@ -52,7 +53,9 @@ public class WelcomeActivity extends Activity {
             //获取屏幕数据
             DisplayMetrics metric = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(metric);
-            cn.semtec.community2.MyApplication.display_width = metric.widthPixels; // 屏幕宽度（像素）
+            // 屏幕宽度（像素）
+            cn.semtec.community2.MyApplication.display_width = metric.widthPixels;
+            // 屏幕高度（像素）
             cn.semtec.community2.MyApplication.display_height = metric.heightPixels;
             cn.semtec.community2.MyApplication.density = metric.density;
         } catch (Exception e1) {
@@ -63,23 +66,69 @@ public class WelcomeActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        //在这个页面把welcomeActivity set进去，在其他页面销毁
         MyApplication.mInstance.setActivity(this);
         MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int what) {
             }
         });
+        //登录状态
         int login = getIntent().getIntExtra("login", 0);
-
+        //启动服务
         MyApplication.mInstance.startSer();
         SharedPreferences sharedPreferences = getSharedPreferences("profile",
                 Context.MODE_PRIVATE);
-        String jsondata = sharedPreferences.getString("list", "");
+        String jsonData = sharedPreferences.getString("list", "");
         Gson gson = new Gson();
-        if (!jsondata.equals("")) {
-            mRcuInfos = gson.fromJson(jsondata, new TypeToken<List<RcuInfo>>() {
+        if (!jsonData.equals("")) {
+            mRcuInfos = gson.fromJson(jsonData, new TypeToken<List<RcuInfo>>() {
             }.getType());
         }
+//        {
+//            "devUnitID":	"39ffd505484d303408650743",
+//                "datType":	0,
+//                "subType1":	0,
+//                "subType2":	1,
+//                "rcu_rows":	[{
+//            "canCpuID":	"39ffd505484d303408650743",
+//                    "devUnitPass":	"08650743",
+//                    "canCpuName":	"西安本地",
+//                    "name":	"",
+//                    "IpAddr":	"",
+//                    "SubMask":	"",
+//                    "Gateway":	"",
+//                    "centerServ":	"",
+//                    "roomNum":	"",
+//                    "macAddr":	"",
+//                    "SoftVersion":	"",
+//                    "HwVersion":	"",
+//                    "bDhcp":	0
+//        }]
+//        }
+
+//        {
+//            "devUnitID":	"39ffd905484d303429620443",
+//                "datType":	0,
+//                "subType1":	0,
+//                "subType2":	1,
+//                "rcu_rows":	[{
+//            "canCpuID":	"39ffd905484d303429620443",
+//                    "devUnitPass":	"29620443",
+//                    "canCpuName":	"上海",
+//                    "name":	"d5b9ccfcff00000000000000",
+//                    "IpAddr":	"131.107.1.2",
+//                    "SubMask":	"255.255.0.0",
+//                    "Gateway":	"131.107.2.155",
+//                    "centerServ":	"123.206.104.89",
+//                    "roomNum":	"0000",
+//                    "macAddr":	"00502a040002",
+//                    "SoftVersion":	"",
+//                    "HwVersion":	"",
+//                    "bDhcp":	0
+//        }]
+//        }
+        //只有一个联网模块信息
         if (mRcuInfos != null && mRcuInfos.size() == 1) {
             GlobalVars.setDevid(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitID());
             GlobalVars.setDevpass(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitPass());
@@ -215,6 +264,7 @@ public class WelcomeActivity extends Activity {
                 WareData wareData_locat = (WareData) Dtat_Cache.readFile(GlobalVars.getDevid());
                 if (wareData_locat != null) {
                     MyApplication.setWareData(wareData_locat);
+                    MyApplication.mInstance.setReadData(true);
                     if (cn.semtec.community2.MyApplication.getWareData().getDevs().size() > 0) {
                         for (int i = 0; i < cn.semtec.community2.MyApplication.getWareData().getDevs().size(); i++) {
                             Log.e("Exception", cn.semtec.community2.MyApplication.getWareData().getDevs().get(i).getDevName());
@@ -238,4 +288,5 @@ public class WelcomeActivity extends Activity {
             }
         }
     }
+
 }

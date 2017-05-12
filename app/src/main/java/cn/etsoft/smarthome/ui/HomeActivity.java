@@ -43,6 +43,7 @@ import cn.etsoft.smarthome.pullmi.utils.Dtat_Cache;
 import cn.etsoft.smarthome.utils.CityDB;
 import cn.etsoft.smarthome.utils.NetUtil;
 import cn.etsoft.smarthome.utils.SharePreferenceUtil;
+import cn.etsoft.smarthome.utils.ToastUtil;
 import cn.etsoft.smarthome.view.DepthPageTransformer;
 import cn.etsoft.smarthome.view.ViewPagerCompat;
 import cn.etsoft.smarthome.widget.CustomDialog;
@@ -85,7 +86,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private int[] mImgIds = new int[]{R.drawable.banner_parlour};
     private List<ImageView> mImageViews = new ArrayList<ImageView>();
     private List<WareDev> mWareDev_room;
-
+    private boolean ishavedata;
 
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
@@ -103,11 +104,14 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int what) {
-                if (what == 3)
+                if (what == 3) {
                     //更新数据
                     upData();
+                    ishavedata = true;
+                }
             }
         });
+
     }
 
     private void upData() {
@@ -149,6 +153,13 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         initViewPager();
         //初始化GridView
         initGridView();
+
+        String ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                ",\"datType\":32" +
+                ",\"subType1\":3" +
+                ",\"subType2\":255" +
+                "}";
+        MyApplication.sendMsg(ctlStr);
     }
 
     Handler weather_handler;
@@ -158,7 +169,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
      * 初始化控件
      */
     private void initView() {
-
         loaction_text = (TextView) findViewById(R.id.loaction_text);
         edit_loaction = (ImageView) findViewById(R.id.edit_loaction);
         date = (TextView) findViewById(R.id.date);
@@ -410,7 +420,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         //天气key
         httpRequest.setHeader("Authorization", 天气key);
         String strResult = "";
-        if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
+        if (NetUtil.getNetworkState(this) != NetUtil.NETWORK_NONE) {
             try {
                 // HttpClient对象
                 HttpClient httpClient = new DefaultHttpClient();
@@ -597,15 +607,23 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.user:
-                MyApplication.setmHomeActivity(this);
-                Intent intent = new Intent(HomeActivity.this, UserActivity.class);
-                intent.putExtra("tag", "home");
-                startActivity(intent);
+                if (ishavedata || MyApplication.mInstance.isReadData()) {
+                    MyApplication.setmHomeActivity(this);
+                    Intent intent = new Intent(HomeActivity.this, UserActivity.class);
+                    intent.putExtra("tag", "home");
+                    startActivity(intent);
+                }else {
+                    ToastUtil.showToast(this, "请刷新数据再点击");
+                }
 //                startActivity(new Intent(HomeActivity.this, NotificationActivity.class));
                 break;
             case R.id.setting:
-                MyApplication.setmHomeActivity(this);
-                startActivity(new Intent(HomeActivity.this, SettingActivity.class));
+                if (ishavedata || MyApplication.mInstance.isReadData()) {
+                    MyApplication.setmHomeActivity(this);
+                    startActivity(new Intent(HomeActivity.this, SettingActivity.class));
+                }else {
+                    ToastUtil.showToast(this, "请刷新数据再点击");
+                }
                 break;
             case R.id.home_tv_ref:
                 GlobalVars.setDstip("127.0.0.1");

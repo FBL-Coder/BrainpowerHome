@@ -2,6 +2,7 @@ package cn.etsoft.smarthome.widget;
 
 /**
  * Created by Say GoBay on 2016/8/30.
+ * 滑动条目，拉出另外一种布局
  */
 
 import android.support.v4.widget.ScrollerCompat;

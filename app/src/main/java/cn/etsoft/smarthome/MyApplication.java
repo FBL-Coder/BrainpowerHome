@@ -36,6 +36,7 @@ import java.util.Map;
 import cn.etsoft.smarthome.domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.domain.City;
 import cn.etsoft.smarthome.domain.Out_List_printcmd;
+import cn.etsoft.smarthome.domain.SetSafetyResult;
 import cn.etsoft.smarthome.domain.User;
 import cn.etsoft.smarthome.domain.Weather_All_Bean;
 import cn.etsoft.smarthome.domain.Weather_Bean;
@@ -53,12 +54,12 @@ import cn.etsoft.smarthome.utils.CityDB;
 /**
  * 作者：FBL  时间： 2016/10/30.
  */
-public class MyApplication extends Application implements udpService.Callback, NetBroadcastReceiver.NetEvevt {
+public class MyApplication extends Application implements udpService.Callback, NetBroadcastReceiver.NetEvent {
 
     /**
-     * 网络监听
+     * 网络状态是否改变的监听
      */
-    public static NetBroadcastReceiver.NetEvevt evevt;
+    public static NetBroadcastReceiver.NetEvent event;
     /**
      * 服务对象
      */
@@ -71,78 +72,6 @@ public class MyApplication extends Application implements udpService.Callback, N
      * 全局数据
      */
     private static WareData wareData;
-
-    /**
-     * 情景备用全局数据
-     */
-    private static WareData wareData_scene;
-
-    public static WareData getWareData_Scene() {
-        return wareData_scene;
-    }
-
-    public static void setWareData_Scene(WareData wareData_scene) {
-        MyApplication.wareData_scene = wareData_scene;
-    }
-
-
-    /**
-     * 安防设置备用全局数据；
-     */
-    private List<WareDev> safety_data_dev;
-
-    public List<WareDev> getSafety_data_dev() {
-        if (safety_data_dev == null)
-            return new ArrayList<>();
-        return safety_data_dev;
-    }
-
-    public void setSafety_data_dev() {
-        onGetWareDataListener_safety.upDataWareData();
-        this.safety_data_dev = safety_data_dev;
-    }
-
-    /**
-     * 控制设置备用全局数据-输入；
-     */
-    private List<WareKeyOpItem> input_key_data;
-
-    public List<WareKeyOpItem> getInput_key_data() {
-        if (input_key_data == null)
-            return new ArrayList<>();
-        return input_key_data;
-    }
-
-    public void setInput_key_data(List<WareKeyOpItem> input_key_data) {
-        this.input_key_data = input_key_data;
-    }
-
-    /**
-     * 控制设置备用全局数据-按键情景；
-     */
-    private ChnOpItem_scene key_scene_data;
-    public ChnOpItem_scene getKey_scene_data() {
-        return key_scene_data;
-    }
-
-    public void setKey_scene_data(ChnOpItem_scene key_scene_data) {
-        this.key_scene_data = key_scene_data;
-    }
-
-
-    /**
-     * 控制设置备用全局数据-输出；
-     */
-    private List<Out_List_printcmd> out_key_data;
-
-    public List<Out_List_printcmd> getOut_key_data() {
-        return out_key_data;
-    }
-
-    public void setOut_key_data(List<Out_List_printcmd> out_key_data) {
-        this.out_key_data = out_key_data;
-    }
-
     /**
      * 数据变更handler
      */
@@ -199,6 +128,7 @@ public class MyApplication extends Application implements udpService.Callback, N
     private Map<String, Integer> mIndexer;
     private static final String FORMAT = "^[a-z,A-Z].*$";
     private static SharedPreferences sharedPreferences;
+    private boolean readData = false;
 
     private RcuInfo rcuInfo;
 
@@ -212,6 +142,92 @@ public class MyApplication extends Application implements udpService.Callback, N
 
     private SoundPool sp;//声明一个SoundPool
     private int music;//定义一个整型用load（）；来设置suondID
+    private int music1;//定义一个整型用load（）；来设置suondID
+
+    /**
+     * 情景备用全局数据
+     */
+    private static WareData wareData_scene;
+
+    public static WareData getWareData_Scene() {
+        return wareData_scene;
+    }
+
+    public static void setWareData_Scene(WareData wareData_scene) {
+        MyApplication.wareData_scene = wareData_scene;
+    }
+
+
+    /**
+     * 安防设置备用全局数据--添加设备
+     */
+    private List<WareDev> safety_data_dev;
+
+    public List<WareDev> getSafety_data_dev() {
+        if (safety_data_dev == null)
+            return new ArrayList<>();
+        return safety_data_dev;
+    }
+
+    public void setSafety_data_dev() {
+        onGetWareDataListener_safety.upDataWareData();
+        this.safety_data_dev = safety_data_dev;
+    }
+    /**
+     * 安防设置备用全局数据--安防界面
+     */
+    private SetSafetyResult setSafetyResult;
+
+    public SetSafetyResult getSetSafetyResult() {
+        if (setSafetyResult == null)
+            return new SetSafetyResult();
+        return setSafetyResult;
+    }
+
+    public void setSetSafetyResult(SetSafetyResult setSafetyResult) {
+        this.setSafetyResult = setSafetyResult;
+    }
+
+    /**
+     * 控制设置备用全局数据-输入；
+     */
+    private List<WareKeyOpItem> input_key_data;
+
+    public List<WareKeyOpItem> getInput_key_data() {
+        if (input_key_data == null)
+            return new ArrayList<>();
+        return input_key_data;
+    }
+
+    public void setInput_key_data(List<WareKeyOpItem> input_key_data) {
+        this.input_key_data = input_key_data;
+    }
+
+    /**
+     * 控制设置备用全局数据-按键情景；
+     */
+    private ChnOpItem_scene key_scene_data;
+    public ChnOpItem_scene getKey_scene_data() {
+        return key_scene_data;
+    }
+
+    public void setKey_scene_data(ChnOpItem_scene key_scene_data) {
+        this.key_scene_data = key_scene_data;
+    }
+
+
+    /**
+     * 控制设置备用全局数据-输出；
+     */
+    private List<Out_List_printcmd> out_key_data;
+
+    public List<Out_List_printcmd> getOut_key_data() {
+        return out_key_data;
+    }
+
+    public void setOut_key_data(List<Out_List_printcmd> out_key_data) {
+        this.out_key_data = out_key_data;
+    }
 
     @Override
     public void onCreate() {
@@ -223,7 +239,7 @@ public class MyApplication extends Application implements udpService.Callback, N
         /**
          * 初始化网络状态监听
          */
-        evevt = MyApplication.this;
+        event = MyApplication.this;
         /**
          * 初始化Application
          */
@@ -282,6 +298,7 @@ public class MyApplication extends Application implements udpService.Callback, N
 
         sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
         music = sp.load(this, R.raw.key_sound, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
+        music1 = sp.load(this, R.raw.jingbao, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
     }
 
     public SoundPool getSp() {
@@ -296,6 +313,12 @@ public class MyApplication extends Application implements udpService.Callback, N
             music = sp.load(getActivity(), R.raw.key_sound, 1);
         }
         return music;
+    }
+    public int getMusic1() {
+        if (music1 == 0) {
+            music1 = sp.load(getActivity(), R.raw.jingbao, 1);
+        }
+        return music1;
     }
 
     private void initCityList() {
@@ -340,6 +363,14 @@ public class MyApplication extends Application implements udpService.Callback, N
             }
         }
         return new CityDB(this, path);
+    }
+
+    public boolean isReadData() {
+        return readData;
+    }
+
+    public void setReadData(boolean readData) {
+        this.readData = readData;
     }
 
     private boolean prepareCityList() {
@@ -393,7 +424,6 @@ public class MyApplication extends Application implements udpService.Callback, N
 
     /**
      * 获取Socket对象
-     *
      * @return
      */
     public DatagramSocket getSocket() {
@@ -445,6 +475,7 @@ public class MyApplication extends Application implements udpService.Callback, N
     @Override
     public void getWareData(int what, WareData wareData) {
         MyApplication.wareData = wareData;
+        onGetWareDataListener.upDataWareData(what);
         //在任何页面，触发安防警报要发出警报信息
         if (what == 32 && MyApplication.getWareData().getSafetyResult_alarm() != null && MyApplication.getWareData().getSafetyResult_alarm().getSubType1() == 2) {
             int SecDat = MyApplication.getWareData().getSafetyResult_alarm().getSecDat();
@@ -460,7 +491,6 @@ public class MyApplication extends Application implements udpService.Callback, N
             startService(intent);
             MyApplication.getWareData().setSafetyResult_alarm(null);
         }
-        onGetWareDataListener.upDataWareData(what);
     }
 
     /**
@@ -653,6 +683,7 @@ public class MyApplication extends Application implements udpService.Callback, N
         MyApplication.wareData = wareData;
     }
 
+
     public static List<String> getRoom_list() {
         if (room_list == null) {
             return new ArrayList<>();
@@ -683,7 +714,6 @@ public class MyApplication extends Application implements udpService.Callback, N
 
     /**
      * 启动服务；
-     *
      * @param
      */
     public void startSer() {
@@ -728,7 +758,7 @@ public class MyApplication extends Application implements udpService.Callback, N
     }
 
     /**
-     * 网络状态该变监听
+     * 网络状态改变监听
      */
     public final class MyServiceConn implements ServiceConnection {
         @Override
@@ -772,6 +802,4 @@ public class MyApplication extends Application implements udpService.Callback, N
     public interface OnGetWareDataListener_safety {
         void upDataWareData();
     }
-
-
 }

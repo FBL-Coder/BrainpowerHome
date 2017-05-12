@@ -60,13 +60,13 @@ public class SafetyFragment extends Fragment {
      */
     public void upData() {
         run_dev_item = MyApplication.getWareData().getResult_safety().getSec_info_rows().get(safety_position).getRun_dev_item();
-        if (gridViewAdapter_safety != null) {
-            gridViewAdapter_safety.notifyDataSetChanged();
-        } else {
+//        if (gridViewAdapter_safety != null) {
+//            gridViewAdapter_safety.notifyDataSetChanged(run_dev_item);
+//        } else {
             if (run_dev_item == null)
                 run_dev_item = new ArrayList<>();
-            gridViewAdapter_safety = new GridViewAdapter_safety(run_dev_item, getActivity());
+            gridViewAdapter_safety = new GridViewAdapter_safety(run_dev_item, getActivity(),safety_position);
             gridView_light.setAdapter(gridViewAdapter_safety);
-        }
+//        }
     }
 }

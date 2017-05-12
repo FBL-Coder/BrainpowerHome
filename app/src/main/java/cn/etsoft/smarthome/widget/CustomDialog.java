@@ -4,6 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 
+/**
+ * 自定义 dialog 类
+ */
 public class CustomDialog extends Dialog {
     int layoutRes;
     Context context;

@@ -78,7 +78,6 @@ public class SetSafetyResult implements Serializable {
     public List<SecInfoRowsBean> getSec_info_rows() {
         return sec_info_rows;
     }
-
     public void setSec_info_rows(List<SecInfoRowsBean> sec_info_rows) {
         this.sec_info_rows = sec_info_rows;
     }

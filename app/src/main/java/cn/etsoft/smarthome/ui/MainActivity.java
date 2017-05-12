@@ -30,6 +30,7 @@ import cn.etsoft.smarthome.pullmi.entity.WareDev;
 
 /**
  * Created by Say GoBay on 2016/11/28.
+ * 主页
  */
 public class MainActivity extends FragmentActivity {
     private RadioGroup radioGroup_main;
@@ -43,10 +44,8 @@ public class MainActivity extends FragmentActivity {
     private List<WareDev> mWareDev_room;
     private int room_position = 0;
     private String type_name;
-    /**
-     * 全部房间
-     */
-    private int DEVS_ALL_ROOM = -1;
+    //全部房间
+    private int DEV_ALL_ROOM = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +55,13 @@ public class MainActivity extends FragmentActivity {
         initListView();
         //初始化控件
         initView();
-
     }
 
     /**
      * 初始化控件
      */
     private void initView() {
+        //按钮"主页"
         homepage = (Button) findViewById(R.id.homepage);
         homepage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,8 +73,9 @@ public class MainActivity extends FragmentActivity {
         radioGroup_main = (RadioGroup) findViewById(R.id.radioGroup_main);
         transaction = fragmentManager.beginTransaction();
 
+        //设备类型 从首页获取到的
+        type_name = getIntent().getStringExtra("title").toString();
         //房间集合
-        type_name = getIntent().getStringExtra("title").toString();//设备类型
         text = MyApplication.getRoom_list();
         mWareDev_room = new ArrayList<>();
 
@@ -87,8 +87,8 @@ public class MainActivity extends FragmentActivity {
      * 初始化RadioGroup
      */
     private void initRadioGroup() {
-
-        Bundle bundle = new Bundle();//给具体设备类型带入房间id
+        //给具体设备类型带入房间id
+        Bundle bundle = new Bundle();
         if (type_name.equals(title[1])) {
             listView_main.setVisibility(View.VISIBLE);
             main_LightFragment = new Main_LightFragment();
@@ -98,6 +98,7 @@ public class MainActivity extends FragmentActivity {
             transaction.replace(R.id.home, main_LightFragment);
             transaction.commit();
         } else if (type_name.equals(title[2])) {
+            //情景模块没有房间选择
             listView_main.setVisibility(View.GONE);
             main_SceneFragment = new Main_SceneFragment();
             bundle.putInt("room_position", room_position);
@@ -158,7 +159,8 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 transaction = fragmentManager.beginTransaction();
-                Bundle bundle = new Bundle();//给具体设备类型带入房间id
+                Bundle bundle = new Bundle();
+                //给具体设备类型带入房间id
                 bundle.putInt("room_position", room_position);
                 switch (checkedId) {
                     case R.id.light:
@@ -229,26 +231,32 @@ public class MainActivity extends FragmentActivity {
      * 初始化ListView
      */
     private void initListView() {
-
-        room_position = getIntent().getIntExtra("room_position", 0);//房间名
+        //房间名  从首页获取到的
+        room_position = getIntent().getIntExtra("room_position", 0);
 
         listView_main = (ListView) findViewById(R.id.listView_main);
         listViewAdapter = new ListViewAdapter(this);
         //默认选中条目
         listViewAdapter.changeSelected(room_position + 1);
         listView_main.setAdapter(listViewAdapter);
-        listView_main.setItemsCanFocus(true);//让ListView的item获得焦点
-        listView_main.setChoiceMode(ListView.CHOICE_MODE_SINGLE);//单选模式
+        //让ListView的item获得焦点
+        listView_main.setItemsCanFocus(true);
+        //单选模式
+        listView_main.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         //点击监听
         listView_main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listViewAdapter.changeSelected(position);//刷新
+                //刷新
+                listViewAdapter.changeSelected(position);
                 transaction = fragmentManager.beginTransaction();
-                Bundle bundle = new Bundle();//给具体设备类型带入房间id
+                //给具体设备类型带入房间id
+                Bundle bundle = new Bundle();
+                //因为有"全部"，当 position = 0时，是"全部"，room_position = -1；
                 room_position = position - 1;
                 if (position == 0) {
-                    bundle.putInt("room_position", DEVS_ALL_ROOM);
+                    //全部
+                    bundle.putInt("room_position", DEV_ALL_ROOM);
                     if (type_name.equals(title[1])) {
                         main_LightFragment = new Main_LightFragment();
                         main_LightFragment.setArguments(bundle);
@@ -291,6 +299,7 @@ public class MainActivity extends FragmentActivity {
                         transaction.replace(R.id.home, main_ControlFragment);
                     }
                 } else {
+                    //其他房间
                     bundle.putInt("room_position", position - 1);
                     if (type_name.equals(title[1])) {
                         main_LightFragment = new Main_LightFragment();
@@ -339,11 +348,11 @@ public class MainActivity extends FragmentActivity {
 
         });
         //选中监听
-
         listView_main.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                listViewAdapter.changeSelected(position);//刷新
+                //刷新
+                listViewAdapter.changeSelected(position);
             }
 
             @Override

@@ -17,7 +17,6 @@
             android:layout_marginTop="@dimen/dp_10"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/dp_40"
-            android:text="一楼客厅"
             android:textColor="@color/color_fff"
             android:textSize="@dimen/sp_20" />
 

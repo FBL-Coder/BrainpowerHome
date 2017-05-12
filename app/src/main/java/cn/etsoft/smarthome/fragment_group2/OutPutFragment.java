@@ -199,10 +199,10 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                     }).start();
                 }
 
-                if (what == 15 && MyApplication.getWareData_Scene().getResult() != null
-                        && MyApplication.getWareData_Scene().getResult().getResult() == 1) {
+                if (what == 15 && MyApplication.getWareData().getResult() != null
+                        && MyApplication.getWareData().getResult().getResult() == 1) {
                     Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
-                    MyApplication.getWareData_Scene().setResult(null);
+                    MyApplication.getWareData().setResult(null);
                 }
             }
         });
@@ -210,6 +210,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
         ReadWrite();
         return view_parent;
     }
+
     private void ReadWrite() {
         new Thread(new Runnable() {
             @Override
@@ -220,6 +221,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
             }
         }).start();
     }
+
     //自定义加载进度条
     private void initDialog(String str) {
         Circle_Progress.setText(str);
@@ -247,6 +249,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
             }
         }).start();
     }
+
     /**
      * 初始化控件
      */
@@ -400,7 +403,8 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
         outPutFragment_key = new OutPutFragment_key();
         Bundle bundle = new Bundle();
-        bundle.putInt("devtype", Dev_room.get(0).getType());
+        if (Dev_room != null && Dev_room.size() > 0)
+            bundle.putInt("devtype", Dev_room.get(0).getType());
         bundle.putInt("keyinput_position", 0);
         bundle.putBoolean("ISCHOOSE", ISCHOOSE);
         outPutFragment_key.setArguments(bundle);
@@ -492,7 +496,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.input_save:
                 if (MyApplication.getWareData_Scene().getKeyInputs().size() == 0) {
-                    ToastUtil.showToast(getActivity(),"没有输入板信息，不能保存");
+                    ToastUtil.showToast(getActivity(), "没有输入板信息，不能保存");
                     return;
                 }
                 CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(getActivity());
@@ -544,7 +548,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                             }
                             for (int j = 0; j < listData.size(); j++) {
                                 Valid_down[j] = 0;
-                                Cmd_down[i] = 0;
+                                Cmd_down[j] = 0;
                             }
                             bean.setKeyDownValid(0);
                             bean.setKeyUpValid(0);

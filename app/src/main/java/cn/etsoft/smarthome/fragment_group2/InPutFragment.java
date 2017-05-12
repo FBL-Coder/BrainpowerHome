@@ -89,11 +89,11 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
                     MyApplication.mInstance.setInput_key_data(MyApplication.getWareData().getKeyOpItems());
                     onGetKeyInputDataListener.getKeyInputData();
                 }
-                if (what == 12 && MyApplication.getWareData_Scene().getResult() != null
-                        && MyApplication.getWareData_Scene().getResult().getResult() == 1) {
+                if (what == 12 && MyApplication.getWareData().getResult() != null
+                        && MyApplication.getWareData().getResult().getResult() == 1) {
                     Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
                     //保存成功之后将备用数据结果置空
-                    MyApplication.getWareData_Scene().setResult(null);
+                    MyApplication.getWareData().setResult(null);
                 }
             }
         });

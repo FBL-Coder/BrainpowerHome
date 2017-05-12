@@ -6,6 +6,7 @@ import android.view.View;
 
 /**
  * Created by Say GoBay on 2017/4/14.
+ * RecycleView 的 item 之间设置间距的工具类
  */
 public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
 

@@ -52,7 +52,7 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
  * Created by Say GoBay on 2016/11/25.
  * 安防设置
  */
-public class Setting_UserFragment extends Fragment implements View.OnClickListener{
+public class Setting_UserFragment extends Fragment implements View.OnClickListener {
     private ImageView back;
     private TextView title, edit, equipment_close, tv_equipment_parlour;
     private GridView gridView_user;
@@ -72,12 +72,13 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
     String str_Fixed;
     private SharedPreferences sharedPreferences;
     private boolean IsHome = false;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         MyApplication.getUserData();
         gson = new Gson();
-        View view = inflater.inflate(R.layout.fragment_user,container,false);
+        View view = inflater.inflate(R.layout.fragment_user, container, false);
         //初始化控件
         initView(view);
         //加载数据
@@ -121,7 +122,8 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
         add_equipment_Layout_ll = (LinearLayout) view.findViewById(R.id.add_equipment_Layout_ll);
         equipment_close = (TextView) view.findViewById(R.id.equipment_close);
         tv_equipment_parlour = (TextView) view.findViewById(R.id.tv_equipment_parlour);
-        tv_equipment_parlour.setText(home_text.get(0));
+        if (home_text != null && home_text.size() > 0)
+            tv_equipment_parlour.setText(home_text.get(0));
         back.setOnClickListener(this);
         edit.setOnClickListener(this);
         equipment_close.setOnClickListener(this);
@@ -163,8 +165,9 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
             mWareDev.add(MyApplication.getWareData().getDevs().get(i));
         }
         for (int i = 0; i < mWareDev.size(); i++) {
-            if (mWareDev.get(i).getRoomName().equals(home_text.get(0)))
-                dev.add(mWareDev.get(i));
+            if (home_text != null && home_text.size() > 0)
+                if (mWareDev.get(i).getRoomName().equals(home_text.get(0)))
+                    dev.add(mWareDev.get(i));
         }
         gridView_user.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -319,6 +322,7 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
             }
         });
     }
+
     private Dialog mDialog;
 
     //自定义加载进度条
@@ -412,7 +416,7 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void onClick (View v){
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
                 getActivity().finish();

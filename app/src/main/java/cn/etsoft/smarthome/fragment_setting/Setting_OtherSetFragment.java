@@ -9,9 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.ui.Equipment_control;
 import cn.etsoft.smarthome.ui.GroupActivity2;
 import cn.etsoft.smarthome.ui.SafetyActivity;
@@ -64,13 +62,6 @@ public class Setting_OtherSetFragment extends Fragment implements View.OnClickLi
                 startActivity(new Intent(getActivity(), SceneSetActivity2.class));
                 break;
             case R.id.tv_safety:
-                //查询联网模块的防区信息
-                String ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
-                        ",\"datType\":32" +
-                        ",\"subType1\":3" +
-                        ",\"subType2\":255" +
-                        "}";
-                MyApplication.sendMsg(ctlStr);
                 startActivity(new Intent(getActivity(), SafetyActivity.class));
                 break;
 

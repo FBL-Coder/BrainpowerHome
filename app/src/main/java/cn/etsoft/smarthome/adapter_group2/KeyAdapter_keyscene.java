@@ -17,7 +17,7 @@ import cn.etsoft.smarthome.domain.ChnOpItem_scene;
 
 /**
  * Created by Say GoBay on 2016/9/1.
- * 情景设置——灯光
+ * 高级设置-控制设置-按键情景—按键的适配器
  */
 public class KeyAdapter_keyscene extends BaseAdapter {
     private Context context;
@@ -26,25 +26,31 @@ public class KeyAdapter_keyscene extends BaseAdapter {
     int mSelect = 0;   //选中项
     private int Sceneid;
     private int keyinputPsoition;
-    private boolean isClose = false;
+    private boolean ISCHOOSE = false;
     private String[] keyName;
     private List<ChnOpItem_scene.Key2sceneItemBean> items;
 
-    public KeyAdapter_keyscene(Context context, int Sceneid, int keyinputPsoition, boolean isClose) {
+    public KeyAdapter_keyscene(Context context, int Sceneid, int keyinputPsoition, boolean ISCHOOSE) {
         items = MyApplication.getWareData().getChnOpItem_scene().getKey2scene_item();
         this.Sceneid = Sceneid;
         this.keyinputPsoition = keyinputPsoition;
-        this.isClose = isClose;
+        this.ISCHOOSE = ISCHOOSE;
         keyName = MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getKeyName();
         //按键名称集合
         listData = new ArrayList<>();
         listData_all = new ArrayList<>();
-        for (int i = 0; i < keyName.length; i++) {
-            listData.add(keyName[i]);
-            listData_all.add(keyName[i]);
+        //8个按键，只有6个按键名，加2个未定义按键
+        for (int j = 0; j < keyName.length + 2; j++) {
+            if ( j >= keyName.length){
+                listData.add("按键"+j);
+                listData_all.add("按键"+j);
+            }else {
+                listData.add(keyName[j]);
+                listData_all.add(keyName[j]);
+            }
         }
 
-        if (isClose) {
+        if (ISCHOOSE) {
             //打开只看选中按键的时候，先清空赋值
             for (int k = 0; k < items.size(); k++) {
                 MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[k] = 0;
@@ -57,7 +63,7 @@ public class KeyAdapter_keyscene extends BaseAdapter {
                     MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[index] = 1;
                 }
             }
-
+            //打开只看选中按键的时候，将未选中的按键去掉
             for (int i = 0; i < listData.size(); i++) {
                 for (int j = listData.size() - 1; j >= i; j--) {
                     if (MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[j] == 0) {
@@ -66,7 +72,6 @@ public class KeyAdapter_keyscene extends BaseAdapter {
                 }
             }
         }
-
         this.context = context;
     }
 
@@ -112,6 +117,7 @@ public class KeyAdapter_keyscene extends BaseAdapter {
         }
         viewHolder.title.setText(listData.get(position));
 
+
         if (items == null || items.size() == 0) {
             for (int i = 0; i < listData.size(); i++) {
                 //设备默认图标  或者是默认为关闭状态
@@ -123,6 +129,7 @@ public class KeyAdapter_keyscene extends BaseAdapter {
                 if (items.get(i).getCanCpuID().equals(MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getDevUnitID()) &&
                         items.get(i).getEventId() == Sceneid) {
                     int index = items.get(i).getKeyIndex();
+                    //index位置的按键名称与原始按键名称进行匹配，相同的时候，此按键进行选中操作
                     if (listData.get(position).equals(listData_all.get(index))) {
                         MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[index] = 1;
                         viewHolder.mark.setImageResource(R.drawable.selected);
@@ -132,20 +139,23 @@ public class KeyAdapter_keyscene extends BaseAdapter {
                 }
             }
         }
+        //解决一个情景下多个按键被选中，只显示选中一个的问题
         if (isContan) {
             MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[position] = 0;
             viewHolder.mark.setImageResource(R.drawable.select);
         }
+
         viewHolder.on_off.setVisibility(View.GONE);
         viewHolder.appliance.setImageResource(R.drawable.key);
-
 
         viewHolder.mark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[position] == 1) {
                     viewHolder.mark.setImageResource(R.drawable.select);
+                    //将状态改为未选中
                     MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[position] = 0;
+                    //如果是选中，去掉选中之后，将选中的数据去掉
                     for (int i = 0; i < items.size(); i++) {
                         if (items.get(i).getCanCpuID().equals(MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getDevUnitID()) &&
                                 items.get(i).getEventId() == Sceneid) {
@@ -154,11 +164,13 @@ public class KeyAdapter_keyscene extends BaseAdapter {
                     }
                 } else {
                     viewHolder.mark.setImageResource(R.drawable.selected);
+                    //如果是未选中，选中之后，将选中的数据添加进去
                     ChnOpItem_scene.Key2sceneItemBean item = new ChnOpItem_scene.Key2sceneItemBean();
                     item.setCanCpuID(MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getDevUnitID());
                     item.setEventId(Sceneid);
                     item.setKeyIndex(position);
                     items.add(item);
+                    //将状态改为选中
                     MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[position] = 1;
                 }
             }
@@ -166,7 +178,8 @@ public class KeyAdapter_keyscene extends BaseAdapter {
         return convertView;
     }
 
-    public void changeSelected(int position) { //刷新方法
+    //刷新方法
+    public void changeSelected(int position) {
         if (position != mSelect) {
             mSelect = position;
             notifyDataSetChanged();

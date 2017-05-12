@@ -4,10 +4,13 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo.State;
 
+/**
+ * 网络工具类
+ */
 public class NetUtil {
-	public static final int NETWORN_NONE = 0;
-	public static final int NETWORN_WIFI = 1;
-	public static final int NETWORN_MOBILE = 2;
+	public static final int NETWORK_NONE = 0;
+	public static final int NETWORK_WIFI = 1;
+	public static final int NETWORK_MOBILE = 2;
 
 	public static int getNetworkState(Context context) {
 		ConnectivityManager connManager = (ConnectivityManager) context
@@ -17,7 +20,7 @@ public class NetUtil {
 		State state = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
 				.getState();
 		if (state == State.CONNECTED || state == State.CONNECTING) {
-			return NETWORN_WIFI;
+			return NETWORK_WIFI;
 		}
 
 		try {
@@ -25,11 +28,11 @@ public class NetUtil {
 			state = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
 					.getState();
 			if (state == State.CONNECTED || state == State.CONNECTING) {
-				return NETWORN_MOBILE;
+				return NETWORK_MOBILE;
 			}
 		}catch (Exception e){
-			return NETWORN_NONE;
+			return NETWORK_NONE;
 		}
-		return NETWORN_NONE;
+		return NETWORK_NONE;
 	}
 }

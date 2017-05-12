@@ -82,8 +82,8 @@ public class Main_ApplianceFragment extends Fragment {
 
         if (MyApplication.getWareData_Scene().getDevs() != null && MyApplication.getWareData_Scene().getDevs().size() > 1) {
             AllDevs = new ArrayList<>();
-            for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
-                AllDevs.add(MyApplication.getWareData().getDevs().get(i));
+            for (int i = 0; i < MyApplication.getWareData_Scene().getDevs().size(); i++) {
+                AllDevs.add(MyApplication.getWareData_Scene().getDevs().get(i));
             }
         }
         for (int j = 0; j < AllDevs.size(); j++) {

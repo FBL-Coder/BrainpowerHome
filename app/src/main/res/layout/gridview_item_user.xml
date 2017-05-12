@@ -18,15 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_100"
         />
-    <!--<TextView-->
-        <!--android:id="@+id/equip_type"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="@dimen/dp_0"-->
-        <!--android:layout_weight="1"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:textColor="@color/color_fff"-->
-        <!--android:textSize="@dimen/sp_18"-->
-        <!--/>-->
     <TextView
         android:id="@+id/equip_style"
         android:layout_width="match_parent"
