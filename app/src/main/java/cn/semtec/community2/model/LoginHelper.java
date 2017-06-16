@@ -49,6 +49,7 @@ public class LoginHelper {
             params.setBodyEntity(entity);
 
             String url = Constants.CONTENT_LOGIN;
+
             MyHttpUtil httpUtil = new MyHttpUtil(HttpMethod.POST, url, params, new RequestCallBack<String>() {
                 @Override
                 public void onSuccess(ResponseInfo<String> responseInfo) {

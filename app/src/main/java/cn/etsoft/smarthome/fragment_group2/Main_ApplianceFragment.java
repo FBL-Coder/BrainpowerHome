@@ -3,6 +3,7 @@ package cn.etsoft.smarthome.fragment_group2;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import cn.etsoft.smarthome.pullmi.entity.WareKeyOpItem;
  * 高级设置-控制设置-输入—家电模块
  */
 public class Main_ApplianceFragment extends Fragment {
+    private FragmentActivity mActivity;
     private int room_position = 0;
     private int index = 0;
     private View view;
@@ -35,6 +37,9 @@ public class Main_ApplianceFragment extends Fragment {
     private List<WareKeyOpItem> keyOpItems;
     private boolean isClose = false;
     private GridView listView_appliance;
+    public Main_ApplianceFragment(FragmentActivity activity){
+        mActivity = activity;
+    }
 
     @Nullable
     @Override
@@ -139,7 +144,7 @@ public class Main_ApplianceFragment extends Fragment {
             }
         }
         if (listViewAdapter == null) {
-            listViewAdapter = new ApplianceAdapter(AllDevs_room, getActivity(), inflater,index);
+            listViewAdapter = new ApplianceAdapter(AllDevs_room, mActivity, inflater,index);
             listView_appliance.setAdapter(listViewAdapter);
         } else {
             listViewAdapter.notifyDataSetChanged(AllDevs_room);
@@ -170,7 +175,7 @@ public class Main_ApplianceFragment extends Fragment {
 //        if (listViewAdapter != null) {
 //            listViewAdapter.notifyDataSetChanged();
 //        } else {
-//            listViewAdapter = new ApplianceAdapter(AllDevs_room, getActivity(), inflater);
+//            listViewAdapter = new ApplianceAdapter(AllDevs_room, mActivity, inflater);
 //            listView_appliance.setAdapter(listViewAdapter);
 //        }
     }

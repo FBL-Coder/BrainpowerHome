@@ -26,7 +26,7 @@ public class Main_CurtainFragment extends Fragment {
     private List<String> room_list;
     private int room_position = 0;
     //所有窗帘
-    private List<WareCurtain>Curtains;
+    private List<WareCurtain> Curtains;
     //对应房间的窗帘
     private List<WareCurtain> Curtains_room;
     //全部房间
@@ -44,6 +44,7 @@ public class Main_CurtainFragment extends Fragment {
 
     /**
      * 初始化GridView
+     *
      * @param view
      */
     private void initGridView(View view) {
@@ -71,11 +72,12 @@ public class Main_CurtainFragment extends Fragment {
         if (room_position == DEV_ALL_ROOM) {
             Curtains_room = Curtains;
         } else {
-            for (int i = 0; i < Curtains.size(); i++) {
-                if (Curtains.get(i).getDev().getRoomName().equals(room_list.get(room_position))) {
-                    Curtains_room.add(Curtains.get(i));
+            if (Curtains.size() > 0)
+                for (int i = 0; i < Curtains.size(); i++) {
+                    if (Curtains.get(i).getDev().getRoomName().equals(room_list.get(room_position))) {
+                        Curtains_room.add(Curtains.get(i));
+                    }
                 }
-            }
         }
         CurtainAdapter gridViewAdapter = new CurtainAdapter(Curtains_room, getActivity(), inflater);
         gridView.setAdapter(gridViewAdapter);

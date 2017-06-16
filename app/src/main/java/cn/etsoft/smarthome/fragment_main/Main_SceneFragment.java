@@ -1,6 +1,9 @@
 package cn.etsoft.smarthome.fragment_main;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter_main.SceneAdapter;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
+import cn.etsoft.smarthome.view.Circle_Progress;
 
 /**
  * Created by Say GoBay on 2016/11/28.
@@ -38,9 +42,11 @@ public class Main_SceneFragment extends Fragment {
 
     /**
      * 初始化GridView
+     *
      * @param view
      */
     long TimeExit = 0;
+
     private void initGridView(View view) {
         gridView_light = (GridView) view.findViewById(R.id.gridView_light);
 
@@ -50,7 +56,7 @@ public class Main_SceneFragment extends Fragment {
                 if (what == 22) {
                     if (MyApplication.getWareData().getSceneEvents() != null
                             && MyApplication.getWareData().getSceneEvents().size() > 0) {
-                        sceneAdapter = new SceneAdapter(MyApplication.getWareData().getSceneEvents(), getActivity(),inflater);
+                        sceneAdapter = new SceneAdapter(MyApplication.getWareData().getSceneEvents(), getActivity(), inflater);
                         gridView_light.setAdapter(sceneAdapter);
                     } else {
                         Toast.makeText(getActivity(), "没有找到情景模式", Toast.LENGTH_SHORT).show();
@@ -60,7 +66,7 @@ public class Main_SceneFragment extends Fragment {
         });
 
         if (MyApplication.getWareData().getSceneEvents() != null && MyApplication.getWareData().getSceneEvents().size() > 0) {
-            sceneAdapter = new SceneAdapter(MyApplication.getWareData().getSceneEvents(), getActivity(),inflater);
+            sceneAdapter = new SceneAdapter(MyApplication.getWareData().getSceneEvents(), getActivity(), inflater);
             gridView_light.setAdapter(sceneAdapter);
         } else {
             Toast.makeText(getActivity(), "没有找到情景模式", Toast.LENGTH_SHORT).show();
@@ -68,7 +74,7 @@ public class Main_SceneFragment extends Fragment {
         gridView_light.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (System.currentTimeMillis() - TimeExit > 1000) {
+                if (System.currentTimeMillis() - TimeExit > 500) {
                     MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                     TimeExit = System.currentTimeMillis();
 
@@ -78,8 +84,16 @@ public class Main_SceneFragment extends Fragment {
                             ",\"subType2\":0" +
                             ",\"eventId\":" + MyApplication.getWareData().getSceneEvents().get(position).getEventld() + "}";
                     MyApplication.sendMsg(exec_str);
+                    MyApplication.mInstance.setDispose35(true);
                 }
             }
         });
+    }
+
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 }

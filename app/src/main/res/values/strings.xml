@@ -12,9 +12,9 @@
     <string name="telement_tab1">问题反馈</string>
     <string name="telement_tab2">便民服务</string>
     <string name="telement_tab3">社区超市</string>
-    <string name="output">输出</string>
-    <string name="input">输入</string>
-    <string name="key_scene">按键情景</string>
+    <string name="output">设备配按键</string>
+    <string name="input">按键配设备</string>
+    <string name="key_scene">情景配按键</string>
     <string name="search">搜索</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>

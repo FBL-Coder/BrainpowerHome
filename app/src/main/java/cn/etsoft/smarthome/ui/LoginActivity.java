@@ -62,11 +62,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         String str = gson.toJson(user);
                         editor.putString("user", str);
                         editor.commit();
-                        startActivity(new Intent(LoginActivity.this, WelcomeActivity.class).putExtra("login", LOGIN_OK));
-                        finish();
                     } else {
                         ToastUtil.showToast(LoginActivity.this, "登录失败");
                     }
+                }
+                if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue()) {
+                    startActivity(new Intent(LoginActivity.this, WelcomeActivity.class).putExtra("login", LOGIN_OK));
+                    finish();
                 }
             }
         });
@@ -102,6 +104,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 user = new User();
                 user.setId(id);
                 user.setPass(pass);
+                cn.etsoft.smarthome.MyApplication.mInstance.setSearch(false);
                 MyApplication.sendUserData(user.getId(), user.getPass());
                 break;
             case R.id.adduser:
@@ -131,11 +134,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                             String str = gson.toJson(user);
                             editor.putString("user", str);
                             editor.commit();
-                            startActivity(new Intent(LoginActivity.this, WelcomeActivity.class).putExtra("login", LOGIN_OK));
-                            finish();
                         } else {
                             ToastUtil.showToast(LoginActivity.this, "登录失败");
                         }
+                    }
+                    if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue()) {
+                        startActivity(new Intent(LoginActivity.this, WelcomeActivity.class).putExtra("login", LOGIN_OK));
+                        finish();
                     }
                 }
             });

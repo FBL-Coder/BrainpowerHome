@@ -1,5 +1,6 @@
 package cn.etsoft.smarthome.fragment_setting;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ import cn.etsoft.smarthome.utils.ToastUtil;
  */
 public class Setting_ModuleDetailFragment extends Fragment implements View.OnClickListener{
 
+    private Activity mActivity;
     TextView devUnitID, roomNum, macAddr, tvsave;
     private int id;
     private EditText name, devUnitPass, IpAddr, SubMask, GateWay, centerServ;
@@ -35,6 +37,10 @@ public class Setting_ModuleDetailFragment extends Fragment implements View.OnCli
     private RadioGroup group;
     private RadioButton yes, no;
     private View view;
+
+    public Setting_ModuleDetailFragment(Activity activity){
+        mActivity =activity;
+    }
 
     @Nullable
     @Override
@@ -49,7 +55,7 @@ public class Setting_ModuleDetailFragment extends Fragment implements View.OnCli
     private void initView() {
 
         if(MyApplication.getWareData().getRcuInfos() == null || MyApplication.getWareData().getRcuInfos().size() == 0){
-            ToastUtil.showToast(getActivity(),"没有数据！");
+            ToastUtil.showToast(mActivity,"没有数据！");
             return;
         }
         rcuinfo =  MyApplication.mInstance.getRcuInfo();
@@ -72,22 +78,40 @@ public class Setting_ModuleDetailFragment extends Fragment implements View.OnCli
         no = (RadioButton) view.findViewById(R.id.work_no);
 
         tvsave.setOnClickListener(this);
-
-        devUnitID.setText(rcuinfo.getDevUnitID());
-        devUnitPass.setText(rcuinfo.getDevUnitPass().substring(0,8));
-        name.setText(rcuinfo.getName());
-        IpAddr.setText(rcuinfo.getIpAddr());
-        SubMask.setText(rcuinfo.getSubMask());
-        GateWay.setText(rcuinfo.getGateWay());
-        centerServ.setText(rcuinfo.getCenterServ());
-        roomNum.setText(rcuinfo.getRoomNum());
-        macAddr.setText(rcuinfo.getMacAddr());
-
-        if (rcuinfo.getbDhcp() == 0) {
-            no.setChecked(true);
-        } else {
-            yes.setChecked(true);
-        }
+        try {
+            devUnitID.setText(rcuinfo.getDevUnitID());
+        }catch (Exception e){}
+        try {
+            devUnitPass.setText(rcuinfo.getDevUnitPass().substring(0,8));
+        }catch (Exception e){}
+        try {
+            name.setText(rcuinfo.getName());
+        }catch (Exception e){}
+        try {
+            IpAddr.setText(rcuinfo.getIpAddr());
+        }catch (Exception e){}
+        try {
+            SubMask.setText(rcuinfo.getSubMask());
+        }catch (Exception e){}
+        try {
+            GateWay.setText(rcuinfo.getGateWay());
+        }catch (Exception e){}
+        try {
+            centerServ.setText(rcuinfo.getCenterServ());
+        }catch (Exception e){}
+        try {
+            roomNum.setText(rcuinfo.getRoomNum());
+        }catch (Exception e){}
+        try {
+            macAddr.setText(rcuinfo.getMacAddr());
+        }catch (Exception e){}
+        try {
+            if (rcuinfo.getbDhcp() == 0) {
+                no.setChecked(true);
+            } else {
+                yes.setChecked(true);
+            }
+        }catch (Exception e){}
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

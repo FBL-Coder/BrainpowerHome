@@ -45,7 +45,7 @@
         android:layout_height="@dimen/dp_0"
         android:layout_weight="8"
         android:orientation="horizontal"
-        android:background="@drawable/bg_viewpager"
+        android:background="@drawable/bj_group3"
         >
         <GridView
             android:id="@+id/gridView_user"

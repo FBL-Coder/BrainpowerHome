@@ -13,6 +13,7 @@ import android.media.SoundPool;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -26,7 +27,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -129,6 +129,8 @@ public class MyApplication extends Application implements udpService.Callback, N
     private static final String FORMAT = "^[a-z,A-Z].*$";
     private static SharedPreferences sharedPreferences;
     private boolean readData = false;
+    //是否处理35的包
+    private boolean IsDispose35 = false;
 
     private RcuInfo rcuInfo;
 
@@ -143,6 +145,14 @@ public class MyApplication extends Application implements udpService.Callback, N
     private SoundPool sp;//声明一个SoundPool
     private int music;//定义一个整型用load（）；来设置suondID
     private int music1;//定义一个整型用load（）；来设置suondID
+    //区分发82返回的0 0 1包还是发33返回的 0 0 1包，做标记
+    private boolean isSearch;
+    public boolean isSearch() {
+        return isSearch;
+    }
+    public void setSearch(boolean search) {
+        isSearch = search;
+    }
 
     /**
      * 情景备用全局数据
@@ -150,6 +160,8 @@ public class MyApplication extends Application implements udpService.Callback, N
     private static WareData wareData_scene;
 
     public static WareData getWareData_Scene() {
+        if (wareData_scene == null)
+            return new WareData();
         return wareData_scene;
     }
 
@@ -173,6 +185,20 @@ public class MyApplication extends Application implements udpService.Callback, N
         onGetWareDataListener_safety.upDataWareData();
         this.safety_data_dev = safety_data_dev;
     }
+
+    /**
+     * 联网模块--搜索
+     */
+    private List<WareDev> searchNet_data_dev;
+
+    public List<WareDev> getSearchNet_data_dev() {
+        return searchNet_data_dev;
+    }
+
+    public void setSearchNet_data_dev(List<WareDev> searchNet_data_dev) {
+        this.searchNet_data_dev = searchNet_data_dev;
+    }
+
     /**
      * 安防设置备用全局数据--安防界面
      */
@@ -207,6 +233,7 @@ public class MyApplication extends Application implements udpService.Callback, N
      * 控制设置备用全局数据-按键情景；
      */
     private ChnOpItem_scene key_scene_data;
+
     public ChnOpItem_scene getKey_scene_data() {
         return key_scene_data;
     }
@@ -314,6 +341,7 @@ public class MyApplication extends Application implements udpService.Callback, N
         }
         return music;
     }
+
     public int getMusic1() {
         if (music1 == 0) {
             music1 = sp.load(getActivity(), R.raw.jingbao, 1);
@@ -373,6 +401,32 @@ public class MyApplication extends Application implements udpService.Callback, N
         this.readData = readData;
     }
 
+    public boolean isDispose35() {
+        return IsDispose35;
+    }
+
+    public void setDispose35(boolean dispose35) {
+        IsDispose35 = dispose35;
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                IsDispose35 = false;
+            }
+        };
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(15000);
+                    handler.sendMessage(handler.obtainMessage());
+                } catch (Exception e) {
+                    System.out.println(e + "");
+                }
+            }
+        }).start();
+    }
+
     private boolean prepareCityList() {
         mCityList = mCityDB.getAllCity();// 获取数据库中所有城市
         for (City city : mCityList) {
@@ -424,6 +478,7 @@ public class MyApplication extends Application implements udpService.Callback, N
 
     /**
      * 获取Socket对象
+     *
      * @return
      */
     public DatagramSocket getSocket() {
@@ -476,6 +531,14 @@ public class MyApplication extends Application implements udpService.Callback, N
     public void getWareData(int what, WareData wareData) {
         MyApplication.wareData = wareData;
         onGetWareDataListener.upDataWareData(what);
+
+        if (what == 100) {
+            Intent intent = new Intent();
+            intent.setPackage("cn.etsoft.smarthome");
+            intent.setAction("service.socket.com");
+            startService(intent);
+        }
+
         //在任何页面，触发安防警报要发出警报信息
         if (what == 32 && MyApplication.getWareData().getSafetyResult_alarm() != null && MyApplication.getWareData().getSafetyResult_alarm().getSubType1() == 2) {
             int SecDat = MyApplication.getWareData().getSafetyResult_alarm().getSecDat();
@@ -668,11 +731,8 @@ public class MyApplication extends Application implements udpService.Callback, N
                             InetAddress.getByName(GlobalVars.getDstip()), 8400);
                     if (packet != null)
                         MyApplication.mInstance.getSocket().send(packet);
-                } catch (UnknownHostException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Log.e("Exception", "" + e);
                 }
             }
         }).start();
@@ -709,12 +769,10 @@ public class MyApplication extends Application implements udpService.Callback, N
 
     public void setAllHandler(Handler handler) {
         this.handler = handler;
-
     }
 
     /**
      * 启动服务；
-     * @param
      */
     public void startSer() {
         conn = new MyServiceConn();
@@ -724,8 +782,10 @@ public class MyApplication extends Application implements udpService.Callback, N
 
     @Override
     public void onNetChange(int netMobile) {
-        if (isAppRunning(this))
-            Log.i("NETChange", "网络状态已改变！");
+        if (isAppRunning(this)) {
+            //TODO  网络状态发生变化
+            setRcuDevIDtoLocal();
+        }
     }
 
     /**
@@ -758,7 +818,7 @@ public class MyApplication extends Application implements udpService.Callback, N
     }
 
     /**
-     * 网络状态改变监听
+     * 获取数据服务
      */
     public final class MyServiceConn implements ServiceConnection {
         @Override

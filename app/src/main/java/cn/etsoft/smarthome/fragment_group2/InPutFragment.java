@@ -7,8 +7,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -48,6 +50,7 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
  * 高级设置-控制设置-输入
  */
 public class InPutFragment extends Fragment implements View.OnClickListener {
+    private FragmentActivity mActivity;
     private android.support.v7.widget.RecyclerView RecyclerView;
     private TextView equip_input;
     private Button input_save;
@@ -69,6 +72,11 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
     private Handler handler;
     private boolean IsClose = false;
     private Dialog mDialog;
+    private boolean IsHaveData = false;
+
+    public InPutFragment(FragmentActivity activity) {
+        mActivity = activity;
+    }
 
     @Nullable
     @Override
@@ -76,7 +84,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
         view_p = inflater.inflate(R.layout.fragment_input2, container, false);
         //横向滑动的RecyclerView
         RecyclerView = (android.support.v7.widget.RecyclerView) view_p.findViewById(R.id.RecyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         RecyclerView.setLayoutManager(layoutManager);
         //通知数据更新
@@ -86,12 +94,17 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
                 if (mDialog != null)
                     mDialog.dismiss();
                 if (what == 11) {
+                    IsHaveData = true;
                     MyApplication.mInstance.setInput_key_data(MyApplication.getWareData().getKeyOpItems());
-                    onGetKeyInputDataListener.getKeyInputData();
+                    try {
+                        onGetKeyInputDataListener.getKeyInputData();
+                    }catch (Exception e ){
+
+                    }
                 }
                 if (what == 12 && MyApplication.getWareData().getResult() != null
                         && MyApplication.getWareData().getResult().getResult() == 1) {
-                    Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, "保存成功", Toast.LENGTH_SHORT).show();
                     //保存成功之后将备用数据结果置空
                     MyApplication.getWareData().setResult(null);
                 }
@@ -149,7 +162,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
     private void initData() {
         if (MyApplication.getWareData_Scene().getKeyInputs().size() == 0) {
             equip_input.setText("无");
-            ToastUtil.showToast(getActivity(), "没有收到输入板信息");
+            ToastUtil.showToast(mActivity, "没有收到输入板信息");
             return;
         }
         //获取按键板名称
@@ -170,6 +183,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
     private List<String> keyName_list;
     private int index;
     private String uid;
+
     private void initRecycleView(View view) {
         String[] keyName = MyApplication.getWareData_Scene().getKeyInputs().get(input_position).getKeyName();
         uid = MyApplication.getWareData_Scene().getKeyInputs().get(input_position).getDevUnitID();
@@ -206,7 +220,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
      * 初始化房间的ListView
      */
     private void initListView_room() {
-        listViewAdapter = new ListViewAdapter(getActivity());
+        listViewAdapter = new ListViewAdapter(mActivity);
         //默认选中条目
         listViewAdapter.changeSelected(room_position + 1);
         input_listView_room.setAdapter(listViewAdapter);
@@ -250,8 +264,8 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
         radioGroup_sceneSet = (RadioGroup) view.findViewById(R.id.radioGroup_sceneSet);
         //初始设备类型
         Bundle bundle = new Bundle();
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        main_LightFragment = new Main_LightFragment();
+        transaction = mActivity.getSupportFragmentManager().beginTransaction();
+        main_LightFragment = new Main_LightFragment(mActivity);
         //给具体设备类型带入房间id
         bundle.putInt("room_position", room_position);
         bundle.putInt("index", index);
@@ -265,7 +279,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
         radioGroup_sceneSet.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction = mActivity.getSupportFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 //给具体设备类型带入房间id
                 bundle.putInt("room_position", room_position);
@@ -274,37 +288,37 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
                 bundle.putBoolean("isClose", IsClose);
                 switch (checkedId) {
                     case R.id.light:
-                        main_LightFragment = new Main_LightFragment();
+                        main_LightFragment = new Main_LightFragment(mActivity);
                         main_LightFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_LightFragment);
                         break;
                     case R.id.curtain:
-                        main_CurtainFragment = new Main_CurtainFragment();
+                        main_CurtainFragment = new Main_CurtainFragment(mActivity);
                         main_CurtainFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_CurtainFragment);
                         break;
                     case R.id.appliance:
-                        main_ApplianceFragment = new Main_ApplianceFragment();
+                        main_ApplianceFragment = new Main_ApplianceFragment(mActivity);
                         main_ApplianceFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_ApplianceFragment);
                         break;
                     case R.id.socket:
-                        main_SocketFragment = new Main_SocketFragment();
+                        main_SocketFragment = new Main_SocketFragment(mActivity);
                         main_SocketFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_SocketFragment);
                         break;
                     case R.id.door:
-                        main_DoorFragment = new Main_DoorFragment();
+                        main_DoorFragment = new Main_DoorFragment(mActivity);
                         main_DoorFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_DoorFragment);
                         break;
                     case R.id.safety:
-                        main_SafetyFragment = new Main_SafetyFragment();
+                        main_SafetyFragment = new Main_SafetyFragment(mActivity);
                         main_SafetyFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_SafetyFragment);
                         break;
                     case R.id.control:
-                        main_ControlFragment = new Main_ControlFragment();
+                        main_ControlFragment = new Main_ControlFragment(mActivity);
                         main_ControlFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_ControlFragment);
                         break;
@@ -316,7 +330,11 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        int widthOff = getActivity().getWindow().getWindowManager().getDefaultDisplay().getWidth() / 500;
+        if (!IsHaveData){
+            ToastUtil.showToast(mActivity, "获取数据异常，请稍后在试");
+            return;
+        }
+        int widthOff = mActivity.getWindow().getWindowManager().getDefaultDisplay().getWidth() / 500;
         switch (v.getId()) {
             //按键板
             case R.id.equip_input:
@@ -338,10 +356,10 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
             //保存
             case R.id.input_save:
                 if (MyApplication.getWareData_Scene().getKeyInputs().size() == 0) {
-                    ToastUtil.showToast(getActivity(),"没有输入板信息，不能保存");
+                    ToastUtil.showToast(mActivity, "没有输入板信息，不能保存");
                     return;
                 }
-                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(getActivity());
+                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(mActivity);
                 builder.setTitle("提示 :");
                 builder.setMessage("您要保存这些设置吗？");
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -355,31 +373,35 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         initDialog("正在保存...");
-                        List<WareKeyOpItem> keyOpItems = MyApplication.mInstance.getInput_key_data();
-                        if (keyOpItems.size() == 0)
-                            return;
-                        Save_Quipment save_quipment = new Save_Quipment();
-                        List<Save_Quipment.key_Opitem_Rows> list_kor = new ArrayList<>();
-                        for (int i = 0; i < keyOpItems.size(); i++) {
-                            Save_Quipment.key_Opitem_Rows key_opitem_rows = save_quipment.new key_Opitem_Rows();
-                            key_opitem_rows.setOut_cpuCanID(keyOpItems.get(i).getDevUnitID());
-                            key_opitem_rows.setDevID(keyOpItems.get(i).getDevId());
-                            key_opitem_rows.setDevType(keyOpItems.get(i).getDevType());
-                            key_opitem_rows.setKeyOp(keyOpItems.get(i).getKeyOp());
-                            key_opitem_rows.setKeyOpCmd(keyOpItems.get(i).getKeyOpCmd());
-                            list_kor.add(key_opitem_rows);
+                        try {
+                            List<WareKeyOpItem> keyOpItems = MyApplication.mInstance.getInput_key_data();
+                            if (keyOpItems.size() == 0)
+                                return;
+                            Save_Quipment save_quipment = new Save_Quipment();
+                            List<Save_Quipment.key_Opitem_Rows> list_kor = new ArrayList<>();
+                            for (int i = 0; i < keyOpItems.size(); i++) {
+                                Save_Quipment.key_Opitem_Rows key_opitem_rows = save_quipment.new key_Opitem_Rows();
+                                key_opitem_rows.setOut_cpuCanID(keyOpItems.get(i).getDevUnitID());
+                                key_opitem_rows.setDevID(keyOpItems.get(i).getDevId());
+                                key_opitem_rows.setDevType(keyOpItems.get(i).getDevType());
+                                key_opitem_rows.setKeyOp(keyOpItems.get(i).getKeyOp());
+                                key_opitem_rows.setKeyOpCmd(keyOpItems.get(i).getKeyOpCmd());
+                                list_kor.add(key_opitem_rows);
+                            }
+                            save_quipment.setDevUnitID(GlobalVars.getDevid());
+                            save_quipment.setDatType(DATTYPE_SET);
+                            save_quipment.setKey_cpuCanID(uid);
+                            save_quipment.setKey_opitem(keyOpItems.size());
+                            save_quipment.setKey_index(index);
+                            save_quipment.setSubType1(0);
+                            save_quipment.setSubType2(0);
+                            save_quipment.setKey_opitem_rows(list_kor);
+                            Gson gson = new Gson();
+                            System.out.println(gson.toJson(save_quipment));
+                            MyApplication.sendMsg(gson.toJson(save_quipment).toString());
+                        } catch (Exception e) {
+                            Log.e("Exception", e + "");
                         }
-                        save_quipment.setDevUnitID(GlobalVars.getDevid());
-                        save_quipment.setDatType(DATTYPE_SET);
-                        save_quipment.setKey_cpuCanID(uid);
-                        save_quipment.setKey_opitem(keyOpItems.size());
-                        save_quipment.setKey_index(index);
-                        save_quipment.setSubType1(0);
-                        save_quipment.setSubType2(0);
-                        save_quipment.setKey_opitem_rows(list_kor);
-                        Gson gson = new Gson();
-                        System.out.println(gson.toJson(save_quipment));
-                        MyApplication.sendMsg(gson.toJson(save_quipment).toString());
                     }
                 });
                 builder.create().show();
@@ -390,7 +412,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
     //自定义加载进度条
     private void initDialog(String str) {
         Circle_Progress.setText(str);
-        mDialog = Circle_Progress.createLoadingDialog(getActivity());
+        mDialog = Circle_Progress.createLoadingDialog(mActivity);
         //允许返回
         mDialog.setCancelable(true);
         //显示
@@ -423,7 +445,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
      */
     private void initPopupWindow(final View view_parent, final List<String> text, final int tag) {
         //获取自定义布局文件pop.xml的视图
-        final View customView = view_parent.inflate(getActivity(), R.layout.popupwindow_equipment_listview, null);
+        final View customView = view_parent.inflate(mActivity, R.layout.popupwindow_equipment_listview, null);
         customView.setBackgroundResource(R.drawable.selectbg);
         customView.setFocusable(true);
         customView.setFocusableInTouchMode(true);
@@ -442,7 +464,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
         popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), 200, 300);
         popupWindow.setContentView(customView);
         ListView list_pop = (ListView) customView.findViewById(R.id.popupWindow_equipment_lv);
-        PopupWindowAdapter2 adapter = new PopupWindowAdapter2(text, getActivity());
+        PopupWindowAdapter2 adapter = new PopupWindowAdapter2(text, mActivity);
         list_pop.setAdapter(adapter);
         list_pop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -475,9 +497,11 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
      * 是否为只看存在设备模式接口
      */
     private static OnIsCloseListener onIsCloseListener;
+
     public static void setOnIsCloseListener(OnIsCloseListener onisCloseListener) {
         onIsCloseListener = onisCloseListener;
     }
+
     interface OnIsCloseListener {
         void getIsClose(boolean isClose);
     }
@@ -486,9 +510,11 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
      * 房间变化接口
      */
     private static OnGetRoomListener onGetRoomListener;
+
     public static void setOnGetRoomListener(OnGetRoomListener ongetRoomListener) {
         onGetRoomListener = ongetRoomListener;
     }
+
     public interface OnGetRoomListener {
         void getRoomPosition(int room_position_click);
     }

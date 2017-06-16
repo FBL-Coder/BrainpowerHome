@@ -80,7 +80,7 @@ public class CurtainAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                if (System.currentTimeMillis() - TimeExit > 1000) {
+                if (System.currentTimeMillis() - TimeExit > 500) {
                     MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
                     TimeExit = System.currentTimeMillis();
                     int Value = UdpProPkt.E_CURT_CMD.e_curt_stop.getValue();

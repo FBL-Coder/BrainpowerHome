@@ -165,7 +165,7 @@
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="4.5"
-            android:background="@drawable/bg_viewpager"></FrameLayout>
+            android:background="@drawable/bj_group3"></FrameLayout>
 
     </LinearLayout>
 </LinearLayout>

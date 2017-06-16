@@ -19,6 +19,15 @@ public class RcuInfo implements Serializable {
     private int bDhcp;
     private byte rev1;
     private byte rev2;
+    private String canCpuID;
+    public String getCanCpuID() {
+        return canCpuID;
+    }
+
+    public void setCanCpuID(String canCpuID) {
+        this.canCpuID = canCpuID;
+    }
+
 
     public int getbDhcp() {
         return bDhcp;

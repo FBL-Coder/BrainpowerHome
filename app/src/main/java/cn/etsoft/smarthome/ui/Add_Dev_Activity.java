@@ -19,13 +19,13 @@ import java.util.List;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.utils.ToastUtil;
 import cn.etsoft.smarthome.adapter.PopupWindowAdapter;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.WareBoardChnout;
 import cn.etsoft.smarthome.pullmi.entity.WareDev;
 import cn.etsoft.smarthome.pullmi.utils.LogUtils;
+import cn.etsoft.smarthome.utils.ToastUtil;
 import cn.etsoft.smarthome.view.Circle_Progress;
 
 /**
@@ -169,7 +169,7 @@ public class Add_Dev_Activity extends Activity implements View.OnClickListener {
                     popupWindow = null;
                 } else {
                     initPopupWindow(type_text, 1);
-                    popupWindow.showAsDropDown(v, -widthOff, 0);
+                    popupWindow.showAsDropDown(v, 0, 0);
                 }
                 break;
             case R.id.add_dev_room:
@@ -178,7 +178,7 @@ public class Add_Dev_Activity extends Activity implements View.OnClickListener {
                     popupWindow = null;
                 } else {
                     initPopupWindow(home_text, 2);
-                    popupWindow.showAsDropDown(v, -widthOff, 0);
+                    popupWindow.showAsDropDown(v, 0, 0);
                 }
                 break;
             case R.id.add_dev_board:
@@ -187,7 +187,7 @@ public class Add_Dev_Activity extends Activity implements View.OnClickListener {
                     popupWindow = null;
                 } else {
                     initPopupWindow(Board_text, 3);
-                    popupWindow.showAsDropDown(v, -widthOff, 0);
+                    popupWindow.showAsDropDown(v, 0, 0);
                 }
                 break;
             case R.id.add_dev_way:
@@ -236,7 +236,7 @@ public class Add_Dev_Activity extends Activity implements View.OnClickListener {
                     popupWindow = null;
                 } else {
                     initPopupWindow(list_way_ok, 4);
-                    popupWindow.showAsDropDown(v, -widthOff, 0);
+                    popupWindow.showAsDropDown(v, 0, 0);
                 }
                 break;
             case R.id.add_dev_save:
@@ -355,9 +355,9 @@ public class Add_Dev_Activity extends Activity implements View.OnClickListener {
                     }
                 } else if (type == 2) {
                     if ("窗帘".equals(add_dev_type.getText())) {
-                        String roomname = text.get(position);
+                        String roomName = text.get(position);
                         for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
-                            if (roomname.equals(MyApplication.getWareData().getCurtains().get(i).getDev().getRoomName())) {
+                            if (roomName.equals(MyApplication.getWareData().getCurtains().get(i).getDev().getRoomName())) {
                                 ToastUtil.showToast(Add_Dev_Activity.this, "一个房间只能有一个窗帘");
                                 IsSave = false;
                                 popupWindow.dismiss();
@@ -377,7 +377,7 @@ public class Add_Dev_Activity extends Activity implements View.OnClickListener {
                 popupWindow.dismiss();
             }
         });
-        //popupwindow页面之外可点
+        //popupWindow页面之外可点
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
         popupWindow.update();

@@ -43,3 +43,4 @@ public class Main_SocketFragment extends Fragment {
         gridView.setAdapter(gridViewAdapter);
     }
 }
+

@@ -80,7 +80,7 @@
                 android:background="@drawable/rect_gray2"
                 android:paddingBottom="@dimen/dp_10"
                 android:paddingLeft="@dimen/dp_5"
-                android:text="39ffdb05484d303430690543"
+                android:text="39ffd505484d303408650743"
                 android:paddingRight="@dimen/dp_10"
                 android:paddingTop="@dimen/dp_10" />
         </LinearLayout>
@@ -113,7 +113,7 @@
                 android:paddingBottom="@dimen/dp_10"
                 android:paddingLeft="@dimen/dp_5"
                 android:paddingRight="@dimen/dp_10"
-                android:text="30690543"
+                android:text="08650743"
                 android:paddingTop="@dimen/dp_10" />
         </LinearLayout>
 

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import cn.etsoft.smarthome.pullmi.entity.WareLight;
  * 高级设置-控制设置-输入-灯光模块
  */
 public class Main_LightFragment extends Fragment {
+    private FragmentActivity mActivity;
     private int room_position = 0;
     private int index = 0;
     private View view;
@@ -39,6 +41,10 @@ public class Main_LightFragment extends Fragment {
     private boolean isClose = false;
     private Dialog mDialog;
 
+    public Main_LightFragment(FragmentActivity activity){
+        mActivity = activity;
+    }
+    
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -143,7 +149,7 @@ public class Main_LightFragment extends Fragment {
             }
         }
         if (gridViewAdapter == null) {
-            gridViewAdapter = new LightAdapter(light_room, getActivity(), inflater, index);
+            gridViewAdapter = new LightAdapter(light_room, mActivity, inflater, index);
             gridView_light.setAdapter(gridViewAdapter);
         } else {
             gridViewAdapter.notifyDataSetChanged(light_room);

@@ -3,6 +3,7 @@ package cn.etsoft.smarthome.fragment_group2;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,15 @@ import cn.etsoft.smarthome.adapter_main.DoorAdapter;
  * 高级设置-控制设置-输入—门锁模块
  */
 public class Main_DoorFragment extends Fragment {
+    private FragmentActivity mActivity;
     private GridView gridView;
     private int[] apploance = {R.drawable.lock};
     private String[] title = {"门锁控制器"};
     private int[] on = {R.drawable.off};
+
+    public Main_DoorFragment(FragmentActivity activity){
+        mActivity =activity;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,7 +40,7 @@ public class Main_DoorFragment extends Fragment {
      */
     private void initGridView(View view) {
         gridView = (GridView) view.findViewById(R.id.gridView);
-        DoorAdapter gridViewAdapter = new DoorAdapter(apploance,title,on,getActivity());
+        DoorAdapter gridViewAdapter = new DoorAdapter(apploance,title,on,mActivity);
         gridView.setAdapter(gridViewAdapter);
     }
 }

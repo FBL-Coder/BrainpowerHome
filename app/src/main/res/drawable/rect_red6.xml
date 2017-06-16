@@ -3,9 +3,4 @@
     android:shape="rectangle">
     <!-- 填充颜色 -->
     <solid android:color="@color/color_E9573F"></solid>
-
-    <!-- 矩形的圆角半径 -->
-    <corners android:bottomRightRadius="15dp"
-        android:bottomLeftRadius="15dp"/>
-
 </shape>

@@ -3,6 +3,7 @@ package cn.etsoft.smarthome.fragment_group2;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,17 @@ import cn.etsoft.smarthome.adapter_main.SocketAdapter;
  */
 public class Main_SocketFragment extends Fragment {
 
+    private FragmentActivity mActivity;
     private GridView gridView;
     private int[] apploance = {R.drawable.appliance};
     private String[] title = {"大厅插座"};
     private int[] time = {R.drawable.time};
     private String[] moudle = {"定时模式"};
     private int[] on = {R.drawable.off};
+
+    public Main_SocketFragment(FragmentActivity activity){
+        mActivity = activity;
+    }
 
     @Nullable
     @Override
@@ -39,7 +45,7 @@ public class Main_SocketFragment extends Fragment {
      */
     private void initGridView(View view) {
         gridView = (GridView) view.findViewById(R.id.gridView);
-        SocketAdapter gridViewAdapter = new SocketAdapter(apploance,title,time,moudle,on,getActivity());
+        SocketAdapter gridViewAdapter = new SocketAdapter(apploance,title,time,moudle,on,mActivity);
         gridView.setAdapter(gridViewAdapter);
     }
 }

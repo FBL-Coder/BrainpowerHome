@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1.4"
+        android:background="@color/color_48464c"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/dp_2"
+                android:text="选择面板"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/equip_input"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/dp_20"
+                android:layout_marginLeft="@dimen/dp_2"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_weight="1.4"
+                android:background="@drawable/select_black"
+                android:clickable="true"
+                android:drawableRight="@drawable/more_white"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dp_5"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/RecyclerView"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:scrollbars="none">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <Button
+                android:id="@+id/input_save"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="@null"
+                android:clickable="true"
+                android:layout_marginTop="@dimen/dp_5"
+                android:drawableTop="@drawable/save_group3"
+                android:paddingTop="@dimen/dp_5"
+                android:drawablePadding="-10dp"
+                android:text="保存"
+                android:textColor="@color/color_fff"
+                android:textSize="@dimen/sp_18" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="6.5"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/input_listView_room"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@color/colorCC"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_weight="0.6"
+                android:padding="@dimen/dp_5"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_28"
+                android:layout_marginRight="@dimen/dp_8"
+                android:text="设备筛选"
+                android:textColor="@color/color_000"
+                android:textSize="@dimen/sp_18" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:layout_marginRight="@dimen/dp_8"
+                android:padding="@dimen/dp_5"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="房      间"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/input_room"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight="1"
+                    android:background="@drawable/select_white"
+                    android:clickable="true"
+                    android:drawableRight="@drawable/more_black"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp_8"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:layout_marginRight="@dimen/dp_8"
+                android:padding="@dimen/dp_5"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="设备类型"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/devType_input"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight="1"
+                    android:background="@drawable/select_white"
+                    android:clickable="true"
+                    android:drawableRight="@drawable/more_black"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp_8"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:layout_marginRight="@dimen/dp_8"
+                android:padding="@dimen/dp_5"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:gravity="center"
+                    android:text="只显示选中"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:id="@+id/input_choose"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                   android:padding="@dimen/dp_5"
+                    android:layout_weight="1"
+                    android:src="@drawable/off" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_12"
+                android:layout_marginBottom="@dimen/dp_12"
+                android:layout_marginLeft="@dimen/dp_25"
+                android:layout_marginRight="@dimen/dp_25"
+                android:background="@drawable/rect_gray7"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_20"
+                >
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:lineSpacingMultiplier="1.5"
+                    android:padding="@dimen/dp_2"
+                    android:text="注：1、选择面板\n        2、选择按键\n        3、在设备筛\n        选中选择房间\n       和设备类型"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_14" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <!--
+        1android:lineSpacingExtra
+        设置行间距，如8dp
+        android:lineSpacingMultiplier
+        设置行间距的倍数，如1.5
+        -->
+        <LinearLayout
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:background="@drawable/bj_group3"
+            android:orientation="vertical">
+
+
+            <FrameLayout
+                android:id="@+id/home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

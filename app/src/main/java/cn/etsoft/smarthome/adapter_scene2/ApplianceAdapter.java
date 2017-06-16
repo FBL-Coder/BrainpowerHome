@@ -247,7 +247,7 @@ public class ApplianceAdapter extends BaseAdapter {
                                         @Override
                                         public void onClick(View v) {
                                             initPopupWindow(viewHolder.on_off, on_off_name1, position);
-                                            popupWindow.showAsDropDown(v, -150, -80);
+                                            popupWindow.showAsDropDown(v, 0, 0);
                                         }
                                     });
                                 }
@@ -297,7 +297,7 @@ public class ApplianceAdapter extends BaseAdapter {
                                         @Override
                                         public void onClick(View v) {
                                             initPopupWindow(viewHolder.on_off, on_off_name2, position);
-                                            popupWindow.showAsDropDown(v, -150, -80);
+                                            popupWindow.showAsDropDown(v, 0, 0);
                                         }
                                     });
                                 }
@@ -345,7 +345,7 @@ public class ApplianceAdapter extends BaseAdapter {
                                         @Override
                                         public void onClick(View v) {
                                             initPopupWindow(viewHolder.on_off, on_off_name3, position);
-                                            popupWindow.showAsDropDown(v, -150, -80);
+                                            popupWindow.showAsDropDown(v, 0, 0);
                                         }
                                     });
                                 }
@@ -410,7 +410,7 @@ public class ApplianceAdapter extends BaseAdapter {
                             }else if (dev_list.get(position).getType() == 2) {
                                 initPopupWindow(viewHolder.on_off, on_off_name3, position);
                             }
-                            popupWindow.showAsDropDown(v, -150, -80);
+                            popupWindow.showAsDropDown(v, 0, 0);
                         }
                     });
                     dev_list.get(position).setSelect(true);
@@ -448,7 +448,7 @@ public class ApplianceAdapter extends BaseAdapter {
             }
         });
         // 创建PopupWindow实例
-        popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), 200, 300);
+        popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), view_parent.getWidth(), 200);
         popupWindow.setContentView(customView);
         ListView list_pop = (ListView) customView.findViewById(R.id.popupWindow_equipment_lv);
         PopupWindowAdapter2 adapter = new PopupWindowAdapter2(text, context);

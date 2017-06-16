@@ -129,6 +129,7 @@ public class WelcomeActivity extends Activity {
 //        }]
 //        }
         //只有一个联网模块信息
+//        if (mRcuInfos != null && mRcuInfos.size() == 1) {
         if (mRcuInfos != null && mRcuInfos.size() == 1) {
             GlobalVars.setDevid(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitID());
             GlobalVars.setDevpass(mRcuInfos.get(mRcuInfos.size() - 1).getDevUnitPass());

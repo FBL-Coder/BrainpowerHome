@@ -24,6 +24,7 @@
             android:text="控制设置"
             android:layout_marginLeft="@dimen/dp_30"
             android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
             android:textColor="@color/color_fff"
             android:textSize="@dimen/sp_24" />
 
@@ -42,6 +43,7 @@
             android:text="设备信息"
             android:layout_marginRight="@dimen/dp_30"
             android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
             android:textColor="@color/color_fff"
             android:textSize="@dimen/sp_24" />
 
@@ -86,6 +88,75 @@
             android:layout_marginRight="@dimen/dp_30"
             android:textColor="@color/color_fff"
             android:textSize="@dimen/sp_24" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableRight="@drawable/qingjin"
+            android:paddingRight="@dimen/dp_50"
+            android:drawablePadding="-50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/secne_set_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="定时设置"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_24" />
+
+        <TextView
+            android:id="@+id/tv_condition"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/user_set_selector"
+            android:clickable="true"
+            android:drawableRight="@drawable/anfang"
+            android:paddingRight="@dimen/dp_50"
+            android:drawablePadding="-50dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:gravity="center"
+            android:text="环境事件"
+            android:layout_marginRight="@dimen/dp_30"
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_24" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/gourp_set"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableRight="@drawable/qingjin"
+            android:paddingRight="@dimen/dp_50"
+            android:drawablePadding="-50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/secne_set_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="组合设置"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_30"
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_24" />
+
 
     </LinearLayout>
 

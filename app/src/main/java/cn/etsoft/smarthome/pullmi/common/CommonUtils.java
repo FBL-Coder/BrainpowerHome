@@ -131,7 +131,6 @@ public class CommonUtils {
             return new String(str.getBytes(), "GB2312");
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
         return "";
@@ -140,9 +139,8 @@ public class CommonUtils {
     public static String getGBstr(byte[] bytes) {
         try {
             return new String(bytes, "GB2312");
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
         return "";
@@ -161,9 +159,8 @@ public class CommonUtils {
                     MyApplication.mInstance.getSocket().send(packet);
                 } catch (UnknownHostException e) {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
+                   
                 } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }).start();
@@ -312,7 +309,7 @@ public class CommonUtils {
         try {
             return new String(data, 0, dataLen, "GB2312");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+           
         }
         return "";
     }

@@ -111,7 +111,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
     private boolean isShake = false;
     private boolean isRegister = false;
     public boolean isDisplayDialog = false;//是否显示列表
-    private int  tryNumber = 0;//重连次数
+    private int tryNumber = 0;//重连次数
     //	private boolean isLeave = false;//判断人是否离开
 //	private int openNumber = 0;//连续开门次数
 //	private int notFindNumber = 0;//找不到设备次数
@@ -121,7 +121,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
     public ArrayList<String> deviceList = new ArrayList<String>();
     public ArrayList<String> deviceNames = new ArrayList<String>();
     //---------Bluetooth start-----------//
-    private byte[] sendBuf ;//要发送的开门数据
+    private byte[] sendBuf;//要发送的开门数据
     private int sendDataLen = 0;
     private int sendIndex = 0;
 
@@ -160,7 +160,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
         }
     };
 
-    private void loginSip(){
+    private void loginSip() {
         if (MyApplication.houseProperty == null) {
             return;
         }
@@ -199,7 +199,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
             public void run() {
                 handler.sendEmptyMessage(3);
             }
-        }, 1000,5*60*1000);
+        }, 1000, 5 * 60 * 1000);
     }
 
     protected void startBleService() {
@@ -208,10 +208,10 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
     }
 
     private void initDevices() {
-        for (int i = 0;i < VideoFragment.mlist.size();i++){
-            String obj_name =  VideoFragment.mlist.get(i).get("obj_name");
+        for (int i = 0; i < VideoFragment.mlist.size(); i++) {
+            String obj_name = VideoFragment.mlist.get(i).get("obj_name");
             String obj_sipnum = VideoFragment.mlist.get(i).get("obj_sipnum");
-            obj_sipnum = obj_sipnum.substring(0, 8)+obj_sipnum.substring(10, 16)+obj_sipnum.substring(obj_sipnum.length()-1);
+            obj_sipnum = obj_sipnum.substring(0, 8) + obj_sipnum.substring(10, 16) + obj_sipnum.substring(obj_sipnum.length() - 1);
             deviceList.add(obj_sipnum);
             deviceNames.add(obj_name);
         }
@@ -228,7 +228,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
     protected void onResume() {
         super.onResume();
 //        if (preference.getBoolean(MyApplication.cellphone + "isAuto")) {
-            openScanBlue(false);
+        openScanBlue(false);
 //        }
 //        if (Util.isWorked(instance)) {
 //        stopBleService();
@@ -254,7 +254,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
                     break;
             }
             sliding_name.setText(name);
-            sliding_community.setText(MyApplication.houseProperty.communityName+" "+MyApplication.houseProperty.blockName);
+            sliding_community.setText(MyApplication.houseProperty.communityName + " " + MyApplication.houseProperty.blockName);
             sliding_house.setText(MyApplication.houseProperty.buildName + MyApplication.houseProperty.roomName);
             if (MyApplication.houseProperty.userType != 3) {
                 sliding_memberManage.setText("成员管理");
@@ -283,7 +283,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
         }
 //        openScanBlue(true);
         isActive = false;
-        Log.e("onPause", "onPause    "+!Util.isWorked(instance));
+        Log.e("onPause", "onPause    " + !Util.isWorked(instance));
         if (sensorManager != null) {// 取消摇一摇监听器
             sensorManager.unregisterListener(sensorEventListener);
         }
@@ -596,7 +596,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         stopBleService();
-        if(isRegister){
+        if (isRegister) {
             unregisterReceiver(mGattUpdateReceiver);
             isRegister = false;
         }
@@ -604,7 +604,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
     }
 
     protected void stopBleService() {
-        if (Util.isWorked(instance)){
+        if (Util.isWorked(instance)) {
             unbindService(mServiceConnection);
         }
     }
@@ -645,9 +645,9 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
             int medumValue = 19;// 三星 i9250怎么晃都不会超过20，没办法，只设置19了
             if ((Math.abs(x) > medumValue || Math.abs(y) > medumValue || Math.abs(z) > medumValue) && !isShake) {
                 isShake = true;
-                Thread thread = new Thread(){
+                Thread thread = new Thread() {
                     public void run() {
-                        if(!Util.isWorked(instance)){
+                        if (!Util.isWorked(instance)) {
                             startBleService();
                         }
                         vibrator.vibrate(200);
@@ -663,7 +663,9 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
                         Message msg1 = new Message();
                         msg1.what = END_SHAKE;
                         handler1.sendMessage(msg1);
-                    };
+                    }
+
+                    ;
                 };
                 thread.start();
 
@@ -679,7 +681,6 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
 
     /**
      * 摇一摇动作执行
-     *
      */
     public Handler handler1 = new Handler() {
 
@@ -703,7 +704,8 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
                     bufferBar.setVisibility(View.INVISIBLE);
                     break;
                 case DISCONNECTBLE://取消搜索蓝牙加载框
-                    mBluetoothLeService.disconnect();;
+                    mBluetoothLeService.disconnect();
+                    ;
                     break;
                 case STARTBLE://开启蓝牙服务
                     startBleService();
@@ -728,10 +730,11 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
 
     /**
      * 是否开启后台扫描蓝牙
+     *
      * @param boo
      */
     public void openScanBlue(boolean boo) {
-        if(mBluetoothLeService != null){
+        if (mBluetoothLeService != null) {
             mBluetoothLeService.scanBlue(boo);
         }
     }
@@ -747,7 +750,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
     /**
      * 初始化蓝牙
      */
-    private void initialize(){
+    private void initialize() {
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_SHORT).show();
             finish();
@@ -770,7 +773,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
     /**
      * 判断蓝牙是否可用
      */
-    private void checkAndSetBluetoothEnabled(){
+    private void checkAndSetBluetoothEnabled() {
         if (!mBluetoothAdapter.isEnabled()) {
             if (!mBluetoothAdapter.isEnabled()) {
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -780,17 +783,18 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
 
         // Initializes list view adapter.
         mDeviceListAdapter = new DeviceListAdapter(this);
-        if(!mScanning){
+        if (!mScanning) {
             scanLeDevice(true);
         }
     }
+
     /**
      * 获取要发送的字节数组
      */
-    private void getSendBuf(){
+    private void getSendBuf() {
         sendIndex = 0;
-        if (MyApplication.houseProperty.sipnum.length() > 20){
-            byte[] tmp = MyApplication.houseProperty.sipnum.substring(6,MyApplication.houseProperty.sipnum.length()).getBytes();
+        if (MyApplication.houseProperty.sipnum.length() > 20) {
+            byte[] tmp = MyApplication.houseProperty.sipnum.substring(6, MyApplication.houseProperty.sipnum.length()).getBytes();
 //        byte[] tmp = MyApplication.cellphone.getBytes();
             sendDataLen = 20;
             sendBuf = null;
@@ -799,31 +803,29 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
             sendBuf[1] = 0x03;
             sendBuf[19] = (byte) 0xAA;
             for (int i = 0; i < tmp.length; i++) {
-                sendBuf[i+3] = tmp[i];
+                sendBuf[i + 3] = tmp[i];
             }
             sendBuf[18] = BluetoochEntity.getInspectionSum(tmp);
         }
 
     }
+
     /**
      * 发送开门指令
      */
     private void sendOpenDoorData() {
-        if (sendDataLen>20) {
+        if (sendDataLen > 20) {
             final byte[] buf = new byte[20];
-            for (int i=0;i<20;i++)
-            {
-                buf[i] = sendBuf[sendIndex+i];
+            for (int i = 0; i < 20; i++) {
+                buf[i] = sendBuf[sendIndex + i];
             }
-            sendIndex+=20;
+            sendIndex += 20;
             mBluetoothLeService.writeData(buf);
             sendDataLen -= 20;
-        }
-        else {
+        } else {
             final byte[] buf = new byte[sendDataLen];
-            for (int i=0;i<sendDataLen;i++)
-            {
-                buf[i] = sendBuf[sendIndex+i];
+            for (int i = 0; i < sendDataLen; i++) {
+                buf[i] = sendBuf[sendIndex + i];
             }
             mBluetoothLeService.writeData(buf);
             sendDataLen = 0;
@@ -865,8 +867,8 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
 
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                if (!openSuccess && isDisplayDialog && tryNumber < 3){
-                    if (null != mDeviceAddress && !"".equals(mDeviceAddress)){
+                if (!openSuccess && isDisplayDialog && tryNumber < 3) {
+                    if (null != mDeviceAddress && !"".equals(mDeviceAddress)) {
                         mBluetoothLeService.connect(mDeviceAddress);
 
                     }
@@ -875,33 +877,33 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
                     tryNumber++;
                     Log.e("tryNumber", tryNumber + "");
                     handler1.removeMessages(CLOSEBLE);
-                    if (tryNumber == 3){
+                    if (tryNumber == 3) {
                         tryNumber = 0;
                         openSuccess = true;
-                        handler1.sendEmptyMessageDelayed(CLOSEBLE,3000);
+                        handler1.sendEmptyMessageDelayed(CLOSEBLE, 3000);
                     }
                 }
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 //特征值找到才代表连接成功
-                if(isActive){
-                    if(isDisplayDialog){
+                if (isActive) {
+                    if (isDisplayDialog) {
                         getSendBuf();
                         sendOpenDoorData();
-                        handler1.sendEmptyMessageDelayed(CLOSEBLE,4000);
+                        handler1.sendEmptyMessageDelayed(CLOSEBLE, 4000);
                     }
-                }else if(Util.isApplicationBroughtToBackground(context)){
+                } else if (Util.isApplicationBroughtToBackground(context)) {
                     getSendBuf();
                     sendOpenDoorData();
-                    handler1.sendEmptyMessageDelayed(CLOSEBLE,3000);
+                    handler1.sendEmptyMessageDelayed(CLOSEBLE, 3000);
                 }
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 byte[] data = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
                 String hex = Util.bytesToHex(data, data.length);
-                if(hex.length() > 10){
+                if (hex.length() > 10) {
                     hex = hex.substring(6, 10);
                     Log.e("hex", hex);
-                    if("OK".equals(Util.hexStr2Str(hex))){
-                        if(isDisplayDialog){
+                    if ("OK".equals(Util.hexStr2Str(hex))) {
+                        if (isDisplayDialog) {
                             ToastUtil.s(BaseActivity.this, re.getString(R.string.success_open));
                             isDisplayDialog = false;
                             handler1.sendEmptyMessage(CLOSEBLE);
@@ -914,33 +916,32 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
                 handler1.sendEmptyMessage(DISCONNECTBLE);
                 cleanAnimatied(0);
 
-            }else if (BluetoothLeService.ACTION_WRITE_SUCCESSFUL.equals(action)) {
-                if (sendDataLen>0)
-                {
-                    Log.e("log","Write OK,Send again"+mDeviceName);
+            } else if (BluetoothLeService.ACTION_WRITE_SUCCESSFUL.equals(action)) {
+                if (sendDataLen > 0) {
+                    Log.e("log", "Write OK,Send again" + mDeviceName);
                     sendOpenDoorData();
-                }
-                else {
-                    Log.e("log","Write Finish");
+                } else {
+                    Log.e("log", "Write Finish");
 //                    openSuccess = true;
                     handler1.removeMessages(CLOSEBLE);
                     handler1.sendEmptyMessageDelayed(CLOSEBLE, 3000);
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            if (!openSuccess){
+                            if (!openSuccess) {
                                 getSendBuf();
                                 sendOpenDoorData();
                                 handler1.removeMessages(CLOSEBLE);
-                                handler1.sendEmptyMessageDelayed(CLOSEBLE,4000);
+                                handler1.sendEmptyMessageDelayed(CLOSEBLE, 4000);
                             }
                         }
-                    },1000);
+                    }, 1000);
                 }
             }
 
         }
     };
+
     private static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
@@ -953,6 +954,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
 
     /**
      * 扫描设备
+     *
      * @param enable
      */
     private void scanLeDevice(final boolean enable) {
@@ -987,8 +989,8 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
                         mBluetoothLeService.connect(mDeviceAddress);
                         cleanAnimatied(3000);
                     } else {
-                        if (isDisplayDialog){
-						ToastUtil.s(BaseActivity.this, re.getString(R.string.not_ble_device));
+                        if (isDisplayDialog) {
+                            ToastUtil.s(BaseActivity.this, re.getString(R.string.not_ble_device));
                         }
                         cleanAnimatied(0);
                     }
@@ -1003,6 +1005,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
         }
     }
+
     /**
      * 隐藏加载框
      */
@@ -1015,6 +1018,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
             }
         }, time);
     }
+
     // Device scan callback.
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {
@@ -1024,8 +1028,8 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if(deviceList.contains((device.getName()))){
-                                mDeviceListAdapter.addDevice(device,rssi);
+                            if (deviceList.contains((device.getName()))) {
+                                mDeviceListAdapter.addDevice(device, rssi);
                                 mDeviceListAdapter.notifyDataSetChanged();
                             }
                         }
@@ -1033,12 +1037,13 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
                 }
             };
     AlertDialog dialog;
+
     /**
      * 创建一个新的设备列表对话框
      */
     public void createDeviceListDialog() {
         if (mDeviceListAdapter.getCount() > 0) {
-            dialog =  new AlertDialog.Builder(this).setCancelable(true)
+            dialog = new AlertDialog.Builder(this).setCancelable(true)
                     .setAdapter(mDeviceListAdapter, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -1054,4 +1059,6 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
         }
         cleanAnimatied(5000);
     }
+
+
 }

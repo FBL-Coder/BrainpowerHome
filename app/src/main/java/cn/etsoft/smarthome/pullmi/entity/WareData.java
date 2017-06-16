@@ -7,10 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.domain.ChnOpItem_scene;
+import cn.etsoft.smarthome.domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.domain.DevControl_Result;
+import cn.etsoft.smarthome.domain.GroupSet_Data;
+import cn.etsoft.smarthome.domain.RcuInfo_search;
+import cn.etsoft.smarthome.domain.SearchNet;
 import cn.etsoft.smarthome.domain.SetEquipmentResult;
 import cn.etsoft.smarthome.domain.SetSafetyResult;
 import cn.etsoft.smarthome.domain.SetSafetyResult_alarm;
+import cn.etsoft.smarthome.domain.Timer_Data;
 import cn.etsoft.smarthome.domain.UserBean;
 
 public class WareData implements Serializable {
@@ -28,7 +33,10 @@ public class WareData implements Serializable {
     private List<WareBoardKeyInput> keyInputs;
     private List<WareChnOpItem> chnOpItems;
     private List<WareKeyOpItem> keyOpItems;
+    private Timer_Data timer_data;
+    private Condition_Event_Bean condition_event_bean;
     private SetEquipmentResult result;
+    private GroupSet_Data mGroupSet_Data;
     //防区模块显示信息
     private SetSafetyResult result_safety;
     public SetSafetyResult getResult_safety() {
@@ -37,6 +45,27 @@ public class WareData implements Serializable {
 
     public void setResult_safety(SetSafetyResult result_safety) {
         this.result_safety = result_safety;
+    }
+    //联网模块--搜索
+    private SearchNet searchNet;
+
+    public SearchNet getSearchNet() {
+        return searchNet;
+    }
+
+    public void setSearchNet(SearchNet searchNet) {
+        this.searchNet = searchNet;
+    }
+    private List<RcuInfo_search> rcuInfo_searches;
+
+    public List<RcuInfo_search> getRcuInfo_searches() {
+        if (rcuInfo_searches == null)
+            return new ArrayList<>();
+        return rcuInfo_searches;
+    }
+
+    public void setRcuInfo_searches(List<RcuInfo_search> rcuInfo_searches) {
+        this.rcuInfo_searches = rcuInfo_searches;
     }
 
     //高级设置-按键情景模块
@@ -64,6 +93,7 @@ public class WareData implements Serializable {
 
     private DevControl_Result dev_result;
     private int login_result;
+    private int network_count;
     private int addNewNet_reslut;
     private int addUser_reslut = -1;
     private boolean DATA_LOCAL_FLAG;
@@ -129,6 +159,8 @@ public class WareData implements Serializable {
     }
 
     public List<RcuInfo> getRcuInfos() {
+        if (rcuInfos == null)
+            return new ArrayList<>();
         return rcuInfos;
     }
 
@@ -149,6 +181,8 @@ public class WareData implements Serializable {
     }
 
     public List<WareLight> getLights() {
+        if (lights == null)
+            return new ArrayList<>();
         return lights;
     }
 
@@ -159,6 +193,8 @@ public class WareData implements Serializable {
     }
 
     public List<WareAirCondDev> getAirConds() {
+        if (airConds == null)
+            return new ArrayList<>();
         return airConds;
     }
 
@@ -169,6 +205,8 @@ public class WareData implements Serializable {
     }
 
     public List<WareCurtain> getCurtains() {
+        if (curtains == null)
+            return new ArrayList<>();
         return curtains;
     }
 
@@ -191,6 +229,8 @@ public class WareData implements Serializable {
      * @return
      */
     public List<WareSceneEvent> getSceneEvents() {
+        if (sceneEvents == null)
+            return new ArrayList<>();
         return sceneEvents;
     }
 
@@ -202,6 +242,22 @@ public class WareData implements Serializable {
         this.sceneEvents = sceneEvents;
     }
 
+    public Condition_Event_Bean getCondition_event_bean() {
+        return condition_event_bean;
+    }
+
+    public void setCondition_event_bean(Condition_Event_Bean condition_event_bean) {
+        this.condition_event_bean = condition_event_bean;
+    }
+
+    public GroupSet_Data getmGroupSet_Data() {
+        return mGroupSet_Data;
+    }
+
+    public void setmGroupSet_Data(GroupSet_Data mGroupSet_Data) {
+        this.mGroupSet_Data = mGroupSet_Data;
+    }
+
     public List<WareTv> getTvs() {
         return tvs;
     }
@@ -210,6 +266,14 @@ public class WareData implements Serializable {
         if (this.tvs != null)
             this.tvs.clear();
         this.tvs = tvs;
+    }
+
+    public Timer_Data getTimer_data() {
+        return timer_data;
+    }
+
+    public void setTimer_data(Timer_Data timer_data) {
+        this.timer_data = timer_data;
     }
 
     public List<WareSetBox> getStbs() {
@@ -279,9 +343,13 @@ public class WareData implements Serializable {
     public int getLogin_result() {
         return login_result;
     }
+    public int getnetwork_count() {
+        return network_count;
+    }
 
-    public void setLogin_result(int login_result) {
+    public void setLogin_result(int login_result,int count) {
         this.login_result = login_result;
+        this.network_count = count;
     }
 
     public int getAddNewNet_reslut() {

@@ -52,7 +52,7 @@
                 android:paddingBottom="@dimen/dp_10"
                 android:paddingLeft="@dimen/dp_5"
                 android:paddingRight="@dimen/dp_10"
-                android:text="如：（“北京市”就输入“北京”）"
+                android:hint="如：（“北京市”就输入“北京”）"
                 android:paddingTop="@dimen/dp_10" />
         </LinearLayout>
 

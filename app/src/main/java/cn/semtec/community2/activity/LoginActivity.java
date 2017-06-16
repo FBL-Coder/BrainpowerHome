@@ -55,6 +55,7 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
 //                    // 跳转到 主面板BaseActivity
 //                    Intent intent1 = new Intent(LoginActivity.this, BaseActivity.class);
 //                    startActivity(intent1);
+                    cn.etsoft.smarthome.MyApplication.mInstance.setSearch(false);
                     cn.etsoft.smarthome.MyApplication.sendUserData(cellphone, password);
 //                    finish();
                     break;
@@ -106,12 +107,16 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
                         String str = gson.toJson(user);
                         editor.putString("user", str);
                         editor.commit();
-                        startActivity(new Intent(LoginActivity.this, WelcomeActivity.class).putExtra("login", LOGIN_OK));
-                        finish();
                     } else {
                         cn.etsoft.smarthome.utils.ToastUtil.showToast(LoginActivity.this, "登录失败");
                         return;
                     }
+
+
+                }
+                if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue()) {
+                    startActivity(new Intent(LoginActivity.this, WelcomeActivity.class).putExtra("login", LOGIN_OK));
+                    finish();
                 }
             }
         });
@@ -199,12 +204,16 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
                             String str = gson.toJson(user);
                             editor.putString("user", str);
                             editor.commit();
-                            startActivity(new Intent(LoginActivity.this, WelcomeActivity.class).putExtra("login", LOGIN_OK));
-                            finish();
                         } else {
                             cn.etsoft.smarthome.utils.ToastUtil.showToast(LoginActivity.this, "登录失败");
                         }
                     }
+
+                    if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue()) {
+                        startActivity(new Intent(LoginActivity.this, WelcomeActivity.class).putExtra("login", LOGIN_OK));
+                        finish();
+                    }
+
                 }
             });
         }

@@ -1,12 +1,13 @@
 package cn.etsoft.smarthome.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by fbl on 16-11-7.
  * 高级设置-输入模块-保存设备的bean类
  */
-public class Save_Quipment {
+public class Save_Quipment implements Serializable {
 
     String devUnitID;
     int datType;
@@ -83,7 +84,7 @@ public class Save_Quipment {
         this.key_opitem_rows = key_opitem_rows;
     }
 
-    public class key_Opitem_Rows {
+    public class key_Opitem_Rows implements Serializable{
         String out_cpuCanID;
         int devType;
         int devID;

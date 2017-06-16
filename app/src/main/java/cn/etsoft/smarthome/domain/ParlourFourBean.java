@@ -1,9 +1,11 @@
 package cn.etsoft.smarthome.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by Say GoBay on 2016/8/24.
  */
-public class ParlourFourBean {
+public class ParlourFourBean implements Serializable {
 
     private String titleId;
     private String textId;

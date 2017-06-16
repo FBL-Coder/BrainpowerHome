@@ -1,12 +1,15 @@
 package cn.etsoft.smarthome.fragment_setting;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -53,6 +56,7 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
  * 安防设置
  */
 public class Setting_UserFragment extends Fragment implements View.OnClickListener {
+    private Activity mActivity;
     private ImageView back;
     private TextView title, edit, equipment_close, tv_equipment_parlour;
     private GridView gridView_user;
@@ -73,6 +77,10 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
     private SharedPreferences sharedPreferences;
     private boolean IsHome = false;
 
+    public Setting_UserFragment(Activity activity){
+        mActivity = activity;
+    }
+    
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -144,10 +152,10 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
                 dev.setType((byte) bean.getDevType());
                 common_dev.add(dev);
             }
-            mGridViewAdapter = new GridViewAdapter(common_dev, getActivity());
+            mGridViewAdapter = new GridViewAdapter(common_dev, mActivity);
             gridView_user.setAdapter(mGridViewAdapter);
         } else {
-            sharedPreferences = getActivity().getSharedPreferences("profile",
+            sharedPreferences = mActivity.getSharedPreferences("profile",
                     Context.MODE_PRIVATE);
             String jsondata = sharedPreferences.getString(GlobalVars.getDevid(), "");
             if (!jsondata.equals("")) {
@@ -155,7 +163,7 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
                 }.getType());
                 if (common_dev == null)
                     common_dev = new ArrayList<>();
-                mGridViewAdapter = new GridViewAdapter(common_dev, getActivity());
+                mGridViewAdapter = new GridViewAdapter(common_dev, mActivity);
                 gridView_user.setAdapter(mGridViewAdapter);
             }
         }
@@ -296,7 +304,7 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
             public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
                 if (IsHome)
                     return false;
-                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(getActivity());
+                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(mActivity);
                 builder.setTitle("提示 :");
                 builder.setMessage("您确定删除此设备?");
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -314,7 +322,7 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
                         common_dev.remove(position);
                         mGridViewAdapter.notifyDataSetChanged();
                         mDialog.dismiss();
-                        ToastUtil.showToast(getActivity(), "删除成功");
+                        ToastUtil.showToast(mActivity, "删除成功");
                     }
                 });
                 builder.create().show();
@@ -328,11 +336,30 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
     //自定义加载进度条
     private void initDialog(String str) {
         Circle_Progress.setText(str);
-        mDialog = Circle_Progress.createLoadingDialog(getActivity());
+        mDialog = Circle_Progress.createLoadingDialog(mActivity);
         mDialog.setCancelable(true);//允许返回
         mDialog.show();//显示
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                mDialog.dismiss();
+            }
+        };
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(5000);
+                    if (mDialog.isShowing()) {
+                        handler.sendMessage(handler.obtainMessage());
+                    }
+                } catch (Exception e) {
+                    System.out.println(e + "");
+                }
+            }
+        }).start();
     }
-
     /**
      * 空调控制  头命令字符串
      *
@@ -340,6 +367,8 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
      * @return
      */
     public String getDevCmdstr(int i) {
+        if (common_dev  == null  || common_dev.size() == 0)
+            return "";
         String data = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
                 ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrlDev.getValue() +
                 ",\"subType1\":0" +
@@ -352,8 +381,12 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onStop() {
+        if (common_dev == null || common_dev.size() == 0) {
+            super.onStop();
+            return;
+        }
         String savdata = gson.toJson(common_dev);
-        sharedPreferences = getActivity().getSharedPreferences("profile",
+        sharedPreferences = mActivity.getSharedPreferences("profile",
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putString(GlobalVars.getDevid(), savdata);
@@ -419,11 +452,11 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
-                getActivity().finish();
+                mActivity.finish();
                 break;
             case R.id.edit:
                 //添加页面的item点击，以及listview的初始化
-                Equipadapter = new EquipmentAdapter(dev, getActivity());
+                Equipadapter = new EquipmentAdapter(dev, mActivity);
                 add_equipment_Layout_lv.setAdapter(Equipadapter);
                 add_equipment_Layout_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -442,7 +475,7 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
                                         && common_dev.get(i).getDevId() == item.getDevId()
                                         && common_dev.get(i).getCanCpuId().equals(item.getCanCpuId())) {
                                     tag = false;
-                                    Toast.makeText(getActivity(), "设备已存在！", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mActivity, "设备已存在！", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -451,7 +484,7 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
                             if (mGridViewAdapter != null)
                                 mGridViewAdapter.notifyDataSetChanged();
                             else {
-                                mGridViewAdapter = new GridViewAdapter(common_dev, getActivity());
+                                mGridViewAdapter = new GridViewAdapter(common_dev, mActivity);
                                 gridView_user.setAdapter(mGridViewAdapter);
                             }
                         }
@@ -465,13 +498,13 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.tv_equipment_parlour:
                 //添加设备页的弹出框
-                int widthOff = getActivity().getWindow().getWindowManager().getDefaultDisplay().getWidth() / 500;
+                int widthOff = mActivity.getWindow().getWindowManager().getDefaultDisplay().getWidth() / 500;
                 if (popupWindow != null && popupWindow.isShowing()) {
                     popupWindow.dismiss();
                     popupWindow = null;
                 } else {
                     initPopupWindow(v, -1, home_text, POP_TYPR_ROOM);
-                    popupWindow.showAsDropDown(v, -widthOff, 0);
+                    popupWindow.showAsDropDown(v, 0, 0);
                 }
                 break;
         }
@@ -483,13 +516,13 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
 
     private void initPopupWindow(final View view_parent, final int parent_position, final List<String> text, final int type) {
         //获取自定义布局文件pop.xml的视图
-        final View customView = view_parent.inflate(getActivity(), R.layout.popupwindow_equipment_listview, null);
+        final View customView = view_parent.inflate(mActivity, R.layout.popupwindow_equipment_listview, null);
         customView.setBackgroundResource(R.drawable.selectbg);
         // 创建PopupWindow实例
-        popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), 200, 200);
+        popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), view_parent.getWidth(), 200);
         popupWindow.setContentView(customView);
         ListView list_pop = (ListView) customView.findViewById(R.id.popupWindow_equipment_lv);
-        PopupWindowAdapter adapter = new PopupWindowAdapter(text, getActivity());
+        PopupWindowAdapter adapter = new PopupWindowAdapter(text, mActivity);
         list_pop.setAdapter(adapter);
         list_pop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -505,7 +538,7 @@ public class Setting_UserFragment extends Fragment implements View.OnClickListen
                 if (Equipadapter != null)
                     Equipadapter.notifyDataSetInvalidated();
                 else {
-                    Equipadapter = new EquipmentAdapter(dev, getActivity());
+                    Equipadapter = new EquipmentAdapter(dev, mActivity);
                     add_equipment_Layout_lv.setAdapter(Equipadapter);
                 }
                 popupWindow.dismiss();

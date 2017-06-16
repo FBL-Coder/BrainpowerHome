@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
+        android:background="@color/color_08143F"
         android:layout_weight="1.3">
 
         <android.support.v7.widget.RecyclerView
@@ -23,9 +24,9 @@
             android:id="@+id/input_save"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/dp_15"
             android:layout_weight="0.5"
-            android:background="@drawable/selector_network_blue_sure"
+            android:background="@null"
+            android:drawableTop="@drawable/save_group3"
             android:clickable="true"
             android:gravity="center"
             android:padding="@dimen/dp_5"
@@ -47,7 +48,7 @@
         android:layout_height="@dimen/dp_0"
         android:layout_weight="5"
         android:orientation="vertical"
-        android:background="@drawable/bg_viewpager"
+        android:background="@drawable/bj_group3"
         >
         <RelativeLayout
             android:id="@+id/choose"

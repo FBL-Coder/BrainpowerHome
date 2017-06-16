@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,6 +40,7 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
  * 高级设置-情景按键
  */
 public class KeySceneFragment extends Fragment implements View.OnClickListener {
+    private FragmentActivity mActivity;
     private View view_parent;
     private Dialog mDialog;
     private Handler handler;
@@ -56,11 +58,16 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
     private byte sceneid = 0;
     private int position_keyinput = 0;
     private ChnOpItem_scene listData_all;
+    private boolean IsHaveData = false;
+
+    public KeySceneFragment(FragmentActivity activity) {
+        mActivity = activity;
+    }
 
     //自定义加载进度条
     private void initDialog(String str) {
         Circle_Progress.setText(str);
-        mDialog = Circle_Progress.createLoadingDialog(getActivity());
+        mDialog = Circle_Progress.createLoadingDialog(mActivity);
         mDialog.setCancelable(true);//允许返回
         mDialog.show();//显示
         final Handler handler = new Handler() {
@@ -90,11 +97,11 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view_parent = inflater.inflate(R.layout.fragment_key_scene, container, false);
         RecyclerView_scene = (android.support.v7.widget.RecyclerView) view_parent.findViewById(R.id.RecyclerView);
-        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(mActivity);
         layoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
         RecyclerView_scene.setLayoutManager(layoutManager1);
         RecyclerView_key = (android.support.v7.widget.RecyclerView) view_parent.findViewById(R.id.RecyclerView_equip);
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(mActivity);
         RecyclerView_key.setLayoutManager(layoutManager2);
         layoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
         //通知数据更新
@@ -105,13 +112,14 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
                     mDialog.dismiss();
 
                 if (what == 58 && MyApplication.getWareData().getChnOpItem_scene().getSubType1() == 1) {
+                    IsHaveData = true;
                     listData_all = MyApplication.getWareData().getChnOpItem_scene();
                     MyApplication.mInstance.setKey_scene_data(listData_all);
                     onGetKeySceneDataListeener.getKeySceneData();
                 }
 
                 if (what == 59 && MyApplication.getWareData().getResult() != null && MyApplication.getWareData().getResult().getSubType1() == 1) {
-                    Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, "保存成功", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -152,7 +160,7 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
      * 初始化控件
      */
     private void initView(View view) {
-        fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager = mActivity.getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
         input_save = (Button) view.findViewById(R.id.input_save);
         input_choose = (ImageView) view.findViewById(R.id.input_choose);
@@ -169,7 +177,7 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
         for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
             event.add(MyApplication.getWareData().getSceneEvents().get(i));
         }
-        recyclerAdapter = new RecyclerViewAdapter_keyScene(getActivity(), event);
+        recyclerAdapter = new RecyclerViewAdapter_keyScene(mActivity, event);
         RecyclerView_scene.setAdapter(recyclerAdapter);
         recyclerAdapter.setOnItemClick(new RecyclerViewAdapter_keyScene.SceneViewHolder.OnItemClick() {
             @Override
@@ -177,7 +185,7 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
                 int listSize = event.size();
                 if (listSize > 0) {
                     sceneid = MyApplication.getWareData().getSceneEvents().get(position).getEventld();
-                    transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction = mActivity.getSupportFragmentManager().beginTransaction();
                     keySceneFragment_key = new KeySceneFragment_key();
                     Bundle bundle = new Bundle();
                     bundle.putInt("sceneid", sceneid);
@@ -187,7 +195,7 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
                     transaction.replace(R.id.home, keySceneFragment_key);
                     transaction.commit();
                 } else {
-                    ToastUtil.showToast(getActivity(), "数据异常");
+                    ToastUtil.showToast(mActivity, "数据异常");
                 }
             }
 
@@ -202,7 +210,7 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
      */
     private void initRecyclerView_input() {
         if (MyApplication.getWareData().getKeyInputs().size() == 0) {
-            ToastUtil.showToast(getActivity(), "没有收到输入板数据");
+            ToastUtil.showToast(mActivity, "没有收到输入板数据");
             return;
         }
         input_name = new ArrayList<>();
@@ -211,7 +219,7 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
         }
         recyclerAdapter_equip = new RecyclerViewAdapter_equip(input_name);
         RecyclerView_key.setAdapter(recyclerAdapter_equip);
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction = mActivity.getSupportFragmentManager().beginTransaction();
         keySceneFragment_key = new KeySceneFragment_key();
         Bundle bundle = new Bundle();
         bundle.putInt("sceneid", 0);
@@ -223,7 +231,7 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
         recyclerAdapter_equip.setOnItemClick(new RecyclerViewAdapter_equip.SceneViewHolder.OnItemClick() {
             @Override
             public void OnItemClick(View view, int position) {
-                transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction = mActivity.getSupportFragmentManager().beginTransaction();
                 keySceneFragment_key = new KeySceneFragment_key();
                 Bundle bundle = new Bundle();
                 bundle.putInt("sceneid", sceneid);
@@ -245,13 +253,17 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (!IsHaveData) {
+            ToastUtil.showToast(mActivity, "获取数据异常，请稍后在试");
+            return;
+        }
         switch (v.getId()) {
             case R.id.input_save:
                 if (MyApplication.getWareData_Scene().getKeyInputs().size() == 0) {
-                    ToastUtil.showToast(getActivity(), "没有输入板信息，不能保存");
+                    ToastUtil.showToast(mActivity, "没有输入板信息，不能保存");
                     return;
                 }
-                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(getActivity());
+                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(mActivity);
                 builder.setTitle("提示 :");
                 builder.setMessage("您要保存这些设置吗？");
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -264,26 +276,31 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        initDialog("正在保存...");
                         ChnOpItem_scene chnOpItem_scene = null;
                         String data_str = "";
                         String div;
                         String more_data = "";
                         div = ",";
                         chnOpItem_scene = MyApplication.mInstance.getKey_scene_data();
-                        for (int j = 0; j < chnOpItem_scene.getKey2scene_item().size(); j++) {
-                            data_str = "{" +
-                                    "\"canCpuID\":\"" + chnOpItem_scene.getKey2scene_item().get(j).getCanCpuID() + "\"," +
-                                    "\"keyIndex\":" + chnOpItem_scene.getKey2scene_item().get(j).getKeyIndex() + "," +
-                                    "\"eventId\":" + chnOpItem_scene.getKey2scene_item().get(j).getEventId()
-                                    + "}" + div;
-                            more_data += data_str;
+                        if (chnOpItem_scene.getKey2scene_item().size() > 12) {
+                            ToastUtil.showToast(getActivity(), "最多只能添加12个按键");
+                            return;
+                        } else {
+                            for (int j = 0; j < chnOpItem_scene.getKey2scene_item().size(); j++) {
+                                data_str = "{" +
+                                        "\"canCpuID\":\"" + chnOpItem_scene.getKey2scene_item().get(j).getCanCpuID() + "\"," +
+                                        "\"keyIndex\":" + chnOpItem_scene.getKey2scene_item().get(j).getKeyIndex() + "," +
+                                        "\"eventId\":" + chnOpItem_scene.getKey2scene_item().get(j).getEventId()
+                                        + "}" + div;
+                                more_data += data_str;
+                            }
                         }
                         try {
                             more_data = more_data.substring(0, more_data.lastIndexOf(","));
                         } catch (Exception e) {
                             System.out.println(e + "");
                         }
+                        initDialog("正在保存...");
                         //这就是要上传的字符串:data_hoad
                         String data_hoad = "{" +
                                 "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +

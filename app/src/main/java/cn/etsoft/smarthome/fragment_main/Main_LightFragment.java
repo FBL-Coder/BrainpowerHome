@@ -52,14 +52,16 @@ public class Main_LightFragment extends Fragment {
         MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int what) {
-                if (what == 35 || what == 4)
+                if (what == 35 && MyApplication.mInstance.isDispose35())
+                    //更新数据
+                    upData();
+                if (what == 4)
                     //更新数据
                     upData();
             }
         });
     }
 
-    long TimeExit = 0;
     List<WareLight> light_room;
 
 
@@ -78,11 +80,12 @@ public class Main_LightFragment extends Fragment {
             light_room = lights;
         } else {
             //是其他房间时，是对应房间里的灯
-            for (int i = 0; i < lights.size(); i++) {
-                if (lights.get(i).getDev().getRoomName().equals(room_list.get(room_position))) {
-                    light_room.add(lights.get(i));
+            if (lights.size() > 0)
+                for (int i = 0; i < lights.size(); i++) {
+                    if (lights.get(i).getDev().getRoomName().equals(room_list.get(room_position))) {
+                        light_room.add(lights.get(i));
+                    }
                 }
-            }
         }
 
         final List<WareLight> light_room_click = light_room;
@@ -98,9 +101,7 @@ public class Main_LightFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (System.currentTimeMillis() - TimeExit > 1000) {
                     MyApplication.mInstance.getSp().play(MyApplication.mInstance.getMusic(), 1, 1, 0, 0, 1);
-                    TimeExit = System.currentTimeMillis();
 
                     if (light_room_click.get(position).getbTuneEn() == 0) {
                         String ctlStr;
@@ -129,13 +130,13 @@ public class Main_LightFragment extends Fragment {
                             MyApplication.sendMsg(ctlStr);
                         }
                     }
-                }
             }
         });
     }
 
     /**
      * 初始化GridView
+     *
      * @param
      */
     private void initGridView() {

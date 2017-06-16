@@ -1,8 +1,10 @@
 package cn.etsoft.smarthome.fragment_group2;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import cn.etsoft.smarthome.pullmi.entity.WareChnOpItem;
  * 高级设置-控制设置-输出—按键
  */
 public class OutPutFragment_key extends Fragment {
+    private FragmentActivity mActivity;
     private LayoutInflater inflater;
     private GridView gridView_light;
     private String uid;
@@ -36,6 +39,11 @@ public class OutPutFragment_key extends Fragment {
     private int position_keyinput = 0, devtype = 0;
     private List<PrintCmd> listData;
     private List<Out_List_printcmd> listData_all;
+    private Dialog mDialog;
+
+    public  OutPutFragment_key(FragmentActivity activity){
+        mActivity =activity;
+    }
 
     @Nullable
     @Override

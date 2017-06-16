@@ -1,11 +1,12 @@
 package cn.etsoft.smarthome.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by fbl on 16-12-19.
  */
-public class Weather_All_Bean {
+public class Weather_All_Bean implements Serializable {
 
     /**
      * status : 0
@@ -64,7 +65,7 @@ public class Weather_All_Bean {
         this.result = result;
     }
 
-    public static class ResultBean {
+    public static class ResultBean implements Serializable{
         private String city;
         private String cityid;
         private String citycode;

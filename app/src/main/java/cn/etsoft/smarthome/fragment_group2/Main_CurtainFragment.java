@@ -3,6 +3,7 @@ package cn.etsoft.smarthome.fragment_group2;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import cn.etsoft.smarthome.pullmi.entity.WareKeyOpItem;
  * 高级设置-控制设置-输入—窗帘模块
  */
 public class Main_CurtainFragment extends Fragment {
+    private FragmentActivity mActivity;
     private int room_position = 0;
     private int index = 0;
     private View view;
@@ -36,6 +38,10 @@ public class Main_CurtainFragment extends Fragment {
     private List<WareKeyOpItem> keyOpItems;
     private boolean isClose = false;
 
+    public Main_CurtainFragment (FragmentActivity activity){
+        mActivity = activity;
+    }
+    
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -137,7 +143,7 @@ public class Main_CurtainFragment extends Fragment {
             }
         }
         if (gridViewAdapter == null) {
-            gridViewAdapter = new CurtainAdapter(curtain_room, getActivity(), inflater, index);
+            gridViewAdapter = new CurtainAdapter(curtain_room, mActivity, inflater, index);
             gridView_light.setAdapter(gridViewAdapter);
         } else {
             gridViewAdapter.notifyDataSetChanged(curtain_room);
@@ -172,7 +178,7 @@ public class Main_CurtainFragment extends Fragment {
 //
 //
 //        if (gridViewAdapter == null) {
-//            gridViewAdapter = new CurtainAdapter(curtain_room, getActivity(), inflater);
+//            gridViewAdapter = new CurtainAdapter(curtain_room, mActivity, inflater);
 //            gridView_light.setAdapter(gridViewAdapter);
 //        } else {
 //            gridViewAdapter.notifyDataSetChanged(curtain_room);

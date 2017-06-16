@@ -1,6 +1,7 @@
 package cn.etsoft.smarthome.adapter_group2;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import cn.etsoft.smarthome.domain.ChnOpItem_scene;
 public class KeyAdapter_keyscene extends BaseAdapter {
     private Context context;
     private List<String> listData;
+    private List<String> listData_beremove;
     private List<String> listData_all;
     int mSelect = 0;   //选中项
     private int Sceneid;
@@ -38,13 +40,15 @@ public class KeyAdapter_keyscene extends BaseAdapter {
         keyName = MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getKeyName();
         //按键名称集合
         listData = new ArrayList<>();
+        //将要移除的按键名
+        listData_beremove = new ArrayList<>();
         listData_all = new ArrayList<>();
         //8个按键，只有6个按键名，加2个未定义按键
         for (int j = 0; j < keyName.length + 2; j++) {
-            if ( j >= keyName.length){
-                listData.add("按键"+j);
-                listData_all.add("按键"+j);
-            }else {
+            if (j >= keyName.length) {
+                listData.add("按键" + j);
+                listData_all.add("按键" + j);
+            } else {
                 listData.add(keyName[j]);
                 listData_all.add(keyName[j]);
             }
@@ -52,8 +56,12 @@ public class KeyAdapter_keyscene extends BaseAdapter {
 
         if (ISCHOOSE) {
             //打开只看选中按键的时候，先清空赋值
-            for (int k = 0; k < items.size(); k++) {
-                MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[k] = 0;
+            for (int k = 0; k < 8; k++) {
+                try {
+                    MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[k] = 0;
+                } catch (Exception e) {
+                    Log.e("Exception", k + "----" + e + "");
+                }
             }
             //打开只看选中按键的时候，赋值
             for (int k = 0; k < items.size(); k++) {
@@ -64,14 +72,20 @@ public class KeyAdapter_keyscene extends BaseAdapter {
                 }
             }
             //打开只看选中按键的时候，将未选中的按键去掉
+            for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect().length; i++) {
+                if (MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[i] == 0) {
+                    listData_beremove.add(listData.get(i));
+                }
+            }
+
             for (int i = 0; i < listData.size(); i++) {
-                for (int j = listData.size() - 1; j >= i; j--) {
-                    if (MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[j] == 0) {
-                        listData.remove(j);
-                    }
+                for (int j = 0; j < listData_beremove.size(); j++) {
+                    if (listData.get(i).equals(listData_beremove.get(j)))
+                        listData.remove(i);
                 }
             }
         }
+
         this.context = context;
     }
 

@@ -122,7 +122,7 @@ public class LightAdapter extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
                             initPopupWindow(viewHolder.on_off, on_off_name, position);
-                            popupWindow.showAsDropDown(v, -150, -80);
+                            popupWindow.showAsDropDown(v, 0, 0);
                         }
                     });
                 }
@@ -183,7 +183,7 @@ public class LightAdapter extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
                             initPopupWindow(viewHolder.on_off, on_off_name, position);
-                            popupWindow.showAsDropDown(v, -150, -80);
+                            popupWindow.showAsDropDown(v, 0, 0);
                         }
                     });
                     light_room.get(position).getDev().setSelect(true);
@@ -222,7 +222,7 @@ public class LightAdapter extends BaseAdapter {
             }
         });
         // 创建PopupWindow实例
-        popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), 200, 300);
+        popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), view_parent.getWidth(), 200);
         popupWindow.setContentView(customView);
         ListView list_pop = (ListView) customView.findViewById(R.id.popupWindow_equipment_lv);
         PopupWindowAdapter2 adapter = new PopupWindowAdapter2(text, context);

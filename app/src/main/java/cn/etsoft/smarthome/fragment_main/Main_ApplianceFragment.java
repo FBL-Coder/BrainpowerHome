@@ -84,11 +84,12 @@ public class Main_ApplianceFragment extends Fragment implements AdapterView.OnIt
         if (room_position == DEVS_ALL_ROOM) {
             AllDevs_room = AllDevs;
         } else {
-            for (int i = 0; i < AllDevs.size(); i++) {
-                if (AllDevs.get(i).getRoomName().equals(room_list.get(room_position))) {
-                    AllDevs_room.add(AllDevs.get(i));
+            if (AllDevs.size() > 0)
+                for (int i = 0; i < AllDevs.size(); i++) {
+                    if (AllDevs.get(i).getRoomName().equals(room_list.get(room_position))) {
+                        AllDevs_room.add(AllDevs.get(i));
+                    }
                 }
-            }
         }
 
         if (listViewAdapter != null) {

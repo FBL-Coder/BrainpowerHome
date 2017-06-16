@@ -61,7 +61,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/selector_scene_bg"
-                android:drawableTop="@drawable/zyx"
+                android:drawableTop="@drawable/save_group3"
                 android:gravity="center"
                 android:paddingTop="@dimen/dp_12"
                 android:text="保存"
@@ -172,6 +172,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0"
             android:layout_weight="5"
-            android:background="@drawable/bg_viewpager" />
+            android:background="@drawable/bj_group3" />
     </LinearLayout>
 </LinearLayout>

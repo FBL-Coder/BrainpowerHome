@@ -1,5 +1,6 @@
 package cn.etsoft.smarthome.fragment_setting;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -54,6 +56,7 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
  * 联网模块
  */
 public class Setting_NetWorkFragment extends Fragment implements View.OnClickListener {
+    private Activity mActivity;
     private LinearLayout add;
     private EditText name, id, pwd;
     private Button sure, cancel;
@@ -68,9 +71,15 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
     private User user;
     private Gson gson;
 
+    public Setting_NetWorkFragment(Activity activity){
+        mActivity =activity;
+    }
+    
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //解决弹出键盘压缩布局的问题
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         view = inflater.inflate(R.layout.fragment_network, container, false);
         sharedPreferences = MyApplication.mInstance.getSharedPreferences("profile", Context.MODE_PRIVATE);
         json_user = sharedPreferences.getString("user", "");
@@ -88,16 +97,16 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
 
                             if (MyApplication.getWareData().getAddNewNet_reslut() == 0) {
                                 //更新数据
-                                ToastUtil.showToast(getActivity(), "添加成功");
+                                ToastUtil.showToast(mActivity, "添加成功");
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("list", str);
                                 editor.commit();
                                 initView();
                                 dialog.dismiss();
                             } else if (MyApplication.getWareData().getAddNewNet_reslut() == 1) {
-                                ToastUtil.showToast(getActivity(), "模块已存在");
+                                ToastUtil.showToast(mActivity, "模块已存在");
                             } else {
-                                ToastUtil.showToast(getActivity(), "添加失败");
+                                ToastUtil.showToast(mActivity, "添加失败");
                             }
                         }
 
@@ -108,7 +117,7 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
                         if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_delRcu.getValue()){
                             int reslut = MyApplication.getWareData().getDeleteNetReslut().getInt("Reslut",2);
                             if (reslut == 0) {
-                                ToastUtil.showToast(getActivity(),"删除成功");
+                                ToastUtil.showToast(mActivity,"删除成功");
                                 Gson gson = new Gson();
                                 List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
                                 }.getType());
@@ -124,9 +133,9 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
                                 editor.commit();
                                 initView();
                             }else if (reslut == 1)
-                                ToastUtil.showToast(getActivity(),"模块已删除");
+                                ToastUtil.showToast(mActivity,"模块已删除");
                             else
-                                ToastUtil.showToast(getActivity(),"删除失败");
+                                ToastUtil.showToast(mActivity,"删除失败");
                         }
                     }
                 });
@@ -139,7 +148,7 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
     private void initView() {
         if ("".equals(UnitID) || UnitID == null)
             UnitID = "00";
-        sharedPreferences = MyApplication.mInstance.getSharedPreferences("profile", Context.MODE_PRIVATE);
+        sharedPreferences = mActivity.getSharedPreferences("profile", Context.MODE_PRIVATE);
         json_user = sharedPreferences.getString("user", "");
         json_rcuinfo_list = sharedPreferences.getString("list", "");
         add = (LinearLayout) view.findViewById(R.id.network_add);
@@ -154,7 +163,7 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
         equi_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
-                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(getActivity());
+                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(mActivity);
                 builder.setTitle("提示 :");
 
                 builder.setMessage("您要切换联网模块？");
@@ -172,14 +181,14 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
                         }.getType());
 
                         if (json_list == null || json_list.size() == 0) {
-                            ToastUtil.showToast(getActivity(), "数据异常");
+                            ToastUtil.showToast(mActivity, "数据异常");
                             dialog.dismiss();
                             return;
                         }
                         RcuInfo info = json_list.get(position);
                         Log.i("RcuInfo", info.getDevUnitID());
                         if (UnitID.equals(info.getDevUnitID())) {
-                            ToastUtil.showToast(getActivity(), "正在使用中");
+                            ToastUtil.showToast(mActivity, "正在使用中");
                             dialog.dismiss();
                             return;
                         }
@@ -213,12 +222,12 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
                         if (MyApplication.getmHomeActivity() != null)
                             MyApplication.getmHomeActivity().finish();
                         //重新启动主页
-                        startActivity(new Intent(getActivity(), HomeActivity.class));
+                        startActivity(new Intent(mActivity, HomeActivity.class));
 
                         //发送获取数据命令
                         MyApplication.setRcuDevIDtoLocal();
                         //销毁设置页面
-                        getActivity().finish();
+                        mActivity.finish();
                         dialog.dismiss();
                     }
                 });
@@ -228,7 +237,7 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
         equi_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
-                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(getActivity());
+                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(mActivity);
                 builder.setTitle("提示 :");
 
                 builder.setMessage("您确定要删除此条目吗？");
@@ -268,7 +277,7 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
     CustomDialog dialog;
 
     public void getDialog() {
-        dialog = new CustomDialog(getActivity(), R.style.customDialog, R.layout.dialog_network);
+        dialog = new CustomDialog(mActivity, R.style.customDialog, R.layout.dialog_network);
         dialog.show();
         name = (EditText) dialog.findViewById(R.id.network_et_name);
         id = (EditText) dialog.findViewById(R.id.network_et_id);
@@ -366,7 +375,7 @@ public class Setting_NetWorkFragment extends Fragment implements View.OnClickLis
             ViewHolder viewHolder;
             if (convertView == null) {
                 viewHolder = new ViewHolder();
-                convertView = LinearLayout.inflate(getActivity(), R.layout.equi_list_item, null);
+                convertView = LinearLayout.inflate(mActivity, R.layout.equi_list_item, null);
                 viewHolder.equi_name = (TextView) convertView.findViewById(R.id.equi_name);
                 viewHolder.equi_iv_use = (ImageView) convertView.findViewById(R.id.equi_iv_use);
                 convertView.setTag(viewHolder);

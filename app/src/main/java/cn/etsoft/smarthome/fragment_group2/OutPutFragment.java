@@ -7,9 +7,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -53,6 +55,7 @@ import cn.etsoft.smarthome.widget.SpacesItemDecoration;
  * 高级设置-控制设置-输出
  */
 public class OutPutFragment extends Fragment implements View.OnClickListener {
+    private FragmentActivity mActivity;
     private TextView equip_input;
     private Button input_save;
     private ImageView input_choose;
@@ -87,19 +90,23 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
     private Dialog mDialog;
     private Handler handler;
     private View view_parent;
+    private boolean IsHaveData = false;
 
+    public OutPutFragment(FragmentActivity activity) {
+        mActivity = activity;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view_parent = inflater.inflate(R.layout.fragment_output, container, false);
         RecyclerView = (android.support.v7.widget.RecyclerView) view_parent.findViewById(R.id.RecyclerView);
-        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(mActivity);
         layoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
         RecyclerView.setLayoutManager(layoutManager1);
         RecyclerView.addItemDecoration(new SpacesItemDecoration(5));
         RecyclerView_equip = (android.support.v7.widget.RecyclerView) view_parent.findViewById(R.id.RecyclerView_equip);
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(mActivity);
         RecyclerView_equip.setLayoutManager(layoutManager2);
         layoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
 
@@ -127,12 +134,17 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                     mDialog.dismiss();
 
                 if (what == 14) {
+                    IsHaveData = true;
                     final Handler handler = new Handler() {
                         @Override
                         public void handleMessage(Message msg) {
                             super.handleMessage(msg);
                             MyApplication.mInstance.setOut_key_data(listData_all);
-                            onGetOutKeyDataListeener.getOutKeyData();
+                            try {
+                                onGetOutKeyDataListeener.getOutKeyData();
+                            }catch (Exception e){
+                                Log.e("Exception",e+"");
+                            }
                         }
                     };
                     new Thread(new Runnable() {
@@ -201,7 +213,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
 
                 if (what == 15 && MyApplication.getWareData().getResult() != null
                         && MyApplication.getWareData().getResult().getResult() == 1) {
-                    Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, "保存成功", Toast.LENGTH_SHORT).show();
                     MyApplication.getWareData().setResult(null);
                 }
             }
@@ -225,7 +237,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
     //自定义加载进度条
     private void initDialog(String str) {
         Circle_Progress.setText(str);
-        mDialog = Circle_Progress.createLoadingDialog(getActivity());
+        mDialog = Circle_Progress.createLoadingDialog(mActivity);
         mDialog.setCancelable(true);//允许返回
         mDialog.show();//显示
         final Handler handler = new Handler() {
@@ -269,7 +281,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
     private void initListView_room() {
 //        List<String> room_list = MyApplication.getRoom_list();
 //        listViewAdapter = new ListViewAdapter(this, room_list);
-        listViewAdapter = new ListViewAdapter(getActivity());
+        listViewAdapter = new ListViewAdapter(mActivity);
         //默认选中条目
         listViewAdapter.changeSelected(room_position + 1);
         input_listView_room.setAdapter(listViewAdapter);
@@ -355,6 +367,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
             }
         try {
             MyApplication.getChnItemInfo(Dev_room.get(0).getCanCpuId(), Dev_room.get(0).getType(), Dev_room.get(0).getDevId());
+            initDialog("加载数据中...");
         } catch (Exception e) {
         }
         recyclerAdapter_light = new RecyclerViewAdapter_Dev_output(Dev_room);
@@ -362,15 +375,16 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
         recyclerAdapter_light.setOnItemClick(new RecyclerViewAdapter_Dev_output.SceneViewHolder.OnItemClick() {
             @Override
             public void OnItemClick(View view, int position) {
-                transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction = mActivity.getSupportFragmentManager().beginTransaction();
                 devPosition = position;
-                outPutFragment_key = new OutPutFragment_key();
+                outPutFragment_key = new OutPutFragment_key(mActivity);
                 Bundle bundle = new Bundle();
                 bundle.putInt("devtype", Dev_room.get(position).getType());
                 bundle.putInt("keyinput_position", position_keyinput);
                 bundle.putBoolean("ISCHOOSE", ISCHOOSE);
 
                 MyApplication.getChnItemInfo(Dev_room.get(position).getCanCpuId(), Dev_room.get(position).getType(), Dev_room.get(position).getDevId());
+                initDialog("加载数据中...");
                 outPutFragment_key.setArguments(bundle);
                 transaction.replace(R.id.home, outPutFragment_key);
                 transaction.commit();
@@ -391,7 +405,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
      */
     private void initRecyclerView_input() {
         if (MyApplication.getWareData().getKeyInputs().size() == 0) {
-            ToastUtil.showToast(getActivity(), "没有收到输入板数据");
+            ToastUtil.showToast(mActivity, "没有收到输入板数据");
             return;
         }
         input_name = new ArrayList<>();
@@ -400,8 +414,8 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
         }
         recyclerAdapter_equip = new RecyclerViewAdapter_equip(input_name);
         RecyclerView_equip.setAdapter(recyclerAdapter_equip);
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        outPutFragment_key = new OutPutFragment_key();
+        transaction = mActivity.getSupportFragmentManager().beginTransaction();
+        outPutFragment_key = new OutPutFragment_key(mActivity);
         Bundle bundle = new Bundle();
         if (Dev_room != null && Dev_room.size() > 0)
             bundle.putInt("devtype", Dev_room.get(0).getType());
@@ -413,8 +427,8 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
         recyclerAdapter_equip.setOnItemClick(new RecyclerViewAdapter_equip.SceneViewHolder.OnItemClick() {
             @Override
             public void OnItemClick(View view, int position) {
-                transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                outPutFragment_key = new OutPutFragment_key();
+                transaction = mActivity.getSupportFragmentManager().beginTransaction();
+                outPutFragment_key = new OutPutFragment_key(mActivity);
                 Bundle bundle = new Bundle();
                 bundle.putInt("devtype", Dev_room.get(devPosition).getType());
                 bundle.putInt("keyinput_position", position);
@@ -438,7 +452,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
      */
     private void initPopupWindow(final View view_parent, final List<String> text, final int tag) {
         //获取自定义布局文件pop.xml的视图
-        final View customView = view_parent.inflate(getActivity(), R.layout.popupwindow_equipment_listview, null);
+        final View customView = view_parent.inflate(mActivity, R.layout.popupwindow_equipment_listview, null);
         customView.setBackgroundResource(R.drawable.selectbg);
         customView.setFocusable(true);
         customView.setFocusableInTouchMode(true);
@@ -457,7 +471,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
         popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), 180, 300);
         popupWindow.setContentView(customView);
         ListView list_pop = (ListView) customView.findViewById(R.id.popupWindow_equipment_lv);
-        PopupWindowAdapter2 adapter = new PopupWindowAdapter2(text, getActivity());
+        PopupWindowAdapter2 adapter = new PopupWindowAdapter2(text, mActivity);
         list_pop.setAdapter(adapter);
         list_pop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -488,7 +502,11 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        int widthOff = getActivity().getWindow().getWindowManager().getDefaultDisplay().getWidth() / 500;
+        if (!IsHaveData){
+            ToastUtil.showToast(mActivity, "获取数据异常，请稍后在试");
+            return;
+        }
+        int widthOff = mActivity.getWindow().getWindowManager().getDefaultDisplay().getWidth() / 500;
         switch (v.getId()) {
             case R.id.equip_input:
                 initPopupWindow(equip_input, equip_input_name, 1);
@@ -496,10 +514,14 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.input_save:
                 if (MyApplication.getWareData_Scene().getKeyInputs().size() == 0) {
-                    ToastUtil.showToast(getActivity(), "没有输入板信息，不能保存");
+                    ToastUtil.showToast(mActivity, "没有输入板信息，不能保存");
                     return;
                 }
-                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(getActivity());
+                if (Dev_room.size() == 0){
+                    ToastUtil.showToast(mActivity, "房间没有设备，保存失败");
+                    return;
+                }
+                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(mActivity);
                 builder.setTitle("提示 :");
                 builder.setMessage("您要保存这些设置吗？");
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -513,73 +535,78 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         initDialog("正在保存...");
-                        listData_all = MyApplication.mInstance.getOut_key_data();
-                        for (int i = 0; i < listData_all.size(); i++) {
-                            List<PrintCmd> listData = listData_all.get(i).getPrintCmds();
-                            for (int j = 0; j < listData.size(); j++) {
-                                if (listData.get(j).isSelect() && listData.get(j).getKey_cmd() == 0) {
-                                    ToastUtil.showToast(getActivity(), "存在未设置，请设置完成后保存");
-                                    mDialog.dismiss();
-                                    return;
+                        try {
+                            listData_all = MyApplication.mInstance.getOut_key_data();
+                            for (int i = 0; i < listData_all.size(); i++) {
+                                List<PrintCmd> listData = listData_all.get(i).getPrintCmds();
+                                for (int j = 0; j < listData.size(); j++) {
+                                    if (listData.get(j).isSelect() && listData.get(j).getKey_cmd() == 0) {
+                                        ToastUtil.showToast(mActivity, "存在未设置，请设置完成后保存");
+                                        mDialog.dismiss();
+                                        return;
+                                    }
                                 }
                             }
-                        }
-                        //根据以上注释掉的数据结构，将已有数据已此格式寄存；
-                        UpBoardKeyData data = new UpBoardKeyData();//上传数据实体；
-                        List<UpBoardKeyData.ChnOpitemRowsBean> bean_list = new ArrayList<>();//按键板实体集合；
+                            //根据以上注释掉的数据结构，将已有数据已此格式寄存；
+                            UpBoardKeyData data = new UpBoardKeyData();//上传数据实体；
+                            List<UpBoardKeyData.ChnOpitemRowsBean> bean_list = new ArrayList<>();//按键板实体集合；
 
-                        for (int i = 0; i < listData_all.size(); i++) {
-                            UpBoardKeyData.ChnOpitemRowsBean bean = data.new ChnOpitemRowsBean();
-                            bean.setKey_cpuCanID(listData_all.get(i).getUnitid());
-                            byte[] Valid_up = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放弹起键相应位置；
-                            byte[] Cmd_up = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放弹起键相应的命令；
-                            byte[] Valid_down = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放按下键的相应位置；
-                            byte[] Cmd_down = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放按下键相应的命令
-                            List<PrintCmd> listData = listData_all.get(i).getPrintCmds();
+                            for (int i = 0; i < listData_all.size(); i++) {
+                                UpBoardKeyData.ChnOpitemRowsBean bean = data.new ChnOpitemRowsBean();
+                                bean.setKey_cpuCanID(listData_all.get(i).getUnitid());
+                                byte[] Valid_up = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放弹起键相应位置；
+                                byte[] Cmd_up = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放弹起键相应的命令；
+                                byte[] Valid_down = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放按下键的相应位置；
+                                byte[] Cmd_down = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放按下键相应的命令
+                                List<PrintCmd> listData = listData_all.get(i).getPrintCmds();
 
-                            for (int j = 0; j < listData.size(); j++) {
-                                if (listData.get(j).isSelect()) {
-                                    Cmd_up[j] = (byte) listData.get(j).getKey_cmd();
-                                    Valid_up[j] = 1;
-                                } else {
-                                    Cmd_up[j] = 0;
-                                    Valid_up[j] = 0;
+                                for (int j = 0; j < listData.size(); j++) {
+                                    if (listData.get(j).isSelect()) {
+                                        Cmd_up[j] = (byte) listData.get(j).getKey_cmd();
+                                        Valid_up[j] = 1;
+                                    } else {
+                                        Cmd_up[j] = 0;
+                                        Valid_up[j] = 0;
+                                    }
                                 }
+                                for (int j = 0; j < listData.size(); j++) {
+                                    Valid_down[j] = 0;
+                                    Cmd_down[j] = 0;
+                                }
+                                bean.setKeyDownValid(0);
+                                bean.setKeyUpValid(0);
+                                bean.setKeyDownCmd(Cmd_down);
+                                bean.setKeyUpCmd(Cmd_up);
+                                //因为数据传递时，高位、低位和现实中相反，so循环赋值；
+                                String down_v = "";
+                                for (int j = 0; j < Valid_up.length; j++) {
+                                    down_v += Valid_up[Valid_up.length - 1 - j];
+                                }
+                                //将改好的2#字符串转成10#；
+                                BigInteger bi_down = new BigInteger(down_v, 2);  //转换成BigInteger类型
+                                int v_down = Integer.parseInt(bi_down.toString(10)); //参数2指定的是转化成X进制，默认10进制
+                                bean.setKeyUpValid(v_down);
+                                bean_list.add(bean);
                             }
-                            for (int j = 0; j < listData.size(); j++) {
-                                Valid_down[j] = 0;
-                                Cmd_down[j] = 0;
-                            }
-                            bean.setKeyDownValid(0);
-                            bean.setKeyUpValid(0);
-                            bean.setKeyDownCmd(Cmd_down);
-                            bean.setKeyUpCmd(Cmd_up);
-                            //因为数据传递时，高位、低位和现实中相反，so循环赋值；
-                            String down_v = "";
-                            for (int j = 0; j < Valid_up.length; j++) {
-                                down_v += Valid_up[Valid_up.length - 1 - j];
-                            }
-                            //将改好的2#字符串转成10#；
-                            BigInteger bi_down = new BigInteger(down_v, 2);  //转换成BigInteger类型
-                            int v_down = Integer.parseInt(bi_down.toString(10)); //参数2指定的是转化成X进制，默认10进制
-                            bean.setKeyUpValid(v_down);
-                            bean_list.add(bean);
+
+                            //将以上数据加入到上传实体中；
+                            data.setDevUnitID(GlobalVars.getDevid());
+                            data.setChn_opitem_rows(bean_list);
+                            data.setDatType(BOARD_UP);
+                            data.setSubType1(0);
+                            data.setSubType2(0);
+                            data.setDevType(Dev_room.get(devPosition).getType());
+                            data.setDevID(Dev_room.get(devPosition).getDevId());
+                            data.setOut_cpuCanID(Dev_room.get(devPosition).getCanCpuId());
+                            data.setChn_opitem(bean_list.size());
+
+                            Gson gson = new Gson();
+                            System.out.println(gson.toJson(data));
+                            MyApplication.sendMsg(gson.toJson(data).toString());
+                        } catch (Exception e) {
+                            Log.e("Exception", e + "");
+                            ToastUtil.showToast(mActivity, "保存失败，请检查数据是否合适");
                         }
-
-                        //将以上数据加入到上传实体中；
-                        data.setDevUnitID(GlobalVars.getDevid());
-                        data.setChn_opitem_rows(bean_list);
-                        data.setDatType(BOARD_UP);
-                        data.setSubType1(0);
-                        data.setSubType2(0);
-                        data.setDevType(Dev_room.get(devPosition).getType());
-                        data.setDevID(Dev_room.get(devPosition).getDevId());
-                        data.setOut_cpuCanID(Dev_room.get(devPosition).getCanCpuId());
-                        data.setChn_opitem(bean_list.size());
-
-                        Gson gson = new Gson();
-                        System.out.println(gson.toJson(data));
-                        MyApplication.sendMsg(gson.toJson(data).toString());
                     }
                 });
                 builder.create().show();

@@ -9,9 +9,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.fragment_group2.InPutFragment;
-import cn.etsoft.smarthome.fragment_group2.KeySceneFragment;
-import cn.etsoft.smarthome.fragment_group2.OutPutFragment;
+import cn.etsoft.smarthome.fragment_group3.InPutFragment;
+import cn.etsoft.smarthome.fragment_group3.KeySceneFragment;
+import cn.etsoft.smarthome.fragment_group3.OutPutFragment;
 
 /**
  * Created by Say GoBay on 2016/9/5.
@@ -44,9 +44,9 @@ public class GroupActivity2 extends FragmentActivity {
      * 初始化数据
      */
     private void initData() {
-        outPutFragment = new OutPutFragment();
-        inPutFragment = new InPutFragment();
-        infraredFragment = new KeySceneFragment();
+        outPutFragment = new OutPutFragment(GroupActivity2.this);
+        inPutFragment = new InPutFragment(GroupActivity2.this);
+        infraredFragment = new KeySceneFragment(GroupActivity2.this);
 
         transaction.replace(R.id.group, inPutFragment).commit();
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

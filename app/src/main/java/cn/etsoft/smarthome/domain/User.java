@@ -1,9 +1,11 @@
 package cn.etsoft.smarthome.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by Say GoBay on 2016/12/22.
  */
-public class User {
+public class User implements Serializable {
     String id;
     String pass;
 

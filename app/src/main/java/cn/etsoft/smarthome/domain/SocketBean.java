@@ -1,9 +1,11 @@
 package cn.etsoft.smarthome.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by Say GoBay on 2016/9/1.
  */
-public class SocketBean {
+public class SocketBean implements Serializable {
 
     private int applianceId;
     private int timeId;

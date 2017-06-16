@@ -652,12 +652,13 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 dialog.dismiss();
                 initDialog("正在保存...");
                 WareSceneEvent Sceneevent = null;
-                for (int i = 0; i < MyApplication.getWareData_Scene().getSceneEvents().size(); i++) {
-                    if (sceneid == MyApplication.getWareData_Scene().getSceneEvents().get(i).getEventld()) {
-                        Sceneevent = MyApplication.getWareData_Scene().getSceneEvents().get(i);
-                        break;
+                try {
+                    for (int i = 0; i < MyApplication.getWareData_Scene().getSceneEvents().size(); i++) {
+                        if (sceneid == MyApplication.getWareData_Scene().getSceneEvents().get(i).getEventld()) {
+                            Sceneevent = MyApplication.getWareData_Scene().getSceneEvents().get(i);
+                            break;
+                        }
                     }
-                }
 //                for (int i = 0; i < Sceneevent.getItemAry().size(); i++) {
 //                    Log.e("SCENE_COPY", "设备ID: " + Sceneevent.getItemAry().get(i).getDevID() + "设备开关: " + Sceneevent.getItemAry().get(i).getbOnOff());
 //                }
@@ -671,48 +672,53 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
 //                for (int i = 0; i < Sceneevent_2.getItemAry().size(); i++) {
 //                    Log.e("SCENE", "设备ID: "+Sceneevent_2.getItemAry().get(i).getDevID()+"设备开关: "+ Sceneevent_2.getItemAry().get(i).getbOnOff());
 //                }
-                String div;
-                String more_data = "";
-                String data_str = "";
-                div = ",";
-                for (int j = 0; j < Sceneevent.getItemAry().size(); j++) {
-                    data_str = "{" +
-                            "\"uid\":\"" + Sceneevent.getItemAry().get(j).getUid() + "\"," +
-                            "\"devType\":" + Sceneevent.getItemAry().get(j).getDevType() + "," +
-                            "\"devID\":" + Sceneevent.getItemAry().get(j).getDevID() + "," +
-                            "\"bOnOff\":" + Sceneevent.getItemAry().get(j).getbOnOff() + "," +
-                            "\"lmVal\":0," +
-                            "\"rev2\":0," +
-                            "\"rev3\":0," +
-                            "\"param1\":0," +
-                            "\"param2\":0}" + div;
-                    more_data += data_str;
+                    String div;
+                    String more_data = "";
+                    String data_str = "";
+                    div = ",";
+                    for (int j = 0; j < Sceneevent.getItemAry().size(); j++) {
+                        data_str = "{" +
+                                "\"uid\":\"" + Sceneevent.getItemAry().get(j).getUid() + "\"," +
+                                "\"devType\":" + Sceneevent.getItemAry().get(j).getDevType() + "," +
+                                "\"devID\":" + Sceneevent.getItemAry().get(j).getDevID() + "," +
+                                "\"bOnOff\":" + Sceneevent.getItemAry().get(j).getbOnOff() + "," +
+                                "\"lmVal\":0," +
+                                "\"rev2\":0," +
+                                "\"rev3\":0," +
+                                "\"param1\":0," +
+                                "\"param2\":0}" + div;
+                        more_data += data_str;
+                    }
+                    byte[] nameData = {0};
+                    try {
+                        nameData = Sceneevent.getSceneName().getBytes("GB2312");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    String str_gb = CommonUtils.bytesToHexString(nameData);
+                    Log.e("情景模式名称:%s", str_gb);
+                    try {
+                        more_data = more_data.substring(0, more_data.lastIndexOf(","));
+                    } catch (Exception e) {
+                        System.out.println(e + "");
+                    }
+                    //这就是要上传的字符串:data_hoad
+                    String data_hoad = "{" +
+                            "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                            "\"sceneName\":\"" + str_gb + "\"," +
+                            "\"datType\":24" + "," +
+                            "\"subType1\":0" + "," +
+                            "\"subType2\":0" + "," +
+                            "\"eventId\":" + Sceneevent.getEventld() + "," +
+                            "\"devCnt\":" + Sceneevent.getItemAry().size() + "," +
+                            "\"itemAry\":[" + more_data + "]}";
+                    Log.e("情景模式测试:", data_hoad);
+                    MyApplication.sendMsg(data_hoad);
+                }catch (Exception e){
+                    mDialog.dismiss();
+                    Log.e("Exception" ,e+"");
+                    ToastUtil.showToast(SceneSetActivity2.this, "保存失败，数据异常");
                 }
-                byte[] nameData = {0};
-                try {
-                    nameData = Sceneevent.getSceneName().getBytes("GB2312");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                String str_gb = CommonUtils.bytesToHexString(nameData);
-                Log.e("情景模式名称:%s", str_gb);
-                try {
-                    more_data = more_data.substring(0, more_data.lastIndexOf(","));
-                } catch (Exception e) {
-                    System.out.println(e + "");
-                }
-                //这就是要上传的字符串:data_hoad
-                String data_hoad = "{" +
-                        "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
-                        "\"sceneName\":\"" + str_gb + "\"," +
-                        "\"datType\":24" + "," +
-                        "\"subType1\":0" + "," +
-                        "\"subType2\":0" + "," +
-                        "\"eventId\":" + Sceneevent.getEventld() + "," +
-                        "\"devCnt\":" + Sceneevent.getItemAry().size() + "," +
-                        "\"itemAry\":[" + more_data + "]}";
-                Log.e("情景模式测试:", data_hoad);
-                MyApplication.sendMsg(data_hoad);
             }
         });
         builder.create().show();

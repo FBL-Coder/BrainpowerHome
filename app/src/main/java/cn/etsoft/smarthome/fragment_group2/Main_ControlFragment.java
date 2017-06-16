@@ -3,6 +3,7 @@ package cn.etsoft.smarthome.fragment_group2;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,13 @@ import cn.etsoft.smarthome.R;
  * 高级设置-控制设置-输入—监控
  */
 public class Main_ControlFragment extends Fragment {
+    private FragmentActivity mActivity;
     private ImageView control_back,refrush;
     private EditText username,password;
+    public Main_ControlFragment(FragmentActivity activity){
+        mActivity= activity;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

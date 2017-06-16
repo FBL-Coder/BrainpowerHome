@@ -1,5 +1,6 @@
 package cn.etsoft.smarthome.fragment_setting;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,16 +21,20 @@ import cn.etsoft.smarthome.utils.ToastUtil;
  * 远程IP
  */
 public class Setting_LongIpFragment extends Fragment {
+    private Activity mActivity;
     Button long_ip_save;
     EditText long_ip_num_1, long_ip_num_2, long_ip_num_3, long_ip_num_4;
     private View view;
     private SharedPreferences sharedPreferences;
 
+    public Setting_LongIpFragment(Activity activity){
+        mActivity = activity;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_add_longip, container, false);
-        sharedPreferences = getActivity().getSharedPreferences("profile", Context.MODE_PRIVATE);
+        sharedPreferences = mActivity.getSharedPreferences("profile", Context.MODE_PRIVATE);
         initView();
         event();
         return view;
@@ -47,7 +52,7 @@ public class Setting_LongIpFragment extends Fragment {
                 editor.putString("long_ip", ip);
                 editor.commit();
 //                MyApplication.setRcuDevIDtoLocal();
-                ToastUtil.showToast(getActivity(),"保存成功");
+                ToastUtil.showToast(mActivity,"保存成功");
             }
         });
     }

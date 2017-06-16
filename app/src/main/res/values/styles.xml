@@ -64,9 +64,9 @@
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/sp_16</item>
         <item name="android:textColor">@color/color_323232</item>
-        <item name="android:background">@drawable/selector_radiobutton_bg</item>
+        <item name="android:background">@null</item>
     </style>
-
+<!--<item name="android:background">@drawable/selector_radiobutton_bg</item>-->
     <!--横线的样式-->
     <style name="LandscapeViewStyle">
         <item name="android:layout_width">match_parent</item>

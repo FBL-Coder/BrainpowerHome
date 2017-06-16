@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -125,7 +127,6 @@ public class UserActivity extends Activity implements View.OnClickListener {
         equipment_close.setOnClickListener(this);
         tv_equipment_parlour.setOnClickListener(this);
     }
-
     /**
      * 加载数据
      */
@@ -327,6 +328,26 @@ public class UserActivity extends Activity implements View.OnClickListener {
         mDialog = Circle_Progress.createLoadingDialog(this);
         mDialog.setCancelable(true);//允许返回
         mDialog.show();//显示
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                mDialog.dismiss();
+            }
+        };
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(5000);
+                    if (mDialog.isShowing()) {
+                        handler.sendMessage(handler.obtainMessage());
+                    }
+                } catch (Exception e) {
+                    System.out.println(e + "");
+                }
+            }
+        }).start();
     }
 
     /**

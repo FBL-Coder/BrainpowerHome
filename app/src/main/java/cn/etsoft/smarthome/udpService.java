@@ -22,10 +22,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.domain.ChnOpItem_scene;
+import cn.etsoft.smarthome.domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.domain.DevControl_Result;
+import cn.etsoft.smarthome.domain.GroupSet_Data;
+import cn.etsoft.smarthome.domain.RcuInfo_search;
+import cn.etsoft.smarthome.domain.SearchNet;
 import cn.etsoft.smarthome.domain.SetEquipmentResult;
 import cn.etsoft.smarthome.domain.SetSafetyResult;
 import cn.etsoft.smarthome.domain.SetSafetyResult_alarm;
+import cn.etsoft.smarthome.domain.Timer_Data;
 import cn.etsoft.smarthome.domain.UserBean;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.RcuInfo;
@@ -150,6 +155,26 @@ public class udpService extends Service {
         }
     }
 
+    public static String show_2(String str) {
+
+        str = str.trim();
+        int index = 0;
+        int maxLength = 4000;
+        String sub = "";
+        while (index < str.length()) {
+            // java的字符不允许指定超过总的长度end
+            if (str.length() <= index + maxLength) {
+                sub = str.substring(index);
+            } else {
+                sub = str.substring(index, maxLength);
+                Log.i("接收信息", sub.trim());
+            }
+            index += maxLength;
+            Log.i("接收信息", sub.trim());
+        }
+        return sub.trim();
+    }
+
     //警报时间间隔
     long time = 0;
 
@@ -166,27 +191,35 @@ public class udpService extends Service {
         } catch (JSONException e) {
             System.out.println(e.toString());
         }
-
+        int tag = 0;
         if (datType != 35)
             show(info);
         switch (datType) {
-            case 84://e_udpPro_delRcu
+            case 84://e_udpPro_delRcu 删除联网模块
                 deleteNetReslut(info, subType2);
-            case 83://e_udpPro_regeditRcu
+            case 83://e_udpPro_regeditRcu 添加联网模块
                 addNewNetReslut(subType2);
                 break;
-            case 82://e_udpPro_loginUser
-                getUserResult(subType2);
+            case 82://e_udpPro_loginUser 登录
+                getUserResult(info);
                 break;
-            case 81://e_udpPro_regeditUser
+            case 81://e_udpPro_regeditUser 注册
                 addUserResult(subType2);
+            case 80://远程返回数据包
+                //TODO 远程数据返回80包，局域网不返回80包，标记数据状态
                 break;
-            case 0:// e_udpPro_getRcuinfo
+            case 0:// e_udpPro_getRcuinfo 获取联网模块信息
                 if (subType2 == 1) {
-                    setRcuInfo(info);
+                    if (MyApplication.mInstance.isSearch() == false) {
+                        //设置联网模块信息
+                        setRcuInfo(info);
+                    } else if (MyApplication.mInstance.isSearch() == true) {
+                        setRcuInfo_search(info);
+//                        setRcuInfo1(info);
+                    }
                 }
                 break;
-            case 3: // getDevsInfo
+            case 3: // e_udpPro_getDevsInfo 获取设备信息
                 if (subType1 == 1) {
                     MyApplication.getWareData().getDevs().clear();
                     isFreshData = true;
@@ -209,40 +242,45 @@ public class udpService extends Service {
 //                    Log.i(TAG, "空调:" + MyApplication.getWareData().getAirConds().size() + "");
                 }
                 break;
-            case 4: // ctrlDev
+            case 4: // e_udpPro_ctrlDev  控制设备
                 if (subType1 == 1) {
                     isFreshData = true;
+                    //刷新设备数据
                     refreshDevData(info);
                 }
                 break;
-            case 5: // ctrlDev
+            case 5: // e_udpPro_addDev  添加设备
                 if (subType1 == 1) {
                     isFreshData = true;
+                    //删除设备
                     deldev_result(info);
 
                 }
                 break;
-            case 6: // ctrlDev
+            case 6: // e_udpPro_editDev  编辑设备
                 if (subType1 == 1) {
+                    //删除设备
                     deldev_result(info);
                     isFreshData = true;
                 }
                 break;
-            case 7: // delDev
+            case 7: // e_udpPro_delDev  删除设备
                 if (subType1 == 1) {
+                    //删除设备
                     deldev_result(info);
                     isFreshData = true;
                 }
                 break;
-            case 8:
+            case 8: //e_udpPro_getBoards
                 if (subType2 == 0) {
                     isFreshData = true;
+                    //获取输出板数据
                     getkeyOutBoard(info);
                 }
                 if (subType2 == 1) {
                     isFreshData = true;
+                    //获取输入板数据
                     getKyeInputBoard(info);
-                    Log.e("InputBoard",MyApplication.getWareData().getKeyInputs().get(0).getKeyIsSelect().length+"");
                 }
                 break;
             case 11: // e_udpPro_getKeyOpItems
@@ -279,6 +317,35 @@ public class udpService extends Service {
                 }
                 break;
             case 16: // e_udpPro_setChnOpitems
+//                if (subType1 == 1) {
+//                    delChnOpItem_result(info);
+//                    isFreshData = true;
+//                /*if (getChnOpItemReply(udpProData))
+//                    myApp.getHandler().sendEmptyMessage(MSG_SETCHNOPITEM_INFO);*/
+//                }
+                break;
+            case 17: // 获取定时数据
+                if (subType2 == 1) {
+                    getTimerData(info);
+                    isFreshData = true;
+
+                }
+                break;
+            case 18: // e_udpPro_setChnOpitems
+//                if (subType1 == 1) {
+//                    delChnOpItem_result(info);
+//                    isFreshData = true;
+//                /*if (getChnOpItemReply(udpProData))
+//                    myApp.getHandler().sendEmptyMessage(MSG_SETCHNOPITEM_INFO);*/
+//                }
+                break;
+            case 19: // e_udpPro_setChnOpitems
+                if (subType2 == 1) {
+                    setTimerData_back(info);
+                    isFreshData = true;
+                }
+                break;
+            case 20: // e_udpPro_setChnOpitems
                 if (subType1 == 1) {
                     delChnOpItem_result(info);
                     isFreshData = true;
@@ -321,6 +388,17 @@ public class udpService extends Service {
 //                    isFreshData = true;
                 }
                 break;
+            case 27: // 获取触发事件数据
+                if (subType2 == 1) {
+                    getConditiondata(info);
+                    isFreshData = true;
+                }
+                break;
+            case 29: // 保存触发事件数据
+                if (subType2 == 1) {
+                    isFreshData = true;
+                }
+                break;
             case 32://e_udpPro_security_info
                 if (subType1 == 4 && subType2 == 255) {
                     //查询联网模块防区信息
@@ -338,9 +416,12 @@ public class udpService extends Service {
                         safety_alarm(info);
                         isFreshData = true;
                     }
-                }else if (subType1 == 1) {
+                } else if (subType1 == 1) {
                     //布防、撤防
                     safety(info);
+                    isFreshData = true;
+                } else if (subType1 == 7 && subType2 == 1) {
+                    //对码
                     isFreshData = true;
                 }
                 break;
@@ -360,10 +441,28 @@ public class udpService extends Service {
                     isFreshData = true;
                 }
                 break;
+            case 66: // trigger
+                if (subType2 == 255) {
+                    getGroupSetData(info);
+                    isFreshData = true;
+                }
+                if (subType1 == 2 && subType2 == 1) {
+                    setGroupSetData(info);
+                    isFreshData = true;
+                }
+                break;
             case 86: // e_udpPro_getShortcutKey
                 if (subType2 == 0) {
                     isFreshData = true;
                     getUserEvents(info);
+                }
+            case 100: // e_udpPro_getShortcutKey
+                if (subType2 == 1) {
+                    if (System.currentTimeMillis() - time > 10000) {
+                        time = System.currentTimeMillis();
+                        isFreshData = true;
+                        Log.e("Socket", "链接失败");
+                    }
                 }
                 break;
         }
@@ -408,13 +507,44 @@ public class udpService extends Service {
         MyApplication.getWareData().setDeleteNetReslut(DevId, subType2);
     }
 
-    private void getUserResult(int subType) {
-        isFreshData = true;
-        MyApplication.getWareData().setLogin_result(subType);
+    int netword_count = 0;
+
+    private void getUserResult(String info) {
+//        {
+//            "userName":	"17089111219",
+//                "passwd":	"123456",
+//                "datType":	82,
+//                "subType1":	0,
+//                "subType2":	0,
+//                "count":	6
+//        }
+        try {
+            JSONObject jsonObject = new JSONObject(info);
+            int subType = jsonObject.getInt("subType2");
+            int count = jsonObject.getInt("count");
+            netword_count = count;
+            MyApplication.getWareData().setLogin_result(subType, count);
+            isFreshData = true;
+        } catch (JSONException e) {
+        }
     }
 
-    public void setRcuInfo(String info) {
 
+    long TimeExit;
+    int sleep = 1;
+
+    public void setRcuInfo(String info) {
+        if (System.currentTimeMillis() - TimeExit > 200) {
+            Log.i("SLEEP", System.currentTimeMillis() - TimeExit + "");
+            TimeExit = System.currentTimeMillis();
+        } else {
+            try {
+                Log.i("SLEEP", "................");
+                Thread.sleep(sleep * 100);
+            } catch (Exception e) {
+            }
+            TimeExit = System.currentTimeMillis();
+        }
 //        获取联网模块的返回数据类型；
 //        {
 //        "devUnitID":	"39ffdb05484d303430690543",
@@ -452,8 +582,9 @@ public class udpService extends Service {
             try {
                 info1.setCanCpuName(jsonObject1.getString("canCpuName"));
             } catch (Exception e) {//服务器和本地单片机数据不一，解析异常
+                Log.w("Exception", e + "");
+                return;
             }
-
             info1.setIpAddr(jsonObject1.getString("IpAddr"));
             info1.setGateWay(jsonObject1.getString("Gateway"));
             info1.setDevUnitPass(jsonObject1.getString("devUnitPass"));
@@ -464,7 +595,6 @@ public class udpService extends Service {
             info1.setSoftVersion(jsonObject1.getString("SoftVersion"));
             info1.setSubMask(jsonObject1.getString("SubMask"));
             info1.setHwVversion(jsonObject1.getString("HwVersion"));
-
 
             if (!"".equals(json_rcuinfo_list) && json_rcuinfo_list != null && json_rcuinfo_list.length() > 0) {
                 json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
@@ -487,14 +617,14 @@ public class udpService extends Service {
                         IsAllequals = false;
                     }
                 }
-                if (IsAllequals)
+                if (IsAllequals) {
                     json_list.add(info1);
+                }
             } else {
                 json_list.add(info1);
             }
-
         } catch (JSONException e) {
-            System.out.println(e.toString());
+            Log.w("Exception", e + "");
         }
         String str = gson.toJson(json_list);
 
@@ -502,7 +632,53 @@ public class udpService extends Service {
         editor.putString("list", str);
         editor.commit();
         MyApplication.getWareData().setRcuInfos(json_list);
+        if (netword_count == sleep)
+            isFreshData = true;
+        sleep++;
+
     }
+
+
+    public void setRcuInfo1(String info) {
+        List<RcuInfo_search> json_list_search = new ArrayList<>();
+        RcuInfo_search RcuInfo_search = new RcuInfo_search();
+        try {
+            JSONObject jsonObject = new JSONObject(info);
+            RcuInfo_search.setDevUnitID(jsonObject.getString("devUnitID"));
+            JSONArray jsonArray = jsonObject.getJSONArray("rcu_rows");
+            JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+            RcuInfo_search.setCanCpuID(jsonObject1.getString("canCpuID"));
+            RcuInfo_search.setDevUnitPass(jsonObject1.getString("devUnitPass"));
+            RcuInfo_search.setName(jsonObject1.getString("name"));
+            RcuInfo_search.setCanCpuName(jsonObject1.getString("canCpuName"));
+            RcuInfo_search.setIpAddr(jsonObject1.getString("IpAddr"));
+            RcuInfo_search.setSubMask(jsonObject1.getString("SubMask"));
+            RcuInfo_search.setGateWay(jsonObject1.getString("Gateway"));
+            RcuInfo_search.setCenterServ(jsonObject1.getString("centerServ"));
+            RcuInfo_search.setRoomNum(jsonObject1.getString("roomNum"));
+            RcuInfo_search.setMacAddr(jsonObject1.getString("macAddr"));
+            RcuInfo_search.setSoftVersion(jsonObject1.getString("SoftVersion"));
+            RcuInfo_search.setHwVversion(jsonObject1.getString("HwVersion"));
+            RcuInfo_search.setbDhcp(jsonObject1.getInt("bDhcp"));
+            json_list_search.add(RcuInfo_search);
+        } catch (JSONException e) {
+
+        }
+        MyApplication.getWareData().setRcuInfo_searches(json_list_search);
+    }
+
+
+    /**
+     * 联网模块--搜索联网
+     *
+     * @param info
+     */
+    public void setRcuInfo_search(String info) {
+        Gson gson = new Gson();
+        SearchNet result = gson.fromJson(info, SearchNet.class);
+        MyApplication.getWareData().setSearchNet(result);
+    }
+
 
     public void getDevsInfo(String info) {
 
@@ -1144,11 +1320,83 @@ public class udpService extends Service {
 
     //修改联网模块防区信息
     public void safety_result(String info) {
-        MyApplication.getWareData().getChnOpItems().clear();
-        Gson gson = new Gson();
-        SetEquipmentResult result = gson.fromJson(info, SetEquipmentResult.class);
-        MyApplication.getWareData().setResult(result);
+        try {
+            MyApplication.getWareData().getChnOpItems().clear();
+            Gson gson = new Gson();
+            SetEquipmentResult result = gson.fromJson(info, SetEquipmentResult.class);
+            MyApplication.getWareData().setResult(result);
+        } catch (Exception e) {
+            Log.e("Exception", e + "");
+        }
     }
+
+    //获取定时器数据
+    public void getTimerData(String info) {
+        MyApplication.getWareData().setTimer_data(null);
+        Gson gson = new Gson();
+        Timer_Data result = gson.fromJson(info, Timer_Data.class);
+        MyApplication.getWareData().setTimer_data(result);
+    }
+
+    //保存定时器 数据返回
+    public void setTimerData_back(String info) {
+//        {
+//            "devUnitID":	"39ffd805484d303416600643",
+//                "datType":	19,
+//                "subType1":	0,
+//                "subType2":	1,
+//                "timerEvent_rows":	[{
+//            "timSta":	[9, 5, 0, 3],
+//            "timEnd":	[13, 5, 0, 0],
+//            "timerName":	"b6a8cab1c6f7310000000000",
+//                    "devCnt":	3,
+//                    "eventId":	1,
+//                    "valid":	0,
+//                    "rev3":	0,
+//                    "run_dev_item":	[{
+//                "canCpuID":	"36ffd7054842373507781843",
+//                        "devID":	7,
+//                        "devType":	3,
+//                        "lmVal":	0,
+//                        "rev2":	0,
+//                        "rev3":	0,
+//                        "bOnOff":	1,
+//                        "param1":	0,
+//                        "param2":	0
+//            }, {
+//                "canCpuID":	"36ffd7054842373507781843",
+//                        "devID":	8,
+//                        "devType":	3,
+//                        "lmVal":	0,
+//                        "rev2":	0,
+//                        "rev3":	0,
+//                        "bOnOff":	1,
+//                        "param1":	0,
+//                        "param2":	0
+//            }, {
+//                "canCpuID":	"36ffd7054842373507781843",
+//                        "devID":	9,
+//                        "devType":	3,
+//                        "lmVal":	0,
+//                        "rev2":	0,
+//                        "rev3":	0,
+//                        "bOnOff":	1,
+//                        "param1":	0,
+//                        "param2":	0
+//            }]
+//        }],
+//            "itemCnt":	1
+//        }
+    }
+
+    //获取触发器数据
+    public void getConditiondata(String info) {
+        MyApplication.getWareData().setTimer_data(null);
+        Gson gson = new Gson();
+        Condition_Event_Bean result = gson.fromJson(info, Condition_Event_Bean.class);
+        MyApplication.getWareData().setCondition_event_bean(result);
+    }
+
     //撤防、布防
     public void safety(String info) {
         MyApplication.getWareData().getChnOpItems().clear();
@@ -1166,17 +1414,86 @@ public class udpService extends Service {
     }
 
     public void setKeyOpItem_result(String info) {
-//        {
-//            "devUnitID":	"37ffdb05424e323416702443",
-//                "datType":	12,
-//                "subType1":	1,
-//                "subType2":	0,
-//                "canCpuID":	"50ff6c067184515640421267",
-//                "result":	1
-//        }
         Gson gson = new Gson();
         SetEquipmentResult result = gson.fromJson(info, SetEquipmentResult.class);
         MyApplication.getWareData().setResult(result);
+    }
+
+    public void getGroupSetData(String info) {
+        Gson gson = new Gson();
+        Log.i("JSON", info);
+        GroupSet_Data result = gson.fromJson(info, GroupSet_Data.class);
+        MyApplication.getWareData().setmGroupSet_Data(result);
+    }
+
+    public void setGroupSetData(String info) {
+//        {
+//            "devUnitID":	"39ffd905484d303429620443",
+//                "datType":	66,
+//                "subType1":	2,
+//                "subType2":	1,
+//                "secs_trigger_rows":	[{
+//            "triggerName":	"c6e6b9d6b99d38b9a9b9b9b9",
+//                    "triggerSecs":	0,
+//                    "triggerId":	0,
+//                    "reportServ":	1,
+//                    "valid":	1,
+//                    "devCnt":	2,
+//                    "run_dev_item":	[{
+//                "canCpuID":	"36ffd7054842373507701843",
+//                        "devID":	2,
+//                        "devType":	3,
+//                        "lmVal":	0,
+//                        "rev2":	0,
+//                        "rev3":	0,
+//                        "bOnOff":	1,
+//                        "param1":	0,
+//                        "param2":	0
+//            }, {
+//                "canCpuID":	"36ffd7054842373507701843",
+//                        "devID":	3,
+//                        "devType":	3,
+//                        "lmVal":	0,
+//                        "rev2":	0,
+//                        "rev3":	0,
+//                        "bOnOff":	1,
+//                        "param1":	0,
+//                        "param2":	0
+//            }]
+//        }],
+//            "itemCnt":	1
+//        }
+
+        try {
+            JSONObject jsonObject = new JSONObject(info);
+            JSONArray jsonArray = jsonObject.getJSONArray("secs_trigger_rows");
+            GroupSet_Data.SecsTriggerRowsBean bean = new GroupSet_Data.SecsTriggerRowsBean();
+            List<GroupSet_Data.SecsTriggerRowsBean.RunDevItemBean> list_dev = new ArrayList<>();
+            GroupSet_Data.SecsTriggerRowsBean.RunDevItemBean decbean = new GroupSet_Data.SecsTriggerRowsBean.RunDevItemBean();
+
+            for (int i = 0; i < MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().size(); i++) {
+                if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(i).getTriggerId()
+                        == jsonArray.getJSONObject(0).getInt("triggerId")) {
+                    bean.setTriggerName(jsonArray.getJSONObject(0).getString("triggerName"));
+                    bean.setReportServ(jsonArray.getJSONObject(0).getInt("reportServ"));
+                    bean.setTriggerId(jsonArray.getJSONObject(0).getInt("triggerId"));
+                    bean.setDevCnt(jsonArray.getJSONObject(0).getInt("devCnt"));
+                    bean.setValid(jsonArray.getJSONObject(0).getInt("valid"));
+                    JSONArray jsonArray_dev = jsonArray.getJSONObject(0).getJSONArray("run_dev_item");
+                    for (int j = 0; j < jsonArray_dev.length(); j++) {
+                        decbean.setCanCpuID(jsonArray_dev.getJSONObject(j).getString("canCpuID"));
+                        decbean.setBOnOff(jsonArray_dev.getJSONObject(j).getInt("bOnOff"));
+                        decbean.setDevID(jsonArray_dev.getJSONObject(j).getInt("devID"));
+                        decbean.setDevType(jsonArray_dev.getJSONObject(j).getInt("devType"));
+                        list_dev.add(decbean);
+                    }
+                    bean.setRun_dev_item(list_dev);
+                    MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().set(i, bean);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("Exception", "数据异常" + e);
+        }
     }
 
     /**
@@ -1464,9 +1781,12 @@ public class udpService extends Service {
             String devid = jsonObject.getString("devUnitID");
 
             //判断  设备信息是否为同一个模块
-            if (!MyApplication.mInstance.getRcuInfo().getDevUnitID().equals(devid))
+            try {
+                if (!MyApplication.mInstance.getRcuInfo().getDevUnitID().equals(devid))
+                    return;
+            } catch (Exception e) {
                 return;
-
+            }
             JSONArray array = jsonObject.getJSONArray("light_rows");
             int num = jsonObject.getInt("light");
 

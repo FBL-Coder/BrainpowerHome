@@ -1,11 +1,12 @@
 package cn.etsoft.smarthome.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by fbl on 16-11-9.
  */
-public class UpBoardKeyData {
+public class UpBoardKeyData implements Serializable {
 
 
     /**
@@ -110,7 +111,7 @@ public class UpBoardKeyData {
         this.chn_opitem_rows = chn_opitem_rows;
     }
 
-    public class ChnOpitemRowsBean {
+    public class ChnOpitemRowsBean implements Serializable{
         private String key_cpuCanID;
         private int keyDownValid;
         private int keyUpValid;

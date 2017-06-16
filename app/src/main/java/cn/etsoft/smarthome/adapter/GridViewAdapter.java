@@ -25,10 +25,12 @@ import cn.etsoft.smarthome.pullmi.entity.WareTv;
 public class GridViewAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private List<WareDev> devList;
+    private Context context;
 
     public GridViewAdapter(List<WareDev> dev, Context context) {
         super();
         devList = dev;
+        this.context = context;
         mInflater = LayoutInflater.from(context);
     }
 

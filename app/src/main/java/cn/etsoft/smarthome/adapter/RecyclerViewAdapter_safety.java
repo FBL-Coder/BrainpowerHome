@@ -31,6 +31,11 @@ public class RecyclerViewAdapter_safety extends RecyclerView.Adapter<RecyclerVie
         list.add(new SetSafetyResult.SecInfoRowsBean());
     }
 
+
+    public void setSelectPosition(int safety_position){
+        mPosition = safety_position;
+    }
+
     public void setOnItemClick(SceneViewHolder.OnItemClick onItemClick) {
         this.onItemClick = onItemClick;
     }
