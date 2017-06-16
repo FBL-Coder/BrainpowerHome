@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:attrs="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/color_60A7D5_null">
+
+
+        <LinearLayout
+            android:id="@+id/loaction"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:paddingBottom="@dimen/dp_12"
+                android:paddingTop="@dimen/dp_12"
+                android:src="@drawable/title_location" />
+
+            <TextView
+                android:id="@+id/loaction_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical" />
+
+            <View
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/edit_loaction"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dp_10"
+                android:padding="@dimen/dp_5"
+                android:src="@drawable/edit_roomname" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/date_week_weather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/loaction"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@drawable/bg_weather"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_40">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_15"
+                            android:text="----.--.--"
+                            android:textColor="@color/color_795000"
+                            android:textSize="@dimen/sp_18" />
+
+                        <TextView
+                            android:id="@+id/week"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="------"
+                            android:textColor="@color/color_795000"
+                            android:textSize="@dimen/sp_18" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/weather"
+                        android:layout_width="@dimen/dp_70"
+                        android:layout_height="@dimen/dp_60"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:src="@drawable/sunny" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="--:--"
+                    android:textColor="@color/color_109ADB"
+                    android:textSize="@dimen/sp_40" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_week_weather"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5">
+
+                    <TextView
+                        android:id="@+id/text_temp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--℃ "
+                        android:textColor="@color/color_229DBF"
+                        android:textSize="@dimen/sp_22" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="当前温度"
+                        android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/dp_1"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_E5E5E5" />
+
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5">
+
+                    <TextView
+                        android:id="@+id/weather_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="----"
+                        android:textColor="@color/color_229DBF"
+                        android:textSize="@dimen/sp_22" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="类型"
+                        android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/dp_1"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_E5E5E5" />
+
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5">
+
+                    <TextView
+                        android:id="@+id/weather_temp2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="----"
+                        android:textColor="@color/color_229DBF"
+                        android:textSize="@dimen/sp_22" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="温度区间"
+                        android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_5"
+                android:background="@color/color_E5E5E5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5">
+
+                    <TextView
+                        android:id="@+id/weather_shidu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="N/A"
+                        android:textColor="@color/color_229DBF"
+                        android:textSize="@dimen/sp_22" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="湿度"
+                        android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/dp_1"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_E5E5E5" />
+
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5">
+
+                    <TextView
+                        android:id="@+id/weather_pm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="----"
+                        android:textColor="@color/color_229DBF"
+                        android:textSize="@dimen/sp_22" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PM2.5"
+                        android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/dp_1"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_E5E5E5" />
+
+
+                <LinearLayout
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5">
+
+                    <TextView
+                        android:id="@+id/weather_zhiliang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="N/A"
+                        android:textColor="@color/color_229DBF"
+                        android:textSize="@dimen/sp_22" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="空气质量"
+                        android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/setting"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/dp_100"
+            android:drawableLeft="@drawable/selector_admin"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="用户界面"
+            android:textColor="@color/color_admin_text"
+            android:textSize="@dimen/sp_18" />
+
+        <TextView
+            android:id="@+id/setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:drawableLeft="@drawable/selector_setting"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_15"
+            android:text="设置"
+            android:textColor="@color/color_setting_text"
+            android:textSize="@dimen/sp_18" />
+
+        <TextView
+            android:id="@+id/video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:drawableLeft="@drawable/video_open_net"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_15"
+            android:text="监控"
+            android:textColor="@color/color_setting_text"
+            android:textSize="@dimen/sp_18" />
+
+        <TextView
+            android:id="@+id/home_tv_ref"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@drawable/selector_ref"
+            android:drawablePadding="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_15"
+            android:text="刷新"
+            android:textColor="@color/color_setting_text"
+            android:textSize="@dimen/sp_18" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2.5"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/color_FC6E51">
+
+            <cn.etsoft.smarthome.View.PageView.BezierViewPager
+                android:id="@+id/view_page_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
+
+            <com.rd.PageIndicatorView
+                android:id="@+id/pageindicatorview_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:padding="20dp"
+                android:visibility="gone"
+                attrs:piv_padding="12dp"
+                attrs:piv_radius="8dp" />
+
+        </RelativeLayout>
+
+        <RadioGroup
+            android:id="@+id/radioGroup_home"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/light"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_main_radiobutton_bg"
+                android:button="@null"
+                android:drawableTop="@drawable/dpx"
+                android:gravity="center"
+                android:paddingTop="@dimen/dp_5"
+                android:text="灯光"
+                android:textColor="@color/color_fff" />
+
+            <RadioButton
+                android:id="@+id/scene"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_main_radiobutton_bg"
+                android:button="@null"
+                android:drawableTop="@drawable/qjx"
+                android:gravity="center"
+                android:paddingTop="@dimen/dp_5"
+                android:text="情景"
+                android:textColor="@color/color_fff" />
+
+            <RadioButton
+                android:id="@+id/curtain"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_main_radiobutton_bg"
+                android:button="@null"
+                android:drawableTop="@drawable/clx"
+                android:gravity="center"
+                android:paddingTop="@dimen/dp_5"
+                android:text="窗帘"
+                android:textColor="@color/color_fff" />
+
+            <RadioButton
+                android:id="@+id/appliance"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_main_radiobutton_bg"
+                android:button="@null"
+                android:drawableTop="@drawable/jdx"
+                android:gravity="center"
+                android:paddingTop="@dimen/dp_5"
+                android:text="家电"
+                android:textColor="@color/color_fff" />
+
+            <RadioButton
+                android:id="@+id/spile"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_main_radiobutton_bg"
+                android:button="@null"
+                android:drawableTop="@drawable/czx"
+                android:gravity="center"
+                android:paddingTop="@dimen/dp_5"
+                android:text="插座"
+                android:textColor="@color/color_fff" />
+
+            <RadioButton
+                android:id="@+id/doorlock"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_main_radiobutton_bg"
+                android:button="@null"
+                android:drawableTop="@drawable/msx"
+                android:gravity="center"
+                android:paddingTop="@dimen/dp_5"
+                android:text="门锁"
+                android:textColor="@color/color_fff" />
+
+            <RadioButton
+                android:id="@+id/safety"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_main_radiobutton_bg"
+                android:button="@null"
+                android:drawableTop="@drawable/fhx"
+                android:gravity="center"
+                android:paddingTop="@dimen/dp_5"
+                android:text="安防"
+                android:textColor="@color/color_fff" />
+
+            <RadioButton
+                android:id="@+id/monitoring"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_main_radiobutton_bg"
+                android:button="@null"
+                android:drawableTop="@drawable/jkx"
+                android:gravity="center"
+                android:paddingTop="@dimen/dp_5"
+                android:text="监控"
+                android:textColor="@color/color_fff" />
+
+
+        </RadioGroup>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

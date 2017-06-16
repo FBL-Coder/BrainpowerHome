@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+    <!--标题栏-->
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/left_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:scaleType="centerCrop"
+            android:padding="2dp" />
+
+        <TextView
+            android:id="@+id/title_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:maxLength="10" />
+
+        <ImageView
+            android:id="@+id/right_more"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="2dp"
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:padding="5dp" />
+
+    </RelativeLayout>
+    <!-- 网络提示区 -->
+    <TextView
+        android:id="@+id/no_network"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_light"
+        android:gravity="center"
+        android:text="请检查网络！！！"
+        android:textColor="@android:color/white"
+        android:visibility="gone"/>
+
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/xrefreshview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null">
+
+        <!-- 为下个不同分布的布局分配空间，可以满足你不同的布局需求 -->
+        <LinearLayout
+            android:id="@+id/llcontent_other"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
+
+    </com.andview.refreshview.XRefreshView>
+</LinearLayout>

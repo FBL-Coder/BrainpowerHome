@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+	android:duration="500">
+
+	<!--透明 1.0 不透明 ————》0.0 透明 -->
+	<alpha
+		android:fromAlpha="1.0"
+		android:toAlpha="0.0"/>
+	<!--缩放 1.0 ————》0.0  原本大小到消失-->
+	<scale
+		android:fromXScale="1.0"
+		android:toXScale="0.0"
+		android:fromYScale="1.0"
+		android:toYScale="0.0"
+		android:pivotX="50%"
+		android:pivotY="50%"/>
+</set>

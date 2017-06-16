@@ -1,0 +1,283 @@
+package cn.etsoft.smarthome;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
+import cn.etsoft.smarthome.Activity.Circle_MenuActivity;
+import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Domain.WareData;
+
+import cn.etsoft.smarthome.Domain.Weather_All_Bean;
+import cn.etsoft.smarthome.Domain.Weather_Bean;
+import cn.etsoft.smarthome.NetMessage.UDPServer;
+import cn.etsoft.smarthome.NetMessage.WebSocket_Client;
+import cn.etsoft.smarthome.Utils.CityDB;
+import cn.etsoft.smarthome.Utils.WratherUtil;
+
+import com.example.abc.mybaseactivity.Notifications.NotificationUtils;
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+
+import java.lang.ref.WeakReference;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * Author：FBL  Time： 2017/6/12.
+ */
+public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.MyApplication {
+
+    /**
+     * websocket 数据通信对象
+     */
+    private WebSocket_Client wsClient;
+
+    /**
+     * UDPServer  udp数据接受对象
+     */
+    private UDPServer udpServer;
+    /**
+     * self
+     */
+    public static MyApplication mApplication;
+    /**
+     * websocket  UDp 连接以及数据返回监听Handler
+     */
+    private APPHandler handler = new APPHandler(this);
+    //websocket数据回调WHAT
+    public int WS_OPEN_OK = 100;
+    public int WS_DATA_OK = 101;
+    public int WS_CLOSE = 102;
+    public int WS_Error = 103;
+    //UDP数据回调成功WHAT
+    public int UDP_DATA_OK = 1000;
+    //UDP数据发送失败
+    public int UDP_NOSEND = 1003;
+    //UDP接收数据失败
+    public int UDP_NORECEIVE = 1004;
+    //数据发送返回超时
+    public int UDP_NOBACK = 5000;
+    //心跳包监听返回码-局域网断开
+    public int HEARTBEAT_STOP = 8000;
+    //心跳包监听返回码-局域网运行
+    public int HEARTBEAT_RUN = 8080;
+    //全局数据
+    private static WareData mWareData;
+
+    /**
+     * 天气返回数据
+     */
+    private Weather_All_Bean mWrather_results;
+    public List<Weather_Bean> mWeathers_list;//天气图标集合
+    public CityDB mCityDB;
+
+    /**
+     * 局域网内连接状态
+     */
+    private boolean Isheartting = false;
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        mApplication = MyApplication.this;
+
+        //初始化天气数据
+        new WratherUtil();
+
+        //初始化SoServer
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                jniUtils.udpServer();
+            }
+        }).start();
+
+        //初始化WebSocket
+        wsClient = new WebSocket_Client();
+        try {
+            wsClient.initSocketClient(handler);
+            wsClient.connect();
+        } catch (URISyntaxException e) {
+            ToastUtil.showText("webSocket连接失败");
+        }
+        // 开启UDP数据接收服务器
+        ExecutorService exec = Executors.newCachedThreadPool();
+        udpServer = new UDPServer(handler);
+        exec.execute(udpServer);
+        //启动心跳包定时监听
+        udpServer.heartBeat();
+    }
+
+    /**
+     * 获取心跳状态
+     */
+    public boolean isIsheartting() {
+        return Isheartting;
+    }
+
+    /**
+     * 设置心跳状态
+     */
+    public void setIsheartting(boolean isheartting) {
+        Isheartting = isheartting;
+    }
+
+    /**
+     * 获取天气返回数据
+     */
+    public Weather_All_Bean getmWrather_results() {
+        return mWrather_results;
+    }
+
+    /**
+     * 设置天气数据
+     */
+    public void setmWrather_results(Weather_All_Bean mWrather_results) {
+        this.mWrather_results = mWrather_results;
+    }
+
+    /**
+     * 获取CityDB
+     */
+    public CityDB getmCityDB() {
+        return mCityDB;
+    }
+
+    /**
+     * 获取全局Context
+     */
+    public static Context getContext() {
+        return mContext;
+    }
+
+    /**
+     * 获取网络数据Handler;
+     */
+    public Handler getDataHandler() {
+        return handler;
+    }
+
+    /**
+     * 获取udp接收器对象
+     */
+    public UDPServer getUdpServer() {
+        if (udpServer == null) {
+            // 开启UDP数据接收服务器
+            ExecutorService exec = Executors.newCachedThreadPool();
+            udpServer = new UDPServer(handler);
+            exec.execute(udpServer);
+        }
+        return udpServer;
+    }
+
+    /**
+     * 获取WebSocket对象
+     */
+    public WebSocket_Client getWsClient() {
+        if (wsClient == null) {
+            wsClient = new WebSocket_Client();
+            try {
+                wsClient.initSocketClient(handler);
+                wsClient.connect();
+            } catch (URISyntaxException e) {
+                ToastUtil.showText("webSocket连接失败");
+                return null;
+            }
+        }
+        return wsClient;
+    }
+
+    /**
+     * 获取所有数据
+     */
+    public static WareData getWareData() {
+        if (mWareData == null)
+            mWareData = new WareData();
+        return mWareData;
+    }
+
+    /**
+     * 静态Handler WebSocket以及Udp连接，数据监听
+     */
+
+    static class APPHandler extends Handler {
+        private WeakReference<MyApplication> weakReference;
+        private MyApplication application;
+
+        APPHandler(MyApplication application) {
+            this.weakReference = new WeakReference<>(application);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (weakReference == null)
+                return;
+            application = weakReference.get();
+            if (msg.what == application.WS_OPEN_OK)
+                Log.e("WebSiocket", "链接成功");
+            if (msg.what == application.WS_CLOSE) {
+                Log.e("WSException", "链接关闭" + msg.obj);
+                application.wsClient = new WebSocket_Client();
+                try {
+                    application.wsClient.initSocketClient(application.handler);
+                    application.wsClient.connect();
+                } catch (URISyntaxException e) {
+                    Log.e("WSException", "WebSocket链接失败" + e);
+                }
+            }
+            if (msg.what == application.WS_DATA_OK) {
+//                NotificationUtils.createNotif(
+//                        application, R.mipmap.ic_launcher, msg.obj + "",
+//                        "标题", msg.obj + "", new Intent(application, Circle_MenuActivity.class), 0, 0);
+                MyApplication.mApplication.getUdpServer().webSocketData((String) msg.obj);
+            }
+            if (msg.what == application.WS_Error)
+                Log.e("WSException", "数据异常" + msg.obj);
+
+            //UDP数据报
+            if (msg.what == application.UDP_DATA_OK) {
+                if (onGetWareDataListener != null)
+                    onGetWareDataListener.upDataWareData((int) msg.obj, msg.arg1, msg.arg2);
+            }
+            //UDP
+            if (msg.what == application.UDP_NOSEND)
+                Log.e("UDPException", "UDP发送消息失败");
+            //UDP接收数据异常
+            if (msg.what == application.UDP_NORECEIVE)
+                Log.e("UDPException", "UDP数据接收失败");
+            //心跳广播停止
+            if (msg.what == application.HEARTBEAT_STOP) {
+                GlobalVars.setIsLAN(false);
+            }
+            //心跳广播运行
+            if (msg.what == application.HEARTBEAT_RUN) {
+                GlobalVars.setIsLAN(true);
+            }
+            //udp发送数据后的回调
+            if (msg.what == application.UDP_NOBACK) {
+            }
+        }
+    }
+
+    /**
+     * 实现通知数据更新的接口；
+     */
+    private static OnGetWareDataListener onGetWareDataListener;
+
+    public static void setOnGetWareDataListener(OnGetWareDataListener Listener) {
+        onGetWareDataListener = Listener;
+    }
+
+    public interface OnGetWareDataListener {
+        void upDataWareData(int datType, int subtype1, int subtype2);
+    }
+}
