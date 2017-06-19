@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:innerRadius="75dp"
+    android:innerRadius="0dp"
     android:shape="ring"
-    android:thickness="80dp"
+    android:thickness="100dp"
     android:useLevel="false">
-    <solid android:color="#f8b4dada" />
+    <solid android:color="#f8de29c5" />
 
     <stroke
         android:width="2dip"
         android:color="#e78ae7" />
-    <gradient
-        android:angle="0"
-        android:startColor="#000"
-        android:endColor="#aed7bb"
-         />
+    <!--<gradient-->
+        <!--android:angle="0"-->
+        <!--android:startColor="#000"-->
+        <!--android:endColor="#aed7bb"-->
+         <!--/>-->
 </shape>
 

@@ -1,12 +1,16 @@
 package cn.etsoft.smarthome;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Window;
 
 import cn.etsoft.smarthome.Activity.Circle_MenuActivity;
+import cn.etsoft.smarthome.Activity.LoginActivity;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.WareData;
 
@@ -15,8 +19,10 @@ import cn.etsoft.smarthome.Domain.Weather_Bean;
 import cn.etsoft.smarthome.NetMessage.UDPServer;
 import cn.etsoft.smarthome.NetMessage.WebSocket_Client;
 import cn.etsoft.smarthome.Utils.CityDB;
+import cn.etsoft.smarthome.Utils.Data_Cache;
 import cn.etsoft.smarthome.Utils.WratherUtil;
 
+import com.example.abc.mybaseactivity.FileUtils.File_Cache;
 import com.example.abc.mybaseactivity.Notifications.NotificationUtils;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
@@ -81,7 +87,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      * 局域网内连接状态
      */
     private boolean Isheartting = false;
-
 
     @Override
     public void onCreate() {
@@ -199,9 +204,24 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      * 获取所有数据
      */
     public static WareData getWareData() {
-        if (mWareData == null)
-            mWareData = new WareData();
+        if (mWareData == null) {
+            mWareData = (WareData) Data_Cache.readFile(GlobalVars.getDevid());
+            if (mWareData == null)
+                mWareData = new WareData();
+        }
         return mWareData;
+    }
+
+    /**
+     * 获取加载框Dialog；
+     */
+    public Dialog getProgressDialog(Context context) {
+        Dialog progressDialog = new Dialog(context);
+        progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.setContentView(R.layout.custom_dialog_progress);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progressDialog.setCancelable(false);
+        return progressDialog;
     }
 
     /**
@@ -279,5 +299,26 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     public interface OnGetWareDataListener {
         void upDataWareData(int datType, int subtype1, int subtype2);
+    }
+
+    @Override
+    public void onTerminate() {
+        // 程序终止的时候执行
+        Data_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
+        super.onTerminate();
+    }
+
+    @Override
+    public void onLowMemory() {
+        // 低内存的时候执行
+        Data_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        // 程序在内存清理的时候执行
+        Data_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
+        super.onTrimMemory(level);
     }
 }

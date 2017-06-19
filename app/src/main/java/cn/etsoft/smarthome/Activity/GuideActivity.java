@@ -31,12 +31,10 @@ public class GuideActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         if ((Integer)AppSharePreferenceMgr.get(MyApplication.getContext(),"IsFirst",0) == 1){
-            startActivity(new Intent(GuideActivity.this,MainActivity.class));
+            startActivity(new Intent(GuideActivity.this,LoginActivity.class));
             finish();
         }
-
         setContentView(R.layout.activity_guide);
         initViews();
     }
@@ -46,9 +44,9 @@ public class GuideActivity extends Activity {
         mBtnGo = (Button)findViewById(R.id.btn_go);
 
         //实例化各个界面的布局对象
-        View view1 = View.inflate(this, R.layout.guide_view, null);
-        View view2 = View.inflate(this, R.layout.guide_view, null);
-        View view3 = View.inflate(this, R.layout.guide_view, null);
+        View view1 = View.inflate(this, R.layout.guide_viewpage_item, null);
+        View view2 = View.inflate(this, R.layout.guide_viewpage_item, null);
+        View view3 = View.inflate(this, R.layout.guide_viewpage_item, null);
 
         ((ImageView)view1.findViewById(R.id.tv_pic)).setImageResource(R.mipmap.ic_launcher);
         ((ImageView)view2.findViewById(R.id.tv_pic)).setImageResource(R.mipmap.ic_launcher);

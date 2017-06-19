@@ -71,7 +71,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.pageview_adapter, container, false);
+        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.home_viewpage_item, container, false);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

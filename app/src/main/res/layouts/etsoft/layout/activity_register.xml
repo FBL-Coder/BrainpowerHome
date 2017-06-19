@@ -11,7 +11,6 @@
         android:id="@+id/register_pass"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_80" />
-
     <Button
         android:id="@+id/register_btn"
         android:layout_width="match_parent"

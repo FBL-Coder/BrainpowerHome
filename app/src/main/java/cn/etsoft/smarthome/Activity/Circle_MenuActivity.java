@@ -40,6 +40,7 @@ public class Circle_MenuActivity extends Activity {
         layout.setOnInnerCircleLayoutClickListener(new CircleMenuLayout.OnInnerCircleLayoutClickListener() {
             @Override
             public void onClickInnerCircle(int position, View view) {
+
                 Toast.makeText(Circle_MenuActivity.this, Data_InnerCircleList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });

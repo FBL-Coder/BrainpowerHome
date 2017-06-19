@@ -33,7 +33,7 @@ public class CircleMenuLayout extends RelativeLayout {
     private ImageView btn_view;
     private RelativeLayout ll_btn_view;
     private Animation mAnim_circlelayout_outer_open, mAnim_circlelayout_outer_close, mAnim_circlelayout_inner_close, mAnim_circlelayout_inner_open,
-            mAnim_iv_rotate_open, mAnim_iv_rotate_close, mAnim_rl_open, mAnim_rl_close;
+            mAnim_iv_rotate_open, mAnim_iv_rotate_close, mAnim_rl_open, mAnim_rl_close,mAnim_circle_item_clicked;
 
     public CircleMenuLayout(Context context) {
         super(context);
@@ -60,7 +60,6 @@ public class CircleMenuLayout extends RelativeLayout {
     public void setInnerCircleMenuData(List<CircleDataEvent> Data_InnerCircleList) {
         this.Data_InnerCircleList = Data_InnerCircleList;
         UIEvent_Circle_Inner();
-
     }
 
     public void setOuterCircleMenuData(List<CircleDataEvent> Data_OuterCircleList) {
@@ -80,6 +79,7 @@ public class CircleMenuLayout extends RelativeLayout {
         mAnim_iv_rotate_close = AnimationUtils.loadAnimation(context, R.anim.anim_circlrlayout_iv_rotate_close);
         mAnim_rl_open = AnimationUtils.loadAnimation(context, R.anim.anim_circlelayout_rl_open);
         mAnim_rl_close = AnimationUtils.loadAnimation(context, R.anim.anim_circlelayout_rl_close);
+        mAnim_circle_item_clicked = AnimationUtils.loadAnimation(context, R.anim.anim_circlelayout_item_click);
     }
 
     /**
@@ -97,9 +97,14 @@ public class CircleMenuLayout extends RelativeLayout {
             iv.setImageResource(Data_InnerCircleList.get(i).getImage());
             l.addView(iv);
             final TextView t = new TextView(context);
-            if (Data_InnerCircleList.get(i).isSelect)
+            if (Data_InnerCircleList.get(i).isSelect) {
                 t.setTextColor(Color.BLUE);
-            else t.setTextColor(Color.WHITE);
+                l.setAnimation(mAnim_circle_item_clicked);
+                l.setBackgroundResource(R.drawable.bg_select_2);
+            }
+            else {
+                t.setTextColor(Color.WHITE);
+            }
             t.setGravity(Gravity.CENTER);
             t.setText(Data_InnerCircleList.get(i).getTitle());
             l.addView(t);
@@ -112,7 +117,6 @@ public class CircleMenuLayout extends RelativeLayout {
                         if (j == Position)
                             Data_InnerCircleList.get(j).setSelect(true);
                         else Data_InnerCircleList.get(j).setSelect(false);
-
                     }
                     UIEvent_Circle_Inner();
                 }
@@ -136,9 +140,13 @@ public class CircleMenuLayout extends RelativeLayout {
             l.addView(iv);
             final TextView t = new TextView(context);
             t.setTextColor(Color.WHITE);
-            if (Data_OuterCircleList.get(i).isSelect)
+            if (Data_OuterCircleList.get(i).isSelect) {
                 t.setTextColor(Color.BLUE);
-            else t.setTextColor(Color.WHITE);
+                l.setAnimation(mAnim_circle_item_clicked);
+            }
+            else {
+                t.setTextColor(Color.WHITE);
+            }
             t.setGravity(Gravity.CENTER);
             t.setText(Data_OuterCircleList.get(i).getTitle());
             l.addView(t);

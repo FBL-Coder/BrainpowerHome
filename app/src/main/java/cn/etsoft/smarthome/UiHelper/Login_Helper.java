@@ -1,0 +1,114 @@
+package cn.etsoft.smarthome.UiHelper;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.util.Log;
+import android.widget.EditText;
+
+import com.example.abc.mybaseactivity.HttpGetDataUtils.HttpCallback;
+import com.example.abc.mybaseactivity.HttpGetDataUtils.OkHttpUtils;
+import com.example.abc.mybaseactivity.HttpGetDataUtils.ResultDesc;
+import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Domain.Http_Result;
+import cn.etsoft.smarthome.Domain.RcuInfo;
+import cn.etsoft.smarthome.MyApplication;
+import cn.etsoft.smarthome.Utils.NewHttpPort;
+
+/**
+ * Author：FBL  Time： 2017/6/19.
+ * 登录辅助类
+ */
+
+public class Login_Helper {
+    private Gson gson;
+    private String input_id;
+    private String input_pass;
+    private Context mContext;
+    private Dialog dialog;
+    public static Login_Helper login_helper = new Login_Helper();
+
+    public void login(Context mContext, EditText id, EditText pass) {
+        this.mContext = mContext;
+        input_id = id.getText().toString();
+        input_pass = pass.getText().toString();
+        if (!(HTTPRequest_BackCode.id_rule.matcher(input_id).matches() && HTTPRequest_BackCode.pass_rule.matcher(input_pass).matches())) {
+            ToastUtil.showText("账号或密码输入人不正确");
+            return;
+        }
+        dialog = MyApplication.mApplication.getProgressDialog(mContext);
+        dialog.show();
+        Map<String, String> param = new HashMap<>();
+        param.put("userName", input_id);
+        param.put("passwd", input_pass);
+        OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.LOGIN, param, new HttpCallback() {
+            @Override
+            public void onSuccess(ResultDesc resultDesc) {
+                Log.i("LOGIN", resultDesc.getResult());
+                if (dialog != null) {
+                    dialog.cancel();
+                    dialog.hide();
+                }
+                super.onSuccess(resultDesc);
+                gson = new Gson();
+                Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
+
+                if (result.getCode() == HTTPRequest_BackCode.LOGIN_OK) {
+                    //TODO 登陆成功
+                    ToastUtil.showText("登陆成功");
+                    setRcuInfoList(result);
+                } else if (result.getCode() == HTTPRequest_BackCode.LOGIN_ERROR) {
+                    //TODO 登陆失败
+                    ToastUtil.showText("登陆失败，请稍后再试");
+                } else if (result.getCode() == HTTPRequest_BackCode.LOGIN_USER_NOTFIND){
+                    //TODO 用户不存在
+                    ToastUtil.showText("登陆失败，用户不存在");
+                }
+                 else if (result.getCode() == HTTPRequest_BackCode.LOGIN_ERROR_Exception){
+                    //TODO 服务器查询失败
+                    ToastUtil.showText("登陆失败，服务器查询失败");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+                super.onFailure(code, message);
+                //TODO 登陆失败
+                if (dialog != null) {
+                    dialog.cancel();
+                    dialog.hide();
+                }
+                ToastUtil.showText("登陆失败，网络不可用或服务器异常");
+            }
+        });
+    }
+
+    public void setRcuInfoList(Http_Result result) {
+
+        AppSharePreferenceMgr.put(mContext, GlobalVars.USERID_SHAREPREFERENCE, input_id);
+        AppSharePreferenceMgr.put(mContext, GlobalVars.USERPASSWORD_SHAREPREFERENCE, input_pass);
+
+        if (result == null)
+            return;
+
+        List<RcuInfo> rcuInfos = new ArrayList<>();
+        for (int i = 0; i < result.getData().size(); i++) {
+            RcuInfo rcuInfo = new RcuInfo();
+            rcuInfo.setCanCpuName(result.getData().get(i).getCanCpuName());
+            rcuInfo.setDevUnitID(result.getData().get(i).getDevUnitID());
+            rcuInfo.setDevUnitPass(result.getData().get(i).getDevPass());
+            rcuInfos.add(rcuInfo);
+        }
+//        List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
+//        }.getType());
+        AppSharePreferenceMgr.put(mContext, GlobalVars.RCUINFOLIST_SHAREPREFERENCE, gson.toJson(rcuInfos));
+    }
+}

@@ -1,8 +1,16 @@
 package cn.etsoft.smarthome.Activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -27,20 +35,20 @@ import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.HTTPRequest_BackCode;
+import cn.etsoft.smarthome.UiHelper.Login_Helper;
+import cn.etsoft.smarthome.UiHelper.New_AddorDel_Helper;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
 
 /**
  * Author：FBL  Time： 2017/6/16.
+ * 登陆界面
  */
 
 public class LoginActivity extends BaseActivity {
 
-
     private EditText mLoginId, mLoginPass;
-    private Button mLoginBtn;
-    private Gson gson;
-    private String input_id;
-    private String input_pass;
+    private EditText mLoginName;
+    private Button mLoginBtn, mRegister;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -49,68 +57,42 @@ public class LoginActivity extends BaseActivity {
         mLoginId = (EditText) findViewById(R.id.login_id);
         mLoginPass = (EditText) findViewById(R.id.login_pass);
         mLoginBtn = (Button) findViewById(R.id.login_btn);
+        mRegister = (Button) findViewById(R.id.register_btn);
+
+        mLoginName = (EditText) findViewById(R.id.login_name);
     }
 
     @Override
     public void initData() {
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onClick(View v) {
-                input_id = mLoginId.getText().toString();
-                input_pass = mLoginPass.getText().toString();
-                if (!(HTTPRequest_BackCode.id_rule.matcher(input_id).matches() && HTTPRequest_BackCode.pass_rule.matcher(input_pass).matches())) {
-                    ToastUtil.showText("账号或密码输入人不正确");
-                    return;
-                }
-                Map<String, String> param = new HashMap<>();
-                param.put("userName", input_id);
-                param.put("passwd", input_pass);
-                OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.LOGIN, param, new HttpCallback() {
-                    @Override
-                    public void onSuccess(ResultDesc resultDesc) {
-                        super.onSuccess(resultDesc);
-                        gson = new Gson();
-                        Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
-
-                        if (result.getCode() == HTTPRequest_BackCode.LOGIN_OK) {
-                            //TODO 登陆成功
-                            setRcuInfoList(result);
-                        } else if (result.getCode() == HTTPRequest_BackCode.LOGIN_ERROR) {
-                            //TODO 登陆失败
-                        }
-                        Log.i("LOGIN", resultDesc.getResult());
-                    }
-
-                    @Override
-                    public void onFailure(int code, String message) {
-                        super.onFailure(code, message);
-                        //TODO 登陆失败
-                    }
-                });
+                Login_Helper.login_helper.login(LoginActivity.this, mLoginId, mLoginPass);
+            }
+        });
+        mRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(LoginActivity.this, RegisterActivity.class), 0);
             }
         });
     }
 
-    public void setRcuInfoList(Http_Result result) {
-
-        AppSharePreferenceMgr.put(this, GlobalVars.USERID_SHAREPREFERENCE, input_id);
-        AppSharePreferenceMgr.put(this, GlobalVars.USERPASSWORD_SHAREPREFERENCE, input_pass);
-
-        if (result == null)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null)
             return;
-
-        List<RcuInfo> rcuInfos = new ArrayList<>();
-        for (int i = 0; i < result.getData().size(); i++) {
-            RcuInfo rcuInfo = new RcuInfo();
-            rcuInfo.setCanCpuName(result.getData().get(i).getCanCpuName());
-            rcuInfo.setDevUnitID(result.getData().get(i).getDevUnitID());
-            rcuInfo.setDevUnitPass(result.getData().get(i).getDevPass());
-            rcuInfos.add(rcuInfo);
+        if (requestCode == 0) {
+            Bundle bundle = data.getBundleExtra("bundle");
+            mLoginId.setText(bundle.getString("ID"));
+            mLoginPass.setText(bundle.getString("PASS"));
         }
-//        List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
-//        }.getType());
-        AppSharePreferenceMgr.put(this, GlobalVars.RCUINFOLIST_SHAREPREFERENCE, gson.toJson(rcuInfos));
+        try{
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
-
 }

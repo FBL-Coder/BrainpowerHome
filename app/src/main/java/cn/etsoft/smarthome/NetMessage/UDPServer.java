@@ -43,6 +43,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -121,6 +122,7 @@ public class UDPServer implements Runnable {
             }
         }, 20000, 100000);
     }
+
     public void send(final String msg) {
         int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
         if (NETWORK == 0) {

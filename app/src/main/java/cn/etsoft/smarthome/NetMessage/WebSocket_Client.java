@@ -8,6 +8,7 @@ import cn.etsoft.smarthome.MyApplication;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 

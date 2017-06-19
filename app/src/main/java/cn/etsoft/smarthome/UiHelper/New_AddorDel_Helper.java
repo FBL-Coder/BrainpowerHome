@@ -1,0 +1,231 @@
+package cn.etsoft.smarthome.UiHelper;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.util.Log;
+import android.widget.EditText;
+
+import com.example.abc.mybaseactivity.HttpGetDataUtils.HttpCallback;
+import com.example.abc.mybaseactivity.HttpGetDataUtils.OkHttpUtils;
+import com.example.abc.mybaseactivity.HttpGetDataUtils.ResultDesc;
+import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+import com.google.gson.Gson;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Domain.Http_Result;
+import cn.etsoft.smarthome.MyApplication;
+import cn.etsoft.smarthome.Utils.NewHttpPort;
+
+/**
+ * Author：FBL  Time： 2017/6/19.
+ */
+
+public class New_AddorDel_Helper {
+
+    /**
+     * 添加联网模块
+     *
+     * @param context
+     * @param name
+     * @param id
+     * @param pass
+     */
+    public static void addNew(Context context, EditText name, EditText id, EditText pass) {
+        final Dialog dialog;
+        String name_input = name.getText().toString();
+        String id_input = id.getText().toString();
+        String pass_input = pass.getText().toString();
+
+        if (name_input.isEmpty() || name_input.length() > 7) {
+            ToastUtil.showText("模块名称不合适");
+            return;
+        }
+        if (id_input.isEmpty() || pass_input.isEmpty()) {
+            ToastUtil.showText("模块ID和模块密码不能为空");
+            return;
+        }
+        dialog = MyApplication.mApplication.getProgressDialog(context);
+        dialog.show();
+        Map<String, String> param = new HashMap<>();
+        param.put("userName", (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));
+        param.put("passwd", (String) AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
+        param.put("devUnitID", id_input);
+        param.put("canCpuName", name_input);
+        param.put("devPass", pass_input);
+        OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.ADDNETMODULE, param, new HttpCallback() {
+            @Override
+            public void onSuccess(ResultDesc resultDesc) {
+                super.onSuccess(resultDesc);
+                if (dialog != null) {
+                    dialog.cancel();
+                    dialog.hide();
+                }
+                Log.i("NEWMODULE", resultDesc.getResult());
+                Gson gson = new Gson();
+                Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
+                if (result.getCode() == HTTPRequest_BackCode.RCUINFO_OK) {
+                    //TODO 添加成功
+                    ToastUtil.showText("联网模块添加成功");
+                } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR) {
+                    //TODO 添加失败
+                    ToastUtil.showText("联网模块添加失败，模块ID已存在");
+                } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR_Exception) {
+                    //TODO 请求失败
+                    ToastUtil.showText("联网模块添加失败，请求异常");
+                } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_NETERROR) {
+                    //TODO 执行失败
+                    ToastUtil.showText("联网模块添加失败，服务器执行未成功");
+                } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_VERIFY_ERROR) {
+                    //TODO 添加失败  验证失败
+                    ToastUtil.showText("联网模块认证失败");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+                super.onFailure(code, message);
+                //TODO 添加失败
+                if (dialog != null) {
+                    dialog.cancel();
+                    dialog.hide();
+                }
+                ToastUtil.showText("联网模块添加失败");
+            }
+        });
+    }
+
+
+    /**
+     * 修改联网模块
+     *
+     * @param context
+     * @param name
+     * @param id
+     * @param pass
+     */
+    public static void editNew(Context context, EditText name, EditText id, EditText pass) {
+        final Dialog dialog;
+        String name_input = name.getText().toString();
+        String id_input = id.getText().toString();
+        String pass_input = pass.getText().toString();
+
+        if (name_input.isEmpty() || name_input.length() > 7) {
+            ToastUtil.showText("模块名称不合适");
+            return;
+        }
+        if (id_input.isEmpty() || pass_input.isEmpty()) {
+            ToastUtil.showText("模块ID和模块密码不能为空");
+            return;
+        }
+        dialog = MyApplication.mApplication.getProgressDialog(context);
+        dialog.show();
+        Map<String, String> param = new HashMap<>();
+        param.put("userName", (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));
+        param.put("passwd", (String) AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
+        param.put("devUnitID", id_input);
+        param.put("canCpuName", name_input);
+        param.put("devPass", pass_input);
+        OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.EDITNETMODULE, param, new HttpCallback() {
+            @Override
+            public void onSuccess(ResultDesc resultDesc) {
+                super.onSuccess(resultDesc);
+                if (dialog != null) {
+                    dialog.cancel();
+                    dialog.hide();
+                }
+                Log.i("NEWMODULE", resultDesc.getResult());
+                Gson gson = new Gson();
+                Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
+                if (result.getCode() == HTTPRequest_BackCode.RCUINFO_OK) {
+                    //TODO 修改成功
+                    ToastUtil.showText("联网模块修改成功");
+                } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR) {
+                    //TODO 修改失败
+                    ToastUtil.showText("联网模块修改失败，模块ID不存在");
+                } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR_Exception) {
+                    //TODO 请求失败
+                    ToastUtil.showText("联网模块修改失败，请求异常");
+                } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_NETERROR) {
+                    //TODO 执行失败
+                    ToastUtil.showText("联网模块修改失败，服务器执行未成功");
+                } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_VERIFY_ERROR) {
+                    //TODO 修改失败  验证失败
+                    ToastUtil.showText("联网模块修改验证失败");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+                super.onFailure(code, message);
+                //TODO 修改失败
+                if (dialog != null) {
+                    dialog.cancel();
+                    dialog.hide();
+                }
+                ToastUtil.showText("联网模块修改失败");
+            }
+        });
+    }
+
+
+    /**
+     * 删除联网模块
+     *
+     * @param context
+     * @param id
+     */
+    public static void deleteNew(Context context, String id) {
+        final Dialog dialog;
+        dialog = MyApplication.mApplication.getProgressDialog(context);
+        dialog.show();
+        Map<String, String> param = new HashMap<>();
+        param.put("userName", (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));
+        param.put("passwd", (String) AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
+        param.put("devUnitID", id);
+
+        OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.DELETENETMODULE, param, new HttpCallback() {
+            @Override
+            public void onSuccess(ResultDesc resultDesc) {
+                super.onSuccess(resultDesc);
+                if (dialog != null) {
+                    dialog.cancel();
+                    dialog.hide();
+                }
+                Log.i("NEWMODULE", resultDesc.getResult());
+                Gson gson = new Gson();
+                Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
+                if (result.getCode() == HTTPRequest_BackCode.RCUINFO_OK) {
+                    //TODO 删除成功
+                    ToastUtil.showText("联网模块删除成功");
+                } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR) {
+                    //TODO 删除失败
+                    ToastUtil.showText("联网模块删除失败，模块ID不存在");
+                } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR_Exception) {
+                    //TODO 请求失败
+                    ToastUtil.showText("联网模块删除失败，请求异常");
+                } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_NETERROR) {
+                    //TODO 执行失败
+                    ToastUtil.showText("联网模块删除失败，服务器执行未成功");
+                } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_VERIFY_ERROR) {
+                    //TODO 删除失败  验证失败
+                    ToastUtil.showText("联网模块删除失败");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+                super.onFailure(code, message);
+                //TODO 删除失败
+                if (dialog != null) {
+                    dialog.cancel();
+                    dialog.hide();
+                }
+                ToastUtil.showText("联网模块删除失败");
+            }
+        });
+    }
+}

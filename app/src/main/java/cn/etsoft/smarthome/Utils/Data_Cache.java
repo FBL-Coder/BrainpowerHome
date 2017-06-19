@@ -14,7 +14,7 @@ import cn.etsoft.smarthome.Domain.WareData;
  * 作者：傅博龍  时间： 2016/7/11.
  * 数据本地缓存；（文件形式）
  */
-public class Dtat_Cache {
+public class Data_Cache {
     /**
      * 数据缓存——文件缓存；
      *
