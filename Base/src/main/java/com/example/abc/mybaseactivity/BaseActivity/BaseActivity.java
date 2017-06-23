@@ -34,7 +34,6 @@ public abstract class BaseActivity extends FragmentActivity {
     private TextView network, titleText;
     private ImageView leftBack, rightMore;
     private LinearLayout llcontent_other;
-    private XRefreshView xrefreshview;
     private LayoutInflater inflater;
     /**
      * 状态栏颜色
@@ -138,18 +137,11 @@ public abstract class BaseActivity extends FragmentActivity {
         inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         title_layout = (RelativeLayout) findViewById(com.example.abc.mybaseactivity.R.id.title_layout);
         network = (TextView) findViewById(com.example.abc.mybaseactivity.R.id.no_network);
-        xrefreshview = (XRefreshView) findViewById(com.example.abc.mybaseactivity.R.id.xrefreshview);
         titleText = (TextView) findViewById(com.example.abc.mybaseactivity.R.id.title_center);
         leftBack = (ImageView) findViewById(com.example.abc.mybaseactivity.R.id.left_back);
         rightMore = (ImageView) findViewById(com.example.abc.mybaseactivity.R.id.right_more);
         llcontent_other = (LinearLayout) findViewById(com.example.abc.mybaseactivity.R.id.llcontent_other);
 
-        //默认不可刷新，不可上拉
-        xrefreshview = (XRefreshView) findViewById(com.example.abc.mybaseactivity.R.id.xrefreshview);
-        xrefreshview.setPullRefreshEnable(false);
-        xrefreshview.setMoveHeadWhenDisablePullRefresh(false);
-        xrefreshview.setPullLoadEnable(false);
-        xrefreshview.setMoveFootWhenDisablePullLoadMore(false);
 
         //判断网络是否可用
         if (NetUtil.getNetWorkState(BaseActivity.this) == NetUtil.NETWORK_NONE)
@@ -166,31 +158,6 @@ public abstract class BaseActivity extends FragmentActivity {
         });
     }
 
-    /**
-     * 设置是否打开下拉刷新和上拉加载功能
-     *
-     * @param isOpenRefresh 下拉刷新
-     * @param isOpenLoading 上拉加载
-     * @return XRefreshView，子类调用方法获取组件重写刷新事件
-     */
-    public XRefreshView setPullLoadData(boolean isOpenRefresh, boolean isOpenLoading) {
-        //是否打开下拉刷新
-        xrefreshview.setPullRefreshEnable(isOpenRefresh);
-        if (isOpenRefresh)
-            xrefreshview.setMoveHeadWhenDisablePullRefresh(true);
-        //是否打开上拉加载
-        xrefreshview.setPullLoadEnable(isOpenLoading);
-        if (isOpenLoading)
-            xrefreshview.setMoveFootWhenDisablePullLoadMore(true);
-        if (!isOpenRefresh && !isOpenLoading)
-            return null;
-
-        xrefreshview.setPinnedTime(1000);
-        xrefreshview.setMoveForHorizontal(true);
-        xrefreshview.setCustomFooterView(new CustomerFooter(this));
-        xrefreshview.setScrollBackDuration(300);
-        return xrefreshview;
-    }
 
     /**
      * 设置标题栏是否显示

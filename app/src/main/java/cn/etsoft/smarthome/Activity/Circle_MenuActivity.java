@@ -25,15 +25,12 @@ public class Circle_MenuActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.circle_activity);
-        layout = (CircleMenuLayout) findViewById(R.id.RL_view);
+        layout = (CircleMenuLayout) findViewById(R.id.circle_circlemenu);
         initData();
-        layout.Init();
+        layout.Init(300,150);
         layout.setInnerCircleMenuData(Data_InnerCircleList);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
-
         initEvent();
-
-
     }
 
     private void initEvent() {

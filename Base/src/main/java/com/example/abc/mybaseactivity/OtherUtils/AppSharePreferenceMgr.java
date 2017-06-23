@@ -29,8 +29,9 @@ public class AppSharePreferenceMgr {
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
      */
-    public static void put(Context context, String key, Object object) {
+    public static void put(String key, Object object) {
 
+        Context context = MyApplication.mContext;
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -52,7 +53,7 @@ public class AppSharePreferenceMgr {
     }
 
     public static Object get(String key, Object defaultObject) {
-       return get(MyApplication.mContext, key, defaultObject);
+        return get(MyApplication.mContext, key, defaultObject);
     }
 
     /**
@@ -133,7 +134,7 @@ public class AppSharePreferenceMgr {
         byte[] byteArray = byStream.toByteArray();
         String imgString = new String(Base64.encodeToString(byteArray, Base64.DEFAULT));
         // 将String保存shareUtils
-        AppSharePreferenceMgr.put(mContext, key, imgString);
+        AppSharePreferenceMgr.put(key, imgString);
     }
 
     /**

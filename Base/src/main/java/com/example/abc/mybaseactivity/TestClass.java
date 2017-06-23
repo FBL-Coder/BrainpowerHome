@@ -24,7 +24,6 @@ public class TestClass extends BaseActivity {
                 finish();
             }
         });
-        setPullLoadData(true, true);
     }
 
     @Override

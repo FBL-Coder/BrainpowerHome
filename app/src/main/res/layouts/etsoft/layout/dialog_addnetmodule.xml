@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="400dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/dp_10"
+    android:paddingLeft="@dimen/dp_20"
+    android:paddingRight="@dimen/dp_20"
+    android:paddingBottom="@dimen/dp_20">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="添加联网模块"
+        android:paddingBottom="@dimen/dp_10"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/dp_28" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/blue"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:lines="1"
+            android:text="模块名称 :"
+            android:textColor="@color/color_000"
+            android:textSize="@dimen/sp_18" />
+
+        <EditText
+            android:id="@+id/dialog_addnetmodule_name"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:hint="清输入模块名称"
+
+            android:textSize="@dimen/sp_18" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:lines="1"
+            android:text="模块ID:"
+            android:textColor="@color/color_000"
+            android:textSize="@dimen/sp_18" />
+
+        <EditText
+            android:id="@+id/dialog_addnetmodule_id"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:text="39ffd505484d303408650743"
+            android:hint="清输入模块ID"
+            android:textSize="@dimen/sp_18" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:lines="1"
+            android:text="模块密码 :"
+            android:textColor="@color/color_000"
+            android:textSize="@dimen/sp_18" />
+
+        <EditText
+            android:id="@+id/dialog_addnetmodule_pass"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:text="08650743"
+            android:hint="清输入模块密码"
+            android:textSize="@dimen/sp_18" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_5"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/dialog_addnetmodule_cancle"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="取消"
+            android:background="@drawable/selector_color_blue_btn_bg"
+            android:padding="@dimen/dp_5"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp_24" />
+        <View
+            android:layout_width="@dimen/dp_2"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/dialog_addnetmodule_ok"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="添加"
+            android:background="@drawable/selector_color_blue_btn_bg"
+            android:padding="@dimen/dp_5"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp_24"  />
+    </LinearLayout>
+</LinearLayout>

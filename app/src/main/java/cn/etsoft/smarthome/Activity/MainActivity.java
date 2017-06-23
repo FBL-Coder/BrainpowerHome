@@ -34,7 +34,6 @@ import java.util.Random;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private String Tag = this.getClass().getName();
-    private XRefreshView xrefreshview;
     private ImageView iv_0;
     private ImageView iv_1;
     private ImageView iv_2;
@@ -52,7 +51,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setTitleViewVisible(true, R.color.colorAccent);
         setStatusColor(R.color.colorAccent);
 
-        xrefreshview = setPullLoadData(true, true);
         iv_0 = (ImageView) findViewById(R.id.iv_0);
         iv_0.setOnClickListener(this);
         iv_1 = (ImageView) findViewById(R.id.iv_1);
@@ -69,42 +67,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void initData() {
-        xrefreshview.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
-            @Override
-            public void onRefresh(boolean isPullDown) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //模拟数据加载失败的情况
-                        Random random = new Random();
-                        boolean success = random.nextBoolean();
-                        if (success) {
-                            xrefreshview.stopRefresh();
-                        } else {
-                            xrefreshview.stopRefresh(false);
-                        }
-                        //或者
-                        //xRefreshView.stopRefresh(success);
-                    }
-                }, 1500);
-            }
 
-            @Override
-            public void onLoadMore(boolean isSilence) {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        //模拟数据加载失败的情况
-                        Random random = new Random();
-                        boolean success = random.nextBoolean();
-                        if (success) {
-                            xrefreshview.stopLoadMore();
-                        } else {
-                            xrefreshview.setLoadComplete(true);
-                        }
-                    }
-                }, 1500);
-            }
-        });
 
         getLiftImage().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,7 +179,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     "标题", "内容", new Intent(this, Circle_MenuActivity.class), 0, 0);
         } else if (i == R.id.send_bt) {
             GlobalVars.setDevid("39ffd505484d303408650743");
-            MyApplication.mApplication.getUdpServer().send(SendDataUtil.GETNETWORKINFO);
+            SendDataUtil.getNetWorkInfo();
         } else if (i == R.id.sendws_bt) {
             if (inputWSSocket.getText().toString().isEmpty())
                 return;

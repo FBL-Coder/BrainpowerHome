@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    //自定义点击动画
+    <string name="view_tag_key">translation_z</string>
+
+
     <string name="app_name">易同智能家居</string>
     <string name="app_compile_time">2016.07.12 17:00:00</string>
     <string name="action_settings">Settings</string>

@@ -47,19 +47,17 @@ import cn.etsoft.smarthome.Utils.NewHttpPort;
 public class LoginActivity extends BaseActivity {
 
     private EditText mLoginId, mLoginPass;
-    private EditText mLoginName;
     private Button mLoginBtn, mRegister;
 
     @SuppressLint("WrongViewCast")
     @Override
     public void initView() {
         setLayout(R.layout.activity_login);
-        mLoginId = (EditText) findViewById(R.id.login_id);
-        mLoginPass = (EditText) findViewById(R.id.login_pass);
-        mLoginBtn = (Button) findViewById(R.id.login_btn);
-        mRegister = (Button) findViewById(R.id.register_btn);
+        mLoginId =  getViewById(R.id.login_id);
+        mLoginPass =  getViewById(R.id.login_pass);
+        mLoginBtn =  getViewById(R.id.login_btn);
+        mRegister =  getViewById(R.id.register_btn);
 
-        mLoginName = (EditText) findViewById(R.id.login_name);
     }
 
     @Override

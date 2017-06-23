@@ -2,37 +2,37 @@ package cn.etsoft.smarthome;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Window;
 
-import cn.etsoft.smarthome.Activity.Circle_MenuActivity;
-import cn.etsoft.smarthome.Activity.LoginActivity;
-import cn.etsoft.smarthome.Domain.GlobalVars;
-import cn.etsoft.smarthome.Domain.WareData;
+import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.ref.WeakReference;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Domain.RcuInfo;
+import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.Domain.Weather_All_Bean;
 import cn.etsoft.smarthome.Domain.Weather_Bean;
 import cn.etsoft.smarthome.NetMessage.UDPServer;
 import cn.etsoft.smarthome.NetMessage.WebSocket_Client;
 import cn.etsoft.smarthome.Utils.CityDB;
 import cn.etsoft.smarthome.Utils.Data_Cache;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.Utils.WratherUtil;
-
-import com.example.abc.mybaseactivity.FileUtils.File_Cache;
-import com.example.abc.mybaseactivity.Notifications.NotificationUtils;
-import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
-
-import java.lang.ref.WeakReference;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Author：FBL  Time： 2017/6/12.
@@ -83,6 +83,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public List<Weather_Bean> mWeathers_list;//天气图标集合
     public CityDB mCityDB;
 
+
     /**
      * 局域网内连接状态
      */
@@ -119,6 +120,10 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         exec.execute(udpServer);
         //启动心跳包定时监听
         udpServer.heartBeat();
+
+
+        //设置上次使用的联网模块ID；
+        GlobalVars.setDevid((String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE,""));
     }
 
     /**
@@ -164,6 +169,19 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     }
 
     /**
+     * 获取联网模块列表
+     */
+    public List<RcuInfo> getRcuInfoList(){
+        String rcuinfolist_json = (String) AppSharePreferenceMgr.get(this, GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
+        List<RcuInfo> json_rcuinfolist = new Gson().fromJson(rcuinfolist_json, new TypeToken<List<RcuInfo>>() {
+        }.getType());
+
+        if (json_rcuinfolist == null || "".equals(json_rcuinfolist))
+            json_rcuinfolist = new ArrayList<>();
+        return json_rcuinfolist;
+    }
+
+    /**
      * 获取网络数据Handler;
      */
     public Handler getDataHandler() {
@@ -201,11 +219,22 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     }
 
     /**
+     * 重置所有数据
+     */
+    public static void setNewWareData(){
+        mWareData = new WareData();
+    }
+    /**
      * 获取所有数据
      */
     public static WareData getWareData() {
         if (mWareData == null) {
-            mWareData = (WareData) Data_Cache.readFile(GlobalVars.getDevid());
+            try {
+                mWareData = (WareData) Data_Cache.readFile(GlobalVars.getDevid());
+            } catch (Exception e) {
+                Log.e("Exception", "MyApplication" + e);
+                mWareData = new WareData();
+            }
             if (mWareData == null)
                 mWareData = new WareData();
         }
@@ -227,17 +256,17 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     /**
      * 静态Handler WebSocket以及Udp连接，数据监听
      */
-
     static class APPHandler extends Handler {
         private WeakReference<MyApplication> weakReference;
         private MyApplication application;
+        private boolean UdpIsHaveBackData = false;
 
         APPHandler(MyApplication application) {
             this.weakReference = new WeakReference<>(application);
         }
 
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(final Message msg) {
             super.handleMessage(msg);
             if (weakReference == null)
                 return;
@@ -260,11 +289,13 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 //                        "标题", msg.obj + "", new Intent(application, Circle_MenuActivity.class), 0, 0);
                 MyApplication.mApplication.getUdpServer().webSocketData((String) msg.obj);
             }
-            if (msg.what == application.WS_Error)
+            if (msg.what == application.WS_Error) {
                 Log.e("WSException", "数据异常" + msg.obj);
-
+                ToastUtil.showText("数据发送失败，与服务器连接已断开，请稍后再试！");
+            }
             //UDP数据报
             if (msg.what == application.UDP_DATA_OK) {
+                UdpIsHaveBackData = true;
                 if (onGetWareDataListener != null)
                     onGetWareDataListener.upDataWareData((int) msg.obj, msg.arg1, msg.arg2);
             }
@@ -284,6 +315,20 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             }
             //udp发送数据后的回调
             if (msg.what == application.UDP_NOBACK) {
+
+//                Timer timer = new Timer();
+//                timer.schedule(new TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        if (!UdpIsHaveBackData) {
+//                            GlobalVars.setIsLAN(false);
+//                            if (onUdpgetDataNoBackListener != null)
+//                                onUdpgetDataNoBackListener.WSSendDatd((String) msg.obj);
+//                        }else {
+//                            UdpIsHaveBackData = false;
+//                        }
+//                    }
+//                }, 3000, 3000);
             }
         }
     }
@@ -299,6 +344,19 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     public interface OnGetWareDataListener {
         void upDataWareData(int datType, int subtype1, int subtype2);
+    }
+
+    /**
+     * Udp发送数据后5秒五返回
+     */
+    private static OnUdpgetDataNoBackListener onUdpgetDataNoBackListener;
+
+    public static void setOnUdpgetDataNoBackListener(OnUdpgetDataNoBackListener onUdpgetDataNoBackListener) {
+        MyApplication.onUdpgetDataNoBackListener = onUdpgetDataNoBackListener;
+    }
+
+    public interface OnUdpgetDataNoBackListener {
+        void WSSendDatd(String msg);
     }
 
     @Override

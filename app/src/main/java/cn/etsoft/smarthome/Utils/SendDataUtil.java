@@ -12,16 +12,59 @@ import cn.etsoft.smarthome.MyApplication;
 
 public class SendDataUtil {
 
-    public static String GETNETWORKINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 0" + "}";
-    public static String GETDEVINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getDevsInfo.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 0" + "}";
-    public static String GETSCENEINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getSceneEvents.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 0" + "}";
-    public static String GETOUTBOARDINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getBoards.getValue() + "," + "\"subType1\": 1," + "\"subType2\": 0" + "}";
-    public static String GETINPUTBOARDINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getBoards.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 1" + "}";
-    public static String GETTIMERINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getTimerEvents.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 0" + "}";
-    public static String GETCONDITIONINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getEnvEvents.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 0" + "}";
-    public static String GETSECURITYINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_security_info.getValue() + "," + "\"subType1\": 3," + "\"subType2\": 255" + "}";
-    public static String GETGROUPSETINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getGroupInfo.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 255" + "}";
 
+    public static void getGroupSetInfo() {
+        String GETGROUPSETINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getGroupInfo.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 255" + "}";
+        MyApplication.mApplication.getUdpServer().send(GETGROUPSETINFO);
+    }
+
+
+    public static void getSecurityInfo() {
+        String GETSECURITYINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_security_info.getValue() + "," + "\"subType1\": 3," + "\"subType2\": 255" + "}";
+        MyApplication.mApplication.getUdpServer().send(GETSECURITYINFO);
+    }
+
+
+    public static void getConditionInfo() {
+        String GETCONDITIONINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getEnvEvents.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 0" + "}";
+        MyApplication.mApplication.getUdpServer().send(GETCONDITIONINFO);
+    }
+
+
+    public static void getTimerInfo() {
+        String GETTIMERINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getTimerEvents.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 0" + "}";
+        MyApplication.mApplication.getUdpServer().send(GETTIMERINFO);
+    }
+
+
+    public static void getInputBoardInfo() {
+        String GETINPUTBOARDINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getBoards.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 1" + "}";
+        MyApplication.mApplication.getUdpServer().send(GETINPUTBOARDINFO);
+    }
+
+
+    public static void getOutBoardInfo() {
+        String GETOUTBOARDINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getBoards.getValue() + "," + "\"subType1\": 1," + "\"subType2\": 0" + "}";
+        MyApplication.mApplication.getUdpServer().send(GETOUTBOARDINFO);
+    }
+
+
+    public static void getSceneInfo() {
+        String GETSCENEINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getSceneEvents.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 0" + "}";
+        MyApplication.mApplication.getUdpServer().send(GETSCENEINFO);
+    }
+
+    public static void getDevInfo() {
+        String GETDEVINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getDevsInfo.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 0" + "}";
+        MyApplication.mApplication.getUdpServer().send(GETDEVINFO);
+    }
+
+    public static void getNetWorkInfo() {
+        String GETNETWORKINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() +
+                "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue() +
+                "," + "\"subType1\": 0," + "\"subType2\": 0" + "}";
+        MyApplication.mApplication.getUdpServer().send(GETNETWORKINFO);
+    }
 
     public static void controlDev(WareDev dev, int cmd) {
         String ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +

@@ -34,9 +34,9 @@ public class RegisterActivity extends BaseActivity {
     public void initView() {
         setLayout(R.layout.activity_register);
         mIntent = getIntent();
-        mRegisterId = (EditText) findViewById(R.id.register_id);
-        mRegisterPass = (EditText) findViewById(R.id.register_pass);
-        mRegisterBtn = (Button) findViewById(R.id.register_btn);
+        mRegisterId =  getViewById(R.id.register_id);
+        mRegisterPass =  getViewById(R.id.register_pass);
+        mRegisterBtn =  getViewById(R.id.register_btn);
     }
 
     @Override

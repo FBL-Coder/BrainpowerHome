@@ -3,14 +3,13 @@ package cn.etsoft.smarthome.NetMessage;
 import android.os.Handler;
 import android.os.Message;
 
-import cn.etsoft.smarthome.MyApplication;
-
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
-import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import cn.etsoft.smarthome.MyApplication;
 
 /**
  * Author：FBL  Time： 2017/6/9.

@@ -152,6 +152,8 @@ public class WareData implements Serializable {
     }
 
     public List<String> getRooms() {
+        if (rooms == null)
+            rooms = new ArrayList<>();
         return rooms;
     }
 

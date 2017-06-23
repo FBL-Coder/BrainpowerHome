@@ -6,6 +6,23 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.abc.mybaseactivity.NetWorkListener.AppNetworkMgr;
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import cn.etsoft.smarthome.Domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.Domain.DevControl_Result;
@@ -33,25 +50,6 @@ import cn.etsoft.smarthome.Domain.WareTv;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.Utils.CommonUtils;
 
-import com.example.abc.mybaseactivity.NetWorkListener.AppNetworkMgr;
-import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.Serializable;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * Author：FBL  Time： 2017/6/9.
  */
@@ -70,8 +68,8 @@ public class UDPServer implements Runnable {
     //是否刷新数据
     private boolean isFreshData = false;
 
-    public UDPServer(Handler handler) {
-        this.mhandler = handler;
+    public UDPServer(Handler handler){
+        mhandler = handler;
     }
 
     public boolean isLife() {
@@ -123,20 +121,32 @@ public class UDPServer implements Runnable {
         }, 20000, 100000);
     }
 
+
     public void send(final String msg) {
+
         int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
         if (NETWORK == 0) {
             ToastUtil.showText("请检查网络连接");
         } else if (NETWORK != 0 && NETWORK < 10) {
-            Log.i("发送WebSocket", "WEB" + msg);
+            Log.i("数据流量发送WebSocket", "WEB" + msg);
             MyApplication.mApplication.getWsClient().sendMsg(msg);
         } else {
+            MyApplication.setOnUdpgetDataNoBackListener(new MyApplication.OnUdpgetDataNoBackListener() {
+                @Override
+                public void WSSendDatd(String msg) {
+                    String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
+                    if ("".equals(GlobalVars.getDevid())) {
+                        return;
+                    }
+                    Log.i("Udp发送无返回，改WebSocket发送", "WEB" + jsonToServer);
+                    MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
+                }
+            });
             if (!GlobalVars.isIsLAN()) {
-                String jsonToServer = "{" +
-                        "\"uid\":\"" + "17612344321" + "\"," +
-                        "\"type\":\"" + "forward" + "\"," +
-                        "\"data\":" + msg +
-                        "}";
+                if ("".equals(GlobalVars.getDevid())) {
+                    return;
+                }
+                String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
                 Log.i("发送WebSocket", "WEB" + jsonToServer);
                 MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
             } else {
@@ -147,6 +157,7 @@ public class UDPServer implements Runnable {
                             local = InetAddress.getByName("localhost"); // 本机测试
                             int msg_len = msg == null ? 0 : msg.getBytes().length;
                             Message message = mhandler.obtainMessage();
+                            message.obj = msg;
                             message.what = MyApplication.mApplication.UDP_NOBACK;
                             mhandler.sendMessage(message);
                             DatagramPacket dPacket = new DatagramPacket(msg.getBytes(), msg_len,

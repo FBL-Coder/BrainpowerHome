@@ -32,7 +32,7 @@ public class GuideActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         if ((Integer)AppSharePreferenceMgr.get(MyApplication.getContext(),"IsFirst",0) == 1){
-            startActivity(new Intent(GuideActivity.this,LoginActivity.class));
+            startActivity(new Intent(GuideActivity.this,WelcomeActivity.class));
             finish();
         }
         setContentView(R.layout.activity_guide);
@@ -55,8 +55,8 @@ public class GuideActivity extends Activity {
         mBtnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppSharePreferenceMgr.put(MyApplication.getContext(),"IsFirst",1);
-                startActivity(new Intent(GuideActivity.this,MainActivity.class));
+                AppSharePreferenceMgr.put("IsFirst",1);
+                startActivity(new Intent(GuideActivity.this,WelcomeActivity.class));
                 finish();
             }
         });

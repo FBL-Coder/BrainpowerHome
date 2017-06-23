@@ -2,6 +2,7 @@ package cn.etsoft.smarthome.UiHelper;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.EditText;
 
@@ -17,11 +18,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.etsoft.smarthome.Activity.HomeActivity;
+import cn.etsoft.smarthome.Activity.SettingActivity;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.Http_Result;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 /**
  * Author：FBL  Time： 2017/6/19.
@@ -36,7 +40,7 @@ public class Login_Helper {
     private Dialog dialog;
     public static Login_Helper login_helper = new Login_Helper();
 
-    public void login(Context mContext, EditText id, EditText pass) {
+    public void login(final Context mContext, EditText id, EditText pass) {
         this.mContext = mContext;
         input_id = id.getText().toString();
         input_pass = pass.getText().toString();
@@ -68,11 +72,10 @@ public class Login_Helper {
                 } else if (result.getCode() == HTTPRequest_BackCode.LOGIN_ERROR) {
                     //TODO 登陆失败
                     ToastUtil.showText("登陆失败，请稍后再试");
-                } else if (result.getCode() == HTTPRequest_BackCode.LOGIN_USER_NOTFIND){
+                } else if (result.getCode() == HTTPRequest_BackCode.LOGIN_USER_NOTFIND) {
                     //TODO 用户不存在
                     ToastUtil.showText("登陆失败，用户不存在");
-                }
-                 else if (result.getCode() == HTTPRequest_BackCode.LOGIN_ERROR_Exception){
+                } else if (result.getCode() == HTTPRequest_BackCode.LOGIN_ERROR_Exception) {
                     //TODO 服务器查询失败
                     ToastUtil.showText("登陆失败，服务器查询失败");
                 }
@@ -93,8 +96,8 @@ public class Login_Helper {
 
     public void setRcuInfoList(Http_Result result) {
 
-        AppSharePreferenceMgr.put(mContext, GlobalVars.USERID_SHAREPREFERENCE, input_id);
-        AppSharePreferenceMgr.put(mContext, GlobalVars.USERPASSWORD_SHAREPREFERENCE, input_pass);
+        AppSharePreferenceMgr.put(GlobalVars.USERID_SHAREPREFERENCE, input_id);
+        AppSharePreferenceMgr.put(GlobalVars.USERPASSWORD_SHAREPREFERENCE, input_pass);
 
         if (result == null)
             return;
@@ -109,6 +112,12 @@ public class Login_Helper {
         }
 //        List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
 //        }.getType());
-        AppSharePreferenceMgr.put(mContext, GlobalVars.RCUINFOLIST_SHAREPREFERENCE, gson.toJson(rcuInfos));
+        AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, gson.toJson(rcuInfos));
+        if (rcuInfos.size() != 1)
+            mContext.startActivity(new Intent(mContext, SettingActivity.class));
+        else {
+            SendDataUtil.getNetWorkInfo();
+            mContext.startActivity(new Intent(mContext, HomeActivity.class));
+        }
     }
 }

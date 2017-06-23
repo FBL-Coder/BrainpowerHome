@@ -2,6 +2,8 @@ package cn.etsoft.smarthome.UiHelper;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.EditText;
 
@@ -26,6 +28,10 @@ import cn.etsoft.smarthome.Utils.NewHttpPort;
 
 public class New_AddorDel_Helper {
 
+    public static int ADDNEWMODULE_OK = 11;
+    public static int EDITNEWMODULE_OK = 21;
+    public static int DELNEWMODULE_OK = 31;
+
     /**
      * 添加联网模块
      *
@@ -34,7 +40,7 @@ public class New_AddorDel_Helper {
      * @param id
      * @param pass
      */
-    public static void addNew(Context context, EditText name, EditText id, EditText pass) {
+    public static void addNew(final Handler handler, Context context, EditText name, EditText id, EditText pass) {
         final Dialog dialog;
         String name_input = name.getText().toString();
         String id_input = id.getText().toString();
@@ -68,6 +74,9 @@ public class New_AddorDel_Helper {
                 Gson gson = new Gson();
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
                 if (result.getCode() == HTTPRequest_BackCode.RCUINFO_OK) {
+                    Message message = handler.obtainMessage();
+                    message.what = ADDNEWMODULE_OK;
+                    handler.sendMessage(message);
                     //TODO 添加成功
                     ToastUtil.showText("联网模块添加成功");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR) {
@@ -107,7 +116,7 @@ public class New_AddorDel_Helper {
      * @param id
      * @param pass
      */
-    public static void editNew(Context context, EditText name, EditText id, EditText pass) {
+    public static void editNew(final Handler handler, Context context, EditText name, EditText id, EditText pass) {
         final Dialog dialog;
         String name_input = name.getText().toString();
         String id_input = id.getText().toString();
@@ -142,6 +151,9 @@ public class New_AddorDel_Helper {
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
                 if (result.getCode() == HTTPRequest_BackCode.RCUINFO_OK) {
                     //TODO 修改成功
+                    Message message = handler.obtainMessage();
+                    message.what = EDITNEWMODULE_OK;
+                    handler.sendMessage(message);
                     ToastUtil.showText("联网模块修改成功");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR) {
                     //TODO 修改失败
@@ -178,7 +190,7 @@ public class New_AddorDel_Helper {
      * @param context
      * @param id
      */
-    public static void deleteNew(Context context, String id) {
+    public static void deleteNew(final Handler handler, Context context, String id) {
         final Dialog dialog;
         dialog = MyApplication.mApplication.getProgressDialog(context);
         dialog.show();
@@ -200,6 +212,9 @@ public class New_AddorDel_Helper {
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
                 if (result.getCode() == HTTPRequest_BackCode.RCUINFO_OK) {
                     //TODO 删除成功
+                    Message message = handler.obtainMessage();
+                    message.what = DELNEWMODULE_OK;
+                    handler.sendMessage(message);
                     ToastUtil.showText("联网模块删除成功");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR) {
                     //TODO 删除失败

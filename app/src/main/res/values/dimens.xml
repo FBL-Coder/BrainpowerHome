@@ -143,6 +143,7 @@
     <dimen name="dp_400">400dp</dimen>
     <dimen name="dp_500">500dp</dimen>
     <dimen name="dp_600">600dp</dimen>
+    <dimen name="dp_520">520dp</dimen>
     <dimen name="dp_700">700dp</dimen>
     <dimen name="dp_800">800dp</dimen>
     <dimen name="dp_900">900dp</dimen>
@@ -171,5 +172,7 @@
     <dimen name="sp_46">46sp</dimen>
     <dimen name="sp_50">50sp</dimen>
     <dimen name="sp_52">52sp</dimen>
+    <dimen name="sp_80">80sp</dimen>
+    <dimen name="sp_100">100sp</dimen>
 
 </resources>

@@ -9,8 +9,12 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
+import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
+import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.Utils.NewHttpPort;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 /**
  * Author：FBL  Time： 2017/6/13.
@@ -29,25 +33,28 @@ public class WelcomeActivity extends BaseActivity {
     public void initData() {
         setStatusColor(0xffffffff);
 
-        String json_RcuInfo = (String) AppSharePreferenceMgr.get("RcuInfo", "");
+        String json_RcuInfolist = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
 
-        startActivity(new Intent(WelcomeActivity.this,HomeActivity.class));
-        finish();
+        String json_RcuinfoID = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
 
-//        Gson gson = new Gson();
-//        if (!json_RcuInfo.equals("")) {
-//            mRcuInfos = gson.fromJson(json_RcuInfo, new TypeToken<List<RcuInfo>>() {
-//            }.getType());
-//        }
-//
-//        if (mRcuInfos.size() == 0){
-//
-//
-//
-//        }else if (mRcuInfos.size() == 1){
-//
-//        }else {
-//
-//        }
+        String UserID = (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, "");
+
+
+//        startActivity(new Intent(WelcomeActivity.this,HomeActivity.class));
+//        finish();
+
+        if ("".equals(UserID)) {
+            startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+            finish();
+        }
+        if (!"".equals(UserID) && "".equals(json_RcuinfoID)) {
+            startActivity(new Intent(WelcomeActivity.this, SettingActivity.class));
+            finish();
+        }
+        if (!"".equals(UserID) && !"".equals(json_RcuinfoID)) {
+            SendDataUtil.getNetWorkInfo();
+            startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
+            finish();
+        }
     }
 }

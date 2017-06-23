@@ -5,21 +5,16 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/login_name"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_80"
-        android:text="我就添加一个"/>
-    <EditText
         android:id="@+id/login_id"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_80"
-        android:text="123456789123456789"/>
+        android:text="17089111219"/>
 
     <EditText
         android:id="@+id/login_pass"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_80"
-        android:text="123456789"/>
+        android:text="123456"/>
 
     <Button
         android:id="@+id/login_btn"

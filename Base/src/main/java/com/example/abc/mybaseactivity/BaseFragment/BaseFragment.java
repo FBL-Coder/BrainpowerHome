@@ -66,6 +66,10 @@ public abstract class BaseFragment extends Fragment {
 
         setListener();
     }
+    /**
+     * 初始化View
+     */
+    protected abstract void initView();
 
     /**
      * 初始化数据
@@ -73,11 +77,6 @@ public abstract class BaseFragment extends Fragment {
      * @param arguments 接收到的从其他地方传递过来的参数
      */
     public abstract void initData(Bundle arguments);
-
-    /**
-     * 初始化View
-     */
-    protected abstract void initView();
 
     /**
      * 设置监听事件

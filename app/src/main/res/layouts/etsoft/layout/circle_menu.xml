@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
     >
 
     <cn.etsoft.smarthome.View.CircleMenu.CircleLayout
         android:id="@+id/circle_1"
-        android:layout_width="275dp"
-        android:layout_height="550dp"
-        android:layout_gravity="left|center"
-        android:background="@mipmap/big"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:visibility="visible" />
 
 
     <cn.etsoft.smarthome.View.CircleMenu.CircleLayout
         android:id="@+id/circle_2"
-        android:layout_width="175dp"
-        android:layout_height="340dp"
-        android:layout_gravity="left|center"
-        android:background="@drawable/small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:visibility="visible" />
 
     <RelativeLayout
         android:id="@+id/ll_btn_view"
-        android:layout_width="65dp"
-        android:layout_height="130dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_gravity="left|center"
         android:background="@drawable/btn_select"
         android:gravity="center"
-        android:visibility="visible"></RelativeLayout>
+        android:visibility="gone"></RelativeLayout>
 
     <ImageView
         android:id="@+id/btn_view"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="left|center"
+        android:visibility="gone"
         android:src="@mipmap/add" />
 
 
-</FrameLayout>
+</RelativeLayout>

@@ -36,20 +36,6 @@ public class ControlDev_Home_Fragment extends BaseFragment {
     @Override
     protected void setListener() {
 
-        HomeActivity.setOnPageSelectedListener(new HomeActivity.OnPageSelectedListener() {
-            @Override
-            public void getPageSelected(int RoomPosition) {
-                mRoonPosition = RoomPosition;
-                initFragment();
-            }
-        });
-        HomeActivity.setOnRadioButtonSelectedListener(new HomeActivity.OnRadioButtonSelectedListener() {
-            @Override
-            public void getRadioButtonSelected(String ControlType) {
-                mControlType = ControlType;
-                initFragment();
-            }
-        });
     }
 
     @Override

@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +31,7 @@ public class CircleMenuLayout extends RelativeLayout {
     private List<CircleDataEvent> Data_InnerCircleList;
     private ImageView btn_view;
     private RelativeLayout ll_btn_view;
-    private Animation mAnim_circlelayout_outer_open, mAnim_circlelayout_outer_close, mAnim_circlelayout_inner_close, mAnim_circlelayout_inner_open,
-            mAnim_iv_rotate_open, mAnim_iv_rotate_close, mAnim_rl_open, mAnim_rl_close,mAnim_circle_item_clicked;
+    private Animation mAnim_circle_item_clicked;
 
     public CircleMenuLayout(Context context) {
         super(context);
@@ -50,8 +48,18 @@ public class CircleMenuLayout extends RelativeLayout {
         this.context = context;
     }
 
-    public void Init() {
-        initView();
+    @Override
+    public void setTranslationX(float translationX) {
+        super.setTranslationX(translationX);
+    }
+
+    @Override
+    public void setTranslationY(float translationY) {
+        super.setTranslationY(translationY);
+    }
+
+    public void Init(int Radius_outer, int Radius_inner) {
+        initView(Radius_outer,Radius_inner);
         UIEvent_Circle_Outer();
         UIEvent_Circle_Inner();
         initAnimations_One();
@@ -71,14 +79,6 @@ public class CircleMenuLayout extends RelativeLayout {
      * 初始化所需动画
      */
     private void initAnimations_One() {
-        mAnim_circlelayout_outer_open = AnimationUtils.loadAnimation(context, R.anim.anim_cieclelayout_outer_open);
-        mAnim_circlelayout_outer_close = AnimationUtils.loadAnimation(context, R.anim.anim_circlelayout_outer_close);
-        mAnim_circlelayout_inner_open = AnimationUtils.loadAnimation(context, R.anim.anim_circlelayout_inner_open);
-        mAnim_circlelayout_inner_close = AnimationUtils.loadAnimation(context, R.anim.anim_circlelayout_inner_close);
-        mAnim_iv_rotate_open = AnimationUtils.loadAnimation(context, R.anim.anim_circlrlayout_iv_rotate_open);
-        mAnim_iv_rotate_close = AnimationUtils.loadAnimation(context, R.anim.anim_circlrlayout_iv_rotate_close);
-        mAnim_rl_open = AnimationUtils.loadAnimation(context, R.anim.anim_circlelayout_rl_open);
-        mAnim_rl_close = AnimationUtils.loadAnimation(context, R.anim.anim_circlelayout_rl_close);
         mAnim_circle_item_clicked = AnimationUtils.loadAnimation(context, R.anim.anim_circlelayout_item_click);
     }
 
@@ -100,9 +100,7 @@ public class CircleMenuLayout extends RelativeLayout {
             if (Data_InnerCircleList.get(i).isSelect) {
                 t.setTextColor(Color.BLUE);
                 l.setAnimation(mAnim_circle_item_clicked);
-                l.setBackgroundResource(R.drawable.bg_select_2);
-            }
-            else {
+            } else {
                 t.setTextColor(Color.WHITE);
             }
             t.setGravity(Gravity.CENTER);
@@ -124,7 +122,6 @@ public class CircleMenuLayout extends RelativeLayout {
             circle_2.addView(l);
         }
     }
-
     /**
      * 外圆转盘事件
      */
@@ -143,8 +140,7 @@ public class CircleMenuLayout extends RelativeLayout {
             if (Data_OuterCircleList.get(i).isSelect) {
                 t.setTextColor(Color.BLUE);
                 l.setAnimation(mAnim_circle_item_clicked);
-            }
-            else {
+            } else {
                 t.setTextColor(Color.WHITE);
             }
             t.setGravity(Gravity.CENTER);
@@ -168,11 +164,10 @@ public class CircleMenuLayout extends RelativeLayout {
         }
     }
 
-
     /**
      * 初始化转盘组件
      */
-    private void initView() {
+    private void initView(int Radius_outer,int Radius_inner) {
         View view = LayoutInflater.from(context).inflate(R.layout.circle_menu, this);
         btn_view = (ImageView) view.findViewById(R.id.btn_view);
         ll_btn_view = (RelativeLayout) view.findViewById(R.id.ll_btn_view);
@@ -180,28 +175,11 @@ public class CircleMenuLayout extends RelativeLayout {
         circle_2 = (CircleLayout) view.findViewById(R.id.circle_2);
         circle_1.setCanScroll(true);
         circle_2.setCanScroll(true);
-        circle_1.setRadius(310);
-        circle_2.setRadius(160);
+        circle_1.setRadius(Radius_outer);
+        circle_2.setRadius(Radius_inner);
         btn_view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (circle_1.getVisibility() == View.VISIBLE) {
-                    circle_1.setVisibility(View.GONE);
-                    circle_1.startAnimation(mAnim_circlelayout_outer_close);
-                    circle_2.setVisibility(View.GONE);
-                    circle_2.startAnimation(mAnim_circlelayout_inner_close);
-                    ll_btn_view.setVisibility(View.GONE);
-                    ll_btn_view.startAnimation(mAnim_rl_close);
-                    btn_view.startAnimation(mAnim_iv_rotate_close);
-                } else {
-                    circle_1.setVisibility(View.VISIBLE);
-                    circle_1.startAnimation(mAnim_circlelayout_outer_open);
-                    circle_2.setVisibility(View.VISIBLE);
-                    circle_2.startAnimation(mAnim_circlelayout_inner_open);
-                    ll_btn_view.setVisibility(View.VISIBLE);
-                    ll_btn_view.startAnimation(mAnim_rl_open);
-                    btn_view.startAnimation(mAnim_iv_rotate_open);
-                }
             }
         });
     }

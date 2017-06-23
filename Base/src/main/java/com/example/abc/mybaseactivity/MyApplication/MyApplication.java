@@ -3,6 +3,7 @@ package com.example.abc.mybaseactivity.MyApplication;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.example.abc.mybaseactivity.HttpGetDataUtils.OkHttpUtils;
 
@@ -83,6 +84,22 @@ public class MyApplication extends Application {
     public static void finishActivity(Activity activity) {
         if (activity != null && activityList != null && activityList.size() > 0) {
             activityList.remove(activity);
+        }
+    }
+
+    /**
+     * @Description 结束Activity到activityList，在onDestroy()中调用
+     */
+    public static void finishActivityByName(String activityName) {
+        if (!"".equals(activityName) && activityName != null && activityList != null && activityList.size() > 0) {
+
+            for (int i = 0; i < activityList.size(); i++) {
+                if (activityName.equals(activityList.get(i).getClass().getName())) {
+                    activityList.get(i).finish();
+                    activityList.remove(i);
+                    Log.i("FINISHActivity", activityName);
+                }
+            }
         }
     }
 
