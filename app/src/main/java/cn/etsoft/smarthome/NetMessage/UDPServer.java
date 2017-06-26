@@ -68,7 +68,7 @@ public class UDPServer implements Runnable {
     //是否刷新数据
     private boolean isFreshData = false;
 
-    public UDPServer(Handler handler){
+    public UDPServer(Handler handler) {
         mhandler = handler;
     }
 
@@ -140,6 +140,8 @@ public class UDPServer implements Runnable {
                     }
                     Log.i("Udp发送无返回，改WebSocket发送", "WEB" + jsonToServer);
                     MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
+
+                    UdpSendMsg(msg);
                 }
             });
             if (!GlobalVars.isIsLAN()) {
@@ -150,31 +152,35 @@ public class UDPServer implements Runnable {
                 Log.i("发送WebSocket", "WEB" + jsonToServer);
                 MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
             } else {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            local = InetAddress.getByName("localhost"); // 本机测试
-                            int msg_len = msg == null ? 0 : msg.getBytes().length;
-                            Message message = mhandler.obtainMessage();
-                            message.obj = msg;
-                            message.what = MyApplication.mApplication.UDP_NOBACK;
-                            mhandler.sendMessage(message);
-                            DatagramPacket dPacket = new DatagramPacket(msg.getBytes(), msg_len,
-                                    local, SEND_PORT);
-                            Log.i("发送UDP", "UDP" + msg);
-                            dSocket.send(dPacket);
-
-                        } catch (Exception e) {
-                            Log.e("Exception", "UDP发送消息失败" + e + "");
-                            Message message = mhandler.obtainMessage();
-                            message.what = MyApplication.mApplication.UDP_NOSEND;
-                            mhandler.sendMessage(message);
-                        }
-                    }
-                }).start();
+                UdpSendMsg(msg);
             }
         }
+    }
+
+    private void UdpSendMsg(final String msg) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    local = InetAddress.getByName("localhost"); // 本机测试
+                    int msg_len = msg == null ? 0 : msg.getBytes().length;
+                    Message message = mhandler.obtainMessage();
+                    message.obj = msg;
+                    message.what = MyApplication.mApplication.UDP_NOBACK;
+                    mhandler.sendMessage(message);
+                    DatagramPacket dPacket = new DatagramPacket(msg.getBytes(), msg_len,
+                            local, SEND_PORT);
+                    Log.i("发送UDP", "UDP" + msg);
+                    dSocket.send(dPacket);
+
+                } catch (Exception e) {
+                    Log.e("Exception", "UDP发送消息失败" + e + "");
+                    Message message = mhandler.obtainMessage();
+                    message.what = MyApplication.mApplication.UDP_NOSEND;
+                    mhandler.sendMessage(message);
+                }
+            }
+        }).start();
     }
 
     public static void show(String str) {
@@ -199,7 +205,7 @@ public class UDPServer implements Runnable {
     long time = 0;
 
     public void extractData(String info) {
-        // TODO Auto-generated method stub
+
         int datType = 0;
         int subType2 = 0;
         int subType1 = 0;
@@ -1410,39 +1416,94 @@ public class UDPServer implements Runnable {
      */
     public void getSceneEvents(String info) {
 //        情景模式返回数据类型；
-//        scene_return
 //        {
-//            "devUnitID": "37ffdb05424e323416702443",
-//                "datType": 22,
-//                "subType1": 1,
-//                "subType2": 0,
-//                "scene_rows": [
-//            {
-//                "sceneName": "c8abbfaac4a3cabd00000000",
-//                    "devCnt": 0,
-//                    "eventID": 0
-//            },
-//            {
-//                "sceneName": "c8abb9d8c4a3cabd00000000",
-//                    "devCnt": 0,
-//                    "eventID": 1
-//            }
-//            ],
-//            "scene": 2
+//            "devUnitID":	"39ffd505484d303408650743",
+//                "datType":	22,
+//                "subType1":	0,
+//                "subType2":	1,
+//                "scene_rows":	[{
+//            "sceneName":	"6868",
+//                    "devCnt":	2,
+//                    "eventId":	2,
+//                    "itemAry":	[{
+//                "canCpuID":	"36ffd4054842373532790843",
+//                        "devID":	2,
+//                        "devType":	3,
+//                        "lmVal":	0,
+//                        "rev2":	0,
+//                        "rev3":	32,
+//                        "bOnOff":	0,
+//                        "param1":	0,
+//                        "param2":	32
+//            }, {
+//                "canCpuID":	"36ffd4054842373532790843",
+//                        "devID":	0,
+//                        "devType":	0,
+//                        "lmVal":	0,
+//                        "rev2":	0,
+//                        "rev3":	0,
+//                        "bOnOff":	0,
+//                        "param1":	0,
+//                        "param2":	0
+//            }]
+//        }],
+//            "scene":	1
 //        }
         try {
             JSONObject jsonObject = new JSONObject(info);
 
             JSONArray array = jsonObject.getJSONArray("scene_rows");
 
-            List<WareSceneEvent> list = new ArrayList<>();
+            WareSceneEvent event = new WareSceneEvent();
+            JSONObject object = array.getJSONObject(0);
 
-            for (int i = 0; i < array.length(); i++) {
+            boolean IsSceneIdExist = false;
+            boolean IsDevIdExist = false;
+            event.setEventId((byte) object.getInt("eventId"));
 
-                WareSceneEvent event = new WareSceneEvent();
-                JSONObject object = array.getJSONObject(i);
+            List<WareSceneEvent> events_exist = MyApplication.getWareData().getSceneEvents();
+            WareSceneEvent event_exist = null;
+            for (int i = 0; i < events_exist.size(); i++) {
+                if (event.getEventId() == events_exist.get(i).getEventId()) {
+                    //相同的情景ID
+                    IsSceneIdExist = true;
+                    event_exist = events_exist.get(i);
+                    JSONArray itemAry = object.getJSONArray("itemAry");
 
-                event.setEventld((byte) object.getInt("eventID"));
+                    if (event_exist.getItemAry().size() != 0 && itemAry.length() != 0)
+                        //这两个相同的情景ID下的设备集合不为空
+
+                        for (int j = 0; j < itemAry.length(); j++) {
+                            JSONObject object2 = itemAry.getJSONObject(j);
+                            WareSceneDevItem item = new WareSceneDevItem();
+                            item.setbOnOff((byte) object2.getInt("bOnOff"));
+                            item.setDevID((byte) object2.getInt("devID"));
+                            item.setDevType((byte) object2.getInt("devType"));
+                            item.setUid(object2.getString("canCpuID"));
+
+                            for (int a = 0; a < event_exist.getItemAry().size(); a++) {
+                                WareSceneDevItem item_exist = event_exist.getItemAry().get(a);
+                                if (item.getUid().equals(item_exist.getUid()) &&
+                                        item.getDevID() == item_exist.getDevID() &&
+                                        item.getDevType() == item_exist.getDevType()) {
+                                    //情景ID相同，并且设备属性页相同
+                                    IsDevIdExist = true;
+                                } else {
+                                    //情景ID相同，但设备不同
+                                    IsDevIdExist = false;
+                                }
+                            }
+                        }
+                }
+            }
+
+            if (IsSceneIdExist && IsDevIdExist)
+                return;
+            if (IsSceneIdExist && !IsDevIdExist) {
+                event_exist.getItemAry().addAll(event.getItemAry());
+                return;
+            }
+            if (!IsSceneIdExist && !IsDevIdExist) {
                 event.setDevCnt((byte) object.getInt("devCnt"));
                 event.setSceneName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(object.getString("sceneName"))));
                 int devCnt = object.getInt("devCnt");
@@ -1459,10 +1520,11 @@ public class UDPServer implements Runnable {
                         event.getItemAry().add(item);
                     }
                 }
-                list.add(event);
+                MyApplication.getWareData().getSceneEvents().add(event);
             }
-            MyApplication.getWareData().setSceneEvents(list);
-        } catch (JSONException e) {
+
+        } catch (Exception e) {
+            e.printStackTrace();
             isFreshData = false;
             System.out.println(e.toString());
         }

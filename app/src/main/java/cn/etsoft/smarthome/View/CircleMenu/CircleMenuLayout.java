@@ -59,7 +59,7 @@ public class CircleMenuLayout extends RelativeLayout {
     }
 
     public void Init(int Radius_outer, int Radius_inner) {
-        initView(Radius_outer,Radius_inner);
+        initView(Radius_outer, Radius_inner);
         UIEvent_Circle_Outer();
         UIEvent_Circle_Inner();
         initAnimations_One();
@@ -122,6 +122,7 @@ public class CircleMenuLayout extends RelativeLayout {
             circle_2.addView(l);
         }
     }
+
     /**
      * 外圆转盘事件
      */
@@ -167,22 +168,32 @@ public class CircleMenuLayout extends RelativeLayout {
     /**
      * 初始化转盘组件
      */
-    private void initView(int Radius_outer,int Radius_inner) {
+    private void initView(int Radius_outer, int Radius_inner) {
         View view = LayoutInflater.from(context).inflate(R.layout.circle_menu, this);
         btn_view = (ImageView) view.findViewById(R.id.btn_view);
         ll_btn_view = (RelativeLayout) view.findViewById(R.id.ll_btn_view);
         circle_1 = (CircleLayout) view.findViewById(R.id.circle_1);
         circle_2 = (CircleLayout) view.findViewById(R.id.circle_2);
+        circle_1.setMaxWidth(dip2px(context, Radius_outer + 50));
+        circle_2.setMaxWidth(dip2px(context, Radius_inner + 50));
+        circle_1.setmTranslationX(-(dip2px(context, 2 * Radius_outer / 3)));
+        circle_2.setmTranslationX(-(dip2px(context, 2 * Radius_inner / 3)));
         circle_1.setCanScroll(true);
         circle_2.setCanScroll(true);
-        circle_1.setRadius(Radius_outer);
-        circle_2.setRadius(Radius_inner);
+        circle_1.setRadius(dip2px(context, Radius_outer));
+        circle_2.setRadius(dip2px(context, Radius_inner));
         btn_view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
             }
         });
     }
+
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
 
     private OnOuterCircleLayoutClickListener onOuterCircleLayoutClickListener;
     private OnInnerCircleLayoutClickListener onInnerCircleLayoutClickListener;

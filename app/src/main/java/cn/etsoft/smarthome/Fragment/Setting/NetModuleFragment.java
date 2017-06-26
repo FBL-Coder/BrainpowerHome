@@ -14,10 +14,8 @@ import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.ListView.NewModuleFragment_Adapter;

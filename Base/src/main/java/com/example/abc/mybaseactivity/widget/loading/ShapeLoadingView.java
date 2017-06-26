@@ -84,7 +84,7 @@ public class ShapeLoadingView extends View {
         if (getVisibility() == GONE) {
             return;
         }
-        // FIXME: 动画带优化
+
         switch (mShape) {
             case SHAPE_TRIANGLE:
                 if (mIsLoading) {

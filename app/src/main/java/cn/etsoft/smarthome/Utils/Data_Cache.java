@@ -30,8 +30,8 @@ public class Data_Cache {
             if (!file.exists()) {
                 file.mkdir();
             }
-            String saveFileName = "/sdcard/Home/" + id + ".txt";
-            File ApkFile = new File(saveFileName);
+            String Filename = id + ".txt";
+            File ApkFile = new File(savePath,Filename);
             fos = new FileOutputStream(ApkFile);
 //            fos = MyApplication.getContext().openFileOutput(id + ".txt", Context.MODE_PRIVATE);
             oos = new ObjectOutputStream(fos);

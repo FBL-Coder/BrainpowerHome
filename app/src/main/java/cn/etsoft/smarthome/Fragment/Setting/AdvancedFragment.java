@@ -17,6 +17,7 @@ import cn.etsoft.smarthome.Activity.AdvancedSetting.SafetySetActivity;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.SceneSetActivity;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.TimerSetActivity;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 import static android.support.v4.view.ViewCompat.animate;
 
@@ -70,6 +71,7 @@ public class AdvancedFragment extends BaseFragment implements View.OnClickListen
                 startActivity(new Intent(mActivity, DevInfoActivity.class));
                 break;
             case R.id.setting_advanced_scene:
+                SendDataUtil.getSceneInfo();
                 startActivity(new Intent(mActivity, SceneSetActivity.class));
                 break;
             case R.id.setting_advanced_safety:

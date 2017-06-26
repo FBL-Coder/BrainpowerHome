@@ -65,7 +65,7 @@ public class WratherUtil {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                // TODO Auto-generated method stub
+
                 MyApplication.mApplication.mCityDB = openCityDB();// 这个必须最先复制完,所以我放在单线程中处理
                 prepareCityList();
 

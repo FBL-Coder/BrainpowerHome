@@ -56,7 +56,7 @@ public class Register_Helper {
                 Gson gson = new Gson();
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
                 if (result.getCode() == HTTPRequest_BackCode.REGISTER_OK){
-                    //TODO 注册成功
+                    // 注册成功
                     Intent intent = activity.getIntent();
                     Bundle bundle = new Bundle();
                     bundle.putString("ID",id_input);
@@ -66,11 +66,11 @@ public class Register_Helper {
                     register_helper = null;
                     activity.finish();
                 }else if (result.getCode() == HTTPRequest_BackCode.REGISTER_EXIST){
-                    //TODO 账号已存在
+                    //账号已存在
                     ToastUtil.showText("账号已存在，请重新输入");
 
                 }else {
-                    //TODO 注册失败
+                    //注册失败
                     ToastUtil.showText("注册失败，请稍后再试");
                 }
             }

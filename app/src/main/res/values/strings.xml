@@ -217,7 +217,6 @@
     <string name="regist_three_tip">请输入真实姓名和身份证号，以便通过审核.</string>
     <string name="title_activity_my">MyActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--ble-->
     <string name="device_name">name</string>

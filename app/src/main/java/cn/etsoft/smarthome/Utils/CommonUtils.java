@@ -118,7 +118,7 @@ public class CommonUtils {
     };
 
     public static byte[] getZerobyte() {
-        // TODO Auto-generated method stub
+
         byte[] data = new byte[0];
 
         return data;
@@ -138,7 +138,6 @@ public class CommonUtils {
         try {
             return new String(bytes, "GB2312");
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -157,7 +156,7 @@ public class CommonUtils {
 //
 //                    MyApplication.mInstance.getSocket().send(packet);
 //                } catch (UnknownHostException e) {
-//                    // TODO Auto-generated catch block
+//
 //                    e.printStackTrace();
 //                } catch (IOException e) {
 //                    e.printStackTrace();

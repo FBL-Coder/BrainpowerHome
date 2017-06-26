@@ -88,7 +88,7 @@ public class UdpProPkt {
 		private int value;
 
 		E_DEV_TYPE(int value) {
-			// TODO Auto-generated constructor stub
+
 			this.value = value;
 		}
 

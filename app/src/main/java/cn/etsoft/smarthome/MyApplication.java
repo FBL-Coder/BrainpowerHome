@@ -73,6 +73,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public int HEARTBEAT_STOP = 8000;
     //心跳包监听返回码-局域网运行
     public int HEARTBEAT_RUN = 8080;
+    //拷贝全局数据
+    public int WAREDATA_COPY = 10000;
     //全局数据
     private static WareData mWareData;
 
@@ -123,7 +125,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
 
         //设置上次使用的联网模块ID；
-        GlobalVars.setDevid((String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE,""));
+        GlobalVars.setDevid((String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""));
     }
 
     /**
@@ -171,7 +173,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     /**
      * 获取联网模块列表
      */
-    public List<RcuInfo> getRcuInfoList(){
+    public List<RcuInfo> getRcuInfoList() {
         String rcuinfolist_json = (String) AppSharePreferenceMgr.get(this, GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
         List<RcuInfo> json_rcuinfolist = new Gson().fromJson(rcuinfolist_json, new TypeToken<List<RcuInfo>>() {
         }.getType());
@@ -221,9 +223,10 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     /**
      * 重置所有数据
      */
-    public static void setNewWareData(){
+    public static void setNewWareData() {
         mWareData = new WareData();
     }
+
     /**
      * 获取所有数据
      */
@@ -240,6 +243,24 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         }
         return mWareData;
     }
+
+    /**
+     * 获取全局数据拷贝数据
+     */
+    public static void getWareData_Copy(final Handler handler) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Data_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
+                WareData wareData_copy = (WareData) Data_Cache.readFile(GlobalVars.getDevid());
+                Message message = handler.obtainMessage();
+                message.obj = wareData_copy;
+                message.what = MyApplication.mApplication.WAREDATA_COPY;
+                handler.sendMessage(message);
+            }
+        }).start();
+    }
+
 
     /**
      * 获取加载框Dialog；
@@ -316,19 +337,19 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             //udp发送数据后的回调
             if (msg.what == application.UDP_NOBACK) {
 
-//                Timer timer = new Timer();
-//                timer.schedule(new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        if (!UdpIsHaveBackData) {
-//                            GlobalVars.setIsLAN(false);
-//                            if (onUdpgetDataNoBackListener != null)
-//                                onUdpgetDataNoBackListener.WSSendDatd((String) msg.obj);
-//                        }else {
-//                            UdpIsHaveBackData = false;
-//                        }
-//                    }
-//                }, 3000, 3000);
+                final String data = (String) msg.obj;
+                final Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (!UdpIsHaveBackData) {
+                            if (onUdpgetDataNoBackListener != null) {
+                                onUdpgetDataNoBackListener.WSSendDatd(data);
+                            }
+                            timer.cancel();
+                        }
+                    }
+                }, 3000, 3000);
             }
         }
     }

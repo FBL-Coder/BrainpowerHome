@@ -15,7 +15,7 @@ public class City implements Serializable{
 	private String allFristPY;
 
 	public City() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public City(String province, String city, String number, String firstPY,

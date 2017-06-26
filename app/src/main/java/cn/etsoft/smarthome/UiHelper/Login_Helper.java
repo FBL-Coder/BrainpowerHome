@@ -66,7 +66,7 @@ public class Login_Helper {
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
 
                 if (result.getCode() == HTTPRequest_BackCode.LOGIN_OK) {
-                    //TODO 登陆成功
+                    // 登陆成功
                     ToastUtil.showText("登陆成功");
                     setRcuInfoList(result);
                 } else if (result.getCode() == HTTPRequest_BackCode.LOGIN_ERROR) {

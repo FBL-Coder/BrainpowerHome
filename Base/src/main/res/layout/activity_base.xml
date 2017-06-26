@@ -50,10 +50,10 @@
         android:visibility="gone" />
 
     <!-- 为下个不同分布的布局分配空间，可以满足你不同的布局需求 -->
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/llcontent_other"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"/>
+        />
 
 </LinearLayout>

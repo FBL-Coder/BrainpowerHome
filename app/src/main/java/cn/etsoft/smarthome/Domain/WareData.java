@@ -28,6 +28,7 @@ public class WareData implements Serializable {
     private GroupSet_Data mGroupSet_Data;
     //防区模块显示信息
     private SetSafetyResult result_safety;
+
     public SetSafetyResult getResult_safety() {
         return result_safety;
     }
@@ -38,6 +39,7 @@ public class WareData implements Serializable {
 
     //高级设置-按键情景模块
     private ChnOpItem_scene chnOpItem_scene;
+
     public ChnOpItem_scene getChnOpItem_scene() {
         if (chnOpItem_scene == null)
             return new ChnOpItem_scene();
@@ -50,6 +52,7 @@ public class WareData implements Serializable {
 
     //防区模块报警
     private SetSafetyResult_alarm safetyResult_alarm;
+
     public SetSafetyResult_alarm getSafetyResult_alarm() {
         return safetyResult_alarm;
     }
@@ -131,7 +134,7 @@ public class WareData implements Serializable {
 
     public List<RcuInfo> getRcuInfos() {
         if (rcuInfos == null)
-            return new ArrayList<>();
+            rcuInfos =  new ArrayList<>();
         return rcuInfos;
     }
 
@@ -140,7 +143,7 @@ public class WareData implements Serializable {
     }
 
     public List<WareDev> getDevs() {
-        if(devs==null)
+        if (devs == null)
             devs = new ArrayList<>();
         return devs;
     }
@@ -163,7 +166,7 @@ public class WareData implements Serializable {
 
     public List<WareLight> getLights() {
         if (lights == null)
-            return new ArrayList<>();
+            lights = new ArrayList<>();
         return lights;
     }
 
@@ -175,7 +178,7 @@ public class WareData implements Serializable {
 
     public List<WareAirCondDev> getAirConds() {
         if (airConds == null)
-            return new ArrayList<>();
+            airConds = new ArrayList<>();
         return airConds;
     }
 
@@ -187,7 +190,7 @@ public class WareData implements Serializable {
 
     public List<WareCurtain> getCurtains() {
         if (curtains == null)
-            return new ArrayList<>();
+            curtains = new ArrayList<>();
         return curtains;
     }
 
@@ -207,16 +210,18 @@ public class WareData implements Serializable {
 
     /**
      * 获取情景模块数据
+     *
      * @return
      */
     public List<WareSceneEvent> getSceneEvents() {
         if (sceneEvents == null)
-            return new ArrayList<>();
+            sceneEvents = new ArrayList<>();
         return sceneEvents;
     }
 
     /**
      * 设置情景模块数据
+     *
      * @param sceneEvents
      */
     public void setSceneEvents(List<WareSceneEvent> sceneEvents) {
@@ -324,11 +329,12 @@ public class WareData implements Serializable {
     public int getLogin_result() {
         return login_result;
     }
+
     public int getnetwork_count() {
         return network_count;
     }
 
-    public void setLogin_result(int login_result,int count) {
+    public void setLogin_result(int login_result, int count) {
         this.login_result = login_result;
         this.network_count = count;
     }
@@ -348,15 +354,16 @@ public class WareData implements Serializable {
     public void setAddUser_reslut(int addUser_reslut) {
         this.addUser_reslut = addUser_reslut;
     }
+
     public Bundle getDeleteNetReslut() {
         Bundle bundle = new Bundle();
-        bundle.putString("id",DeleteDevid);
-        bundle.putInt("Reslut",DeleteNetReslut);
+        bundle.putString("id", DeleteDevid);
+        bundle.putInt("Reslut", DeleteNetReslut);
         return bundle;
 
     }
 
-    public void setDeleteNetReslut(String DeleteDevid,int DeleteNetReslut) {
+    public void setDeleteNetReslut(String DeleteDevid, int DeleteNetReslut) {
         this.DeleteNetReslut = DeleteNetReslut;
         this.DeleteDevid = DeleteDevid;
     }

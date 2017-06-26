@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 
+import cn.etsoft.smarthome.Activity.AdvancedSetting.SceneSetActivity;
+import cn.etsoft.smarthome.Activity.AdvancedSetting.TimerSetActivity;
 import cn.etsoft.smarthome.Domain.City;
 import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.Weather_All_Bean;
@@ -22,6 +24,7 @@ import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.HomeWeatherAnim;
 import cn.etsoft.smarthome.UiHelper.Home_Weather;
+import cn.etsoft.smarthome.Utils.PermissionsUtli;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout;
 import cn.etsoft.smarthome.View.MarqueeTextView;
@@ -60,6 +63,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         initView();
         initData();
         initEvent();
+        PermissionsUtli.verifyStoragePermissions(HomeActivity.this);
     }
 
     private void initEvent() {
@@ -115,7 +119,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         });
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -131,14 +134,16 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             case R.id.Home_State:
                 break;
             case R.id.Home_Scene:
+                SendDataUtil.getSceneInfo();
+                startActivity(new Intent(HomeActivity.this, SceneSetActivity.class));
                 break;
             case R.id.Home_Timer:
+                startActivity(new Intent(HomeActivity.this, TimerSetActivity.class));
                 break;
             case R.id.Home_Health:
                 break;
             case R.id.Home_Setting:
                 startActivity(new Intent(HomeActivity.this,SettingActivity.class));
-                overridePendingTransition(R.anim.anim_enter_alpha, R.anim.anim_out_alpha);
                 break;
         }
     }

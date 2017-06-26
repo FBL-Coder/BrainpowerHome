@@ -97,7 +97,7 @@ public class SendDataUtil {
                 ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_exeSceneEvents.getValue() +
                 ",\"subType1\":0" +
                 ",\"subType2\":0" +
-                ",\"eventId\":" + event.getEventld() + "}";
+                ",\"eventId\":" + event.getEventId() + "}";
         MyApplication.mApplication.getUdpServer().send(str);
     }
 
@@ -108,7 +108,7 @@ public class SendDataUtil {
                 ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_delSceneEvents.getValue() +
                 ",\"subType1\":0" +
                 ",\"subType2\":0" +
-                ",\"eventId\":" + event.getEventld() +
+                ",\"eventId\":" + event.getEventId() +
                 ",\"devCnt\":" + 0 +
                 ",\"itemAry\":[{" +
                 "\"uid\":\"\"" +

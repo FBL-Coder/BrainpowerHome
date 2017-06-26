@@ -12,17 +12,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.andview.refreshview.XRefreshView;
 import com.example.abc.mybaseactivity.MyApplication.MyApplication;
-import com.example.abc.mybaseactivity.NetWorkListener.AppNetworkMgr;
 import com.example.abc.mybaseactivity.NetWorkListener.NetBroadcastReceiver;
 import com.example.abc.mybaseactivity.NetWorkListener.NetUtil;
 import com.example.abc.mybaseactivity.OtherUtils.UIUtils;
-import com.example.abc.mybaseactivity.XRefresViewUtils.CustomerFooter;
+import com.example.abc.mybaseactivity.R;
 
 /**
  * BaseActivity
@@ -33,19 +30,19 @@ public abstract class BaseActivity extends FragmentActivity {
     private RelativeLayout title_layout;
     private TextView network, titleText;
     private ImageView leftBack, rightMore;
-    private LinearLayout llcontent_other;
+    private FrameLayout llcontent_other;
     private LayoutInflater inflater;
     /**
      * 状态栏颜色
      */
-    private int SystemTitleColor = com.example.abc.mybaseactivity.R.color.colorAccent;
+    private int SystemTitleColor = R.color.colorAccent;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //去掉系统的TitleBar
         this.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        setContentView(com.example.abc.mybaseactivity.R.layout.activity_base);
+        setContentView(R.layout.activity_base);
         //添加Activity在ActivityList中
         MyApplication.addActivity(this);
         //初始化BaseActivity
@@ -135,12 +132,12 @@ public abstract class BaseActivity extends FragmentActivity {
      */
     protected void initBaseActivity() {
         inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        title_layout = (RelativeLayout) findViewById(com.example.abc.mybaseactivity.R.id.title_layout);
-        network = (TextView) findViewById(com.example.abc.mybaseactivity.R.id.no_network);
-        titleText = (TextView) findViewById(com.example.abc.mybaseactivity.R.id.title_center);
-        leftBack = (ImageView) findViewById(com.example.abc.mybaseactivity.R.id.left_back);
-        rightMore = (ImageView) findViewById(com.example.abc.mybaseactivity.R.id.right_more);
-        llcontent_other = (LinearLayout) findViewById(com.example.abc.mybaseactivity.R.id.llcontent_other);
+        title_layout = (RelativeLayout) findViewById(R.id.title_layout);
+        network = (TextView) findViewById(R.id.no_network);
+        titleText = (TextView) findViewById(R.id.title_center);
+        leftBack = (ImageView) findViewById(R.id.left_back);
+        rightMore = (ImageView) findViewById(R.id.right_more);
+        llcontent_other = (FrameLayout) findViewById(R.id.llcontent_other);
 
 
         //判断网络是否可用
