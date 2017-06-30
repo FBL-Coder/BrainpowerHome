@@ -1,12 +1,16 @@
 package cn.etsoft.smarthome.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import cn.etsoft.smarthome.Domain.GlobalVars;
@@ -23,6 +27,7 @@ import cn.etsoft.smarthome.Utils.SendDataUtil;
 public class WelcomeActivity extends BaseActivity {
 
     private List<RcuInfo> mRcuInfos;
+    private WelcomeHandler welcomeHandler = new WelcomeHandler(this);
 
     @Override
     public void initView() {
@@ -32,29 +37,53 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     public void initData() {
         setStatusColor(0xffffffff);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                welcomeHandler.sendMessage(welcomeHandler.obtainMessage());
+            }
+        }).start();
+    }
 
-        String json_RcuInfolist = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
-
-        String json_RcuinfoID = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
-
-        String UserID = (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, "");
 
 
-//        startActivity(new Intent(WelcomeActivity.this,HomeActivity.class));
-//        finish();
+    static class WelcomeHandler extends Handler {
+        WeakReference<WelcomeActivity> weakReference;
 
-        if ("".equals(UserID)) {
-            startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
-            finish();
+        WelcomeHandler(WelcomeActivity activity) {
+            weakReference = new WeakReference<>(activity);
         }
-        if (!"".equals(UserID) && "".equals(json_RcuinfoID)) {
-            startActivity(new Intent(WelcomeActivity.this, SettingActivity.class));
-            finish();
-        }
-        if (!"".equals(UserID) && !"".equals(json_RcuinfoID)) {
-            SendDataUtil.getNetWorkInfo();
-            startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
-            finish();
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (weakReference != null) {
+
+                String json_RcuInfolist = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
+
+                String json_RcuinfoID = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
+
+                String UserID = (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, "");
+
+                if ("".equals(UserID)) {
+                    weakReference.get().startActivity(new Intent(weakReference.get(), LoginActivity.class));
+                    weakReference.get().finish();
+                }
+                if (!"".equals(UserID) && "".equals(json_RcuinfoID)) {
+                    weakReference.get().startActivity(new Intent(weakReference.get(), SettingActivity.class));
+                    weakReference.get().finish();
+                }
+                if (!"".equals(UserID) && !"".equals(json_RcuinfoID)) {
+                    SendDataUtil.getNetWorkInfo();
+                    weakReference.get().startActivity(new Intent(weakReference.get(), HomeActivity.class));
+                    weakReference.get().finish();
+                }
+            }
         }
     }
 }

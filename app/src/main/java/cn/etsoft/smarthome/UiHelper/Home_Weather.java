@@ -42,6 +42,7 @@ public class Home_Weather {
     private int LOCATION_FAILING = 111;
     private int LOCATION_NONETWORK = 1001;
     private int WRATHER_SUCCEED = 2000;
+    private int WRATHER_FAILING = 2200;
     private int DB_INITOK = 200;
 
     public static final String PM2D5_BASE_URL = "http://jisutianqi.market.alicloudapi.com/weather/query?citycode=";
@@ -179,9 +180,14 @@ public class Home_Weather {
                 mHandler.sendMessage(message);
             } catch (Exception e) {
                 System.out.println(e + "");
+                Message message = mHandler.obtainMessage();
+                message.what = WRATHER_FAILING;
+                mHandler.sendMessage(message);
             }
         } else {
-            ToastUtil.showText("获取天气信息失败");
+            Message message = mHandler.obtainMessage();
+            message.what = WRATHER_FAILING;
+            mHandler.sendMessage(message);
         }
     }
 

@@ -10,6 +10,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import cn.etsoft.smarthome.Domain.WareData;
+import cn.etsoft.smarthome.MyApplication;
+
 /**
  * 作者：傅博龍  时间： 2016/7/11.
  * 数据本地缓存；（文件形式）
@@ -23,6 +25,7 @@ public class Data_Cache {
     private static String savePath = "/sdcard/Home/";
 
     public static void writeFile(String id, WareData wareData) {
+        MyApplication.getWareData().getSceneEvents().clear();
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         try {

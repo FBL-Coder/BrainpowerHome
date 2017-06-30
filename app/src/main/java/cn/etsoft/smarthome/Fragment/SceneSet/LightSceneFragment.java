@@ -1,107 +1,112 @@
 package cn.etsoft.smarthome.Fragment.SceneSet;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Activity.AdvancedSetting.SceneSetActivity;
 import cn.etsoft.smarthome.Adapter.GridView.SceneSet_Light_Adapter;
-import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
 
 /**
  * Author：FBL  Time： 2017/6/26.
+ * 情景设置——灯光
  */
 
 public class LightSceneFragment extends BaseFragment {
 
     private GridView mSceneSet_Light;
+    private ImageView mSceneSet_IsSelectDev;
     private SceneSet_Light_Adapter mLightAdapter;
-    private SceneSet_Light_Handler mHandler = new SceneSet_Light_Handler(this);
-    private int mScenePosition = 0, mDevType = 0, mRoomPositon = 0;
-    private WareData mWareData_Copy;
+    private int mScenePosition = 0, mDevType = 0;
+    private String mRoomName = "全部";
     private List<WareLight> mLight_Room;
+    private boolean IsShowSelect = false;
 
-    private int DEVS_ALL_ROOM = 100;
+    private String DEVS_ALL_ROOM = "全部";
 
 
     @Override
     protected void initView() {
-
-        MyApplication.getWareData_Copy(mHandler);
-        mSceneSet_Light = findViewById(R.id.SceneSet_Light);
+        mSceneSet_Light = findViewById(R.id.SceneSet_Fragment_GridView);
+        mSceneSet_IsSelectDev = findViewById(R.id.SceneSet_IsSelectDev);
     }
 
     @Override
     public void initData(Bundle arguments) {
-
-        SceneSetActivity.setmSceneSetSceneClickListener(new SceneSetActivity.SceneSetSceneClickListener() {
-            @Override
-            public void SceneClickPosition(int ScenePosition, int DevType, int RoomPositon) {
-                mScenePosition = ScenePosition;
-                mDevType = DevType;
-                mRoomPositon = RoomPositon;
-            }
-        });
+        mRoomName = arguments.getString("RoomName", "全部");
+        initDev();
     }
 
+    public void onHiddenChanged(boolean hidden) {
+        // TODO Auto-generated method stub
+        super.onHiddenChanged(hidden);
+        if (!hidden) {// 不在最前端界面显示
+            mRoomName = SceneSetHelper.getRoomName();
+            initDev();
+        }
+    }
     private void initDev() {
+        SceneSetActivity.setmSceneSetSceneClickListener(new SceneSetActivity.SceneSetSceneClickListener() {
+            @Override
+            public void SceneClickPosition(int ScenePosition, int DevType, String RoomName) {
+                mScenePosition = ScenePosition;
+                mDevType = DevType;
+                mRoomName = RoomName;
+                initDev();
+            }
+        });
+
         List<WareLight> lights;
-        List<String> room_list;
-        lights = mWareData_Copy.getLights();
+        lights = MyApplication.getWareData().getLights();
         //房间内的灯集合
         mLight_Room = new ArrayList<>();
-        //房间集合
-        room_list = mWareData_Copy.getRooms();
         //根据房间id获取设备；
-        if (mRoomPositon == DEVS_ALL_ROOM) {
-            mLight_Room = lights;
+        if (DEVS_ALL_ROOM.equals(mRoomName)) {
+            mLight_Room.addAll(lights);
         } else {
             for (int i = 0; i < lights.size(); i++) {
-                if (lights.get(i).getDev().getRoomName().equals(room_list.get(mRoomPositon))) {
+                if (lights.get(i).getDev().getRoomName().equals(mRoomName)) {
                     mLight_Room.add(lights.get(i));
                 }
             }
         }
-
-        mLightAdapter = new SceneSet_Light_Adapter(mScenePosition, mActivity,mLight_Room,false);
-        mSceneSet_Light.setAdapter(mLightAdapter);
+        if (mLightAdapter == null) {
+            mLightAdapter = new SceneSet_Light_Adapter(mScenePosition, mActivity, mLight_Room, IsShowSelect);
+            mSceneSet_Light.setAdapter(mLightAdapter);
+        } else
+            mLightAdapter.notifyDataSetChanged(mLight_Room, mScenePosition, IsShowSelect);
     }
 
     @Override
     protected void setListener() {
+        mSceneSet_IsSelectDev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IsShowSelect = !IsShowSelect;
+                if (IsShowSelect)
+                    mSceneSet_IsSelectDev.setImageResource(R.drawable.ic_launcher);
+                else mSceneSet_IsSelectDev.setImageResource(R.drawable.ic_launcher_round);
+                initDev();
 
+            }
+        });
     }
 
     @Override
     protected int setLayoutResouceId() {
-        return R.layout.fragment_sceneset_light;
+        return R.layout.fragment_sceneset;
     }
 
-    static class SceneSet_Light_Handler extends Handler {
-        WeakReference<LightSceneFragment> weakReference;
-
-        public SceneSet_Light_Handler(LightSceneFragment fragment) {
-            weakReference = new WeakReference<>(fragment);
-        }
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (weakReference != null) {
-                if (msg.what == MyApplication.mApplication.WAREDATA_COPY) {
-                    weakReference.get().mWareData_Copy = (WareData) msg.obj;
-                    weakReference.get().initDev();
-                }
-            }
-        }
-    }
 }
+

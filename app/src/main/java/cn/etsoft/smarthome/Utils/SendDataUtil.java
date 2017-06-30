@@ -1,5 +1,7 @@
 package cn.etsoft.smarthome.Utils;
 
+import java.io.UnsupportedEncodingException;
+
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.WareDev;
@@ -98,6 +100,33 @@ public class SendDataUtil {
                 ",\"subType1\":0" +
                 ",\"subType2\":0" +
                 ",\"eventId\":" + event.getEventId() + "}";
+        MyApplication.mApplication.getUdpServer().send(str);
+    }
+
+    public static void addscene(int sceneid, String name) {
+        byte[] data = {0};
+        try {
+            data = name.getBytes("GB2312");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String str_gb = CommonUtils.bytesToHexString(data);
+        String str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                ",\"sceneName\":\"" + str_gb + "\"" +
+                ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_addSceneEvents.getValue() +
+                ",\"subType1\":0" +
+                ",\"subType2\":0" +
+                ",\"eventId\":" + sceneid +
+                ",\"devCnt\":" + 0 +
+                ",\"itemAry\":[{" +
+                "\"uid\":\"\"" +
+                ",\"devType\":" + 0 +
+                ",\"devID\":" + 0 +
+                ",\"bOnOff\":" + 0 +
+                ",\"lmVal\":0" +
+                ",\"param1\":0" +
+                ",\"param2\":0" +
+                "}]}";
         MyApplication.mApplication.getUdpServer().send(str);
     }
 

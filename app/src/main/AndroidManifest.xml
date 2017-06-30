@@ -50,6 +50,7 @@
     <!--用于申请获取蓝牙信息进行室内定位-->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <!--全局对话框的权限-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -80,6 +81,7 @@
         <!--主页面-->
         <activity
             android:name=".Activity.HomeActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="landscape" />
         <!--欢迎页面-->
         <activity

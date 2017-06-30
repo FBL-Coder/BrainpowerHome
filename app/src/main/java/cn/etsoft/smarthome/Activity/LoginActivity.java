@@ -87,10 +87,20 @@ public class LoginActivity extends BaseActivity {
             mLoginId.setText(bundle.getString("ID"));
             mLoginPass.setText(bundle.getString("PASS"));
         }
-        try{
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
     }
+
+
+
+//    @Override
+//    protected void onRestart() {
+//        if ("".equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE,""))){
+//            finish();
+//        }else {
+//            startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+//            finish();
+//        }
+//        super.onRestart();
+//    }
+
+
 }

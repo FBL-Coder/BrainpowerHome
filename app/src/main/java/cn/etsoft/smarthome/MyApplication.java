@@ -1,13 +1,16 @@
 package cn.etsoft.smarthome;
 
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Window;
 
+import com.example.abc.mybaseactivity.Notifications.NotificationUtils;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
@@ -22,6 +25,7 @@ import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import cn.etsoft.smarthome.Activity.HomeActivity;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.WareData;
@@ -73,8 +77,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public int HEARTBEAT_STOP = 8000;
     //心跳包监听返回码-局域网运行
     public int HEARTBEAT_RUN = 8080;
-    //拷贝全局数据
-    public int WAREDATA_COPY = 10000;
     //全局数据
     private static WareData mWareData;
 
@@ -245,24 +247,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     }
 
     /**
-     * 获取全局数据拷贝数据
-     */
-    public static void getWareData_Copy(final Handler handler) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Data_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
-                WareData wareData_copy = (WareData) Data_Cache.readFile(GlobalVars.getDevid());
-                Message message = handler.obtainMessage();
-                message.obj = wareData_copy;
-                message.what = MyApplication.mApplication.WAREDATA_COPY;
-                handler.sendMessage(message);
-            }
-        }).start();
-    }
-
-
-    /**
      * 获取加载框Dialog；
      */
     public Dialog getProgressDialog(Context context) {
@@ -281,6 +265,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         private WeakReference<MyApplication> weakReference;
         private MyApplication application;
         private boolean UdpIsHaveBackData = false;
+        private boolean WSIsOpen = false;
 
         APPHandler(MyApplication application) {
             this.weakReference = new WeakReference<>(application);
@@ -292,8 +277,10 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             if (weakReference == null)
                 return;
             application = weakReference.get();
-            if (msg.what == application.WS_OPEN_OK)
+            if (msg.what == application.WS_OPEN_OK) {
+                WSIsOpen = true;
                 Log.e("WebSiocket", "链接成功");
+            }
             if (msg.what == application.WS_CLOSE) {
                 Log.e("WSException", "链接关闭" + msg.obj);
                 application.wsClient = new WebSocket_Client();
@@ -301,13 +288,13 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                     application.wsClient.initSocketClient(application.handler);
                     application.wsClient.connect();
                 } catch (URISyntaxException e) {
-                    Log.e("WSException", "WebSocket链接失败" + e);
+                    Log.e("WSException", "WebSocket链接重启失败" + e);
                 }
             }
             if (msg.what == application.WS_DATA_OK) {
 //                NotificationUtils.createNotif(
 //                        application, R.mipmap.ic_launcher, msg.obj + "",
-//                        "标题", msg.obj + "", new Intent(application, Circle_MenuActivity.class), 0, 0);
+//                        "标题", msg.obj + "", new Intent(application, HomeActivity.class), 0, 0);
                 MyApplication.mApplication.getUdpServer().webSocketData((String) msg.obj);
             }
             if (msg.what == application.WS_Error) {
@@ -342,7 +329,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        if (!UdpIsHaveBackData) {
+                        if (!UdpIsHaveBackData && WSIsOpen) {
                             if (onUdpgetDataNoBackListener != null) {
                                 onUdpgetDataNoBackListener.WSSendDatd(data);
                             }
@@ -385,6 +372,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         // 程序终止的时候执行
         Data_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
         super.onTerminate();
+        onCreate();
     }
 
     @Override

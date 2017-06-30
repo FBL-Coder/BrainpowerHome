@@ -1,25 +1,34 @@
 package cn.etsoft.smarthome.Activity.AdvancedSetting;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
-import com.example.abc.mybaseactivity.Fragment;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.RecyclerView.SceneSet_ScenesAdapter;
+import cn.etsoft.smarthome.Fragment.SceneSet.AirSceneFragment;
+import cn.etsoft.smarthome.Fragment.SceneSet.CurtarnSceneFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.LightSceneFragment;
+import cn.etsoft.smarthome.Fragment.SceneSet.TVSceneFragment;
+import cn.etsoft.smarthome.Fragment.SceneSet.TvUpSceneFragment;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
+import cn.etsoft.smarthome.UiHelper.WareDataHliper;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 
@@ -28,20 +37,19 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
  * 设置情景页面
  */
 
-public class SceneSetActivity extends BaseActivity {
+public class SceneSetActivity extends BaseActivity implements View.OnClickListener {
 
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
-    private LinearLayout mSceneSet_LinearLayout;
     private RecyclerView mSceneSetScenes;
-    private TextView mSceneSetTestBtn, mSceneSetSaveBtn;
-    private LinearLayout mSceneSetInfo;
+    private TextView mSceneSet_Add_Btn, mSceneSetTestBtn, mSceneSetSaveBtn;
     private SceneSet_ScenesAdapter mScenesAdapter;
-
-    private LightSceneFragment mLightFragment;
-
-    private int ScenePosition, DevType, RoomPosition;
+    private Fragment mLightFragment, mAirFragment, mTVFragment, mTvUpFragment, mCurFragment;
+    private Dialog mLoadDialog;
+    private int ScenePosition = 0, DevType = 0;
+    private String RoomName = "";
+    private boolean IsNoData = true;
 
     @Override
     public void initView() {
@@ -50,13 +58,36 @@ public class SceneSetActivity extends BaseActivity {
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
+                if (mLoadDialog != null)
+                    mLoadDialog.dismiss();
                 if (datType == 22) {
+                    IsNoData = false;
+                    WareDataHliper.initCopyWareData().startCopySceneData();
                     initData();
+                }
+                if (datType == 23) {
+                    ToastUtil.showText("添加成功");
+                    WareDataHliper.initCopyWareData().startCopySceneData();
+                    initData();
+                }
+                if (datType == 24) {
+                    ToastUtil.showText("保存成功");
+                }
+                if (datType == 25) {
+                    WareDataHliper.initCopyWareData().startCopySceneData();
+                    ToastUtil.showText("删除成功");
                 }
             }
         });
         layout = getViewById(R.id.SceneSet_CircleMenu);
-        mSceneSet_LinearLayout = getViewById(R.id.SceneSet_LinearLayout);
+
+        mSceneSet_Add_Btn = getViewById(R.id.SceneSet_Add_Btn);
+        mSceneSetTestBtn = getViewById(R.id.SceneSet_Test_Btn);
+        mSceneSetSaveBtn = getViewById(R.id.SceneSet_Save_Btn);
+
+        mSceneSet_Add_Btn.setOnClickListener(this);
+        mSceneSetTestBtn.setOnClickListener(this);
+        mSceneSetSaveBtn.setOnClickListener(this);
 
         mSceneSetScenes = getViewById(R.id.SceneSet_Scenes);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -66,75 +97,60 @@ public class SceneSetActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        WareDataHliper.initCopyWareData().startCopySceneData();
         if (MyApplication.getWareData().getRooms().size() == 0) {
             ToastUtil.showText("没有房间数据");
             return;
         }
-        initCircleData();
+        mLoadDialog = MyApplication.mApplication.getProgressDialog(this);
+
+        Data_OuterCircleList = SceneSetHelper.initSceneCircleOUterData();
+        Data_InnerCircleList = SceneSetHelper.initSceneCircleInnerData();
         layout.Init(200, 100);
         layout.setInnerCircleMenuData(Data_InnerCircleList);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 
-        mScenesAdapter = new SceneSet_ScenesAdapter(MyApplication.getWareData().getSceneEvents());
+        mScenesAdapter = new SceneSet_ScenesAdapter(WareDataHliper.initCopyWareData().getCopyScenes());
         mSceneSetScenes.setAdapter(mScenesAdapter);
-
         initEvent();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (IsNoData) {
+            ToastUtil.showText("数据未加载成功，不可操作！");
+            return;
+        }
+        switch (v.getId()) {
+            case R.id.SceneSet_Add_Btn:
+                SceneSetHelper.AddScene(this, mLoadDialog);
+                break;
+            case R.id.SceneSet_Test_Btn:
+                break;
+            case R.id.SceneSet_Save_Btn:
+                SceneSetHelper.saveScene(this, mLoadDialog, ScenePosition);
+                break;
+        }
     }
 
     private void initEvent() {
         layout.setOnInnerCircleLayoutClickListener(new CircleMenuLayout.OnInnerCircleLayoutClickListener() {
             @Override
             public void onClickInnerCircle(int position, View view) {
-
-
                 if (mSceneSetSceneClickListener != null)
-                    mSceneSetSceneClickListener.SceneClickPosition(ScenePosition, DevType, position);
-
-
-                Toast.makeText(SceneSetActivity.this, Data_InnerCircleList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                    mSceneSetSceneClickListener.SceneClickPosition(ScenePosition, DevType, Data_InnerCircleList.get(position).getTitle());
+                RoomName = Data_InnerCircleList.get(position).getTitle();
+                SceneSetHelper.setRoomName(RoomName);
             }
         });
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-
-                FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction =  manager.beginTransaction();
-
-                if (mLightFragment != null){
-                    transaction.hide(mLightFragment);
-                }
-
-                switch (position){
-                    case 0:
-                    case 8:
-                        break;
-                    case 1:
-                    case 9:
-                        break;
-                    case 2:
-                    case 10:
-                        if (mLightFragment == null){
-                            mLightFragment =  new LightSceneFragment();
-                            transaction.add(R.id.SceneSet_Info,mLightFragment);
-                        }
-                        transaction.show(mLightFragment);
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        break;
-                    case 6:
-                        break;
-                }
-                transaction.commit();
-
+                OuterCircleClick(SceneSetActivity.this, position, RoomName);
                 if (mSceneSetSceneClickListener != null)
-                    mSceneSetSceneClickListener.SceneClickPosition(ScenePosition, position, RoomPosition);
-                Toast.makeText(SceneSetActivity.this, Data_OuterCircleList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                    mSceneSetSceneClickListener.SceneClickPosition(ScenePosition, position, RoomName);
+                DevType = position;
+
             }
         });
 
@@ -142,52 +158,107 @@ public class SceneSetActivity extends BaseActivity {
             @Override
             public void OnItemClick(View view, int position) {
                 if (mSceneSetSceneClickListener != null)
-                    mSceneSetSceneClickListener.SceneClickPosition(position, DevType, RoomPosition);
+                    mSceneSetSceneClickListener.SceneClickPosition(position, DevType, RoomName);
+                ScenePosition = position;
             }
 
             @Override
-            public void OnItemLongClick(View view, int position) {
-
+            public void OnItemLongClick(View view, final int position) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SceneSetActivity.this);
+                builder.setTitle("提示 :");
+                builder.setMessage("是否删除此情景？");
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setPositiveButton("是的", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        mLoadDialog.show();
+                        SendDataUtil.deleteScene(WareDataHliper.initCopyWareData().getCopyScenes().get(position));
+                    }
+                });
+                builder.create().show();
             }
         });
     }
 
     /**
-     * 初始化转盘数据
+     * 外圆菜单 点击事件
      */
-    private void initCircleData() {
-        Data_OuterCircleList = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            CircleDataEvent event = new CircleDataEvent();
-            event.setImage(R.mipmap.ic_launcher_round);
-            if (i == 0 || i == 8) event.setTitle("空调");
-            if (i == 1 || i == 9) event.setTitle("电视");
-            if (i == 2 || i == 10) event.setTitle("机顶盒");
-            if (i == 3 || i == 11) event.setTitle("灯光");
-            if (i == 4 || i == 12) event.setTitle("门禁");
-            if (i == 5 || i == 13) event.setTitle("监控");
-            if (i == 6 || i == 14) event.setTitle("窗帘");
-            if (i == 7) event.setTitle("插座");
-            Data_OuterCircleList.add(event);
+    public void OuterCircleClick(FragmentActivity activity, int position, String RoomName) {
+        if ("".equals(RoomName)) {
+            ToastUtil.showText("请先选择房间");
+            return;
         }
-        Data_InnerCircleList = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            CircleDataEvent event = new CircleDataEvent();
-            event.setImage(R.mipmap.ic_launcher_round);
-            if (i == 0 || i == 8) event.setTitle("客厅");
-            if (i == 1 || i == 9) event.setTitle("厨房");
-            if (i == 2 || i == 10) event.setTitle("卫生间");
-            if (i == 3 || i == 11) event.setTitle("卧室");
-            if (i == 4 || i == 12) event.setTitle("走廊");
-            if (i == 5 || i == 13) event.setTitle("阳台");
-            if (i == 6 || i == 14) event.setTitle("餐厅");
-            if (i == 7) event.setTitle("楼梯");
-            Data_InnerCircleList.add(event);
+        FragmentManager manager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        if (mTVFragment != null)
+            transaction.hide(mTVFragment);
+        if (mTvUpFragment != null)
+            transaction.hide(mTvUpFragment);
+        if (mCurFragment != null)
+            transaction.hide(mCurFragment);
+        if (mAirFragment != null)
+            transaction.hide(mAirFragment);
+        if (mLightFragment != null)
+            transaction.hide(mLightFragment);
+        Bundle bundle = new Bundle();
+        bundle.putString("RoomName",RoomName);
+        switch (position) {
+            case 0:
+            case 8:
+                if (mAirFragment == null) {
+                    mAirFragment = new AirSceneFragment();
+                    mAirFragment.setArguments(bundle);
+                    transaction.add(R.id.SceneSet_Info, mAirFragment);
+                } else transaction.show(mAirFragment);
+                break;
+            case 1:
+            case 9:
+                if (mTVFragment == null) {
+                    mTVFragment = new TVSceneFragment();
+                    mTVFragment.setArguments(bundle);
+                    transaction.add(R.id.SceneSet_Info, mTVFragment);
+                } else transaction.show(mTVFragment);
+                break;
+            case 2:
+            case 10:
+                if (mTvUpFragment == null) {
+                    mTvUpFragment = new TvUpSceneFragment();
+                    mTvUpFragment.setArguments(bundle);
+                    transaction.add(R.id.SceneSet_Info, mTvUpFragment);
+                } else transaction.show(mTvUpFragment);
+                break;
+            case 3:
+            case 11:
+                if (mLightFragment == null) {
+                    mLightFragment = new LightSceneFragment();
+                    mLightFragment.setArguments(bundle);
+                    transaction.add(R.id.SceneSet_Info, mLightFragment);
+                } else transaction.show(mLightFragment);
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+            case 14:
+                if (mCurFragment == null) {
+                    mCurFragment = new CurtarnSceneFragment();
+                    mCurFragment.setArguments(bundle);
+                    transaction.add(R.id.SceneSet_Info, mCurFragment);
+                } else transaction.show(mCurFragment);
+                break;
         }
+        transaction.commit();
     }
 
-
-    //情景Position
+    //点击情景，房间，设备。触发回调，刷新界面
     public static SceneSetSceneClickListener mSceneSetSceneClickListener;
 
     public static void setmSceneSetSceneClickListener(SceneSetSceneClickListener mSceneSetSceneClickListener) {
@@ -195,6 +266,6 @@ public class SceneSetActivity extends BaseActivity {
     }
 
     public interface SceneSetSceneClickListener {
-        void SceneClickPosition(int ScenePosition, int DevType, int RoomPositon);
+        void SceneClickPosition(int ScenePosition, int DevType, String RoomName);
     }
 }

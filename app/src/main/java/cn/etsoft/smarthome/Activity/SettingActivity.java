@@ -1,22 +1,20 @@
 package cn.etsoft.smarthome.Activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
+import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 
+import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Fragment.Setting.AdvancedFragment;
 import cn.etsoft.smarthome.Fragment.Setting.LongIpFragment;
 import cn.etsoft.smarthome.Fragment.Setting.NetModuleFragment;
 import cn.etsoft.smarthome.R;
-
-import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_CLOSE;
-import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN;
 
 /**
  * Author：FBL  Time： 2017/6/15.
@@ -25,7 +23,7 @@ import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN;
 
 public class SettingActivity extends BaseActivity {
     private RadioGroup mSettingRadiogroup;
-    private Fragment mNewModule,mLongIP,mAdvanced;
+    private Fragment mNewModule, mLongIP, mAdvanced;
 
     @Override
     public void initView() {
@@ -36,42 +34,42 @@ public class SettingActivity extends BaseActivity {
         mSettingRadiogroup = getViewById(R.id.setting_radiogroup);
         setOnClick();
     }
+
     private void setOnClick() {
         mSettingRadiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.anim_home_control_open,R.anim.anim_home_weather_close);
+                transaction.setCustomAnimations(R.anim.anim_home_control_open, R.anim.anim_home_weather_close);
                 transaction.addToBackStack(null);
-                if (mNewModule!= null){
+                if (mNewModule != null) {
                     transaction.hide(mNewModule);
                 }
-                if (mLongIP!= null){
+                if (mLongIP != null) {
                     transaction.hide(mLongIP);
                 }
-                if (mAdvanced!= null){
+                if (mAdvanced != null) {
                     transaction.hide(mAdvanced);
                 }
                 switch (checkedId) {
                     case R.id.setting_netmodule_rbt:
                         if (mNewModule == null) {
                             mNewModule = new NetModuleFragment();
-                            transaction.add(R.id.setting_linearlayout_right,mNewModule);
+                            transaction.add(R.id.setting_linearlayout_right, mNewModule);
                         } else transaction.show(mNewModule);
 
                         break;
                     case R.id.setting_longip_rbt:
                         if (mLongIP == null) {
                             mLongIP = new LongIpFragment();
-                            transaction.add(R.id.setting_linearlayout_right,mLongIP);
-                        }
-                        else transaction.show(mLongIP);
+                            transaction.add(R.id.setting_linearlayout_right, mLongIP);
+                        } else transaction.show(mLongIP);
                         break;
                     case R.id.setting_advanced_rbt:
                         if (mAdvanced == null) {
                             mAdvanced = new AdvancedFragment();
-                            transaction.add(R.id.setting_linearlayout_right,mAdvanced);
+                            transaction.add(R.id.setting_linearlayout_right, mAdvanced);
                         } else transaction.show(mAdvanced);
                         break;
                 }
@@ -81,13 +79,31 @@ public class SettingActivity extends BaseActivity {
         getLiftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                backEvent();
             }
         });
     }
 
     @Override
     public void initData() {
+        mNewModule = new NetModuleFragment();
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.setting_linearlayout_right, mNewModule);
+        transaction.commit();
+    }
 
+    @Override
+    public void onBackPressed() {
+        backEvent();
+        super.onBackPressed();
+
+    }
+
+    private void backEvent() {
+        if ("".equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")))
+            finish();
+        else
+            startActivity(new Intent(SettingActivity.this, HomeActivity.class));
     }
 }

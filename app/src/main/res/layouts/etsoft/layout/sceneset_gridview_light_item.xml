@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:rsv="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="@dimen/dp_20">
 
 
     <TextView
-        android:id="@+id/SceneSet_DridView_Item_Name"
+        android:id="@+id/SceneSet_GridView_Item_Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -17,10 +17,10 @@
         android:textSize="@dimen/dp_20" />
 
     <ImageView
-        android:id="@+id/SceneSet_DridView_Item_IV"
+        android:id="@+id/SceneSet_GridView_Item_IV"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/SceneSet_DridView_Item_Name"
+        android:layout_height="@dimen/dp_160"
+        android:layout_below="@id/SceneSet_GridView_Item_Name"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/dp_20"
         android:layout_marginRight="@dimen/dp_20"
@@ -28,22 +28,32 @@
 
 
     <ImageView
-        android:id="@+id/SceneSet_DridView_Item_Select"
+        android:id="@+id/SceneSet_GridView_Item_Select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_launcher"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/dp_20"
         />
-    <com.github.channguyen.rsv.RangeSliderView
-        android:id="@+id/SceneSet_DridView_Item_Slide"
-        android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/SceneSet_DridView_Item_IV"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        rsv:filledColor="#1A5F77"
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/SceneSet_GridView_Item_Slide"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="60dp"
+        android:layout_below="@id/SceneSet_GridView_Item_IV"
+        android:layout_centerHorizontal="true"
+        app:markTextArray="@array/wordsArray"
+        app:lineColorSelected="@color/color_10AEFF"
+        app:lineColorEdge="@color/colorAccent"
+        app:textPadding="17dp"
+        app:cells="4"
+        app:hideProgressHint="true"
+        app:textSize="12sp"
+        app:hintBGHeight="28dp"
+        app:seekBarHeight="8dp"
+        app:thumbSize="26dp"
+        app:cellMode="other"
+        app:seekBarMode="single"
         />
 
 </RelativeLayout>

@@ -255,6 +255,8 @@ public class WareData implements Serializable {
     }
 
     public Timer_Data getTimer_data() {
+        if (timer_data == null)
+            timer_data = new Timer_Data();
         return timer_data;
     }
 

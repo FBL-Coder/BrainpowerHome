@@ -1,5 +1,6 @@
 package cn.etsoft.smarthome.UiHelper;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -36,11 +37,11 @@ public class Login_Helper {
     private Gson gson;
     private String input_id;
     private String input_pass;
-    private Context mContext;
+    private Activity mContext;
     private Dialog dialog;
     public static Login_Helper login_helper = new Login_Helper();
 
-    public void login(final Context mContext, EditText id, EditText pass) {
+    public void login(final Activity mContext, EditText id, EditText pass) {
         this.mContext = mContext;
         input_id = id.getText().toString();
         input_pass = pass.getText().toString();
@@ -119,5 +120,6 @@ public class Login_Helper {
             SendDataUtil.getNetWorkInfo();
             mContext.startActivity(new Intent(mContext, HomeActivity.class));
         }
+        mContext.finish();
     }
 }

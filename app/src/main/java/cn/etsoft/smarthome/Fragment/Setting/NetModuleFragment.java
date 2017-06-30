@@ -27,6 +27,7 @@ import cn.etsoft.smarthome.UiHelper.New_AddorDel_Helper;
 
 /**
  * Author：FBL  Time： 2017/6/22.
+ * 设置页面 —— 联网模块
  */
 
 public class NetModuleFragment extends BaseFragment {
@@ -94,6 +95,7 @@ public class NetModuleFragment extends BaseFragment {
         mDialogOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
                 New_AddorDel_Helper.addNew(mNewModuleHandler, mActivity, mDialogName, mDialogID, mDialogPass);
             }
         });

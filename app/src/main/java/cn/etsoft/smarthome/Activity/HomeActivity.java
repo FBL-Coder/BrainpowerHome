@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+
 import java.lang.ref.WeakReference;
 
 import cn.etsoft.smarthome.Activity.AdvancedSetting.SceneSetActivity;
@@ -39,6 +41,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private int LOCATION_FAILING = 111;
     private int LOCATION_NONETWORK = 1001;
     private int WRATHER_SUCCEED = 2000;
+    private int WRATHER_FAILING = 2200;
     private int DB_INITOK = 200;
 
     private TextView mHomeLoactionText;
@@ -138,6 +141,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(new Intent(HomeActivity.this, SceneSetActivity.class));
                 break;
             case R.id.Home_Timer:
+                SendDataUtil.getTimerInfo();
                 startActivity(new Intent(HomeActivity.this, TimerSetActivity.class));
                 break;
             case R.id.Home_Health:
@@ -172,6 +176,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 }
                 if (msg.what == weakReference.get().LOCATION_NONETWORK) {//没有网络
 
+                }
+                if (msg.what == weakReference.get().WRATHER_FAILING) {//天气数据失败
+                    ToastUtil.showText("获取天气数据失败");
                 }
                 if (msg.what == weakReference.get().DB_INITOK) {//获取CityDB数据完成
                     //开始定位，获取时间，获取天气

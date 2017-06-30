@@ -3,6 +3,7 @@ package cn.etsoft.smarthome.Domain;
 import cn.etsoft.smarthome.Utils.CommonUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -69,6 +70,8 @@ public class Timer_Data implements Serializable{
     }
 
     public List<TimerEventRowsBean> getTimerEvent_rows() {
+        if (timerEvent_rows == null)
+            timerEvent_rows = new ArrayList<>();
         return timerEvent_rows;
     }
 
@@ -154,6 +157,8 @@ public class Timer_Data implements Serializable{
         }
 
         public List<RunDevItemBean> getRun_dev_item() {
+            if (run_dev_item == null)
+                run_dev_item = new ArrayList<>();
             return run_dev_item;
         }
 

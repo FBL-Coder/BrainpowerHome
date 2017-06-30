@@ -7,19 +7,19 @@ public class WareSceneDevItem implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 8416872337552710304L;
-	private String uid;
+	private String canCpuID;
 	private byte devID;
 	private byte devType;
 	private byte bOnOff;
 	private byte param1;
 	private byte param2;
 
-	public String getUid() {
-		return uid;
+	public String getCanCpuID() {
+		return canCpuID;
 	}
 
-	public void setUid(String uid) {
-		this.uid = uid;
+	public void setCanCpuID(String canCpuID) {
+		this.canCpuID = canCpuID;
 	}
 
 	public byte getDevID() {

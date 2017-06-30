@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityCompat;
 
 /**
  * Author：FBL  Time： 2017/6/26.
+ * 读写权限
  */
 
 public class PermissionsUtli {
