@@ -343,9 +343,6 @@
             android:name=".ui.MainActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.SceneSetActivity"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".ui.NotificationActivity"
             android:screenOrientation="landscape" />
         <!--登录页面-->
@@ -379,6 +376,9 @@
         <!--设备设置-->
         <activity
             android:name=".ui.Equipment_control"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.Equipment_control2"
             android:screenOrientation="landscape" />
         <!--设备详情-->
         <activity

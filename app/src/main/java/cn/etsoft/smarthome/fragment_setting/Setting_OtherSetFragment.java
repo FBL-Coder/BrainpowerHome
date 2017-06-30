@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.ui.ConditionEventActivity;
-import cn.etsoft.smarthome.ui.Equipment_control;
+import cn.etsoft.smarthome.ui.Equipment_control2;
 import cn.etsoft.smarthome.ui.GroupActivity2;
 import cn.etsoft.smarthome.ui.GroupSetActivity;
 import cn.etsoft.smarthome.ui.SafetyActivity;
@@ -67,7 +67,8 @@ public class Setting_OtherSetFragment extends Fragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_dev:
-                startActivity(new Intent(mActivity, Equipment_control.class));
+//                startActivity(new Intent(mActivity, Equipment_control.class));
+                startActivity(new Intent(mActivity, Equipment_control2.class));
                 break;
             case R.id.tv_other:
 //                startActivity(new Intent(mActivity, GroupActivity.class));

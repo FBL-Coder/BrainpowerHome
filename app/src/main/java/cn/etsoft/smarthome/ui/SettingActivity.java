@@ -43,7 +43,7 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
     private Fragment setting_NetWorkFragment, setting_LongIpFragment, setting_NetWorkDetailFragment,
-            setting_userFragment, setting_SystemFragment,setting_NetWorkFragment_New;
+            setting_userFragment, setting_SystemFragment, setting_NetWorkFragment_New;
     private Handler handler;
 
     @Override
@@ -53,7 +53,7 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
             setContentView(R.layout.activity_etsoft_setting);
             //初始化控件
             initView();
-        }catch (Exception e){
+        } catch (Exception e) {
             finish();
         }
 //        MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
@@ -101,8 +101,8 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 //联网模块未选择的时候，其他fragment不能点击进入
-                if ("".equals(GlobalVars.getDevid()) && !(MyApplication.mInstance.isReadData()) && MyApplication.getWareData().getDevs().size()== 0) {
-                    ToastUtil.showToast(SettingActivity.this,"请先选择联网模块");
+                if ("".equals(GlobalVars.getDevid()) && !(MyApplication.mInstance.isReadData()) && MyApplication.getWareData().getDevs().size() == 0) {
+                    ToastUtil.showToast(SettingActivity.this, "请先选择联网模块");
                     return;
                 }
                 for (int i = 0; i < radioGroup.getChildCount(); i++) {
@@ -129,6 +129,10 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
 //                        transaction.replace(R.id.fragment, setting_RoomFragment);
 //                        break;
                     case R.id.user:
+                        if (MyApplication.mInstance.isSkip()) {
+                            ToastUtil.showToast(SettingActivity.this, "跳过登录不能体验此功能");
+                            return;
+                        }
                         setting_userFragment = new Setting_UserFragment(SettingActivity.this);
                         setting_userFragment.setArguments(bundle);
                         transaction.replace(R.id.fragment, setting_userFragment);
@@ -189,13 +193,18 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
                 break;
         }
     }
+
     @Override
     public void onBackPressed() {
         SharedPreferences sharedPreferences = getSharedPreferences("profile",
                 Context.MODE_PRIVATE);
         String jsondata = sharedPreferences.getString("list", "");
         if ("".equals(jsondata))
-            System.exit(0);
+            if (MyApplication.mInstance.isSkip()) {
+                finish();
+            } else {
+                System.exit(0);
+            }
         else
             super.onBackPressed();
     }

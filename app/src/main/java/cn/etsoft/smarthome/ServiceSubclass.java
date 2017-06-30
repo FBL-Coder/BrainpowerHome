@@ -33,25 +33,14 @@ public class ServiceSubclass extends Service {
     }
 
     public void onCreate() {
+        System.out.println("---> Service onCreate()");
         //防区警报通知
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-
         builder.setContentTitle("警报");
-
         builder.setContentText("有防区发生警报，请及时处理");
-//        builder.setSubText("报");
-//        builder.setContentInfo("警");
-        //设置一个大图标，参数是bitmap
-//        builder.setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), android.R.drawable.star_on));
-        //如果只设置SmallIcon，那么图片会显示在通知的最左边。
-        // 如果LargeIcon与SmallIcon同时设置,出现在最左边的是LargeIcon,SmallIcon出现在右下角
-        //开发过程中如果右下角没有需求要显示图片的话直接设置SmallIcon即可
         builder.setSmallIcon(R.drawable.et);
-
         //收到通知一般有三种用户提示方式：声音，震动，呼吸灯
         builder.setDefaults(Notification.DEFAULT_ALL);
-        //第一次消息收到后的提示
-//        builder.setTicker("来新消息了");
         //所有设置必须在builder.build之前
         //commit，确认刚才的设置，并且生成一个Notification对象
         //创建一个pendingIntent对象用于点击notification之后跳转
@@ -60,16 +49,17 @@ public class ServiceSubclass extends Service {
         //设置点击之后notification消失
         builder.setAutoCancel(true);
         Notification build = builder.build();
-
         //创建并在通知栏弹出一个消息
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         nm.notify(1, build);//1为notification一个标签，可以通过这个标签进行取消等操作
+        System.out.println("---> Service onCreate()");
     }
 
     @Override
     public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
         System.out.println("---> Service onStart()");
+        super.onStart(intent, startId);
+
     }
 
     Dialog dialog;
@@ -77,6 +67,7 @@ public class ServiceSubclass extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        System.out.println("---> Service onStartCommand()");
         SharedPreferences sharedPreferences1 = getSharedPreferences("profile",
                 Context.MODE_PRIVATE);
         int safety_style = sharedPreferences1.getInt("safety_style", 255);
@@ -88,6 +79,7 @@ public class ServiceSubclass extends Service {
             //获取触发警报的位置index
             index = intent.getStringExtra("index");
         } catch (Exception e) {
+            System.out.println("Exception"+e);
             index = "";
         }
         //警报位置集合
@@ -111,12 +103,12 @@ public class ServiceSubclass extends Service {
                 }
             }
         } catch (Exception e) {
+            System.out.println("Exception" + e);
             return super.onStartCommand(intent, flags, startId);
         }
         if (!"".equals(message)) {
             message = message.substring(0, message.lastIndexOf("、"));
             sever = this;
-            System.out.println("---> Service onStartCommand()");
             CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(this);
             builder.setTitle("报警提示：");
             builder.setMessage("防区 " + message + " 报警！！！");
@@ -126,9 +118,10 @@ public class ServiceSubclass extends Service {
                     try {
                         MyApplication.mInstance.getSp().stop(jingbao);
                     } catch (Exception e) {
+                        System.out.println("Exception" + e);
                     }
                     dialog.dismiss();
-                    sever.stopSelf();
+                    sever.onDestroy();
                 }
             });
             dialog = builder.create();
@@ -153,6 +146,7 @@ public class ServiceSubclass extends Service {
                 }
             }, 5000);
         }
+        System.out.println("---> Service onStartCommand()");
         return super.onStartCommand(intent, flags, startId);
     }
 

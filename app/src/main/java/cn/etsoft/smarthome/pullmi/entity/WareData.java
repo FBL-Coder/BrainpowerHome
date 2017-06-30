@@ -10,7 +10,7 @@ import cn.etsoft.smarthome.domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.domain.DevControl_Result;
 import cn.etsoft.smarthome.domain.GroupSet_Data;
-import cn.etsoft.smarthome.domain.RcuInfo_search;
+import cn.etsoft.smarthome.domain.KyeInputResult;
 import cn.etsoft.smarthome.domain.SearchNet;
 import cn.etsoft.smarthome.domain.SetEquipmentResult;
 import cn.etsoft.smarthome.domain.SetSafetyResult;
@@ -39,6 +39,7 @@ public class WareData implements Serializable {
     private GroupSet_Data mGroupSet_Data;
     //防区模块显示信息
     private SetSafetyResult result_safety;
+
     public SetSafetyResult getResult_safety() {
         return result_safety;
     }
@@ -46,30 +47,32 @@ public class WareData implements Serializable {
     public void setResult_safety(SetSafetyResult result_safety) {
         this.result_safety = result_safety;
     }
-    //联网模块--搜索
-    private SearchNet searchNet;
 
-    public SearchNet getSearchNet() {
-        return searchNet;
+    //高级设置--设备信息--输入模块编辑
+    private KyeInputResult kyeInputResult;
+    public KyeInputResult getKyeInputResult() {
+        return kyeInputResult;
     }
 
-    public void setSearchNet(SearchNet searchNet) {
-        this.searchNet = searchNet;
+    public void setKyeInputResult(KyeInputResult kyeInputResult) {
+        this.kyeInputResult = kyeInputResult;
     }
-    private List<RcuInfo_search> rcuInfo_searches;
+    //联网模块（搜索多个联网模块）
+    public List<SearchNet> rcuInfo_searches;
 
-    public List<RcuInfo_search> getRcuInfo_searches() {
+    public List<SearchNet> getRcuInfo_searches() {
         if (rcuInfo_searches == null)
-            return new ArrayList<>();
+            rcuInfo_searches = new ArrayList<>();
         return rcuInfo_searches;
     }
 
-    public void setRcuInfo_searches(List<RcuInfo_search> rcuInfo_searches) {
+    public void setRcuInfo_searches(List<SearchNet> rcuInfo_searches) {
         this.rcuInfo_searches = rcuInfo_searches;
     }
 
     //高级设置-按键情景模块
     private ChnOpItem_scene chnOpItem_scene;
+
     public ChnOpItem_scene getChnOpItem_scene() {
         if (chnOpItem_scene == null)
             return new ChnOpItem_scene();
@@ -82,6 +85,7 @@ public class WareData implements Serializable {
 
     //防区模块报警
     private SetSafetyResult_alarm safetyResult_alarm;
+
     public SetSafetyResult_alarm getSafetyResult_alarm() {
         return safetyResult_alarm;
     }
@@ -169,7 +173,7 @@ public class WareData implements Serializable {
     }
 
     public List<WareDev> getDevs() {
-        if(devs==null)
+        if (devs == null)
             devs = new ArrayList<>();
         return devs;
     }
@@ -226,6 +230,7 @@ public class WareData implements Serializable {
 
     /**
      * 获取情景模块数据
+     *
      * @return
      */
     public List<WareSceneEvent> getSceneEvents() {
@@ -236,6 +241,7 @@ public class WareData implements Serializable {
 
     /**
      * 设置情景模块数据
+     *
      * @param sceneEvents
      */
     public void setSceneEvents(List<WareSceneEvent> sceneEvents) {
@@ -343,11 +349,12 @@ public class WareData implements Serializable {
     public int getLogin_result() {
         return login_result;
     }
+
     public int getnetwork_count() {
         return network_count;
     }
 
-    public void setLogin_result(int login_result,int count) {
+    public void setLogin_result(int login_result, int count) {
         this.login_result = login_result;
         this.network_count = count;
     }
@@ -367,15 +374,16 @@ public class WareData implements Serializable {
     public void setAddUser_reslut(int addUser_reslut) {
         this.addUser_reslut = addUser_reslut;
     }
+
     public Bundle getDeleteNetReslut() {
         Bundle bundle = new Bundle();
-        bundle.putString("id",DeleteDevid);
-        bundle.putInt("Reslut",DeleteNetReslut);
+        bundle.putString("id", DeleteDevid);
+        bundle.putInt("Reslut", DeleteNetReslut);
         return bundle;
 
     }
 
-    public void setDeleteNetReslut(String DeleteDevid,int DeleteNetReslut) {
+    public void setDeleteNetReslut(String DeleteDevid, int DeleteNetReslut) {
         this.DeleteNetReslut = DeleteNetReslut;
         this.DeleteDevid = DeleteDevid;
     }

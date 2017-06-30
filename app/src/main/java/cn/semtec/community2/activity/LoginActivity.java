@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.domain.User;
 import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
-import cn.etsoft.smarthome.ui.WelcomeActivity;
+import cn.etsoft.smarthome.ui.*;
 import cn.semtec.community2.MyApplication;
 import cn.semtec.community2.model.LoginHelper;
 import cn.semtec.community2.model.MyHttpUtil;
@@ -36,7 +36,7 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
     private EditText et_account;
     private EditText et_password;
     private TextView btn_forget, btn_tourist;
-//    private PanningView image;
+    //    private PanningView image;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -57,7 +57,6 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
 //                    startActivity(intent1);
                     cn.etsoft.smarthome.MyApplication.mInstance.setSearch(false);
                     cn.etsoft.smarthome.MyApplication.sendUserData(cellphone, password);
-//                    finish();
                     break;
                 case MyHttpUtil.SUCCESSELSE:
                     ToastUtil.l(LoginActivity.this, getString(R.string.login_error));
@@ -91,9 +90,14 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
             editor.putString("appid", APPID);
             editor.commit();
         }
+        initEvent();
+
+    }
+
+    long time = 0;
+
+    public void initEvent() {
         instace = this;
-
-
         cn.etsoft.smarthome.MyApplication.mInstance.setOnGetWareDataListener(new cn.etsoft.smarthome.MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int what) {
@@ -107,25 +111,38 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
                         String str = gson.toJson(user);
                         editor.putString("user", str);
                         editor.commit();
+                        if (System.currentTimeMillis() - time < 2000)
+                            return;
+                        time = System.currentTimeMillis();
+                        cn.etsoft.smarthome.MyApplication.mInstance.setSkip(false);
+                        startActivity(new Intent(LoginActivity.this, WelcomeActivity.class).putExtra("login", LOGIN_OK));
+                        finish();
                     } else {
                         cn.etsoft.smarthome.utils.ToastUtil.showToast(LoginActivity.this, "登录失败");
                         return;
                     }
-
-
                 }
-                if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue()) {
-                    startActivity(new Intent(LoginActivity.this, WelcomeActivity.class).putExtra("login", LOGIN_OK));
-                    finish();
-                }
+//                if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue()) {
+//
+//
+//                }
             }
         });
         setView();
         setListener();
     }
 
+
     @Override
     protected void onResume() {
+        SharedPreferences sharedPreferences = getSharedPreferences("profile",
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("list", "");
+        editor.putString("user", "");
+        editor.putString("rcuInfo_list", "");
+        editor.commit();
+        initEvent();
         super.onResume();
         preference = MyApplication.getSharedPreferenceUtil();
         cellphone = preference.getString("cellphone");
@@ -135,11 +152,6 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
 //        image.startPanning();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-//        image.stopPanning();
-    }
 
     private void setView() {
         btn_login = (Button) findViewById(R.id.btn_login);
@@ -163,6 +175,11 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
 
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_tourist:
+                cn.etsoft.smarthome.MyApplication.mInstance.setSkip(true);
+                Intent intent = new Intent(this, cn.etsoft.smarthome.ui.SettingActivity.class);
+                startActivity(intent);
+                break;
             case R.id.btn_login:
                 cellphone = et_account.getText().toString();
                 password = et_password.getText().toString();
@@ -200,6 +217,7 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
                     if (what == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_loginUser.getValue()) {
                         if (cn.etsoft.smarthome.MyApplication.getWareData().getLogin_result() == 0) {
                             cn.etsoft.smarthome.utils.ToastUtil.showToast(LoginActivity.this, "登陆成功");
+                            Log.e("成功", "登陆成功1");
                             Gson gson = new Gson();
                             String str = gson.toJson(user);
                             editor.putString("user", str);
@@ -222,6 +240,7 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
     @Override
     protected void onDestroy() {
         instace = null;
+        Log.e("成功", "destory");
         super.onDestroy();
     }
 
@@ -245,9 +264,9 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
         return onTouchEvent(ev);
     }
 
-    public  boolean isShouldHideInput(View v, MotionEvent event) {
+    public boolean isShouldHideInput(View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {
-            int[] leftTop = { 0, 0 };
+            int[] leftTop = {0, 0};
             //获取输入框当前的location位置
             v.getLocationInWindow(leftTop);
             int left = leftTop[0];

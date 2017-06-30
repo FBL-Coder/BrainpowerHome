@@ -238,13 +238,15 @@ public class TimerActivity extends FragmentActivity implements View.OnClickListe
                 .getTimerEvent_rows().get(timer_position).getTimerName());
         if (MyApplication.getWareData().getTimer_data().getTimerEvent_rows().get(timer_position).getRun_dev_item() == null
                 || MyApplication.getWareData().getTimer_data().getTimerEvent_rows().get(timer_position).getRun_dev_item().size() == 0) {
-            tv_enabled.setText("禁用");
-            tv_time_start.setText("点击选择时间");
-            tv_time_week.setText("点击选择星期");
-            tv_time_end.setText("点击选择时间");
-            tv_week_repeat.setText("否");
-            tv_all_network.setText("是");
-        } else {
+//            tv_enabled.setText("禁用");
+//            tv_time_start.setText("点击选择时间");
+//            tv_time_week.setText("点击选择星期");
+//            tv_time_end.setText("点击选择时间");
+//            tv_week_repeat.setText("否");
+//            tv_all_network.setText("是");
+            ToastUtil.showToast(this,"该定时器下没有设备");
+        }
+//        else {
             if (MyApplication.getWareData().getTimer_data().getTimerEvent_rows().get(timer_position).getValid() == 1)
                 tv_enabled.setText("启用");
             else tv_enabled.setText("禁用");
@@ -269,7 +271,7 @@ public class TimerActivity extends FragmentActivity implements View.OnClickListe
             if (data_end.get(3) == 1) tv_week_repeat.setText("是");
             else tv_week_repeat.setText("否");
             tv_all_network.setText("是");
-        }
+//        }
     }
 
 
@@ -648,7 +650,7 @@ public class TimerActivity extends FragmentActivity implements View.OnClickListe
             }
         });
         // 创建PopupWindow实例
-        popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), view_parent.getWidth(), 300);
+        popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), view_parent.getWidth(), 200);
         popupWindow.setContentView(customView);
         ListView list_pop = (ListView) customView.findViewById(R.id.popupWindow_equipment_lv);
         PopupWindowAdapter2 adapter = new PopupWindowAdapter2(text, this);

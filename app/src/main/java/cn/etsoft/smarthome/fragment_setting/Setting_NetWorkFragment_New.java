@@ -195,9 +195,14 @@ public class Setting_NetWorkFragment_New extends Fragment implements View.OnClic
     private void initView() {
         if ("".equals(UnitID) || UnitID == null)
             UnitID = "00";
-        sharedPreferences = mActivity.getSharedPreferences("profile", Context.MODE_PRIVATE);
-        json_user = sharedPreferences.getString("user", "");
-        json_rcuinfo_list = sharedPreferences.getString("list", "");
+        if (MyApplication.mInstance.isSkip() == true) {
+            sharedPreferences = mActivity.getSharedPreferences("profile", Context.MODE_PRIVATE);
+            json_rcuinfo_list = sharedPreferences.getString("rcuInfo_list", "");
+        } else {
+            sharedPreferences = mActivity.getSharedPreferences("profile", Context.MODE_PRIVATE);
+            json_user = sharedPreferences.getString("user", "");
+            json_rcuinfo_list = sharedPreferences.getString("list", "");
+        }
         add = (LinearLayout) view.findViewById(R.id.network_add);
         add.setOnClickListener(this);
         equi_list = (SwipeListView) view.findViewById(R.id.equi_list);
@@ -284,42 +289,77 @@ public class Setting_NetWorkFragment_New extends Fragment implements View.OnClic
                 builder.create().show();
             }
         });
-        equi_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
-                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(mActivity);
-                builder.setTitle("提示 :");
+        if (MyApplication.mInstance.isSkip() == true) {
+            equi_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+                    CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(mActivity);
+                    builder.setTitle("提示 :");
 
-                builder.setMessage("您确定要删除此条目吗？");
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Gson gson = new Gson();
-                        List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
-                        }.getType());
-                        final String key_str = "{" +
-                                "\"userName\":\"" + user.getId() + "\"," +
-                                "\"passwd\":\"" + user.getPass() + "\"," +
-                                "\"devUnitID\":\"" + json_list.get(position).getDevUnitID() + "\"," +
-                                "\"devPass\":\"" + json_list.get(position).getDevUnitPass() + "\"," +
-                                "\"canCpuName\":\"" + json_list.get(position).getCanCpuName() + "\"," +
-                                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_delRcu.getValue() + "," +
-                                "\"subType1\":0," +
-                                "\"subType2\":0" + "}";
-                        MyApplication.sendMsg(key_str);
-                        dialog.dismiss();
-                    }
-                });
-                builder.create().show();
-                return true;
-            }
-        });
+                    builder.setMessage("您确定要删除此条目吗？");
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Gson gson = new Gson();
+                            List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {}.getType());
+                            json_list.remove(json_list.get(position));
+                            String str = gson.toJson(json_list);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("rcuInfo_list", str);
+                            editor.commit();
+                            ToastUtil.showToast(getActivity(), "删除成功");
+                            initView();
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.create().show();
+                    return true;
+                }
+            });
+        } else {
+            equi_list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+                    CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(mActivity);
+                    builder.setTitle("提示 :");
+
+                    builder.setMessage("您确定要删除此条目吗？");
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Gson gson = new Gson();
+                            List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
+                            }.getType());
+                            final String key_str = "{" +
+                                    "\"userName\":\"" + user.getId() + "\"," +
+                                    "\"passwd\":\"" + user.getPass() + "\"," +
+                                    "\"devUnitID\":\"" + json_list.get(position).getDevUnitID() + "\"," +
+                                    "\"devPass\":\"" + json_list.get(position).getDevUnitPass() + "\"," +
+                                    "\"canCpuName\":\"" + json_list.get(position).getCanCpuName() + "\"," +
+                                    "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_delRcu.getValue() + "," +
+                                    "\"subType1\":0," +
+                                    "\"subType2\":0" + "}";
+                            MyApplication.sendMsg(key_str);
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.create().show();
+                    return true;
+                }
+            });
+        }
     }
 
     /**
@@ -330,24 +370,25 @@ public class Setting_NetWorkFragment_New extends Fragment implements View.OnClic
         if ("".equals(UnitID) || UnitID == null)
             UnitID = "00";
         json_rcuinfo_list_search = new ArrayList<>();
-        if (MyApplication.getWareData().getSearchNet() != null && MyApplication.getWareData().getSearchNet().getRcu_rows().size() > 0) {
-            for (int i = 0; i < MyApplication.getWareData().getSearchNet().getRcu_rows().size(); i++) {
-                json_rcuinfo_list_search.add(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(MyApplication.getWareData().getSearchNet().getRcu_rows().get(i).getName())));
-            }
-            adapter_search = new Equi_Search_ListAdapter(json_rcuinfo_list_search);
-            equi_list_search.setAdapter(adapter_search);
-        } else if (MyApplication.getWareData().getSearchNet() == null || MyApplication.getWareData().getSearchNet().getRcu_rows().size() == 0) {
-            ToastUtil.showToast(getActivity(), "没有搜索到本地模块");
-        }
-//        if (MyApplication.getWareData().getRcuInfo_searches() != null) {
-//            for (int i = 0; i < MyApplication.getWareData().getRcuInfo_searches().size(); i++) {
-//                json_rcuinfo_list_search.add(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(MyApplication.getWareData().getRcuInfo_searches().get(i).getName())));
+//        if (MyApplication.getWareData().getSearchNet() != null && MyApplication.getWareData().getSearchNet().getRcu_rows().size() > 0) {
+//            for (int i = 0; i < MyApplication.getWareData().getSearchNet().getRcu_rows().size(); i++) {
+//                json_rcuinfo_list_search.add(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(MyApplication.getWareData().getSearchNet().getRcu_rows().get(i).getName())));
 //            }
 //            adapter_search = new Equi_Search_ListAdapter(json_rcuinfo_list_search);
 //            equi_list_search.setAdapter(adapter_search);
-//        } else if (MyApplication.getWareData().getRcuInfo_searches() == null ) {
+//        } else if (MyApplication.getWareData().getSearchNet() == null || MyApplication.getWareData().getSearchNet().getRcu_rows().size() == 0) {
 //            ToastUtil.showToast(getActivity(), "没有搜索到本地模块");
 //        }
+        if (MyApplication.getWareData().getRcuInfo_searches() == null || MyApplication.getWareData().getRcuInfo_searches().size() == 0) {
+            ToastUtil.showToast(getActivity(), "没有搜索到本地模块");
+        } else {
+            for (int i = 0; i < MyApplication.getWareData().getRcuInfo_searches().size(); i++) {
+
+                json_rcuinfo_list_search.add(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(MyApplication.getWareData().getRcuInfo_searches().get(i).getRcu_rows().get(0).getName())));
+            }
+            adapter_search = new Equi_Search_ListAdapter(json_rcuinfo_list_search);
+            equi_list_search.setAdapter(adapter_search);
+        }
         equi_list_search.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -382,10 +423,15 @@ public class Setting_NetWorkFragment_New extends Fragment implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.network_add:
-                getDialog();
+                if (MyApplication.mInstance.isSkip() == true) {
+                    ToastUtil.showToast(getActivity(), "跳过登录状态下不能在此添加联网模块");
+                } else {
+                    getDialog();
+                }
                 break;
             //搜索模块
             case R.id.network_search:
+                MyApplication.getWareData().setRcuInfo_searches(null);
                 initDialog("搜索中...");
                 sharedPreferences = getActivity().getSharedPreferences("profile", Context.MODE_PRIVATE);
                 String appid = sharedPreferences.getString("appid", "");
@@ -551,79 +597,138 @@ public class Setting_NetWorkFragment_New extends Fragment implements View.OnClic
 
             viewHolder.equi_iv_use.setImageResource(R.drawable.net_add);
             viewHolder.equi_name.setText(json_rcuinfo_list_search.get(position));
-            viewHolder.equi_iv_use.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(mActivity);
-                    builder.setTitle("提示 :");
+            if (MyApplication.mInstance.isSkip() == true) {
+                viewHolder.equi_iv_use.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(mActivity);
+                        builder.setTitle("提示 :");
 
-                    builder.setMessage("您要添加此模块到联网模块吗？");
-                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        builder.setMessage("您要添加此模块到联网模块吗？");
+                        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                List<RcuInfo> json_list = new ArrayList<>();
+                                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("profile", Context.MODE_PRIVATE);
+                                String json_rcuinfo_list = sharedPreferences.getString("rcuInfo_list", "");
+                                Gson gson = new Gson();
+                                RcuInfo info1 = new RcuInfo();
+                                boolean IsExit = true;
+                                try {
+                                    info1.setDevUnitID(MyApplication.getWareData().getRcuInfo_searches().get(position).getDevUnitID());
+                                    info1.setCanCpuName(MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getName());
+                                    info1.setCanCpuID(MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getCanCpuID());
+                                    info1.setDevUnitPass(MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getDevUnitPass());
+                                    info1.setName(MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getName());
+                                    info1.setCenterServ(MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getCenterServ());
+                                    info1.setbDhcp(MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getBDhcp());
+                                    info1.setGateWay(MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getGateway());
+                                    info1.setHwVversion(MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getHwVersion());
+                                    info1.setIpAddr(MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getIpAddr());
+                                    info1.setMacAddr(MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getMacAddr());
+                                    info1.setRoomNum(MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getRoomNum());
+                                    info1.setSoftVersion(MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getSoftVersion());
+                                    info1.setSubMask(MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getSubMask());
 
-                            String name_equi = MyApplication.getWareData().getSearchNet().getRcu_rows().get(position).getName();
-
-                            String id_equi = MyApplication.getWareData().getSearchNet().getRcu_rows().get(position).getCanCpuID();
-                            String pass_equi = MyApplication.getWareData().getSearchNet().getRcu_rows().get(position).getDevUnitPass();
-//                            String name_equi = MyApplication.getWareData().getRcuInfo_searches().get(position).getName();
-//
-//                            String id_equi = MyApplication.getWareData().getRcuInfo_searches().get(position).getCanCpuID();
-//                            String pass_equi = MyApplication.getWareData().getRcuInfo_searches().get(position).getDevUnitPass();
-                            Log.e("联网模块名称", name_equi);
-                            Log.e("联网模块id", id_equi);
-                            Log.e("联网模块密码", pass_equi);
-                            Log.e("联网模块位置", position + "");
-                            Gson gson = new Gson();
-                            List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
-                            }.getType());
-
-                            RcuInfo info = new RcuInfo();
-                            info.setDevUnitID(id_equi);
-                            info.setDevUnitPass(pass_equi);
-                            info.setCanCpuName(name_equi);
-                            List<RcuInfo> json_list_ok = new ArrayList<>();
-                            if (json_list != null && json_list.size() > 0) {
-                                for (int i = 0; i < json_list.size() + 1; i++) {
-                                    if (i == 0)
-                                        json_list_ok.add(info);
-                                    else
-                                        json_list_ok.add(json_list.get(i - 1));
+                                    if (!"".equals(json_rcuinfo_list) && json_rcuinfo_list != null && json_rcuinfo_list.length() > 0) {
+                                        json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
+                                        }.getType());
+                                        for (int i = 0; i < json_list.size(); i++) {
+                                            if (info1.getDevUnitID().equals(json_list.get(i).getDevUnitID())) {
+                                                ToastUtil.showToast(getActivity(), "模块已存在");
+                                                IsExit = false;
+                                            }
+                                        }
+                                        if (IsExit) {
+                                            json_list.add(info1);
+                                            ToastUtil.showToast(getActivity(), "添加成功");
+                                        }
+                                    } else {
+                                        json_list.add(info1);
+                                        ToastUtil.showToast(getActivity(), "添加成功");
+                                    }
+                                } catch (Exception e) {
+                                    Log.w("Exception", e + "");
                                 }
-                            } else
-                                json_list_ok.add(info);
-                            str = gson.toJson(json_list_ok);
-//            {
-//                "userName": "hwp",
-//                    "passwd": "000000",
-//                    "devUnitID": "37ffdb05424e323416702443",    // 客户端启动后，输入的联网模块ID
-//                    "devPass": "16072443",    //客户端启动后，输入的联网模块密码
-//                    "datType": 63,
-//                    "subType1": 0,
-//                    "subType2": 0
-//            }
-                            final String key_str = "{" +
-                                    "\"userName\":\"" + user.getId() + "\"," +
-                                    "\"passwd\":\"" + user.getPass() + "\"," +
-                                    "\"devUnitID\":\"" + id_equi + "\"," +
-                                    "\"devPass\":\"" + pass_equi + "\"," +
-                                    "\"canCpuName\":\"" + name_equi + "\"," +
-                                    "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_regeditRcu.getValue() + "," +
-                                    "\"subType1\":0," +
-                                    "\"subType2\":0" + "}";
-                            dialog.dismiss();
-                            MyApplication.sendMsg(key_str);
-                        }
-                    });
-                    builder.create().show();
-                }
-            });
+                                String str = gson.toJson(json_list);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("rcuInfo_list", str);
+                                editor.commit();
+                                initView();
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.create().show();
+                    }
+                });
+            } else {
+                viewHolder.equi_iv_use.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(mActivity);
+                        builder.setTitle("提示 :");
+
+                        builder.setMessage("您要添加此模块到联网模块吗？");
+                        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                String name_equi = MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getName();
+
+                                String id_equi = MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getCanCpuID();
+                                String pass_equi = MyApplication.getWareData().getRcuInfo_searches().get(position).getRcu_rows().get(0).getDevUnitPass();
+                                Log.e("联网模块名称", name_equi);
+                                Log.e("联网模块id", id_equi);
+                                Log.e("联网模块密码", pass_equi);
+                                Log.e("联网模块位置", position + "");
+                                Gson gson = new Gson();
+                                List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
+                                }.getType());
+
+                                RcuInfo info = new RcuInfo();
+                                info.setDevUnitID(id_equi);
+                                info.setDevUnitPass(pass_equi);
+                                info.setCanCpuName(name_equi);
+                                List<RcuInfo> json_list_ok = new ArrayList<>();
+                                if (json_list != null && json_list.size() > 0) {
+                                    for (int i = 0; i < json_list.size() + 1; i++) {
+                                        if (i == 0)
+                                            json_list_ok.add(info);
+                                        else
+                                            json_list_ok.add(json_list.get(i - 1));
+                                    }
+                                } else
+                                    json_list_ok.add(info);
+                                str = gson.toJson(json_list_ok);
+                                final String key_str = "{" +
+                                        "\"userName\":\"" + user.getId() + "\"," +
+                                        "\"passwd\":\"" + user.getPass() + "\"," +
+                                        "\"devUnitID\":\"" + id_equi + "\"," +
+                                        "\"devPass\":\"" + pass_equi + "\"," +
+                                        "\"canCpuName\":\"" + name_equi + "\"," +
+                                        "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_regeditRcu.getValue() + "," +
+                                        "\"subType1\":0," +
+                                        "\"subType2\":0" + "}";
+                                dialog.dismiss();
+                                MyApplication.sendMsg(key_str);
+                            }
+                        });
+                        builder.create().show();
+                    }
+                });
+            }
             return convertView;
         }
 

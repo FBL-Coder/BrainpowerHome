@@ -49,7 +49,7 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
 public class InPutFragment extends Fragment implements View.OnClickListener {
     private FragmentActivity mActivity;
     private android.support.v7.widget.RecyclerView RecyclerView;
-    private TextView equip_input,input_room,devType_input;
+    private TextView equip_input, input_room, devType_input;
     private Button input_save;
     private ImageView input_choose;
     private RecyclerViewAdapter_input recyclerViewAdapter;
@@ -93,7 +93,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
                     MyApplication.mInstance.setInput_key_data(MyApplication.getWareData().getKeyOpItems());
                     try {
                         onGetKeyInputDataListener.getKeyInputData();
-                    }catch (Exception e ){
+                    } catch (Exception e) {
 
                     }
                 }
@@ -184,6 +184,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
     private String uid;
 
     private void initRecycleView(View view) {
+        int KeyCnt = MyApplication.getWareData_Scene().getKeyInputs().get(input_position).getKeyCnt();
         String[] keyName = MyApplication.getWareData_Scene().getKeyInputs().get(input_position).getKeyName();
         uid = MyApplication.getWareData_Scene().getKeyInputs().get(input_position).getDevUnitID();
         //获取输入板对应设备的数据
@@ -193,8 +194,18 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
             return;
         //按键名称集合
         keyName_list = new ArrayList<>();
-        for (int i = 0; i < keyName.length; i++) {
-            keyName_list.add(keyName[i]);
+        if (KeyCnt > keyName.length) {
+            for (int i = 0; i < KeyCnt; i++) {
+                if (i >= keyName.length) {
+                    keyName_list.add("按键" + i);
+                } else {
+                    keyName_list.add(keyName[i]);
+                }
+            }
+        } else {
+            for (int i = 0; i < KeyCnt; i++) {
+                keyName_list.add(keyName[i]);
+            }
         }
         Log.e("按键名称", String.valueOf(keyName_list));
         recyclerViewAdapter = new RecyclerViewAdapter_input(keyName_list);
@@ -229,14 +240,15 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
         input_room.setText(home_text.get(room_position));
         input_room.setOnClickListener(this);
     }
+
     /**
      * 初始化设备类型
      */
     private void initDev() {
         devType = new ArrayList<>();
-        devType.add(0,"灯光");
-        devType.add(1,"窗帘");
-        devType.add(2,"家电");
+        devType.add(0, "灯光");
+        devType.add(1, "窗帘");
+        devType.add(2, "家电");
         devType_input.setText(devType.get(dev_position));
         devType_input.setOnClickListener(this);
     }
@@ -260,7 +272,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (!IsHaveData){
+        if (!IsHaveData) {
             ToastUtil.showToast(mActivity, "获取数据异常，请稍后在试");
             return;
         }
@@ -411,13 +423,13 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view_p, int position, long id) {
                 TextView tv = (TextView) view_parent;
                 tv.setText(text.get(position));
-                if (tag == 1){
+                if (tag == 1) {
                     input_position = position;
                     initRecycleView(view_p);
-                }else if (tag == 2){
+                } else if (tag == 2) {
                     room_position = position;
                     initFragment();
-                }else if (tag == 3){
+                } else if (tag == 3) {
                     dev_position = position;
                     initFragment();
                 }

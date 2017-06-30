@@ -49,7 +49,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 if (mPosition == position) {
                     holder.itemView.setBackgroundResource(R.color.color_334eade6);  //选中项背景
                 } else {
-                    holder.itemView.setBackgroundResource(R.color.color_08143F);  //其他项背景
+                    holder.itemView.setBackgroundResource(R.color.color_48464c);  //其他项背景
                 }
                 holder.iv.setImageResource(image[position % 5]);
                 holder.tv.setText(list.get(position).getSceneName());

@@ -2,19 +2,13 @@ package cn.etsoft.smarthome.widget;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.ScrollView;
 import android.widget.TextView;
-
 
 import java.util.List;
 
@@ -63,7 +57,7 @@ public abstract class AbstractChoicePopWindow implements OnClickListener {
 		mButtonOK.setOnClickListener(this);
 		mButtonCancel = (Button) customView.findViewById(R.id.btnCancel);
 		mButtonCancel.setOnClickListener(this);
-		mPopupWindow = new PopupWindow(customView, mParentView.getWidth(), 500);
+		mPopupWindow = new PopupWindow(customView, mParentView.getWidth(), 350);
 		ColorDrawable dw = new ColorDrawable(0x00);
 		//popupwindow页面之外可点
 		mPopupWindow.setOutsideTouchable(true);

@@ -31,6 +31,7 @@ public class KeyAdapter_keyscene extends BaseAdapter {
     private boolean ISCHOOSE = false;
     private String[] keyName;
     private List<ChnOpItem_scene.Key2sceneItemBean> items;
+    private int KeyCnt;
 
     public KeyAdapter_keyscene(Context context, int Sceneid, int keyinputPsoition, boolean ISCHOOSE) {
         items = MyApplication.getWareData().getChnOpItem_scene().getKey2scene_item();
@@ -38,22 +39,29 @@ public class KeyAdapter_keyscene extends BaseAdapter {
         this.keyinputPsoition = keyinputPsoition;
         this.ISCHOOSE = ISCHOOSE;
         keyName = MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getKeyName();
+        KeyCnt = MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getKeyCnt();
         //按键名称集合
         listData = new ArrayList<>();
         //将要移除的按键名
         listData_beremove = new ArrayList<>();
         listData_all = new ArrayList<>();
-        //8个按键，只有6个按键名，加2个未定义按键
-        for (int j = 0; j < keyName.length + 2; j++) {
-            if (j >= keyName.length) {
-                listData.add("按键" + j);
-                listData_all.add("按键" + j);
-            } else {
-                listData.add(keyName[j]);
-                listData_all.add(keyName[j]);
+
+        if (KeyCnt > keyName.length) {
+            for (int i = 0; i < KeyCnt; i++) {
+                if (i >= keyName.length) {
+                    listData.add("按键" + i);
+                    listData_all.add("按键" + i);
+                } else {
+                    listData.add(keyName[i]);
+                    listData_all.add(keyName[i]);
+                }
+            }
+        } else {
+            for (int i = 0; i < KeyCnt; i++) {
+                listData.add(keyName[i]);
+                listData_all.add(keyName[i]);
             }
         }
-
         if (ISCHOOSE) {
             //打开只看选中按键的时候，先清空赋值
             for (int k = 0; k < 8; k++) {

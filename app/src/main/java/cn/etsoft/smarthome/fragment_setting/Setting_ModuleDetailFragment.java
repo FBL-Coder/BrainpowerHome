@@ -29,7 +29,7 @@ import cn.etsoft.smarthome.utils.ToastUtil;
 public class Setting_ModuleDetailFragment extends Fragment implements View.OnClickListener{
 
     private Activity mActivity;
-    TextView devUnitID, roomNum, macAddr, tvsave;
+    private TextView devUnitID, roomNum, macAddr, tvsave;
     private int id;
     private EditText name, devUnitPass, IpAddr, SubMask, GateWay, centerServ;
     private RcuInfo rcuinfo;
@@ -54,7 +54,11 @@ public class Setting_ModuleDetailFragment extends Fragment implements View.OnCli
 
     private void initView() {
 
-        if(MyApplication.getWareData().getRcuInfos() == null || MyApplication.getWareData().getRcuInfos().size() == 0){
+//        if(MyApplication.getWareData().getRcuInfos() == null || MyApplication.getWareData().getRcuInfos().size() == 0){
+//            ToastUtil.showToast(mActivity,"没有数据！");
+//            return;
+//        }
+        if(MyApplication.getWareData().getRcuInfos() == null ){
             ToastUtil.showToast(mActivity,"没有数据！");
             return;
         }
@@ -84,8 +88,23 @@ public class Setting_ModuleDetailFragment extends Fragment implements View.OnCli
         try {
             devUnitPass.setText(rcuinfo.getDevUnitPass().substring(0,8));
         }catch (Exception e){}
+
         try {
-            name.setText(rcuinfo.getName());
+            if (rcuinfo.getName().equals("")&& !rcuinfo.getCanCpuName().equals("")){
+//                if (Pattern.compile("[\u4e00-\u9fa5]+").matcher(rcuinfo.getCanCpuName()).matches()) {
+//                    name.setText(rcuinfo.getCanCpuName());
+//                } else {
+//                    name.setText(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(rcuinfo.getCanCpuName())));
+//                }
+                name.setText(rcuinfo.getCanCpuName());
+            }else {
+//                if (Pattern.compile("[\u4e00-\u9fa5]+").matcher(rcuinfo.getName()).matches()) {
+//                    name.setText(rcuinfo.getName());
+//                } else {
+//                    name.setText(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(rcuinfo.getName())));
+//                }
+                name.setText(rcuinfo.getName());
+            }
         }catch (Exception e){}
         try {
             IpAddr.setText(rcuinfo.getIpAddr());

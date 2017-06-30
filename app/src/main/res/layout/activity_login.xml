@@ -127,6 +127,7 @@
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:text="跳过登录"
                 android:textColor="@color/white1"
                 android:textSize="14dp" />
 

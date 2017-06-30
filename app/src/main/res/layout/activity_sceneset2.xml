@@ -2,176 +2,187 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:background="@color/color_48464c"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/RecyclerView"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:scrollbars="none">
+
+        </android.support.v7.widget.RecyclerView>
 
         <Button
-            android:id="@+id/sceneSet_back"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_0"
-            android:layout_weight="1"
-            android:background="@drawable/selector_scene_bg"
-            android:drawableTop="@drawable/zyx"
+            android:id="@+id/sceneSet_save"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:background="@null"
+            android:clickable="true"
+            android:drawableTop="@drawable/save_group3"
             android:gravity="center"
-            android:paddingTop="@dimen/dp_12"
-            android:text="主页"
+            android:padding="@dimen/dp_5"
+            android:text="保存"
             android:textColor="@color/color_fff"
-            android:textSize="@dimen/sp_16" />
-
-        <ListView
-            android:id="@+id/sceneSet_listView"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_0"
-            android:layout_weight="6"
-            android:background="@color/color_60A7D5_null"
-            android:orientation="vertical" />
-
+            android:textSize="@dimen/sp_18" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
         android:layout_weight="6"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_0"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/RecyclerView"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_weight="6"
-                android:background="@drawable/selector_scene_bg"
-                android:scrollbars="none">
+            android:background="@color/colorCC"
+            android:orientation="vertical">
 
-            </android.support.v7.widget.RecyclerView>
-
-            <Button
-                android:id="@+id/sceneSet_save"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
                 android:layout_weight="1"
-                android:background="@drawable/selector_scene_bg"
-                android:drawableTop="@drawable/save_group3"
-                android:gravity="center"
-                android:paddingTop="@dimen/dp_12"
-                android:text="保存"
-                android:textColor="@color/color_fff"
-                android:textSize="@dimen/sp_16" />
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="设备类型"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/devType_input"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight="1"
+                    android:background="@drawable/select_white"
+                    android:clickable="true"
+                    android:drawableRight="@drawable/more_black"
+                    android:gravity="center"
+                    android:paddingRight="@dimen/dp_5"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="房      间"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/input_room"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight="1"
+                    android:background="@drawable/select_white"
+                    android:clickable="true"
+                    android:drawableRight="@drawable/more_black"
+                    android:gravity="center"
+                    android:paddingRight="@dimen/dp_5"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:gravity="center"
+                    android:text="只显示选中"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:id="@+id/input_choose"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/dp_5"
+                    android:layout_weight="1"
+                    android:src="@drawable/off" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/dp_40"
+                android:paddingTop="@dimen/dp_20"
+                android:paddingLeft="@dimen/dp_20"
+                android:paddingRight="@dimen/dp_20"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:background="@drawable/rect_gray7"
+                    android:lineSpacingMultiplier="1.5"
+                    android:padding="@dimen/dp_5"
+                    android:text="1、选择情景模式\n    或添加新模式\n2、选择设备类型\n3、选择房间类型"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_14" />
+            </LinearLayout>
+
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:background="@drawable/bj_group3"
+            android:orientation="vertical">
+            <FrameLayout
+                android:id="@+id/home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-        <RadioGroup
-            android:id="@+id/radioGroup_sceneSet"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_0"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/light"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_main_radiobutton_bg"
-                android:button="@null"
-                android:drawableTop="@drawable/dpx"
-                android:gravity="center"
-                android:paddingTop="@dimen/dp_12"
-                android:text="灯光"
-                android:textColor="@color/color_fff" />
-
-            <RadioButton
-                android:id="@+id/curtain"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_main_radiobutton_bg"
-                android:button="@null"
-                android:drawableTop="@drawable/clx"
-                android:gravity="center"
-                android:paddingTop="@dimen/dp_12"
-                android:text="窗帘"
-                android:textColor="@color/color_fff" />
-
-            <RadioButton
-                android:id="@+id/appliance"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_main_radiobutton_bg"
-                android:button="@null"
-                android:drawableTop="@drawable/jdx"
-                android:gravity="center"
-                android:paddingTop="@dimen/dp_12"
-                android:text="家电"
-                android:textColor="@color/color_fff" />
-
-            <RadioButton
-                android:id="@+id/socket"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_main_radiobutton_bg"
-                android:button="@null"
-                android:drawableTop="@drawable/czx"
-                android:gravity="center"
-                android:paddingTop="@dimen/dp_12"
-                android:text="插座"
-                android:textColor="@color/color_fff" />
-
-            <RadioButton
-                android:id="@+id/door"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_main_radiobutton_bg"
-                android:button="@null"
-                android:drawableTop="@drawable/msx"
-                android:gravity="center"
-                android:paddingTop="@dimen/dp_12"
-                android:text="门锁"
-                android:textColor="@color/color_fff" />
-
-            <RadioButton
-                android:id="@+id/safety"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_main_radiobutton_bg"
-                android:button="@null"
-                android:drawableTop="@drawable/fhx"
-                android:gravity="center"
-                android:paddingTop="@dimen/dp_12"
-                android:text="安防"
-                android:textColor="@color/color_fff" />
-
-            <RadioButton
-                android:id="@+id/control"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/selector_main_radiobutton_bg"
-                android:button="@null"
-                android:drawableTop="@drawable/jkx"
-                android:gravity="center"
-                android:paddingTop="@dimen/dp_12"
-                android:text="监控"
-                android:textColor="@color/color_fff" />
-        </RadioGroup>
-        <FrameLayout
-            android:id="@+id/home"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_0"
-            android:layout_weight="5"
-            android:background="@drawable/bj_group3" />
+        </LinearLayout>
     </LinearLayout>
+
+
 </LinearLayout>

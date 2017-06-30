@@ -147,11 +147,23 @@ public class MyApplication extends Application implements udpService.Callback, N
     private int music1;//定义一个整型用load（）；来设置suondID
     //区分发82返回的0 0 1包还是发33返回的 0 0 1包，做标记
     private boolean isSearch;
+
     public boolean isSearch() {
         return isSearch;
     }
+
     public void setSearch(boolean search) {
         isSearch = search;
+    }
+    //是否是跳过登录进入的设置界面
+    private boolean isSkip;
+
+    public boolean isSkip() {
+        return isSkip;
+    }
+
+    public void setSkip(boolean skip) {
+        isSkip = skip;
     }
 
     /**
@@ -541,8 +553,10 @@ public class MyApplication extends Application implements udpService.Callback, N
 
         //在任何页面，触发安防警报要发出警报信息
         if (what == 32 && MyApplication.getWareData().getSafetyResult_alarm() != null && MyApplication.getWareData().getSafetyResult_alarm().getSubType1() == 2) {
+//        if (what == 4) {
             int SecDat = MyApplication.getWareData().getSafetyResult_alarm().getSecDat();
             //对SecDat进行二进制转码，数字为1的位置即为触发警报的防区
+//            int SecDat = 5;
             String SecDatList = Integer.toBinaryString(SecDat);
 
             Intent intent = new Intent();

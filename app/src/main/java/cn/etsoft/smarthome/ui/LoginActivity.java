@@ -58,6 +58,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     dialog.dismiss();
                     if (MyApplication.getWareData().getLogin_result() == 0) {
                         ToastUtil.showToast(LoginActivity.this, "登陆成功");
+                        Log.e("成功","登陆成功3");
                         Gson gson = new Gson();
                         String str = gson.toJson(user);
                         editor.putString("user", str);
@@ -130,6 +131,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                         dialog.dismiss();
                         if (MyApplication.getWareData().getLogin_result() == 0) {
                             ToastUtil.showToast(LoginActivity.this, "登陆成功");
+                            Log.e("成功","登陆成功4");
                             Gson gson = new Gson();
                             String str = gson.toJson(user);
                             editor.putString("user", str);

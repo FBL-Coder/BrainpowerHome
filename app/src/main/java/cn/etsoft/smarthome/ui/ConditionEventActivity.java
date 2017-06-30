@@ -2,7 +2,6 @@ package cn.etsoft.smarthome.ui;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -235,20 +234,21 @@ public class ConditionEventActivity extends FragmentActivity implements View.OnC
         et_name.setHint(MyApplication.getWareData().getCondition_event_bean().getenvEvent_rows().get(condition_position).getEventName());
         if (MyApplication.getWareData().getCondition_event_bean().getenvEvent_rows().get(condition_position).getRun_dev_item() == null
                 || MyApplication.getWareData().getCondition_event_bean().getenvEvent_rows().get(condition_position).getRun_dev_item().size() == 0) {
-            tv_enabled.setText("禁用");
-            input_num.setText("");
-            input_num.setHint("输入触发值");
-            input_num.setHintTextColor(Color.WHITE);
-            event_way.setText("点击选择触发方式");
-            event_type.setText("点击选择触发类别");
-        } else {
+//            tv_enabled.setText("禁用");
+//            input_num.setText("");
+//            input_num.setHint("输入触发值");
+//            event_way.setText("选择触发方式");
+//            event_type.setText("选择触发类别");
+            ToastUtil.showToast(this,"该触发器下没有设备");
+        }
+//        else {
             if (MyApplication.getWareData().getCondition_event_bean().getenvEvent_rows().get(condition_position).getValid() == 1)
                 tv_enabled.setText("启用");
             else tv_enabled.setText("禁用");
             input_num.setText(""+MyApplication.getWareData().getCondition_event_bean().getenvEvent_rows().get(condition_position).getValTh());
             event_way.setText(""+Event_Way.get(MyApplication.getWareData().getCondition_event_bean().getenvEvent_rows().get(condition_position).getThType()));
             event_type.setText(""+Event_type.get(MyApplication.getWareData().getCondition_event_bean().getenvEvent_rows().get(condition_position).getEnvType()));
-        }
+//        }
     }
 
     /**
@@ -321,7 +321,7 @@ public class ConditionEventActivity extends FragmentActivity implements View.OnC
                         bean.setValid(0);
 
                     //触发器触发方式  "thType":
-                    if ("点击选择触发方式".equals(event_way.getText().toString())) {
+                    if ("选择触发方式".equals(event_way.getText().toString())) {
                         ToastUtil.showToast(this, "请选择触发方式");
                         return;
                     }
@@ -333,7 +333,7 @@ public class ConditionEventActivity extends FragmentActivity implements View.OnC
 
                     //触发器触发类别  "envType"
 
-                    if ("点击选择触发类别".equals(event_type.getText().toString())) {
+                    if ("选择触发类别".equals(event_type.getText().toString())) {
                         ToastUtil.showToast(this, "请选择触发类别");
                         return;
                     }
@@ -501,7 +501,7 @@ public class ConditionEventActivity extends FragmentActivity implements View.OnC
             }
         });
         // 创建PopupWindow实例
-        popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), view_parent.getWidth(), 300);
+        popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), view_parent.getWidth(), 200);
         popupWindow.setContentView(customView);
         ListView list_pop = (ListView) customView.findViewById(R.id.popupWindow_equipment_lv);
         PopupWindowAdapter2 adapter = new PopupWindowAdapter2(text, this);

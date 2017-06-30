@@ -25,7 +25,7 @@ import cn.etsoft.smarthome.domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.domain.DevControl_Result;
 import cn.etsoft.smarthome.domain.GroupSet_Data;
-import cn.etsoft.smarthome.domain.RcuInfo_search;
+import cn.etsoft.smarthome.domain.KyeInputResult;
 import cn.etsoft.smarthome.domain.SearchNet;
 import cn.etsoft.smarthome.domain.SetEquipmentResult;
 import cn.etsoft.smarthome.domain.SetSafetyResult;
@@ -215,7 +215,6 @@ public class udpService extends Service {
                         setRcuInfo(info);
                     } else if (MyApplication.mInstance.isSearch() == true) {
                         setRcuInfo_search(info);
-//                        setRcuInfo1(info);
                     }
                 }
                 break;
@@ -281,6 +280,12 @@ public class udpService extends Service {
                     isFreshData = true;
                     //获取输入板数据
                     getKyeInputBoard(info);
+                }
+                break;
+            case 9: //e_udpPro_getBoards
+                if (subType1 == 1) {
+                    isFreshData = true;
+                    getKyeInputResult(info);
                 }
                 break;
             case 11: // e_udpPro_getKeyOpItems
@@ -473,6 +478,17 @@ public class udpService extends Service {
         }
     }
 
+    /**
+     * 高级设置--设备信息--输入模块编辑
+     * @param info
+     */
+    public void getKyeInputResult(String info) {
+        Gson gson = new Gson();
+        KyeInputResult result = gson.fromJson(info, KyeInputResult.class);
+        MyApplication.getWareData().setKyeInputResult(result);
+        getKyeInputBoard(info);
+    }
+
     private void addUserResult(int subType2) {
         isFreshData = true;
         MyApplication.getWareData().setAddUser_reslut(subType2);
@@ -529,22 +545,10 @@ public class udpService extends Service {
         }
     }
 
+//    long TimeExit;
+//    int i = 1;
 
-    long TimeExit;
-    int sleep = 1;
-
-    public void setRcuInfo(String info) {
-        if (System.currentTimeMillis() - TimeExit > 200) {
-            Log.i("SLEEP", System.currentTimeMillis() - TimeExit + "");
-            TimeExit = System.currentTimeMillis();
-        } else {
-            try {
-                Log.i("SLEEP", "................");
-                Thread.sleep(sleep * 100);
-            } catch (Exception e) {
-            }
-            TimeExit = System.currentTimeMillis();
-        }
+    public synchronized void setRcuInfo(String info) {
 //        获取联网模块的返回数据类型；
 //        {
 //        "devUnitID":	"39ffdb05484d303430690543",
@@ -567,6 +571,18 @@ public class udpService extends Service {
 //                    "bDhcp":	0
 //        }]
 //    }
+//        if (System.currentTimeMillis() - TimeExit > 200) {
+//            Log.i("SLEEP", System.currentTimeMillis() - TimeExit + "");
+//            TimeExit = System.currentTimeMillis();
+//        } else {
+//            try {
+//                Log.i("SLEEP", "................");
+//                Thread.sleep(i * 150);
+//            } catch (Exception e) {
+//            }
+//            TimeExit = System.currentTimeMillis();
+//        }
+        Log.e("TIME", "TIME");
         List<RcuInfo> json_list = new ArrayList<>();
         SharedPreferences sharedPreferences = getSharedPreferences("profile", Context.MODE_PRIVATE);
         String json_rcuinfo_list = sharedPreferences.getString("list", "");
@@ -632,41 +648,18 @@ public class udpService extends Service {
         editor.putString("list", str);
         editor.commit();
         MyApplication.getWareData().setRcuInfos(json_list);
-        if (netword_count == sleep)
-            isFreshData = true;
-        sleep++;
+//        if (netword_count == i)
+        isFreshData = true;
+//        i++;
+//        isFreshData = true;
 
     }
 
-
-    public void setRcuInfo1(String info) {
-        List<RcuInfo_search> json_list_search = new ArrayList<>();
-        RcuInfo_search RcuInfo_search = new RcuInfo_search();
-        try {
-            JSONObject jsonObject = new JSONObject(info);
-            RcuInfo_search.setDevUnitID(jsonObject.getString("devUnitID"));
-            JSONArray jsonArray = jsonObject.getJSONArray("rcu_rows");
-            JSONObject jsonObject1 = jsonArray.getJSONObject(0);
-            RcuInfo_search.setCanCpuID(jsonObject1.getString("canCpuID"));
-            RcuInfo_search.setDevUnitPass(jsonObject1.getString("devUnitPass"));
-            RcuInfo_search.setName(jsonObject1.getString("name"));
-            RcuInfo_search.setCanCpuName(jsonObject1.getString("canCpuName"));
-            RcuInfo_search.setIpAddr(jsonObject1.getString("IpAddr"));
-            RcuInfo_search.setSubMask(jsonObject1.getString("SubMask"));
-            RcuInfo_search.setGateWay(jsonObject1.getString("Gateway"));
-            RcuInfo_search.setCenterServ(jsonObject1.getString("centerServ"));
-            RcuInfo_search.setRoomNum(jsonObject1.getString("roomNum"));
-            RcuInfo_search.setMacAddr(jsonObject1.getString("macAddr"));
-            RcuInfo_search.setSoftVersion(jsonObject1.getString("SoftVersion"));
-            RcuInfo_search.setHwVversion(jsonObject1.getString("HwVersion"));
-            RcuInfo_search.setbDhcp(jsonObject1.getInt("bDhcp"));
-            json_list_search.add(RcuInfo_search);
-        } catch (JSONException e) {
-
-        }
-        MyApplication.getWareData().setRcuInfo_searches(json_list_search);
-    }
-
+//    public void setRcuInfo_search(String info) {
+//        Gson gson = new Gson();
+//        SearchNet result = gson.fromJson(info, SearchNet.class);
+//        MyApplication.getWareData().setSearchNet(result);
+//    }
 
     /**
      * 联网模块--搜索联网
@@ -674,11 +667,22 @@ public class udpService extends Service {
      * @param info
      */
     public void setRcuInfo_search(String info) {
+        List<SearchNet> rcuInfo_searches = MyApplication.getWareData().getRcuInfo_searches();
         Gson gson = new Gson();
         SearchNet result = gson.fromJson(info, SearchNet.class);
-        MyApplication.getWareData().setSearchNet(result);
+        boolean IsExit = true;
+        for (int i = 0; i < rcuInfo_searches.size(); i++) {
+            if ((result.getDevUnitID().equals(rcuInfo_searches.get(i).getDevUnitID())) || (result.getRcu_rows().get(0).getCanCpuID().equals(rcuInfo_searches.get(i).getRcu_rows().get(0).getCanCpuID()))) {
+                IsExit = false;
+            }
+        }
+        if (IsExit) {
+            rcuInfo_searches.add(result);
+        }
+        Log.i("NET", "搜索数据解析");
+        MyApplication.getWareData().setRcuInfo_searches(rcuInfo_searches);
+        isFreshData = true;
     }
-
 
     public void getDevsInfo(String info) {
 
@@ -1164,13 +1168,12 @@ public class udpService extends Service {
             System.out.println(e.toString());
         }
     }
-
+    String inf ="{ \"devUnitID\": \"39ffd505484d303408650743\", \"datType\": 8, \"subType1\": 1, \"subType2\": 1, \"keyinput\": 2, \"keyinput_rows\": [ { \"canCpuID\": \"48ff6c065087485725170287\", \"boardName\": \"b0b4bcfcb0e5c3fbb3c60000\", \"boardType\": 1, \"keyCnt\": 1, \"bResetKey\": 1, \"ledBkType\": 2, \"keyName_rows\": [ \"bcfc30000000000000000000\" ], \"keyAllCtrlType_rows\": [ 0, 0, 0, 0, 0, 0, 0, 0 ], \"roomName\": \"b2cdccfc0000000000000000\" }, {\"canCpuID\": \"48ff6c065087485725170286\", \"boardName\": \"b0b4bcfcb0e5c3fbb3c60000\", \"boardType\": 1, \"keyCnt\": 1, \"bResetKey\": 1, \"ledBkType\": 2, \"keyName_rows\": [ \"bcfc30000000000000000000\" ], \"keyAllCtrlType_rows\": [ 0, 0, 0, 0, 0, 0, 0, 0 ], \"roomName\": \"b2cdccfc0000000000000000\" } ] }";
     /**
      * 获取输入板按键
      *
-     * @param info
      */
-    public void getKyeInputBoard(String info) {
+    public void  getKyeInputBoard(String info) {
 
 //        返回数据类型；
 //        {
@@ -1205,40 +1208,51 @@ public class udpService extends Service {
                 isFreshData = false;
                 return;
             }
-
             JSONArray array = jsonObject.getJSONArray("keyinput_rows");
-            for (int i = 0; i < array.length(); i++) {
+             for (int i = 0; i < array.length(); i++) {
                 boolean isContains = false;
                 WareBoardKeyInput input = new WareBoardKeyInput();
                 JSONObject object = array.getJSONObject(i);
-                input.setDevUnitID(object.getString("canCpuID"));
+                input.setDevUnitID(jsonObject.getString("devUnitID"));
+                input.setCanCpuID(object.getString("canCpuID"));
                 input.setBoardName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(object.getString("boardName"))));
                 input.setBoardType((byte) object.getInt("boardType"));
                 input.setKeyCnt((byte) object.getInt("keyCnt"));
+                input.setbResetKey((byte) object.getInt("bResetKey"));
                 input.setLedBkType((byte) object.getInt("ledBkType"));
-
+                input.setKeyinput((byte) jsonObject.getInt("keyinput"));
+                input.setRoomName(object.getString("roomName"));
                 JSONArray array1 = object.getJSONArray("keyName_rows");
                 String[] name = new String[array1.length()];
                 for (int j = 0; j < array1.length(); j++) {
                     name[j] = CommonUtils.getGBstr(CommonUtils.hexStringToBytes(array1.getString(j)));
                 }
                 input.setKeyName(name);
-
+                JSONArray array2 = object.getJSONArray("keyAllCtrlType_rows");
+                int[] key = new int[array2.length()];
+                for (int j = 0; j < array2.length(); j++) {
+                    key[j] = array2.getInt(j);
+                }
+                input.setKeyAllCtrlType(key);
                 if (MyApplication.getWareData().getKeyInputs().size() > 0) {
+                    int KeyInputPosition = 0;
                     for (int k = 0; k < MyApplication.getWareData().getKeyInputs().size(); k++) {
-                        if (MyApplication.getWareData().getKeyInputs().get(k).getBoardName().equals(input.getBoardName()) && input.getDevUnitID().equals(MyApplication.getWareData().getKeyInputs().get(k).getDevUnitID())) {
+//                        if (MyApplication.getWareData().getKeyInputs().get(k).getBoardName().equals(input.getBoardName()) && input.getDevUnitID().equals(MyApplication.getWareData().getKeyInputs().get(k).getDevUnitID())) {
+                        if (input.getCanCpuID().equals(MyApplication.getWareData().getKeyInputs().get(k).getCanCpuID()) ) {
+                            KeyInputPosition = k;
                             isContains = true;
                         }
                     }
                     if (!isContains)
                         MyApplication.getWareData().getKeyInputs().add(input);
-                    else
-                        isFreshData = false;
+                    else {
+                        MyApplication.getWareData().getKeyInputs().set(KeyInputPosition,input);
+                    }
                 } else {
                     MyApplication.getWareData().getKeyInputs().add(input);
                 }
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             isFreshData = false;
             System.out.println(e.toString());
         }

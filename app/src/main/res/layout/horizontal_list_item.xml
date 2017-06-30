@@ -22,8 +22,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:maxLength="5"
-        android:minLines="5"
         android:textColor="@color/color_fff"
         android:textSize="@dimen/sp_16" />
 

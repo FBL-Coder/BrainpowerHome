@@ -13,14 +13,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -28,24 +29,13 @@ import java.util.List;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.adapter.ListViewAdapter;
+import cn.etsoft.smarthome.adapter.PopupWindowAdapter2;
 import cn.etsoft.smarthome.adapter.RecyclerViewAdapter;
-import cn.etsoft.smarthome.fragment_scene2.Main_ApplianceFragment;
-import cn.etsoft.smarthome.fragment_scene2.Main_ControlFragment;
-import cn.etsoft.smarthome.fragment_scene2.Main_CurtainFragment;
-import cn.etsoft.smarthome.fragment_scene2.Main_DoorFragment;
-import cn.etsoft.smarthome.fragment_scene2.Main_LightFragment;
-import cn.etsoft.smarthome.fragment_scene2.Main_SafetyFragment;
-import cn.etsoft.smarthome.fragment_scene2.Main_SocketFragment;
+import cn.etsoft.smarthome.fragment_scene2.SceneFragment_dev;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
-import cn.etsoft.smarthome.pullmi.entity.WareAirCondDev;
-import cn.etsoft.smarthome.pullmi.entity.WareCurtain;
 import cn.etsoft.smarthome.pullmi.entity.WareData;
-import cn.etsoft.smarthome.pullmi.entity.WareDev;
-import cn.etsoft.smarthome.pullmi.entity.WareLight;
-import cn.etsoft.smarthome.pullmi.entity.WareSceneDevItem;
 import cn.etsoft.smarthome.pullmi.entity.WareSceneEvent;
 import cn.etsoft.smarthome.pullmi.utils.Dtat_Cache;
 import cn.etsoft.smarthome.pullmi.utils.LogUtils;
@@ -59,27 +49,26 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
  * 高级设置-情景设置的Activity页面
  */
 public class SceneSetActivity2 extends FragmentActivity implements View.OnClickListener {
-    private Button sceneSet_back;
-    private ListView sceneSet_listView;
     private RecyclerView mRecyclerView;
-    private RadioGroup radioGroup_sceneSet;
     private List<WareSceneEvent> event;
     private RecyclerViewAdapter recyclerAdapter;
-    private ListViewAdapter listViewAdapter;
     private FragmentManager fragmentManager;
     private FragmentTransaction transaction;
-    private String[] title = {"", "灯光", "窗帘", "家电", "插座", "门锁", "安防", "监控"};
-    private String type_name;
     private int room_position = 0;
-    private Fragment main_LightFragment, main_CurtainFragment, main_ApplianceFragment, main_SocketFragment, main_DoorFragment, main_SafetyFragment, main_ControlFragment;
     private ImageView iv_cancel;
     private EditText name;
     private Button sure, cancel, saveScene;
     private byte sceneid = 0;
     private Dialog mDialog;
     private Handler handler;
-    //全部房间
-    private int DEVS_ALL_ROOM = -1;
+    private TextView input_room, devType_input;
+    private ImageView input_choose;
+    private List<String> home_text;
+    private List<String> devType;
+    private int dev_position = 0;
+    private Fragment sceneFragment_dev;
+    private boolean ISCHOOSE = false;
+    private PopupWindow popupWindow;
 
 
     //自定义加载进度条
@@ -129,10 +118,12 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 initView();
                 //初始化情景的ListView
                 initHorizontalListView();
-                //初始化房间的ListView
-                initListView();
-                //初始化设备的RadioGroup
-                initRadioGroup();
+                //初始化房间
+                initRoom();
+                //初始化设备类型
+                initDev();
+                //初始化Fragment
+                initFragment();
             }
         };
 
@@ -146,10 +137,6 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 if (what == 23) {
                     ToastUtil.showToast(SceneSetActivity2.this, "添加成功");
                     ReadWrite();
-//                    //初始化情景的listView
-//                    initHorizontalListView();
-
-
                 }
                 if (what == 24) {
                     ToastUtil.showToast(SceneSetActivity2.this, "保存成功");
@@ -178,84 +165,56 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
      */
     private void initView() {
         fragmentManager = getSupportFragmentManager();
-        sceneSet_back = (Button) findViewById(R.id.sceneSet_back);
         saveScene = (Button) findViewById(R.id.sceneSet_save);
-        sceneSet_back.setOnClickListener(this);
         saveScene.setOnClickListener(this);
+        input_choose = (ImageView) findViewById(R.id.input_choose);
+        input_choose.setOnClickListener(this);
+        input_room = (TextView) findViewById(R.id.input_room);
+        devType_input = (TextView) findViewById(R.id.devType_input);
         event = new ArrayList<>();
     }
 
     /**
-     * 初始化设备的RadioGroup
+     * 初始化房间
      */
-    private void initRadioGroup() {
-        radioGroup_sceneSet = (RadioGroup) findViewById(R.id.radioGroup_sceneSet);
-        //初始设备类型
-        Bundle bundle = new Bundle();//给具体设备类型带入房间id
-        main_LightFragment = new Main_LightFragment();
-        bundle.putInt("room_position", room_position);
-        bundle.putByte("sceneid", (byte) 0);
-        main_LightFragment.setArguments(bundle);
-        type_name = title[1];
-        ((RadioButton) findViewById(R.id.light)).setChecked(true);
-        transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.home, main_LightFragment);
-        transaction.commit();
+    private void initRoom() {
+        home_text = new ArrayList<>();
+        //给房间集合里加上“全部”
+        home_text.add("全部");
+        for (int i = 0; i < MyApplication.getRoom_list().size(); i++) {
+            home_text.add(MyApplication.getRoom_list().get(i));
+        }
+        input_room.setText(home_text.get(room_position));
+        input_room.setOnClickListener(this);
+    }
 
-        radioGroup_sceneSet.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                transaction = fragmentManager.beginTransaction();
-                Bundle bundle = new Bundle();//给具体设备类型带入房间id
-                bundle.putInt("room_position", room_position);
-                bundle.putByte("sceneid", sceneid);
-                switch (checkedId) {
-                    case R.id.light:
-                        main_LightFragment = new Main_LightFragment();
-                        main_LightFragment.setArguments(bundle);
-                        transaction.replace(R.id.home, main_LightFragment);
-                        type_name = title[1];
-                        break;
-                    case R.id.curtain:
-                        main_CurtainFragment = new Main_CurtainFragment();
-                        main_CurtainFragment.setArguments(bundle);
-                        transaction.replace(R.id.home, main_CurtainFragment);
-                        type_name = title[2];
-                        break;
-                    case R.id.appliance:
-                        main_ApplianceFragment = new Main_ApplianceFragment();
-                        main_ApplianceFragment.setArguments(bundle);
-                        transaction.replace(R.id.home, main_ApplianceFragment);
-                        type_name = title[3];
-                        break;
-                    case R.id.socket:
-                        main_SocketFragment = new Main_SocketFragment();
-                        main_SocketFragment.setArguments(bundle);
-                        transaction.replace(R.id.home, main_SocketFragment);
-                        type_name = title[4];
-                        break;
-                    case R.id.door:
-                        main_DoorFragment = new Main_DoorFragment();
-                        main_DoorFragment.setArguments(bundle);
-                        transaction.replace(R.id.home, main_DoorFragment);
-                        type_name = title[5];
-                        break;
-                    case R.id.safety:
-                        main_SafetyFragment = new Main_SafetyFragment();
-                        main_SafetyFragment.setArguments(bundle);
-                        transaction.replace(R.id.home, main_SafetyFragment);
-                        type_name = title[6];
-                        break;
-                    case R.id.control:
-                        main_ControlFragment = new Main_ControlFragment();
-                        main_ControlFragment.setArguments(bundle);
-                        transaction.replace(R.id.home, main_ControlFragment);
-                        type_name = title[7];
-                        break;
-                }
-                transaction.commit();
-            }
-        });
+    /**
+     * 初始化设备类型
+     */
+    private void initDev() {
+        devType = new ArrayList<>();
+        devType.add(0, "灯光");
+        devType.add(1, "窗帘");
+        devType.add(2, "家电");
+        devType_input.setText(devType.get(dev_position));
+        devType_input.setOnClickListener(this);
+    }
+
+    /**
+     * 初始化Fragment
+     */
+    private void initFragment() {
+        Bundle bundle = new Bundle();
+        transaction = getSupportFragmentManager().beginTransaction();
+        sceneFragment_dev = new SceneFragment_dev();
+        bundle.putInt("room_position", room_position);
+        bundle.putInt("sceneid", sceneid);
+        bundle.putInt("dev_position", dev_position);
+        //是否打开只看关联设备模式
+        bundle.putBoolean("ISCHOOSE", ISCHOOSE);
+        sceneFragment_dev.setArguments(bundle);
+        transaction.replace(R.id.home, sceneFragment_dev);
+        transaction.commit();
     }
 
     /**
@@ -267,12 +226,8 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
             event.add(MyApplication.getWareData().getSceneEvents().get(i));
         }
         event.add(new WareSceneEvent());
-//        if (recyclerAdapter != null) {
-//            recyclerAdapter.notifyDataSetChanged();
-//        } else {
-            recyclerAdapter = new RecyclerViewAdapter(event);
-            mRecyclerView.setAdapter(recyclerAdapter);
-//        }
+        recyclerAdapter = new RecyclerViewAdapter(event);
+        mRecyclerView.setAdapter(recyclerAdapter);
 
         recyclerAdapter.setOnItemClick(new RecyclerViewAdapter.SceneViewHolder.OnItemClick() {
             @Override
@@ -281,130 +236,16 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 if (listSize > 0) {
                     if (position < listSize - 1) {
                         sceneid = MyApplication.getWareData().getSceneEvents().get(position).getEventld();
-                        List<WareSceneDevItem> items = null;
-                        for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
-                            if (sceneid == MyApplication.getWareData().getSceneEvents().get(i).getEventld()) {
-                                items = MyApplication.getWareData().getSceneEvents().get(i).getItemAry();
-                                break;
-                            }
-                        }
-                        //复写数据里的设备
-                        List<WareDev> wareDev_interim = new ArrayList<>();
-                        for (int i = 0; i < MyApplication.getWareData_Scene().getDevs().size(); i++) {
-                            wareDev_interim.add(MyApplication.getWareData_Scene().getDevs().get(i));
-                        }
-                        if (items != null) {
-                            //循环情景内的所有条目
-                            for (int a = 0; a < items.size(); a++) {
-                                //循环本地所有设备
-                                for (int i = 0; i < MyApplication.getWareData_Scene().getDevs().size(); i++) {
-                                    //拿到其中一个设备
-                                    WareDev dev = MyApplication.getWareData_Scene().getDevs().get(i);
-                                    if (items.get(a).getDevID() == dev.getDevId()
-                                            && items.get(a).getUid().equals(dev.getCanCpuId())
-                                            && items.get(a).getDevType() == dev.getType()) {
-                                        wareDev_interim.remove(dev);
-                                        if (dev.getType() == 0) {
-                                            for (int j = 0; j < MyApplication.getWareData_Scene().getAirConds().size(); j++) {
-                                                WareAirCondDev AirCondDev = MyApplication.getWareData_Scene().getAirConds().get(j);
-                                                if (dev.getCanCpuId().equals(AirCondDev.getDev().getCanCpuId()) && dev.getDevId() == AirCondDev.getDev().getDevId()) {
-                                                    if (items.get(a).getbOnOff() == 1) {
-                                                        AirCondDev.setbOnOff((byte) 1);
-                                                    }
-                                                }
-                                            }
-                                        } else if (dev.getType() == 3) {
-                                            for (int j = 0; j < MyApplication.getWareData_Scene().getLights().size(); j++) {
-                                                WareLight Light = MyApplication.getWareData_Scene().getLights().get(j);
-                                                if (dev.getCanCpuId().equals(Light.getDev().getCanCpuId()) && dev.getDevId() == Light.getDev().getDevId()) {
-                                                    if (items.get(a).getbOnOff() == 1) {
-                                                        Light.setbOnOff((byte) 1);
-                                                    }
-                                                }
-                                            }
-                                        } else if (dev.getType() == 4) {
-                                            for (int j = 0; j < MyApplication.getWareData_Scene().getCurtains().size(); j++) {
-                                                WareCurtain Curtain = MyApplication.getWareData_Scene().getCurtains().get(j);
-                                                if (dev.getCanCpuId().equals(Curtain.getDev().getCanCpuId()) && dev.getDevId() == Curtain.getDev().getDevId()) {
-                                                    if (items.get(a).getbOnOff() == 1) {
-                                                        Curtain.setbOnOff((byte) 1);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            //循环情景内的所有条目
-                            for (int a = 0; a < wareDev_interim.size(); a++) {
-                                //循环本地所有设备
-                                for (int i = 0; i < MyApplication.getWareData_Scene().getDevs().size(); i++) {
-                                    //拿到其中一个设备
-                                    WareDev dev = MyApplication.getWareData_Scene().getDevs().get(i);
-                                    if (wareDev_interim.get(a).getDevId() == dev.getDevId() && wareDev_interim.get(a).getCanCpuId().equals(dev.getCanCpuId())
-                                            && wareDev_interim.get(a).getType() == dev.getType()) {
-                                        if (dev.getType() == 0) {
-                                            for (int j = 0; j < MyApplication.getWareData_Scene().getAirConds().size(); j++) {
-                                                WareAirCondDev AirCondDev = MyApplication.getWareData_Scene().getAirConds().get(j);
-                                                if (dev.getCanCpuId().equals(AirCondDev.getDev().getCanCpuId()) && dev.getDevId() == AirCondDev.getDev().getDevId()) {
-                                                    AirCondDev.setbOnOff((byte) 0);
-                                                }
-                                            }
-                                        } else if (dev.getType() == 3) {
-                                            for (int j = 0; j < MyApplication.getWareData_Scene().getLights().size(); j++) {
-                                                WareLight Light = MyApplication.getWareData_Scene().getLights().get(j);
-                                                if (dev.getCanCpuId().equals(Light.getDev().getCanCpuId()) && dev.getDevId() == Light.getDev().getDevId()) {
-                                                    Light.setbOnOff((byte) 0);
-                                                }
-                                            }
-                                        } else if (dev.getType() == 4) {
-                                            for (int j = 0; j < MyApplication.getWareData_Scene().getCurtains().size(); j++) {
-                                                WareCurtain Curtain = MyApplication.getWareData_Scene().getCurtains().get(j);
-                                                if (dev.getCanCpuId().equals(Curtain.getDev().getCanCpuId()) && dev.getDevId() == Curtain.getDev().getDevId()) {
-                                                    Curtain.setbOnOff((byte) 0);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            for (int i = 0; i < MyApplication.getWareData_Scene().getDevs().size(); i++) {//循环所有设备
-                                WareDev dev = MyApplication.getWareData_Scene().getDevs().get(i);//拿到其中一个设备
-                                if (dev.getType() == 0) {
-                                    for (int j = 0; j < MyApplication.getWareData_Scene().getAirConds().size(); j++) {
-                                        WareAirCondDev AirCondDev = MyApplication.getWareData_Scene().getAirConds().get(j);
-                                        AirCondDev.setbOnOff((byte) 0);
-                                    }
-                                } else if (dev.getType() == 3) {
-                                    for (int j = 0; j < MyApplication.getWareData_Scene().getLights().size(); j++) {
-                                        WareLight Light = MyApplication.getWareData_Scene().getLights().get(j);
-                                        if (dev.getCanCpuId().equals(Light.getDev().getCanCpuId()) && dev.getDevId() == Light.getDev().getDevId()) {
-                                            Light.setbOnOff((byte) 0);
-                                        }
-                                    }
-                                } else if (dev.getType() == 4) {
-                                    for (int j = 0; j < MyApplication.getWareData_Scene().getCurtains().size(); j++) {
-                                        WareCurtain Curtain = MyApplication.getWareData_Scene().getCurtains().get(j);
-                                        if (dev.getCanCpuId().equals(Curtain.getDev().getCanCpuId()) && dev.getDevId() == Curtain.getDev().getDevId()) {
-                                            Curtain.setbOnOff((byte) 0);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        //添加选择状态；
-                        recyclerAdapter.notifyDataSetChanged();
-                        //点击情景刷新界面显示
-                        transaction = fragmentManager.beginTransaction();
-                        Bundle bundle = new Bundle();//给具体设备类型带入房间id
-                        if (position == 0) {
-                            bundle.putInt("room_position", DEVS_ALL_ROOM);
-                        } else {
-                            bundle.putInt("room_position", room_position);
-                        }
-                        bundle.putByte("sceneid", sceneid);
-                        selectDevType(bundle);
+                        transaction = getSupportFragmentManager().beginTransaction();
+                        sceneFragment_dev = new SceneFragment_dev();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("room_position", room_position);
+                        bundle.putInt("sceneid", sceneid);
+                        bundle.putInt("dev_position", dev_position);
+                        //是否打开只看关联设备模式
+                        bundle.putBoolean("ISCHOOSE", ISCHOOSE);
+                        sceneFragment_dev.setArguments(bundle);
+                        transaction.replace(R.id.home, sceneFragment_dev);
                         transaction.commit();
                     } else {
                         if (MyApplication.getWareData().getSceneEvents().size() == 8) {
@@ -458,51 +299,6 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
         });
     }
 
-
-    /**
-     * 选择设备类型
-     *
-     * @param bundle
-     */
-    private void selectDevType(Bundle bundle) {
-        if (type_name.equals(title[1])) {
-            main_LightFragment = new Main_LightFragment();
-            main_LightFragment.setArguments(bundle);
-            ((RadioButton) findViewById(R.id.light)).setChecked(true);
-            transaction.replace(R.id.home, main_LightFragment);
-        } else if (type_name.equals(title[2])) {
-            main_CurtainFragment = new Main_CurtainFragment();
-            main_CurtainFragment.setArguments(bundle);
-            ((RadioButton) findViewById(R.id.curtain)).setChecked(true);
-            transaction.replace(R.id.home, main_CurtainFragment);
-        } else if (type_name.equals(title[3])) {
-            main_ApplianceFragment = new Main_ApplianceFragment();
-            main_ApplianceFragment.setArguments(bundle);
-            ((RadioButton) findViewById(R.id.appliance)).setChecked(true);
-            transaction.replace(R.id.home, main_ApplianceFragment);
-        } else if (type_name.equals(title[4])) {
-            main_SocketFragment = new Main_SocketFragment();
-            main_SocketFragment.setArguments(bundle);
-            ((RadioButton) findViewById(R.id.socket)).setChecked(true);
-            transaction.replace(R.id.home, main_SocketFragment);
-        } else if (type_name.equals(title[5])) {
-            main_DoorFragment = new Main_DoorFragment();
-            main_DoorFragment.setArguments(bundle);
-            ((RadioButton) findViewById(R.id.door)).setChecked(true);
-            transaction.replace(R.id.home, main_DoorFragment);
-        } else if (type_name.equals(title[6])) {
-            main_SafetyFragment = new Main_SafetyFragment();
-            main_SafetyFragment.setArguments(bundle);
-            ((RadioButton) findViewById(R.id.safety)).setChecked(true);
-            transaction.replace(R.id.home, main_SafetyFragment);
-        } else if (type_name.equals(title[7])) {
-            main_ControlFragment = new Main_ControlFragment();
-            main_ControlFragment.setArguments(bundle);
-            ((RadioButton) findViewById(R.id.control)).setChecked(true);
-            transaction.replace(R.id.home, main_ControlFragment);
-        }
-    }
-
     /**
      * 初始化自定义dialog
      * 新增情景
@@ -521,57 +317,32 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
         cancel.setOnClickListener(this);
     }
 
-    /**
-     * 初始化房间的ListView
-     */
-    private void initListView() {
-        sceneSet_listView = (ListView) findViewById(R.id.sceneSet_listView);
-//        List<String> room_list = MyApplication.getRoom_list();
-//        listViewAdapter = new ListViewAdapter(this, room_list);
-        listViewAdapter = new ListViewAdapter(this);
-        //默认选中条目
-        listViewAdapter.changeSelected(room_position + 1);
-        sceneSet_listView.setAdapter(listViewAdapter);
-        sceneSet_listView.setItemsCanFocus(true);//让ListView的item获得焦点
-        sceneSet_listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);//单选模式
-        //点击监听
-        sceneSet_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listViewAdapter.changeSelected(position);//刷新
-                transaction = fragmentManager.beginTransaction();
-                Bundle bundle = new Bundle();//给具体设备类型带入房间id
-                room_position = position - 1;
-                if (position == 0) {
-                    bundle.putInt("room_position", DEVS_ALL_ROOM);
-                } else {
-                    bundle.putInt("room_position", position - 1);
-                }
-                bundle.putByte("sceneid", sceneid);
-                selectDevType(bundle);
-                transaction.commit();
-            }
-        });
-        //房间ListView选中监听
-        sceneSet_listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                listViewAdapter.changeSelected(position);//刷新
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.scene_iv_cancel:
                 dialog.dismiss();
+                break;
+            //房间
+            case R.id.input_room:
+                initPopupWindow(input_room, home_text, 2);
+                popupWindow.showAsDropDown(v, 0, 0);
+                break;
+            //设备类型
+            case R.id.devType_input:
+                initPopupWindow(devType_input, devType, 1);
+                popupWindow.showAsDropDown(v, 0, 0);
+                break;
+            case R.id.input_choose:
+                if (ISCHOOSE) {
+                    ISCHOOSE = false;
+                    input_choose.setImageResource(R.drawable.off);
+                } else {
+                    ISCHOOSE = true;
+                    input_choose.setImageResource(R.drawable.on);
+                }
+                onGetIsChooseListener.getOutChoose(ISCHOOSE);
                 break;
             case R.id.scene_btn_sure:
                 dialog.dismiss();
@@ -593,9 +364,6 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                             ID.add(Scene_id.get(i));
                         }
                     }
-//                    for (int i = 0; i < ID.size(); i++) {
-//                        Log.e("ID",ID.get(i)+"");
-//                    }
                     add_scene((byte) (int) ID.get(0), data);
                 } else {
                     mDialog.dismiss();
@@ -624,12 +392,16 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
 //                }
 //                Log.e("DATA", abc);
                 break;
-            case R.id.sceneSet_back:
-                MyApplication.setWareData_Scene(null);
-                finish();
-                break;
         }
 
+    }
+
+    private static OnGetIsChooseListener onGetIsChooseListener;
+    public static void setOnGetIsChooseListener(OnGetIsChooseListener ongetIsChooseListener) {
+        onGetIsChooseListener = ongetIsChooseListener;
+    }
+    public interface OnGetIsChooseListener {
+        void getOutChoose(boolean ischoose);
     }
 
     /**
@@ -714,9 +486,9 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                             "\"itemAry\":[" + more_data + "]}";
                     Log.e("情景模式测试:", data_hoad);
                     MyApplication.sendMsg(data_hoad);
-                }catch (Exception e){
+                } catch (Exception e) {
                     mDialog.dismiss();
-                    Log.e("Exception" ,e+"");
+                    Log.e("Exception", e + "");
                     ToastUtil.showToast(SceneSetActivity2.this, "保存失败，数据异常");
                 }
             }
@@ -793,6 +565,64 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 "}]}";
         LogUtils.LOGE("情景模式测试数据:", ctlStr);
         MyApplication.sendMsg(ctlStr);
+    }
+
+    /**
+     * 初始化自定义设备的状态以及设备PopupWindow
+     */
+    private void initPopupWindow(final View view_parent, final List<String> text, final int tag) {
+        //获取自定义布局文件pop.xml的视图
+        final View customView = view_parent.inflate(this, R.layout.popupwindow_equipment_listview, null);
+        customView.setBackgroundResource(R.drawable.selectbg);
+        customView.setFocusable(true);
+        customView.setFocusableInTouchMode(true);
+        customView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (popupWindow != null) {
+                        popupWindow.dismiss();
+                    }
+                }
+                return false;
+            }
+        });
+        // 创建PopupWindow实例
+        popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), view_parent.getWidth(), 200);
+        popupWindow.setContentView(customView);
+        ListView list_pop = (ListView) customView.findViewById(R.id.popupWindow_equipment_lv);
+        PopupWindowAdapter2 adapter = new PopupWindowAdapter2(text, this);
+        list_pop.setAdapter(adapter);
+        list_pop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view_p, int position, long id) {
+                TextView tv = (TextView) view_parent;
+                tv.setText(text.get(position));
+                if (tag == 2) {
+                    room_position = position;
+                    initFragment();
+                } else if (tag == 1) {
+                    dev_position = position;
+                    initFragment();
+                }
+                popupWindow.dismiss();
+            }
+        });
+        //popupWindow页面之外可点
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.update();
+        // 自定义view添加触摸事件
+        customView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (popupWindow != null && popupWindow.isShowing()) {
+                    popupWindow.dismiss();
+                    popupWindow = null;
+                }
+                return false;
+            }
+        });
     }
 
     @Override

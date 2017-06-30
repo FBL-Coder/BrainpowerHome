@@ -34,8 +34,8 @@ public class OutPutFragment_key extends Fragment {
     private List<PrintCmd> listData;
     private List<Out_List_printcmd> listData_all;
 
-    public OutPutFragment_key(FragmentActivity activity){
-        mActivity =activity;
+    public OutPutFragment_key(FragmentActivity activity) {
+        mActivity = activity;
     }
 
     @Nullable

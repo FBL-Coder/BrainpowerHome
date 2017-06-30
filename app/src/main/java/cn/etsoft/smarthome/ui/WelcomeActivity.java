@@ -67,6 +67,7 @@ public class WelcomeActivity extends Activity {
     protected void onResume() {
         super.onResume();
         //在这个页面把welcomeActivity set进去，在其他页面销毁
+
         MyApplication.mInstance.setActivity(this);
         MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="230dp"
+    android:layout_gravity="center"
+    android:background="@drawable/rect_gray7"
+    android:layout_margin="@dimen/dp_10"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:gravity="center"
+        android:textColor="@color/color_000"
+        android:textSize="@dimen/sp_16"
+        />
+
+    <ImageView
+        android:id="@+id/appliance"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_130"
+        android:padding="@dimen/dp_5"
+        />
+    <LinearLayout
+        android:id="@+id/name_ll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:padding="@dimen/dp_10"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        >
+        <TextView
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="按键名称"
+            android:textColor="@color/color_000"
+            android:textSize="@dimen/sp_16" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1.2"
+            android:background="@drawable/select_white_no"
+            android:clickable="true"
+            android:gravity="center"
+            android:textColor="@color/color_000"
+            android:textColorHint="@color/color_565656"
+            android:textSize="@dimen/sp_16" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/name_edit_ll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:padding="@dimen/dp_10"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
+        <EditText
+            android:id="@+id/name_edit"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_weight="2"
+            android:background="@drawable/rect_white3"
+            android:clickable="true"
+            android:gravity="center"
+            android:textColor="@color/color_000"
+            android:textColorHint="@color/color_565656"
+            android:textSize="@dimen/sp_16" />
+        <ImageView
+            android:id="@+id/sure"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:src="@drawable/edit_sure"
+            />
+        <ImageView
+            android:id="@+id/cancel"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:src="@drawable/edit_cancel"
+            />
+
+    </LinearLayout>
+</LinearLayout>

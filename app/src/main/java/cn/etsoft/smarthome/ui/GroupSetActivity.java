@@ -2,7 +2,6 @@ package cn.etsoft.smarthome.ui;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,7 +38,6 @@ import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter.PopupWindowAdapter2;
 import cn.etsoft.smarthome.domain.GroupSet_Data;
-import cn.etsoft.smarthome.domain.GroupSet_Data;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.WareAirCondDev;
@@ -51,14 +49,13 @@ import cn.etsoft.smarthome.pullmi.entity.WareTv;
 import cn.etsoft.smarthome.utils.ToastUtil;
 import cn.etsoft.smarthome.view.Circle_Progress;
 
-import static cn.etsoft.smarthome.R.id.mdrawerlayout;
 import static cn.etsoft.smarthome.R.id.tv_equipment_parlour;
 
 /**
  * 定时器界面
  * Created by F-B-L on 2017/5/18.
  */
-public class GroupSetActivity extends FragmentActivity implements View.OnClickListener {
+public class  GroupSetActivity extends FragmentActivity implements View.OnClickListener {
 
     private Button btn_save;
     private TextView tv_enabled, event_way, add_dev_groupSet,
@@ -66,7 +63,7 @@ public class GroupSetActivity extends FragmentActivity implements View.OnClickLi
     private int[] image = new int[]{R.drawable.kongtiao, R.drawable.tv_0, R.drawable.jidinghe, R.drawable.dengguang, R.drawable.chuanglian};
     private EditText et_name;
     private GridView gridView_groupSet;
-    private ListView add_dev_Layout_lv;
+    private ListView add_dev_Layout_lv, safety;
     private LinearLayout add_dev_Layout_ll;
     private RecyclerView RecyclerView_env;
     private Dialog mDialog;
@@ -83,6 +80,8 @@ public class GroupSetActivity extends FragmentActivity implements View.OnClickLi
     //触发器所在列表位置
     private int GroupSet_position;
     private boolean IsHaveData = false;
+//    private SafetyAdapter safetyAdapter;
+//    private List<String> safetyName;
 
     String ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
             ",\"datType\":66" +
@@ -146,7 +145,84 @@ public class GroupSetActivity extends FragmentActivity implements View.OnClickLi
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         RecyclerView_env.setLayoutManager(layoutManager);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+//        safety = (ListView) findViewById(R.id.safety);
+//        safetyAdapter = new SafetyAdapter(mListener);
+//        safety.setAdapter(safetyAdapter);
     }
+
+//    class SafetyAdapter extends BaseAdapter {
+//
+//        SafetyAdapter(IClick listener) {
+//            safetyName = new ArrayList<>();
+//            for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
+//                safetyName.add(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecName());
+//            }
+//            mListener = listener;
+//        }
+//
+//        @Override
+//        public void notifyDataSetChanged() {
+//            safetyName = new ArrayList<>();
+//            for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
+//                safetyName.add(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecName());
+//            }
+//            super.notifyDataSetChanged();
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return safetyName.size();
+//        }
+//
+//        @Override
+//        public Object getItem(int position) {
+//            return safetyName.get(position);
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            return position;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            ViewHolder viewHolder;
+//            if (convertView == null) {
+//                convertView = LayoutInflater.from(GroupSetActivity.this).inflate(R.layout.listview_safety_item, null);
+//                viewHolder = new ViewHolder();
+//                viewHolder.name = (TextView) convertView.findViewById(R.id.name);
+//                viewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
+//                convertView.setTag(viewHolder);
+//            } else
+//                viewHolder = (ViewHolder) convertView.getTag();
+//
+//            viewHolder.name.setText(safetyName.get(position));
+//            viewHolder.checkBox.setChecked(true);
+//
+//            viewHolder.checkBox.setOnClickListener(mListener);
+//            viewHolder.checkBox.setTag(position);
+//            return convertView;
+//        }
+//
+//        private class ViewHolder {
+//            private TextView name;
+//            public CheckBox checkBox;
+//        }
+//    }
+//
+//
+//    /**
+//     * 实现类，响应按钮点击事件
+//     */
+//    private IClick mListener = new IClick() {
+//        @Override
+//        public void listViewItemClick(final int position, View v) {
+//
+//
+//        }
+//    };
+
 
     /**
      * 初始化GridView
@@ -219,8 +295,11 @@ public class GroupSetActivity extends FragmentActivity implements View.OnClickLi
         et_name.setHint(MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(groupSet_position).getTriggerName());
         if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(groupSet_position).getRun_dev_item() == null
                 || MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(groupSet_position).getRun_dev_item().size() == 0) {
-            tv_enabled.setText("禁用");
-        } else {
+//            tv_enabled.setText("禁用");
+//            event_way.setText("否");
+            ToastUtil.showToast(this,"该组合触发器下没有设备");
+        }
+        else {
             if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(groupSet_position).getValid() == 1)
                 tv_enabled.setText("启用");
             else tv_enabled.setText("禁用");
@@ -266,7 +345,7 @@ public class GroupSetActivity extends FragmentActivity implements View.OnClickLi
                     //  "devCnt": 1,
                     bean.setDevCnt(common_dev.size());
                     //"eventId":	0,
-                    bean.setTriggerId(MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(GroupSet_position).getTriggerId());
+                    bean.setTriggerId(GroupSet_position);
                     // "run_dev_item":
                     bean.setRun_dev_item(common_dev);
 
@@ -451,7 +530,7 @@ public class GroupSetActivity extends FragmentActivity implements View.OnClickLi
             }
         });
         // 创建PopupWindow实例
-        popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), view_parent.getWidth(), 300);
+        popupWindow = new PopupWindow(view_parent.findViewById(R.id.popupWindow_equipment_sv), view_parent.getWidth(), 200);
         popupWindow.setContentView(customView);
         ListView list_pop = (ListView) customView.findViewById(R.id.popupWindow_equipment_lv);
         PopupWindowAdapter2 adapter = new PopupWindowAdapter2(text, this);

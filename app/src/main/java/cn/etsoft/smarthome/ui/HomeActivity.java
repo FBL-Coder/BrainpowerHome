@@ -617,6 +617,10 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.user:
                 if (ishavedata || MyApplication.mInstance.isReadData()) {
+                    if (MyApplication.mInstance.isSkip()){
+                        ToastUtil.showToast(this,"跳过登录不能体验此功能");
+                        return;
+                    }
                     MyApplication.setmHomeActivity(this);
                     Intent intent = new Intent(HomeActivity.this, UserActivity.class);
                     intent.putExtra("tag", "home");
@@ -628,6 +632,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case R.id.setting:
                 MyApplication.setmHomeActivity(this);
+//                MyApplication.mInstance.setSkip(false);
                 startActivity(new Intent(HomeActivity.this, SettingActivity.class));
                 break;
             case R.id.home_tv_ref:
@@ -693,7 +698,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             MyApplication.mInstance.getActivity().finish();
             finish();
             System.exit(0);
-        } else {
+        } else if(MyApplication.mInstance.isSkip() == true){
+            finish();
+        }else {
             Toast.makeText(HomeActivity.this, "再按一次退出", Toast.LENGTH_SHORT).show();
             TimeExit = System.currentTimeMillis();
         }

@@ -30,12 +30,12 @@ public class InputFragment_dev extends Fragment {
     private int index = 0;
     private View view;
     private LayoutInflater inflater;
-    private List<String> room_list;
     private InputAdapter_dev inputAdapter_dev;
     private GridView gridView_light;
     private List<WareKeyOpItem> keyOpItems;
     private boolean IsClose = false;
     private List<WareDev> list_Dev;
+    private List<String> room_list;
 
     public InputFragment_dev(FragmentActivity activity) {
         mActivity = activity;
