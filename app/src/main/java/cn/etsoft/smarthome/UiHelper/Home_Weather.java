@@ -34,6 +34,7 @@ import cn.etsoft.smarthome.R;
 
 /**
  * Author：FBL  Time： 2017/6/14.
+ * 主页 定位，天气获取类
  */
 
 public class Home_Weather {
@@ -74,6 +75,7 @@ public class Home_Weather {
     public void initWeatherData() {
         initLocation();
     }
+
     /**
      * 定位
      */

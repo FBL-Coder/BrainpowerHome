@@ -18,6 +18,7 @@ import cn.etsoft.smarthome.View.WeatherView.MovingPictureView;
 
 /**
  * Author：FBL  Time： 2017/6/21.
+ * 主界面  天气动画类
  */
 
 public class HomeWeatherAnim {

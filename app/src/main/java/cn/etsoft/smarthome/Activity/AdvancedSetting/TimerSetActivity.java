@@ -66,6 +66,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
         mTimerGirdView = getViewById(R.id.Timer_GirdView);
         mTimer_AddDev = getViewById(R.id.Timer_AddDev);
 
+
         mShiNeng.setOnClickListener(this);
         mWeekAgain.setOnClickListener(this);
         mQuanWang.setOnClickListener(this);
@@ -171,6 +172,15 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                     mBean.getRun_dev_item().get(position).setBOnOff(1);
                 else mBean.getRun_dev_item().get(position).setBOnOff(0);
                 mAdapter.notifyDataSetChanged(mBean.getRun_dev_item());
+            }
+        });
+
+        mTimerGirdView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mBean.getRun_dev_item().remove(position);
+                mAdapter.notifyDataSetChanged(mBean.getRun_dev_item());
+                return true;
             }
         });
 

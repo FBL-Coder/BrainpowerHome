@@ -32,7 +32,7 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 
 /**
  * Author：FBL  Time： 2017/6/22.
- * 定时器页面
+ * 环境触发器页面
  */
 
 public class ConditionSetActivity extends BaseActivity implements View.OnClickListener {
@@ -66,6 +66,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
         mConditionWay = getViewById(R.id.ConditionSet_Way);
         mConditionSet_AddDev = getViewById(R.id.ConditionSet_AddDev);
         mConditionGirdView = getViewById(R.id.ConditionSet_GirdView);
+
 
         mShiNeng.setOnClickListener(this);
         mConditionSaveBtn.setOnClickListener(this);
@@ -130,7 +131,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
                     mConditionType.setText("选择触发类别");
                 } else {
                     mConditionName.setText(mBean.getEventName());
-                    mConditionChuFaZhi.setText(mBean.getValTh()+"");
+                    mConditionChuFaZhi.setText(mBean.getValTh() + "");
                     if (mBean.getValid() == 1)
                         mShiNeng.setImageResource(R.drawable.ic_launcher_round);
                     else mShiNeng.setImageResource(R.drawable.ic_launcher);
@@ -152,6 +153,14 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
                     mBean.getRun_dev_item().get(position).setBOnOff(1);
                 else mBean.getRun_dev_item().get(position).setBOnOff(0);
                 mAdapter.notifyDataSetChanged(mBean.getRun_dev_item());
+            }
+        });
+        mConditionGirdView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mBean.getRun_dev_item().remove(position);
+                mAdapter.notifyDataSetChanged(mBean.getRun_dev_item());
+                return true;
             }
         });
     }
@@ -222,8 +231,8 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
         }
         switch (v.getId()) {
             case R.id.ConditionSet_Save_Btn://保存
-                ConditionSetHelper.SaveCondition(this,mConditionName,mConditionChuFaZhi,IsOpenShiNeng,mConditionWay
-                ,mConditionType,Event_Way,Event_type,mConditionPosition,mBean.getRun_dev_item());
+                ConditionSetHelper.SaveCondition(ConditionSetActivity.this, mConditionName, mConditionChuFaZhi, IsOpenShiNeng, mConditionWay
+                        , mConditionType, Event_Way, Event_type, mConditionPosition, mBean.getRun_dev_item());
                 break;
             case R.id.ConditionSet_ShiNeng: //使能开关
                 IsOpenShiNeng = !IsOpenShiNeng;

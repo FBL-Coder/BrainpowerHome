@@ -94,15 +94,18 @@
         <!--登陆页面-->
         <activity
             android:name=".Activity.LoginActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustResize"/>
         <!--注册页面-->
         <activity
             android:name=".Activity.RegisterActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustResize"/>
         <!--环境事件-->
         <activity
             android:name=".Activity.AdvancedSetting.ConditionSetActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustPan"/>
         <!--控制设置-->
         <activity
             android:name=".Activity.AdvancedSetting.ControlActivity"
@@ -110,23 +113,28 @@
         <!--设备详情-->
         <activity
             android:name=".Activity.AdvancedSetting.DevInfoActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
         <!--安防设置-->
         <activity
             android:name=".Activity.AdvancedSetting.SafetySetActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
         <!--情景设置-->
         <activity
             android:name=".Activity.AdvancedSetting.SceneSetActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
         <!--定时设置-->
         <activity
             android:name=".Activity.AdvancedSetting.TimerSetActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
         <!--定时器、环境事件等添加设备界面-->
         <activity
             android:name=".Activity.AdvancedSetting.SetAddDevActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
 
     </application>
 

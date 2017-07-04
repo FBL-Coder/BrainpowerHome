@@ -1,8 +1,6 @@
 package cn.etsoft.smarthome.UiHelper;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +14,6 @@ import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import cn.etsoft.smarthome.Domain.Http_Result;
 import cn.etsoft.smarthome.MyApplication;

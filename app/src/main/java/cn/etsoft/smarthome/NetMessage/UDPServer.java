@@ -225,6 +225,7 @@ public class UDPServer implements Runnable {
         switch (datType) {
             case 0:// e_udpPro_getRcuinfo
                 if (subType2 == 1) {
+                    MyApplication.setNewWareData();
                     setRcuInfo(info);
                 }
                 break;

@@ -34,6 +34,8 @@
                 <EditText
                     android:id="@+id/ConditionSet_Name"
                     android:layout_width="@dimen/dp_100"
+                    android:hint="无"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red"
                     android:textSize="@dimen/sp_18" />
@@ -65,6 +67,7 @@
                     android:id="@+id/ConditionSet_ChuFaZhi"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:layout_gravity="center_vertical"
                     android:minWidth="@dimen/dp_50" />
 

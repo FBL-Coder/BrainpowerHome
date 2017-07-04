@@ -10,6 +10,7 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 
 /**
  * Author：FBL  Time： 2017/6/30.
+ * 设置界面  添加设备帮助类
  */
 
 public class SetAddDevHelper {
@@ -22,6 +23,7 @@ public class SetAddDevHelper {
     public static String getRoomName() {
         return RoomName;
     }
+
     public static void setRoomName(String roomName) {
         RoomName = roomName;
     }
@@ -54,6 +56,7 @@ public class SetAddDevHelper {
         }
         return Data_OuterCircleList;
     }
+
     /**
      * 初始化内部转盘数据
      */

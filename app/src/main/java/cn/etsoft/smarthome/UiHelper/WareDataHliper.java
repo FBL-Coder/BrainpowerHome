@@ -11,6 +11,8 @@ import cn.etsoft.smarthome.MyApplication;
 
 /**
  * Author：FBL  Time： 2017/6/28.
+ * 设置界面  数据拷贝辅助类
+ *
  */
 
 public class WareDataHliper {

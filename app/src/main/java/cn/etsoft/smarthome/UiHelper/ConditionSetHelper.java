@@ -1,9 +1,7 @@
 package cn.etsoft.smarthome.UiHelper;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,22 +14,18 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.Domain.GlobalVars;
-import cn.etsoft.smarthome.Domain.Timer_Data;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.Utils.CommonUtils;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
-import cn.etsoft.smarthome.View.PopupWindow.MultiChoicePopWindow;
 
 
 /**
  * Author：FBL  Time： 2017/6/29.
+ * 环境触发器  界面帮助类
  */
 
 public class ConditionSetHelper {
-
-    public static MultiChoicePopWindow mMultiChoicePopWindow;
-
 
     public static List<CircleDataEvent> initSceneCircleOUterData() {
 

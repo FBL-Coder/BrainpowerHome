@@ -1,6 +1,6 @@
 package cn.etsoft.smarthome.UiHelper;
 
-import android.app.Dialog;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +24,7 @@ import cn.etsoft.smarthome.Utils.NewHttpPort;
 
 /**
  * Author：FBL  Time： 2017/6/19.
+ * 联网模块设置  辅助类
  */
 
 public class New_AddorDel_Helper {
@@ -35,12 +36,11 @@ public class New_AddorDel_Helper {
     /**
      * 添加联网模块
      *
-     * @param context
      * @param name
      * @param id
      * @param pass
      */
-    public static void addNew(final Handler handler, Context context, EditText name, EditText id, EditText pass) {
+    public static void addNew(final Handler handler, Activity activity, EditText name, EditText id, EditText pass) {
         String name_input = name.getText().toString();
         String id_input = id.getText().toString();
         String pass_input = pass.getText().toString();
@@ -53,7 +53,7 @@ public class New_AddorDel_Helper {
             ToastUtil.showText("模块ID和模块密码不能为空");
             return;
         }
-        MyApplication.mApplication.showLoadDialog(context);
+        MyApplication.mApplication.showLoadDialog(activity);
         Map<String, String> param = new HashMap<>();
         param.put("userName", (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));
         param.put("passwd", (String) AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
@@ -103,12 +103,11 @@ public class New_AddorDel_Helper {
     /**
      * 修改联网模块
      *
-     * @param context
      * @param name
      * @param id
      * @param pass
      */
-    public static void editNew(final Handler handler, Context context, EditText name, EditText id, EditText pass) {
+    public static void editNew(final Handler handler, Activity activity, EditText name, EditText id, EditText pass) {
         String name_input = name.getText().toString();
         String id_input = id.getText().toString();
         String pass_input = pass.getText().toString();
@@ -121,7 +120,7 @@ public class New_AddorDel_Helper {
             ToastUtil.showText("模块ID和模块密码不能为空");
             return;
         }
-        MyApplication.mApplication.showLoadDialog(context);
+        MyApplication.mApplication.showLoadDialog(activity);
         Map<String, String> param = new HashMap<>();
         param.put("userName", (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));
         param.put("passwd", (String) AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
@@ -171,11 +170,10 @@ public class New_AddorDel_Helper {
     /**
      * 删除联网模块
      *
-     * @param context
      * @param id
      */
-    public static void deleteNew(final Handler handler, Context context, String id) {
-        MyApplication.mApplication.showLoadDialog(context);
+    public static void deleteNew(final Handler handler, Activity activity, String id) {
+        MyApplication.mApplication.showLoadDialog(activity);
 
         Map<String, String> param = new HashMap<>();
         param.put("userName", (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));

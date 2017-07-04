@@ -33,7 +33,8 @@
                     android:id="@+id/Timer_Name"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="wrap_content"
-                    android:hint="啦啦"
+                    android:hint="无"
+                    android:gravity="center"
                     android:textColor="@color/red"
                     android:textSize="@dimen/sp_18" />
 

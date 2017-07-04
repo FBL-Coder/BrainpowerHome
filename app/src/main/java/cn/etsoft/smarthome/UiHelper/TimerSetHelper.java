@@ -24,6 +24,7 @@ import cn.etsoft.smarthome.View.PopupWindow.MultiChoicePopWindow;
 
 /**
  * Author：FBL  Time： 2017/6/29.
+ * 定时器界面  帮助类
  */
 
 public class TimerSetHelper {

@@ -143,6 +143,10 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                         bean.setDevType(SetAddDevHelper.getAddDevs().get(i).getType());
                         AddData.add(bean);
                     }
+                    if (AddData.size() > 4) {
+                        ToastUtil.showText("最多添加4个设备");
+                        return;
+                    }
                     WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows().get(mListPosition).setRun_dev_item(AddData);
                 } else if ("Condition".equals(IntentFlag)) {
                     List<Condition_Event_Bean.EnvEventRowsBean.RunDevItemBean> AddData = new ArrayList<>();
@@ -153,6 +157,10 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                         bean.setDevID(SetAddDevHelper.getAddDevs().get(i).getDevId());
                         bean.setDevType(SetAddDevHelper.getAddDevs().get(i).getType());
                         AddData.add(bean);
+                    }
+                    if (AddData.size() > 4) {
+                        ToastUtil.showText("最多添加4个设备");
+                        return;
                     }
                     WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().get(mListPosition).setRun_dev_item(AddData);
                 }

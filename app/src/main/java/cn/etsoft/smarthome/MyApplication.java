@@ -1,5 +1,6 @@
 package cn.etsoft.smarthome;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
@@ -263,10 +264,11 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     /**
      * 加载框显示
      */
-    public void showLoadDialog(Context context) {
+    public void showLoadDialog(Activity activity) {
         if (progressDialog == null)
-            getProgressDialog(context);
-        progressDialog.show();
+            getProgressDialog(activity);
+        if (!activity.isFinishing())
+            progressDialog.show();
         final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
