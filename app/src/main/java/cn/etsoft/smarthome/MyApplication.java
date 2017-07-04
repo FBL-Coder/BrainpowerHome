@@ -249,13 +249,53 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     /**
      * 获取加载框Dialog；
      */
+    Dialog progressDialog;
+
     public Dialog getProgressDialog(Context context) {
-        Dialog progressDialog = new Dialog(context);
+        progressDialog = new Dialog(context);
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         progressDialog.setContentView(R.layout.custom_dialog_progress);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         progressDialog.setCancelable(false);
         return progressDialog;
+    }
+
+    /**
+     * 加载框显示
+     */
+    public void showLoadDialog(Context context) {
+        if (progressDialog == null)
+            getProgressDialog(context);
+        progressDialog.show();
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                progressDialog.dismiss();
+            }
+        };
+        //加载数据进度条，5秒数据没加载出来自动消失
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(5000);
+                    if (progressDialog.isShowing()) {
+                        handler.sendMessage(handler.obtainMessage());
+                    }
+                } catch (Exception e) {
+                    System.out.println(e + "");
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 隐藏加载动画框
+     */
+    public void dismissLoadDialog() {
+        if (progressDialog != null)
+            progressDialog.dismiss();
     }
 
     /**

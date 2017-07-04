@@ -30,7 +30,6 @@ import cn.etsoft.smarthome.Utils.NewHttpPort;
 public class Register_Helper {
 
     public static Register_Helper register_helper = new Register_Helper();
-    private Dialog dialog;
 
     public void register(final Activity activity, EditText mRegisterId, EditText mRegisterPass) {
         final String id_input = mRegisterId.getText().toString();
@@ -39,8 +38,8 @@ public class Register_Helper {
             ToastUtil.showText("账号或密码输入人不正确");
             return;
         }
-        dialog = MyApplication.mApplication.getProgressDialog(activity);
-        dialog.show();
+        MyApplication.mApplication.showLoadDialog(activity);
+
         Map<String, String> param = new HashMap<>();
         param.put("userName", id_input);
         param.put("passwd", pass_input);
@@ -48,10 +47,7 @@ public class Register_Helper {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
-                if (dialog!= null){
-                    dialog.cancel();
-                    dialog.hide();
-                }
+                MyApplication.mApplication.dismissLoadDialog();
                 Log.i("REGISTER", resultDesc.getResult());
                 Gson gson = new Gson();
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
@@ -79,10 +75,7 @@ public class Register_Helper {
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
                 //注册失败
-                if (dialog!= null){
-                    dialog.cancel();
-                    dialog.hide();
-                }
+                MyApplication.mApplication.dismissLoadDialog();
                 ToastUtil.showText("注册失败，网络不可用或服务器异常");
             }
         });

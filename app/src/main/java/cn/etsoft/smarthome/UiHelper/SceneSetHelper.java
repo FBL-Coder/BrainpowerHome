@@ -107,7 +107,7 @@ public class SceneSetHelper {
         return Data_InnerCircleList;
     }
 
-    public static void AddScene(Activity activity, final Dialog mLoadDialog) {
+    public static void AddScene(final Activity activity) {
         final Dialog dialog = new Dialog(activity, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
         dialog.setContentView(R.layout.dialog_addscene);
         dialog.show();
@@ -124,7 +124,7 @@ public class SceneSetHelper {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                AddSceneSenddata(mLoadDialog, mDialogName);
+                AddSceneSenddata(mDialogName,activity);
             }
         });
     }
@@ -132,11 +132,11 @@ public class SceneSetHelper {
     /**
      * 添加情景模式
      */
-    public static void AddSceneSenddata(Dialog mLoadDialog, EditText name) {
+    public static void AddSceneSenddata(EditText name,Activity activity) {
 
         String data = name.getText().toString();
         if (!"".equals(data)) {
-            mLoadDialog.show();
+            MyApplication.mApplication.showLoadDialog(activity);
             //查询可用ID
             List<Integer> Scene_int = new ArrayList<>();
             for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
@@ -162,7 +162,7 @@ public class SceneSetHelper {
     /**
      * 保存情景设置；
      */
-    public static void saveScene(final Activity activity, final Dialog mLoadDialog, int ScenePosition) {
+    public static void saveScene(final Activity activity, int ScenePosition) {
 
 
         final int sceneid = WareDataHliper.wareDataHliper.getCopyScenes().get(ScenePosition).getEventId();
@@ -179,7 +179,7 @@ public class SceneSetHelper {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                mLoadDialog.show();
+                MyApplication.mApplication.showLoadDialog(activity);
                 WareSceneEvent Sceneevent = null;
                 try {
                     for (int i = 0; i < WareDataHliper.wareDataHliper.getCopyScenes().size(); i++) {
@@ -232,7 +232,7 @@ public class SceneSetHelper {
                     Log.e("情景模式测试:", data_hoad);
                     MyApplication.mApplication.getUdpServer().send(data_hoad);
                 } catch (Exception e) {
-                    mLoadDialog.dismiss();
+                    MyApplication.mApplication.dismissLoadDialog();
                     Log.e("Exception", e + "");
                     ToastUtil.showText("保存失败，数据异常");
                 }

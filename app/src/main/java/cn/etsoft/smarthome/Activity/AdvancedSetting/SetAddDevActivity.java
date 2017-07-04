@@ -15,6 +15,7 @@ import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.Domain.Timer_Data;
 import cn.etsoft.smarthome.Domain.WareDev;
 import cn.etsoft.smarthome.Fragment.SetAddDev.AirSetAddDevFragment;
@@ -44,6 +45,8 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
     private int DevType = 0;
     private String RoomName = "";
     private boolean IsNoData = true;
+    private int mListPosition;
+    private String IntentFlag;
 
     @Override
     public void initView() {
@@ -63,13 +66,27 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
             ToastUtil.showText("没有房间数据");
             return;
         }
-        String Flag = getIntent().getStringExtra("name");
-        int Position = getIntent().getIntExtra("position", 0);
-        if ("Timer".equals(Flag)) {
+        IntentFlag = getIntent().getStringExtra("name");
+        mListPosition = getIntent().getIntExtra("position", 0);
+        if ("Timer".equals(IntentFlag)) {
             List<WareDev> addDevs = new ArrayList<>();
-            for (int i = 0; i < WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows().get(Position).getRun_dev_item().size(); i++) {
+            for (int i = 0; i < WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows().get(mListPosition).getRun_dev_item().size(); i++) {
                 Timer_Data.TimerEventRowsBean.RunDevItemBean bean = WareDataHliper.initCopyWareData().getCopyTimers()
-                        .getTimerEvent_rows().get(Position).getRun_dev_item().get(i);
+                        .getTimerEvent_rows().get(mListPosition).getRun_dev_item().get(i);
+                WareDev dev = new WareDev();
+                dev.setSelect(true);
+                dev.setDevId((byte) bean.getDevID());
+                dev.setbOnOff((byte) bean.getBOnOff());
+                dev.setCanCpuId(bean.getCanCpuID());
+                dev.setType((byte) bean.getDevType());
+                addDevs.add(dev);
+            }
+            SetAddDevHelper.setAddDevs(addDevs);
+        } else if ("Condition".equals(IntentFlag)) {
+            List<WareDev> addDevs = new ArrayList<>();
+            for (int i = 0; i < WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().get(mListPosition).getRun_dev_item().size(); i++) {
+                Condition_Event_Bean.EnvEventRowsBean.RunDevItemBean bean = WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows()
+                        .get(mListPosition).getRun_dev_item().get(i);
                 WareDev dev = new WareDev();
                 dev.setSelect(true);
                 dev.setDevId((byte) bean.getDevID());
@@ -110,7 +127,38 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.SetAddDev_Back_Btn:
+                SetAddDevHelper.setAddDevs(new ArrayList<WareDev>());
+                finish();
+                break;
+            case R.id.SetAddDev_Save_Btn:
+                if ("Timer".equals(IntentFlag)) {
+                    List<Timer_Data.TimerEventRowsBean.RunDevItemBean> AddData = new ArrayList<>();
+                    for (int i = 0; i < SetAddDevHelper.getAddDevs().size(); i++) {
+                        Timer_Data.TimerEventRowsBean.RunDevItemBean bean = new Timer_Data.TimerEventRowsBean.RunDevItemBean();
+                        bean.setCanCpuID(SetAddDevHelper.getAddDevs().get(i).getCanCpuId());
+                        bean.setBOnOff(SetAddDevHelper.getAddDevs().get(i).getbOnOff());
+                        bean.setDevID(SetAddDevHelper.getAddDevs().get(i).getDevId());
+                        bean.setDevType(SetAddDevHelper.getAddDevs().get(i).getType());
+                        AddData.add(bean);
+                    }
+                    WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows().get(mListPosition).setRun_dev_item(AddData);
+                } else if ("Condition".equals(IntentFlag)) {
+                    List<Condition_Event_Bean.EnvEventRowsBean.RunDevItemBean> AddData = new ArrayList<>();
+                    for (int i = 0; i < SetAddDevHelper.getAddDevs().size(); i++) {
+                        Condition_Event_Bean.EnvEventRowsBean.RunDevItemBean bean = new Condition_Event_Bean.EnvEventRowsBean.RunDevItemBean();
+                        bean.setCanCpuID(SetAddDevHelper.getAddDevs().get(i).getCanCpuId());
+                        bean.setBOnOff(SetAddDevHelper.getAddDevs().get(i).getbOnOff());
+                        bean.setDevID(SetAddDevHelper.getAddDevs().get(i).getDevId());
+                        bean.setDevType(SetAddDevHelper.getAddDevs().get(i).getType());
+                        AddData.add(bean);
+                    }
+                    WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().get(mListPosition).setRun_dev_item(AddData);
+                }
+                finish();
+                break;
+        }
     }
 
     /**
@@ -142,7 +190,7 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                 if (mAirFragment == null) {
                     mAirFragment = new AirSetAddDevFragment();
                     mAirFragment.setArguments(bundle);
-                    transaction.add(R.id.SceneSet_Info, mAirFragment);
+                    transaction.add(R.id.SetAddDev_Info, mAirFragment);
                 } else transaction.show(mAirFragment);
                 break;
             case 1:
@@ -150,7 +198,7 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                 if (mTVFragment == null) {
                     mTVFragment = new TVSetAddDevFragment();
                     mTVFragment.setArguments(bundle);
-                    transaction.add(R.id.SceneSet_Info, mTVFragment);
+                    transaction.add(R.id.SetAddDev_Info, mTVFragment);
                 } else transaction.show(mTVFragment);
                 break;
             case 2:
@@ -158,7 +206,7 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                 if (mTvUpFragment == null) {
                     mTvUpFragment = new TvUpSetAddDevFragment();
                     mTvUpFragment.setArguments(bundle);
-                    transaction.add(R.id.SceneSet_Info, mTvUpFragment);
+                    transaction.add(R.id.SetAddDev_Info, mTvUpFragment);
                 } else transaction.show(mTvUpFragment);
                 break;
             case 3:
@@ -166,7 +214,7 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                 if (mLightFragment == null) {
                     mLightFragment = new LightSetAddDevFragment();
                     mLightFragment.setArguments(bundle);
-                    transaction.add(R.id.SceneSet_Info, mLightFragment);
+                    transaction.add(R.id.SetAddDev_Info, mLightFragment);
                 } else transaction.show(mLightFragment);
                 break;
             case 4:
@@ -178,7 +226,7 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                 if (mCurFragment == null) {
                     mCurFragment = new CurtarnSetAddDevFragment();
                     mCurFragment.setArguments(bundle);
-                    transaction.add(R.id.SceneSet_Info, mCurFragment);
+                    transaction.add(R.id.SetAddDev_Info, mCurFragment);
                 } else transaction.show(mCurFragment);
                 break;
         }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -41,11 +42,10 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
     private TextView mTimerWeeks, mTimerStartTime, mTimerEndTime, mTimerSaveBtn, mTimer_AddDev;
     private EditText mTimerName;
     private ImageView mShiNeng, mWeekAgain, mQuanWang;
-    private Dialog mLoadDialog;
     private GridView mTimerGirdView;
     private Timer_DevAdapter mAdapter;
     private boolean IsNoData = true;
-    private MultiChoicePopWindow mMultiChoicePopWindow;
+    private boolean IsCanClick = false;
     private boolean IsOpenShiNeng = false, IsOpenWeekAgain = false, IsOPenQuanWang = false;
     private Timer_Data.TimerEventRowsBean mBean;
     private int mTimerPosition = 0;
@@ -54,7 +54,6 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void initView() {
         setLayout(R.layout.activity_timer);
-        mLoadDialog = MyApplication.mApplication.getProgressDialog(this);
         layout = getViewById(R.id.Timer_CircleMenu);
         mTimerSaveBtn = getViewById(R.id.Timer_Save_Btn);
         mShiNeng = getViewById(R.id.Timer_ShiNeng);
@@ -78,8 +77,6 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                if (mLoadDialog != null)
-                    mLoadDialog.dismiss();
                 if (datType == 17) {
                     IsNoData = false;
                     WareDataHliper.initCopyWareData().startCopyTimerData();
@@ -113,6 +110,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
+                IsCanClick = true;
                 mTimerPosition = position % WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows().size();
                 mBean = WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows()
                         .get(mTimerPosition);
@@ -166,6 +164,16 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                 }
             }
         });
+        mTimerGirdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mBean.getRun_dev_item().get(position).getBOnOff() == 0)
+                    mBean.getRun_dev_item().get(position).setBOnOff(1);
+                else mBean.getRun_dev_item().get(position).setBOnOff(0);
+                mAdapter.notifyDataSetChanged(mBean.getRun_dev_item());
+            }
+        });
+
     }
 
     @SuppressLint("WrongConstant")
@@ -173,6 +181,10 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         if (IsNoData && WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows().size() == 0) {
             ToastUtil.showText("获取数据异常，请稍后在试");
+            return;
+        }
+        if (!IsCanClick) {
+            ToastUtil.showText("请先选择定时器！");
             return;
         }
         switch (v.getId()) {
@@ -198,8 +210,9 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                     ToastUtil.showText("请选择星期");
                     return;
                 }
-//                TimerSetHelper.Timer_Save(mLoadDialog, timername, starttime, endtime,
-//                        IsOpenWeekAgain, IsOpenShiNeng, weekss,mBean,);
+                TimerSetHelper.Timer_Save(this, timername, starttime, endtime,
+                        IsOpenWeekAgain, IsOpenShiNeng, weekss,mBean,
+                        mBean.getRun_dev_item());
                 break;
             case R.id.Timer_ShiNeng: //使能开关
                 IsOpenShiNeng = !IsOpenShiNeng;
@@ -213,7 +226,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                 Intent intent = new Intent(TimerSetActivity.this, SetAddDevActivity.class);
                 intent.putExtra("name", "Timer");
                 intent.putExtra("position", mTimerPosition);
-                startActivity(intent);
+                startActivityForResult(intent,0);
 
                 break;
             case R.id.Timer_TImer_StartTime://开始时间
@@ -248,5 +261,10 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mAdapter.notifyDataSetChanged(WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows()
+                .get(mTimerPosition).getRun_dev_item());
+    }
 }

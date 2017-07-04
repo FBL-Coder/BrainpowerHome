@@ -109,7 +109,9 @@ public class SetAddDev_Light_Adapter extends BaseAdapter {
             viewHoler.mSeekBar = (RangeSeekBar) convertView.findViewById(R.id.SceneSet_GridView_Item_Slide);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
-        viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+        if (mLights.get(position).getbOnOff() == 0)
+            viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+        else viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
         viewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
         viewHoler.mSeekBar.setRight(4);
 
@@ -166,17 +168,6 @@ public class SetAddDev_Light_Adapter extends BaseAdapter {
                 } else {
                     mLights.get(position).setbOnOff((byte) 0);
                     finalViewHoler.mIV.setImageResource(R.drawable.ic_launcher);
-                }
-
-                if (mLights.get(position).getDev().isSelect()) {
-                    for (int i = 0; i < mDevs.size(); i++) {
-                        if (mLights.get(position).getDev().getDevId() == mDevs.get(i).getDevId()
-                                && mLights.get(position).getDev().getType() == mDevs.get(i).getType()
-                                && mLights.get(position).getDev().getCanCpuId().equals(mDevs.get(i).getCanCpuId())) {
-                            mDevs.get(i).setbOnOff(mLights.get(position).getbOnOff());
-                        }
-                        Log.i(TAG, "onClick: ----" + mDevs.get(i).getbOnOff());
-                    }
                 }
             }
         });

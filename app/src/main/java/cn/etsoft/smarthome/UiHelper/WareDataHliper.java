@@ -3,6 +3,7 @@ package cn.etsoft.smarthome.UiHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.Domain.Timer_Data;
 import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
@@ -20,6 +21,9 @@ public class WareDataHliper {
     private List<WareSceneEvent> mSceneEvents;
     private Timer_Data mTimer_Data;
     private List<Timer_Data.TimerEventRowsBean> mTimerEvevts;
+    private Condition_Event_Bean mConditionEventBean;
+    private List<Condition_Event_Bean.EnvEventRowsBean> mConditionListBean;
+
 
     public  static WareDataHliper initCopyWareData(){
         if (wareDataHliper == null)
@@ -38,6 +42,15 @@ public class WareDataHliper {
         mTimer_Data.setTimerEvent_rows(mTimerEvevts);
     }
 
+    public void startCopyConditionData(){
+        mConditionEventBean = new Condition_Event_Bean();
+        mConditionListBean = new ArrayList<>();
+        mConditionListBean.addAll(MyApplication.getWareData().getCondition_event_bean().getenvEvent_rows());
+        mConditionEventBean.setenvEvent_rows(mConditionListBean);
+    }
+
+
+
     public List<WareSceneEvent> getCopyScenes(){
         if (mSceneEvents == null)
             startCopySceneData();
@@ -47,5 +60,11 @@ public class WareDataHliper {
         if (mTimer_Data == null)
             startCopyTimerData();
         return mTimer_Data;
+    }
+
+    public Condition_Event_Bean getConditionEvent(){
+        if (mConditionEventBean == null)
+            startCopyConditionData();
+        return mConditionEventBean;
     }
 }

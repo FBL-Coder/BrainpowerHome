@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.HttpGetDataUtils.HttpCallback;
+import com.example.abc.mybaseactivity.HttpGetDataUtils.OkHttpRequest;
 import com.example.abc.mybaseactivity.HttpGetDataUtils.OkHttpUtils;
 import com.example.abc.mybaseactivity.HttpGetDataUtils.ResultDesc;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
@@ -23,6 +25,7 @@ import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +41,13 @@ import cn.etsoft.smarthome.UiHelper.HTTPRequest_BackCode;
 import cn.etsoft.smarthome.UiHelper.Login_Helper;
 import cn.etsoft.smarthome.UiHelper.New_AddorDel_Helper;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Author：FBL  Time： 2017/6/16.
@@ -66,6 +76,37 @@ public class LoginActivity extends BaseActivity {
             @SuppressLint("NewApi")
             @Override
             public void onClick(View v) {
+//                final OkHttpClient client = new OkHttpClient();
+//                final Request request = new Request.Builder()
+////                        .url("http://192.168.1.220:8080")
+//                        .url("http://192.168.1.220:25000/index.php/api/index/index")
+//                        .build();
+//
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Response response = null;
+//                        try {
+//                            response = client.newCall(request).execute();
+//                            Log.i("NETWORK", response.code() + "");
+//                            if (response.code() == 200) {
+//                                Log.i(TAG, "onSuccess: " + response.body().string());
+//                            } else {
+//                                Log.i(TAG, "onFailure: " + response.code()+response.body().string());
+//                                new Thread() {
+//                                    @Override
+//                                    public void run() {
+//                                        Looper.prepare();
+//                                        ToastUtil.showText("数据加载失败！网络服务器异常...");
+//                                        Looper.loop();
+//                                    }
+//                                }.start();
+//                            }
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }).start();
                 Login_Helper.login_helper.login(LoginActivity.this, mLoginId, mLoginPass);
             }
         });

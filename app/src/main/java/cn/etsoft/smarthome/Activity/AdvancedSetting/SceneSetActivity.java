@@ -46,7 +46,6 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
     private TextView mSceneSet_Add_Btn, mSceneSetTestBtn, mSceneSetSaveBtn;
     private SceneSet_ScenesAdapter mScenesAdapter;
     private Fragment mLightFragment, mAirFragment, mTVFragment, mTvUpFragment, mCurFragment;
-    private Dialog mLoadDialog;
     private int ScenePosition = 0, DevType = 0;
     private String RoomName = "";
     private boolean IsNoData = true;
@@ -58,8 +57,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                if (mLoadDialog != null)
-                    mLoadDialog.dismiss();
+                MyApplication.mApplication.dismissLoadDialog();
                 if (datType == 22) {
                     IsNoData = false;
                     WareDataHliper.initCopyWareData().startCopySceneData();
@@ -79,7 +77,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 }
             }
         });
-        layout = getViewById(R.id.SceneSet_CircleMenu);
+
 
         mSceneSet_Add_Btn = getViewById(R.id.SceneSet_Add_Btn);
         mSceneSetTestBtn = getViewById(R.id.SceneSet_Test_Btn);
@@ -102,8 +100,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             ToastUtil.showText("没有房间数据");
             return;
         }
-        mLoadDialog = MyApplication.mApplication.getProgressDialog(this);
-
+        layout = getViewById(R.id.SceneSet_CircleMenu);
         Data_OuterCircleList = SceneSetHelper.initSceneCircleOUterData();
         Data_InnerCircleList = SceneSetHelper.initSceneCircleInnerData();
         layout.Init(200, 100);
@@ -123,12 +120,12 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         }
         switch (v.getId()) {
             case R.id.SceneSet_Add_Btn:
-                SceneSetHelper.AddScene(this, mLoadDialog);
+                SceneSetHelper.AddScene(this);
                 break;
             case R.id.SceneSet_Test_Btn:
                 break;
             case R.id.SceneSet_Save_Btn:
-                SceneSetHelper.saveScene(this, mLoadDialog, ScenePosition);
+                SceneSetHelper.saveScene(this, ScenePosition);
                 break;
         }
     }
@@ -137,6 +134,10 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         layout.setOnInnerCircleLayoutClickListener(new CircleMenuLayout.OnInnerCircleLayoutClickListener() {
             @Override
             public void onClickInnerCircle(int position, View view) {
+                if (IsNoData) {
+                    ToastUtil.showText("数据未加载成功，不可操作！");
+                    return;
+                }
                 if (mSceneSetSceneClickListener != null)
                     mSceneSetSceneClickListener.SceneClickPosition(ScenePosition, DevType, Data_InnerCircleList.get(position).getTitle());
                 RoomName = Data_InnerCircleList.get(position).getTitle();
@@ -146,6 +147,10 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
+                if (IsNoData) {
+                    ToastUtil.showText("数据未加载成功，不可操作！");
+                    return;
+                }
                 OuterCircleClick(SceneSetActivity.this, position, RoomName);
                 if (mSceneSetSceneClickListener != null)
                     mSceneSetSceneClickListener.SceneClickPosition(ScenePosition, position, RoomName);
@@ -177,7 +182,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        mLoadDialog.show();
+                        MyApplication.mApplication.showLoadDialog(SceneSetActivity.this);
                         SendDataUtil.deleteScene(WareDataHliper.initCopyWareData().getCopyScenes().get(position));
                     }
                 });

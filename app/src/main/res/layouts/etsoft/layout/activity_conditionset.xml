@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/color1FF1A2"
+            android:gravity="center_vertical"
             android:paddingLeft="@dimen/dp_150">
 
             <LinearLayout
@@ -25,15 +26,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="定时器名称："
+                    android:layout_gravity="center_vertical"
+                    android:text="触发器名称："
                     android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
 
                 <EditText
-                    android:id="@+id/Timer_Name"
+                    android:id="@+id/ConditionSet_Name"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="wrap_content"
-                    android:hint="啦啦"
                     android:textColor="@color/red"
                     android:textSize="@dimen/sp_18" />
 
@@ -41,11 +42,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="使能"
+                    android:layout_marginLeft="@dimen/dp_10"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
 
                 <ImageView
-                    android:id="@+id/Timer_ShiNeng"
+                    android:id="@+id/ConditionSet_ShiNeng"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp_10"
@@ -54,130 +56,99 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="周重复"
+                    android:text="触发值"
+                    android:layout_marginLeft="@dimen/dp_10"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
 
-                <ImageView
-                    android:id="@+id/Timer_WeekAgain"
+                <EditText
+                    android:id="@+id/ConditionSet_ChuFaZhi"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
-                    android:src="@mipmap/ic_launcher_round" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="全网"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
-
-                <ImageView
-                    android:id="@+id/Timer_QuanWang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
-                    android:src="@mipmap/ic_launcher_round" />
-
-                <TextView
-                    android:id="@+id/Timer_Save_Btn"
-                    android:layout_width="@dimen/dp_70"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="保存"
-                    android:background="@color/red"
-                    android:textSize="@dimen/dp_22" />
+                    android:layout_gravity="center_vertical"
+                    android:minWidth="@dimen/dp_50" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="触发方式"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/ConditionSet_Way"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/dp_10"
+                    android:text="大于阀值"
+                    android:textSize="@dimen/sp_18" />
+
             </LinearLayout>
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/color1FF1A2"
-            android:paddingLeft="@dimen/dp_200">
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_150">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="right"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="星期集"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
-
-                <TextView
-                    android:id="@+id/Timer_Weeks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@color/red"
-                    android:gravity="center"
-                    android:minWidth="@dimen/dp_80"
-                    android:text="点击选择星期集"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_18" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="开始时间"
+                    android:layout_gravity="center_vertical"
+                    android:text="触发类别"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
-                    android:id="@+id/Timer_TImer_StartTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="点击选择时间"
-                    android:minWidth="@dimen/dp_80"
-                    android:background="@color/red"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:textSize="@dimen/sp_18"
-                    android:src="@mipmap/ic_launcher_round" />
-
-                <TextView
+                    android:id="@+id/ConditionSet_Type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="结束时间"
-                    android:layout_marginLeft="@dimen/dp_20"
-                    android:textColor="@color/red"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/dp_10"
+                    android:text="温度触发"
+                    android:layout_marginRight="@dimen/dp_20"
                     android:textSize="@dimen/sp_18" />
 
                 <TextView
-                    android:id="@+id/Timer_EndTime"
+                    android:id="@+id/ConditionSet_AddDev"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:minWidth="@dimen/dp_80"
+                    android:layout_marginRight="@dimen/dp_20"
                     android:background="@color/red"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:text="点击选择时间"
-                    android:textSize="@dimen/sp_18"
-                    android:src="@mipmap/ic_launcher_round" />
-
-                <TextView
-                    android:id="@+id/Timer_AddDev"
-                    android:layout_width="@dimen/dp_100"
-                    android:layout_height="match_parent"
                     android:gravity="center"
-                    android:layout_marginLeft="@dimen/dp_20"
-                    android:background="@color/red"
                     android:text="添加设备"
-                    android:textSize="@dimen/dp_22" />
+                    android:textSize="@dimen/sp_18" />
 
+                <TextView
+                    android:id="@+id/ConditionSet_Save_Btn"
+                    android:layout_width="@dimen/dp_70"
+                    android:layout_height="match_parent"
+                    android:background="@color/red"
+                    android:gravity="center"
+                    android:text="保存"
+                    android:textSize="@dimen/dp_22" />
             </LinearLayout>
         </RelativeLayout>
 
         <GridView
-            android:id="@+id/Timer_GirdView"
+            android:id="@+id/ConditionSet_GirdView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="2"
             android:layout_marginLeft="@dimen/dp_250"
-            android:background="@color/Myblue" />
+            android:background="@color/Myblue"
+            android:numColumns="2" />
     </LinearLayout>
 
     <FrameLayout
@@ -185,8 +156,9 @@
         android:layout_height="match_parent">
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
-            android:id="@+id/Timer_CircleMenu"
+            android:id="@+id/ConditionSet_CircleMenu"
             android:layout_width="@dimen/dp_250"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="#44000000" />
     </FrameLayout>
 </RelativeLayout>

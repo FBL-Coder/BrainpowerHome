@@ -229,6 +229,8 @@ public class WareData implements Serializable {
     }
 
     public Condition_Event_Bean getCondition_event_bean() {
+        if (condition_event_bean == null)
+            condition_event_bean = new Condition_Event_Bean();
         return condition_event_bean;
     }
 

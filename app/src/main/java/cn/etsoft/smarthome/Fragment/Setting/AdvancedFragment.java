@@ -81,6 +81,7 @@ public class AdvancedFragment extends BaseFragment implements View.OnClickListen
                 startActivity(new Intent(mActivity, TimerSetActivity.class));
                 break;
             case R.id.setting_advanced_condition:
+                SendDataUtil.getConditionInfo();
                 startActivity(new Intent(mActivity, ConditionSetActivity.class));
                 break;
 

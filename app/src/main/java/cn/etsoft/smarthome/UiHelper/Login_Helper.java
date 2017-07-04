@@ -28,6 +28,8 @@ import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Author：FBL  Time： 2017/6/19.
  * 登录辅助类
@@ -38,7 +40,6 @@ public class Login_Helper {
     private String input_id;
     private String input_pass;
     private Activity mContext;
-    private Dialog dialog;
     public static Login_Helper login_helper = new Login_Helper();
 
     public void login(final Activity mContext, EditText id, EditText pass) {
@@ -49,8 +50,7 @@ public class Login_Helper {
             ToastUtil.showText("账号或密码输入人不正确");
             return;
         }
-        dialog = MyApplication.mApplication.getProgressDialog(mContext);
-        dialog.show();
+        MyApplication.mApplication.showLoadDialog(mContext);
         Map<String, String> param = new HashMap<>();
         param.put("userName", input_id);
         param.put("passwd", input_pass);
@@ -58,11 +58,9 @@ public class Login_Helper {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 Log.i("LOGIN", resultDesc.getResult());
-                if (dialog != null) {
-                    dialog.cancel();
-                    dialog.hide();
-                }
+                MyApplication.mApplication.dismissLoadDialog();
                 super.onSuccess(resultDesc);
+                Log.i(TAG, "onSuccess: "+resultDesc.getResult());
                 gson = new Gson();
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
 
@@ -85,11 +83,9 @@ public class Login_Helper {
             @Override
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
+                Log.i(TAG, "onFailure: " + code + "****" + message);
                 //TODO 登陆失败
-                if (dialog != null) {
-                    dialog.cancel();
-                    dialog.hide();
-                }
+                MyApplication.mApplication.dismissLoadDialog();
                 ToastUtil.showText("登陆失败，网络不可用或服务器异常");
             }
         });

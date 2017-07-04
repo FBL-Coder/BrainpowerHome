@@ -13,7 +13,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="50dp"
             android:background="@color/color1FF1A2"
             android:paddingLeft="@dimen/dp_150">
 
@@ -22,8 +22,6 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="right">
-
-
 
                 <TextView
                     android:id="@+id/SetAddDev_Back_Btn"
@@ -45,7 +43,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/SceneSet_Info"
+            android:id="@+id/SetAddDev_Info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/dp_250"
@@ -57,8 +55,9 @@
         android:layout_height="match_parent">
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
-            android:id="@+id/SceneSet_CircleMenu"
+            android:id="@+id/SetAddDev_CircleMenu"
             android:layout_width="@dimen/dp_250"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@color/red"/>
     </FrameLayout>
 </RelativeLayout>

@@ -1,6 +1,6 @@
 package cn.etsoft.smarthome.UiHelper;
 
-import android.app.Dialog;
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -33,9 +33,13 @@ public class TimerSetHelper {
 
     public static List<CircleDataEvent> initSceneCircleOUterData() {
 
+        if (MyApplication.getWareData().getTimer_data().getTimerEvent_rows()
+                .size() == 0)
+            return new ArrayList<>();
         List<CircleDataEvent> list = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
             CircleDataEvent event = new CircleDataEvent();
+
             event.setTitle(MyApplication.getWareData().getTimer_data().getTimerEvent_rows()
                     .get(i % MyApplication.getWareData().getTimer_data().getTimerEvent_rows()
                             .size()).getTimerName());
@@ -48,17 +52,16 @@ public class TimerSetHelper {
     /**
      * 保存
      *
-     * @param mLoadDialog 保存加载dialog
-     * @param TimerName   计时器名称
-     * @param time_start  开始时间
-     * @param time_end    结束时间
-     * @param WeekAgain   周重复
-     * @param ShiNeng     使能
-     * @param Weeks       星期集
-     * @param TimerEvent  计时器对象
-     * @param common_dev  计时器对象中的设备
+     * @param TimerName  计时器名称
+     * @param time_start 开始时间
+     * @param time_end   结束时间
+     * @param WeekAgain  周重复
+     * @param ShiNeng    使能
+     * @param Weeks      星期集
+     * @param TimerEvent 计时器对象
+     * @param common_dev 计时器对象中的设备
      */
-    public static void Timer_Save(Dialog mLoadDialog, String TimerName,
+    public static void Timer_Save(Activity activity, String TimerName,
                                   String time_start, String time_end, boolean WeekAgain,
                                   boolean ShiNeng, String Weeks,
                                   Timer_Data.TimerEventRowsBean TimerEvent,
@@ -125,11 +128,10 @@ public class TimerSetHelper {
             time_data.setTimerEvent_rows(timerEvent_rows);
             Gson gson = new Gson();
             Log.e("0000", gson.toJson(time_data));
-            mLoadDialog.show();
+            MyApplication.mApplication.showLoadDialog(activity);
             MyApplication.mApplication.getUdpServer().send(gson.toJson(time_data));
         } catch (Exception e) {
-            if (mLoadDialog != null)
-                mLoadDialog.dismiss();
+            MyApplication.mApplication.dismissLoadDialog();
             Log.e("保存定时器数据", "保存数据异常" + e);
             ToastUtil.showText("保存数据异常,请检查数据是否合适");
         }

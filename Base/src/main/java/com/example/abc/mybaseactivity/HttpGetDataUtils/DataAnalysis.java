@@ -63,7 +63,7 @@ public class DataAnalysis {
 
         if (StringUtil.isEmpty(result)) {
             //返回数据为空
-            resultDesc = dataRestructuring(-1, UIUtils.getString(com.example.abc.mybaseactivity.R.string.back_abnormal_results), "");
+            resultDesc = dataRestructuring(-1, UIUtils.getString(com.example.abc.mybaseactivity.R.string.back_abnormal_results), result+"");
             return resultDesc;
         }
 
@@ -78,7 +78,7 @@ public class DataAnalysis {
 
             resultDesc = dataRestructuring(error_code, reason, resultData);
         } catch (JSONException e) {
-            resultDesc = dataRestructuring(-1, UIUtils.getString(com.example.abc.mybaseactivity.R.string.back_abnormal_results), "");
+            resultDesc = dataRestructuring(-1, UIUtils.getString(com.example.abc.mybaseactivity.R.string.back_abnormal_results), result);
         }
 
         return resultDesc;

@@ -41,7 +41,6 @@ public class New_AddorDel_Helper {
      * @param pass
      */
     public static void addNew(final Handler handler, Context context, EditText name, EditText id, EditText pass) {
-        final Dialog dialog;
         String name_input = name.getText().toString();
         String id_input = id.getText().toString();
         String pass_input = pass.getText().toString();
@@ -54,8 +53,7 @@ public class New_AddorDel_Helper {
             ToastUtil.showText("模块ID和模块密码不能为空");
             return;
         }
-        dialog = MyApplication.mApplication.getProgressDialog(context);
-        dialog.show();
+        MyApplication.mApplication.showLoadDialog(context);
         Map<String, String> param = new HashMap<>();
         param.put("userName", (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));
         param.put("passwd", (String) AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
@@ -66,10 +64,7 @@ public class New_AddorDel_Helper {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
-                if (dialog != null) {
-                    dialog.cancel();
-                    dialog.hide();
-                }
+                MyApplication.mApplication.dismissLoadDialog();
                 Log.i("NEWMODULE", resultDesc.getResult());
                 Gson gson = new Gson();
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
@@ -98,10 +93,7 @@ public class New_AddorDel_Helper {
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
                 //TODO 添加失败
-                if (dialog != null) {
-                    dialog.cancel();
-                    dialog.hide();
-                }
+                MyApplication.mApplication.dismissLoadDialog();
                 ToastUtil.showText("联网模块添加失败");
             }
         });
@@ -117,7 +109,6 @@ public class New_AddorDel_Helper {
      * @param pass
      */
     public static void editNew(final Handler handler, Context context, EditText name, EditText id, EditText pass) {
-        final Dialog dialog;
         String name_input = name.getText().toString();
         String id_input = id.getText().toString();
         String pass_input = pass.getText().toString();
@@ -130,8 +121,7 @@ public class New_AddorDel_Helper {
             ToastUtil.showText("模块ID和模块密码不能为空");
             return;
         }
-        dialog = MyApplication.mApplication.getProgressDialog(context);
-        dialog.show();
+        MyApplication.mApplication.showLoadDialog(context);
         Map<String, String> param = new HashMap<>();
         param.put("userName", (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));
         param.put("passwd", (String) AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
@@ -142,10 +132,7 @@ public class New_AddorDel_Helper {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
-                if (dialog != null) {
-                    dialog.cancel();
-                    dialog.hide();
-                }
+                MyApplication.mApplication.dismissLoadDialog();
                 Log.i("NEWMODULE", resultDesc.getResult());
                 Gson gson = new Gson();
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
@@ -174,10 +161,7 @@ public class New_AddorDel_Helper {
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
                 //TODO 修改失败
-                if (dialog != null) {
-                    dialog.cancel();
-                    dialog.hide();
-                }
+                MyApplication.mApplication.dismissLoadDialog();
                 ToastUtil.showText("联网模块修改失败");
             }
         });
@@ -191,9 +175,8 @@ public class New_AddorDel_Helper {
      * @param id
      */
     public static void deleteNew(final Handler handler, Context context, String id) {
-        final Dialog dialog;
-        dialog = MyApplication.mApplication.getProgressDialog(context);
-        dialog.show();
+        MyApplication.mApplication.showLoadDialog(context);
+
         Map<String, String> param = new HashMap<>();
         param.put("userName", (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));
         param.put("passwd", (String) AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
@@ -203,10 +186,7 @@ public class New_AddorDel_Helper {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
-                if (dialog != null) {
-                    dialog.cancel();
-                    dialog.hide();
-                }
+                MyApplication.mApplication.dismissLoadDialog();
                 Log.i("NEWMODULE", resultDesc.getResult());
                 Gson gson = new Gson();
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
@@ -235,10 +215,7 @@ public class New_AddorDel_Helper {
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
                 //TODO 删除失败
-                if (dialog != null) {
-                    dialog.cancel();
-                    dialog.hide();
-                }
+                MyApplication.mApplication.dismissLoadDialog();
                 ToastUtil.showText("联网模块删除失败");
             }
         });

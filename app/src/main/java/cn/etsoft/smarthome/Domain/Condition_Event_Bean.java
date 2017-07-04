@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 /**
  * Created by F-B-L on 2017/5/19.
  */
@@ -73,7 +72,7 @@ public class Condition_Event_Bean implements Serializable {
 
     public List<EnvEventRowsBean> getenvEvent_rows() {
         if (envEvent_rows == null)
-            return new ArrayList<>();
+            envEvent_rows = new ArrayList<>();
         return envEvent_rows;
     }
 
@@ -81,7 +80,7 @@ public class Condition_Event_Bean implements Serializable {
         this.envEvent_rows = envEvent_rows;
     }
 
-    public static class EnvEventRowsBean implements Serializable{
+    public static class EnvEventRowsBean implements Serializable {
         /**
          * uidSrc : 000000000000000000000000
          * eventName : b4a5b7a2c6f7300000000000
@@ -95,8 +94,8 @@ public class Condition_Event_Bean implements Serializable {
          * run_dev_item : [{"canCpuID":"36ffd7054842373507781843","devID":8,"devType":3,"lmVal":0,"rev2":0,"rev3":0,"bOnOff":1,"param1":0,"param2":0}]
          */
 
-        private String uidSrc;
-        private String eventName;
+        private String uidSrc = "";
+        private String eventName = "";
         private int valTh;
         private int thType;
         private int envType;
@@ -344,7 +343,7 @@ public class Condition_Event_Bean implements Serializable {
                 this.timerEvent_rows = timerEvent_rows;
             }
 
-            public static class TimerEventRowsBean implements Serializable{
+            public static class TimerEventRowsBean implements Serializable {
                 /**
                  * uidSrc : 000000000000000000000000
                  * eventName : b4a5b7a2c6f7300000000000

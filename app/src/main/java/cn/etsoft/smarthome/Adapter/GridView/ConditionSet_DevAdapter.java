@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
-import cn.etsoft.smarthome.Domain.Timer_Data;
 import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.Domain.WareCurtain;
 import cn.etsoft.smarthome.Domain.WareLight;
@@ -24,17 +23,17 @@ import cn.etsoft.smarthome.R;
  * Author：FBL  Time： 2017/6/29.
  */
 
-public class Timer_DevAdapter extends BaseAdapter {
+public class ConditionSet_DevAdapter extends BaseAdapter {
 
-    private List<Timer_Data.TimerEventRowsBean.RunDevItemBean> timer_list;
+    private List<Condition_Event_Bean.EnvEventRowsBean.RunDevItemBean> timer_list;
     private Context mContext;
 
-    public Timer_DevAdapter(List<Timer_Data.TimerEventRowsBean.RunDevItemBean> list, Context context) {
+    public ConditionSet_DevAdapter(List<Condition_Event_Bean.EnvEventRowsBean.RunDevItemBean> list, Context context) {
         timer_list = list;
         mContext = context;
     }
 
-    public void notifyDataSetChanged(List<Timer_Data.TimerEventRowsBean.RunDevItemBean> list) {
+    public void notifyDataSetChanged(List<Condition_Event_Bean.EnvEventRowsBean.RunDevItemBean> list) {
         timer_list = list;
         super.notifyDataSetChanged();
     }
