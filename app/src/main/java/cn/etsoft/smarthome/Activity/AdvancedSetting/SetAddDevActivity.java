@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
+import cn.etsoft.smarthome.Domain.SetSafetyResult;
 import cn.etsoft.smarthome.Domain.Timer_Data;
 import cn.etsoft.smarthome.Domain.WareDev;
 import cn.etsoft.smarthome.Fragment.SetAddDev.AirSetAddDevFragment;
@@ -96,6 +97,20 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                 addDevs.add(dev);
             }
             SetAddDevHelper.setAddDevs(addDevs);
+        }else if ("Safety".equals(IntentFlag)){
+            List<WareDev> addDevs = new ArrayList<>();
+            for (int i = 0; i < WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().get(mListPosition).getRun_dev_item().size(); i++) {
+                SetSafetyResult.SecInfoRowsBean.RunDevItemBean bean = WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows()
+                        .get(mListPosition).getRun_dev_item().get(i);
+                WareDev dev = new WareDev();
+                dev.setSelect(true);
+                dev.setDevId((byte) bean.getDevID());
+                dev.setbOnOff((byte) bean.getBOnOff());
+                dev.setCanCpuId(bean.getCanCpuID());
+                dev.setType((byte) bean.getDevType());
+                addDevs.add(dev);
+            }
+            SetAddDevHelper.setAddDevs(addDevs);
         }
 
         Data_OuterCircleList = SetAddDevHelper.initSceneCircleOUterData();
@@ -163,6 +178,21 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                         return;
                     }
                     WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().get(mListPosition).setRun_dev_item(AddData);
+                }else if ("Safety".equals(IntentFlag)){
+                    List<SetSafetyResult.SecInfoRowsBean.RunDevItemBean> AddData = new ArrayList<>();
+                    for (int i = 0; i < SetAddDevHelper.getAddDevs().size(); i++) {
+                        SetSafetyResult.SecInfoRowsBean.RunDevItemBean bean = new SetSafetyResult.SecInfoRowsBean.RunDevItemBean();
+                        bean.setCanCpuID(SetAddDevHelper.getAddDevs().get(i).getCanCpuId());
+                        bean.setBOnOff(SetAddDevHelper.getAddDevs().get(i).getbOnOff());
+                        bean.setDevID(SetAddDevHelper.getAddDevs().get(i).getDevId());
+                        bean.setDevType(SetAddDevHelper.getAddDevs().get(i).getType());
+                        AddData.add(bean);
+                    }
+                    if (AddData.size() > 4) {
+                        ToastUtil.showText("最多添加4个设备");
+                        return;
+                    }
+                    WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().get(mListPosition).setRun_dev_item(AddData);
                 }
                 finish();
                 break;

@@ -49,6 +49,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
     private boolean IsOpenShiNeng = false, IsOpenWeekAgain = false, IsOPenQuanWang = false;
     private Timer_Data.TimerEventRowsBean mBean;
     private int mTimerPosition = 0;
+    private int CirclePosition = 0;
 
 
     @Override
@@ -104,7 +105,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initTimer() {
-        Data_OuterCircleList = TimerSetHelper.initSceneCircleOUterData();
+        Data_OuterCircleList = TimerSetHelper.initSceneCircleOUterData(IsCanClick,CirclePosition);
         layout.Init(200, 0);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 
@@ -112,6 +113,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClickOuterCircle(int position, View view) {
                 IsCanClick = true;
+                CirclePosition = position;
                 mTimerPosition = position % WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows().size();
                 mBean = WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows()
                         .get(mTimerPosition);

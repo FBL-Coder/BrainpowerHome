@@ -267,13 +267,16 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public void showLoadDialog(Activity activity) {
         if (progressDialog == null)
             getProgressDialog(activity);
-        if (!activity.isFinishing())
+        if (!activity.isFinishing() && !progressDialog.isShowing())
             progressDialog.show();
         final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                progressDialog.dismiss();
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                    progressDialog = null;
+                }
             }
         };
         //加载数据进度条，5秒数据没加载出来自动消失
@@ -296,8 +299,10 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      * 隐藏加载动画框
      */
     public void dismissLoadDialog() {
-        if (progressDialog != null)
+        if (progressDialog != null) {
             progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 
     /**

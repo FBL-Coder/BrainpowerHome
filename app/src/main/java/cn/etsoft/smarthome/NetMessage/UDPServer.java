@@ -50,6 +50,7 @@ import cn.etsoft.smarthome.Domain.WareSetBox;
 import cn.etsoft.smarthome.Domain.WareTv;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.Utils.CommonUtils;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 import static android.content.ContentValues.TAG;
 
@@ -593,6 +594,17 @@ public class UDPServer implements Runnable {
             isFreshData = true;
         sleep++;
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(5000);
+                    SendDataUtil.getSceneInfo();
+                } catch (InterruptedException e) {
+                    SendDataUtil.getSceneInfo();
+                }
+            }
+        }).start();
     }
 
 

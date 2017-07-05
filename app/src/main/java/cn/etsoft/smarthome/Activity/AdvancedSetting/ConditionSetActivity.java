@@ -48,6 +48,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
     private boolean IsNoData = true;
     private boolean IsOpenShiNeng = false;
     private int mConditionPosition = 0;
+    private int CirclePosition = 0;
     private boolean IsCanClick = false;
     private PopupWindow popupWindow;
     private List<String> Event_type;
@@ -111,7 +112,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
         Event_type.add("温度触发");
         Event_type.add("湿度触发");
         Event_type.add("P2.5触发");
-        Data_OuterCircleList = ConditionSetHelper.initSceneCircleOUterData();
+        Data_OuterCircleList = ConditionSetHelper.initSceneCircleOUterData(IsCanClick,CirclePosition);
         layout.Init(200, 0);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 
@@ -119,6 +120,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onClickOuterCircle(int position, View view) {
                 IsCanClick = true;
+                CirclePosition = position;
                 mConditionPosition = position % WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().size();
                 mBean = WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().get(mConditionPosition);
 

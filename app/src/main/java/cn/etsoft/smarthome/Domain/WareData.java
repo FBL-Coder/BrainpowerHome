@@ -30,6 +30,8 @@ public class WareData implements Serializable {
     private SetSafetyResult result_safety;
 
     public SetSafetyResult getResult_safety() {
+        if (result_safety == null)
+            result_safety = new SetSafetyResult();
         return result_safety;
     }
 

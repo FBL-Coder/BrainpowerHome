@@ -75,6 +75,8 @@ public class AdvancedFragment extends BaseFragment implements View.OnClickListen
                 startActivity(new Intent(mActivity, SceneSetActivity.class));
                 break;
             case R.id.setting_advanced_safety:
+                SendDataUtil.getSceneInfo();
+                SendDataUtil.getSafetyInfo();
                 startActivity(new Intent(mActivity, SafetySetActivity.class));
                 break;
             case R.id.setting_advanced_timer:
@@ -84,10 +86,8 @@ public class AdvancedFragment extends BaseFragment implements View.OnClickListen
                 SendDataUtil.getConditionInfo();
                 startActivity(new Intent(mActivity, ConditionSetActivity.class));
                 break;
-
         }
     }
-
 
     @Override
     protected int setLayoutResouceId() {

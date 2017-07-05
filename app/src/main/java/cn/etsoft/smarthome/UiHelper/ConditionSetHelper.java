@@ -27,7 +27,7 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 
 public class ConditionSetHelper {
 
-    public static List<CircleDataEvent> initSceneCircleOUterData() {
+    public static List<CircleDataEvent> initSceneCircleOUterData(boolean isClick,int position) {
 
         List<CircleDataEvent> list = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
@@ -36,6 +36,8 @@ public class ConditionSetHelper {
                     .get(i % WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows()
                             .size()).getEventName());
             event.setImage(R.drawable.ic_launcher_round);
+            if (isClick && i == position)
+                event.setSelect(true);
             list.add(event);
         }
         return list;

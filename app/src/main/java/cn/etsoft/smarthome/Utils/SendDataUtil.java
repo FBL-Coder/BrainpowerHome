@@ -21,7 +21,7 @@ public class SendDataUtil {
     }
 
 
-    public static void getSecurityInfo() {
+    public static void getSafetyInfo() {
         String GETSECURITYINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_security_info.getValue() + "," + "\"subType1\": 3," + "\"subType2\": 255" + "}";
         MyApplication.mApplication.getUdpServer().send(GETSECURITYINFO);
     }

@@ -3,6 +3,7 @@ package cn.etsoft.smarthome.Domain;
 import cn.etsoft.smarthome.Utils.CommonUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -70,6 +71,8 @@ public class SetSafetyResult implements Serializable {
     }
 
     public List<SecInfoRowsBean> getSec_info_rows() {
+        if (sec_info_rows == null)
+            sec_info_rows = new ArrayList<>();
         return sec_info_rows;
     }
 
@@ -77,7 +80,7 @@ public class SetSafetyResult implements Serializable {
         this.sec_info_rows = sec_info_rows;
     }
 
-    public static class SecInfoRowsBean implements Serializable{
+    public static class SecInfoRowsBean implements Serializable {
         /**
          * secName : 313233367373730000000000
          * secCode : 0202000236ffd70548423735
@@ -175,6 +178,7 @@ public class SetSafetyResult implements Serializable {
         }
 
         public List<RunDevItemBean> getRun_dev_item() {
+            if (run_dev_item == null) run_dev_item = new ArrayList<>();
             for (int i = 0; i < run_dev_item.size(); i++) {
                 if (run_dev_item.get(i).getCanCpuID() == null || run_dev_item.get(i).getCanCpuID().isEmpty())
                     run_dev_item.remove(i);
@@ -186,7 +190,7 @@ public class SetSafetyResult implements Serializable {
             this.run_dev_item = run_dev_item;
         }
 
-        public static class RunDevItemBean implements Serializable{
+        public static class RunDevItemBean implements Serializable {
             /**
              * canCpuID : 0b00000036ffd70548423735
              * devID : 3
