@@ -59,7 +59,7 @@ public class PopupWindowAdapter2 extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.popupwindow_listview_item, null);
+            convertView = mInflater.inflate(R.layout.listview_popupwindow_item, null);
             viewHolder = new ViewHolder();
             viewHolder.text = (TextView) convertView.findViewById(R.id.popupWindow_equipment_tv);
             convertView.setTag(viewHolder);

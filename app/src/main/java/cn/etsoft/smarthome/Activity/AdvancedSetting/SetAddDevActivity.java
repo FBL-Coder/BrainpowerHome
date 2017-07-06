@@ -1,12 +1,8 @@
 package cn.etsoft.smarthome.Activity.AdvancedSetting;
 
-import android.app.Dialog;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
@@ -15,15 +11,11 @@ import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.Adapter.GridView.SetAddDev_Adapter;
 import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.Domain.SetSafetyResult;
 import cn.etsoft.smarthome.Domain.Timer_Data;
 import cn.etsoft.smarthome.Domain.WareDev;
-import cn.etsoft.smarthome.Fragment.SetAddDev.AirSetAddDevFragment;
-import cn.etsoft.smarthome.Fragment.SetAddDev.CurtarnSetAddDevFragment;
-import cn.etsoft.smarthome.Fragment.SetAddDev.LightSetAddDevFragment;
-import cn.etsoft.smarthome.Fragment.SetAddDev.TVSetAddDevFragment;
-import cn.etsoft.smarthome.Fragment.SetAddDev.TvUpSetAddDevFragment;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.SetAddDevHelper;
@@ -41,13 +33,16 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
     private TextView mSetAddDev_Back_Btn, mSetAddDev_Save_Btn;
-    private Fragment mLightFragment, mAirFragment, mTVFragment, mTvUpFragment, mCurFragment;
-    private Dialog mLoadDialog;
+    private GridView mSetAddDev_Info;
+    private ImageView mSceneSet_IsSelectDev;
     private int DevType = 0;
     private String RoomName = "";
-    private boolean IsNoData = true;
+    private boolean OuterCircleClick = false;
+    private boolean IsShowSelect;
+    private List<WareDev> mRoomDevs;
     private int mListPosition;
     private String IntentFlag;
+    private SetAddDev_Adapter mAdapter;
 
     @Override
     public void initView() {
@@ -56,8 +51,11 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
 
         mSetAddDev_Back_Btn = getViewById(R.id.SetAddDev_Back_Btn);
         mSetAddDev_Save_Btn = getViewById(R.id.SetAddDev_Save_Btn);
+        mSetAddDev_Info = getViewById(R.id.SetAddDev_Info);
+        mSceneSet_IsSelectDev = getViewById(R.id.SceneSet_IsSelectDev);
 
         mSetAddDev_Back_Btn.setOnClickListener(this);
+        mSceneSet_IsSelectDev.setOnClickListener(this);
         mSetAddDev_Save_Btn.setOnClickListener(this);
     }
 
@@ -97,7 +95,7 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                 addDevs.add(dev);
             }
             SetAddDevHelper.setAddDevs(addDevs);
-        }else if ("Safety".equals(IntentFlag)){
+        } else if ("Safety".equals(IntentFlag)) {
             List<WareDev> addDevs = new ArrayList<>();
             for (int i = 0; i < WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().get(mListPosition).getRun_dev_item().size(); i++) {
                 SetSafetyResult.SecInfoRowsBean.RunDevItemBean bean = WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows()
@@ -122,20 +120,42 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
         mCirclelayout.setOnInnerCircleLayoutClickListener(new CircleMenuLayout.OnInnerCircleLayoutClickListener() {
             @Override
             public void onClickInnerCircle(int position, View view) {
-                if (mSetAddDevCircleClickListener != null)
-                    mSetAddDevCircleClickListener.SetAddDevClickPosition(DevType, Data_InnerCircleList.get(position).getTitle());
                 RoomName = Data_InnerCircleList.get(position).getTitle();
                 SetAddDevHelper.setRoomName(RoomName);
+                mRoomDevs = SetAddDevHelper.getRoomDev(RoomName);
+
+                if (OuterCircleClick) {
+                    List<WareDev> RecyclerViewDev = new ArrayList<>();
+                    for (int i = 0; i < mRoomDevs.size(); i++) {
+                        if (mRoomDevs.get(i).getType() == DevType)
+                            RecyclerViewDev.add(mRoomDevs.get(i));
+                    }
+                    if (mAdapter == null)
+                        mAdapter = new SetAddDev_Adapter(SetAddDevHelper.getAddDevs(), SetAddDevActivity.this, RecyclerViewDev,IsShowSelect);
+                    else mAdapter.notifyDataSetChanged(RecyclerViewDev,SetAddDevHelper.getAddDevs(),IsShowSelect);
+                    mSetAddDev_Info.setAdapter(mAdapter);
+                }
             }
         });
         mCirclelayout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-                OuterCircleClick(SetAddDevActivity.this, position, RoomName);
-                if (mSetAddDevCircleClickListener != null)
-                    mSetAddDevCircleClickListener.SetAddDevClickPosition(position, RoomName);
-                DevType = position;
+                DevType = position % 8;
+                if ("".equals(RoomName)) {
+                    return;
+                }
+                OuterCircleClick = true;
+                DevType = position % 8;
 
+                List<WareDev> RecyclerViewDev = new ArrayList<>();
+                for (int i = 0; i < mRoomDevs.size(); i++) {
+                    if (mRoomDevs.get(i).getType() == DevType)
+                        RecyclerViewDev.add(mRoomDevs.get(i));
+                }
+                if (mAdapter == null)
+                    mAdapter = new SetAddDev_Adapter(SetAddDevHelper.getAddDevs(), SetAddDevActivity.this, RecyclerViewDev,IsShowSelect);
+                else mAdapter.notifyDataSetChanged(RecyclerViewDev,SetAddDevHelper.getAddDevs(),IsShowSelect);
+                mSetAddDev_Info.setAdapter(mAdapter);
             }
         });
     }
@@ -146,6 +166,12 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
             case R.id.SetAddDev_Back_Btn:
                 SetAddDevHelper.setAddDevs(new ArrayList<WareDev>());
                 finish();
+                break;
+            case R.id.SceneSet_IsSelectDev:
+                IsShowSelect = !IsShowSelect;
+                if (IsShowSelect)
+                    mSceneSet_IsSelectDev.setImageResource(R.drawable.ic_launcher_round);
+                else mSceneSet_IsSelectDev.setImageResource(R.drawable.ic_launcher);
                 break;
             case R.id.SetAddDev_Save_Btn:
                 if ("Timer".equals(IntentFlag)) {
@@ -178,7 +204,7 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                         return;
                     }
                     WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().get(mListPosition).setRun_dev_item(AddData);
-                }else if ("Safety".equals(IntentFlag)){
+                } else if ("Safety".equals(IntentFlag)) {
                     List<SetSafetyResult.SecInfoRowsBean.RunDevItemBean> AddData = new ArrayList<>();
                     for (int i = 0; i < SetAddDevHelper.getAddDevs().size(); i++) {
                         SetSafetyResult.SecInfoRowsBean.RunDevItemBean bean = new SetSafetyResult.SecInfoRowsBean.RunDevItemBean();
@@ -199,86 +225,5 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    /**
-     * 外圆菜单 点击事件
-     */
-    public void OuterCircleClick(FragmentActivity activity, int position, String RoomName) {
-        if ("".equals(RoomName)) {
-            ToastUtil.showText("请先选择房间");
-            return;
-        }
-        FragmentManager manager = activity.getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
 
-        if (mTVFragment != null)
-            transaction.hide(mTVFragment);
-        if (mTvUpFragment != null)
-            transaction.hide(mTvUpFragment);
-        if (mCurFragment != null)
-            transaction.hide(mCurFragment);
-        if (mAirFragment != null)
-            transaction.hide(mAirFragment);
-        if (mLightFragment != null)
-            transaction.hide(mLightFragment);
-        Bundle bundle = new Bundle();
-        bundle.putString("RoomName", RoomName);
-        switch (position) {
-            case 0:
-            case 8:
-                if (mAirFragment == null) {
-                    mAirFragment = new AirSetAddDevFragment();
-                    mAirFragment.setArguments(bundle);
-                    transaction.add(R.id.SetAddDev_Info, mAirFragment);
-                } else transaction.show(mAirFragment);
-                break;
-            case 1:
-            case 9:
-                if (mTVFragment == null) {
-                    mTVFragment = new TVSetAddDevFragment();
-                    mTVFragment.setArguments(bundle);
-                    transaction.add(R.id.SetAddDev_Info, mTVFragment);
-                } else transaction.show(mTVFragment);
-                break;
-            case 2:
-            case 10:
-                if (mTvUpFragment == null) {
-                    mTvUpFragment = new TvUpSetAddDevFragment();
-                    mTvUpFragment.setArguments(bundle);
-                    transaction.add(R.id.SetAddDev_Info, mTvUpFragment);
-                } else transaction.show(mTvUpFragment);
-                break;
-            case 3:
-            case 11:
-                if (mLightFragment == null) {
-                    mLightFragment = new LightSetAddDevFragment();
-                    mLightFragment.setArguments(bundle);
-                    transaction.add(R.id.SetAddDev_Info, mLightFragment);
-                } else transaction.show(mLightFragment);
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-            case 14:
-                if (mCurFragment == null) {
-                    mCurFragment = new CurtarnSetAddDevFragment();
-                    mCurFragment.setArguments(bundle);
-                    transaction.add(R.id.SetAddDev_Info, mCurFragment);
-                } else transaction.show(mCurFragment);
-                break;
-        }
-        transaction.commit();
-    }
-
-    //点击情景，房间，设备。触发回调，刷新界面
-    public static SetAddDevCircleClickListener mSetAddDevCircleClickListener;
-
-    public static void setmSetAddDevCircleClickListener(SetAddDevCircleClickListener mSetAddDevCircleClickListener) {
-        SetAddDevActivity.mSetAddDevCircleClickListener = mSetAddDevCircleClickListener;
-    }
-
-    public interface SetAddDevCircleClickListener {
-        void SetAddDevClickPosition(int DevType, String RoomName);
-    }
 }

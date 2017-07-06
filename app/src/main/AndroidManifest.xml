@@ -130,6 +130,11 @@
             android:name=".Activity.AdvancedSetting.TimerSetActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
+        <!--设备配按键（输出）-->
+        <activity
+            android:name=".Activity.AdvancedSetting.Dev_KeysSetActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
         <!--定时器、环境事件等添加设备界面-->
         <activity
             android:name=".Activity.AdvancedSetting.SetAddDevActivity"

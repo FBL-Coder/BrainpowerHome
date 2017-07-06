@@ -21,6 +21,7 @@ import cn.etsoft.smarthome.R;
 
 /**
  * Author：FBL  Time： 2017/6/29.
+ * 环境触发器  设备适配器
  */
 
 public class ConditionSet_DevAdapter extends BaseAdapter {

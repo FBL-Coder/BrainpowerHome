@@ -174,7 +174,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
     private void initRadioPopupWindow(final View view_parent, final List<String> text) {
 
         //获取自定义布局文件pop.xml的视图
-        final View customView = view_parent.inflate(this, R.layout.popupwindow_equipment_listview, null);
+        final View customView = view_parent.inflate(this, R.layout.listview_popupwindow_equipment, null);
         customView.setBackgroundResource(R.drawable.selectbg);
         customView.setFocusable(true);
         customView.setFocusableInTouchMode(true);

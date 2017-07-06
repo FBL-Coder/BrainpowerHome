@@ -36,6 +36,27 @@ public class SetAddDevHelper {
         SetAddDevHelper.addDevs = addDevs;
     }
 
+
+    private static List<WareDev> mDev_Room;
+    private static String DEVS_ALL_ROOM = "全部";
+
+    public static List<WareDev> getRoomDev(String roomname) {
+        List<WareDev> devs = new ArrayList<>();
+        devs.addAll(MyApplication.getWareData().getDevs());
+        //房间内的设备集合
+        mDev_Room = new ArrayList<>();
+        //根据房间id获取设备；
+        if (DEVS_ALL_ROOM.equals(roomname)) {
+            mDev_Room.addAll(devs);
+        } else {
+            for (int i = 0; i < devs.size(); i++) {
+                if (devs.get(i).getRoomName().equals(roomname)) {
+                    mDev_Room.add(devs.get(i));
+                }
+            }
+        }
+        return mDev_Room;
+    }
     /**
      * 初始化外部转盘数据
      */

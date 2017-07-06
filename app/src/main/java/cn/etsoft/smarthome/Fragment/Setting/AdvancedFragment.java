@@ -13,6 +13,7 @@ import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.ConditionSetActivity;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.ControlActivity;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.DevInfoActivity;
+import cn.etsoft.smarthome.Activity.AdvancedSetting.Dev_KeysSetActivity;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.SafetySetActivity;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.SceneSetActivity;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.TimerSetActivity;
@@ -65,7 +66,8 @@ public class AdvancedFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.setting_advanced_controldev:
-                startActivity(new Intent(mActivity, ControlActivity.class));
+//                startActivity(new Intent(mActivity, ControlActivity.class));
+                startActivity(new Intent(mActivity, Dev_KeysSetActivity.class));
                 break;
             case R.id.setting_advanced_devinfo:
                 startActivity(new Intent(mActivity, DevInfoActivity.class));

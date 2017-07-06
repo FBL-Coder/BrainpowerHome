@@ -44,9 +44,9 @@ public class GuideActivity extends Activity {
         mBtnGo = (Button)findViewById(R.id.btn_go);
 
         //实例化各个界面的布局对象
-        View view1 = View.inflate(this, R.layout.guide_viewpage_item, null);
-        View view2 = View.inflate(this, R.layout.guide_viewpage_item, null);
-        View view3 = View.inflate(this, R.layout.guide_viewpage_item, null);
+        View view1 = View.inflate(this, R.layout.viewpage_guide_item, null);
+        View view2 = View.inflate(this, R.layout.viewpage_guide_item, null);
+        View view3 = View.inflate(this, R.layout.viewpage_guide_item, null);
 
         ((ImageView)view1.findViewById(R.id.tv_pic)).setImageResource(R.mipmap.ic_launcher);
         ((ImageView)view2.findViewById(R.id.tv_pic)).setImageResource(R.mipmap.ic_launcher);

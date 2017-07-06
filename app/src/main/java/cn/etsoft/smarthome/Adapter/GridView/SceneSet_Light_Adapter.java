@@ -107,7 +107,7 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
         ViewHoler viewHoler = null;
         if (convertView == null) {
             viewHoler = new ViewHoler();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.sceneset_gridview_light_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.gridview_sceneset_light_item, null);
             viewHoler.mName = (TextView) convertView.findViewById(R.id.SceneSet_GridView_Item_Name);
             viewHoler.mIV = (ImageView) convertView.findViewById(R.id.SceneSet_GridView_Item_IV);
             viewHoler.mSelect = (ImageView) convertView.findViewById(R.id.SceneSet_GridView_Item_Select);

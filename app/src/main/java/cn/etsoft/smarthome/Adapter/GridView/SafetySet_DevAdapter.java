@@ -21,7 +21,8 @@ import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 
 /**
- * Author：FBL  Time： 2017/6/29.
+ * Author：FBL  Time： 2017/6/29.、
+ * 安防设置  设备适配器
  */
 
 public class SafetySet_DevAdapter extends BaseAdapter {

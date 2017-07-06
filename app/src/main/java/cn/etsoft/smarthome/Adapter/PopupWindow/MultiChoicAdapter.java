@@ -98,7 +98,7 @@ public class MultiChoicAdapter<T> extends BaseAdapter {
 	    	 ViewHolder viewHolder;
 	    	 
 		     if (convertView == null) {
-		    	 convertView = mInflater.inflate(R.layout.choice_list_item_layout, null);
+		    	 convertView = mInflater.inflate(R.layout.listview_choice_item_layout, null);
 		         viewHolder = new ViewHolder();
 		         viewHolder.mTextView = (TextView) convertView.findViewById(R.id.textView);
 		         viewHolder.mCheckBox = (CheckBox) convertView.findViewById(R.id.checkBox);

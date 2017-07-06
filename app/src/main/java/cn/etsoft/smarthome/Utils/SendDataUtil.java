@@ -10,6 +10,7 @@ import cn.etsoft.smarthome.MyApplication;
 
 /**
  * Author：FBL  Time： 2017/6/9.
+ *
  */
 
 public class SendDataUtil {
@@ -119,7 +120,7 @@ public class SendDataUtil {
                 ",\"eventId\":" + sceneid +
                 ",\"devCnt\":" + 0 +
                 ",\"itemAry\":[{" +
-                "\"uid\":\"\"" +
+                "\"canCpuId\":\"\"" +
                 ",\"devType\":" + 0 +
                 ",\"devID\":" + 0 +
                 ",\"bOnOff\":" + 0 +
@@ -140,7 +141,7 @@ public class SendDataUtil {
                 ",\"eventId\":" + event.getEventId() +
                 ",\"devCnt\":" + 0 +
                 ",\"itemAry\":[{" +
-                "\"uid\":\"\"" +
+                "\"canCpuId\":\"\"" +
                 ",\"devType\":" + 0 +
                 ",\"devID\":" + 0 +
                 ",\"bOnOff\":" + 0 +
@@ -157,20 +158,20 @@ public class SendDataUtil {
                 "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
                 "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
                 "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getKeyOpItems.getValue() + "," +
-                "\"uid\":" + "\"" + uid + "\"," +
+                "\"canCpuId\":" + "\"" + uid + "\"," +
                 "\"subType1\":0," +
                 "\"subType2\":0," +
                 "\"key_index\":" + key_index + "}";
         MyApplication.mApplication.getUdpServer().send(str);
     }
 
-    public static void getChnItemInfo(String uid, WareDev dev) {
+    public static void getChnItemInfo(WareDev dev) {
         //uid  设备所在输出板ID
         final String str = "{" +
                 "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
                 "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
                 "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getChnOpItems.getValue() + "," +
-                "\"uid\":" + "\"" + uid + "\"," +
+                "\"canCpuId\":" + "\"" + dev.getCanCpuId() + "\"," +
                 "\"subType1\":0," +
                 "\"subType2\":0," +
                 "\"devID\":" + dev.getDevId() + "," +

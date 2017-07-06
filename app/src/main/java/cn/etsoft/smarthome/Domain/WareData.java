@@ -277,6 +277,8 @@ public class WareData implements Serializable {
     }
 
     public List<WareBoardChnout> getBoardChnouts() {
+        if (boardChnouts == null)
+            boardChnouts = new ArrayList<>();
         return boardChnouts;
     }
 

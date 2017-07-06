@@ -38,7 +38,7 @@ public abstract class AbstractChoicePopWindow implements OnClickListener {
 		initView(mContext);
 	}
 	protected void initView(Context context) {
-		final View customView = mParentView.inflate(context, R.layout.popwindow_listview_layout, null);
+		final View customView = mParentView.inflate(context, R.layout.listview_popwindow_layout, null);
 		customView.setFocusable(true);
 		customView.setFocusableInTouchMode(true);
 		customView.setOnKeyListener(new View.OnKeyListener() {

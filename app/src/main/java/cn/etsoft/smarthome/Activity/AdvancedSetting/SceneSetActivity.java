@@ -154,7 +154,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 OuterCircleClick(SceneSetActivity.this, position, RoomName);
                 if (mSceneSetSceneClickListener != null)
                     mSceneSetSceneClickListener.SceneClickPosition(ScenePosition, position, RoomName);
-                DevType = position;
+                DevType = position % 8;
 
             }
         });
@@ -213,7 +213,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         if (mLightFragment != null)
             transaction.hide(mLightFragment);
         Bundle bundle = new Bundle();
-        bundle.putString("RoomName",RoomName);
+        bundle.putString("RoomName", RoomName);
         switch (position) {
             case 0:
             case 8:

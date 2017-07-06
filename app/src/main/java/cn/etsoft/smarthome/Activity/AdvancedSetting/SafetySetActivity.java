@@ -27,7 +27,6 @@ import cn.etsoft.smarthome.Domain.SetSafetyResult;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.SafetySetHelper;
-import cn.etsoft.smarthome.UiHelper.TimerSetHelper;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
@@ -258,7 +257,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
     private void initRadioPopupWindow(final View view_parent, final List<String> text) {
 
         //获取自定义布局文件pop.xml的视图
-        final View customView = view_parent.inflate(this, R.layout.popupwindow_equipment_listview, null);
+        final View customView = view_parent.inflate(this, R.layout.listview_popupwindow_equipment, null);
         customView.setBackgroundResource(R.drawable.selectbg);
         customView.setFocusable(true);
         customView.setFocusableInTouchMode(true);

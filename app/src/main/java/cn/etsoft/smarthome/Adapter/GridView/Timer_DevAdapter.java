@@ -22,6 +22,7 @@ import cn.etsoft.smarthome.R;
 
 /**
  * Author：FBL  Time： 2017/6/29.
+ * 定时器 设置  设备适配器
  */
 
 public class Timer_DevAdapter extends BaseAdapter {

@@ -13,7 +13,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="70dp"
             android:background="@color/color1FF1A2"
             android:paddingLeft="@dimen/dp_150">
 
@@ -23,17 +23,35 @@
                 android:orientation="horizontal"
                 android:gravity="right">
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/Dev_KeysSet_Devs"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@color/red"
+                    android:scrollbars="none" />
+
                 <TextView
-                    android:id="@+id/SetAddDev_Back_Btn"
+                    android:id="@+id/Dev_KeysSet_KeyBoards"
+                    android:layout_width="@dimen/dp_150"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="按键板"
+                    android:textColor="@color/black"
+                    android:background="@color/blue"
+                    android:textSize="@dimen/dp_22" />
+
+                <TextView
+                    android:id="@+id/Dev_KeysSet_Test_Btn"
                     android:layout_width="@dimen/dp_70"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="取消"
+                    android:text="测试"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dp_22" />
 
                 <TextView
-                    android:id="@+id/SetAddDev_Save_Btn"
+                    android:id="@+id/Dev_KeysSet_Save_Btn"
                     android:layout_width="@dimen/dp_70"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -42,34 +60,12 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_30"
-            android:background="@android:color/transparent">
-            <ImageView
-                android:id="@+id/SceneSet_IsSelectDev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/dp_40"
-                android:layout_alignParentRight="true"
-                android:src= "@drawable/ic_launcher"/>
-            <TextView
-                android:layout_toLeftOf="@id/SceneSet_IsSelectDev"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textSize="@dimen/sp_16"
-                android:background="@android:color/transparent"
-                android:textColor="@color/colorAccent"
-                android:text="是否只显示选中设备"/>
-        </RelativeLayout>
-
         <GridView
-            android:id="@+id/SetAddDev_Info"
+            android:id="@+id/Dev_KeysSet_Keys"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dp_250"
             android:numColumns="2"
+            android:layout_marginLeft="@dimen/dp_250"
             android:background="@color/Myblue" />
     </LinearLayout>
 
@@ -78,9 +74,8 @@
         android:layout_height="match_parent">
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
-            android:id="@+id/SetAddDev_CircleMenu"
+            android:id="@+id/Dev_KeysSet_CircleMenu"
             android:layout_width="@dimen/dp_250"
-            android:layout_height="match_parent"
-            android:background="@color/red"/>
+            android:layout_height="match_parent" />
     </FrameLayout>
 </RelativeLayout>
