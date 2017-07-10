@@ -35,10 +35,10 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 
 /**
  * Author：FBL  Time： 2017/6/22.
- * 设备配按键 页面 ——输出页面
+ * 按键配设备 页面 ——输出页面
  */
 
-public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickListener {
+public class Key_DevsSetActivity extends BaseActivity implements View.OnClickListener {
 
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
@@ -67,7 +67,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void initView() {
-        setLayout(R.layout.activity_dev_keys_set);
+        setLayout(R.layout.activity_key_devs_set);
         IsNoData = false;
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
@@ -76,7 +76,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
 
                 if (datType == 14) {
                     IsNoData = false;
-                    Dev_KeysHandler handler = new Dev_KeysHandler(Dev_KeysSetActivity.this);
+                    Dev_KeysHandler handler = new Dev_KeysHandler(Key_DevsSetActivity.this);
                     Dev_KeysSetHelper.InitKeyData(handler, mRoomDevs, devPosition);
                 }
                 if (datType == 15 && MyApplication.getWareData().getResult() != null
@@ -86,7 +86,6 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                 }
             }
         });
-
 
         mDevKeys_KeyBoards = getViewById(R.id.Dev_KeysSet_KeyBoards);
         mDevKeys_TestBtn = getViewById(R.id.Dev_KeysSet_Test_Btn);
@@ -203,7 +202,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void OnItemClick(View view, int position) {
                 devPosition = position;
-                MyApplication.mApplication.showLoadDialog(Dev_KeysSetActivity.this);
+                MyApplication.mApplication.showLoadDialog(Key_DevsSetActivity.this);
                 SendDataUtil.getChnItemInfo(mRoomDevs.get(position));
             }
 
@@ -249,7 +248,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                 popupWindow.dismiss();
                 position_keyinput = position;
                 if (devsAdapter == null)
-                    devsAdapter = new Dev_Keys_KeysAdapter(Dev_KeysSetHelper.getListData_all(), Dev_KeysSetActivity.this, position_keyinput, false);
+                    devsAdapter = new Dev_Keys_KeysAdapter(Dev_KeysSetHelper.getListData_all(), Key_DevsSetActivity.this, position_keyinput, false);
                 else
                     devsAdapter.notifyDataSetChanged(Dev_KeysSetHelper.getListData_all(), position_keyinput, false);
                 mDevKeys_Keys.setAdapter(devsAdapter);
@@ -273,9 +272,9 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
     }
 
     static class Dev_KeysHandler extends Handler {
-        WeakReference<Dev_KeysSetActivity> weakReference;
+        WeakReference<Key_DevsSetActivity> weakReference;
 
-        public Dev_KeysHandler(Dev_KeysSetActivity activity) {
+        public Dev_KeysHandler(Key_DevsSetActivity activity) {
             weakReference = new WeakReference<>(activity);
         }
 

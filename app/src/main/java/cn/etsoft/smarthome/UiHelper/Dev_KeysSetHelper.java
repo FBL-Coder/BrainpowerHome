@@ -22,6 +22,7 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 
 /**
  * Author：FBL  Time： 2017/7/6.
+ * 设备配按键页面   辅助类
  */
 
 public class Dev_KeysSetHelper {
@@ -50,9 +51,6 @@ public class Dev_KeysSetHelper {
     public static void setListData_all(List<Out_List_printcmd> listData_all) {
         Dev_KeysSetHelper.listData_all = listData_all;
     }
-
-
-
     /**
      * 初始化外部转盘数据
      */

@@ -9,11 +9,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import cn.etsoft.smarthome.Activity.AdvancedSetting.ConditionSetActivity;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.ControlActivity;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.DevInfoActivity;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.Dev_KeysSetActivity;
+import cn.etsoft.smarthome.Activity.AdvancedSetting.Key_DevsSetActivity;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.SafetySetActivity;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.SceneSetActivity;
 import cn.etsoft.smarthome.Activity.AdvancedSetting.TimerSetActivity;
@@ -35,6 +37,9 @@ public class AdvancedFragment extends BaseFragment implements View.OnClickListen
     private LinearLayout mSafety;
     private LinearLayout mTimer;
     private LinearLayout mCondition;
+    private LinearLayout mDev_Keys;
+    private LinearLayout mKey_Devs;
+    private LinearLayout mOther;
 
     @Override
     public void initData(Bundle arguments) {
@@ -49,6 +54,9 @@ public class AdvancedFragment extends BaseFragment implements View.OnClickListen
         mSafety = findViewById(R.id.setting_advanced_safety);
         mTimer = findViewById(R.id.setting_advanced_timer);
         mCondition = findViewById(R.id.setting_advanced_condition);
+        mDev_Keys = findViewById(R.id.setting_advanced_dev_keys);
+        mKey_Devs = findViewById(R.id.setting_advanced_key_devs);
+        mOther = findViewById(R.id.setting_advanced_qita);
     }
 
     @Override
@@ -59,6 +67,9 @@ public class AdvancedFragment extends BaseFragment implements View.OnClickListen
         mScene.setOnClickListener(this);
         mDevinfo.setOnClickListener(this);
         mControldev.setOnClickListener(this);
+        mDev_Keys.setOnClickListener(this);
+        mKey_Devs.setOnClickListener(this);
+        mOther.setOnClickListener(this);
     }
 
 
@@ -66,8 +77,7 @@ public class AdvancedFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.setting_advanced_controldev:
-//                startActivity(new Intent(mActivity, ControlActivity.class));
-                startActivity(new Intent(mActivity, Dev_KeysSetActivity.class));
+                startActivity(new Intent(mActivity, ControlActivity.class));
                 break;
             case R.id.setting_advanced_devinfo:
                 startActivity(new Intent(mActivity, DevInfoActivity.class));
@@ -87,6 +97,15 @@ public class AdvancedFragment extends BaseFragment implements View.OnClickListen
             case R.id.setting_advanced_condition:
                 SendDataUtil.getConditionInfo();
                 startActivity(new Intent(mActivity, ConditionSetActivity.class));
+                break;
+            case R.id.setting_advanced_dev_keys:
+                startActivity(new Intent(mActivity, Dev_KeysSetActivity.class));
+                break;
+            case R.id.setting_advanced_key_devs:
+                startActivity(new Intent(mActivity, Key_DevsSetActivity.class));
+                break;
+            case R.id.setting_advanced_qita:
+                ToastUtil.showText("哈哈");
                 break;
         }
     }
