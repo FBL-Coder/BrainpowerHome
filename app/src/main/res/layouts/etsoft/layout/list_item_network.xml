@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/NetWork_Checked"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:scaleType="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_40"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_20"
+            android:text="模块名称 ："
+            android:textColor="@color/color_000"
+            android:textSize="@dimen/sp_22" />
+
+        <TextView
+            android:id="@+id/NetWork_title"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_40"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_20"
+            android:textColor="@color/color_000"
+            android:textSize="@dimen/sp_22" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_40"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_20"
+            android:text="模块ID ："
+            android:textColor="@color/color_000"
+            android:textSize="@dimen/sp_22" />
+
+        <TextView
+            android:id="@+id/NetWork_title_id"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_40"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_20"
+            android:textColor="@color/color_000"
+            android:textSize="@dimen/sp_22" />
+
+        <ImageView
+            android:id="@+id/NetWork_ShowInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@color/color_CDCDCD" />
+
+    <LinearLayout
+        android:id="@+id/NetWork_Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_5"
+        android:orientation="vertical"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="模块名称"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+            <EditText
+                android:id="@+id/NetWork_Name"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="模块ID"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+            <TextView
+                android:id="@+id/NetWork_ID"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="模块密码"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+            <TextView
+                android:id="@+id/NetWork_Pass"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="IP地址"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+            <EditText
+                android:id="@+id/NetWork_Ip"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="子网掩码"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+            <EditText
+                android:id="@+id/NetWork_Ip_Mask"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="默认网关"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+            <EditText
+                android:id="@+id/NetWork_GetWay"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="服务器地址"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+            <EditText
+                android:id="@+id/NetWork_Server"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

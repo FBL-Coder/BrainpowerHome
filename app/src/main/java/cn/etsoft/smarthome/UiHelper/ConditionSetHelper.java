@@ -35,7 +35,7 @@ public class ConditionSetHelper {
             event.setTitle(WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows()
                     .get(i % WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows()
                             .size()).getEventName());
-            event.setImage(R.drawable.ic_launcher_round);
+            event.setImage(R.drawable.chufaqi_icon);
             if (isClick && i == position)
                 event.setSelect(true);
             list.add(event);

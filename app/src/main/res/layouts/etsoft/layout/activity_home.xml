@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    >
+    android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -322,19 +321,28 @@
                     android:textColor="@color/home_text"
                     android:textSize="@dimen/sp_20" />
 
-                <TextView
-                    android:id="@+id/home_weather_zhiliang"
-                    android:layout_width="@dimen/dp_200"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/home_weather_shidu"
                     android:layout_marginTop="@dimen/dp_30"
-                    android:background="@drawable/home_weather_zhiliang_bg"
-                    android:drawableLeft="@drawable/ic_launcher"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/dp_20"
-                    android:text="56 优"
-                    android:textColor="@color/home_text"
-                    android:textSize="@dimen/sp_22" />
+                    android:background="@drawable/home_weather_zhiliang_bg">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dp_50"
+                        android:src="@drawable/home_weather" />
+
+                    <TextView
+                        android:id="@+id/home_weather_zhiliang"
+                        android:layout_width="@dimen/dp_100"
+                        android:layout_height="@dimen/dp_50"
+                        android:gravity="center"
+                        android:paddingRight="@dimen/dp_20"
+                        android:textColor="@color/home_text"
+                        android:textSize="@dimen/sp_22" />
+
+                </LinearLayout>
 
                 <cn.etsoft.smarthome.View.MarqueeTextView
                     android:id="@+id/home_weather_tishi"
@@ -375,11 +383,13 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher" />
+                    android:padding="@dimen/dp_15"
+                    android:src="@drawable/home_duijiang" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-25dp"
                     android:gravity="center"
                     android:text="云对讲"
                     android:textColor="@color/white"
@@ -399,11 +409,13 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher" />
+                    android:padding="@dimen/dp_15"
+                    android:src="@drawable/home_safety" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-25dp"
                     android:gravity="center"
                     android:text="安防"
                     android:textColor="@color/white"
@@ -423,11 +435,13 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher" />
+                    android:padding="@dimen/dp_15"
+                    android:src="@drawable/home_jiadian" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-25dp"
                     android:gravity="center"
                     android:text="家电"
                     android:textColor="@color/white"
@@ -447,11 +461,13 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher" />
+                    android:padding="@dimen/dp_15"
+                    android:src="@drawable/home_state" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-25dp"
                     android:gravity="center"
                     android:text="状态"
                     android:textColor="@color/white"
@@ -471,11 +487,13 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher" />
+                    android:padding="@dimen/dp_15"
+                    android:src="@drawable/home_scene" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-25dp"
                     android:gravity="center"
                     android:text="场景"
                     android:textColor="@color/white"
@@ -495,11 +513,13 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher" />
+                    android:padding="@dimen/dp_15"
+                    android:src="@drawable/home_timer" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-25dp"
                     android:gravity="center"
                     android:text="定时"
                     android:textColor="@color/white"
@@ -519,11 +539,13 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher" />
+                    android:padding="@dimen/dp_15"
+                    android:src="@drawable/home_jiankang" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-25dp"
                     android:gravity="center"
                     android:text="健康"
                     android:textColor="@color/white"
@@ -537,17 +559,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:scaleType="fitXY"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:scaleType="fitXY">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher" />
+                    android:padding="@dimen/dp_15"
+                    android:src="@drawable/home_setting" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-25dp"
                     android:gravity="center"
                     android:text="设置"
                     android:textColor="@color/white"

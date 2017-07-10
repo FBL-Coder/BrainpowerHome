@@ -24,7 +24,7 @@ import static android.content.ContentValues.TAG;
 
 /**
  * Author：FBL  Time： 2017/6/26.
- * 情景设置——灯光 适配器
+ * 情景设置——空调 适配器
  */
 
 public class SceneSet_Air_Adapter extends BaseAdapter {
@@ -114,7 +114,9 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
             viewHoler.mSeekBar = (RangeSeekBar) convertView.findViewById(R.id.SceneSet_GridView_Item_Slide);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
-        viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+        if (mAirs.get(position).getbOnOff() == 0)
+            viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+        else viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
         viewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
         viewHoler.mSeekBar.setRight(4);
         if (mSceneDev != null) {

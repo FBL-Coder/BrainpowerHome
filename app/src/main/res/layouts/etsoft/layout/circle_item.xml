@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Circle_Item_ll"
+    android:layout_width="100dp"
+    android:layout_height="80dp"
+    android:orientation="vertical"
+    >
+
+    <ImageView
+        android:id="@+id/Circle_Item_iv"
+        android:layout_width="@dimen/dp_30"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_height="@dimen/dp_30"
+        />
+
+    <TextView
+        android:id="@+id/Circle_Item_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

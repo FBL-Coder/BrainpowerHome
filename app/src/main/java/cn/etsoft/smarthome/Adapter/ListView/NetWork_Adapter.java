@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
@@ -26,11 +28,11 @@ import cn.etsoft.smarthome.Utils.SendDataUtil;
  * 联网模块设置 页面
  */
 
-public class NewModuleFragment_Adapter extends BaseAdapter {
+public class NetWork_Adapter extends BaseAdapter {
     private List<RcuInfo> list;
     private Context mContext;
 
-    public NewModuleFragment_Adapter(Context context) {
+    public NetWork_Adapter(Context context) {
         mContext = context;
         list = MyApplication.mApplication.getRcuInfoList();
     }
@@ -61,19 +63,38 @@ public class NewModuleFragment_Adapter extends BaseAdapter {
 
         ViewHoler viewHoler = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_single_select, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_network, null);
             viewHoler = new ViewHoler();
-            viewHoler.view = (TextView) convertView.findViewById(R.id.list_item_title);
-            viewHoler.imageView = (ImageView) convertView.findViewById(R.id.list_item_checked);
+            viewHoler.title = (TextView) convertView.findViewById(R.id.NetWork_title);
+            viewHoler.title_ID = (TextView) convertView.findViewById(R.id.NetWork_title_id);
+            viewHoler.Select = (ImageView) convertView.findViewById(R.id.NetWork_Checked);
+            viewHoler.net_ID = (TextView) convertView.findViewById(R.id.NetWork_ID);
+            viewHoler.net_Pass = (TextView) convertView.findViewById(R.id.NetWork_Pass);
+            viewHoler.name = (EditText) convertView.findViewById(R.id.NetWork_Name);
+            viewHoler.IP = (EditText) convertView.findViewById(R.id.NetWork_Ip);
+            viewHoler.Ip_mask = (EditText) convertView.findViewById(R.id.NetWork_Ip_Mask);
+            viewHoler.GetWay = (EditText) convertView.findViewById(R.id.NetWork_GetWay);
+            viewHoler.Server = (EditText) convertView.findViewById(R.id.NetWork_Server);
+            viewHoler.ShowInfo = (ImageView) convertView.findViewById(R.id.NetWork_ShowInfo);
+            viewHoler.NetWork_Info = (LinearLayout) convertView.findViewById(R.id.NetWork_Info);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
 
-        viewHoler.view.setText(list.get(position).getCanCpuName());
-        if (list.get(position).getDevUnitID().equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")))
-            viewHoler.imageView.setImageResource(R.drawable.ic_launcher_round);
-        else viewHoler.imageView.setImageResource(R.drawable.ic_launcher);
+        viewHoler.title.setText(list.get(position).getCanCpuName());
+        viewHoler.title_ID.setText(list.get(position).getDevUnitID());
+        viewHoler.name.setHint(list.get(position).getCanCpuName());
+        viewHoler.net_ID.setText(list.get(position).getDevUnitID());
+        viewHoler.net_Pass.setText(list.get(position).getDevUnitPass());
+        viewHoler.IP.setHint(list.get(position).getIpAddr());
+        viewHoler.Ip_mask.setHint(list.get(position).getMacAddr());
+        viewHoler.GetWay.setHint(list.get(position).getGateWay());
+        viewHoler.Server.setHint(list.get(position).getCenterServ());
 
-        viewHoler.imageView.setOnClickListener(new View.OnClickListener() {
+        if (list.get(position).getDevUnitID().equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")))
+            viewHoler.Select.setImageResource(R.drawable.selected);
+        else viewHoler.Select.setImageResource(R.drawable.noselect);
+
+        viewHoler.Select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (GlobalVars.getDevid().equals(list.get(position).getDevUnitID()))
@@ -103,10 +124,26 @@ public class NewModuleFragment_Adapter extends BaseAdapter {
                 }
             }
         });
+
+
+        final ViewHoler finalViewHoler = viewHoler;
+        viewHoler.ShowInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (finalViewHoler.NetWork_Info.getVisibility() == View.VISIBLE)
+                    finalViewHoler.NetWork_Info.setVisibility(View.GONE);
+                else finalViewHoler.NetWork_Info.setVisibility(View.VISIBLE);
+            }
+        });
+
+        viewHoler.NetWork_Info.setVisibility(View.GONE);
         return convertView;
     }
+
     class ViewHoler {
-        TextView view;
-        ImageView imageView;
+        TextView title, title_ID, net_ID, net_Pass;
+        EditText name, IP, Ip_mask, GetWay, Server;
+        ImageView Select, ShowInfo;
+        LinearLayout NetWork_Info;
     }
 }

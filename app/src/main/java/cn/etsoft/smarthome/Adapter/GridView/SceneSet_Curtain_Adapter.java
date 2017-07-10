@@ -114,7 +114,9 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
             viewHoler.mSeekBar = (RangeSeekBar) convertView.findViewById(R.id.SceneSet_GridView_Item_Slide);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
-        viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+        if (mCurtains.get(position).getbOnOff() == 0)
+            viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+        else viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
         viewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
         viewHoler.mSeekBar.setVisibility(View.GONE);
         if (mSceneDev != null) {

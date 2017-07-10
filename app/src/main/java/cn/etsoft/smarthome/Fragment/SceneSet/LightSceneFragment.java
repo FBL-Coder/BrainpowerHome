@@ -1,6 +1,5 @@
 package cn.etsoft.smarthome.Fragment.SceneSet;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;

@@ -132,6 +132,7 @@ public class CircleMenuLayout extends RelativeLayout {
         circle_1.removeAllViews();
         for (int i = 0; i < Data_OuterCircleList.size(); i++) {
             LinearLayout l = new LinearLayout(context);
+            l.setPadding(0,0,20,0);
             l.setOrientation(LinearLayout.VERTICAL);
             ImageView iv = new ImageView(context);
             iv.setImageResource(Data_OuterCircleList.get(i).getImage());

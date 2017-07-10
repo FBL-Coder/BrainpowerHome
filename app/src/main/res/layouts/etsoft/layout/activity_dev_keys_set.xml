@@ -11,65 +11,21 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <View
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="@color/color1FF1A2"
-            android:paddingLeft="@dimen/dp_150">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="right">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/Dev_KeysSet_Devs"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:background="@color/red"
-                    android:scrollbars="none" />
-
-                <TextView
-                    android:id="@+id/Dev_KeysSet_KeyBoards"
-                    android:layout_width="@dimen/dp_150"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="按键板"
-                    android:textColor="@color/black"
-                    android:background="@color/blue"
-                    android:textSize="@dimen/dp_22" />
-
-                <TextView
-                    android:id="@+id/Dev_KeysSet_Test_Btn"
-                    android:layout_width="@dimen/dp_70"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="测试"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dp_22" />
-
-                <TextView
-                    android:id="@+id/Dev_KeysSet_Save_Btn"
-                    android:layout_width="@dimen/dp_70"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="保存"
-                    android:textSize="@dimen/dp_22" />
-            </LinearLayout>
-        </RelativeLayout>
+            android:background="@color/color1FF1A2"/>
 
         <GridView
             android:id="@+id/Dev_KeysSet_Keys"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="2"
             android:layout_marginLeft="@dimen/dp_250"
-            android:background="@color/Myblue" />
+            android:background="@color/Myblue"
+            android:numColumns="2" />
     </LinearLayout>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="@dimen/dp_250"
         android:layout_height="match_parent">
 
@@ -77,5 +33,49 @@
             android:id="@+id/Dev_KeysSet_CircleMenu"
             android:layout_width="@dimen/dp_250"
             android:layout_height="match_parent" />
-    </FrameLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginLeft="@dimen/dp_150"
+        android:background="@color/color1FF1A2"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/Dev_KeysSet_Devs"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/red"
+            android:scrollbars="none" />
+
+        <TextView
+            android:id="@+id/Dev_KeysSet_KeyBoards"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="match_parent"
+            android:background="@color/blue"
+            android:gravity="center"
+            android:text="按键板"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_22" />
+
+        <TextView
+            android:id="@+id/Dev_KeysSet_Test_Btn"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="测试"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_22" />
+
+        <TextView
+            android:id="@+id/Dev_KeysSet_Save_Btn"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="保存"
+            android:textSize="@dimen/dp_22" />
+    </LinearLayout>
 </RelativeLayout>

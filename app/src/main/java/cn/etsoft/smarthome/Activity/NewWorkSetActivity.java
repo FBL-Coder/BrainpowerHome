@@ -1,7 +1,6 @@
-package cn.etsoft.smarthome.Fragment.Setting;
+package cn.etsoft.smarthome.Activity;
 
 import android.app.Dialog;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -10,7 +9,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
+import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
@@ -18,7 +17,7 @@ import com.google.gson.Gson;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import cn.etsoft.smarthome.Adapter.ListView.NewModuleFragment_Adapter;
+import cn.etsoft.smarthome.Adapter.ListView.NetWork_Adapter;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
@@ -26,44 +25,52 @@ import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.New_AddorDel_Helper;
 
 /**
- * Author：FBL  Time： 2017/6/22.
- * 设置页面 —— 联网模块
+ * Author：FBL  Time： 2017/7/10.
+ * 联网模块设置界面
  */
 
-public class NetModuleFragment extends BaseFragment {
-
+public class NewWorkSetActivity extends BaseActivity {
     private TextView mNetmoduleAdd;
     private ListView mNetmoduleListview;
     private TextView mDialogCancle, mDialogOk;
     private EditText mDialogName, mDialogID, mDialogPass;
     private NewModuleHandler mNewModuleHandler = new NewModuleHandler(this);
     private Gson gson = new Gson();
-    private NewModuleFragment_Adapter mAdapter;
-
+    private NetWork_Adapter mAdapter;
 
     @Override
-    public void initData(Bundle arguments) {
-        initLIstview();
+    public void initView() {
+
+        setTitleViewVisible(true, R.color.color_4489CA);
+        setTitleImageBtn(true, R.drawable.back_image_select, false, 0);
+
+        setLayout(R.layout.activity_set_network);
+
+        mNetmoduleListview = getViewById(R.id.NewWork_set_netmodule_listview);
+        mNetmoduleAdd = getViewById(R.id.NewWork_set_netmodule_add);
     }
 
+
     private void initLIstview() {
-        mAdapter = new NewModuleFragment_Adapter(mActivity);
+        mAdapter = new NetWork_Adapter(this);
         mNetmoduleListview.setAdapter(mAdapter);
 
     }
 
     @Override
-    protected void initView() {
-        mNetmoduleListview = findViewById(R.id.fragment_set_netmodule_listview);
-        mNetmoduleAdd = findViewById(R.id.fragment_set_netmodule_add);
-    }
+    public void initData() {
+        initLIstview();
+        getLiftImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
-    @Override
-    protected void setListener() {
         mNetmoduleAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialog = new Dialog(mActivity, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+                Dialog dialog = new Dialog(NewWorkSetActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
                 dialog.setContentView(R.layout.dialog_addnetmodule);
                 dialog.setTitle("添加联网模块");
                 dialog.show();
@@ -78,7 +85,6 @@ public class NetModuleFragment extends BaseFragment {
             }
         });
     }
-
 
     private void initAddNetModuleDialog(final Dialog dialog) {
         mDialogName = (EditText) dialog.findViewById(R.id.dialog_addnetmodule_name);
@@ -96,22 +102,17 @@ public class NetModuleFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                New_AddorDel_Helper.addNew(mNewModuleHandler, mActivity, mDialogName, mDialogID, mDialogPass);
+                New_AddorDel_Helper.addNew(mNewModuleHandler, NewWorkSetActivity.this, mDialogName, mDialogID, mDialogPass);
             }
         });
-    }
-
-    @Override
-    protected int setLayoutResouceId() {
-        return R.layout.fragment_set_netmoudle;
     }
 
 
     static class NewModuleHandler extends Handler {
 
-        WeakReference<NetModuleFragment> weakReference;
+        WeakReference<NewWorkSetActivity> weakReference;
 
-        public NewModuleHandler(NetModuleFragment fragment) {
+        public NewModuleHandler(NewWorkSetActivity fragment) {
             weakReference = new WeakReference<>(fragment);
         }
 

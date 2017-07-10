@@ -4,70 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_70"
+        android:background="@color/color_FF99CC"/>
+
+    <RelativeLayout
+        android:id="@+id/SceneSet_Info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical">
+        android:layout_marginLeft="@dimen/dp_250"
+        android:background="@color/Myblue" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@color/color1FF1A2"
-            android:paddingLeft="@dimen/dp_150">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="right">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/SceneSet_Scenes"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:background="@color/red"
-                    android:scrollbars="none" />
-
-                <TextView
-                    android:id="@+id/SceneSet_Add_Btn"
-                    android:layout_width="@dimen/dp_70"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="新增"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dp_22" />
-
-                <TextView
-                    android:id="@+id/SceneSet_Test_Btn"
-                    android:layout_width="@dimen/dp_70"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="测试"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dp_22" />
-
-                <TextView
-                    android:id="@+id/SceneSet_Save_Btn"
-                    android:layout_width="@dimen/dp_70"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="保存"
-                    android:textSize="@dimen/dp_22" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/SceneSet_Info"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dp_250"
-            android:background="@color/Myblue" />
-    </LinearLayout>
-
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="@dimen/dp_250"
         android:layout_height="match_parent">
 
@@ -75,5 +24,48 @@
             android:id="@+id/SceneSet_CircleMenu"
             android:layout_width="@dimen/dp_250"
             android:layout_height="match_parent" />
-    </FrameLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_70"
+        android:layout_marginLeft="@dimen/dp_150"
+        android:background="@color/color_FF99CC"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/SceneSet_Scenes"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/red"
+            android:scrollbars="none" />
+
+        <TextView
+            android:id="@+id/SceneSet_Add_Btn"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="新增"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_22" />
+
+        <TextView
+            android:id="@+id/SceneSet_Test_Btn"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="测试"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_22" />
+
+        <TextView
+            android:id="@+id/SceneSet_Save_Btn"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="保存"
+            android:textSize="@dimen/dp_22" />
+    </LinearLayout>
 </RelativeLayout>

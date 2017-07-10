@@ -45,7 +45,7 @@ public class SafetySetHelper {
             event.setTitle(WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows()
                     .get(i % WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows()
                             .size()).getSecName());
-            event.setImage(R.drawable.ic_launcher_round);
+            event.setImage(R.drawable.fangqu_icon);
             if (isClick && i == position)
                 event.setSelect(true);
             list.add(event);

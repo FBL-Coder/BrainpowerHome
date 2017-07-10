@@ -1,29 +1,33 @@
 package cn.etsoft.smarthome.Activity;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.RadioGroup;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 
+import cn.etsoft.smarthome.Activity.AdvancedSetting.ConditionSetActivity;
+import cn.etsoft.smarthome.Activity.AdvancedSetting.ControlActivity;
+import cn.etsoft.smarthome.Activity.AdvancedSetting.DevInfoActivity;
+import cn.etsoft.smarthome.Activity.AdvancedSetting.Dev_KeysSetActivity;
+import cn.etsoft.smarthome.Activity.AdvancedSetting.Key_DevsSetActivity;
+import cn.etsoft.smarthome.Activity.AdvancedSetting.SafetySetActivity;
+import cn.etsoft.smarthome.Activity.AdvancedSetting.SceneSetActivity;
+import cn.etsoft.smarthome.Activity.AdvancedSetting.TimerSetActivity;
 import cn.etsoft.smarthome.Domain.GlobalVars;
-import cn.etsoft.smarthome.Fragment.Setting.AdvancedFragment;
-import cn.etsoft.smarthome.Fragment.Setting.LongIpFragment;
-import cn.etsoft.smarthome.Fragment.Setting.NetModuleFragment;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
+import cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout;
 
 /**
  * Author：FBL  Time： 2017/6/15.
  * 设置界面
  */
 
-public class SettingActivity extends BaseActivity {
-    private RadioGroup mSettingRadiogroup;
-    private Fragment mNewModule, mLongIP, mAdvanced;
+public class SettingActivity extends BaseActivity implements View.OnClickListener {
+
+    private BamLinearLayout mSettingNetwork, mSettingControl, mSettingDevinfo, mSettingScene, mSettingSafety, mSettingTimer, mSettingCondition, mSettingGroup;
 
     @Override
     public void initView() {
@@ -31,51 +35,28 @@ public class SettingActivity extends BaseActivity {
         setTitleViewVisible(true, R.color.color_4489CA);
         setTitleImageBtn(true, R.drawable.back_image_select, false, 0);
         setLayout(R.layout.activity_setting);
-        mSettingRadiogroup = getViewById(R.id.setting_radiogroup);
+        mSettingNetwork = getViewById(R.id.setting_network);
+        mSettingControl = getViewById(R.id.setting_control);
+        mSettingDevinfo = getViewById(R.id.setting_devinfo);
+        mSettingScene = getViewById(R.id.setting_scene);
+        mSettingSafety = getViewById(R.id.setting_safety);
+        mSettingTimer = getViewById(R.id.setting_timer);
+        mSettingCondition = getViewById(R.id.setting_condition);
+        mSettingGroup = getViewById(R.id.setting_group);
+
+        mSettingNetwork.setOnClickListener(this);
+        mSettingControl.setOnClickListener(this);
+        mSettingDevinfo.setOnClickListener(this);
+        mSettingScene.setOnClickListener(this);
+        mSettingSafety.setOnClickListener(this);
+        mSettingTimer.setOnClickListener(this);
+        mSettingCondition.setOnClickListener(this);
+        mSettingGroup.setOnClickListener(this);
+
         setOnClick();
     }
 
     private void setOnClick() {
-        mSettingRadiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.setCustomAnimations(R.anim.anim_home_control_open, R.anim.anim_home_weather_close);
-                transaction.addToBackStack(null);
-                if (mNewModule != null) {
-                    transaction.hide(mNewModule);
-                }
-                if (mLongIP != null) {
-                    transaction.hide(mLongIP);
-                }
-                if (mAdvanced != null) {
-                    transaction.hide(mAdvanced);
-                }
-                switch (checkedId) {
-                    case R.id.setting_netmodule_rbt:
-                        if (mNewModule == null) {
-                            mNewModule = new NetModuleFragment();
-                            transaction.add(R.id.setting_linearlayout_right, mNewModule);
-                        } else transaction.show(mNewModule);
-
-                        break;
-                    case R.id.setting_longip_rbt:
-                        if (mLongIP == null) {
-                            mLongIP = new LongIpFragment();
-                            transaction.add(R.id.setting_linearlayout_right, mLongIP);
-                        } else transaction.show(mLongIP);
-                        break;
-                    case R.id.setting_advanced_rbt:
-                        if (mAdvanced == null) {
-                            mAdvanced = new AdvancedFragment();
-                            transaction.add(R.id.setting_linearlayout_right, mAdvanced);
-                        } else transaction.show(mAdvanced);
-                        break;
-                }
-                transaction.commit();
-            }
-        });
         getLiftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,11 +67,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mNewModule = new NetModuleFragment();
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.setting_linearlayout_right, mNewModule);
-        transaction.commit();
+
     }
 
     @Override
@@ -105,5 +82,40 @@ public class SettingActivity extends BaseActivity {
             finish();
         else
             startActivity(new Intent(SettingActivity.this, HomeActivity.class));
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.setting_network://联网模块
+                startActivity(new Intent(SettingActivity.this,NewWorkSetActivity.class));
+                break;
+            case R.id.setting_control://控制设置
+                startActivity(new Intent(SettingActivity.this, ControlActivity.class));
+                break;
+            case R.id.setting_devinfo://设备详情
+                startActivity(new Intent(SettingActivity.this,DevInfoActivity.class));
+                break;
+            case R.id.setting_scene://情景设置
+                SendDataUtil.getSceneInfo();
+                startActivity(new Intent(SettingActivity.this,SceneSetActivity.class));
+                break;
+            case R.id.setting_safety://安防设置
+                SendDataUtil.getSceneInfo();
+                SendDataUtil.getSafetyInfo();
+                startActivity(new Intent(SettingActivity.this,SafetySetActivity.class));
+                break;
+            case R.id.setting_timer://定时设置
+                startActivity(new Intent(SettingActivity.this,TimerSetActivity.class));
+                break;
+            case R.id.setting_condition://环境事件
+                SendDataUtil.getConditionInfo();
+                startActivity(new Intent(SettingActivity.this,ConditionSetActivity.class));
+                break;
+            case R.id.setting_group://组合设置
+                startActivity(new Intent(SettingActivity.this, Dev_KeysSetActivity.class));
+                break;
+        }
+
     }
 }

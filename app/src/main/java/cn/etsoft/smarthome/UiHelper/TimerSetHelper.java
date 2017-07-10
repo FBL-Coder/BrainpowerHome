@@ -44,7 +44,7 @@ public class TimerSetHelper {
             event.setTitle(MyApplication.getWareData().getTimer_data().getTimerEvent_rows()
                     .get(i % MyApplication.getWareData().getTimer_data().getTimerEvent_rows()
                             .size()).getTimerName());
-            event.setImage(R.drawable.ic_launcher_round);
+            event.setImage(R.drawable.timer_icon);
             if (IsClick && i == position)
                 event.setSelect(true);
             list.add(event);

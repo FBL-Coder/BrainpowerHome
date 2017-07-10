@@ -208,7 +208,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     String yundong = results.getResult().getIndex().get(1).getDetail();
                     String fengli = results.getResult().getWindpower();
                     weakReference.get().mHomeWeatherShidu.setText("湿度 : " + shidu);
-                    weakReference.get().mHomeWeatherZhiliang.setText(pm + " " + zhiliang);
+                    weakReference.get().mHomeWeatherZhiliang.setText(pm + "  " + zhiliang);
                     weakReference.get().mHomeWeatherTemp.setText(temp + " ℃");
                     weakReference.get().mHomeWeatherType.setText(text);
                     weakReference.get().mHomeWeatherFengli.setText("风力 :" + fengli);

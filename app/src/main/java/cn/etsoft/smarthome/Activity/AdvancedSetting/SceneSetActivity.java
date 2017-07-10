@@ -153,7 +153,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 }
                 OuterCircleClick(SceneSetActivity.this, position, RoomName);
                 if (mSceneSetSceneClickListener != null)
-                    mSceneSetSceneClickListener.SceneClickPosition(ScenePosition, position, RoomName);
+                    mSceneSetSceneClickListener.SceneClickPosition(ScenePosition, position % 8, RoomName);
                 DevType = position % 8;
 
             }
@@ -248,16 +248,18 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 } else transaction.show(mLightFragment);
                 break;
             case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-            case 14:
+            case 12:
                 if (mCurFragment == null) {
                     mCurFragment = new CurtarnSceneFragment();
                     mCurFragment.setArguments(bundle);
                     transaction.add(R.id.SceneSet_Info, mCurFragment);
                 } else transaction.show(mCurFragment);
+                break;
+            case 5:
+                break;
+            case 6:
+            case 14:
+
                 break;
         }
         transaction.commit();
