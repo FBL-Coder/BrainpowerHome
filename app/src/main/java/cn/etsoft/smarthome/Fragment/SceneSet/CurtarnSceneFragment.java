@@ -1,7 +1,6 @@
 package cn.etsoft.smarthome.Fragment.SceneSet;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -11,16 +10,12 @@ import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.etsoft.smarthome.Activity.AdvancedSetting.SceneSetActivity;
+import cn.etsoft.smarthome.Activity.Settings.SceneSetActivity;
 import cn.etsoft.smarthome.Adapter.GridView.SceneSet_Curtain_Adapter;
-import cn.etsoft.smarthome.Adapter.GridView.SceneSet_Light_Adapter;
 import cn.etsoft.smarthome.Domain.WareCurtain;
-import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Author：FBL  Time： 2017/6/26.

@@ -33,8 +33,8 @@
                     android:id="@+id/SafetySet_Name"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="wrap_content"
-                    android:hint="无"
                     android:gravity="center"
+                    android:hint="无"
                     android:textColor="@color/red"
                     android:textSize="@dimen/sp_18" />
 
@@ -53,26 +53,27 @@
                     android:src="@mipmap/ic_launcher_round" />
 
 
-
                 <TextView
                     android:id="@+id/SafetySet_Save_Btn"
                     android:layout_width="@dimen/dp_70"
                     android:layout_height="match_parent"
+                    android:background="@color/red"
                     android:gravity="center"
                     android:text="保存"
-                    android:background="@color/red"
                     android:textSize="@dimen/dp_22" />
+
                 <TextView
                     android:id="@+id/SafetySet_DuiMa"
                     android:layout_width="@dimen/dp_70"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="对码"
                     android:layout_marginLeft="@dimen/dp_50"
                     android:background="@color/red"
+                    android:gravity="center"
+                    android:text="对码"
                     android:textSize="@dimen/dp_22" />
             </LinearLayout>
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -114,19 +115,19 @@
                     android:id="@+id/SafetySet_Scene"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="点击选择关联情景"
-                    android:minWidth="@dimen/dp_80"
-                    android:background="@color/red"
                     android:layout_marginLeft="@dimen/dp_10"
-                    android:textSize="@dimen/sp_18"
-                    android:src="@mipmap/ic_launcher_round" />
+                    android:background="@color/red"
+                    android:gravity="center"
+                    android:minWidth="@dimen/dp_80"
+                    android:src="@mipmap/ic_launcher_round"
+                    android:text="点击选择关联情景"
+                    android:textSize="@dimen/sp_18" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="当前布放状态"
                     android:layout_marginLeft="@dimen/dp_20"
+                    android:text="当前布放状态"
                     android:textColor="@color/red"
                     android:textSize="@dimen/sp_18" />
 
@@ -134,21 +135,21 @@
                     android:id="@+id/SafetySet_Now"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:background="@color/red"
                     android:gravity="center"
                     android:minWidth="@dimen/dp_80"
-                    android:background="@color/red"
-                    android:layout_marginLeft="@dimen/dp_10"
+                    android:src="@mipmap/ic_launcher_round"
                     android:text="当前布放状态"
-                    android:textSize="@dimen/sp_18"
-                    android:src="@mipmap/ic_launcher_round" />
+                    android:textSize="@dimen/sp_18" />
 
                 <TextView
                     android:id="@+id/SafetySet_AddDev"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="match_parent"
-                    android:gravity="center"
                     android:layout_marginLeft="@dimen/dp_20"
                     android:background="@color/red"
+                    android:gravity="center"
                     android:text="添加设备"
                     android:textSize="@dimen/dp_22" />
 
@@ -159,9 +160,9 @@
             android:id="@+id/SafetySet_GirdView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="2"
             android:layout_marginLeft="@dimen/dp_250"
-            android:background="@color/Myblue" />
+            android:background="@color/Myblue"
+            android:numColumns="2" />
     </LinearLayout>
 
     <FrameLayout
@@ -171,6 +172,7 @@
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/SafetySet_CircleMenu"
             android:layout_width="@dimen/dp_250"
+            android:background="@drawable/circlebg"
             android:layout_height="match_parent" />
     </FrameLayout>
 </RelativeLayout>

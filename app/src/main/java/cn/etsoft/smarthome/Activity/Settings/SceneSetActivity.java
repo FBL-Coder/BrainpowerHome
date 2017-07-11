@@ -1,7 +1,6 @@
-package cn.etsoft.smarthome.Activity.AdvancedSetting;
+package cn.etsoft.smarthome.Activity.Settings;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

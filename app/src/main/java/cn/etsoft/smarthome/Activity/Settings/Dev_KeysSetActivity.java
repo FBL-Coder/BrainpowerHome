@@ -1,4 +1,4 @@
-package cn.etsoft.smarthome.Activity.AdvancedSetting;
+package cn.etsoft.smarthome.Activity.Settings;
 
 import android.os.Handler;
 import android.os.Message;
@@ -8,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -32,6 +31,7 @@ import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
+import cn.etsoft.smarthome.View.SlideGridView;
 
 /**
  * Author：FBL  Time： 2017/6/22.
@@ -44,7 +44,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
     private RecyclerView mDevKeys_Devs;
-    private GridView mDevKeys_Keys;
+    private SlideGridView mDevKeys_Keys;
     private TextView mDevKeys_KeyBoards, mDevKeys_TestBtn, mDevKeys_SaveBtn;
     private Dev_KeysSet_DevsAdapter mDevKeysDevsAdapter;
     private PopupWindow popupWindow;
@@ -122,7 +122,8 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
         for (int i = 0; i < wareBoardKeyInputs.size(); i++) {
             keynames.add(wareBoardKeyInputs.get(i).getBoardName());
         }
-        mDevKeys_KeyBoards.setText(keynames.get(0));
+        if (keynames.size() > 0)
+            mDevKeys_KeyBoards.setText(keynames.get(0));
 
         initEvent();
     }

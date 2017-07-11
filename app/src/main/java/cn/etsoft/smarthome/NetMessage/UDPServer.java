@@ -1,13 +1,11 @@
 package cn.etsoft.smarthome.NetMessage;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.widget.EditText;
 
 import com.example.abc.mybaseactivity.NetWorkListener.AppNetworkMgr;
+import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -526,9 +524,10 @@ public class UDPServer implements Runnable {
 //                    "bDhcp":	0
 //        }]
 //    }
+
         List<RcuInfo> json_list = new ArrayList<>();
-        SharedPreferences sharedPreferences = MyApplication.getContext().getSharedPreferences("profile", Context.MODE_PRIVATE);
-        String json_rcuinfo_list = sharedPreferences.getString("list", "");
+        String json_rcuinfo_list = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOLIST_SHAREPREFERENCE,"");
+
         Gson gson = new Gson();
         RcuInfo info1 = new RcuInfo();
         boolean IsAllequals = true;//给的模块ID都不一样，为true；
@@ -543,16 +542,30 @@ public class UDPServer implements Runnable {
             } catch (Exception e) {//服务器和本地单片机数据不一，解析异常
                 Log.w("Exception", e + "");
             }
-            info1.setIpAddr(jsonObject1.getString("IpAddr"));
-            info1.setGateWay(jsonObject1.getString("Gateway"));
-            info1.setDevUnitPass(jsonObject1.getString("devUnitPass"));
-            info1.setCenterServ(jsonObject1.getString("centerServ"));
-            info1.setMacAddr(jsonObject1.getString("macAddr"));
+//            "uid":	"39ffd505484d303408650743",
+//            "pass":	"39ffd505",
+//            "name":	"cef7b0b2d1d0b7a2",
+//            "IpAddr":	"192.168.0.102",
+//            "SubMask":	"255.255.255.0",
+//            "Gateway":	"192.168.0.1",
+//            "centerServ":	"192.168.0.104",
+//            "roomNum":	"",
+//            "macAddr":	"00502a040506",
+//            "SoftVersion":	"",
+//            "HwVersion":	"",
+//            "bDhcp":	0
+            info1.setDevUnitID(jsonObject1.getString("uid"));
+            info1.setDevUnitPass(jsonObject1.getString("pass"));
             info1.setName(jsonObject1.getString("name"));
-            info1.setRoomNum(jsonObject1.getString("roomNum"));
-            info1.setSoftVersion(jsonObject1.getString("SoftVersion"));
+            info1.setIpAddr(jsonObject1.getString("IpAddr"));
             info1.setSubMask(jsonObject1.getString("SubMask"));
+            info1.setGateWay(jsonObject1.getString("Gateway"));
+            info1.setCenterServ(jsonObject1.getString("centerServ"));
+            info1.setRoomNum(jsonObject1.getString("roomNum"));
+            info1.setMacAddr(jsonObject1.getString("macAddr"));
+            info1.setSoftVersion(jsonObject1.getString("SoftVersion"));
             info1.setHwVversion(jsonObject1.getString("HwVersion"));
+            info1.setbDhcp(jsonObject1.getInt("bDhcp"));
 
             if (!"".equals(json_rcuinfo_list) && json_rcuinfo_list != null && json_rcuinfo_list.length() > 0) {
                 json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
@@ -585,10 +598,7 @@ public class UDPServer implements Runnable {
             Log.w("Exception", e + "");
         }
         String str = gson.toJson(json_list);
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("list", str);
-        editor.commit();
+        AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE,str);
         MyApplication.getWareData().setRcuInfos(json_list);
         if (netword_count == sleep)
             isFreshData = true;

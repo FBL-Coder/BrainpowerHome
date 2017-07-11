@@ -1,6 +1,7 @@
-package cn.etsoft.smarthome.Activity;
+package cn.etsoft.smarthome.Activity.Settings;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.google.gson.Gson;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import cn.etsoft.smarthome.Activity.HomeActivity;
 import cn.etsoft.smarthome.Adapter.ListView.NetWork_Adapter;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
@@ -84,6 +86,12 @@ public class NewWorkSetActivity extends BaseActivity {
 
             }
         });
+        getLiftImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backEvent();
+            }
+        });
     }
 
     private void initAddNetModuleDialog(final Dialog dialog) {
@@ -107,6 +115,19 @@ public class NewWorkSetActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        backEvent();
+        super.onBackPressed();
+
+    }
+
+    private void backEvent() {
+        if ("".equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")))
+            finish();
+        else
+            startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+    }
 
     static class NewModuleHandler extends Handler {
 

@@ -1,4 +1,4 @@
-package cn.etsoft.smarthome.Activity.AdvancedSetting;
+package cn.etsoft.smarthome.Activity.Settings;
 
 import android.view.View;
 import android.widget.GridView;

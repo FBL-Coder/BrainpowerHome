@@ -16,7 +16,7 @@
             android:layout_height="70dp"
             android:background="@color/color1FF1A2"/>
 
-        <GridView
+        <cn.etsoft.smarthome.View.SlideGridView
             android:id="@+id/Dev_KeysSet_Keys"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -31,6 +31,7 @@
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/Dev_KeysSet_CircleMenu"
+            android:background="@drawable/circlebg"
             android:layout_width="@dimen/dp_250"
             android:layout_height="match_parent" />
     </RelativeLayout>

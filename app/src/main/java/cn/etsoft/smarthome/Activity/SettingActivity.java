@@ -1,21 +1,18 @@
 package cn.etsoft.smarthome.Activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
-import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 
-import cn.etsoft.smarthome.Activity.AdvancedSetting.ConditionSetActivity;
-import cn.etsoft.smarthome.Activity.AdvancedSetting.ControlActivity;
-import cn.etsoft.smarthome.Activity.AdvancedSetting.DevInfoActivity;
-import cn.etsoft.smarthome.Activity.AdvancedSetting.Dev_KeysSetActivity;
-import cn.etsoft.smarthome.Activity.AdvancedSetting.Key_DevsSetActivity;
-import cn.etsoft.smarthome.Activity.AdvancedSetting.SafetySetActivity;
-import cn.etsoft.smarthome.Activity.AdvancedSetting.SceneSetActivity;
-import cn.etsoft.smarthome.Activity.AdvancedSetting.TimerSetActivity;
-import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Activity.Settings.ConditionSetActivity;
+import cn.etsoft.smarthome.Activity.Settings.ControlActivity;
+import cn.etsoft.smarthome.Activity.Settings.DevInfoActivity;
+import cn.etsoft.smarthome.Activity.Settings.Dev_KeysSetActivity;
+import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
+import cn.etsoft.smarthome.Activity.Settings.SafetySetActivity;
+import cn.etsoft.smarthome.Activity.Settings.SceneSetActivity;
+import cn.etsoft.smarthome.Activity.Settings.TimerSetActivity;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout;
@@ -53,35 +50,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mSettingCondition.setOnClickListener(this);
         mSettingGroup.setOnClickListener(this);
 
-        setOnClick();
-    }
-
-    private void setOnClick() {
-        getLiftImage().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                backEvent();
-            }
-        });
     }
 
     @Override
     public void initData() {
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        backEvent();
-        super.onBackPressed();
-
-    }
-
-    private void backEvent() {
-        if ("".equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")))
-            finish();
-        else
-            startActivity(new Intent(SettingActivity.this, HomeActivity.class));
+        getLiftImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

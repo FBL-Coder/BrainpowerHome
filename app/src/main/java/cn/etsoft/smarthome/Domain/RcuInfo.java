@@ -4,6 +4,19 @@ import java.io.Serializable;
 
 public class RcuInfo implements Serializable {
 
+//            "uid":	"39ffd505484d303408650743",
+//            "pass":	"39ffd505",
+//            "name":	"cef7b0b2d1d0b7a2",
+//            "IpAddr":	"192.168.0.102",
+//            "SubMask":	"255.255.255.0",
+//            "Gateway":	"192.168.0.1",
+//            "centerServ":	"192.168.0.104",
+//            "roomNum":	"",
+//            "macAddr":	"00502a040506",
+//            "SoftVersion":	"",
+//            "HwVersion":	"",
+//            "bDhcp":	0
+
     private String devUnitID;
     private String devUnitPass;
     private String name;

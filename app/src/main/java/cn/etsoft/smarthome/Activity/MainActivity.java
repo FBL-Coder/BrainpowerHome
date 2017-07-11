@@ -7,20 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.andview.refreshview.XRefreshView;
-
-import cn.etsoft.smarthome.Domain.GlobalVars;
-import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.Utils.SendDataUtil;
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.Dialog_Select_Bottom.Dialog_Bottom;
 import com.example.abc.mybaseactivity.FileUtils.GetFilePath;
 import com.example.abc.mybaseactivity.HttpGetDataUtils.HttpCallback;
 import com.example.abc.mybaseactivity.HttpGetDataUtils.OkHttpUtils;
 import com.example.abc.mybaseactivity.HttpGetDataUtils.ResultDesc;
-import cn.etsoft.smarthome.MyApplication;
 import com.example.abc.mybaseactivity.Notifications.NotificationUtils;
 import com.example.abc.mybaseactivity.OtherUtils.DialogUtil;
 import com.example.abc.mybaseactivity.OtherUtils.LogUtil;
@@ -30,7 +23,11 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
+
+import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.MyApplication;
+import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private String Tag = this.getClass().getName();

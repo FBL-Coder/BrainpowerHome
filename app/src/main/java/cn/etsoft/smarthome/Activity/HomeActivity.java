@@ -17,8 +17,8 @@ import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.lang.ref.WeakReference;
 
-import cn.etsoft.smarthome.Activity.AdvancedSetting.SceneSetActivity;
-import cn.etsoft.smarthome.Activity.AdvancedSetting.TimerSetActivity;
+import cn.etsoft.smarthome.Activity.Settings.SceneSetActivity;
+import cn.etsoft.smarthome.Activity.Settings.TimerSetActivity;
 import cn.etsoft.smarthome.Domain.City;
 import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.Weather_All_Bean;

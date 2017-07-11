@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.etsoft.smarthome.Activity.HomeActivity;
-import cn.etsoft.smarthome.Activity.SettingActivity;
+import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.Http_Result;
 import cn.etsoft.smarthome.Domain.RcuInfo;
@@ -109,7 +109,7 @@ public class Login_Helper {
 //        }.getType());
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, gson.toJson(rcuInfos));
         if (rcuInfos.size() != 1)
-            mContext.startActivity(new Intent(mContext, SettingActivity.class));
+            mContext.startActivity(new Intent(mContext, NewWorkSetActivity.class));
         else {
             SendDataUtil.getNetWorkInfo();
             mContext.startActivity(new Intent(mContext, HomeActivity.class));

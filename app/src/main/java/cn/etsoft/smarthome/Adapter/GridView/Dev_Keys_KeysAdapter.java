@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.jaygoo.widget.RangeSeekBar;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.Dev_KeysSetHelper;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.Utils.CommonUtils;
+import cn.etsoft.smarthome.View.RotateBtn.RotateControButton;
 
 import static android.content.ContentValues.TAG;
 
@@ -37,11 +39,18 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
     private Context mContext;
     private List<PrintCmd> listData;
     private int position_keyinput;
+    private List<String> texts;
 
     public Dev_Keys_KeysAdapter(List<Out_List_printcmd> listData_all, Context context, int position_keyinput, boolean isShowSelect) {
         this.listData_all = listData_all;
         this.position_keyinput = position_keyinput;
         mContext = context;
+        texts = new ArrayList<>();
+        texts.add("关闭");
+        texts.add("半关");
+        texts.add("中间");
+        texts.add("半开");
+        texts.add("打开");
         IsShowSelect(isShowSelect);
     }
 
@@ -97,6 +106,7 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.girdview_keys_item, null);
             viewHoler.mName = (TextView) convertView.findViewById(R.id.text_list_item);
             viewHoler.mIV = (ImageView) convertView.findViewById(R.id.img_list_item);
+            viewHoler.rotateControButton = (RotateControButton) convertView.findViewById(R.id.RotateControButton);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
 
@@ -105,7 +115,16 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
         } else {
             viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
         }
+
+        viewHoler.rotateControButton.setTemp(0, 4, 0, texts);
         viewHoler.mName.setText(listData.get(position).getKeyname());
+
+        viewHoler.rotateControButton.setOnTempChangeListener(new RotateControButton.OnTempChangeListener() {
+            @Override
+            public void change(int temp) {
+                ToastUtil.showText("点击返回" + texts.get(temp));
+            }
+        });
 
         return convertView;
     }
@@ -113,5 +132,6 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
     class ViewHoler {
         ImageView mIV;
         TextView mName;
+        RotateControButton rotateControButton;
     }
 }

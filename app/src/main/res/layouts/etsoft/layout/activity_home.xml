@@ -242,7 +242,7 @@
                 android:layout_below="@+id/home_ref_btn"
                 android:layout_marginLeft="@dimen/dp_50"
                 android:layout_marginStart="48dp"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/home_weather_temp"
@@ -335,9 +335,10 @@
 
                     <TextView
                         android:id="@+id/home_weather_zhiliang"
-                        android:layout_width="@dimen/dp_100"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/dp_50"
                         android:gravity="center"
+                        android:lines="1"
                         android:paddingRight="@dimen/dp_20"
                         android:textColor="@color/home_text"
                         android:textSize="@dimen/sp_22" />

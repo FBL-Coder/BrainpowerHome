@@ -1,4 +1,4 @@
-package cn.etsoft.smarthome.Activity.AdvancedSetting;
+package cn.etsoft.smarthome.Activity.Settings;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

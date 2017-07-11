@@ -1,7 +1,6 @@
-package cn.etsoft.smarthome.Activity.AdvancedSetting;
+package cn.etsoft.smarthome.Activity.Settings;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,7 +25,6 @@ import cn.etsoft.smarthome.UiHelper.TimerSetHelper;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
-import cn.etsoft.smarthome.View.PopupWindow.MultiChoicePopWindow;
 
 import static cn.etsoft.smarthome.UiHelper.TimerSetHelper.reverseString;
 

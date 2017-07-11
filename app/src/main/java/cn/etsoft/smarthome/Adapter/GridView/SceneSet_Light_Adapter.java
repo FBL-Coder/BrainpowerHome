@@ -78,7 +78,6 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
         }
     }
 
-
     public void notifyDataSetChanged(List<WareLight> mLights, int sceneposition, boolean mIsShowSelect) {
         this.mLights = mLights;
         this.mIsShowSelect = mIsShowSelect;

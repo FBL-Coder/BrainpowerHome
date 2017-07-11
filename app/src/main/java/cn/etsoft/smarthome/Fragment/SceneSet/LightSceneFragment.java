@@ -10,7 +10,7 @@ import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.etsoft.smarthome.Activity.AdvancedSetting.SceneSetActivity;
+import cn.etsoft.smarthome.Activity.Settings.SceneSetActivity;
 import cn.etsoft.smarthome.Adapter.GridView.SceneSet_Light_Adapter;
 import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.MyApplication;
