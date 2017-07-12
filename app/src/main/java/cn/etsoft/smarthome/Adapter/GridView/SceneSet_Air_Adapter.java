@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jaygoo.widget.RangeSeekBar;
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+import com.lantouzi.wheelview.WheelView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,8 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
     private Context mContext;
     private List<WareAirCondDev> mAirs;
     private boolean mIsShowSelect;
+    private List<String> temp_texts = new ArrayList<>();
+    private List<String> spead_texts = new ArrayList<>();
 
     public SceneSet_Air_Adapter(int sceneposition, Context context, List<WareAirCondDev> airs, boolean isShowSelect) {
         mIsShowSelect = isShowSelect;
@@ -78,7 +82,6 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
         }
     }
 
-
     public void notifyDataSetChanged(List<WareAirCondDev> mAirs, int sceneposition, boolean mIsShowSelect) {
         this.mAirs = mAirs;
         this.mIsShowSelect = mIsShowSelect;
@@ -102,40 +105,39 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
         return position;
     }
 
+
+    int position_flag;
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHoler viewHoler = null;
+        ViewHolder viewHoler = null;
+        position_flag = position;
         if (convertView == null) {
-            viewHoler = new ViewHoler();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.gridview_sceneset_light_item, null);
-            viewHoler.mName = (TextView) convertView.findViewById(R.id.SceneSet_GridView_Item_Name);
-            viewHoler.mIV = (ImageView) convertView.findViewById(R.id.SceneSet_GridView_Item_IV);
-            viewHoler.mSelect = (ImageView) convertView.findViewById(R.id.SceneSet_GridView_Item_Select);
-            viewHoler.mSeekBar = (RangeSeekBar) convertView.findViewById(R.id.SceneSet_GridView_Item_Slide);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.gridview_sceneset_airs_item, null);
+            viewHoler = new ViewHolder(convertView);
             convertView.setTag(viewHoler);
-        } else viewHoler = (ViewHoler) convertView.getTag();
+        } else viewHoler = (ViewHolder) convertView.getTag();
         if (mAirs.get(position).getbOnOff() == 0)
-            viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
-        else viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
-        viewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
-        viewHoler.mSeekBar.setRight(4);
+            viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher);
+        else viewHoler.mAirSwitch.setImageResource(R.drawable.switch_icon);
+        viewHoler.mAirSelect.setImageResource(R.drawable.ic_launcher);
         if (mSceneDev != null) {
             for (int i = 0; i < mSceneDev.size(); i++) {//根据设给的数据判断状态以及显示图标
                 if (mSceneDev.get(i).getDevID() == mAirs.get(position).getDev().getDevId()
                         && mSceneDev.get(i).getCanCpuID().equals(mAirs.get(position).getDev().getCanCpuId())
                         && mSceneDev.get(i).getDevType() == mAirs.get(position).getDev().getType()) {
                     mAirs.get(position).getDev().setSelect(true);
-                    viewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
+                    viewHoler.mAirSelect.setImageResource(R.drawable.ic_launcher_round);
                     if (mSceneDev.get(i).getbOnOff() == 0) {
-                        viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+                        viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher);
                     } else if (mSceneDev.get(i).getbOnOff() == 1) {
-                        viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
+                        viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher_round);
                     }
                 }
             }
         }
-        final ViewHoler finalViewHoler = viewHoler;
-        viewHoler.mSelect.setOnClickListener(new View.OnClickListener() {
+        final ViewHolder finalViewHoler = viewHoler;
+        viewHoler.mAirSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mAirs.get(position).getDev().isSelect()) {
@@ -144,7 +146,7 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
                                 && mAirs.get(position).getDev().getType() == mSceneDev.get(i).getDevType()
                                 && mAirs.get(position).getDev().getCanCpuId().equals(mSceneDev.get(i).getCanCpuID())) {
                             mSceneDev.remove(i);
-                            finalViewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
+                            finalViewHoler.mAirSelect.setImageResource(R.drawable.ic_launcher);
                             mAirs.get(position).getDev().setSelect(false);
                         }
                     }
@@ -156,22 +158,22 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
                     item.setDevType((byte) mAirs.get(position).getDev().getType());
                     item.setCanCpuID(mAirs.get(position).getDev().getCanCpuId());
                     mSceneDev.add(item);
-                    finalViewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
+                    finalViewHoler.mAirSelect.setImageResource(R.drawable.ic_launcher_round);
                 }
                 Log.i(TAG, "onClick: ****" + mSceneDev.size());
             }
         });
 
-        viewHoler.mIV.setOnClickListener(new View.OnClickListener() {
+        viewHoler.mAirSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (mAirs.get(position).getbOnOff() == 0) {
                     mAirs.get(position).setbOnOff((byte) 1);
-                    finalViewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
+                    finalViewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher_round);
                 } else {
                     mAirs.get(position).setbOnOff((byte) 0);
-                    finalViewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+                    finalViewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher);
                 }
 
                 if (mAirs.get(position).getDev().isSelect()) {
@@ -186,13 +188,78 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
                 }
             }
         });
-        viewHoler.mName.setText(mAirs.get(position).getDev().getDevName());
+        viewHoler.mAirName.setText(mAirs.get(position).getDev().getDevName());
+        for (int i = 16; i < 31; i++) {
+            temp_texts.add(i + "");
+        }
+        spead_texts.add("低档");
+        spead_texts.add("中档");
+        spead_texts.add("高档");
+        viewHoler.mHorizontalSelectTemp.selectIndex(10);
+        viewHoler.mHorizontalSelectTemp.setItems(temp_texts);
+        viewHoler.mHorizontalSelectTemp.setAdditionCenterMark("℃");
+        viewHoler.mHorizontalSelectTemp.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
+            @Override
+            public void onWheelItemChanged(WheelView wheelView, int i) {
+            }
+
+            @Override
+            public void onWheelItemSelected(WheelView wheelView, int i) {
+                ToastUtil.showText("温度选择了 " + i + "  条");
+            }
+        });
+        viewHoler.mHorizontalSelectSpead.setItems(spead_texts);
+        viewHoler.mHorizontalSelectSpead.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
+            @Override
+            public void onWheelItemChanged(WheelView wheelView, int i) {
+            }
+
+            @Override
+            public void onWheelItemSelected(WheelView wheelView, int i) {
+                ToastUtil.showText("风速选择了 " + i + "  条");
+            }
+        });
+
         return convertView;
     }
 
-    class ViewHoler {
-        ImageView mSelect, mIV;
-        TextView mName;
-        RangeSeekBar mSeekBar;
+
+    public static class ViewHolder {
+        public View rootView;
+        public TextView mAirName;
+        public TextView mAirNowTemp;
+        public ImageView mAirNowSpead;
+        public ImageView mAirTempDown;
+        public ImageView mAirSelect;
+        public ImageView mAirSwitch;
+        public WheelView mHorizontalSelectTemp;
+        public ImageView mAirTempAdd;
+        public ImageView mAirTospeadSam;
+        public WheelView mHorizontalSelectSpead;
+        public ImageView mAirTospeadBig;
+        public LinearLayout mAirTocool;
+        public LinearLayout mAirToheat;
+        public LinearLayout mAirXeransis;
+        public LinearLayout mAirSwingFlap;
+
+        public ViewHolder(View rootView) {
+            this.rootView = rootView;
+            this.mAirName = (TextView) rootView.findViewById(R.id.air_name);
+            this.mAirNowTemp = (TextView) rootView.findViewById(R.id.air_now_temp);
+            this.mAirNowSpead = (ImageView) rootView.findViewById(R.id.air_now_spead);
+            this.mAirTempDown = (ImageView) rootView.findViewById(R.id.air_temp_down);
+            this.mAirSwitch = (ImageView) rootView.findViewById(R.id.air_switch);
+            this.mAirSelect = (ImageView) rootView.findViewById(R.id.air_select);
+            this.mHorizontalSelectTemp = (WheelView) rootView.findViewById(R.id.HorizontalSelect_temp);
+            this.mAirTempAdd = (ImageView) rootView.findViewById(R.id.air_temp_add);
+            this.mAirTospeadSam = (ImageView) rootView.findViewById(R.id.air_tospead_sam);
+            this.mHorizontalSelectSpead = (WheelView) rootView.findViewById(R.id.HorizontalSelect_spead);
+            this.mAirTospeadBig = (ImageView) rootView.findViewById(R.id.air_tospead_big);
+            this.mAirTocool = (LinearLayout) rootView.findViewById(R.id.air_tocool);
+            this.mAirToheat = (LinearLayout) rootView.findViewById(R.id.air_toheat);
+            this.mAirXeransis = (LinearLayout) rootView.findViewById(R.id.air_xeransis);
+            this.mAirSwingFlap = (LinearLayout) rootView.findViewById(R.id.air_swing_flap);
+        }
+
     }
 }

@@ -6,6 +6,8 @@ import android.widget.GridView;
 
 /**
  * Author：FBL  Time： 2017/7/11.
+ * 自定义GirdView
+ * 重写事件拦截，用于Item中的旋转按钮   解决旋转按钮冲突
  */
 
 import android.content.Context;

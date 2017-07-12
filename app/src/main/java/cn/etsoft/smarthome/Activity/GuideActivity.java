@@ -20,8 +20,10 @@ import cn.etsoft.smarthome.R;
 
 import java.util.ArrayList;
 
-
-
+/**
+ * Author：FBL  Time： 2017/6/13.
+ * 第一次启动页面
+ */
 public class GuideActivity extends Activity {
     private ViewPager mViewPager;
     private Button mBtnGo;
@@ -31,8 +33,8 @@ public class GuideActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if ((Integer)AppSharePreferenceMgr.get(MyApplication.getContext(),"IsFirst",0) == 1){
-            startActivity(new Intent(GuideActivity.this,WelcomeActivity.class));
+        if ((Integer) AppSharePreferenceMgr.get(MyApplication.getContext(), "IsFirst", 0) == 1) {
+            startActivity(new Intent(GuideActivity.this, WelcomeActivity.class));
             finish();
         }
         setContentView(R.layout.activity_guide);
@@ -40,23 +42,23 @@ public class GuideActivity extends Activity {
     }
 
     private void initViews() {
-        mViewPager = (ViewPager)findViewById(R.id.vp_guide);
-        mBtnGo = (Button)findViewById(R.id.btn_go);
+        mViewPager = (ViewPager) findViewById(R.id.vp_guide);
+        mBtnGo = (Button) findViewById(R.id.btn_go);
 
         //实例化各个界面的布局对象
         View view1 = View.inflate(this, R.layout.viewpage_guide_item, null);
         View view2 = View.inflate(this, R.layout.viewpage_guide_item, null);
         View view3 = View.inflate(this, R.layout.viewpage_guide_item, null);
 
-        ((ImageView)view1.findViewById(R.id.tv_pic)).setImageResource(R.mipmap.ic_launcher);
-        ((ImageView)view2.findViewById(R.id.tv_pic)).setImageResource(R.mipmap.ic_launcher);
-        ((ImageView)view3.findViewById(R.id.tv_pic)).setImageResource(R.mipmap.ic_launcher);
+        ((ImageView) view1.findViewById(R.id.tv_pic)).setImageResource(R.mipmap.ic_launcher);
+        ((ImageView) view2.findViewById(R.id.tv_pic)).setImageResource(R.mipmap.ic_launcher);
+        ((ImageView) view3.findViewById(R.id.tv_pic)).setImageResource(R.mipmap.ic_launcher);
 
         mBtnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppSharePreferenceMgr.put("IsFirst",1);
-                startActivity(new Intent(GuideActivity.this,WelcomeActivity.class));
+                AppSharePreferenceMgr.put("IsFirst", 1);
+                startActivity(new Intent(GuideActivity.this, WelcomeActivity.class));
                 finish();
             }
         });
@@ -80,16 +82,16 @@ public class GuideActivity extends Activity {
             }
         });
 
-        ((TextView)view1.findViewById(R.id.tv_title)).setText("精彩首页");
-        ((TextView)view1.findViewById(R.id.tv_title)).setTextColor(Color.parseColor("#FF5000"));
-        ((TextView)view2.findViewById(R.id.tv_title)).setText("发现定位");
-        ((TextView)view2.findViewById(R.id.tv_title)).setTextColor(Color.parseColor("#49ca65"));
-        ((TextView)view3.findViewById(R.id.tv_title)).setText("欢乐互动");
-        ((TextView)view3.findViewById(R.id.tv_title)).setTextColor(Color.parseColor("#16c5c6"));
+        ((TextView) view1.findViewById(R.id.tv_title)).setText("精彩首页");
+        ((TextView) view1.findViewById(R.id.tv_title)).setTextColor(Color.parseColor("#FF5000"));
+        ((TextView) view2.findViewById(R.id.tv_title)).setText("发现定位");
+        ((TextView) view2.findViewById(R.id.tv_title)).setTextColor(Color.parseColor("#49ca65"));
+        ((TextView) view3.findViewById(R.id.tv_title)).setText("欢乐互动");
+        ((TextView) view3.findViewById(R.id.tv_title)).setTextColor(Color.parseColor("#16c5c6"));
 
-        ((TextView)view1.findViewById(R.id.tv_desc)).setText("优惠第一时间为你奉上\n");
-        ((TextView)view2.findViewById(R.id.tv_desc)).setText("给你最好的\n做你最想要的");
-        ((TextView)view3.findViewById(R.id.tv_desc)).setText("欢迎互动\n精彩由你");
+        ((TextView) view1.findViewById(R.id.tv_desc)).setText("优惠第一时间为你奉上\n");
+        ((TextView) view2.findViewById(R.id.tv_desc)).setText("给你最好的\n做你最想要的");
+        ((TextView) view3.findViewById(R.id.tv_desc)).setText("欢迎互动\n精彩由你");
 
         mViewPager = (ViewPager) findViewById(R.id.vp_guide);
 

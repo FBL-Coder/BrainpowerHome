@@ -35,7 +35,7 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 
 /**
  * Author：FBL  Time： 2017/6/22.
- * 按键配设备 页面 ——输出页面
+ * 按键配设备 页面 ——输入页面
  */
 
 public class Key_DevsSetActivity extends BaseActivity implements View.OnClickListener {

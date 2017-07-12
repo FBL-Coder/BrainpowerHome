@@ -38,6 +38,7 @@ public class AirSceneFragment extends BaseFragment {
     @Override
     protected void initView() {
         mSceneSet_Girdview = findViewById(R.id.SceneSet_Fragment_GridView);
+        mSceneSet_Girdview.setNumColumns(1);
         mSceneSet_IsSelectDev = findViewById(R.id.SceneSet_IsSelectDev);
     }
 

@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 /**
  * Author：FBL  Time： 2017/6/20.
+ * 滚动textView
  */
 
 public class MarqueeTextView extends TextView {
