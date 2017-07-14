@@ -7,7 +7,7 @@ public class WareChnOpItem implements Serializable{
 	private byte devType;
 	private byte devid;
 
-	private String devUnitID; // 12　输入板
+	private String cancupid; // 12　输入板
 	private byte keyDownValid; // 按键板最多６个按键
 	private byte keyUpValid; // 按键板最多６个按键
 	private int rev1;
@@ -41,12 +41,12 @@ public class WareChnOpItem implements Serializable{
 		this.devid = devid;
 	}
 
-	public String getDevUnitID() {
-		return devUnitID;
+	public String getCancupid() {
+		return cancupid;
 	}
 
-	public void setDevUnitID(String devUnitID) {
-		this.devUnitID = devUnitID;
+	public void setCancupid(String cancupid) {
+		this.cancupid = cancupid;
 	}
 
 	public byte getKeyDownValid() {

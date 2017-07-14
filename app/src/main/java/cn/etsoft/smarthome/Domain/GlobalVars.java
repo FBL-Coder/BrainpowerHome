@@ -64,7 +64,9 @@ public class GlobalVars {
     }
 
     public static String getDevid() {
-        return (String) AppSharePreferenceMgr.get(RCUINFOID_SHAREPREFERENCE, "");
+        if (devid == null || devid == "")
+            devid = (String) AppSharePreferenceMgr.get(RCUINFOID_SHAREPREFERENCE, "");
+        return devid;
     }
 
     public static void setDevid(String devid) {
@@ -72,7 +74,10 @@ public class GlobalVars {
     }
 
     public static String getUserid() {
-        return (String) AppSharePreferenceMgr.get(USERID_SHAREPREFERENCE, "");
+        if (userid == null || userid == "")
+            userid = (String) AppSharePreferenceMgr.get(USERID_SHAREPREFERENCE, "");
+        return userid;
+
     }
 
     public static void setUserid(String userid) {
@@ -80,6 +85,15 @@ public class GlobalVars {
     }
 
     public static String getDevpass() {
+        if (devpass == null || devpass == "") {
+            StringBuffer buffer = new StringBuffer((String) AppSharePreferenceMgr.get(RCUINFOID_SHAREPREFERENCE, ""));
+            if (buffer == null || buffer.length() < 8) {
+                return "";
+            }
+            String pass_reverse = buffer.reverse().toString().substring(0, 8);
+            StringBuffer buffer_pass = new StringBuffer(pass_reverse);
+            devpass = buffer_pass.reverse().toString();
+        }
         return devpass;
     }
 

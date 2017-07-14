@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scene_item_ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_00000000"
+    android:clickable="true"
+    android:gravity="center"
+    android:padding="@dimen/dp_10"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/img_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="3" />
+
+    <cn.etsoft.smarthome.View.RotateBtn.RotateControButton
+        android:id="@+id/RotateControButton"
+        android:layout_width="180dp"
+        android:layout_height="180dp" />
+
+    <TextView
+        android:id="@+id/text_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/color_fff"
+        android:textSize="@dimen/sp_16" />
+
+</LinearLayout>

@@ -46,7 +46,10 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
     private RecyclerView mDevKeys_Devs;
     private SlideGridView mDevKeys_Keys;
     private TextView mDevKeys_KeyBoards, mDevKeys_TestBtn, mDevKeys_SaveBtn;
+    //设备适配器
     private Dev_KeysSet_DevsAdapter mDevKeysDevsAdapter;
+    //按键适配器
+    private Dev_Keys_KeysAdapter devsAdapter;
     private PopupWindow popupWindow;
     private int DevType = 0;
     private String RoomName = "";
@@ -54,10 +57,8 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
     private boolean OuterCircleClick = false;
 
     private List<WareBoardKeyInput> wareBoardKeyInputs;
-    private List<String> keynames;
-
-    private Dev_Keys_KeysAdapter devsAdapter;
-
+    //按键板名
+    private List<String> keyInputnames;
 
     //房间内指定类型设备
     private List<WareDev> mRoomDevs;
@@ -77,7 +78,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                 if (datType == 14) {
                     IsNoData = false;
                     Dev_KeysHandler handler = new Dev_KeysHandler(Dev_KeysSetActivity.this);
-                    Dev_KeysSetHelper.InitKeyData(handler, mRoomDevs, devPosition);
+                    Dev_KeysSetHelper.InitKeyData(position_keyinput,handler, mRoomDevs, devPosition);
                 }
                 if (datType == 15 && MyApplication.getWareData().getResult() != null
                         && MyApplication.getWareData().getResult().getResult() == 1) {
@@ -118,12 +119,12 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 
         wareBoardKeyInputs = MyApplication.getWareData().getKeyInputs();
-        keynames = new ArrayList<>();
+        keyInputnames = new ArrayList<>();
         for (int i = 0; i < wareBoardKeyInputs.size(); i++) {
-            keynames.add(wareBoardKeyInputs.get(i).getBoardName());
+            keyInputnames.add(wareBoardKeyInputs.get(i).getBoardName());
         }
-        if (keynames.size() > 0)
-            mDevKeys_KeyBoards.setText(keynames.get(0));
+        if (keyInputnames.size() > 0)
+            mDevKeys_KeyBoards.setText(keyInputnames.get(0));
 
         initEvent();
     }
@@ -136,7 +137,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
         }
         switch (v.getId()) {
             case R.id.Dev_KeysSet_KeyBoards: //按键板
-                initRadioPopupWindow(v, keynames);
+                initRadioPopupWindow(v, keyInputnames);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
             case R.id.Dev_KeysSet_Test_Btn: // 测试

@@ -24,7 +24,7 @@
                 android:gravity="right">
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/Dev_KeysSet_Devs"
+                    android:id="@+id/Key_DevsSet_Devs"
                     android:layout_width="@dimen/dp_0"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
@@ -32,7 +32,7 @@
                     android:scrollbars="none" />
 
                 <TextView
-                    android:id="@+id/Dev_KeysSet_KeyBoards"
+                    android:id="@+id/Key_DevsSet_KeyBoards"
                     android:layout_width="@dimen/dp_150"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -42,7 +42,7 @@
                     android:textSize="@dimen/dp_22" />
 
                 <TextView
-                    android:id="@+id/Dev_KeysSet_Test_Btn"
+                    android:id="@+id/Key_DevsSet_Test_Btn"
                     android:layout_width="@dimen/dp_70"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -51,7 +51,7 @@
                     android:textSize="@dimen/dp_22" />
 
                 <TextView
-                    android:id="@+id/Dev_KeysSet_Save_Btn"
+                    android:id="@+id/Key_DevsSet_Save_Btn"
                     android:layout_width="@dimen/dp_70"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -61,7 +61,7 @@
         </RelativeLayout>
 
         <GridView
-            android:id="@+id/Dev_KeysSet_Keys"
+            android:id="@+id/Key_DevsSet_Keys"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="2"
@@ -74,7 +74,7 @@
         android:layout_height="match_parent">
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
-            android:id="@+id/Dev_KeysSet_CircleMenu"
+            android:id="@+id/Key_DevsSet_CircleMenu"
             android:layout_width="@dimen/dp_250"
             android:layout_height="match_parent" />
     </FrameLayout>

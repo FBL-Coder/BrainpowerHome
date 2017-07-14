@@ -51,6 +51,7 @@ public class Dev_KeysSetHelper {
     public static void setListData_all(List<Out_List_printcmd> listData_all) {
         Dev_KeysSetHelper.listData_all = listData_all;
     }
+
     /**
      * 初始化外部转盘数据
      */
@@ -140,7 +141,7 @@ public class Dev_KeysSetHelper {
     }
 
 
-    public static void InitKeyData(final Handler handler, final List<WareDev> Dev_room, final int devposition) {
+    public static void InitKeyData(final int keyInputPosition, final Handler handler, final List<WareDev> Dev_room, final int devposition) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -154,20 +155,20 @@ public class Dev_KeysSetHelper {
                 }
                 for (int j = 0; j < MyApplication.getWareData().getKeyInputs().size(); j++) {
                     List<String> list_Name = new ArrayList<>();
-                    boolean isConcan = false;
+                    boolean isContain = false;
                     for (int k = 0; k < ChnOpItem_list.size(); k++) {
-                        if (ChnOpItem_list.get(k).getDevUnitID()
-                                .equals(MyApplication.getWareData().getKeyInputs().get(j).getDevUnitID())) {
+                        if (ChnOpItem_list.get(k).getCancupid()
+                                .equals(MyApplication.getWareData().getKeyInputs().get(j).getCanCpuID())) {
                             ChnOpItem = ChnOpItem_list.get(k);
                             for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(j).getKeyName().length; i++) {
                                 list_Name.add(MyApplication.getWareData().getKeyInputs().get(j).getKeyName()[i]);
                             }
-                            isConcan = true;
+                            isContain = true;
                         }
                     }
-                    if (!isConcan) {
+                    if (!isContain) {
                         ChnOpItem = new WareChnOpItem();
-                        ChnOpItem.setDevUnitID(MyApplication.getWareData().getKeyInputs().get(j).getDevUnitID());
+                        ChnOpItem.setCancupid(MyApplication.getWareData().getKeyInputs().get(j).getCanCpuID());
                         for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(j).getKeyName().length; i++) {
                             list_Name.add(MyApplication.getWareData().getKeyInputs().get(j).getKeyName()[i]);
                         }
@@ -175,7 +176,7 @@ public class Dev_KeysSetHelper {
                     List<PrintCmd> listData = new ArrayList<>();
                     for (int i = 0; i < ChnOpItem.getKeyUpCmd().length; i++) {
                         PrintCmd cmd = new PrintCmd();
-                        cmd.setDevUnitID(ChnOpItem.getDevUnitID());
+                        cmd.setDevUnitID(ChnOpItem.getCancupid());
                         try {
                             cmd.setDevType(Dev_room.get(devposition).getType());
                         } catch (Exception e) {
@@ -197,7 +198,7 @@ public class Dev_KeysSetHelper {
                         listData.add(cmd);
                     }
                     Out_List_printcmd list = new Out_List_printcmd();
-                    list.setUnitid(ChnOpItem.getDevUnitID());
+                    list.setUnitid(ChnOpItem.getCancupid());
                     list.setPrintCmds(listData);
                     listData_all.add(list);
                 }

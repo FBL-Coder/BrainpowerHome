@@ -287,6 +287,8 @@ public class WareData implements Serializable {
     }
 
     public List<WareBoardKeyInput> getKeyInputs() {
+        if (keyInputs == null)
+            keyInputs = new ArrayList<>();
         return keyInputs;
     }
 

@@ -7,7 +7,7 @@ public class WareBoardKeyInput implements Serializable {
      *
      */
     private static final long serialVersionUID = 8372972355485111907L;
-    private String devUnitID; //12
+    private String canCpuID; //12
     private String boardName; //8
     private byte boardType;
     private byte keyCnt;
@@ -21,12 +21,11 @@ public class WareBoardKeyInput implements Serializable {
     private int keyIsSelect[]; //6-12
     private byte keyAllCtrlType[]; //6
 
-    public String getDevUnitID() {
-        return devUnitID;
+    public String getCanCpuID() {
+        return canCpuID;
     }
-
-    public void setDevUnitID(String devUnitID) {
-        this.devUnitID = devUnitID;
+    public void setCanCpuID(String devUnitID) {
+        this.canCpuID = devUnitID;
     }
 
     public String getBoardName() {

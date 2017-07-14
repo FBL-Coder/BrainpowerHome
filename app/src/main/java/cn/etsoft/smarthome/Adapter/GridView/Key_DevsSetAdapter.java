@@ -10,40 +10,36 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
-import com.jaygoo.widget.RangeSeekBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.etsoft.smarthome.Domain.Out_List_printcmd;
-import cn.etsoft.smarthome.Domain.PrintCmd;
-import cn.etsoft.smarthome.Domain.WareAirCondDev;
-import cn.etsoft.smarthome.Domain.WareSceneDevItem;
-import cn.etsoft.smarthome.MyApplication;
+import cn.etsoft.smarthome.Domain.WareDev;
+import cn.etsoft.smarthome.Domain.WareKeyOpItem;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.UiHelper.Dev_KeysSetHelper;
-import cn.etsoft.smarthome.UiHelper.WareDataHliper;
-import cn.etsoft.smarthome.Utils.CommonUtils;
+import cn.etsoft.smarthome.UiHelper.Key_DevsSetHelper;
 import cn.etsoft.smarthome.View.RotateBtn.RotateControButton;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Author：FBL  Time： 2017/6/26.
- * 设备配按键 设置——按键适配器
+ * 按键配设备 设置——设备适配器
  */
 
-public class Dev_Keys_KeysAdapter extends BaseAdapter {
+public class Key_DevsSetAdapter extends BaseAdapter {
 
-    private List<Out_List_printcmd> listData_all;
     private Context mContext;
-    private List<PrintCmd> listData;
-    private int position_keyinput;
+    private List<WareDev> roomDevs;
+    private List<WareDev> listData;
+    private int keys_position;
+    private int keyinpur_position;
     private List<String> texts;
+    private List<WareKeyOpItem> keyOpItems;
 
-    public Dev_Keys_KeysAdapter(List<Out_List_printcmd> listData_all, Context context, int position_keyinput, boolean isShowSelect) {
-        this.listData_all = listData_all;
-        this.position_keyinput = position_keyinput;
+    public Key_DevsSetAdapter(int keyinpur_position, int keys_position, Context context, List<WareDev> roomDevs, boolean isShowSelect) {
+        this.keys_position = keys_position;
+        this.roomDevs = roomDevs;
+        this.keyinpur_position = keyinpur_position;
+        listData = new ArrayList<>();
         mContext = context;
         texts = new ArrayList<>();
         texts.add("关闭");
@@ -55,32 +51,40 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
     }
 
 
-    public void notifyDataSetChanged(List<Out_List_printcmd> listData_all, int position_keyinput, boolean mIsShowSelect) {
-        this.listData_all = listData_all;
-        this.position_keyinput = position_keyinput;
+    public void notifyDataSetChanged(int keyinpur_position, int keys_position, Context context, List<WareDev> roomDevs, boolean isShowSelect) {
+        this.roomDevs = roomDevs;
+        this.keys_position = keys_position;
+        this.keyinpur_position = keyinpur_position;
         super.notifyDataSetChanged();
-        IsShowSelect(mIsShowSelect);
+        IsShowSelect(isShowSelect);
     }
 
     public void IsShowSelect(boolean IsShowSelect) {
-        if (IsShowSelect) {
-            listData = new ArrayList<>();
-            for (int i = 0; i < listData_all.size(); i++) {
-                if (MyApplication.getWareData().getKeyInputs().get(position_keyinput).getCanCpuID().equals(listData_all.get(i).getUnitid())) {
-                    for (int j = 0; j < listData_all.get(i).getPrintCmds().size(); j++) {
-                        if (listData_all.get(i).getPrintCmds().get(j).isSelect())
-                            listData.add(listData_all.get(i).getPrintCmds().get(j));
-                    }
+        keyOpItems = Key_DevsSetHelper.getInput_key_data();
+        //给所有设备和按键关联的赋值
+        for (int j = 0; j < roomDevs.size(); j++) {
+            boolean isContain = false;
+            for (int i = 0; i < keyOpItems.size(); i++) {
+                if (keyOpItems.get(i).getDevId() == roomDevs.get(j).getDevId()
+                        && keyOpItems.get(i).getDevType() == roomDevs.get(j).getType()
+                        && keyOpItems.get(i).getDevUnitID().equals(roomDevs.get(j).getCanCpuId())) {
+                    roomDevs.get(j).setSelect(true);
+                    roomDevs.get(j).setbOnOff(keyOpItems.get(i).getKeyOpCmd());
+                    Log.e("KeyOpCmd", keyOpItems.get(i).getKeyOpCmd() + "");
+                    isContain = true;
                 }
             }
-        } else {
-            listData = new ArrayList<>();
-            for (int i = 0; i < Dev_KeysSetHelper.getListData_all().size(); i++) {
-                if (MyApplication.getWareData().getKeyInputs().get(position_keyinput).getCanCpuID().equals(Dev_KeysSetHelper.getListData_all().get(i).getUnitid())) {
-                    listData = Dev_KeysSetHelper.getListData_all().get(i).getPrintCmds();
-                }
+            if (!isContain) {
+                roomDevs.get(j).setSelect(false);
             }
         }
+        if (IsShowSelect) {
+            for (int i = 0; i < roomDevs.size(); i++) {
+                if (roomDevs.get(i).isSelect())
+                    listData.add(roomDevs.get(i));
+            }
+        } else
+            listData.addAll(roomDevs);
     }
 
     @Override
@@ -103,7 +107,7 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
         ViewHoler viewHoler = null;
         if (convertView == null) {
             viewHoler = new ViewHoler();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.girdview_keys_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.girdview_devs_item, null);
             viewHoler.mName = (TextView) convertView.findViewById(R.id.text_list_item);
             viewHoler.mIV = (ImageView) convertView.findViewById(R.id.img_list_item);
             viewHoler.rotateControButton = (RotateControButton) convertView.findViewById(R.id.RotateControButton);
@@ -116,10 +120,8 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
             viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
         }
 
-        //TODO 点击按钮选择关联设备并且设置相关命令
-
         viewHoler.rotateControButton.setTemp(0, 4, 0, texts);
-        viewHoler.mName.setText(listData.get(position).getKeyname());
+        viewHoler.mName.setText(listData.get(position).getDevName());
 
         viewHoler.rotateControButton.setOnTempChangeListener(new RotateControButton.OnTempChangeListener() {
             @Override

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background"
     android:orientation="horizontal"
-    android:paddingBottom="@dimen/dp_60">
+    android:paddingBottom="@dimen/dp_30">
 
     <LinearLayout
         android:layout_width="@dimen/dp_0"
@@ -33,8 +33,8 @@
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:lines="1"
                 android:gravity="center"
+                android:lines="1"
                 android:text="客厅空调"
                 android:textColor="@color/white"
                 android:textSize="@dimen/dp_22" />
@@ -131,16 +131,16 @@
             android:id="@+id/air_select"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_30"
-            android:src="@drawable/ic_launcher_round"
             android:layout_gravity="right"
             android:layout_marginRight="@dimen/dp_20"
-            android:layout_marginTop="@dimen/dp_10"/>
+            android:layout_marginTop="@dimen/dp_10"
+            android:src="@drawable/ic_launcher_round" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0"
-            android:layout_weight="0.6"
             android:layout_marginTop="@dimen/dp_50"
+            android:layout_weight="0.6"
             android:orientation="horizontal">
 
             <ImageView
@@ -156,10 +156,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 app:lwvCenterMarkTextSize="@dimen/sp_24"
-                app:lwvMarkTextColor="@color/white"
                 app:lwvHighlightColor="#7CD717"
                 app:lwvIntervalFactor="2"
-                />
+                app:lwvMarkTextColor="@color/white" />
 
             <ImageView
                 android:id="@+id/air_temp_add"
@@ -172,7 +171,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.5" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -193,10 +192,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:background="@android:color/transparent"
-                app:lwvHighlightColor="#7CD717"
-                app:lwvMarkTextColor="@color/white"
                 app:lwvCenterMarkTextSize="@dimen/sp_24"
-                app:lwvIntervalFactor="2"/>
+                app:lwvHighlightColor="#7CD717"
+                app:lwvIntervalFactor="2"
+                app:lwvMarkTextColor="@color/white" />
 
             <ImageView
                 android:id="@+id/air_tospead_big"
@@ -205,109 +204,71 @@
                 android:layout_weight="1"
                 android:src="@drawable/tospead_big" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0"
-            android:layout_weight="0.6"/>
+            android:layout_weight="0.6" />
 
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/air_mode"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0"
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <RadioButton
                 android:id="@+id/air_tocool"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:button="@null"
+                android:drawableTop="@drawable/tocool"
+                android:gravity="center"
+                android:paddingBottom="@dimen/sp_30"
+                android:text="制冷"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_22" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:src="@drawable/tocool" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="制冷"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_20" />
-            </LinearLayout>
-
-            <LinearLayout
+            <RadioButton
                 android:id="@+id/air_toheat"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:button="@null"
+                android:drawableTop="@drawable/toheat"
+                android:gravity="center"
+                android:paddingBottom="@dimen/sp_30"
+                android:text="制热"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_22" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:src="@drawable/toheat" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="制热"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_22" />
-            </LinearLayout>
-
-            <LinearLayout
+            <RadioButton
                 android:id="@+id/air_xeransis"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:button="@null"
+                android:drawableTop="@drawable/xeransis"
+                android:gravity="center"
+                android:paddingBottom="@dimen/sp_30"
+                android:text="除湿"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_22" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:src="@drawable/xeransis" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="除湿"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_22" />
-            </LinearLayout>
-
-            <LinearLayout
+            <RadioButton
                 android:id="@+id/air_swing_flap"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:src="@drawable/swing_flap" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="扫风"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_22" />
-            </LinearLayout>
-        </LinearLayout>
+                android:button="@null"
+                android:drawableTop="@drawable/swing_flap"
+                android:gravity="center"
+                android:paddingBottom="@dimen/sp_30"
+                android:text="扫风"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_22" />
+        </RadioGroup>
 
     </LinearLayout>
 

@@ -526,7 +526,7 @@ public class UDPServer implements Runnable {
 //    }
 
         List<RcuInfo> json_list = new ArrayList<>();
-        String json_rcuinfo_list = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOLIST_SHAREPREFERENCE,"");
+        String json_rcuinfo_list = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
 
         Gson gson = new Gson();
         RcuInfo info1 = new RcuInfo();
@@ -598,7 +598,7 @@ public class UDPServer implements Runnable {
             Log.w("Exception", e + "");
         }
         String str = gson.toJson(json_list);
-        AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE,str);
+        AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, str);
         MyApplication.getWareData().setRcuInfos(json_list);
         if (netword_count == sleep)
             isFreshData = true;
@@ -1103,7 +1103,7 @@ public class UDPServer implements Runnable {
                 boolean isContains = false;
                 WareBoardKeyInput input = new WareBoardKeyInput();
                 JSONObject object = array.getJSONObject(i);
-                input.setDevUnitID(object.getString("canCpuID"));
+                input.setCanCpuID(object.getString("canCpuID"));
                 input.setBoardName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(object.getString("boardName"))));
                 input.setBoardType((byte) object.getInt("boardType"));
                 input.setKeyCnt((byte) object.getInt("keyCnt"));
@@ -1122,7 +1122,8 @@ public class UDPServer implements Runnable {
 
                 if (MyApplication.getWareData().getKeyInputs().size() > 0) {
                     for (int k = 0; k < MyApplication.getWareData().getKeyInputs().size(); k++) {
-                        if (MyApplication.getWareData().getKeyInputs().get(k).getBoardName().equals(input.getBoardName()) && input.getDevUnitID().equals(MyApplication.getWareData().getKeyInputs().get(k).getDevUnitID())) {
+                        if (MyApplication.getWareData().getKeyInputs().get(k).getBoardName().equals(input.getBoardName())
+                                && input.getCanCpuID().equals(MyApplication.getWareData().getKeyInputs().get(k).getCanCpuID())) {
                             isContains = true;
                         }
                     }
@@ -1458,7 +1459,7 @@ public class UDPServer implements Runnable {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject object_rows = array.getJSONObject(i);
                 WareChnOpItem item = new WareChnOpItem();
-                item.setDevUnitID(object_rows.getString("key_cpuCanID"));
+                item.setCancupid(object_rows.getString("key_cpuCanID"));
                 item.setKeyDownValid((byte) object_rows.getInt("keyDownValid"));
                 item.setKeyUpValid((byte) object_rows.getInt("keyUpValid"));
                 JSONArray array_up_cmd = object_rows.getJSONArray("keyUpCmd");

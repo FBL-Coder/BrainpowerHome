@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
 
@@ -26,6 +27,7 @@ public class AirSceneFragment extends BaseFragment {
 
     private GridView mSceneSet_Girdview;
     private ImageView mSceneSet_IsSelectDev;
+    private RelativeLayout select_rl;
     private SceneSet_Air_Adapter mAirAdapter;
     private int mScenePosition = 0, mDevType = 0;
     private String mRoomName = "全部";
@@ -40,11 +42,13 @@ public class AirSceneFragment extends BaseFragment {
         mSceneSet_Girdview = findViewById(R.id.SceneSet_Fragment_GridView);
         mSceneSet_Girdview.setNumColumns(1);
         mSceneSet_IsSelectDev = findViewById(R.id.SceneSet_IsSelectDev);
+        select_rl = findViewById(R.id.select_rl);
     }
 
     @Override
     public void initData(Bundle arguments) {
         mRoomName = arguments.getString("RoomName", "全部");
+        select_rl.setVisibility(View.GONE);
         initDev();
     }
 

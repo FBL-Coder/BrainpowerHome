@@ -1,9 +1,8 @@
 package cn.etsoft.smarthome.Activity.Settings;
 
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,18 +15,16 @@ import android.widget.TextView;
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.etsoft.smarthome.Adapter.GridView.Dev_Keys_KeysAdapter;
+import cn.etsoft.smarthome.Adapter.GridView.Key_DevsSetAdapter;
 import cn.etsoft.smarthome.Adapter.PopupWindow.PopupWindowAdapter2;
-import cn.etsoft.smarthome.Adapter.RecyclerView.Dev_KeysSet_DevsAdapter;
-import cn.etsoft.smarthome.Domain.WareBoardKeyInput;
+import cn.etsoft.smarthome.Adapter.RecyclerView.Key_Devs_KeysAdapter;
 import cn.etsoft.smarthome.Domain.WareDev;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.UiHelper.Dev_KeysSetHelper;
+import cn.etsoft.smarthome.UiHelper.Key_DevsSetHelper;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
@@ -43,62 +40,65 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
-    private RecyclerView mDevKeys_Devs;
-    private GridView mDevKeys_Keys;
-    private TextView mDevKeys_KeyBoards, mDevKeys_TestBtn, mDevKeys_SaveBtn;
-    private Dev_KeysSet_DevsAdapter mDevKeysDevsAdapter;
+    private RecyclerView mKeyDevs_Keys;
+    private GridView mKeyDevs_Devs;
+    private TextView mKeyDevs_KeyBoards, mKeyDevs_TestBtn, mKeyDevs_SaveBtn;
+    //设备适配器
+    private Key_DevsSetAdapter mKeyDevsKeysAdapter;
+    //按键适配器
+    private Key_Devs_KeysAdapter KeysAdapter;
     private PopupWindow popupWindow;
     private int DevType = 0;
     private String RoomName = "";
     private boolean IsNoData = true;
     private boolean OuterCircleClick = false;
 
-    private List<WareBoardKeyInput> wareBoardKeyInputs;
-    private List<String> keynames;
-
-    private Dev_Keys_KeysAdapter devsAdapter;
-
+    //按键名
+    private List<String> keyName_list;
+    //输入板名
+    private List<String> InputKey_names;
+    //输入板ID
+    private String CanCupID;
 
     //房间内指定类型设备
     private List<WareDev> mRoomDevs;
 
 
-    private int position_keyinput = 0, devPosition = 0;
+    private int position_keyinput = 0, devPosition = 0, KeyPosition = 0;
 
     @Override
     public void initView() {
         setLayout(R.layout.activity_key_devs_set);
-        IsNoData = false;
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 MyApplication.mApplication.dismissLoadDialog();
 
-                if (datType == 14) {
+                if (datType == 11) {
                     IsNoData = false;
-                    Dev_KeysHandler handler = new Dev_KeysHandler(Key_DevsSetActivity.this);
-                    Dev_KeysSetHelper.InitKeyData(handler, mRoomDevs, devPosition);
+                    Key_DevsSetHelper.setInput_key_data(MyApplication.getWareData().getKeyOpItems());
                 }
-                if (datType == 15 && MyApplication.getWareData().getResult() != null
+                if (datType == 12 && MyApplication.getWareData().getResult() != null
                         && MyApplication.getWareData().getResult().getResult() == 1) {
                     ToastUtil.showText("保存成功");
+                    //保存成功之后将备用数据结果置空
                     MyApplication.getWareData().setResult(null);
                 }
             }
         });
 
-        mDevKeys_KeyBoards = getViewById(R.id.Dev_KeysSet_KeyBoards);
-        mDevKeys_TestBtn = getViewById(R.id.Dev_KeysSet_Test_Btn);
-        mDevKeys_SaveBtn = getViewById(R.id.Dev_KeysSet_Save_Btn);
-        mDevKeys_Keys = getViewById(R.id.Dev_KeysSet_Keys);
+        mKeyDevs_KeyBoards = getViewById(R.id.Key_DevsSet_KeyBoards);
+        mKeyDevs_TestBtn = getViewById(R.id.Key_DevsSet_Test_Btn);
+        mKeyDevs_SaveBtn = getViewById(R.id.Key_DevsSet_Save_Btn);
+        mKeyDevs_Devs = getViewById(R.id.Key_DevsSet_Keys);
 
-        mDevKeys_KeyBoards.setOnClickListener(this);
-        mDevKeys_TestBtn.setOnClickListener(this);
-        mDevKeys_SaveBtn.setOnClickListener(this);
+        mKeyDevs_KeyBoards.setOnClickListener(this);
+        mKeyDevs_TestBtn.setOnClickListener(this);
+        mKeyDevs_SaveBtn.setOnClickListener(this);
 
-        mDevKeys_Devs = getViewById(R.id.Dev_KeysSet_Devs);
+        mKeyDevs_Keys = getViewById(R.id.Key_DevsSet_Devs);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mDevKeys_Devs.setLayoutManager(layoutManager);
+        mKeyDevs_Keys.setLayoutManager(layoutManager);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
     }
 
@@ -109,21 +109,58 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
             ToastUtil.showText("没有房间数据");
             return;
         }
-        layout = getViewById(R.id.Dev_KeysSet_CircleMenu);
-        Data_OuterCircleList = Dev_KeysSetHelper.initSceneCircleOUterData();
-        Data_InnerCircleList = Dev_KeysSetHelper.initSceneCircleInnerData();
+        if (MyApplication.getWareData().getKeyInputs().size() == 0) {
+            mKeyDevs_KeyBoards.setText("无");
+            return;
+        }
+
+        initRecycleView();
+        layout = getViewById(R.id.Key_DevsSet_CircleMenu);
+        Data_OuterCircleList = Key_DevsSetHelper.initSceneCircleOUterData();
+        Data_InnerCircleList = Key_DevsSetHelper.initSceneCircleInnerData();
         layout.Init(200, 100);
         layout.setInnerCircleMenuData(Data_InnerCircleList);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 
-        wareBoardKeyInputs = MyApplication.getWareData().getKeyInputs();
-        keynames = new ArrayList<>();
-        for (int i = 0; i < wareBoardKeyInputs.size(); i++) {
-            keynames.add(wareBoardKeyInputs.get(i).getBoardName());
+        InputKey_names = new ArrayList<>();
+        for (int i = 0; i < MyApplication.getWareData().getKeyInputs().size(); i++) {
+            InputKey_names.add(MyApplication.getWareData().getKeyInputs().get(i).getBoardName());
         }
-        mDevKeys_KeyBoards.setText(keynames.get(0));
-
+        //设置按键板名称
+        if (InputKey_names.size() > 0)
+            mKeyDevs_KeyBoards.setText(InputKey_names.get(0));
+        RecyclerViewClick();
         initEvent();
+    }
+
+
+    private void initRecycleView() {
+        MyApplication.mApplication.showLoadDialog(Key_DevsSetActivity.this);
+        int KeyCnt = MyApplication.getWareData().getKeyInputs().get(position_keyinput).getKeyCnt();
+        String[] keyName = MyApplication.getWareData().getKeyInputs().get(position_keyinput).getKeyName();
+        CanCupID = MyApplication.getWareData().getKeyInputs().get(position_keyinput).getCanCpuID();
+        //获取输入板对应设备的数据
+        SendDataUtil.getKeyItemInfo(0, CanCupID);
+        if (keyName.length == 0)
+            return;
+        //按键名称集合
+        keyName_list = new ArrayList<>();
+        if (KeyCnt > keyName.length) {
+            for (int i = 0; i < KeyCnt; i++) {
+                if (i >= keyName.length) {
+                    keyName_list.add("按键" + i);
+                } else {
+                    keyName_list.add(keyName[i]);
+                }
+            }
+        } else {
+            for (int i = 0; i < KeyCnt; i++) {
+                keyName_list.add(keyName[i]);
+            }
+        }
+        Log.e("按键名称", String.valueOf(keyName_list));
+        KeysAdapter = new Key_Devs_KeysAdapter(keyName_list);
+        mKeyDevs_Keys.setAdapter(KeysAdapter);
     }
 
     @Override
@@ -133,13 +170,13 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
             return;
         }
         switch (v.getId()) {
-            case R.id.Dev_KeysSet_KeyBoards: //按键板
-                initRadioPopupWindow(v, keynames);
+            case R.id.Key_DevsSet_KeyBoards: //按键板
+                initRadioPopupWindow(v, keyName_list);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
-            case R.id.Dev_KeysSet_Test_Btn: // 测试
+            case R.id.Key_DevsSet_Test_Btn: // 测试
                 break;
-            case R.id.Dev_KeysSet_Save_Btn: // 保存
+            case R.id.Key_DevsSet_Save_Btn: // 保存
                 break;
         }
     }
@@ -153,20 +190,20 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                     return;
                 }
                 RoomName = Data_InnerCircleList.get(position).getTitle();
-                Dev_KeysSetHelper.setRoomName(RoomName);
-                mRoomDevs = Dev_KeysSetHelper.getRoomDev(RoomName);
+                Key_DevsSetHelper.setRoomName(RoomName);
+                mRoomDevs = Key_DevsSetHelper.getRoomDev(RoomName);
 
                 if (OuterCircleClick) {
-                    List<WareDev> RecyclerViewDev = new ArrayList<>();
+                    List<WareDev> devs = new ArrayList<>();
                     for (int i = 0; i < mRoomDevs.size(); i++) {
                         if (mRoomDevs.get(i).getType() == DevType)
-                            RecyclerViewDev.add(mRoomDevs.get(i));
+                            devs.add(mRoomDevs.get(i));
                     }
-                    if (mDevKeysDevsAdapter == null)
-                        mDevKeysDevsAdapter = new Dev_KeysSet_DevsAdapter(RecyclerViewDev);
-                    else mDevKeysDevsAdapter.upData(RecyclerViewDev);
-                    mDevKeys_Devs.setAdapter(mDevKeysDevsAdapter);
-                    RecyclerViewClick();
+                    if (mKeyDevsKeysAdapter == null)
+                        mKeyDevsKeysAdapter = new Key_DevsSetAdapter(position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
+                    else
+                        mKeyDevsKeysAdapter.notifyDataSetChanged(position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
+                    mKeyDevs_Devs.setAdapter(mKeyDevsKeysAdapter);
                 }
             }
         });
@@ -183,31 +220,31 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                 OuterCircleClick = true;
                 DevType = position % 8;
 
-                List<WareDev> RecyclerViewDev = new ArrayList<>();
+                List<WareDev> devs = new ArrayList<>();
                 for (int i = 0; i < mRoomDevs.size(); i++) {
                     if (mRoomDevs.get(i).getType() == DevType)
-                        RecyclerViewDev.add(mRoomDevs.get(i));
+                        devs.add(mRoomDevs.get(i));
                 }
-                if (mDevKeysDevsAdapter == null)
-                    mDevKeysDevsAdapter = new Dev_KeysSet_DevsAdapter(RecyclerViewDev);
-                else mDevKeysDevsAdapter.upData(RecyclerViewDev);
-                mDevKeys_Devs.setAdapter(mDevKeysDevsAdapter);
-                RecyclerViewClick();
+                if (mKeyDevsKeysAdapter == null)
+                    mKeyDevsKeysAdapter = new Key_DevsSetAdapter(position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
+                else
+                    mKeyDevsKeysAdapter.notifyDataSetChanged(position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
+                mKeyDevs_Devs.setAdapter(mKeyDevsKeysAdapter);
             }
         });
     }
 
     private void RecyclerViewClick() {
-        mDevKeysDevsAdapter.setOnItemClick(new Dev_KeysSet_DevsAdapter.Dev_KeysSetViewHolder.OnItemClick() {
+        KeysAdapter.setOnItemClick(new Key_Devs_KeysAdapter.Dev_KeysSetViewHolder.OnItemClick() {
             @Override
             public void OnItemClick(View view, int position) {
-                devPosition = position;
+                KeyPosition = position;
+                SendDataUtil.getKeyItemInfo(position, CanCupID);
                 MyApplication.mApplication.showLoadDialog(Key_DevsSetActivity.this);
-                SendDataUtil.getChnItemInfo(mRoomDevs.get(position));
             }
 
             @Override
-            public void OnItemLongClick(View view, final int position) {
+            public void OnItemLongClick(View view, int position) {
 
             }
         });
@@ -247,11 +284,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                 tv.setText(text.get(position));
                 popupWindow.dismiss();
                 position_keyinput = position;
-                if (devsAdapter == null)
-                    devsAdapter = new Dev_Keys_KeysAdapter(Dev_KeysSetHelper.getListData_all(), Key_DevsSetActivity.this, position_keyinput, false);
-                else
-                    devsAdapter.notifyDataSetChanged(Dev_KeysSetHelper.getListData_all(), position_keyinput, false);
-                mDevKeys_Keys.setAdapter(devsAdapter);
+                initRecycleView();
             }
         });
         //popupwindow页面之外可点
@@ -271,23 +304,5 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
-    static class Dev_KeysHandler extends Handler {
-        WeakReference<Key_DevsSetActivity> weakReference;
-
-        public Dev_KeysHandler(Key_DevsSetActivity activity) {
-            weakReference = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (weakReference.get().devsAdapter == null)
-                weakReference.get().devsAdapter = new Dev_Keys_KeysAdapter(Dev_KeysSetHelper.getListData_all(),
-                        weakReference.get(), weakReference.get().position_keyinput, false);
-            else
-                weakReference.get().devsAdapter.notifyDataSetChanged(Dev_KeysSetHelper.getListData_all(), weakReference.get().position_keyinput, false);
-            weakReference.get().mDevKeys_Keys.setAdapter(weakReference.get().devsAdapter);
-        }
-    }
 
 }

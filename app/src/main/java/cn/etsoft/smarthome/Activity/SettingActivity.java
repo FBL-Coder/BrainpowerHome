@@ -9,10 +9,12 @@ import cn.etsoft.smarthome.Activity.Settings.ConditionSetActivity;
 import cn.etsoft.smarthome.Activity.Settings.ControlActivity;
 import cn.etsoft.smarthome.Activity.Settings.DevInfoActivity;
 import cn.etsoft.smarthome.Activity.Settings.Dev_KeysSetActivity;
+import cn.etsoft.smarthome.Activity.Settings.Key_DevsSetActivity;
 import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
 import cn.etsoft.smarthome.Activity.Settings.SafetySetActivity;
 import cn.etsoft.smarthome.Activity.Settings.SceneSetActivity;
 import cn.etsoft.smarthome.Activity.Settings.TimerSetActivity;
+import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout;
@@ -66,29 +68,31 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.setting_network://联网模块
-                startActivity(new Intent(SettingActivity.this,NewWorkSetActivity.class));
+                startActivity(new Intent(SettingActivity.this, NewWorkSetActivity.class));
                 break;
             case R.id.setting_control://控制设置
-                startActivity(new Intent(SettingActivity.this, ControlActivity.class));
+//                startActivity(new Intent(SettingActivity.this, ControlActivity.class));
+                startActivity(new Intent(SettingActivity.this, Key_DevsSetActivity.class));
                 break;
             case R.id.setting_devinfo://设备详情
-                startActivity(new Intent(SettingActivity.this,DevInfoActivity.class));
+                startActivity(new Intent(SettingActivity.this, DevInfoActivity.class));
                 break;
             case R.id.setting_scene://情景设置
-                SendDataUtil.getSceneInfo();
-                startActivity(new Intent(SettingActivity.this,SceneSetActivity.class));
+                if (MyApplication.getWareData().getSceneEvents().size() == 0)
+                    SendDataUtil.getSceneInfo();
+                startActivity(new Intent(SettingActivity.this, SceneSetActivity.class));
                 break;
             case R.id.setting_safety://安防设置
                 SendDataUtil.getSceneInfo();
                 SendDataUtil.getSafetyInfo();
-                startActivity(new Intent(SettingActivity.this,SafetySetActivity.class));
+                startActivity(new Intent(SettingActivity.this, SafetySetActivity.class));
                 break;
             case R.id.setting_timer://定时设置
-                startActivity(new Intent(SettingActivity.this,TimerSetActivity.class));
+                startActivity(new Intent(SettingActivity.this, TimerSetActivity.class));
                 break;
             case R.id.setting_condition://环境事件
                 SendDataUtil.getConditionInfo();
-                startActivity(new Intent(SettingActivity.this,ConditionSetActivity.class));
+                startActivity(new Intent(SettingActivity.this, ConditionSetActivity.class));
                 break;
             case R.id.setting_group://组合设置
                 startActivity(new Intent(SettingActivity.this, Dev_KeysSetActivity.class));

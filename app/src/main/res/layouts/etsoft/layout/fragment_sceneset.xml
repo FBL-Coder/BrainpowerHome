@@ -6,6 +6,7 @@
     android:background="@color/sliding_left_press">
 
     <RelativeLayout
+        android:id="@+id/select_rl"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_30">
         <ImageView

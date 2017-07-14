@@ -152,16 +152,16 @@ public class SendDataUtil {
         MyApplication.mApplication.getUdpServer().send(str);
     }
 
-    public static void getKeyItemInfo(int key_index, String uid) {
-        //uid  按键板所在的输入板id
+    public static void getKeyItemInfo(int inputKey_position, String CancupID) {
+        //uid  按键所在的输入板id
         final String str = "{" +
                 "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
                 "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
                 "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getKeyOpItems.getValue() + "," +
-                "\"canCpuId\":" + "\"" + uid + "\"," +
+                "\"canCpuId\":" + "\"" + CancupID + "\"," +
                 "\"subType1\":0," +
                 "\"subType2\":0," +
-                "\"key_index\":" + key_index + "}";
+                "\"key_index\":" + inputKey_position + "}";
         MyApplication.mApplication.getUdpServer().send(str);
     }
 
