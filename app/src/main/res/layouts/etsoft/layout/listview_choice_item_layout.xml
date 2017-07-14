@@ -9,17 +9,18 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="1"
+        android:lines="1"
         android:textColor="#ffffff"
-        android:textSize="18sp"
-        android:layout_marginLeft="20dp"
-        android:layout_weight="1"/>
+        android:textSize="16sp" />
 
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       android:layout_marginRight="10dp"
-   		android:focusable="true"
-   		android:clickable="false"/>
-    
+        android:layout_marginRight="5dp"
+        android:clickable="false"
+        android:focusable="true" />
+
 </LinearLayout>

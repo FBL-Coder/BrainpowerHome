@@ -122,7 +122,7 @@ public class RotateControButton extends View {
 
         valueFlagPaint = new Paint();
         valueFlagPaint.setAntiAlias(true);
-        valueFlagPaint.setTextSize(sp2px(25));
+        valueFlagPaint.setTextSize(sp2px(18));
         valueFlagPaint.setColor(Color.parseColor("#E4A07E"));
         valueFlagPaint.setStyle(Paint.Style.STROKE);
 
@@ -133,7 +133,7 @@ public class RotateControButton extends View {
 
         valuePaint = new Paint();
         valuePaint.setAntiAlias(true);
-        valuePaint.setTextSize(sp2px(40));
+        valuePaint.setTextSize(sp2px(25));
         valuePaint.setColor(Color.parseColor("#E27A3F"));
         valuePaint.setStyle(Paint.Style.STROKE);
     }
@@ -144,9 +144,9 @@ public class RotateControButton extends View {
         // 控件宽、高
         width = height = Math.min(h, w);
         // 刻度盘半径
-        dialRadius = width / 2 - dp2px(20);
+        dialRadius = width / 2 - dp2px(18);
         // 圆弧半径
-        arcRadius = dialRadius - dp2px(20);
+        arcRadius = dialRadius - dp2px(15);
     }
 
     @Override
@@ -214,7 +214,7 @@ public class RotateControButton extends View {
         float tempFlagWidth = titlePaint.measureText(valueMax + "");
         canvas.rotate(55, width / 2, height / 2);
         canvas.drawText("关闭", (width - tempFlagWidth) / 2, height + dp2px(5), valueFlagPaint);
-        // 绘制最刻度标识
+        // 绘制最打大刻度标识
         canvas.rotate(-95, width / 2, height / 2);
         canvas.drawText("打开", (width - tempFlagWidth) / 2, height + dp2px(5), valueFlagPaint);
         canvas.restore();
@@ -267,7 +267,7 @@ public class RotateControButton extends View {
             Log.i(TAG, "drawTemp: 数据处理异常！");
             return;
         }
-        canvas.drawText(valueString.get(valueNow), -tempWidth / 2 - dp2px(30), -tempHeight, valuePaint);
+        canvas.drawText(valueString.get(valueNow), -tempWidth / 2 - 15, -tempHeight, valuePaint);
         canvas.restore();
     }
 
@@ -382,9 +382,9 @@ public class RotateControButton extends View {
     /**
      * 设置温度
      *
-     * @param valueMin 最小温度
-     * @param valueMax 最大温度
-     * @param temp     设置的温度
+     * @param valueMin    最小温度
+     * @param valueMax    最大温度
+     * @param temp        设置的温度
      * @param valueString 值含义集合
      */
     public void setTemp(int valueMin, int valueMax, int temp, List<String> valueString) {

@@ -241,6 +241,8 @@ public class WareData implements Serializable {
     }
 
     public GroupSet_Data getmGroupSet_Data() {
+        if (mGroupSet_Data == null)
+            mGroupSet_Data = new GroupSet_Data();
         return mGroupSet_Data;
     }
 

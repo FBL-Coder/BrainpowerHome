@@ -610,11 +610,24 @@ public class UDPServer implements Runnable {
                 try {
                     Thread.sleep(5000);
                     SendDataUtil.getSceneInfo();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(3000);
+                                SendDataUtil.getSafetyInfo();
+                            } catch (InterruptedException e) {
+                                SendDataUtil.getSafetyInfo();
+                            }
+                        }
+                    }).start();
                 } catch (InterruptedException e) {
                     SendDataUtil.getSceneInfo();
                 }
             }
         }).start();
+
+
     }
 
 

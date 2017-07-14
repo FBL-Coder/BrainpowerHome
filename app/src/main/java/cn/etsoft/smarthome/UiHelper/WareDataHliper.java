@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
+import cn.etsoft.smarthome.Domain.GroupSet_Data;
 import cn.etsoft.smarthome.Domain.SetSafetyResult;
 import cn.etsoft.smarthome.Domain.Timer_Data;
 import cn.etsoft.smarthome.Domain.WareData;
@@ -28,6 +29,8 @@ public class WareDataHliper {
     private List<Condition_Event_Bean.EnvEventRowsBean> mConditionListBean;
     private SetSafetyResult mSetSafetyResult;
     private List<SetSafetyResult.SecInfoRowsBean> mSecInfoRowsBean;
+    private GroupSet_Data mGroupSet_Data;
+    private List<GroupSet_Data.SecsTriggerRowsBean> mSecsTriggerRowsBean;
 
 
     public  static WareDataHliper initCopyWareData(){
@@ -40,6 +43,7 @@ public class WareDataHliper {
         mSceneEvents = new ArrayList<>();
         mSceneEvents.addAll(MyApplication.getWareData().getSceneEvents());
     }
+
     public void startCopyTimerData() {
         mTimer_Data = new Timer_Data();
         mTimerEvevts = new ArrayList<>();
@@ -61,6 +65,13 @@ public class WareDataHliper {
         mSetSafetyResult.setSec_info_rows(mSecInfoRowsBean);
     }
 
+    public void startCopyGroupSetData(){
+        mGroupSet_Data = new GroupSet_Data();
+        mSecsTriggerRowsBean = new ArrayList<>();
+        mSecsTriggerRowsBean.addAll(MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows());
+        mGroupSet_Data.setSecs_trigger_rows(mSecsTriggerRowsBean);
+    }
+
 
 
     public List<WareSceneEvent> getCopyScenes(){
@@ -68,6 +79,7 @@ public class WareDataHliper {
             startCopySceneData();
         return mSceneEvents;
     }
+
     public Timer_Data getCopyTimers(){
         if (mTimer_Data == null)
             startCopyTimerData();
@@ -84,6 +96,13 @@ public class WareDataHliper {
         if (mSetSafetyResult == null)
             startCopySafetySetData();
         return mSetSafetyResult;
+
+    }
+
+    public GroupSet_Data getGroupSetResult(){
+        if (mGroupSet_Data == null)
+            startCopyGroupSetData();
+        return mGroupSet_Data;
 
     }
 }

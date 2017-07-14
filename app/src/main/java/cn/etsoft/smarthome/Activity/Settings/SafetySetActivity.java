@@ -150,7 +150,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
                 mSafetyName.setText("");
                 mSafetyName.setHint(mBean.getSecName());
 
-//某一安防里的设备为空或长度为0时
+                //某一安防里的设备为空或长度为0时
                 if (mBean.getRun_dev_item().size() == 0) {
                     mShiNeng.setImageResource(R.drawable.ic_launcher);
                     IsShiNeng = false;
@@ -215,7 +215,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
             return;
         }
         if (!IsCanClick) {
-            ToastUtil.showText("请先选择定时器！");
+            ToastUtil.showText("请先选择防区！");
             return;
         }
         switch (v.getId()) {

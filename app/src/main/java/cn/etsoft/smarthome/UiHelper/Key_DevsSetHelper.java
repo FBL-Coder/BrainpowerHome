@@ -27,7 +27,7 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 
 /**
  * Author：FBL  Time： 2017/7/6.
- * 设备配按键页面   辅助类
+ * 按键配设备页面   辅助类
  */
 
 public class Key_DevsSetHelper {

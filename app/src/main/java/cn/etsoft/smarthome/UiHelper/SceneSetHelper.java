@@ -25,7 +25,7 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 
 /**
  * Author：FBL  Time： 2017/6/28.
- * 情景页面 辅助类
+ * 情景页面设置界面 辅助类
  */
 
 public class SceneSetHelper {

@@ -77,6 +77,8 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             }
         });
 
+        if (MyApplication.getWareData().getSceneEvents() != null && MyApplication.getWareData().getSceneEvents().size() > 0)
+            IsNoData = false;
 
         mSceneSet_Add_Btn = getViewById(R.id.SceneSet_Add_Btn);
         mSceneSetTestBtn = getViewById(R.id.SceneSet_Test_Btn);

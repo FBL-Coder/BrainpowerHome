@@ -111,10 +111,6 @@
             android:name=".Activity.Settings.NewWorkSetActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustPan"/>
-        <!--控制设置-->
-        <activity
-            android:name=".Activity.Settings.ControlActivity"
-            android:screenOrientation="landscape" />
         <!--设备详情-->
         <activity
             android:name=".Activity.Settings.DevInfoActivity"
@@ -133,6 +129,11 @@
         <!--定时设置-->
         <activity
             android:name=".Activity.Settings.TimerSetActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
+        <!--组合设置-->
+        <activity
+            android:name=".Activity.Settings.GroupSetActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
         <!--设备配按键（输出）-->

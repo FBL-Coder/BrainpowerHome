@@ -73,6 +73,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public int HEARTBEAT_STOP = 8000;
     //心跳包监听返回码-局域网运行
     public int HEARTBEAT_RUN = 8080;
+    //loading Dialog
+    public int DIALOG_DISMISS = 2222;
     //全局数据
     private static WareData mWareData;
 
@@ -82,7 +84,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     private Weather_All_Bean mWrather_results;
     public List<Weather_Bean> mWeathers_list;//天气图标集合
     public CityDB mCityDB;
-
 
     /**
      * 局域网内连接状态
@@ -264,16 +265,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             getProgressDialog(activity);
         if (!activity.isFinishing() && !progressDialog.isShowing())
             progressDialog.show();
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                    progressDialog = null;
-                }
-            }
-        };
         //加载数据进度条，5秒数据没加载出来自动消失
         new Thread(new Runnable() {
             @Override
@@ -281,7 +272,9 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 try {
                     Thread.sleep(5000);
                     if (progressDialog.isShowing()) {
-                        handler.sendMessage(handler.obtainMessage());
+                        Message message = handler.obtainMessage();
+                        message.what = DIALOG_DISMISS;
+                        handler.sendMessage(message);
                     }
                 } catch (Exception e) {
                     System.out.println(e + "");
@@ -379,6 +372,14 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                         }
                     }
                 }, 3000, 3000);
+            }
+
+            //load 超时后自动消失
+            if (msg.what == application.DIALOG_DISMISS) {
+                if (application.progressDialog.isShowing()) {
+                    application.progressDialog.dismiss();
+                    application.progressDialog = null;
+                }
             }
         }
     }

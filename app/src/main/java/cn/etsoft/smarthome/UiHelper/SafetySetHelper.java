@@ -77,7 +77,7 @@ public class SafetySetHelper {
                     //名称名称
                     bean.setSecName(CommonUtils.bytesToHexString(safety_name.getText().toString().getBytes("GB2312")));
                 } catch (UnsupportedEncodingException e) {
-                    ToastUtil.showText("定时器名称不合适");
+                    ToastUtil.showText("防区名称不合适");
                     return;
                 }
             }

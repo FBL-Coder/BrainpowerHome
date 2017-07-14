@@ -141,7 +141,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(new Intent(HomeActivity.this, SceneSetActivity.class));
                 break;
             case R.id.Home_Timer:
-                SendDataUtil.getTimerInfo();
+
                 startActivity(new Intent(HomeActivity.this, TimerSetActivity.class));
                 break;
             case R.id.Home_Health:

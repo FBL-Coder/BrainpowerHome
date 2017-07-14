@@ -3,6 +3,7 @@ package cn.etsoft.smarthome.Domain;
 import cn.etsoft.smarthome.Utils.CommonUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -70,6 +71,8 @@ public class GroupSet_Data implements Serializable {
     }
 
     public List<SecsTriggerRowsBean> getSecs_trigger_rows() {
+        if (secs_trigger_rows == null)
+            secs_trigger_rows = new ArrayList<>();
         return secs_trigger_rows;
     }
 

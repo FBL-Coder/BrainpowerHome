@@ -61,6 +61,7 @@ public class Key_DevsSetAdapter extends BaseAdapter {
 
     public void IsShowSelect(boolean IsShowSelect) {
         keyOpItems = Key_DevsSetHelper.getInput_key_data();
+        listData = new ArrayList<>();
         //给所有设备和按键关联的赋值
         for (int j = 0; j < roomDevs.size(); j++) {
             boolean isContain = false;

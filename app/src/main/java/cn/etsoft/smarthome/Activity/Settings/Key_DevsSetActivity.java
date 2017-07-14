@@ -29,6 +29,7 @@ import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
+import cn.etsoft.smarthome.View.SlideGridView;
 
 /**
  * Author：FBL  Time： 2017/6/22.
@@ -41,7 +42,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
     private RecyclerView mKeyDevs_Keys;
-    private GridView mKeyDevs_Devs;
+    private SlideGridView mKeyDevs_Devs;
     private TextView mKeyDevs_KeyBoards, mKeyDevs_TestBtn, mKeyDevs_SaveBtn;
     //设备适配器
     private Key_DevsSetAdapter mKeyDevsKeysAdapter;
@@ -69,6 +70,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void initView() {
         setLayout(R.layout.activity_key_devs_set);
+        IsNoData = false;
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
@@ -200,7 +202,8 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                             devs.add(mRoomDevs.get(i));
                     }
                     if (mKeyDevsKeysAdapter == null)
-                        mKeyDevsKeysAdapter = new Key_DevsSetAdapter(position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
+                        mKeyDevsKeysAdapter = new Key_DevsSetAdapter(position_keyinput, KeyPosition,
+                                Key_DevsSetActivity.this, devs, false);
                     else
                         mKeyDevsKeysAdapter.notifyDataSetChanged(position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
                     mKeyDevs_Devs.setAdapter(mKeyDevsKeysAdapter);
