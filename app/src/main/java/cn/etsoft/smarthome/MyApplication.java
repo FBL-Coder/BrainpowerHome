@@ -47,7 +47,6 @@ import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
 import cn.etsoft.smarthome.pullmi.entity.WareData;
 import cn.etsoft.smarthome.pullmi.entity.WareDev;
 import cn.etsoft.smarthome.pullmi.entity.WareKeyOpItem;
-import cn.etsoft.smarthome.ui.GroupActivity;
 import cn.etsoft.smarthome.ui.WelcomeActivity;
 import cn.etsoft.smarthome.utils.CityDB;
 
@@ -92,7 +91,6 @@ public class MyApplication extends Application implements udpService.Callback, N
      * 欢迎页面   这里只是为了销毁
      */
     private WelcomeActivity activity;
-    private GroupActivity groupActivity;
     private DatagramSocket socket = null;
     public static int local_server_flag = -1; //0 local 1 server
     /**
@@ -155,6 +153,7 @@ public class MyApplication extends Application implements udpService.Callback, N
     public void setSearch(boolean search) {
         isSearch = search;
     }
+
     //是否是跳过登录进入的设置界面
     private boolean isSkip;
 
@@ -487,7 +486,6 @@ public class MyApplication extends Application implements udpService.Callback, N
         this.devUnitID = devUnitID;
     }
 
-
     /**
      * 获取Socket对象
      *
@@ -496,15 +494,6 @@ public class MyApplication extends Application implements udpService.Callback, N
     public DatagramSocket getSocket() {
         return socket;
     }
-
-    public GroupActivity getGroupActivity() {
-        return groupActivity;
-    }
-
-    public void setGroupActivity(GroupActivity groupActivity) {
-        this.groupActivity = groupActivity;
-    }
-
     /**
      * 获取欢迎页面的对象
      *
@@ -539,6 +528,7 @@ public class MyApplication extends Application implements udpService.Callback, N
      * @param what     根据what判断数据  What== datType
      * @param wareData 数据本身
      */
+
     @Override
     public void getWareData(int what, WareData wareData) {
         MyApplication.wareData = wareData;
@@ -556,7 +546,7 @@ public class MyApplication extends Application implements udpService.Callback, N
 //        if (what == 4) {
             int SecDat = MyApplication.getWareData().getSafetyResult_alarm().getSecDat();
             //对SecDat进行二进制转码，数字为1的位置即为触发警报的防区
-//            int SecDat = 5;
+//            int SecDat = 31;
             String SecDatList = Integer.toBinaryString(SecDat);
 
             Intent intent = new Intent();
@@ -566,6 +556,12 @@ public class MyApplication extends Application implements udpService.Callback, N
             intent.setPackage("cn.etsoft.smarthome");
             intent.setAction("cc.test.com");
             startService(intent);
+
+            Intent intent_notification = new Intent(MyApplication.this,NotificationService.class);
+            intent_notification.putExtra("index", SecDatList);
+            intent.setPackage("cn.etsoft.smarthome");
+            intent.setAction("ymw.MY_SERVICE");
+            startService(intent_notification);
             MyApplication.getWareData().setSafetyResult_alarm(null);
         }
     }

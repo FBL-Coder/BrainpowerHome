@@ -328,7 +328,8 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
                     bean.setSecDev(common_dev.size());
                     bean.setDevCnt(common_dev.size());
                     bean.setItemCnt(1);
-                    bean.setSecId(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSecId());
+//                    bean.setSecId(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSecId());
+                    bean.setSecId(Safety_position);
                     bean.setRun_dev_item(common_dev);
                     if ("".equals(safety_name.getText().toString())) {
                         bean.setSecName(CommonUtils.bytesToHexString(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSecName().getBytes("GB2312")));

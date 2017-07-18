@@ -6,11 +6,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.domain.AddDevControl_Result;
 import cn.etsoft.smarthome.domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.domain.DevControl_Result;
 import cn.etsoft.smarthome.domain.GroupSet_Data;
 import cn.etsoft.smarthome.domain.KyeInputResult;
+import cn.etsoft.smarthome.domain.SaveDevControl_Result;
 import cn.etsoft.smarthome.domain.SearchNet;
 import cn.etsoft.smarthome.domain.SetEquipmentResult;
 import cn.etsoft.smarthome.domain.SetSafetyResult;
@@ -96,6 +98,24 @@ public class WareData implements Serializable {
 
 
     private DevControl_Result dev_result;
+
+
+    private SaveDevControl_Result saveDev_result;
+    public SaveDevControl_Result getSaveDev_result() {
+        return saveDev_result;
+    }
+    public void setSaveDev_result(SaveDevControl_Result saveDev_result) {
+        this.saveDev_result = saveDev_result;
+    }
+
+    private AddDevControl_Result addDev_result;
+    public AddDevControl_Result getAddDev_result() {
+        return addDev_result;
+    }
+    public void setAddDev_result(AddDevControl_Result addDev_result) {
+        this.addDev_result = addDev_result;
+    }
+
     private int login_result;
     private int network_count;
     private int addNewNet_reslut;

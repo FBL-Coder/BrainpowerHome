@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="match_parent"
+        android:layout_weight="1.4"
+        android:background="@color/color_60A7D5_null"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/dp_30"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_5"
+                android:paddingLeft="@dimen/dp_5"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="起始日期"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16" />
+
+                <cn.etsoft.smarthome.widget.CustomDatePicker
+                    android:id="@+id/time_start"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/select_white_no"
+                    android:padding="@dimen/dp_2"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16"
+                    android:calendarViewShown="false"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_weight="1"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_5"
+                android:paddingLeft="@dimen/dp_5"
+                android:layout_marginBottom="@dimen/dp_30"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="截止日期"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16" />
+
+                <cn.etsoft.smarthome.widget.CustomDatePicker
+                    android:id="@+id/time_end"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/select_white_no"
+                    android:padding="@dimen/dp_2"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:textColor="@color/color_000"
+                    android:textSize="@dimen/sp_16"
+                    android:calendarViewShown="false" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/dp_10"
+            android:padding="@dimen/dp_10"
+            >
+
+            <TextView
+                android:id="@+id/safety"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/select_white"
+                android:clickable="true"
+                android:drawableRight="@drawable/more_black"
+                android:gravity="center"
+                android:paddingRight="@dimen/dp_30"
+                android:textColor="@color/color_000"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="2"
+            android:padding="@dimen/dp_30"
+            >
+
+            <ImageView
+                android:id="@+id/screen"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:src="@drawable/search_safety" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/dp_10"
+        android:layout_weight="3"
+        android:divider="@null"
+        android:dividerHeight="@dimen/dp_10">
+
+    </ListView>
+</LinearLayout>

@@ -21,11 +21,13 @@ import java.net.DatagramPacket;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.domain.AddDevControl_Result;
 import cn.etsoft.smarthome.domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.domain.DevControl_Result;
 import cn.etsoft.smarthome.domain.GroupSet_Data;
 import cn.etsoft.smarthome.domain.KyeInputResult;
+import cn.etsoft.smarthome.domain.SaveDevControl_Result;
 import cn.etsoft.smarthome.domain.SearchNet;
 import cn.etsoft.smarthome.domain.SetEquipmentResult;
 import cn.etsoft.smarthome.domain.SetSafetyResult;
@@ -249,17 +251,16 @@ public class udpService extends Service {
                 }
                 break;
             case 5: // e_udpPro_addDev  添加设备
-                if (subType1 == 1) {
-                    isFreshData = true;
+                if (subType1 == 1 && subType2 == 1) {
                     //删除设备
-                    deldev_result(info);
+                    addDev_result(info);
+                    isFreshData = true;
 
                 }
                 break;
             case 6: // e_udpPro_editDev  编辑设备
-                if (subType1 == 1) {
-                    //删除设备
-                    deldev_result(info);
+                if (subType1 == 1 && subType2 == 1) {
+                    saveDev_result(info);
                     isFreshData = true;
                 }
                 break;
@@ -480,6 +481,7 @@ public class udpService extends Service {
 
     /**
      * 高级设置--设备信息--输入模块编辑
+     *
      * @param info
      */
     public void getKyeInputResult(String info) {
@@ -1088,6 +1090,19 @@ public class udpService extends Service {
         MyApplication.getWareData().setDev_result(result);
     }
 
+    //高级设置--设备信息--设备编辑（保存）
+    public void saveDev_result(String info) {
+        Gson gson = new Gson();
+        SaveDevControl_Result result = gson.fromJson(info, SaveDevControl_Result.class);
+        MyApplication.getWareData().setSaveDev_result(result);
+    }
+
+    //高级设置--设备信息--设备添加（保存）
+    public void addDev_result(String info) {
+        Gson gson = new Gson();
+        AddDevControl_Result result = gson.fromJson(info, AddDevControl_Result.class);
+        MyApplication.getWareData().setAddDev_result(result);
+    }
 
     public void getkeyOutBoard(String info) {
 
@@ -1168,12 +1183,13 @@ public class udpService extends Service {
             System.out.println(e.toString());
         }
     }
-    String inf ="{ \"devUnitID\": \"39ffd505484d303408650743\", \"datType\": 8, \"subType1\": 1, \"subType2\": 1, \"keyinput\": 2, \"keyinput_rows\": [ { \"canCpuID\": \"48ff6c065087485725170287\", \"boardName\": \"b0b4bcfcb0e5c3fbb3c60000\", \"boardType\": 1, \"keyCnt\": 1, \"bResetKey\": 1, \"ledBkType\": 2, \"keyName_rows\": [ \"bcfc30000000000000000000\" ], \"keyAllCtrlType_rows\": [ 0, 0, 0, 0, 0, 0, 0, 0 ], \"roomName\": \"b2cdccfc0000000000000000\" }, {\"canCpuID\": \"48ff6c065087485725170286\", \"boardName\": \"b0b4bcfcb0e5c3fbb3c60000\", \"boardType\": 1, \"keyCnt\": 1, \"bResetKey\": 1, \"ledBkType\": 2, \"keyName_rows\": [ \"bcfc30000000000000000000\" ], \"keyAllCtrlType_rows\": [ 0, 0, 0, 0, 0, 0, 0, 0 ], \"roomName\": \"b2cdccfc0000000000000000\" } ] }";
+
+    String inf = "{ \"devUnitID\": \"39ffd505484d303408650743\", \"datType\": 8, \"subType1\": 1, \"subType2\": 1, \"keyinput\": 2, \"keyinput_rows\": [ { \"canCpuID\": \"48ff6c065087485725170287\", \"boardName\": \"b0b4bcfcb0e5c3fbb3c60000\", \"boardType\": 1, \"keyCnt\": 1, \"bResetKey\": 1, \"ledBkType\": 2, \"keyName_rows\": [ \"bcfc30000000000000000000\" ], \"keyAllCtrlType_rows\": [ 0, 0, 0, 0, 0, 0, 0, 0 ], \"roomName\": \"b2cdccfc0000000000000000\" }, {\"canCpuID\": \"48ff6c065087485725170286\", \"boardName\": \"b0b4bcfcb0e5c3fbb3c60000\", \"boardType\": 1, \"keyCnt\": 1, \"bResetKey\": 1, \"ledBkType\": 2, \"keyName_rows\": [ \"bcfc30000000000000000000\" ], \"keyAllCtrlType_rows\": [ 0, 0, 0, 0, 0, 0, 0, 0 ], \"roomName\": \"b2cdccfc0000000000000000\" } ] }";
+
     /**
      * 获取输入板按键
-     *
      */
-    public void  getKyeInputBoard(String info) {
+    public void getKyeInputBoard(String info) {
 
 //        返回数据类型；
 //        {
@@ -1209,7 +1225,7 @@ public class udpService extends Service {
                 return;
             }
             JSONArray array = jsonObject.getJSONArray("keyinput_rows");
-             for (int i = 0; i < array.length(); i++) {
+            for (int i = 0; i < array.length(); i++) {
                 boolean isContains = false;
                 WareBoardKeyInput input = new WareBoardKeyInput();
                 JSONObject object = array.getJSONObject(i);
@@ -1238,7 +1254,7 @@ public class udpService extends Service {
                     int KeyInputPosition = 0;
                     for (int k = 0; k < MyApplication.getWareData().getKeyInputs().size(); k++) {
 //                        if (MyApplication.getWareData().getKeyInputs().get(k).getBoardName().equals(input.getBoardName()) && input.getDevUnitID().equals(MyApplication.getWareData().getKeyInputs().get(k).getDevUnitID())) {
-                        if (input.getCanCpuID().equals(MyApplication.getWareData().getKeyInputs().get(k).getCanCpuID()) ) {
+                        if (input.getCanCpuID().equals(MyApplication.getWareData().getKeyInputs().get(k).getCanCpuID())) {
                             KeyInputPosition = k;
                             isContains = true;
                         }
@@ -1246,7 +1262,7 @@ public class udpService extends Service {
                     if (!isContains)
                         MyApplication.getWareData().getKeyInputs().add(input);
                     else {
-                        MyApplication.getWareData().getKeyInputs().set(KeyInputPosition,input);
+                        MyApplication.getWareData().getKeyInputs().set(KeyInputPosition, input);
                     }
                 } else {
                     MyApplication.getWareData().getKeyInputs().add(input);
@@ -1489,6 +1505,7 @@ public class udpService extends Service {
                 if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(i).getTriggerId()
                         == jsonArray.getJSONObject(0).getInt("triggerId")) {
                     bean.setTriggerName(jsonArray.getJSONObject(0).getString("triggerName"));
+                    bean.setTriggerSecs(jsonArray.getJSONObject(0).getInt("triggerSecs"));
                     bean.setReportServ(jsonArray.getJSONObject(0).getInt("reportServ"));
                     bean.setTriggerId(jsonArray.getJSONObject(0).getInt("triggerId"));
                     bean.setDevCnt(jsonArray.getJSONObject(0).getInt("devCnt"));
@@ -1557,7 +1574,7 @@ public class udpService extends Service {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject object_rows = array.getJSONObject(i);
                 WareChnOpItem item = new WareChnOpItem();
-                item.setDevUnitID(object_rows.getString("key_cpuCanID"));
+                item.setCpuid(object_rows.getString("key_cpuCanID"));
                 item.setKeyDownValid((byte) object_rows.getInt("keyDownValid"));
                 item.setKeyUpValid((byte) object_rows.getInt("keyUpValid"));
                 JSONArray array_up_cmd = object_rows.getJSONArray("keyUpCmd");

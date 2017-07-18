@@ -19,6 +19,8 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -32,7 +34,9 @@ import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
@@ -48,6 +52,7 @@ import cn.etsoft.smarthome.pullmi.entity.WareSetBox;
 import cn.etsoft.smarthome.pullmi.entity.WareTv;
 import cn.etsoft.smarthome.utils.ToastUtil;
 import cn.etsoft.smarthome.view.Circle_Progress;
+import cn.etsoft.smarthome.widget.VerticalPageSeekBar;
 
 import static cn.etsoft.smarthome.R.id.tv_equipment_parlour;
 
@@ -55,7 +60,7 @@ import static cn.etsoft.smarthome.R.id.tv_equipment_parlour;
  * 定时器界面
  * Created by F-B-L on 2017/5/18.
  */
-public class  GroupSetActivity extends FragmentActivity implements View.OnClickListener {
+public class GroupSetActivity extends FragmentActivity implements View.OnClickListener, VerticalPageSeekBar.OnSeekBarPageChangeListener {
 
     private Button btn_save;
     private TextView tv_enabled, event_way, add_dev_groupSet,
@@ -80,8 +85,24 @@ public class  GroupSetActivity extends FragmentActivity implements View.OnClickL
     //触发器所在列表位置
     private int GroupSet_position;
     private boolean IsHaveData = false;
-//    private SafetyAdapter safetyAdapter;
-//    private List<String> safetyName;
+    private SafetyAdapter safetyAdapter;
+    private List<String> safetyName;
+    //页码进度条
+    private VerticalPageSeekBar mPageSeekBar;
+    // 一页最多多少条数据
+    protected int mMaxShowLinesPage = 5;
+    // 当前是第几页
+    protected int mCurrentSelectPageIndex = 0;
+    // 当前有多少页
+    protected int mPagesCount = 0;
+    // 当前的有效记录数
+    protected int mRecordCount = 0;
+    // 存放每页数据第一条数据的索引
+    protected ArrayList<Integer> mEveryPageOffestArray = new ArrayList<>();
+    // 当前页面的每一项的偏移数据 方便检索数据和删除数据
+    protected ArrayList<Integer> mPageItemsIndex = new ArrayList<>();
+
+    private Map<Integer, Boolean> map = new HashMap<>();// 存放已被选中的CheckBox
 
     String ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
             ",\"datType\":66" +
@@ -106,7 +127,7 @@ public class  GroupSetActivity extends FragmentActivity implements View.OnClickL
                     if (mDialog != null)
                         mDialog.dismiss();
                     //初始化RecycleView
-                    initRecycleView(GroupSet_position);
+                    initRecycleView();
                     if (GroupSet_position != 0) {
                         ToastUtil.showToast(GroupSetActivity.this, "保存成功");
                     }
@@ -146,91 +167,276 @@ public class  GroupSetActivity extends FragmentActivity implements View.OnClickL
         RecyclerView_env.setLayoutManager(layoutManager);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
-//        safety = (ListView) findViewById(R.id.safety);
-//        safetyAdapter = new SafetyAdapter(mListener);
-//        safety.setAdapter(safetyAdapter);
     }
 
-//    class SafetyAdapter extends BaseAdapter {
-//
-//        SafetyAdapter(IClick listener) {
-//            safetyName = new ArrayList<>();
-//            for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
-//                safetyName.add(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecName());
-//            }
-//            mListener = listener;
-//        }
-//
-//        @Override
-//        public void notifyDataSetChanged() {
-//            safetyName = new ArrayList<>();
-//            for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
-//                safetyName.add(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecName());
-//            }
-//            super.notifyDataSetChanged();
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return safetyName.size();
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return safetyName.get(position);
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return position;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            ViewHolder viewHolder;
-//            if (convertView == null) {
-//                convertView = LayoutInflater.from(GroupSetActivity.this).inflate(R.layout.listview_safety_item, null);
-//                viewHolder = new ViewHolder();
-//                viewHolder.name = (TextView) convertView.findViewById(R.id.name);
-//                viewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
-//                convertView.setTag(viewHolder);
-//            } else
-//                viewHolder = (ViewHolder) convertView.getTag();
-//
-//            viewHolder.name.setText(safetyName.get(position));
-//            viewHolder.checkBox.setChecked(true);
-//
-//            viewHolder.checkBox.setOnClickListener(mListener);
-//            viewHolder.checkBox.setTag(position);
-//            return convertView;
-//        }
-//
-//        private class ViewHolder {
-//            private TextView name;
-//            public CheckBox checkBox;
-//        }
-//    }
-//
-//
-//    /**
-//     * 实现类，响应按钮点击事件
-//     */
-//    private IClick mListener = new IClick() {
-//        @Override
-//        public void listViewItemClick(final int position, View v) {
-//
-//
-//        }
-//    };
+    private int data_start = 0;
 
+    private void initView_safety() {
+        safetyName = new ArrayList<>();
+        for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
+            safetyName.add(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecName());
+        }
+        if (MyApplication.getWareData().getmGroupSet_Data() == null || MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().size() == 0)
+            return;
+        data_start = (int) MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(GroupSet_position).getTriggerSecs();
+
+        String weekSelect_2 = reverseString(Integer.toBinaryString(data_start));
+        for (int i = 0; i < weekSelect_2.toCharArray().length; i++) {
+            if (weekSelect_2.toCharArray()[i] == '1') {
+                map.put(i, true);
+            } else {
+                map.remove(i);
+            }
+        }
+        mPageSeekBar = (VerticalPageSeekBar) findViewById(R.id.seekBar);
+        mPageSeekBar.setSeekBarPageChangeListener(this);
+        ImageView imageViewUp = (ImageView) findViewById(R.id.imageViewUp);
+        imageViewUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setPrePage();
+            }
+        });
+        ImageView imageViewDown = (ImageView) findViewById(R.id.imageViewDown);
+        imageViewDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setAftPage();
+            }
+        });
+
+        safety = (ListView) findViewById(R.id.safety);
+        safetyAdapter = new SafetyAdapter(this);
+        safety.setAdapter(safetyAdapter);
+        initResetListView(0);
+    }
+
+    //初始化进度条管理数据显示
+    protected void initResetListView(int pageIndex) {
+        mRecordCount = safetyName.size();
+
+        // 计算有多少页数据
+        mPagesCount = mRecordCount / mMaxShowLinesPage + (mRecordCount % mMaxShowLinesPage == 0 ? 0 : 1);
+
+        // 判断 页面数目是2的时候, 简化为1页
+//        if (mPagesCount == 2) {
+//            mMaxShowLinesPage = mMaxShowLinesPage * 2;
+//            mPagesCount = 1;
+//        } else {
+//            mMaxShowLinesPage = 5;
+//        }
+
+        // 设置当前选中也为0
+        mCurrentSelectPageIndex = pageIndex;
+        if (mCurrentSelectPageIndex >= mPagesCount)
+            mCurrentSelectPageIndex = mPagesCount - 1;
+        //刷新每一页的首偏移
+        setResetEveryPageOffestArray();
+        //根据首偏移，得到这一页偏移序号
+        setResetPageItemsIndex(mCurrentSelectPageIndex);
+        //上下按键翻页，需要同时滚动进度条效果.如果只有两页数据，不显示进度条
+        setSelectPageControl(mCurrentSelectPageIndex, mPagesCount, false);
+        //总共几页，设置到进度条控件
+        mPageSeekBar.setPagesCount(mPagesCount);
+    }
+
+    //刷新每一页的首偏移
+    protected void setResetEveryPageOffestArray() {
+        int nValidItemNums = 0;
+        mEveryPageOffestArray.clear();
+        //记住每页的首偏移序号
+        for (int i = 0; i < mPagesCount; i++) {
+            int nRecordIndex = GetCountSpecialPage(i);
+            mEveryPageOffestArray.add(nValidItemNums);
+            nValidItemNums = nValidItemNums + nRecordIndex;
+        }
+
+        if (nValidItemNums != mRecordCount) {
+            mRecordCount = nValidItemNums;
+            // 计算有多少页数据
+            mPagesCount = mRecordCount / mMaxShowLinesPage + (mRecordCount % mMaxShowLinesPage == 0 ? 0 : 1);
+        }
+    }
+
+    //根据首偏移，得到这一页偏移序号
+    protected void setResetPageItemsIndex(int pageIndex) {
+        if (pageIndex >= mEveryPageOffestArray.size()) return;
+        int pageItemsCount = GetCountSpecialPage(pageIndex);
+        int nRecordIndex = mEveryPageOffestArray.get(pageIndex).intValue();
+        mPageItemsIndex.clear();
+        //首偏移开始累加
+        for (int i = nRecordIndex; i < pageItemsCount + nRecordIndex; i++) {
+            mPageItemsIndex.add(i);
+        }
+
+        //刷新listview的适配器
+        if (safetyAdapter != null) {
+            safetyAdapter.notifyDataSetChanged();
+        }
+    }
+
+    // 获取当前页面多少数据
+    protected int GetCountSpecialPage(int nPage) {
+        if (nPage < 0) return 0;
+        if (nPage < (mPagesCount - 1)) return mMaxShowLinesPage;
+        //如果是最后一页，就是总的数据减去前面几页*每一页的数据
+        //因为页码是从0开始，所以这里是最后一页
+        if (nPage == mPagesCount - 1) return mRecordCount - mMaxShowLinesPage * (mPagesCount - 1);
+        return 0;
+    }
+
+    //上一页
+    protected void setPrePage() {
+        if (mCurrentSelectPageIndex == 0) return;
+        mCurrentSelectPageIndex -= 1;
+        //根据首偏移，得到这一页偏移序号
+        setResetPageItemsIndex(mCurrentSelectPageIndex);
+        // 翻页控件
+        setSelectPageControl(mCurrentSelectPageIndex, mPagesCount, true);
+    }
+
+    //下一页
+    protected void setAftPage() {
+        if (mCurrentSelectPageIndex == (mPagesCount - 1)) return;
+        mCurrentSelectPageIndex += 1;
+        //根据首偏移，得到这一页偏移序号
+        setResetPageItemsIndex(mCurrentSelectPageIndex);
+        // 翻页控件
+        setSelectPageControl(mCurrentSelectPageIndex, mPagesCount, true);
+    }
+
+    //进度条滑动改变的数据，进行刷新
+    protected void setPageChanged(int index, boolean isSetProgress) {
+        if (index < 0 || index >= mPagesCount || mCurrentSelectPageIndex == index) return;
+        mCurrentSelectPageIndex = index;
+
+        // 刷新每一项的索引数据
+        setResetPageItemsIndex(mCurrentSelectPageIndex);
+        // 翻页控件
+        setSelectPageControl(mCurrentSelectPageIndex, mPagesCount, isSetProgress);
+    }
+
+    //上下按键翻页，需要同时滚动进度条效果.如果只有两页数据，不显示进度条
+    protected void setSelectPageControl(int index, int count, boolean isSet) {
+        View selectPageBar = findViewById(R.id.layoutShow);
+        if (selectPageBar != null) {
+            //如果只有两页数据，不显示进度条
+            if (count <= 1) selectPageBar.setVisibility(View.GONE);
+            else selectPageBar.setVisibility(View.VISIBLE);
+            //上下按键翻页，需要同时滚动进度条效果
+            if (mPageSeekBar != null && isSet == true)
+                mPageSeekBar.setProgressSpecialPage(mCurrentSelectPageIndex, mPagesCount);
+        }
+    }
+
+    //进度条滑动改变的数据，进行刷新
+    @Override
+    public void setSeekBarPageChanged(int page) {
+        setPageChanged(page, false);
+    }
+
+    /**
+     * 防区的适配器
+     */
+    private class ViewHolder {
+        private TextView name;
+        public CheckBox checkBox;
+    }
+
+    private class SafetyAdapter extends BaseAdapter {
+        private Context mContext;
+        private LayoutInflater mLayoutInflater;
+
+
+        public SafetyAdapter(Context context) {
+            mContext = context;
+            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return mPageItemsIndex.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return 0;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = mLayoutInflater.inflate(R.layout.listview_safety_item, null);
+                viewHolder = new ViewHolder();
+                viewHolder.name = (TextView) convertView.findViewById(R.id.name);
+                viewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            viewHolder.name.setText(safetyName.get(mPageItemsIndex.get(position).intValue()));
+
+            viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked == true) {
+                        map.put(mPageItemsIndex.get(position).intValue(), true);
+                    } else {
+                        map.remove(mPageItemsIndex.get(position).intValue());
+                    }
+                }
+            });
+
+            if (map != null && map.containsKey(mPageItemsIndex.get(position).intValue())) {
+                viewHolder.checkBox.setChecked(true);
+            } else {
+                viewHolder.checkBox.setChecked(false);
+            }
+            return convertView;
+        }
+    }
+
+    /**
+     * 得到字符串中的数字和
+     *
+     * @param str
+     * @return
+     */
+    public int str2num(String str) {
+        str = reverseString(str);
+        return Integer.valueOf(str, 2);
+    }
+
+    /**
+     * 倒置字符串
+     * @param str
+     * @return
+     */
+    public static String reverseString(String str) {
+        char[] arr = str.toCharArray();
+        int middle = arr.length >> 1;//EQ length/2
+        int limit = arr.length - 1;
+        for (int i = 0; i < middle; i++) {
+            char tmp = arr[i];
+            arr[i] = arr[limit - i];
+            arr[limit - i] = tmp;
+        }
+        return new String(arr);
+    }
 
     /**
      * 初始化GridView
      */
-    public void initGridView(int RecycleViewposition) {
+    public void initGridView() {
         if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().size() == 0)
             return;
-        common_dev = MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(RecycleViewposition).getRun_dev_item();
+        common_dev = MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(GroupSet_position).getRun_dev_item();
         GridViewAdapter_groupSet = new GridViewAdapter_groupSet(common_dev);
         gridView_groupSet.setAdapter(GridViewAdapter_groupSet);
 
@@ -284,27 +490,23 @@ public class  GroupSetActivity extends FragmentActivity implements View.OnClickL
 
     /**
      * 初始化数据
-     *
-     * @param groupSet_position
      */
-    public void initData(int groupSet_position) {
+    public void initData() {
         home_text = MyApplication.getRoom_list();
         if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().size() == 0)
             return;
         et_name.setText("");
-        et_name.setHint(MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(groupSet_position).getTriggerName());
-        if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(groupSet_position).getRun_dev_item() == null
-                || MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(groupSet_position).getRun_dev_item().size() == 0) {
-//            tv_enabled.setText("禁用");
-//            event_way.setText("否");
-            ToastUtil.showToast(this,"该组合触发器下没有设备");
-        }
-        else {
-            if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(groupSet_position).getValid() == 1)
+        et_name.setHint(MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(GroupSet_position).getTriggerName());
+        if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(GroupSet_position).getRun_dev_item() == null
+                || MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(GroupSet_position).getRun_dev_item().size() == 0) {
+            tv_enabled.setText("禁用");
+            event_way.setText("否");
+        } else {
+            if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(GroupSet_position).getValid() == 1)
                 tv_enabled.setText("启用");
             else tv_enabled.setText("禁用");
 
-            if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(groupSet_position).getReportServ() == 1)
+            if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(GroupSet_position).getReportServ() == 1)
                 event_way.setText("是");
             else event_way.setText("否");
         }
@@ -337,6 +539,12 @@ public class  GroupSetActivity extends FragmentActivity implements View.OnClickL
             return;
         }
         switch (v.getId()) {
+//            case R.id.imageViewUp:
+//                setPrePage();
+//                break;
+//            case R.id.imageViewDown:
+//                setAftPage();
+//                break;
             case R.id.save://保存
                 try {
                     GroupSet_Data time_data = new GroupSet_Data();
@@ -375,6 +583,17 @@ public class  GroupSetActivity extends FragmentActivity implements View.OnClickL
                         bean.setReportServ(1);
                     else bean.setReportServ(0);
 
+
+//                    if (map.size() == 0) {
+//                        ToastUtil.showToast(GroupSetActivity.this, "请选择防区");
+//                        return;
+//                    }
+                    String data = "";
+                    map.keySet().toArray();
+                    for (int i = 0; i < map.keySet().toArray().length; i++) {
+                        data += String.valueOf((Integer) map.keySet().toArray()[i] + 1);
+                    }
+                    bean.setTriggerSecs(str2num(data));
                     envEvent_rows.add(bean);
                     time_data.setDatType(66);
                     time_data.setDevUnitID(GlobalVars.getDevid());
@@ -482,10 +701,10 @@ public class  GroupSetActivity extends FragmentActivity implements View.OnClickL
     /**
      * 初始化环境时间名称
      */
-    private void initRecycleView(int groupSet_position) {
+    private void initRecycleView() {
         mDialog.dismiss();
         adapter_groupSet = new RecyclerViewAdapter_groupSet(MyApplication.getWareData().getmGroupSet_Data());
-        adapter_groupSet.setSelectPosition(groupSet_position);
+        adapter_groupSet.setSelectPosition(GroupSet_position);
         RecyclerView_env.setAdapter(adapter_groupSet);
 
         adapter_groupSet.setOnItemClick(new RecyclerViewAdapter_groupSet.SceneViewHolder.OnItemClick() {
@@ -493,9 +712,11 @@ public class  GroupSetActivity extends FragmentActivity implements View.OnClickL
             public void OnItemClick(View view, int position) {
                 int listSize = MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().size();
                 if (listSize > 0) {
+                    map.clear();
                     GroupSet_position = position;
-                    initData(position);
-                    initGridView(position);
+                    initData();
+                    initGridView();
+                    initView_safety();
                 }
             }
 
@@ -504,8 +725,9 @@ public class  GroupSetActivity extends FragmentActivity implements View.OnClickL
 
             }
         });
-        initGridView(groupSet_position);
-        initData(groupSet_position);
+        initGridView();
+        initData();
+        initView_safety();
     }
 
     /**

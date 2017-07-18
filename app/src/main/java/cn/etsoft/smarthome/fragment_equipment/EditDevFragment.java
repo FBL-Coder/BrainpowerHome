@@ -19,8 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -32,12 +34,13 @@ import com.google.gson.reflect.TypeToken;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter.IClick;
 import cn.etsoft.smarthome.adapter.PopupWindowAdapter2;
-import cn.etsoft.smarthome.domain.DevControl_Result;
+import cn.etsoft.smarthome.domain.AddDevControl_Result;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
 import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
@@ -49,6 +52,7 @@ import cn.etsoft.smarthome.pullmi.entity.WareSetBox;
 import cn.etsoft.smarthome.pullmi.entity.WareTv;
 import cn.etsoft.smarthome.pullmi.utils.LogUtils;
 import cn.etsoft.smarthome.ui.Add_Dev_Activity;
+import cn.etsoft.smarthome.utils.ToastUtil;
 import cn.etsoft.smarthome.view.Circle_Progress;
 import cn.etsoft.smarthome.widget.CustomDialog_comment;
 
@@ -59,18 +63,22 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
 public class EditDevFragment extends Fragment implements View.OnClickListener {
     private FragmentActivity mActivity;
     private ListView equi_control;
-    private TextView add_equi, title;
-    private ImageView back;
+    private TextView add_equi;
     private DevAdapter devAdapter;
     private List<WareDev> dev_all;
     private Dialog mDialog;
     private PopupWindow popupWindow;
-    private WareDev dev;
-    private Handler handler;
     private View view_parent;
     private LayoutInflater inflater;
     private int cmdValue = 0, modelValue = 0;
     private String str_Fixed;
+    private PopupWindowAdapter_channel popupWindowAdapter_channel;
+    // Hashtable.keySet()降序 TreeMap.keySet()升序 HashMap.keySet()乱序 LinkedHashMap.keySet()原序
+    private TreeMap<Integer, Boolean> map = new TreeMap<>();// 存放已被选中的CheckBox
+    private List<Integer> list_channel;
+    private int data_save;
+    private List<String> message_save;
+    private List<String> message_get;
 
     public EditDevFragment(FragmentActivity activity) {
         mActivity = activity;
@@ -116,14 +124,14 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
         initView(view_parent);
         //加载数据
         event();
-        final Handler mHandler = new Handler() {
+        MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
-            public void handleMessage(Message msg) {
-                if (msg.what == 5 || msg.what == 6 || msg.what == 7) {
+            public void upDataWareData(int what) {
+                if (what == 5 || what == 6 || what == 7) {
                     if (mDialog != null)
                         mDialog.dismiss();
                 }
-                if (msg.what == 7) {
+                if (what == 7) {
                     if (MyApplication.getWareData().getDev_result() != null
                             && MyApplication.getWareData().getDev_result().getSubType2() == 1) {
 
@@ -197,11 +205,10 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                         Toast.makeText(mActivity, "删除失败", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-                if (msg.what == 5) {
-                    if (MyApplication.getWareData().getDev_result() != null
-                            && MyApplication.getWareData().getDev_result().getSubType2() == 1) {
-                        DevControl_Result result = MyApplication.getWareData().getDev_result();
+                if (what == 5) {
+                    if (MyApplication.getWareData().getAddDev_result() != null
+                            && MyApplication.getWareData().getAddDev_result().getSubType1() == 1 && MyApplication.getWareData().getAddDev_result().getSubType2() == 1) {
+                        AddDevControl_Result result = MyApplication.getWareData().getAddDev_result();
 
                         for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                             if (result.getDev_rows().get(0).getDevID() == MyApplication.getWareData().getDevs().get(i).getDevId() &&
@@ -210,7 +217,6 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                                 return;
                             }
                         }
-                        Toast.makeText(mActivity, "添加成功", Toast.LENGTH_SHORT).show();
                         WareDev dev1 = new WareDev();
                         if (result.getDev_rows().get(0).getDevType() == 0) {
                             WareAirCondDev dev = new WareAirCondDev();
@@ -249,52 +255,43 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                             MyApplication.getWareData().getDevs().add(dev1);
                             MyApplication.getWareData().getCurtains().add(curtain);
                         }
-                        if (devAdapter != null)
-                            devAdapter.notifyDataSetChanged();
-                        else {
-                            devAdapter = new DevAdapter(mListener);
-                            equi_control.setAdapter(devAdapter);
-                        }
+//                        if (devAdapter != null)
+//                            devAdapter.notifyDataSetChanged();
+//                        else {
+                        devAdapter = new DevAdapter(mListener);
+                        equi_control.setAdapter(devAdapter);
+//                        }
+                        Toast.makeText(mActivity, "添加成功", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(mActivity, "添加失败", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-                if (msg.what == 6) {
-                    if (MyApplication.getWareData().getDev_result() != null
-                            && MyApplication.getWareData().getDev_result().getSubType2() == 1) {
-
-//                        WareDev dev = new WareDev();
-//                        dev.setDevId((byte) MyApplication.getWareData().getDev_result().getDev_rows().get(0).getDevID());
-//                        dev.setCanCpuId(MyApplication.getWareData().getDev_result().getDev_rows().get(0).getCanCpuID());
-//                        dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(MyApplication.getWareData().getDev_result().getDev_rows().get(0).getRoomName())));
-//                        dev.setType((byte) MyApplication.getWareData().getDev_result().getDev_rows().get(0).getDevType());
-//                        dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(MyApplication.getWareData().getDev_result().getDev_rows().get(0).getDevName())));
-//                        devs.set(edit_dev_id, dev);
-
-
-//                        adapter = new Dev_Adapter();
-//                        equi_control.setAdapter(adapter);
-
-                        Toast.makeText(mActivity, "编辑成功", Toast.LENGTH_SHORT).show();
-
+                if (what == 6) {
+                    if (MyApplication.getWareData().getSaveDev_result() != null
+                            && MyApplication.getWareData().getSaveDev_result().getSubType1() == 1 && MyApplication.getWareData().getSaveDev_result().getSubType2() == 1) {
+                        Toast.makeText(mActivity, "保存成功", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(mActivity, "编辑失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "保存失败", Toast.LENGTH_SHORT).show();
                     }
                 }
                 MyApplication.getWareData().setDev_result(null);
-                super.handleMessage(msg);
-            }
-        };
-        MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
-            @Override
-            public void upDataWareData(int what) {
-                Message message = mHandler.obtainMessage(what);
-                mHandler.sendMessage(message);
+
+
             }
         });
         return view_parent;
     }
+
+//    @Override
+//    public void onResume() {
+//        if (devAdapter != null)
+//            devAdapter.notifyDataSetChanged();
+//        else {
+//            devAdapter = new DevAdapter(mListener);
+//            equi_control.setAdapter(devAdapter);
+//        }
+//        super.onResume();
+//    }
 
     /**
      * 初始化控件
@@ -361,7 +358,7 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder viewHolder;
             if (convertView == null) {
-                convertView = LayoutInflater.from(mActivity).inflate(R.layout.equipment_listview_control_item2, null);
+                convertView = LayoutInflater.from(mActivity).inflate(R.layout.equipment_listview_control_item, null);
                 viewHolder = new ViewHolder();
                 viewHolder.name = (EditText) convertView.findViewById(R.id.name);
                 viewHolder.devType = (TextView) convertView.findViewById(R.id.devType);
@@ -378,8 +375,30 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
             if (dev_all.get(position).getType() == 0) {
                 viewHolder.devType.setText("空调");
                 for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
-                    if (MyApplication.getWareData().getAirConds().get(i).getDev().getDevId() == dev_all.get(position).getDevId()) {
-                        viewHolder.devGallery.setText(MyApplication.getWareData().getAirConds().get(i).getPowChn() + "");
+                    if (MyApplication.getWareData().getAirConds().get(i).getDev().getCanCpuId() == dev_all.get(position).getCanCpuId()) {
+                        String message1 = "";
+                        int PowChn = MyApplication.getWareData().getAirConds().get(i).getPowChn();
+                        String PowChnList = Integer.toBinaryString(PowChn);
+                        List<Integer> index_list = new ArrayList<>();
+                        message_get = new ArrayList<>();
+                        for (int j = 0; j < PowChnList.length(); j++) {
+                            if (PowChnList.charAt(PowChnList.length() - j - 1) == '1') {
+                                index_list.add(PowChnList.length() - j - 1);
+                                message1 += j + 1 + ".";
+                                message_get.add(String.valueOf(j + 1));
+                            }
+                        }
+                        if (message_get.size() > 5) {
+                            message1 = "";
+                            for (int k = 0; k < 5; k++) {
+                                message1 += message_get.get(k) + ".";
+                            }
+                        }
+                        if (!"".equals(message1)) {
+                            message1 = message1.substring(0, message1.lastIndexOf("."));
+                        }
+
+                        viewHolder.devGallery.setText(message1);
                     }
                 }
             } else if (dev_all.get(position).getType() == 1) {
@@ -394,14 +413,37 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                 viewHolder.devType.setText("灯光");
                 for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
                     if (MyApplication.getWareData().getLights().get(i).getDev().getDevId() == dev_all.get(position).getDevId()) {
-                        viewHolder.devGallery.setText(MyApplication.getWareData().getLights().get(i).getPowChn() + "");
+                        int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn();
+                        viewHolder.devGallery.setText(PowChn + "");
                     }
                 }
             } else if (dev_all.get(position).getType() == 4) {
                 viewHolder.devType.setText("窗帘");
                 for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
                     if (MyApplication.getWareData().getCurtains().get(i).getDev().getDevId() == dev_all.get(position).getDevId()) {
-                        viewHolder.devGallery.setText(MyApplication.getWareData().getCurtains().get(i).getPowChn() + "");
+                        String message1 = "";
+                        int PowChn = MyApplication.getWareData().getCurtains().get(i).getPowChn();
+
+                        String PowChnList = Integer.toBinaryString(PowChn);
+                        List<Integer> index_list = new ArrayList<>();
+                        message_get = new ArrayList<>();
+                        for (int j = 0; j < PowChnList.length(); j++) {
+                            if (PowChnList.charAt(PowChnList.length() - j - 1) == '1') {
+                                index_list.add(PowChnList.length() - j - 1);
+                                message1 += j + 1 + ".";
+                                message_get.add(String.valueOf(j + 1));
+                            }
+                        }
+                        if (message_get.size() > 3) {
+                            message1 = "";
+                            for (int k = 0; k < 3; k++) {
+                                message1 += message_get.get(k) + ".";
+                            }
+                        }
+                        if (!"".equals(message1)) {
+                            message1 = message1.substring(0, message1.lastIndexOf("."));
+                        }
+                        viewHolder.devGallery.setText(message1);
                     }
                 }
             }
@@ -436,6 +478,7 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
             public TextView devType, devRoom, devGallery, text, save, delete;
         }
     }
+
 
     //在ListView中，点击EditText获得焦点时，会重新调用getView，此时EditText会失去焦点
     // 解决listView中的editText点击失去焦点的问题
@@ -498,34 +541,70 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                 case R.id.devGallery:
                     List<Integer> list_voard_cancpuid = new ArrayList<>();
                     if (dev_all.get(position).getType() == 0) {
+//                        for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
+//                            if (dev_all.get(position).getDevId() == MyApplication.getWareData().getAirConds().get(i).getDev().getDevId()
+//                                    && dev_all.get(position).getCanCpuId()
+//                                    .equals(MyApplication.getWareData().getAirConds().get(i).getDev().getCanCpuId())) {
+//                                airCondDev = MyApplication.getWareData().getAirConds().get(i);
+//                            }
+//                        }
                         for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
                             if (dev_all.get(position).getCanCpuId()
-                                    .equals(MyApplication.getWareData().getAirConds().get(i).getDev().getCanCpuId()))
-                                list_voard_cancpuid.add(MyApplication.getWareData().getAirConds().get(i).getPowChn());
+                                    .equals(MyApplication.getWareData().getAirConds().get(i).getDev().getCanCpuId())
+                                    && dev_all.get(position).getDevId() != MyApplication.getWareData().getAirConds().get(i).getDev().getDevId()) {
+                                //TODO  3968
+                                int PowChn = MyApplication.getWareData().getAirConds().get(i).getPowChn();
+                                String PowChnList = Integer.toBinaryString(PowChn);
+                                PowChnList = reverseString(PowChnList);
+                                List<Integer> index_list = new ArrayList<>();
+                                for (int j = 0; j < PowChnList.length(); j++) {
+                                    if (PowChnList.charAt(j) == '1') {
+                                        index_list.add(j + 1);
+                                    }
+                                }
+                                list_voard_cancpuid.addAll(index_list);
+                            }
+
                         }
                     } else if (dev_all.get(position).getType() == 3) {
                         for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
                             if (dev_all.get(position).getCanCpuId()
-                                    .equals(MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId()))
-                                list_voard_cancpuid.add((int) MyApplication.getWareData().getLights().get(i).getPowChn());
+                                    .equals(MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId())
+                                    && dev_all.get(position).getDevId() != MyApplication.getWareData().getLights().get(i).getDev().getDevId()) {
+                                //TODO  3968
+                                int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn();
+                                list_voard_cancpuid.add(PowChn);
+                            }
                         }
                     } else if (dev_all.get(position).getType() == 4) {
                         for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
                             if (dev_all.get(position).getCanCpuId()
-                                    .equals(MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId()))
-                                list_voard_cancpuid.add(MyApplication.getWareData().getCurtains().get(i).getPowChn());
+                                    .equals(MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())
+                                    && dev_all.get(position).getDevId() != MyApplication.getWareData().getCurtains().get(i).getDev().getDevId()) {
+                                //TODO  3968
+                                int PowChn = MyApplication.getWareData().getCurtains().get(i).getPowChn();
+                                String PowChnList = Integer.toBinaryString(PowChn);
+                                PowChnList = reverseString(PowChnList);
+                                List<Integer> index_list = new ArrayList<>();
+                                for (int j = 0; j < PowChnList.length(); j++) {
+                                    if (PowChnList.charAt(j) == '1') {
+                                        index_list.add(j + 1);
+                                    }
+                                }
+                                list_voard_cancpuid.addAll(index_list);
+                            }
+
                         }
                     }
-
-                    List<String> list_coard_ok = new ArrayList<>();
+                    list_channel = new ArrayList<>();
                     for (int i = 1; i < 13; i++) {
-                        list_coard_ok.add(i + "");
+                        list_channel.add(i);
                     }
 
                     for (int i = 0; i < list_voard_cancpuid.size(); i++) {
-                        for (int j = 0; j < list_coard_ok.size(); j++) {
-                            if (Integer.parseInt(list_coard_ok.get(j)) == list_voard_cancpuid.get(i)) {
-                                list_coard_ok.remove(j);
+                        for (int j = 0; j < list_channel.size(); j++) {
+                            if (list_channel.get(j) == list_voard_cancpuid.get(i)) {
+                                list_channel.remove(j);
                             }
                         }
                     }
@@ -533,8 +612,12 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                         popupWindow.dismiss();
                         popupWindow = null;
                     } else {
-                        initPopupWindow(v, list_coard_ok);
-                        popupWindow.showAsDropDown(v, 0, 0);
+                        if (list_channel.size() == 0) {
+                            ToastUtil.showToast(mActivity, "没有可用通道");
+                        } else {
+                            initPopupWindow_channel(v, list_channel);
+                            popupWindow.showAsDropDown(v, 0, 0);
+                        }
                     }
                     break;
                 case R.id.text:
@@ -658,24 +741,34 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                     }
                     break;
                 case R.id.save:
-
-                    Log.i("DATA", "名字 ：" + name.getText().toString() + "房间 ：" + devRoom.getText().toString() + "通道" + devGallery.getText().toString());
                     if (dev_all.get(position).getType() == 0) {
                         for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
                             if (MyApplication.getWareData().getAirConds().get(i).getDev().getDevId() == dev_all.get(position).getDevId()) {
-                                MyApplication.getWareData().getAirConds().get(i).setPowChn(Integer.parseInt(devGallery.getText().toString()));
+                                MyApplication.getWareData().getAirConds().get(i).setPowChn(data_save);
+                                if (message_save.size() > 5) {
+                                    ToastUtil.showToast(mActivity, "空调通道不能超过5个");
+                                    return;
+                                }
                             }
                         }
                     } else if (dev_all.get(position).getType() == 3) {
                         for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
                             if (MyApplication.getWareData().getLights().get(i).getDev().getDevId() == dev_all.get(position).getDevId()) {
-                                MyApplication.getWareData().getLights().get(i).setPowChn((byte) Integer.parseInt(devGallery.getText().toString()));
+                                MyApplication.getWareData().getLights().get(i).setPowChn((byte) data_save);
+                                if (message_save.size() > 1) {
+                                    ToastUtil.showToast(mActivity, "灯光通道不能超过1个");
+                                    return;
+                                }
                             }
                         }
                     } else if (dev_all.get(position).getType() == 4) {
                         for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
                             if (MyApplication.getWareData().getCurtains().get(i).getDev().getDevId() == dev_all.get(position).getDevId()) {
-                                MyApplication.getWareData().getCurtains().get(i).setPowChn(Integer.parseInt(devGallery.getText().toString()));
+                                MyApplication.getWareData().getCurtains().get(i).setPowChn(data_save);
+                                if (message_save.size() > 3) {
+                                    ToastUtil.showToast(mActivity, "窗帘通道不能超过3个");
+                                    return;
+                                }
                             }
                         }
                     }
@@ -705,20 +798,10 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                             "\"devID\":" + +dev_all.get(position).getDevId() + "," +
                             "\"devName\":" + "\"" + Sutf2Sgbk(name.getText().toString()) + "\"," +
                             "\"roomName\":" + "\"" + Sutf2Sgbk(devRoom.getText().toString()) + "\"," +
-                            "\"powChn\":" + devGallery.getText().toString() + "," +
+                            "\"powChn\":" + data_save + "," +
                             "\"cmd\":" + 1 + "}";
-
                     MyApplication.sendMsg(chn_str);
                     initDialog("正在保存...");
-                    MyApplication.mInstance.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
-                        @Override
-                        public void upDataWareData(int what) {
-                            if (what == 6) {
-                                if (mDialog != null)
-                                    mDialog.dismiss();
-                            }
-                        }
-                    });
                     break;
                 case R.id.delete:
                     CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(mActivity);
@@ -757,9 +840,11 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
     /**
      * 初始化自定义设备的状态以及设备PopupWindow
      */
+    View customView;
+
     private void initPopupWindow(final View textView, final List<String> text) {
         //获取自定义布局文件pop.xml的视图
-        final View customView = view_parent.inflate(mActivity, R.layout.popupwindow_equipment_listview, null);
+        customView = view_parent.inflate(mActivity, R.layout.popupwindow_equipment_listview, null);
         customView.setBackgroundResource(R.drawable.selectbg);
         customView.setFocusable(true);
         customView.setFocusableInTouchMode(true);
@@ -803,6 +888,216 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                 return false;
             }
         });
+    }
+
+    /**
+     * 初始化自定义设备的状态以及设备PopupWindow
+     */
+    private void initPopupWindow_channel(final View textView, List<Integer> list_channel) {
+        //获取自定义布局文件pop.xml的视图
+        customView = view_parent.inflate(mActivity, R.layout.popupwindow_equipment_listview2, null);
+        customView.setBackgroundResource(R.drawable.selectbg);
+        customView.setFocusable(true);
+        customView.setFocusableInTouchMode(true);
+        customView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (popupWindow != null) {
+                        popupWindow.dismiss();
+                    }
+                }
+                return false;
+            }
+        });
+        // 创建PopupWindow实例
+        popupWindow = new PopupWindow(customView, textView.getWidth(), 300);
+        ListView list_pop = (ListView) customView.findViewById(R.id.popupWindow_equipment_lv);
+        Button time_ok = (Button) customView.findViewById(R.id.time_ok);
+        Button time_cancel = (Button) customView.findViewById(R.id.time_cancel);
+        popupWindowAdapter_channel = new PopupWindowAdapter_channel(mActivity, list_channel);
+        list_pop.setAdapter(popupWindowAdapter_channel);
+        time_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int[] data = new int[12];
+                String message = "";
+                if (map.keySet().toArray().length == 0) {
+                    ToastUtil.showToast(mActivity, "请选择设备通道");
+                    return;
+                }
+                for (int i = 0; i < 12; i++) {
+                    for (int k = 0; k < map.keySet().toArray().length; k++) {
+                        int key = (Integer) map.keySet().toArray()[k];
+                        if (i == (key - 1)) {
+                            data[i] = 1;
+                            break;
+                        } else data[i] = 0;
+                    }
+                }
+                String data_str = "";
+                for (int i = 0; i < data.length; i++) {
+                    data_str += data[i];
+                }
+                message_save = new ArrayList<>();
+                for (int i = 0; i < map.keySet().toArray().length; i++) {
+                    message += String.valueOf(map.keySet().toArray()[i]) + ".";
+
+                    message_save.add(String.valueOf(map.keySet().toArray()[i]));
+                    Log.i("测试", String.valueOf(message_save));
+                }
+                if (!"".equals(message)) {
+                    message = message.substring(0, message.lastIndexOf("."));
+                }
+                data_save = str2num(data_str);
+                TextView tv = (TextView) textView;
+                tv.setText(message);
+                popupWindow.dismiss();
+                map.clear();
+            }
+        });
+        time_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (map != null) {
+                    map.clear();
+                }
+                popupWindow.dismiss();
+            }
+        });
+        //popupWindow页面之外可点
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.update();
+        // 自定义view添加触摸事件
+        customView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (popupWindow != null && popupWindow.isShowing()) {
+                    popupWindow.dismiss();
+                    popupWindow = null;
+                }
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 得到字符串中的数字和
+     *
+     * @param str
+     * @return
+     */
+    public int str2num(String str) {
+//        str = str.replaceAll("\\D", "");
+//        List<Integer> number = new ArrayList<>();
+//        if (str != null && !"".equals(str)) {
+//            for (int i = 0; i < str.length(); i++) {
+//                number.add(Integer.valueOf(String.valueOf(str.charAt(i))));
+//            }
+//        }
+//        String s = "";
+//        byte[] week_byte = new byte[12];
+//        for (int j = 0; j < 12; j++) {
+//            for (int i = 0; i < number.size(); i++) {
+//                if (j == number.get(i) - 1) {
+//                    week_byte[j] = 1;
+//                }
+//            }
+//            s += week_byte[j];
+//        }
+        str = reverseString(str);
+        return Integer.valueOf(str, 2);
+    }
+
+    /**
+     * 倒置字符串
+     *
+     * @param str
+     * @return
+     */
+    public static String reverseString(String str) {
+        char[] arr = str.toCharArray();
+        int middle = arr.length >> 1;//EQ length/2
+        int limit = arr.length - 1;
+        for (int i = 0; i < middle; i++) {
+            char tmp = arr[i];
+            arr[i] = arr[limit - i];
+            arr[limit - i] = tmp;
+        }
+        return new String(arr);
+    }
+
+    /**
+     * 防区的适配器
+     */
+    private class ViewHolder {
+        public TextView text;
+        public CheckBox checkBox;
+    }
+
+    private class PopupWindowAdapter_channel extends BaseAdapter {
+        private Context mContext;
+        private LayoutInflater mLayoutInflater;
+        private List<Integer> list_channel;
+
+
+        public PopupWindowAdapter_channel(Context context, List<Integer> list_channel) {
+            mContext = context;
+            this.list_channel = list_channel;
+            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            if (null != list_channel) {
+                return list_channel.size();
+            } else {
+                return 0;
+            }
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return list_channel.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = mLayoutInflater.inflate(R.layout.popupwindow_listview_item2, null);
+                viewHolder = new ViewHolder();
+                viewHolder.text = (TextView) convertView.findViewById(R.id.popupWindow_equipment_tv);
+                viewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.popupWindow_equipment_cb);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            viewHolder.text.setText(String.valueOf(list_channel.get(position)));
+            viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked == true) {
+                        map.put(list_channel.get(position), true);
+                    } else {
+                        map.remove(list_channel.get(position));
+                    }
+                }
+            });
+
+            if (map != null && map.containsKey(list_channel.get(position))) {
+                viewHolder.checkBox.setChecked(true);
+            } else {
+                viewHolder.checkBox.setChecked(false);
+            }
+            return convertView;
+        }
     }
 
     @Override

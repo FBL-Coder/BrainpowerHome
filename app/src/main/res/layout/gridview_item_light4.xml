@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="230dp"
     android:layout_gravity="center"
+    android:background="@drawable/rect_gray7"
     android:orientation="vertical">
 
     <TextView
@@ -17,7 +18,7 @@
     <ImageView
         android:id="@+id/appliance"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_120"
+        android:layout_height="@dimen/dp_130"
         android:padding="@dimen/dp_10"
         />
 </LinearLayout>

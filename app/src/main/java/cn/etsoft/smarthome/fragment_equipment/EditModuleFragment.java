@@ -34,7 +34,6 @@ import java.util.List;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.adapter.ModuleEditAdapter;
 import cn.etsoft.smarthome.adapter.ModuleEditAdapter1;
 import cn.etsoft.smarthome.adapter.PopupWindowAdapter2;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
@@ -57,7 +56,6 @@ public class EditModuleFragment extends Fragment implements View.OnClickListener
     private List<String> count_text;
     private EditText name;
     private GridView gridView;
-    private ModuleEditAdapter moduleEditAdapter;
     private ModuleEditAdapter1 moduleEditAdapter1;
     private String[] keyName;
     private List<String> listData;
@@ -173,7 +171,7 @@ public class EditModuleFragment extends Fragment implements View.OnClickListener
 
         home_text = MyApplication.getRoom_list();
         count_position = countNumber;
-        if (home_text!= null && home_text.size()>0){
+        if (home_text != null && home_text.size() > 0) {
             room.setText(home_text.get(room_position));
         }
         count_text = new ArrayList<>();
@@ -432,7 +430,9 @@ public class EditModuleFragment extends Fragment implements View.OnClickListener
                 tv.setText(text.get(position));
                 if (tag == 0) {
                     input_position = position;
-                    initGridView(input_position);
+//                    initGridView(input_position);
+                    initData();
+                    tv.setText(text.get(position));
                 } else if (tag == 1) {
                     style_position = position;
                 } else if (tag == 2) {

@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.MyApplication;
+import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.adapter.ListViewAdapter;
 import cn.etsoft.smarthome.fragment_main.Main_ApplianceFragment;
 import cn.etsoft.smarthome.fragment_main.Main_ControlFragment;
 import cn.etsoft.smarthome.fragment_main.Main_CurtainFragment;
@@ -24,8 +26,6 @@ import cn.etsoft.smarthome.fragment_main.Main_LightFragment;
 import cn.etsoft.smarthome.fragment_main.Main_SafetyFragment;
 import cn.etsoft.smarthome.fragment_main.Main_SceneFragment;
 import cn.etsoft.smarthome.fragment_main.Main_SocketFragment;
-import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.adapter.ListViewAdapter;
 import cn.etsoft.smarthome.pullmi.entity.WareDev;
 
 /**
@@ -91,6 +91,7 @@ public class MainActivity extends FragmentActivity {
         Bundle bundle = new Bundle();
         if (type_name.equals(title[1])) {
             listView_main.setVisibility(View.VISIBLE);
+            listView_main.setBackgroundColor(0x2270b1da);
             main_LightFragment = new Main_LightFragment();
             bundle.putInt("room_position", room_position);
             main_LightFragment.setArguments(bundle);
@@ -108,6 +109,7 @@ public class MainActivity extends FragmentActivity {
             transaction.commit();
         } else if (type_name.equals(title[3])) {
             listView_main.setVisibility(View.VISIBLE);
+            listView_main.setBackgroundColor(0x2270b1da);
             main_CurtainFragment = new Main_CurtainFragment();
             bundle.putInt("room_position", room_position);
             main_CurtainFragment.setArguments(bundle);
@@ -116,6 +118,7 @@ public class MainActivity extends FragmentActivity {
             transaction.commit();
         } else if (type_name.equals(title[4])) {
             listView_main.setVisibility(View.VISIBLE);
+            listView_main.setBackgroundColor(0x2270b1da);
             main_ApplianceFragment = new Main_ApplianceFragment();
             bundle.putInt("room_position", room_position);
             main_ApplianceFragment.setArguments(bundle);
@@ -124,6 +127,7 @@ public class MainActivity extends FragmentActivity {
             transaction.commit();
         } else if (type_name.equals(title[5])) {
             listView_main.setVisibility(View.VISIBLE);
+            listView_main.setBackgroundColor(0x2270b1da);
             main_SocketFragment = new Main_SocketFragment();
             bundle.putInt("room_position", room_position);
             main_SocketFragment.setArguments(bundle);
@@ -132,6 +136,7 @@ public class MainActivity extends FragmentActivity {
             transaction.commit();
         } else if (type_name.equals(title[6])) {
             listView_main.setVisibility(View.VISIBLE);
+            listView_main.setBackgroundColor(0x2270b1da);
             main_DoorFragment = new Main_DoorFragment();
             bundle.putInt("room_position", room_position);
             main_DoorFragment.setArguments(bundle);
@@ -139,7 +144,7 @@ public class MainActivity extends FragmentActivity {
             transaction.replace(R.id.home, main_DoorFragment);
             transaction.commit();
         } else if (type_name.equals(title[7])) {
-            listView_main.setVisibility(View.VISIBLE);
+            listView_main.setVisibility(View.GONE);
             main_SafetyFragment = new Main_SafetyFragment();
             bundle.putInt("room_position", room_position);
             main_SafetyFragment.setArguments(bundle);
@@ -148,6 +153,7 @@ public class MainActivity extends FragmentActivity {
             transaction.commit();
         } else if (type_name.equals(title[8])) {
             listView_main.setVisibility(View.VISIBLE);
+            listView_main.setBackgroundColor(0x2270b1da);
             main_ControlFragment = new Main_ControlFragment();
             bundle.putInt("room_position", room_position);
             main_ControlFragment.setArguments(bundle);
@@ -165,6 +171,7 @@ public class MainActivity extends FragmentActivity {
                 switch (checkedId) {
                     case R.id.light:
                         listView_main.setVisibility(View.VISIBLE);
+                        listView_main.setBackgroundColor(0x2270b1da);
                         main_LightFragment = new Main_LightFragment();
                         main_LightFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_LightFragment);
@@ -179,6 +186,7 @@ public class MainActivity extends FragmentActivity {
                         break;
                     case R.id.curtain:
                         listView_main.setVisibility(View.VISIBLE);
+                        listView_main.setBackgroundColor(0x2270b1da);
                         main_CurtainFragment = new Main_CurtainFragment();
                         main_CurtainFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_CurtainFragment);
@@ -186,6 +194,7 @@ public class MainActivity extends FragmentActivity {
                         break;
                     case R.id.appliance:
                         listView_main.setVisibility(View.VISIBLE);
+                        listView_main.setBackgroundColor(0x2270b1da);
                         main_ApplianceFragment = new Main_ApplianceFragment();
                         main_ApplianceFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_ApplianceFragment);
@@ -193,6 +202,7 @@ public class MainActivity extends FragmentActivity {
                         break;
                     case R.id.socket:
                         listView_main.setVisibility(View.VISIBLE);
+                        listView_main.setBackgroundColor(0x2270b1da);
                         main_SocketFragment = new Main_SocketFragment();
                         main_SocketFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_SocketFragment);
@@ -200,13 +210,14 @@ public class MainActivity extends FragmentActivity {
                         break;
                     case R.id.door:
                         listView_main.setVisibility(View.VISIBLE);
+                        listView_main.setBackgroundColor(0x2270b1da);
                         main_DoorFragment = new Main_DoorFragment();
                         main_DoorFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_DoorFragment);
                         type_name = title[6];
                         break;
                     case R.id.safety:
-                        listView_main.setVisibility(View.VISIBLE);
+                        listView_main.setVisibility(View.GONE);
                         main_SafetyFragment = new Main_SafetyFragment();
                         main_SafetyFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_SafetyFragment);
@@ -214,6 +225,7 @@ public class MainActivity extends FragmentActivity {
                         break;
                     case R.id.control:
                         listView_main.setVisibility(View.VISIBLE);
+                        listView_main.setBackgroundColor(0x2270b1da);
                         main_ControlFragment = new Main_ControlFragment();
                         main_ControlFragment.setArguments(bundle);
                         transaction.replace(R.id.home, main_ControlFragment);

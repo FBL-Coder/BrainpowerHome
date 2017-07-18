@@ -186,7 +186,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
     private void initRecycleView(View view) {
         int KeyCnt = MyApplication.getWareData_Scene().getKeyInputs().get(input_position).getKeyCnt();
         String[] keyName = MyApplication.getWareData_Scene().getKeyInputs().get(input_position).getKeyName();
-        uid = MyApplication.getWareData_Scene().getKeyInputs().get(input_position).getDevUnitID();
+        uid = MyApplication.getWareData_Scene().getKeyInputs().get(input_position).getCanCpuID();
         //获取输入板对应设备的数据
         MyApplication.getKeyItemInfo(0, uid);
         initDialog("初始化按键数据中...");

@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.ui.ConditionEventActivity;
-import cn.etsoft.smarthome.ui.Equipment_control2;
-import cn.etsoft.smarthome.ui.GroupActivity2;
+import cn.etsoft.smarthome.ui.Equipment_control;
+import cn.etsoft.smarthome.ui.GroupActivity;
 import cn.etsoft.smarthome.ui.GroupSetActivity;
 import cn.etsoft.smarthome.ui.SafetyActivity;
-import cn.etsoft.smarthome.ui.SceneSetActivity2;
+import cn.etsoft.smarthome.ui.SceneSetActivity;
 import cn.etsoft.smarthome.ui.TimerActivity;
 
 /**
@@ -67,16 +67,15 @@ public class Setting_OtherSetFragment extends Fragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_dev:
-//                startActivity(new Intent(mActivity, Equipment_control.class));
-                startActivity(new Intent(mActivity, Equipment_control2.class));
+                startActivity(new Intent(mActivity, Equipment_control.class));
                 break;
             case R.id.tv_other:
 //                startActivity(new Intent(mActivity, GroupActivity.class));
-                startActivity(new Intent(mActivity, GroupActivity2.class));
+                startActivity(new Intent(mActivity, GroupActivity.class));
                 break;
             case R.id.tv_scene:
 //                startActivity(new Intent(mActivity, SceneSetActivity.class));
-                startActivity(new Intent(mActivity, SceneSetActivity2.class));
+                startActivity(new Intent(mActivity, SceneSetActivity.class));
                 break;
             case R.id.tv_safety:
                 startActivity(new Intent(mActivity, SafetyActivity.class));

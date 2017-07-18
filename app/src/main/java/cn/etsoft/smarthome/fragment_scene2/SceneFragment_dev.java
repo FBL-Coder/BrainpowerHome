@@ -16,7 +16,7 @@ import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter_scene2.SceneAdapter_dev;
 import cn.etsoft.smarthome.pullmi.entity.WareDev;
 import cn.etsoft.smarthome.pullmi.entity.WareSceneDevItem;
-import cn.etsoft.smarthome.ui.SceneSetActivity2;
+import cn.etsoft.smarthome.ui.SceneSetActivity;
 
 /**
  * Created by Say GoBay on 2016/11/28.
@@ -40,7 +40,7 @@ public class SceneFragment_dev extends Fragment {
         View view = inflater.inflate(R.layout.fragment_light, container, false);
         this.inflater = inflater;
         initGridView(view);
-        SceneSetActivity2.setOnGetIsChooseListener(new SceneSetActivity2.OnGetIsChooseListener() {
+        SceneSetActivity.setOnGetIsChooseListener(new SceneSetActivity.OnGetIsChooseListener() {
             @Override
             public void getOutChoose(boolean ischoose) {
                 ISCHOOSE = ischoose;
@@ -170,7 +170,7 @@ public class SceneFragment_dev extends Fragment {
             sceneAdapter_dev = new SceneAdapter_dev(Dev_room, getActivity(), inflater, sceneid);
             gridView_light.setAdapter(sceneAdapter_dev);
         } else {
-            sceneAdapter_dev.notifyDataSetChanged(Dev_room);
+            sceneAdapter_dev.notifyDataSetChanged(Dev_room,sceneid);
         }
     }
 }

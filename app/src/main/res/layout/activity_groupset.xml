@@ -142,56 +142,63 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_0"
-                android:layout_weight="3"
-                android:orientation="horizontal"
-                android:background="@color/color_fff"
-                >
-                <ListView
-                    android:id="@+id/safety"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:scrollbars="none"
-                    >
-                </ListView>
-                <LinearLayout
-                    android:id="@+id/layoutShow"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:layout_gravity="right"
-                    android:background="@drawable/bj_group3"
-                    android:orientation="vertical" >
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/dp_0"
+               android:layout_weight="3"
+               android:background="@color/color_fff"
+               android:orientation="horizontal"
+               >
+               <ListView
+                   android:id="@+id/safety"
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="3"
+                   android:scrollbars="none"
+                   android:divider="@null"
+                   >
+               </ListView>
+               <LinearLayout
+                   android:id="@+id/layoutShow"
+                   android:layout_width="@dimen/dp_0"
+                   android:layout_weight="0.8"
+                   android:layout_height="match_parent"
+                   android:layout_gravity="right"
+                   android:orientation="vertical" >
 
-                    <Button
-                        android:id="@+id/imageViewUp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:text="上一页" />
+                   <ImageView
+                       android:id="@+id/imageViewUp"
+                       android:layout_width="wrap_content"
+                       android:layout_height="0dp"
+                       android:layout_weight="1"
+                       android:src="@drawable/page_up"
+                       android:scaleType="centerCrop"
+                       android:background="@null"
+                       />
 
-                     <cn.etsoft.smarthome.widget.VerticalPageSeekBar
-                        android:id="@+id/seekBar"
-                        android:layout_width="match_parent"
-                        android:progressDrawable="@color/colorCC"
-                        android:thumb="@drawable/selected"
-                        android:layout_height="0dp"
-                        android:layout_weight="10"
-                        />
+                   <cn.etsoft.smarthome.widget.VerticalPageSeekBar
+                       android:id="@+id/seekBar"
+                       android:layout_width="match_parent"
+                       android:progressDrawable="@color/colorCC"
+                       android:thumb="@drawable/slide"
+                       android:layout_height="0dp"
+                       android:layout_weight="8"
+                       />
 
-                    <Button
-                        android:id="@+id/imageViewDown"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:text="下一页" />
-                </LinearLayout>
-            </LinearLayout>
+                   <ImageView
+                       android:id="@+id/imageViewDown"
+                       android:layout_width="wrap_content"
+                       android:layout_height="0dp"
+                       android:src="@drawable/page_down"
+                       android:layout_weight="1"
+                       android:scaleType="centerCrop"
+                       android:background="@null"
+                       />
+               </LinearLayout>
 
+
+
+           </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_0"

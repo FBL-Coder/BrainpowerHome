@@ -48,7 +48,7 @@ import cn.etsoft.smarthome.widget.CustomDialog_comment;
  * Created by Say GoBay on 2017/3/14.
  * 高级设置-情景设置的Activity页面
  */
-public class SceneSetActivity2 extends FragmentActivity implements View.OnClickListener {
+public class SceneSetActivity extends FragmentActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private List<WareSceneEvent> event;
     private RecyclerViewAdapter recyclerAdapter;
@@ -135,15 +135,15 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 if (mDialog != null)
                     mDialog.dismiss();
                 if (what == 23) {
-                    ToastUtil.showToast(SceneSetActivity2.this, "添加成功");
+                    ToastUtil.showToast(SceneSetActivity.this, "添加成功");
                     ReadWrite();
                 }
                 if (what == 24) {
-                    ToastUtil.showToast(SceneSetActivity2.this, "保存成功");
+                    ToastUtil.showToast(SceneSetActivity.this, "保存成功");
                 }
                 if (what == 25) {
                     initHorizontalListView();
-                    ToastUtil.showToast(SceneSetActivity2.this, "删除成功");
+                    ToastUtil.showToast(SceneSetActivity.this, "删除成功");
                 }
             }
         });
@@ -249,13 +249,13 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                         transaction.commit();
                     } else {
                         if (MyApplication.getWareData().getSceneEvents().size() == 8) {
-                            ToastUtil.showToast(SceneSetActivity2.this, "最多添加8个情景模式");
+                            ToastUtil.showToast(SceneSetActivity.this, "最多添加8个情景模式");
                             return;
                         }
                         getDialog();
                     }
                 } else {
-                    ToastUtil.showToast(SceneSetActivity2.this, "数据异常");
+                    ToastUtil.showToast(SceneSetActivity.this, "数据异常");
                 }
             }
 
@@ -265,10 +265,10 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 int listSize = event.size();
                 if (listSize > 0) {
                     if (position < 2) {
-                        ToastUtil.showToast(SceneSetActivity2.this, "全开、全关模式不可删除");
+                        ToastUtil.showToast(SceneSetActivity.this, "全开、全关模式不可删除");
                         return;
                     } else if (position < listSize - 1) {
-                        CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(SceneSetActivity2.this);
+                        CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(SceneSetActivity.this);
                         builder.setTitle("提示 :");
                         builder.setMessage("您确定删除此模式?");
                         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -293,7 +293,7 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                         return;
                     }
                 } else {
-                    ToastUtil.showToast(SceneSetActivity2.this, "数据异常");
+                    ToastUtil.showToast(SceneSetActivity.this, "数据异常");
                 }
             }
         });
@@ -367,7 +367,7 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                     add_scene((byte) (int) ID.get(0), data);
                 } else {
                     mDialog.dismiss();
-                    ToastUtil.showToast(SceneSetActivity2.this, "请填写情景名称");
+                    ToastUtil.showToast(SceneSetActivity.this, "请填写情景名称");
                 }
                 break;
             case R.id.scene_btn_cancel:
@@ -375,7 +375,7 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 break;
             case R.id.sceneSet_save:
                 if (sceneid < 2) {
-                    ToastUtil.showToast(SceneSetActivity2.this, "全开、全关模式不可操作");
+                    ToastUtil.showToast(SceneSetActivity.this, "全开、全关模式不可操作");
                     return;
                 } else {
                     save();
@@ -409,7 +409,7 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
      */
     public void save() {
 
-        CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(SceneSetActivity2.this);
+        CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(SceneSetActivity.this);
         builder.setTitle("提示 :");
         builder.setMessage("您要保存这些设置吗？");
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -489,7 +489,7 @@ public class SceneSetActivity2 extends FragmentActivity implements View.OnClickL
                 } catch (Exception e) {
                     mDialog.dismiss();
                     Log.e("Exception", e + "");
-                    ToastUtil.showToast(SceneSetActivity2.this, "保存失败，数据异常");
+                    ToastUtil.showToast(SceneSetActivity.this, "保存失败，数据异常");
                 }
             }
         });

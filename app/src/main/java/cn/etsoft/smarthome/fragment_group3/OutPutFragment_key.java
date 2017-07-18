@@ -69,7 +69,7 @@ public class OutPutFragment_key extends Fragment {
         if (ISCHOOSE) {
             listData = new ArrayList<>();
             for (int i = 0; i < listData_all.size(); i++) {
-                if (MyApplication.getWareData().getKeyInputs().get(position_keyinput).getDevUnitID().equals(listData_all.get(i).getUnitid())) {
+                if (MyApplication.getWareData().getKeyInputs().get(position_keyinput).getCanCpuID().equals(listData_all.get(i).getUnitid())) {
                     for (int j = 0; j < listData_all.get(i).getPrintCmds().size(); j++) {
                         if (listData_all.get(i).getPrintCmds().get(j).isSelect())
                             listData.add(listData_all.get(i).getPrintCmds().get(j));
@@ -78,7 +78,7 @@ public class OutPutFragment_key extends Fragment {
             }
         } else {
             for (int i = 0; i < listData_all.size(); i++) {
-                if (MyApplication.getWareData().getKeyInputs().get(position_keyinput).getDevUnitID().equals(listData_all.get(i).getUnitid())) {
+                if (MyApplication.getWareData().getKeyInputs().get(position_keyinput).getCanCpuID().equals(listData_all.get(i).getUnitid())) {
                     listData = listData_all.get(i).getPrintCmds();
                 }
             }
@@ -101,7 +101,7 @@ public class OutPutFragment_key extends Fragment {
      * @param
      */
     private void initGridView(View view) {
-        position_keyinput = getArguments().getInt("keyinput_position", 0);
+        position_keyinput = getArguments().getInt("keyinput_position",position_keyinput);
         devtype = getArguments().getInt("devtype", 0);
         ISCHOOSE = getArguments().getBoolean("ISCHOOSE", false);
         gridView_light = (GridView) view.findViewById(R.id.gridView_light);

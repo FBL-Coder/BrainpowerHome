@@ -155,8 +155,8 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                                 List<String> list_Name = new ArrayList<>();
                                 boolean isConcan = false;
                                 for (int k = 0; k < ChnOpItem_list.size(); k++) {
-                                    if (ChnOpItem_list.get(k).getDevUnitID()
-                                            .equals(MyApplication.getWareData().getKeyInputs().get(j).getDevUnitID())) {
+                                    if (ChnOpItem_list.get(k).getCpuid()
+                                            .equals(MyApplication.getWareData().getKeyInputs().get(j).getCanCpuID())) {
                                         ChnOpItem = ChnOpItem_list.get(k);
                                         for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(j).getKeyName().length; i++) {
                                             list_Name.add(MyApplication.getWareData().getKeyInputs().get(j).getKeyName()[i]);
@@ -166,7 +166,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                                 }
                                 if (!isConcan) {
                                     ChnOpItem = new WareChnOpItem();
-                                    ChnOpItem.setDevUnitID(MyApplication.getWareData().getKeyInputs().get(j).getDevUnitID());
+                                    ChnOpItem.setCpuid(MyApplication.getWareData().getKeyInputs().get(j).getCanCpuID());
                                     for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(j).getKeyName().length; i++) {
                                         list_Name.add(MyApplication.getWareData().getKeyInputs().get(j).getKeyName()[i]);
                                     }
@@ -174,7 +174,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                                 listData = new ArrayList<>();
                                 for (int i = 0; i < ChnOpItem.getKeyUpCmd().length; i++) {
                                     PrintCmd cmd = new PrintCmd();
-                                    cmd.setDevUnitID(ChnOpItem.getDevUnitID());
+                                    cmd.setDevUnitID(ChnOpItem.getCpuid());
                                     try {
                                         cmd.setDevType(Dev_room.get(devPosition).getType());
                                     } catch (Exception e) {
@@ -196,7 +196,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                                     listData.add(cmd);
                                 }
                                 Out_List_printcmd list = new Out_List_printcmd();
-                                list.setUnitid(ChnOpItem.getDevUnitID());
+                                list.setUnitid(ChnOpItem.getCpuid());
                                 list.setPrintCmds(listData);
                                 listData_all.add(list);
                             }

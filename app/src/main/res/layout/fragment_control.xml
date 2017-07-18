@@ -2,10 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bj_group3"
+    android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_margin="@dimen/dp_10"
     android:background="@color/color_fff"
     android:orientation="vertical">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40">
@@ -66,4 +70,5 @@
         android:drawablePadding="@dimen/dp_10"
         />
 
+</LinearLayout>
 </LinearLayout>
