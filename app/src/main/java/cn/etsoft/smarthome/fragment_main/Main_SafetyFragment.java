@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,7 +21,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cn.etsoft.smarthome.MyApplication;
@@ -297,44 +294,6 @@ public class Main_SafetyFragment extends Fragment implements View.OnClickListene
         }
         return data_data;
     }
-
-    /**
-     * 选择日期
-     *
-     * @param view
-     */
-    private void initDatePickerDialog(final View view) {
-        Date date = new Date();
-        mDatePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Log.i("=====", "=====" + year + "=====" + monthOfYear + "=====" + dayOfMonth);
-            }
-        }, date.getYear(), date.getMonth(), date.getDay());
-        mDatePickerDialog.show();
-        View inflate = LayoutInflater.from(getActivity()).inflate(
-                R.layout.datepicker_layout, null);
-        mDatePicker = (DatePicker) inflate.findViewById(R.id.datePicker);
-        mDatePicker.setCalendarViewShown(false);
-        Button btn_ok = (Button) inflate.findViewById(R.id.time_ok);
-        btn_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("TIME", "年" + mDatePicker.getYear() + "月" + (mDatePicker.getMonth() + 1) + "日" + mDatePicker.getDayOfMonth());
-                ((TextView) view).setText(mDatePicker.getYear() + "-" + (mDatePicker.getMonth() + 1) + "-" + mDatePicker.getDayOfMonth());
-                mDatePickerDialog.dismiss();
-            }
-        });
-        Button btn_cancel = (Button) inflate.findViewById(R.id.time_cancel);
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDatePickerDialog.dismiss();
-            }
-        });
-        mDatePickerDialog.setContentView(inflate);
-    }
-
 
     /**
      * 初始化自定义设备的状态以及设备PopupWindow

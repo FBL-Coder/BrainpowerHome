@@ -39,6 +39,7 @@ public class Main_LightFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_light, container, false);
+        view.setBackgroundResource(R.drawable.bj_group3);
         //初始化控件
         this.inflater = inflater;
         //初始化GridView

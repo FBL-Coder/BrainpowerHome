@@ -1,9 +1,6 @@
 package cn.etsoft.smarthome.fragment_main;
 
-import android.app.Dialog;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,7 +15,6 @@ import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.adapter_main.SceneAdapter;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
-import cn.etsoft.smarthome.view.Circle_Progress;
 
 /**
  * Created by Say GoBay on 2016/11/28.
@@ -34,6 +30,7 @@ public class Main_SceneFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_light, container, false);
+        view.setBackgroundResource(R.drawable.bj_group3);
         this.inflater = inflater;
         //初始化GridView
         initGridView(view);
