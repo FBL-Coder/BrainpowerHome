@@ -45,6 +45,7 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
     private boolean IsOpenShiNeng = false, IsyncSever = false;
     private int mGroupSetPosition = 0;
     private int CirclePosition = 0;
+    private boolean[] IsSelect;
 
     @Override
     public void initView() {
@@ -67,25 +68,22 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
+                MyApplication.mApplication.dismissLoadDialog();
                 if (datType == 66) {
                     IsNoData = false;
-                    WareDataHliper.initCopyWareData().startCopyGroupSetData();
-                    initGroupSet();
-                }
-                if (datType == 67) {
-                    ToastUtil.showText("添加成功");
+                    if (subtype1 == 2 && subtype2 == 1)
+                        ToastUtil.showText("保存成功");
                     WareDataHliper.initCopyWareData().startCopyGroupSetData();
                     initGroupSet();
                 }
             }
         });
-
     }
 
     @Override
     public void initData() {
-        if (WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows().size() == 0) {
-            ToastUtil.showText("没有定时器数据");
+        if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().size() == 0) {
+            ToastUtil.showText("没有组合触发器数据");
             return;
         } else {
             initGroupSet();
@@ -100,6 +98,10 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
+                if (IsNoData && WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows().size() == 0) {
+                    ToastUtil.showText("获取数据异常，请稍后在试");
+                    return;
+                }
                 IsCanClick = true;
                 CirclePosition = position;
                 mGroupSetPosition = position % WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows().size();
@@ -110,12 +112,25 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
 
                 mGroupSetName.setText("");
                 mGroupSetName.setHint(mBean.getTriggerName());
-
+                IsSelect = new boolean[MyApplication.getWareData().getResult_safety().getSec_info_rows().size()];
                 if (mBean.getRun_dev_item() == null
                         || mBean.getRun_dev_item().size() == 0) {
                     mShiNeng.setImageResource(R.drawable.ic_launcher);
                     mSyncSever.setImageResource(R.drawable.ic_launcher);
-                    mGroupSetSafetys.setText("点击选择防区");
+                    if (mBean.getTriggerSecs() == 0)
+                        mGroupSetSafetys.setText("点击选择防区");
+                    else {
+                        int weekSelect_10 = (int) mBean.getTriggerSecs();
+                        String weekSelect_2 = reverseString(Integer.toBinaryString(weekSelect_10));
+                        String weekSelect_2_data = "";
+                        for (int i = 0; i < weekSelect_2.toCharArray().length; i++) {
+                            if (weekSelect_2.toCharArray()[i] == '1') {
+                                weekSelect_2_data += " " + (i + 1);
+                                IsSelect[i] = true;
+                            }
+                        }
+                        mGroupSetSafetys.setText(weekSelect_2_data);
+                    }
                 } else {
                     if (mBean.getValid() == 1) {
                         IsOpenShiNeng = true;
@@ -128,10 +143,12 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                     String weekSelect_2 = reverseString(Integer.toBinaryString(weekSelect_10));
                     String weekSelect_2_data = "";
                     for (int i = 0; i < weekSelect_2.toCharArray().length; i++) {
-                        if (weekSelect_2.toCharArray()[i] == '1')
+                        if (weekSelect_2.toCharArray()[i] == '1') {
                             weekSelect_2_data += " " + (i + 1);
+                            IsSelect[i] = true;
+                        }
                     }
-                    mGroupSetSafetys.setText("防区集： " + weekSelect_2_data + "");
+                    mGroupSetSafetys.setText(weekSelect_2_data);
 
                     if (mBean.getReportServ() == 1) {
                         mSyncSever.setImageResource(R.drawable.ic_launcher_round);
@@ -176,10 +193,9 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
         }
         switch (v.getId()) {
             case R.id.GroupSet_Save_Btn://保存
-                mGroupSetName.getText();
-
-
-                //TODO  保存
+                MyApplication.mApplication.showLoadDialog(this);
+                GroupSetHelper.Save(mGroupSetPosition, mGroupSetSafetys
+                        , mGroupSetName, IsOpenShiNeng, IsyncSever, mBean);
                 break;
             case R.id.GroupSet_ShiNeng: //使能开关
                 IsOpenShiNeng = !IsOpenShiNeng;
@@ -199,7 +215,7 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                     ToastUtil.showText("没有防区数据");
                     return;
                 }
-                GroupSetHelper.initWeekDialog(this, mGroupSetSafetys);
+                GroupSetHelper.initWeekDialog(this, mGroupSetSafetys, IsSelect);
                 break;
             case R.id.GroupSet_SyncSever://同步服务器
                 IsyncSever = !IsyncSever;

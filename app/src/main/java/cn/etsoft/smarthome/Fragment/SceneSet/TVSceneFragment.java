@@ -45,6 +45,7 @@ public class TVSceneFragment extends BaseFragment {
     @Override
     public void initData(Bundle arguments) {
         mRoomName = arguments.getString("RoomName", "全部");
+        mScenePosition = arguments.getInt("ScenePosition", 0);
 //        initDev();
     }
 

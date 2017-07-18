@@ -121,10 +121,8 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHolder) convertView.getTag();
 
-
-        if (mAirs.get(position).getbOnOff() == 0)
-            viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher);
-        else viewHoler.mAirSwitch.setImageResource(R.drawable.switch_icon);
+        mAirs.get(position).setbOnOff((byte) 0);
+        viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher);
         viewHoler.mAirSelect.setImageResource(R.drawable.ic_launcher);
         if (mSceneDev != null) {
             for (int i = 0; i < mSceneDev.size(); i++) {//根据设给的数据判断状态以及显示图标
@@ -135,8 +133,10 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
                     mAirs.get(position).getDev().setSelect(true);
                     viewHoler.mAirSelect.setImageResource(R.drawable.ic_launcher_round);
                     if (mSceneDev.get(i).getbOnOff() == 0) {
+                        mAirs.get(position).setbOnOff((byte) 0);
                         viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher);
-                    } else if (mSceneDev.get(i).getbOnOff() == 1) {
+                    } else {
+                        mAirs.get(position).setbOnOff((byte) 0);
                         viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher_round);
                     }
                     viewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd());
@@ -283,32 +283,24 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
         viewHoler.mAirSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (mAirs.get(position).getbOnOff() == 0) {
-                    mAirs.get(position).setbOnOff((byte) 1);
-                    finalViewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher_round);
-                } else {
-                    mAirs.get(position).setbOnOff((byte) 0);
-                    finalViewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher);
+                if (mAirs.get(position).getDev().isSelect()) {
+                    for (int i = 0; i < mSceneDev.size(); i++) {
+                        if (mAirs.get(position).getDev().getDevId() == mSceneDev.get(i).getDevID()
+                                && mAirs.get(position).getDev().getType() == mSceneDev.get(i).getDevType()
+                                && mAirs.get(position).getDev().getCanCpuId().equals(mSceneDev.get(i).getCanCpuID())) {
+                            if (mAirs.get(position).getbOnOff() == 0) {
+                                mSceneDev.get(i).setbOnOff((byte) 1);
+                            } else {
+                                mSceneDev.get(i).setbOnOff((byte) 0);
+                            }
+                        }
+                    }
+                    notifyDataSetChanged();
+                }else {
+                    ToastUtil.showText("未选中，不可操作");
                 }
-                getSceneDev(position).setbOnOff(mAirs.get(position).getbOnOff());
             }
         });
-    }
-
-    private WareSceneDevItem getSceneDev(int position) {
-        WareSceneDevItem item = null;
-        if (mAirs.get(position).getDev().isSelect()) {
-            for (int i = 0; i < mSceneDev.size(); i++) {
-                if (mAirs.get(position).getDev().getDevId() == mSceneDev.get(i).getDevID()
-                        && mAirs.get(position).getDev().getType() == mSceneDev.get(i).getDevType()
-                        && mAirs.get(position).getDev().getCanCpuId().equals(mSceneDev.get(i).getCanCpuID())) {
-                    //TODO 调节温度后改变情景中设备的参数
-                    item = mSceneDev.get(i);
-                }
-            }
-        }
-        return item;
     }
 
     private void SelectClick(final int position, ViewHolder viewHoler, final ViewHolder finalViewHoler) {

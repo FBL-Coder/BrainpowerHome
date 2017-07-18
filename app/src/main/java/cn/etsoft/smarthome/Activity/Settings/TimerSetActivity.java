@@ -77,6 +77,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
+                MyApplication.mApplication.dismissLoadDialog();
                 if (datType == 17) {
                     IsNoData = false;
                     WareDataHliper.initCopyWareData().startCopyTimerData();
@@ -103,7 +104,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initTimer() {
-        Data_OuterCircleList = TimerSetHelper.initSceneCircleOUterData(IsCanClick,CirclePosition);
+        Data_OuterCircleList = TimerSetHelper.initSceneCircleOUterData(IsCanClick, CirclePosition);
         layout.Init(200, 0);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 
@@ -202,7 +203,9 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
 
                 String timername = mTimerName.getText().toString();
                 if (timername.isEmpty()) {
-                    ToastUtil.showText("请输入名称");
+                    timername = mBean.getTimerName();
+                } else if (timername.length() > 6) {
+                    ToastUtil.showText("名称太长");
                     return;
                 }
                 String starttime = mTimerStartTime.getText().toString();
@@ -221,7 +224,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                     return;
                 }
                 TimerSetHelper.Timer_Save(this, timername, starttime, endtime,
-                        IsOpenWeekAgain, IsOpenShiNeng, weekss,mBean,
+                        IsOpenWeekAgain, IsOpenShiNeng, weekss, mBean,
                         mBean.getRun_dev_item());
                 break;
             case R.id.Timer_ShiNeng: //使能开关
@@ -236,7 +239,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                 Intent intent = new Intent(TimerSetActivity.this, SetAddDevActivity.class);
                 intent.putExtra("name", "Timer");
                 intent.putExtra("position", mTimerPosition);
-                startActivityForResult(intent,0);
+                startActivityForResult(intent, 0);
 
                 break;
             case R.id.Timer_TImer_StartTime://开始时间

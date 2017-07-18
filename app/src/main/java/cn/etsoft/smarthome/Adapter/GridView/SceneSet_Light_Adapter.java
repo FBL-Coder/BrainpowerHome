@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.jaygoo.widget.RangeSeekBar;
 
 import java.util.ArrayList;
@@ -119,9 +120,8 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
 
-        if (mLights.get(position).getDev().getbOnOff() == 0)
-            viewHoler.mIV.setImageResource(R.drawable.light_close);
-        else viewHoler.mIV.setImageResource(R.drawable.light_open);
+        mLights.get(position).setbOnOff((byte) 0);
+        viewHoler.mIV.setImageResource(R.drawable.light_close);
         viewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
         viewHoler.mSeekBar.setRight(4);
 
@@ -133,8 +133,10 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
                     mLights.get(position).getDev().setSelect(true);
                     viewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
                     if (mSceneDev.get(i).getbOnOff() == 0) {
+                        mLights.get(position).setbOnOff((byte) 0);
                         viewHoler.mIV.setImageResource(R.drawable.light_close);
                     } else if (mSceneDev.get(i).getbOnOff() == 1) {
+                        mLights.get(position).setbOnOff((byte) 1);
                         viewHoler.mIV.setImageResource(R.drawable.light_open);
                     }
                 }
@@ -172,25 +174,24 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                if (mLights.get(position).getbOnOff() == 0) {
-                    mLights.get(position).setbOnOff((byte) 1);
-                    finalViewHoler.mIV.setImageResource(R.drawable.light_open);
-                } else {
-                    mLights.get(position).setbOnOff((byte) 0);
-                    finalViewHoler.mIV.setImageResource(R.drawable.light_close);
-                }
-
                 if (mLights.get(position).getDev().isSelect()) {
                     for (int i = 0; i < mSceneDev.size(); i++) {
                         if (mLights.get(position).getDev().getDevId() == mSceneDev.get(i).getDevID()
                                 && mLights.get(position).getDev().getType() == mSceneDev.get(i).getDevType()
                                 && mLights.get(position).getDev().getCanCpuId().equals(mSceneDev.get(i).getCanCpuID())) {
-                            mSceneDev.get(i).setbOnOff(mLights.get(position).getbOnOff());
+                            if (mLights.get(position).getbOnOff() == 0) {
+                                mSceneDev.get(i).setbOnOff((byte) 1);
+                            } else {
+                                mSceneDev.get(i).setbOnOff((byte) 0);
+                            }
+
                         }
-                        Log.i(TAG, "onClick: ----" + mSceneDev.get(i).getbOnOff());
                     }
+                    notifyDataSetChanged(mLights);
+                }else {
+                    ToastUtil.showText("未选中，不可操作");
                 }
-                notifyDataSetChanged(mLights);
+
             }
         });
         viewHoler.mName.setText(mLights.get(position).getDev().getDevName());

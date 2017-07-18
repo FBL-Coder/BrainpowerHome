@@ -77,6 +77,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
+                MyApplication.mApplication.dismissLoadDialog();
                 if (datType == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getEnvEvents.getValue())/*27*/ {
                     IsNoData = false;
                     WareDataHliper.initCopyWareData().startCopyConditionData();
@@ -112,7 +113,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
         Event_type.add("温度触发");
         Event_type.add("湿度触发");
         Event_type.add("P2.5触发");
-        Data_OuterCircleList = ConditionSetHelper.initSceneCircleOUterData(IsCanClick,CirclePosition);
+        Data_OuterCircleList = ConditionSetHelper.initSceneCircleOUterData(IsCanClick, CirclePosition);
         layout.Init(200, 0);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 

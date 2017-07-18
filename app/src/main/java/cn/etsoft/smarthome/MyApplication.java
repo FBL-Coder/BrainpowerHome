@@ -376,7 +376,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
             //load 超时后自动消失
             if (msg.what == application.DIALOG_DISMISS) {
-                if (application.progressDialog.isShowing()) {
+                if (application.progressDialog != null && application.progressDialog.isShowing()) {
                     application.progressDialog.dismiss();
                     application.progressDialog = null;
                 }

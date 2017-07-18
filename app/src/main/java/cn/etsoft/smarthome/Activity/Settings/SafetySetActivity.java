@@ -106,11 +106,13 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
                 }
             }
         });
-
     }
 
     @Override
     public void initData() {
+        if (MyApplication.getWareData().getResult_safety().getSec_info_rows().size() > 0) {
+            WareDataHliper.initCopyWareData().startCopySafetySetData();
+        }
         if (WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().size() == 0) {
             ToastUtil.showText("没有安防数据");
             return;
@@ -132,7 +134,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
                 mSafety_Scene_Name.add(MyApplication.getWareData().getSceneEvents().get(i).getSceneName());
             }
 
-        Data_OuterCircleList = SafetySetHelper.initSceneCircleOUterData(IsCanClick,CirclePosition);
+        Data_OuterCircleList = SafetySetHelper.initSceneCircleOUterData(IsCanClick, CirclePosition);
         layout.Init(200, 0);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 
@@ -210,7 +212,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
     @SuppressLint("WrongConstant")
     @Override
     public void onClick(View v) {
-        if (IsNoData && WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows().size() == 0) {
+        if (!IsNoData || WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().size() == 0) {
             ToastUtil.showText("获取数据异常，请稍后在试");
             return;
         }

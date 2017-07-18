@@ -215,6 +215,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             transaction.hide(mLightFragment);
         Bundle bundle = new Bundle();
         bundle.putString("RoomName", RoomName);
+        bundle.putInt("ScenePosition", ScenePosition);
         switch (position) {
             case 0:
             case 8:

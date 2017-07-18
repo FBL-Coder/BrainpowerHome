@@ -27,23 +27,23 @@
                     android:layout_height="wrap_content"
                     android:text="名称："
                     android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
 
                 <EditText
                     android:id="@+id/GroupSet_Name"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="wrap_content"
-                    android:hint="无"
                     android:gravity="center"
+                    android:hint="无"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="使能"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
 
                 <ImageView
                     android:id="@+id/GroupSet_ShiNeng"
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:text="同步服务器"
                     android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
 
                 <ImageView
                     android:id="@+id/GroupSet_SyncSever"
@@ -70,9 +70,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="安防 : "
+                    android:text="防区集: "
                     android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/GroupSet_Safetys"
@@ -83,15 +83,15 @@
                     android:minWidth="@dimen/dp_120"
                     android:text="点击选择防区"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/GroupSet_AddDevs"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp_20"
                     android:background="@color/red"
                     android:gravity="center"
-                    android:layout_marginLeft="@dimen/dp_20"
                     android:minWidth="@dimen/dp_80"
                     android:text="添加设备"
                     android:textColor="@color/white"
@@ -101,11 +101,11 @@
                     android:id="@+id/GroupSet_Save_Btn"
                     android:layout_width="@dimen/dp_70"
                     android:layout_height="match_parent"
-                    android:gravity="center"
                     android:layout_marginLeft="@dimen/dp_10"
-                    android:text="保存"
                     android:background="@color/red"
-                    android:textSize="@dimen/dp_22" />
+                    android:gravity="center"
+                    android:text="保存"
+                    android:textSize="@dimen/sp_18" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -113,9 +113,9 @@
             android:id="@+id/GroupSet_GirdView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="2"
             android:layout_marginLeft="@dimen/dp_250"
-            android:background="@color/Myblue" />
+            android:background="@color/Myblue"
+            android:numColumns="2" />
     </LinearLayout>
 
     <FrameLayout

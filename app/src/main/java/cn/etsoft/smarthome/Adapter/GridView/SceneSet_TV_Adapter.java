@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.jaygoo.widget.RangeSeekBar;
 
 import java.util.ArrayList;
@@ -31,12 +32,12 @@ public class SceneSet_TV_Adapter extends BaseAdapter {
 
     private List<WareSceneDevItem> mSceneDev;
     private Context mContext;
-    private List<WareTv> mLights;
+    private List<WareTv> mTVs;
     private boolean mIsShowSelect;
 
     public SceneSet_TV_Adapter(int sceneposition, Context context, List<WareTv> lights, boolean isShowSelect) {
         mIsShowSelect = isShowSelect;
-        mLights = lights;
+        mTVs = lights;
         mContext = context;
         SelectDev(sceneposition);
     }
@@ -54,24 +55,24 @@ public class SceneSet_TV_Adapter extends BaseAdapter {
             }
         }
         //给所有设备和情景关联的赋值
-        for (int j = 0; j < mLights.size(); j++) {
+        for (int j = 0; j < mTVs.size(); j++) {
             boolean isContain = false;
             for (int i = 0; i < mSceneDev.size(); i++) {
-                if (mSceneDev.get(i).getDevID() == mLights.get(j).getDev().getDevId()
-                        && mSceneDev.get(i).getCanCpuID().equals(mLights.get(j).getDev().getCanCpuId())
-                        && mSceneDev.get(i).getDevType() == mLights.get(j).getDev().getType()) {
-                    mLights.get(j).getDev().setSelect(true);
+                if (mSceneDev.get(i).getDevID() == mTVs.get(j).getDev().getDevId()
+                        && mSceneDev.get(i).getCanCpuID().equals(mTVs.get(j).getDev().getCanCpuId())
+                        && mSceneDev.get(i).getDevType() == mTVs.get(j).getDev().getType()) {
+                    mTVs.get(j).getDev().setSelect(true);
                     isContain = true;
                 }
             }
             if (!isContain) {
-                mLights.get(j).getDev().setSelect(false);
+                mTVs.get(j).getDev().setSelect(false);
             }
         }
         if (mIsShowSelect) {
-            for (int i = 0; i < mLights.size(); ) {
-                if (!mLights.get(i).getDev().isSelect()) {
-                    mLights.remove(i);
+            for (int i = 0; i < mTVs.size(); ) {
+                if (!mTVs.get(i).getDev().isSelect()) {
+                    mTVs.remove(i);
                 } else
                     i++;
             }
@@ -79,8 +80,8 @@ public class SceneSet_TV_Adapter extends BaseAdapter {
     }
 
 
-    public void notifyDataSetChanged(List<WareTv> mLights, int sceneposition, boolean mIsShowSelect) {
-        this.mLights = mLights;
+    public void notifyDataSetChanged(List<WareTv> mTVs, int sceneposition, boolean mIsShowSelect) {
+        this.mTVs = mTVs;
         this.mIsShowSelect = mIsShowSelect;
         SelectDev(sceneposition);
         super.notifyDataSetChanged();
@@ -89,12 +90,12 @@ public class SceneSet_TV_Adapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mLights.size();
+        return mTVs.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mLights.get(position);
+        return mTVs.get(position);
     }
 
     @Override
@@ -114,19 +115,22 @@ public class SceneSet_TV_Adapter extends BaseAdapter {
             viewHoler.mSeekBar = (RangeSeekBar) convertView.findViewById(R.id.SceneSet_GridView_Item_Slide);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
+        mTVs.get(position).setbOnOff((byte) 0);
         viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
         viewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
         viewHoler.mSeekBar.setRight(4);
         if (mSceneDev != null) {
             for (int i = 0; i < mSceneDev.size(); i++) {//根据设给的数据判断状态以及显示图标
-                if (mSceneDev.get(i).getDevID() == mLights.get(position).getDev().getDevId()
-                        && mSceneDev.get(i).getCanCpuID().equals(mLights.get(position).getDev().getCanCpuId())
-                        && mSceneDev.get(i).getDevType() == mLights.get(position).getDev().getType()) {
-                    mLights.get(position).getDev().setSelect(true);
+                if (mSceneDev.get(i).getDevID() == mTVs.get(position).getDev().getDevId()
+                        && mSceneDev.get(i).getCanCpuID().equals(mTVs.get(position).getDev().getCanCpuId())
+                        && mSceneDev.get(i).getDevType() == mTVs.get(position).getDev().getType()) {
+                    mTVs.get(position).getDev().setSelect(true);
                     viewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
                     if (mSceneDev.get(i).getbOnOff() == 0) {
+                        mTVs.get(position).setbOnOff((byte) 0);
                         viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
                     } else if (mSceneDev.get(i).getbOnOff() == 1) {
+                        mTVs.get(position).setbOnOff((byte) 1);
                         viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
                     }
                 }
@@ -136,23 +140,23 @@ public class SceneSet_TV_Adapter extends BaseAdapter {
         viewHoler.mSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mLights.get(position).getDev().isSelect()) {
+                if (mTVs.get(position).getDev().isSelect()) {
                     for (int i = 0; i < mSceneDev.size(); i++) {
-                        if (mLights.get(position).getDev().getDevId() == mSceneDev.get(i).getDevID()
-                                && mLights.get(position).getDev().getType() == mSceneDev.get(i).getDevType()
-                                && mLights.get(position).getDev().getCanCpuId().equals(mSceneDev.get(i).getCanCpuID())) {
+                        if (mTVs.get(position).getDev().getDevId() == mSceneDev.get(i).getDevID()
+                                && mTVs.get(position).getDev().getType() == mSceneDev.get(i).getDevType()
+                                && mTVs.get(position).getDev().getCanCpuId().equals(mSceneDev.get(i).getCanCpuID())) {
                             mSceneDev.remove(i);
                             finalViewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
-                            mLights.get(position).getDev().setSelect(false);
+                            mTVs.get(position).getDev().setSelect(false);
                         }
                     }
                 } else {
-                    mLights.get(position).getDev().setSelect(true);
+                    mTVs.get(position).getDev().setSelect(true);
                     WareSceneDevItem item = new WareSceneDevItem();
-                    item.setDevID((byte) mLights.get(position).getDev().getDevId());
-                    item.setbOnOff(mLights.get(position).getbOnOff());
-                    item.setDevType((byte) mLights.get(position).getDev().getType());
-                    item.setCanCpuID(mLights.get(position).getDev().getCanCpuId());
+                    item.setDevID((byte) mTVs.get(position).getDev().getDevId());
+                    item.setbOnOff(mTVs.get(position).getbOnOff());
+                    item.setDevType((byte) mTVs.get(position).getDev().getType());
+                    item.setCanCpuID(mTVs.get(position).getDev().getCanCpuId());
                     mSceneDev.add(item);
                     finalViewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
                 }
@@ -164,27 +168,27 @@ public class SceneSet_TV_Adapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                if (mLights.get(position).getbOnOff() == 0) {
-                    mLights.get(position).setbOnOff((byte) 1);
-                    finalViewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
-                } else {
-                    mLights.get(position).setbOnOff((byte) 0);
-                    finalViewHoler.mIV.setImageResource(R.drawable.ic_launcher);
-                }
-
-                if (mLights.get(position).getDev().isSelect()) {
+                if (mTVs.get(position).getDev().isSelect()) {
                     for (int i = 0; i < mSceneDev.size(); i++) {
-                        if (mLights.get(position).getDev().getDevId() == mSceneDev.get(i).getDevID()
-                                && mLights.get(position).getDev().getType() == mSceneDev.get(i).getDevType()
-                                && mLights.get(position).getDev().getCanCpuId().equals(mSceneDev.get(i).getCanCpuID())) {
-                            mSceneDev.get(i).setbOnOff(mLights.get(position).getbOnOff());
+                        if (mTVs.get(position).getDev().getDevId() == mSceneDev.get(i).getDevID()
+                                && mTVs.get(position).getDev().getType() == mSceneDev.get(i).getDevType()
+                                && mTVs.get(position).getDev().getCanCpuId().equals(mSceneDev.get(i).getCanCpuID())) {
+
+                            if (mTVs.get(position).getbOnOff() == 0) {
+                                mSceneDev.get(i).setbOnOff((byte) 1);
+                            } else {
+                                mSceneDev.get(i).setbOnOff((byte) 0);
+                            }
+
                         }
-                        Log.i(TAG, "onClick: ----" + mSceneDev.get(i).getbOnOff());
                     }
+                    notifyDataSetChanged();
+                }else {
+                    ToastUtil.showText("未选中，不可操作");
                 }
             }
         });
-        viewHoler.mName.setText(mLights.get(position).getDev().getDevName());
+        viewHoler.mName.setText(mTVs.get(position).getDev().getDevName());
         return convertView;
     }
 

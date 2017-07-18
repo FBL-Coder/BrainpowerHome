@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.jaygoo.widget.RangeSeekBar;
 
 import java.util.ArrayList;
@@ -114,9 +115,9 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
             viewHoler.mSeekBar = (RangeSeekBar) convertView.findViewById(R.id.SceneSet_GridView_Item_Slide);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
-        if (mCurtains.get(position).getbOnOff() == 0)
-            viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
-        else viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
+
+        mCurtains.get(position).setbOnOff((byte) 0);
+        viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
         viewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
         viewHoler.mSeekBar.setVisibility(View.GONE);
         if (mSceneDev != null) {
@@ -127,8 +128,10 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
                     mCurtains.get(position).getDev().setSelect(true);
                     viewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
                     if (mSceneDev.get(i).getbOnOff() == 0) {
+                        mCurtains.get(position).setbOnOff((byte) 0);
                         viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
                     } else if (mSceneDev.get(i).getbOnOff() == 1) {
+                        mCurtains.get(position).setbOnOff((byte) 1);
                         viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
                     }
                 }
@@ -166,23 +169,23 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                if (mCurtains.get(position).getbOnOff() == 0) {
-                    mCurtains.get(position).setbOnOff((byte) 1);
-                    finalViewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
-                } else {
-                    mCurtains.get(position).setbOnOff((byte) 0);
-                    finalViewHoler.mIV.setImageResource(R.drawable.ic_launcher);
-                }
+
 
                 if (mCurtains.get(position).getDev().isSelect()) {
                     for (int i = 0; i < mSceneDev.size(); i++) {
                         if (mCurtains.get(position).getDev().getDevId() == mSceneDev.get(i).getDevID()
                                 && mCurtains.get(position).getDev().getType() == mSceneDev.get(i).getDevType()
                                 && mCurtains.get(position).getDev().getCanCpuId().equals(mSceneDev.get(i).getCanCpuID())) {
-                            mSceneDev.get(i).setbOnOff(mCurtains.get(position).getbOnOff());
+                            if (mCurtains.get(position).getbOnOff() == 0) {
+                                mSceneDev.get(i).setbOnOff((byte) 1);
+                            } else {
+                                mSceneDev.get(i).setbOnOff((byte) 0);
+                            }
                         }
-                        Log.i(TAG, "onClick: ----" + mSceneDev.get(i).getbOnOff());
                     }
+                    notifyDataSetChanged();
+                }else {
+                    ToastUtil.showText("未选中，不可操作");
                 }
             }
         });
