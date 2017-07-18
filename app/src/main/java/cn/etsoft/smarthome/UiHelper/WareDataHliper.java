@@ -3,6 +3,7 @@ package cn.etsoft.smarthome.UiHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.Domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.Domain.GroupSet_Data;
 import cn.etsoft.smarthome.Domain.SetSafetyResult;
@@ -31,6 +32,8 @@ public class WareDataHliper {
     private List<SetSafetyResult.SecInfoRowsBean> mSecInfoRowsBean;
     private GroupSet_Data mGroupSet_Data;
     private List<GroupSet_Data.SecsTriggerRowsBean> mSecsTriggerRowsBean;
+    private ChnOpItem_scene mChnOpItem_scene;
+    private List<ChnOpItem_scene.Key2sceneItemBean> itemBeans;
 
 
     public  static WareDataHliper initCopyWareData(){
@@ -72,6 +75,13 @@ public class WareDataHliper {
         mGroupSet_Data.setSecs_trigger_rows(mSecsTriggerRowsBean);
     }
 
+    public void startCopyScene_KeysData(){
+        mChnOpItem_scene = new ChnOpItem_scene();
+        itemBeans = new ArrayList<>();
+        itemBeans.addAll(MyApplication.getWareData().getChnOpItem_scene().getKey2scene_item());
+        mChnOpItem_scene.setKey2scene_item(itemBeans);
+    }
+
 
 
     public List<WareSceneEvent> getCopyScenes(){
@@ -103,6 +113,13 @@ public class WareDataHliper {
         if (mGroupSet_Data == null)
             startCopyGroupSetData();
         return mGroupSet_Data;
+
+    }
+
+    public ChnOpItem_scene getScenekeysResult(){
+        if (mChnOpItem_scene == null)
+            startCopyScene_KeysData();
+        return mChnOpItem_scene;
 
     }
 }

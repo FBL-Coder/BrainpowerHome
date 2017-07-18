@@ -197,7 +197,7 @@ public class Key_DevsSetHelper {
                     List<Save_Quipment.key_Opitem_Rows> list_kor = new ArrayList<>();
                     for (int i = 0; i < keyOpItems.size(); i++) {
                         Save_Quipment.key_Opitem_Rows key_opitem_rows = save_quipment.new key_Opitem_Rows();
-                        key_opitem_rows.setOut_cpuCanID(keyOpItems.get(i).getDevUnitID());
+                        key_opitem_rows.setOut_cpuCanID(keyOpItems.get(i).getOut_cpuCanID());
                         key_opitem_rows.setDevID(keyOpItems.get(i).getDevId());
                         key_opitem_rows.setDevType(keyOpItems.get(i).getDevType());
                         key_opitem_rows.setKeyOp(keyOpItems.get(i).getKeyOp());

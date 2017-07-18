@@ -44,7 +44,7 @@ public class WareData implements Serializable {
 
     public ChnOpItem_scene getChnOpItem_scene() {
         if (chnOpItem_scene == null)
-            return new ChnOpItem_scene();
+            chnOpItem_scene =  new ChnOpItem_scene();
         return chnOpItem_scene;
     }
 

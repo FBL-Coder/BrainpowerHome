@@ -1161,23 +1161,28 @@ public class UDPServer implements Runnable {
     public void getKeyOpItem(String info) {
 
 //        返回数据类型；
-//        {
-//            "devUnitID": "37ffdb05424e323416702443",
-//                "datType": 11,
-//                "subType1": 1,
-//                "subType2": 0,
-//                "key_opitem_rows": [
-//            {
-//                "key_cpuCanID": "50ff6c067184515640421267",
-//                    "out_cpuCanID": "31ffdf054257313827502543",
-//                    "devType": 3,
-//                    "devID": 5,
-//                    "keyOpCmd": 3,
-//                    "keyOp": 1
-//            }
-//            ],
-//            "key_opitem": 1
-//        }
+//       {
+//        "devUnitID":	"39ffd505484d303408650743",
+//                "datType":	11,
+//                "subType1":	1,
+//                "subType2":	0,
+//                "key_opitem_rows":	[{
+//            "key_cpuCanID":	"48ff6c065087485725170287",
+//                    "out_cpuCanID":	"36ffd4054842373532790843",
+//                    "devType":	0,
+//                    "devID":	0,
+//                    "keyOpCmd":	0,
+//                    "keyOp":	1
+//        }, {
+//            "key_cpuCanID":	"48ff6c065087485725170287",
+//                    "out_cpuCanID":	"36ffd4054842373532790843",
+//                    "devType":	3,
+//                    "devID":	7,
+//                    "keyOpCmd":	5,
+//                    "keyOp":	1
+//        }],
+//        "key_opitem":	2
+//    }
         MyApplication.getWareData().setKeyOpItems(new ArrayList<WareKeyOpItem>());
         try {
             JSONObject jsonObject = new JSONObject(info);
@@ -1186,7 +1191,8 @@ public class UDPServer implements Runnable {
             for (int i = 0; i < array.length(); i++) {
                 WareKeyOpItem opItem = new WareKeyOpItem();
                 JSONObject object = array.getJSONObject(i);
-                opItem.setDevUnitID(object.getString("out_cpuCanID"));
+                opItem.setOut_cpuCanID(object.getString("out_cpuCanID"));
+                opItem.setKey_cpuCanID(object.getString("key_cpuCanID"));
                 opItem.setDevType((byte) object.getInt("devType"));
                 opItem.setDevId((byte) object.getInt("devID"));
                 opItem.setKeyOpCmd((byte) object.getInt("keyOpCmd"));

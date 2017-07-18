@@ -7,7 +7,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -70,7 +69,6 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void initView() {
         setLayout(R.layout.activity_key_devs_set);
-        IsNoData = false;
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
@@ -173,7 +171,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
         }
         switch (v.getId()) {
             case R.id.Key_DevsSet_KeyBoards: //按键板
-                initRadioPopupWindow(v, keyName_list);
+                initRadioPopupWindow(v, InputKey_names);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
             case R.id.Key_DevsSet_Test_Btn: // 测试

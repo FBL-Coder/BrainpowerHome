@@ -123,10 +123,9 @@ public class NewWorkSetActivity extends BaseActivity {
     }
 
     private void backEvent() {
-        if ("".equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")))
-            finish();
-        else
+        if (!"".equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")))
             startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+        finish();
     }
 
     static class NewModuleHandler extends Handler {

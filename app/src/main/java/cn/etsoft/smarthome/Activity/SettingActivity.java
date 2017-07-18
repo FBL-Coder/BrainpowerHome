@@ -13,6 +13,7 @@ import cn.etsoft.smarthome.Activity.Settings.Key_DevsSetActivity;
 import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
 import cn.etsoft.smarthome.Activity.Settings.SafetySetActivity;
 import cn.etsoft.smarthome.Activity.Settings.SceneSetActivity;
+import cn.etsoft.smarthome.Activity.Settings.Scene_KeysActivity;
 import cn.etsoft.smarthome.Activity.Settings.TimerSetActivity;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
@@ -48,7 +49,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mSettingKeyDevs = getViewById(R.id.setting_key_devs);
         mSettingKeyScenes = getViewById(R.id.setting_key_scenes);
 
-
         mSettingNetwork.setOnClickListener(this);
         mSettingDevinfo.setOnClickListener(this);
         mSettingScene.setOnClickListener(this);
@@ -59,9 +59,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mSettingDevKeys.setOnClickListener(this);
         mSettingKeyDevs.setOnClickListener(this);
         mSettingKeyScenes.setOnClickListener(this);
-
     }
-
     @Override
     public void initData() {
         getLiftImage().setOnClickListener(new View.OnClickListener() {
@@ -85,6 +83,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 startActivity(new Intent(SettingActivity.this, Key_DevsSetActivity.class));
                 break;
             case R.id.setting_key_scenes://按键配情景
+                SendDataUtil.getScene_KeysData();
+                startActivity(new Intent(SettingActivity.this, Scene_KeysActivity.class));
                 break;
             case R.id.setting_devinfo://设备详情
                 startActivity(new Intent(SettingActivity.this, DevInfoActivity.class));
@@ -97,7 +97,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.setting_safety://安防设置
                 if (MyApplication.getWareData().getSceneEvents().size() == 0)
                     SendDataUtil.getSceneInfo();
-                SendDataUtil.getSafetyInfo();
+                if (MyApplication.getWareData().getResult_safety().getSec_info_rows().size() == 0)
+                    SendDataUtil.getSafetyInfo();
                 startActivity(new Intent(SettingActivity.this, SafetySetActivity.class));
                 break;
             case R.id.setting_timer://定时设置

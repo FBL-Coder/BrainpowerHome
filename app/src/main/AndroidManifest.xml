@@ -146,6 +146,11 @@
             android:name=".Activity.Settings.Key_DevsSetActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
+        <!--情景配按键（按键情景）-->
+        <activity
+            android:name=".Activity.Settings.Scene_KeysActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
         <!--定时器、环境事件等添加设备界面-->
         <activity
             android:name=".Activity.Settings.SetAddDevActivity"

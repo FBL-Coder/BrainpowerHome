@@ -40,6 +40,12 @@ public class SendDataUtil {
     }
 
 
+    public static void getScene_KeysData() {
+        String GETSCENEKEYSDATA = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_get_key2scene.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 0" + "}";
+        MyApplication.mApplication.getUdpServer().send(GETSCENEKEYSDATA);
+    }
+
+
     public static void getInputBoardInfo() {
         String GETINPUTBOARDINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getBoards.getValue() + "," + "\"subType1\": 0," + "\"subType2\": 1" + "}";
         MyApplication.mApplication.getUdpServer().send(GETINPUTBOARDINFO);

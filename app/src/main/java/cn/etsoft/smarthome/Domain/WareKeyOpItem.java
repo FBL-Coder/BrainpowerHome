@@ -4,22 +4,31 @@ import java.io.Serializable;
 
 public class WareKeyOpItem implements Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 3302607752463272412L;
-	private String devUnitID; //12
+	private String out_cpuCanID; //12
+	private String key_cpuCanID; //12
 	private byte devType;
 	private byte devId;
 	private byte keyOpCmd;
 	private byte keyOp;
 	private byte index;
 
-	public String getDevUnitID() {
-		return devUnitID;
+	public String getKey_cpuCanID() {
+		return key_cpuCanID;
 	}
 
-	public void setDevUnitID(String devUnitID) {
-		this.devUnitID = devUnitID;
+	public void setKey_cpuCanID(String key_cpuCanID) {
+		this.key_cpuCanID = key_cpuCanID;
+	}
+
+	public String getOut_cpuCanID() {
+		return out_cpuCanID;
+	}
+
+	public void setOut_cpuCanID(String out_cpuCanID) {
+		this.out_cpuCanID = out_cpuCanID;
 	}
 
 	public byte getDevType() {

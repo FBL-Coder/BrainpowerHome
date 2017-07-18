@@ -68,7 +68,7 @@ public class Key_DevsSetAdapter extends BaseAdapter {
             for (int i = 0; i < keyOpItems.size(); i++) {
                 if (keyOpItems.get(i).getDevId() == roomDevs.get(j).getDevId()
                         && keyOpItems.get(i).getDevType() == roomDevs.get(j).getType()
-                        && keyOpItems.get(i).getDevUnitID().equals(roomDevs.get(j).getCanCpuId())) {
+                        && keyOpItems.get(i).getOut_cpuCanID().equals(roomDevs.get(j).getCanCpuId())) {
                     roomDevs.get(j).setSelect(true);
                     roomDevs.get(j).setbOnOff(keyOpItems.get(i).getKeyOpCmd());
                     Log.e("KeyOpCmd", keyOpItems.get(i).getKeyOpCmd() + "");
