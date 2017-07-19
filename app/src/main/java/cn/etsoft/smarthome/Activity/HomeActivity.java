@@ -62,16 +62,13 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         //添加Activity在ActivityList中
+        PermissionsUtli.verifyStoragePermissions(HomeActivity.this);
         MyApplication.addActivity(this);
         initView();
         initData();
-        initEvent();
-        PermissionsUtli.verifyStoragePermissions(HomeActivity.this);
     }
 
-    private void initEvent() {
 
-    }
 
     private void initView() {
         mHome_weather_relativelayout = (RelativeLayout) findViewById(R.id.home_weather_relativelayout);
@@ -112,7 +109,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
      * 初始化转盘数据
      */
     private void initData() {
-        weather_helper = new Home_Weather(mHandler, this);
+        weather_helper = new Home_Weather(mHandler, getApplicationContext());
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {

@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 
 public class NotificationUtils {
@@ -29,7 +30,7 @@ public class NotificationUtils {
                                    String title, String content, Intent intent, int id, long actiomntime) {
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setAction(Intent.ACTION_MAIN);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -39,14 +40,13 @@ public class NotificationUtils {
                 .setContentIntent(pendingIntent)
                 .setTicker(tickerText)
                 .setWhen(System.currentTimeMillis())
-                .setPriority(Notification.PRIORITY_DEFAULT)
+                .setPriority(Notification.PRIORITY_MAX)
                 .setOngoing(false)
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setSmallIcon(icon);
 
         notification = mBuilder.build();
-
         notification.flags = Notification.FLAG_ONGOING_EVENT;
         notification.flags = Notification.FLAG_AUTO_CANCEL;
         mNotificationManager.notify(id, notification);

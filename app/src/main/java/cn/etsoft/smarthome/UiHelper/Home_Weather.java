@@ -97,7 +97,7 @@ public class Home_Weather {
                         message.obj = mCurCity;
                         message.what = LOCATION_SUCCEED;
                         mHandler.sendMessage(message);
-//                        Log.i("LOCATION", mCurCity.getCity() + "-----------" + mCurCity.getNumber());
+                        Log.i("LOCATION", mCurCity.getCity() + "-----------" + mCurCity.getNumber());
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -107,14 +107,14 @@ public class Home_Weather {
                     } else {
                         ToastUtil.showText("定位失败");
                         mCurCity = MyApplication.mApplication.getmCityDB().getCity("北京市");
-//                        Log.i("LOCATION", mCurCity.getCity() + "-----------" + mCurCity.getNumber());
+                        Log.i("LOCATION", mCurCity.getCity() + "-----------" + mCurCity.getNumber());
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 getSimpleWeatherInfo(mCurCity);
                             }
                         }).start();
-//                        //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                        //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                         Message message = mHandler.obtainMessage();
                         message.obj = mCurCity;
                         message.what = LOCATION_FAILING;
@@ -166,7 +166,6 @@ public class Home_Weather {
      */
     private void getSimpleWeatherInfo(City mCurCity) {
         String url = PM2D5_BASE_URL + mCurCity.getNumber();
-        // L.i("weather url: " + url);
 //        Log.i("DATA", "请求网址  " + url);
 
         String weatherResult = connServerForResult(url);
@@ -175,7 +174,6 @@ public class Home_Weather {
         if (!"".equals(weatherResult)) {
             try {
                 Weather_All_Bean results = gson.fromJson(weatherResult, Weather_All_Bean.class);
-                MyApplication.mApplication.setmWrather_results(results);
                 Message message = mHandler.obtainMessage();
                 message.what = WRATHER_SUCCEED;
                 message.obj = results;

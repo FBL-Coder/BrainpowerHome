@@ -24,6 +24,10 @@ public class GlobalVars {
      * 存储用户PASSWORD
      */
     public static final String USERPASSWORD_SHAREPREFERENCE = "USERPASSWORD";
+    /**
+     * 布防类型
+     */
+    public static final String SAFETY_TYPE_SHAREPREFERENCE = "SAFETY_TYPE";
 
 
     public static String LOCAL_IP = "127.0.0.1";

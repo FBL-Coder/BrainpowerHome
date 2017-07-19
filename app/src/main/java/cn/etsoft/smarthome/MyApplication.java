@@ -3,12 +3,14 @@ package cn.etsoft.smarthome;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Window;
 
+import com.example.abc.mybaseactivity.Notifications.NotificationUtils;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
@@ -23,6 +25,7 @@ import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import cn.etsoft.smarthome.Activity.Settings.SafetySetActivity;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.WareData;
@@ -78,10 +81,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     //全局数据
     private static WareData mWareData;
 
-    /**
-     * 天气返回数据
-     */
-    private Weather_All_Bean mWrather_results;
     public List<Weather_Bean> mWeathers_list;//天气图标集合
     public CityDB mCityDB;
 
@@ -139,20 +138,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      */
     public void setIsheartting(boolean isheartting) {
         Isheartting = isheartting;
-    }
-
-    /**
-     * 获取天气返回数据
-     */
-    public Weather_All_Bean getmWrather_results() {
-        return mWrather_results;
-    }
-
-    /**
-     * 设置天气数据
-     */
-    public void setmWrather_results(Weather_All_Bean mWrather_results) {
-        this.mWrather_results = mWrather_results;
     }
 
     /**
@@ -301,6 +286,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         private MyApplication application;
         private boolean UdpIsHaveBackData = false;
         private boolean WSIsOpen = false;
+        private int NotificationID = 0;
+
 
         APPHandler(MyApplication application) {
             this.weakReference = new WeakReference<>(application);
@@ -326,10 +313,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                     Log.e("WSException", "WebSocket链接重启失败" + e);
                 }
             }
-            if (msg.what == application.WS_DATA_OK) {
-//                NotificationUtils.createNotif(
-//                        application, R.mipmap.ic_launcher, msg.obj + "",
-//                        "标题", msg.obj + "", new Intent(application, HomeActivity.class), 0, 0);
+            if (msg.what == application.WS_DATA_OK) {//WebSocket 数据
                 MyApplication.mApplication.getUdpServer().webSocketData((String) msg.obj);
             }
             if (msg.what == application.WS_Error) {
@@ -341,6 +325,17 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 UdpIsHaveBackData = true;
                 if (onGetWareDataListener != null)
                     onGetWareDataListener.upDataWareData((int) msg.obj, msg.arg1, msg.arg2);
+
+                String contont = Safety_Baojing();
+                if ("".equals(contont)) {
+                    return;
+                }
+                if ((int) msg.obj == 32 && msg.arg1 == 2) {
+                    NotificationUtils.createNotif(
+                            MyApplication.mApplication, R.mipmap.ic_launcher, "报警",
+                            "警报", contont, new Intent(MyApplication.mApplication, SafetySetActivity.class), NotificationID, 0);
+                    NotificationID++;
+                }
             }
             //UDP
             if (msg.what == application.UDP_NOSEND)
@@ -380,6 +375,49 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                     application.progressDialog.dismiss();
                     application.progressDialog = null;
                 }
+            }
+        }
+
+        /**
+         * 获取警报信息
+         *
+         * @return 用户可见数据
+         */
+        public String Safety_Baojing() {
+            //警报位置集合
+            List<Integer> index_list = new ArrayList<>();
+            //报警提示信息
+            String message = "";
+            //布防类型；
+            int SAFETY_TYPE = 0;
+            String index = Integer.toBinaryString(MyApplication.getWareData().getSafetyResult_alarm().getSecDat());
+            for (int i = 0; i < index.length(); i++) {
+                if (index.charAt(index.length() - i - 1) == '1')
+                    index_list.add(index.length() - i - 1);
+            }
+            SAFETY_TYPE = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
+            try {
+                for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
+                    if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecType()
+                            == SAFETY_TYPE) {
+                        boolean IsContain = false;
+                        for (int j = 0; j < index_list.size(); j++) {
+                            if (i == index_list.get(j)) {
+                                IsContain = true;
+                            }
+                        }
+                        if (IsContain)
+                            message += MyApplication.getWareData().getResult_safety()
+                                    .getSec_info_rows().get(i).getSecName() + "、";
+                    }
+                }
+                if (!"".equals(message)) {
+                    message = message.substring(0, message.lastIndexOf("、"));
+                    return "名称：" + message + " 触发警报";
+                }else
+                    return "";
+            } catch (Exception e) {
+                return "";
             }
         }
     }

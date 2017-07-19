@@ -56,6 +56,8 @@ public class WareData implements Serializable {
     private SetSafetyResult_alarm safetyResult_alarm;
 
     public SetSafetyResult_alarm getSafetyResult_alarm() {
+        if (safetyResult_alarm == null)
+            safetyResult_alarm = new SetSafetyResult_alarm();
         return safetyResult_alarm;
     }
 

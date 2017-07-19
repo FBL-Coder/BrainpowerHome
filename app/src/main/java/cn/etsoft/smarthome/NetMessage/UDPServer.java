@@ -415,12 +415,9 @@ public class UDPServer implements Runnable {
                     isFreshData = true;
                 } else if (subType1 == 2) {
                     //解决多个警报5秒自动消失问题
-                    if (System.currentTimeMillis() - time > 5000) {
-                        time = System.currentTimeMillis();
-                        //防区报警信息
-                        safety_alarm(info);
-                        isFreshData = true;
-                    }
+                    //防区报警信息
+                    safety_alarm(info);
+                    isFreshData = true;
                 } else if (subType1 == 1) {
                     //布防、撤防
                     safety(info);

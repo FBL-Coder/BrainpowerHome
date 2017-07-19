@@ -95,68 +95,74 @@
         <activity
             android:name=".Activity.LoginActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <!--注册页面-->
         <activity
             android:name=".Activity.RegisterActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <!--环境事件-->
         <activity
             android:name=".Activity.Settings.ConditionSetActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustPan"/>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustPan" />
         <!--联网模块-->
         <activity
             android:name=".Activity.Settings.NewWorkSetActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustPan"/>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustPan" />
         <!--设备详情-->
         <activity
             android:name=".Activity.Settings.DevInfoActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!--安防设置-->
         <activity
             android:name=".Activity.Settings.SafetySetActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!--情景设置-->
         <activity
             android:name=".Activity.Settings.SceneSetActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!--定时设置-->
         <activity
             android:name=".Activity.Settings.TimerSetActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!--组合设置-->
         <activity
             android:name=".Activity.Settings.GroupSetActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!--设备配按键（输出）-->
         <activity
             android:name=".Activity.Settings.Dev_KeysSetActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!--按键配设备（输入）-->
         <activity
             android:name=".Activity.Settings.Key_DevsSetActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!--情景配按键（按键情景）-->
         <activity
             android:name=".Activity.Settings.Scene_KeysActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!--定时器、环境事件等添加设备界面-->
         <activity
             android:name=".Activity.Settings.SetAddDevActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
 
+
+        //高德地图定位
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="cfa69e94e72e80aef433032fe101ff65" />
+        <service android:name="com.amap.api.location.APSService" />
     </application>
 
 </manifest>
