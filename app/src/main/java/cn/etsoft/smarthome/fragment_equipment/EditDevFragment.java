@@ -301,6 +301,7 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
     private void initView(View view) {
         equi_control = (ListView) view.findViewById(R.id.equi_cont_list);
         add_equi = (TextView) view.findViewById(R.id.add_equi);
+        message_save = new ArrayList<>();
     }
 
     /**
@@ -397,7 +398,6 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                         if (!"".equals(message1)) {
                             message1 = message1.substring(0, message1.lastIndexOf("."));
                         }
-
                         viewHolder.devGallery.setText(message1);
                     }
                 }
@@ -744,31 +744,70 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                     if (dev_all.get(position).getType() == 0) {
                         for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
                             if (MyApplication.getWareData().getAirConds().get(i).getDev().getDevId() == dev_all.get(position).getDevId()) {
-                                MyApplication.getWareData().getAirConds().get(i).setPowChn(data_save);
-                                if (message_save.size() > 5) {
-                                    ToastUtil.showToast(mActivity, "空调通道不能超过5个");
-                                    return;
+                                String message = "";
+                                int PowChn = MyApplication.getWareData().getAirConds().get(i).getPowChn();
+                                String PowChnList = Integer.toBinaryString(PowChn);
+                                List<Integer> index_list = new ArrayList<>();
+                                for (int j = 0; j < PowChnList.length(); j++) {
+                                    if (PowChnList.charAt(PowChnList.length() - j - 1) == '1') {
+                                        index_list.add(PowChnList.length() - j - 1);
+                                        message += j + 1 + ".";
+                                    }
                                 }
+                                if (!"".equals(message)) {
+                                    message = message.substring(0, message.lastIndexOf("."));
+                                }
+                                if (message.equals(devGallery.getText().toString())) {
+                                    data_save = PowChn;
+                                } else {
+                                    if (message_save.size() > 5) {
+                                        ToastUtil.showToast(mActivity, "空调通道不能超过5个");
+                                        return;
+                                    }
+                                }
+                                MyApplication.getWareData().getAirConds().get(i).setPowChn(data_save);
                             }
                         }
                     } else if (dev_all.get(position).getType() == 3) {
                         for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
                             if (MyApplication.getWareData().getLights().get(i).getDev().getDevId() == dev_all.get(position).getDevId()) {
-                                MyApplication.getWareData().getLights().get(i).setPowChn((byte) data_save);
-                                if (message_save.size() > 1) {
-                                    ToastUtil.showToast(mActivity, "灯光通道不能超过1个");
-                                    return;
+                                int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn();
+                                if ((PowChn + "").equals(devGallery.getText().toString())) {
+                                    data_save = PowChn;
+                                } else {
+                                    if (message_save.size() > 1) {
+                                        ToastUtil.showToast(mActivity, "灯光通道不能超过1个");
+                                        return;
+                                    }
                                 }
+                                MyApplication.getWareData().getLights().get(i).setPowChn((byte) data_save);
                             }
                         }
                     } else if (dev_all.get(position).getType() == 4) {
                         for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
                             if (MyApplication.getWareData().getCurtains().get(i).getDev().getDevId() == dev_all.get(position).getDevId()) {
-                                MyApplication.getWareData().getCurtains().get(i).setPowChn(data_save);
-                                if (message_save.size() > 3) {
-                                    ToastUtil.showToast(mActivity, "窗帘通道不能超过3个");
-                                    return;
+                                String message = "";
+                                int PowChn = MyApplication.getWareData().getCurtains().get(i).getPowChn();
+                                String PowChnList = Integer.toBinaryString(PowChn);
+                                List<Integer> index_list = new ArrayList<>();
+                                for (int j = 0; j < PowChnList.length(); j++) {
+                                    if (PowChnList.charAt(PowChnList.length() - j - 1) == '1') {
+                                        index_list.add(PowChnList.length() - j - 1);
+                                        message += j + 1 + ".";
+                                    }
                                 }
+                                if (!"".equals(message)) {
+                                    message = message.substring(0, message.lastIndexOf("."));
+                                }
+                                if (message.equals(devGallery.getText().toString())) {
+                                    data_save = PowChn;
+                                } else {
+                                    if (message_save.size() > 3) {
+                                        ToastUtil.showToast(mActivity, "窗帘通道不能超过3个");
+                                        return;
+                                    }
+                                }
+                                MyApplication.getWareData().getCurtains().get(i).setPowChn(data_save);
                             }
                         }
                     }
@@ -939,7 +978,7 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                 for (int i = 0; i < data.length; i++) {
                     data_str += data[i];
                 }
-                message_save = new ArrayList<>();
+//                message_save = new ArrayList<>();
                 for (int i = 0; i < map.keySet().toArray().length; i++) {
                     message += String.valueOf(map.keySet().toArray()[i]) + ".";
 
@@ -989,23 +1028,6 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
      * @return
      */
     public int str2num(String str) {
-//        str = str.replaceAll("\\D", "");
-//        List<Integer> number = new ArrayList<>();
-//        if (str != null && !"".equals(str)) {
-//            for (int i = 0; i < str.length(); i++) {
-//                number.add(Integer.valueOf(String.valueOf(str.charAt(i))));
-//            }
-//        }
-//        String s = "";
-//        byte[] week_byte = new byte[12];
-//        for (int j = 0; j < 12; j++) {
-//            for (int i = 0; i < number.size(); i++) {
-//                if (j == number.get(i) - 1) {
-//                    week_byte[j] = 1;
-//                }
-//            }
-//            s += week_byte[j];
-//        }
         str = reverseString(str);
         return Integer.valueOf(str, 2);
     }

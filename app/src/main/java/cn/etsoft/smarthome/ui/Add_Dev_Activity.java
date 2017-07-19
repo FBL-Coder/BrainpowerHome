@@ -186,7 +186,6 @@ public class Add_Dev_Activity extends Activity implements View.OnClickListener {
         add_dev_save.setOnClickListener(this);
         add_dev_way.setOnClickListener(this);
 
-
         Board_text = new ArrayList<>();
         list_board = MyApplication.getWareData().getBoardChnouts();
         for (int i = 0; i < list_board.size(); i++) {
@@ -442,6 +441,7 @@ public class Add_Dev_Activity extends Activity implements View.OnClickListener {
 
     /**
      * 得到字符串中的数字和
+     *
      * @param str
      * @return
      */
