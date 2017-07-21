@@ -10,10 +10,10 @@ public class WareSceneEvent implements Serializable {
      */
     private static final long serialVersionUID = 9164065895025538399L;
     private String sceneName;
-    private byte devCnt;
-    private byte eventId;
-    private byte rev2;
-    private byte rev3;
+    private int devCnt;
+    private int eventId;
+    private int rev2;
+    private int rev3;
 
 
     private List<WareSceneDevItem> itemAry;
@@ -26,35 +26,35 @@ public class WareSceneEvent implements Serializable {
         this.sceneName = sceneName;
     }
 
-    public byte getDevCnt() {
+    public int getDevCnt() {
         return devCnt;
     }
 
-    public void setDevCnt(byte devCnt) {
+    public void setDevCnt(int devCnt) {
         this.devCnt = devCnt;
     }
 
-    public byte getEventId() {
+    public int getEventId() {
         return eventId;
     }
 
-    public void setEventId(byte eventld) {
+    public void setEventId(int eventld) {
         this.eventId = eventld;
     }
 
-    public byte getRev2() {
+    public int getRev2() {
         return rev2;
     }
 
-    public void setRev2(byte rev2) {
+    public void setRev2(int rev2) {
         this.rev2 = rev2;
     }
 
-    public byte getRev3() {
+    public int getRev3() {
         return rev3;
     }
 
-    public void setRev3(byte rev3) {
+    public void setRev3(int rev3) {
         this.rev3 = rev3;
     }
 

@@ -11,8 +11,8 @@ public class WareCurtain implements Serializable {
 
 
 	private WareDev dev;
-	private byte bOnOff;
-	private byte timRun;
+	private int bOnOff;
+	private int timRun;
 	private int powChn;
 
 	public WareDev getDev() {
@@ -23,20 +23,20 @@ public class WareCurtain implements Serializable {
 		this.dev = dev;
 	}
 
-	public byte getbOnOff() {
+	public int getbOnOff() {
 		return bOnOff;
 	}
 
-	public void setbOnOff(byte bOnOff) {
+	public void setbOnOff(int bOnOff) {
 		this.bOnOff = bOnOff;
 		dev.setbOnOff(bOnOff);
 	}
 
-	public byte getTimRun() {
+	public int getTimRun() {
 		return timRun;
 	}
 
-	public void setTimRun(byte timRun) {
+	public void setTimRun(int timRun) {
 		this.timRun = timRun;
 	}
 
@@ -46,5 +46,6 @@ public class WareCurtain implements Serializable {
 
 	public void setPowChn(int powChn) {
 		this.powChn = powChn;
+		dev.setPowChn(powChn);
 	}
 }

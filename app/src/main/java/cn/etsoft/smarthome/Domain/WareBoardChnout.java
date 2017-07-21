@@ -9,10 +9,10 @@ public class WareBoardChnout implements Serializable {
 	private static final long serialVersionUID = 3053533526442278099L;
 	private String devUnitID; //12
 	private String boardName; //8
-	private byte boardType;
-	private byte chnCnt;
-	private byte bOnline;
-	private byte rev2;
+	private int boardType;
+	private int chnCnt;
+	private int bOnline;
+	private int rev2;
 	private String chnName[];
 
 	public String[] getChnName() {
@@ -40,35 +40,35 @@ public class WareBoardChnout implements Serializable {
 		this.boardName = boardName;
 	}
 
-	public byte getBoardType() {
+	public int getBoardType() {
 		return boardType;
 	}
 
-	public void setBoardType(byte boardType) {
+	public void setBoardType(int boardType) {
 		this.boardType = boardType;
 	}
 
-	public byte getChnCnt() {
+	public int getChnCnt() {
 		return chnCnt;
 	}
 
-	public void setChnCnt(byte chnCnt) {
+	public void setChnCnt(int chnCnt) {
 		this.chnCnt = chnCnt;
 	}
 
-	public byte getbOnline() {
+	public int getbOnline() {
 		return bOnline;
 	}
 
-	public void setbOnline(byte bOnline) {
+	public void setbOnline(int bOnline) {
 		this.bOnline = bOnline;
 	}
 
-	public byte getRev2() {
+	public int getRev2() {
 		return rev2;
 	}
 
-	public void setRev2(byte rev2) {
+	public void setRev2(int rev2) {
 		this.rev2 = rev2;
 	}
 }

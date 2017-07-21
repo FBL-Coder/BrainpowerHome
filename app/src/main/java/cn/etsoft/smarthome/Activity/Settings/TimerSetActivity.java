@@ -233,7 +233,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                 else mShiNeng.setImageResource(R.drawable.ic_launcher);
                 break;
             case R.id.Timer_Weeks: //星期时间
-                TimerSetHelper.initWeekDialog(this, mTimerWeeks);
+                TimerSetHelper.initWeekDialog(this, mTimerWeeks, new boolean[7]);
                 break;
             case R.id.Timer_AddDev: //添加设备
                 Intent intent = new Intent(TimerSetActivity.this, SetAddDevActivity.class);

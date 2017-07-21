@@ -174,7 +174,7 @@ public class TimerSetHelper {
      *
      * @param view 显示控件
      */
-    public static void initWeekDialog(Context context, final TextView view) {
+    public static void initWeekDialog(Context context, final TextView view,boolean[] isSelect) {
 
 
         List<String> Time_week = new ArrayList<>();
@@ -186,22 +186,26 @@ public class TimerSetHelper {
         Time_week.add("星期六");
         Time_week.add("星期日");
         if (mMultiChoicePopWindow == null)
-            mMultiChoicePopWindow = new MultiChoicePopWindow(context, view, Time_week, new boolean[7]);
-        mMultiChoicePopWindow.setTitle("请选择星期");
+            mMultiChoicePopWindow = new MultiChoicePopWindow(context, view, Time_week, isSelect);
+        else {
+            mMultiChoicePopWindow.upDataFlag(isSelect);
+            mMultiChoicePopWindow.upParentView(view);
+        }
+        mMultiChoicePopWindow.setTitle("选择防区");
         mMultiChoicePopWindow.setOnOKButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean[] selItems = mMultiChoicePopWindow.getSelectItem();
                 int size = selItems.length;
-                int data_to_network = 0;
                 StringBuffer stringBuffer = new StringBuffer();
                 for (int i = 0; i < size; i++) {
                     if (selItems[i]) {
                         stringBuffer.append(i + 1 + " ");
-                        data_to_network += Math.pow(2, i);
                     }
                 }
-                view.setText("星期集：" + stringBuffer.toString());
+                if (stringBuffer.toString().length() == 0)
+                    view.setText("点击选择防区");
+                view.setText(stringBuffer.toString());
             }
         });
         mMultiChoicePopWindow.show();

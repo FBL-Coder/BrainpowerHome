@@ -5,14 +5,15 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class WareDev implements Serializable {
 
-    private String canCpuId;
+    private String canCpuId = "";
     private String devName;
     private String roomName;
     private int devType;
     private int devId;
     private int devCtrlType; // 取值范围E_DEV_TYPE
     private boolean isSelect;
-    private byte bOnOff;
+    private int bOnOff;
+    private String powChn;
 
     public String getCanCpuId() {
         return canCpuId;
@@ -42,7 +43,7 @@ public class WareDev implements Serializable {
         return devType;
     }
 
-    public void setType(byte type) {
+    public void setType(int type) {
         this.devType = type;
     }
 
@@ -50,7 +51,7 @@ public class WareDev implements Serializable {
         return devId;
     }
 
-    public void setDevId(byte devId) {
+    public void setDevId(int devId) {
         this.devId = devId;
     }
 
@@ -58,7 +59,7 @@ public class WareDev implements Serializable {
         return devCtrlType;
     }
 
-    public void setDevCtrlType(byte devCtrlType) {
+    public void setDevCtrlType(int devCtrlType) {
         this.devCtrlType = devCtrlType;
     }
 
@@ -70,11 +71,19 @@ public class WareDev implements Serializable {
         isSelect = select;
     }
 
-    public byte getbOnOff() {
+    public int getbOnOff() {
         return bOnOff;
     }
 
-    public void setbOnOff(byte bOnOff) {
+    public void setbOnOff(int bOnOff) {
         this.bOnOff = bOnOff;
+    }
+
+    public String getPowChn() {
+        return powChn;
+    }
+
+    public void setPowChn(int powChn) {
+        this.powChn = powChn + "";
     }
 }

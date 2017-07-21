@@ -9,11 +9,11 @@ public class WareKeyOpItem implements Serializable {
 	private static final long serialVersionUID = 3302607752463272412L;
 	private String out_cpuCanID; //12
 	private String key_cpuCanID; //12
-	private byte devType;
-	private byte devId;
-	private byte keyOpCmd;
-	private byte keyOp;
-	private byte index;
+	private int devType;
+	private int devId;
+	private int keyOpCmd;
+	private int keyOp;
+	private int index;
 
 	public String getKey_cpuCanID() {
 		return key_cpuCanID;
@@ -31,43 +31,43 @@ public class WareKeyOpItem implements Serializable {
 		this.out_cpuCanID = out_cpuCanID;
 	}
 
-	public byte getDevType() {
+	public int getDevType() {
 		return devType;
 	}
 
-	public void setDevType(byte devType) {
+	public void setDevType(int devType) {
 		this.devType = devType;
 	}
 
-	public byte getDevId() {
+	public int getDevId() {
 		return devId;
 	}
 
-	public void setDevId(byte devId) {
+	public void setDevId(int devId) {
 		this.devId = devId;
 	}
 
-	public byte getKeyOpCmd() {
+	public int getKeyOpCmd() {
 		return keyOpCmd;
 	}
 
-	public void setKeyOpCmd(byte keyOpCmd) {
+	public void setKeyOpCmd(int keyOpCmd) {
 		this.keyOpCmd = keyOpCmd;
 	}
 
-	public byte getKeyOp() {
+	public int getKeyOp() {
 		return keyOp;
 	}
 
-	public void setKeyOp(byte keyOp) {
+	public void setKeyOp(int keyOp) {
 		this.keyOp = keyOp;
 	}
 
-	public byte getIndex() {
+	public int getIndex() {
 		return index;
 	}
 
-	public void setIndex(byte index) {
+	public void setIndex(int index) {
 		this.index = index;
 	}
 }

@@ -8,11 +8,11 @@ public class WareSceneDevItem implements Serializable {
 	 */
 	private static final long serialVersionUID = 8416872337552710304L;
 	private String canCpuID;
-	private byte devID;
-	private byte devType;
-	private byte bOnOff;
-	private byte param1;
-	private byte param2;
+	private int devID;
+	private int devType;
+	private int bOnOff;
+	private int param1;
+	private int param2;
 
 	public String getCanCpuID() {
 		return canCpuID;
@@ -22,43 +22,43 @@ public class WareSceneDevItem implements Serializable {
 		this.canCpuID = canCpuID;
 	}
 
-	public byte getDevID() {
+	public int getDevID() {
 		return devID;
 	}
 
-	public void setDevID(byte devID) {
+	public void setDevID(int devID) {
 		this.devID = devID;
 	}
 
-	public byte getDevType() {
+	public int getDevType() {
 		return devType;
 	}
 
-	public void setDevType(byte devType) {
+	public void setDevType(int devType) {
 		this.devType = devType;
 	}
 
-	public byte getbOnOff() {
+	public int getbOnOff() {
 		return bOnOff;
 	}
 
-	public void setbOnOff(byte bOnOff) {
+	public void setbOnOff(int bOnOff) {
 		this.bOnOff = bOnOff;
 	}
 
-	public byte getParam1() {
+	public int getParam1() {
 		return param1;
 	}
 
-	public void setParam1(byte param1) {
+	public void setParam1(int param1) {
 		this.param1 = param1;
 	}
 
-	public byte getParam2() {
+	public int getParam2() {
 		return param2;
 	}
 
-	public void setParam2(byte param2) {
+	public void setParam2(int param2) {
 		this.param2 = param2;
 	}
 }

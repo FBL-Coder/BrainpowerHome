@@ -4,16 +4,16 @@ import java.io.Serializable;
 
 public class WareChnOpItem implements Serializable{
 	private String cpuid; //12输出板
-	private byte devType;
-	private byte devid;
+	private int devType;
+	private int devid;
 
 	private String cancupid; // 12　输入板
-	private byte keyDownValid; // 按键板最多６个按键
-	private byte keyUpValid; // 按键板最多６个按键
+	private int keyDownValid; // 按键板最多６个按键
+	private int keyUpValid; // 按键板最多６个按键
 	private int rev1;
-	private byte[] keyDownCmd; // 6
+	private int[] keyDownCmd; // 6
 	private int rev2;
-	private byte[] keyUpCmd; // 6
+	private int[] keyUpCmd; // 6
 	private int rev3;
 	private boolean isSelect = false;
 
@@ -25,19 +25,19 @@ public class WareChnOpItem implements Serializable{
 		this.cpuid = cpuid;
 	}
 
-	public byte getDevType() {
+	public int getDevType() {
 		return devType;
 	}
 
-	public void setDevType(byte devType) {
+	public void setDevType(int devType) {
 		this.devType = devType;
 	}
 
-	public byte getDevid() {
+	public int getDevid() {
 		return devid;
 	}
 
-	public void setDevid(byte devid) {
+	public void setDevid(int devid) {
 		this.devid = devid;
 	}
 
@@ -49,19 +49,19 @@ public class WareChnOpItem implements Serializable{
 		this.cancupid = cancupid;
 	}
 
-	public byte getKeyDownValid() {
+	public int getKeyDownValid() {
 		return keyDownValid;
 	}
 
-	public void setKeyDownValid(byte keyDownValid) {
+	public void setKeyDownValid(int keyDownValid) {
 		this.keyDownValid = keyDownValid;
 	}
 
-	public byte getKeyUpValid() {
+	public int getKeyUpValid() {
 		return keyUpValid;
 	}
 
-	public void setKeyUpValid(byte keyUpValid) {
+	public void setKeyUpValid(int keyUpValid) {
 		this.keyUpValid = keyUpValid;
 	}
 
@@ -73,13 +73,13 @@ public class WareChnOpItem implements Serializable{
 		this.rev1 = rev1;
 	}
 
-	public byte[] getKeyDownCmd() {
+	public int[] getKeyDownCmd() {
 		if (keyDownCmd == null ||keyDownCmd.length == 0)
-			keyDownCmd = new byte[]{0,0,0,0,0,0,0,0};
+			keyDownCmd = new int[]{0,0,0,0,0,0,0,0};
 		return keyDownCmd;
 	}
 
-	public void setKeyDownCmd(byte[] keyDownCmd) {
+	public void setKeyDownCmd(int[] keyDownCmd) {
 		this.keyDownCmd = keyDownCmd;
 	}
 
@@ -91,13 +91,13 @@ public class WareChnOpItem implements Serializable{
 		this.rev2 = rev2;
 	}
 
-	public byte[] getKeyUpCmd() {
+	public int[] getKeyUpCmd() {
 		if (keyUpCmd == null ||keyUpCmd.length == 0)
-			keyUpCmd = new byte[]{0,0,0,0,0,0,0,0};
+			keyUpCmd = new int[]{0,0,0,0,0,0,0,0};
 		return keyUpCmd;
 	}
 
-	public void setKeyUpCmd(byte[] keyUpCmd) {
+	public void setKeyUpCmd(int[] keyUpCmd) {
 		this.keyUpCmd = keyUpCmd;
 	}
 

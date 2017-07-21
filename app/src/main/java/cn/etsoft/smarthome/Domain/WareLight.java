@@ -9,10 +9,10 @@ public class WareLight implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private WareDev dev;
-	private byte bOnOff;
-	private byte bTuneEn;
-	private byte lmVal;
-	private byte powChn;
+	private int bOnOff;
+	private int bTuneEn;
+	private int lmVal;
+	private int powChn;
 
 	public WareDev getDev() {
 		return dev;
@@ -22,36 +22,37 @@ public class WareLight implements Serializable {
 		this.dev = dev;
 	}
 
-	public byte getbOnOff() {
+	public int getbOnOff() {
 		return bOnOff;
 	}
 
-	public void setbOnOff(byte bOnOff) {
+	public void setbOnOff(int bOnOff) {
 		this.bOnOff = bOnOff;
 		dev.setbOnOff(bOnOff);
 	}
 
-	public byte getbTuneEn() {
+	public int getbTuneEn() {
 		return bTuneEn;
 	}
 
-	public void setbTuneEn(byte bTuneEn) {
+	public void setbTuneEn(int bTuneEn) {
 		this.bTuneEn = bTuneEn;
 	}
 
-	public byte getLmVal() {
+	public int getLmVal() {
 		return lmVal;
 	}
 
-	public void setLmVal(byte lmVal) {
+	public void setLmVal(int lmVal) {
 		this.lmVal = lmVal;
 	}
 
-	public byte getPowChn() {
+	public int getPowChn() {
 		return powChn;
 	}
 
-	public void setPowChn(byte powChn) {
+	public void setPowChn(int powChn) {
 		this.powChn = powChn;
+		dev.setPowChn(powChn);
 	}
 }

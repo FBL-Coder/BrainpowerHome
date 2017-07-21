@@ -66,7 +66,6 @@ public class WareData implements Serializable {
     }
 
 
-    private DevControl_Result dev_result;
     private int login_result;
     private int network_count;
     private int addNewNet_reslut;
@@ -322,14 +321,6 @@ public class WareData implements Serializable {
 
     public void setResult(SetEquipmentResult result) {
         this.result = result;
-    }
-
-    public DevControl_Result getDev_result() {
-        return dev_result;
-    }
-
-    public void setDev_result(DevControl_Result dev_result) {
-        this.dev_result = dev_result;
     }
 
     public boolean isDATA_LOCAL_FLAG() {

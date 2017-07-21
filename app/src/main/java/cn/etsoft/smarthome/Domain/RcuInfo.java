@@ -30,8 +30,8 @@ public class RcuInfo implements Serializable {
     private String SoftVersion;
     private String HwVversion;
     private int bDhcp;
-    private byte rev1;
-    private byte rev2;
+    private int rev1;
+    private int rev2;
 
     public int getbDhcp() {
         return bDhcp;

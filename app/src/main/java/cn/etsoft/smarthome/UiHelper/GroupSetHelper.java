@@ -160,11 +160,11 @@ public class GroupSetHelper {
 
 
     /**
-     * 选择星期dialog
+     * 选择防区dialog
      *
      * @param view 显示控件
      */
-    public static void initWeekDialog(Context context, final TextView view, boolean[] isSelect) {
+    public static void initSafetysDialog(Context context, final TextView view, boolean[] isSelect) {
 
 
         List<String> Safetys = new ArrayList<>();

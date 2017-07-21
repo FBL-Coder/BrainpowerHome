@@ -42,6 +42,9 @@ public abstract class AbstractChoicePopWindow implements OnClickListener {
         mParentView = view;
         mPopupWindow.setWidth(view.getWidth());
     }
+    public void upList(List<String> list){
+        mList = list;
+    }
 
     protected void initView(Context context) {
         final View customView = mParentView.inflate(context, R.layout.listview_popwindow_layout, null);
@@ -63,7 +66,7 @@ public abstract class AbstractChoicePopWindow implements OnClickListener {
         mButtonOK.setOnClickListener(this);
         mButtonCancel = (Button) customView.findViewById(R.id.btnCancel);
         mButtonCancel.setOnClickListener(this);
-        mPopupWindow = new PopupWindow(customView, mParentView.getWidth(), 500);
+        mPopupWindow = new PopupWindow(customView, mParentView.getWidth(), 350);
         ColorDrawable dw = new ColorDrawable(0x00);
         //popupwindow页面之外可点
         mPopupWindow.setOutsideTouchable(true);

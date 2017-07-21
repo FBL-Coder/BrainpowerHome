@@ -8,8 +8,8 @@ public class WareFreshAir implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private WareDev dev;
-	private byte bOnOff;
-	private byte spdSel;
+	private int bOnOff;
+	private int spdSel;
 	private int powChn;
 
 	public WareDev getDev() {
@@ -20,20 +20,20 @@ public class WareFreshAir implements Serializable {
 		this.dev = dev;
 	}
 
-	public byte getbOnOff() {
+	public int getbOnOff() {
 		return bOnOff;
 	}
 
-	public void setbOnOff(byte bOnOff) {
+	public void setbOnOff(int bOnOff) {
 		this.bOnOff = bOnOff;
 		dev.setbOnOff(bOnOff);
 	}
 
-	public byte getSpdSel() {
+	public int getSpdSel() {
 		return spdSel;
 	}
 
-	public void setSpdSel(byte spdSel) {
+	public void setSpdSel(int spdSel) {
 		this.spdSel = spdSel;
 	}
 
@@ -43,5 +43,6 @@ public class WareFreshAir implements Serializable {
 
 	public void setPowChn(int powChn) {
 		this.powChn = powChn;
+		dev.setPowChn(powChn);
 	}
 }

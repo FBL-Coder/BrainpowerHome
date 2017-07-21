@@ -215,7 +215,7 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                     ToastUtil.showText("没有防区数据");
                     return;
                 }
-                GroupSetHelper.initWeekDialog(this, mGroupSetSafetys, IsSelect);
+                GroupSetHelper.initSafetysDialog(this, mGroupSetSafetys, IsSelect);
                 break;
             case R.id.GroupSet_SyncSever://同步服务器
                 IsyncSever = !IsyncSever;

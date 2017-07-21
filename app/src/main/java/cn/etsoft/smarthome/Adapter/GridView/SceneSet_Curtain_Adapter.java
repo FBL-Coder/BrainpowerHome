@@ -116,7 +116,7 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
 
-        mCurtains.get(position).setbOnOff((byte) 0);
+        mCurtains.get(position).setbOnOff(0);
         viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
         viewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
         viewHoler.mSeekBar.setVisibility(View.GONE);
@@ -128,10 +128,10 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
                     mCurtains.get(position).getDev().setSelect(true);
                     viewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
                     if (mSceneDev.get(i).getbOnOff() == 0) {
-                        mCurtains.get(position).setbOnOff((byte) 0);
+                        mCurtains.get(position).setbOnOff(0);
                         viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
                     } else if (mSceneDev.get(i).getbOnOff() == 1) {
-                        mCurtains.get(position).setbOnOff((byte) 1);
+                        mCurtains.get(position).setbOnOff(1);
                         viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
                     }
                 }
@@ -154,9 +154,9 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
                 } else {
                     mCurtains.get(position).getDev().setSelect(true);
                     WareSceneDevItem item = new WareSceneDevItem();
-                    item.setDevID((byte) mCurtains.get(position).getDev().getDevId());
+                    item.setDevID(mCurtains.get(position).getDev().getDevId());
                     item.setbOnOff(mCurtains.get(position).getbOnOff());
-                    item.setDevType((byte) mCurtains.get(position).getDev().getType());
+                    item.setDevType(mCurtains.get(position).getDev().getType());
                     item.setCanCpuID(mCurtains.get(position).getDev().getCanCpuId());
                     mSceneDev.add(item);
                     finalViewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
@@ -170,21 +170,20 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
             public void onClick(View v) {
 
 
-
                 if (mCurtains.get(position).getDev().isSelect()) {
                     for (int i = 0; i < mSceneDev.size(); i++) {
                         if (mCurtains.get(position).getDev().getDevId() == mSceneDev.get(i).getDevID()
                                 && mCurtains.get(position).getDev().getType() == mSceneDev.get(i).getDevType()
                                 && mCurtains.get(position).getDev().getCanCpuId().equals(mSceneDev.get(i).getCanCpuID())) {
                             if (mCurtains.get(position).getbOnOff() == 0) {
-                                mSceneDev.get(i).setbOnOff((byte) 1);
+                                mSceneDev.get(i).setbOnOff(1);
                             } else {
-                                mSceneDev.get(i).setbOnOff((byte) 0);
+                                mSceneDev.get(i).setbOnOff(0);
                             }
                         }
                     }
                     notifyDataSetChanged();
-                }else {
+                } else {
                     ToastUtil.showText("未选中，不可操作");
                 }
             }

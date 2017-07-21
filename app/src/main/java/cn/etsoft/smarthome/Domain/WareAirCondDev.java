@@ -8,12 +8,12 @@ public class WareAirCondDev implements Serializable {
      */
     private static final long serialVersionUID = 1L;
     private WareDev dev;
-    private byte bOnOff;
-    private byte selMode;
-    private byte selTemp = 16;
-    private byte selSpd;
-    private byte selDirect;
-    private byte rev1;
+    private int bOnOff;
+    private int selMode;
+    private int selTemp = 16;
+    private int selSpd;
+    private int selDirect;
+    private int rev1;
     private int powChn;
 
     public WareDev getDev() {
@@ -24,52 +24,52 @@ public class WareAirCondDev implements Serializable {
         this.dev = dev;
     }
 
-    public byte getbOnOff() {
+    public int getbOnOff() {
         return bOnOff;
     }
 
-    public void setbOnOff(byte bOnOff) {
+    public void setbOnOff(int bOnOff) {
         this.bOnOff = bOnOff;
         dev.setbOnOff(bOnOff);
     }
 
-    public byte getSelMode() {
+    public int getSelMode() {
         return selMode;
     }
 
-    public void setSelMode(byte selMode) {
+    public void setSelMode(int selMode) {
         this.selMode = selMode;
     }
 
-    public byte getSelTemp() {
+    public int getSelTemp() {
         return selTemp;
     }
 
-    public void setSelTemp(byte selTemp) {
+    public void setSelTemp(int selTemp) {
         this.selTemp = selTemp;
     }
 
-    public byte getSelSpd() {
+    public int getSelSpd() {
         return selSpd;
     }
 
-    public void setSelSpd(byte selSpd) {
+    public void setSelSpd(int selSpd) {
         this.selSpd = selSpd;
     }
 
-    public byte getSelDirect() {
+    public int getSelDirect() {
         return selDirect;
     }
 
-    public void setSelDirect(byte selDirect) {
+    public void setSelDirect(int selDirect) {
         this.selDirect = selDirect;
     }
 
-    public byte getRev1() {
+    public int getRev1() {
         return rev1;
     }
 
-    public void setRev1(byte rev1) {
+    public void setRev1(int rev1) {
         this.rev1 = rev1;
     }
 
@@ -79,5 +79,6 @@ public class WareAirCondDev implements Serializable {
 
     public void setPowChn(int powChn) {
         this.powChn = powChn;
+        dev.setPowChn(powChn);
     }
 }

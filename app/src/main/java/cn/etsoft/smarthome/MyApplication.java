@@ -384,25 +384,25 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
          * @return 用户可见数据
          */
         public String Safety_Baojing() {
-            //警报位置集合
-            List<Integer> index_list = new ArrayList<>();
             //报警提示信息
             String message = "";
             //布防类型；
             int SAFETY_TYPE = 0;
             String index = Integer.toBinaryString(MyApplication.getWareData().getSafetyResult_alarm().getSecDat());
-            for (int i = 0; i < index.length(); i++) {
-                if (index.charAt(index.length() - i - 1) == '1')
-                    index_list.add(index.length() - i - 1);
+            StringBuffer index_sb = new StringBuffer(index).reverse();
+            for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
+                if (index_sb.length() <= i)
+                    index_sb.append("0");
             }
+            index_sb = index_sb.reverse();
             SAFETY_TYPE = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
             try {
                 for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
-                    if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecType()
-                            == SAFETY_TYPE) {
+                    if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecType() == SAFETY_TYPE
+                            && MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getValid() == 1) {
                         boolean IsContain = false;
-                        for (int j = 0; j < index_list.size(); j++) {
-                            if (i == index_list.get(j)) {
+                        for (int j = 0; j < index_sb.length(); j++) {
+                            if (i == index_sb.charAt('1')) {
                                 IsContain = true;
                             }
                         }
@@ -414,7 +414,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 if (!"".equals(message)) {
                     message = message.substring(0, message.lastIndexOf("、"));
                     return "名称：" + message + " 触发警报";
-                }else
+                } else
                     return "";
             } catch (Exception e) {
                 return "";

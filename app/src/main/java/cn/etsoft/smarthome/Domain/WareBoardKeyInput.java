@@ -9,17 +9,17 @@ public class WareBoardKeyInput implements Serializable {
     private static final long serialVersionUID = 8372972355485111907L;
     private String canCpuID; //12
     private String boardName; //8
-    private byte boardType;
-    private byte keyCnt;
-    private byte bResetKey;
-    private byte ledBkType;
+    private int boardType;
+    private int keyCnt;
+    private int bResetKey;
+    private int ledBkType;
     private String keyName[]; //6-12
     /**
      * KeyAdapter_keyscene所需属性
      * 选中为1，不然为0，默认为键名数组长度的int数组全为0；
      */
     private int keyIsSelect[]; //6-12
-    private byte keyAllCtrlType[]; //6
+    private int keyAllCtrlType[]; //6
 
     public String getCanCpuID() {
         return canCpuID;
@@ -36,35 +36,35 @@ public class WareBoardKeyInput implements Serializable {
         this.boardName = boardName;
     }
 
-    public byte getBoardType() {
+    public int getBoardType() {
         return boardType;
     }
 
-    public void setBoardType(byte boardType) {
+    public void setBoardType(int boardType) {
         this.boardType = boardType;
     }
 
-    public byte getKeyCnt() {
+    public int getKeyCnt() {
         return keyCnt;
     }
 
-    public void setKeyCnt(byte keyCnt) {
+    public void setKeyCnt(int keyCnt) {
         this.keyCnt = keyCnt;
     }
 
-    public byte getbResetKey() {
+    public int getbResetKey() {
         return bResetKey;
     }
 
-    public void setbResetKey(byte bResetKey) {
+    public void setbResetKey(int bResetKey) {
         this.bResetKey = bResetKey;
     }
 
-    public byte getLedBkType() {
+    public int getLedBkType() {
         return ledBkType;
     }
 
-    public void setLedBkType(byte ledBkType) {
+    public void setLedBkType(int ledBkType) {
         this.ledBkType = ledBkType;
     }
 
@@ -83,11 +83,11 @@ public class WareBoardKeyInput implements Serializable {
         return keyIsSelect;
     }
 
-    public byte[] getKeyAllCtrlType() {
+    public int[] getKeyAllCtrlType() {
         return keyAllCtrlType;
     }
 
-    public void setKeyAllCtrlType(byte[] keyAllCtrlType) {
+    public void setKeyAllCtrlType(int[] keyAllCtrlType) {
         this.keyAllCtrlType = keyAllCtrlType;
     }
 }

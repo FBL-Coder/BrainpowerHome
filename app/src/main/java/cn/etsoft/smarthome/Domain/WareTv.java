@@ -9,13 +9,13 @@ public class WareTv implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private WareDev dev;
-	private byte bOnOff;
+	private int bOnOff;
 
-	public byte getbOnOff() {
+	public int getbOnOff() {
 		return bOnOff;
 	}
 
-	public void setbOnOff(byte bOnOff) {
+	public void setbOnOff(int bOnOff) {
 		this.bOnOff = bOnOff;
 		dev.setbOnOff(bOnOff);
 	}

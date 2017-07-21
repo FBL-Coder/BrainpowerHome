@@ -17,16 +17,23 @@ public class MultiChoicePopWindow extends AbstractChoicePopWindow {
 
 
     private MultiChoicAdapter<String> mMultiChoicAdapter;
+    private boolean[] mFlag;
 
     public MultiChoicePopWindow(Context context, View parentView, List<String> list, boolean flag[]) {
         super(context, parentView, list);
+        mFlag = flag;
         initData(flag);
     }
 
     public void upDataFlag(boolean[] flag) {
+        mFlag = flag;
         mMultiChoicAdapter.setSelectItem(flag);
     }
 
+
+    public void UpDataView() {
+        initData(mFlag);
+    }
 
     protected void initData(boolean flag[]) {
         // TODO Auto-generated method stub
