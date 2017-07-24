@@ -25,7 +25,6 @@ import java.util.List;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.ServiceSubclass;
 import cn.etsoft.smarthome.adapter.PopupWindowAdapter2;
 import cn.etsoft.smarthome.adapter_main.SafetyAdapter;
 import cn.etsoft.smarthome.domain.Safety_Data;
@@ -76,7 +75,7 @@ public class Main_SafetyFragment extends Fragment implements View.OnClickListene
         initView(view);
         //加载数据
         initData();
-        ServiceSubclass.setOnGetSafetyDataListener(new ServiceSubclass.OnGetSafetyDataListener() {
+        MyApplication.setOnGetSafetyDataListener(new MyApplication.OnGetSafetyDataListener() {
             @Override
             public void getSafetyData() {
                 safety_Data = Dtat_Cache.readFile_safety(true);

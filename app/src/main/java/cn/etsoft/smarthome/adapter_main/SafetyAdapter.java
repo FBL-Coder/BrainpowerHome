@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.domain.Safety_Data;
 
@@ -19,8 +21,9 @@ public class SafetyAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private List<Safety_Data.Data_Data> data_data;
     private Context context;
+    private List<String> listName;
 
-    public SafetyAdapter( List<Safety_Data.Data_Data> data_data, Context context, LayoutInflater inflater) {
+    public SafetyAdapter(List<Safety_Data.Data_Data> data_data, Context context, LayoutInflater inflater) {
         this.context = context;
         this.data_data = data_data;
         mInflater = inflater;
@@ -61,7 +64,13 @@ public class SafetyAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.safetyMessage.setText("防区" + (data_data.get(position).getId()-1) + ",于" + data_data.get(position).getYear() + "/" + data_data.get(position).getMonth() + "/" + data_data.get(position).getDay() + "/," + data_data.get(position).getH() + ":" + data_data.get(position).getM() + ":" + data_data.get(position).getS() + "被触发");
+        int size = MyApplication.getWareData().getResult_safety().getSec_info_rows().size();
+        listName = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            listName.add(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecName());
+        }
+
+        viewHolder.safetyMessage.setText(listName.get(data_data.get(position).getId() - 1) + ",于" + data_data.get(position).getYear() + "/" + data_data.get(position).getMonth() + "/" + data_data.get(position).getDay() + "/," + data_data.get(position).getH() + ":" + data_data.get(position).getM() + ":" + data_data.get(position).getS() + "被触发");
 
         return convertView;
     }

@@ -55,7 +55,7 @@ import cn.etsoft.smarthome.widget.SpacesItemDecoration;
  */
 public class OutPutFragment extends Fragment implements View.OnClickListener {
     private FragmentActivity mActivity;
-    private TextView input_room,devType_input;
+    private TextView input_room, devType_input;
     private Button input_save;
     private ImageView input_choose;
     private android.support.v7.widget.RecyclerView RecyclerView, RecyclerView_equip;
@@ -83,6 +83,8 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
     private List<String> home_text;
     private List<String> devType;
     private int dev_position = 0;
+    private String[] keyName;
+    private int keyCnt;
 
     public OutPutFragment(FragmentActivity activity) {
         mActivity = activity;
@@ -136,8 +138,8 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                             MyApplication.mInstance.setOut_key_data(listData_all);
                             try {
                                 onGetOutKeyDataListeener.getOutKeyData();
-                            }catch (Exception e){
-                                Log.e("Exception",e+"");
+                            } catch (Exception e) {
+                                Log.e("Exception", e + "");
                             }
                         }
                     };
@@ -158,21 +160,52 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                                     if (ChnOpItem_list.get(k).getCpuid()
                                             .equals(MyApplication.getWareData().getKeyInputs().get(j).getCanCpuID())) {
                                         ChnOpItem = ChnOpItem_list.get(k);
-                                        for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(j).getKeyName().length; i++) {
-                                            list_Name.add(MyApplication.getWareData().getKeyInputs().get(j).getKeyName()[i]);
+                                        keyName = MyApplication.getWareData().getKeyInputs().get(j).getKeyName();
+                                        keyCnt = MyApplication.getWareData().getKeyInputs().get(j).getKeyCnt();
+                                        if (keyCnt > keyName.length) {
+                                            for (int i = 0; i < keyCnt; i++) {
+                                                if (i >= keyName.length) {
+                                                    list_Name.add("按键" + i);
+                                                } else {
+                                                    list_Name.add(MyApplication.getWareData().getKeyInputs().get(j).getKeyName()[i]);
+                                                }
+                                            }
+                                        } else {
+                                            for (int i = 0; i < keyCnt; i++) {
+                                                list_Name.add(MyApplication.getWareData().getKeyInputs().get(j).getKeyName()[i]);
+                                            }
                                         }
+//                                        for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(j).getKeyName().length; i++) {
+//                                            list_Name.add(MyApplication.getWareData().getKeyInputs().get(j).getKeyName()[i]);
+//                                        }
                                         isConcan = true;
                                     }
                                 }
                                 if (!isConcan) {
                                     ChnOpItem = new WareChnOpItem();
                                     ChnOpItem.setCpuid(MyApplication.getWareData().getKeyInputs().get(j).getCanCpuID());
-                                    for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(j).getKeyName().length; i++) {
-                                        list_Name.add(MyApplication.getWareData().getKeyInputs().get(j).getKeyName()[i]);
+                                    keyName = MyApplication.getWareData().getKeyInputs().get(j).getKeyName();
+                                    keyCnt = MyApplication.getWareData().getKeyInputs().get(j).getKeyCnt();
+//                                    for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(j).getKeyName().length; i++) {
+//                                        list_Name.add(MyApplication.getWareData().getKeyInputs().get(j).getKeyName()[i]);
+//                                    }
+                                    if (keyCnt > keyName.length) {
+                                        for (int i = 0; i < keyCnt; i++) {
+                                            if (i >= keyName.length) {
+                                                list_Name.add("按键" + i);
+                                            } else {
+                                                list_Name.add(MyApplication.getWareData().getKeyInputs().get(j).getKeyName()[i]);
+                                            }
+                                        }
+                                    } else {
+                                        for (int i = 0; i < keyCnt; i++) {
+                                            list_Name.add(MyApplication.getWareData().getKeyInputs().get(j).getKeyName()[i]);
+                                        }
                                     }
                                 }
                                 listData = new ArrayList<>();
-                                for (int i = 0; i < ChnOpItem.getKeyUpCmd().length; i++) {
+//                                for (int i = 0; i < ChnOpItem.getKeyUpCmd().length; i++) {
+                                for (int i = 0; i < list_Name.size(); i++) {
                                     PrintCmd cmd = new PrintCmd();
                                     cmd.setDevUnitID(ChnOpItem.getCpuid());
                                     try {
@@ -186,12 +219,13 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                                     if (list_Name.size() == 0)
                                         cmd.setKeyname("未知按键");
                                     else {
-                                        try {
-                                            cmd.setKeyname(list_Name.get(i));
-                                        } catch (Exception e) {
-                                            if (i >= list_Name.size())
-                                                cmd.setKeyname("按键"+i);
-                                        }
+//                                        try {
+//                                            cmd.setKeyname(list_Name.get(i));
+//                                        } catch (Exception e) {
+//                                            if (i >= list_Name.size())
+//                                                cmd.setKeyname("按键" + i);
+//                                        }
+                                        cmd.setKeyname(list_Name.get(i));
                                     }
                                     listData.add(cmd);
                                 }
@@ -280,14 +314,15 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
         input_room.setText(home_text.get(room_position));
         input_room.setOnClickListener(this);
     }
+
     /**
      * 初始化设备
      */
     private void initDev() {
         devType = new ArrayList<>();
-        devType.add(0,"灯光");
-        devType.add(1,"窗帘");
-        devType.add(2,"家电");
+        devType.add(0, "灯光");
+        devType.add(1, "窗帘");
+        devType.add(2, "家电");
         devType_input.setText(devType.get(dev_position));
         devType_input.setOnClickListener(this);
     }
@@ -453,9 +488,9 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView tv = (TextView) view_parent;
                 tv.setText(text.get(position));
-                if (tag == 1){
+                if (tag == 1) {
                     room_position = position;
-                }else if (tag == 2){
+                } else if (tag == 2) {
                     dev_position = position;
                 }
 //                board_position = position;
@@ -482,7 +517,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (!IsHaveData){
+        if (!IsHaveData) {
             ToastUtil.showToast(mActivity, "获取数据异常，请稍后在试");
             return;
         }
@@ -503,7 +538,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
                     ToastUtil.showToast(mActivity, "没有输入板信息，不能保存");
                     return;
                 }
-                if (Dev_room.size() == 0){
+                if (Dev_room.size() == 0) {
                     ToastUtil.showToast(mActivity, "房间没有设备，保存失败");
                     return;
                 }

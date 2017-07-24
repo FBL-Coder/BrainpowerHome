@@ -113,7 +113,7 @@ public class CustomDatePicker extends DatePicker{
         for (NumberPicker picker : mPickers)
         {
             LinearLayout.LayoutParams lps = (LinearLayout.LayoutParams) picker.getLayoutParams();
-            lps.setMargins(margin, -50, margin, -50);
+            lps.setMargins(margin, -80, margin, -80);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             {
                 lps.setMarginStart(margin);

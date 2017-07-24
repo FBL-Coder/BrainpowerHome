@@ -181,11 +181,11 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
         safety_state_data1.add("在家布防");
         safety_state_data1.add("外出布防");
         safety_scene_name = new ArrayList<>();
+        safety_scene_name.add("无");
         if (MyApplication.getWareData().getSceneEvents() != null)
             for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
                 safety_scene_name.add(MyApplication.getWareData().getSceneEvents().get(i).getSceneName());
             }
-
         close_open_safety = (ImageView) findViewById(R.id.close_open_safety);
         close_open_safety.setOnClickListener(this);
     }
@@ -264,33 +264,38 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
 //            safety_enabled.setText("禁用");
 //            safety_scene.setText("选择情景");
 //            safety_state.setText("选择状态");
-            ToastUtil.showToast(this,"该防区没有设备");
+            ToastUtil.showToast(this, "该防区没有设备");
         }
 //        else {
-            if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(timer_position).getValid() == 1)
-                safety_enabled.setText("启用");
-            else safety_enabled.setText("禁用");
-            //布防类型是"撤防状态"
-            if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(timer_position).getSecType() == 255)
+        if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(timer_position).getValid() == 1)
+            safety_enabled.setText("启用");
+        else safety_enabled.setText("禁用");
+        //布防类型是"撤防状态"
+        if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(timer_position).getSecType() == 255)
+            safety_state.setText(safety_state_data.get(3));
+        else {//布防类型是"24小时布防"、"在家布防"、"外出布防"
+            try {
+                safety_state.setText(safety_state_data.get(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(timer_position).getSecType()));
+            } catch (Exception e) {
                 safety_state.setText(safety_state_data.get(3));
-            else {//布防类型是"24小时布防"、"在家布防"、"外出布防"
-                try {
-                    safety_state.setText(safety_state_data.get(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(timer_position).getSecType()));
-                } catch (Exception e) {
-                    safety_state.setText(safety_state_data.get(3));
-                }
             }
+        }
+        if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSceneId() == 0) {
+            safety_scene.setText(safety_scene_name.get(0));
+        } else {
             //情景
-            if (MyApplication.getWareData().getSceneEvents() != null)
+            if (MyApplication.getWareData().getSceneEvents() != null) {
                 for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
                     if (MyApplication.getWareData().getSceneEvents().get(i).getEventld()
-                            == MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSceneId()) {
-                        safety_scene.setText(MyApplication.getWareData().getSceneEvents().get(i).getSceneName());
+                            == MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSceneId() - 1) {
+                        safety_scene.setText(MyApplication.getWareData()
+                                .getSceneEvents().get(i).getSceneName());
                     }
                 }
-            else
+            } else {
                 safety_scene.setText("选择情景");
-//        }
+            }
+        }
     }
 
     /**
@@ -358,10 +363,14 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
                         }
                     }
 
-                    //关联情景
-                    for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
-                        if (safety_scene.getText().toString().equals(MyApplication.getWareData().getSceneEvents().get(i).getSceneName()))
-                            bean.setSceneId(i);
+                    if ("无".equals(safety_scene.getText().toString())) {
+                        bean.setSceneId(0);
+                    } else {
+                        //关联情景
+                        for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
+                            if (safety_scene.getText().toString().equals(MyApplication.getWareData().getSceneEvents().get(i).getSceneName()))
+                                bean.setSceneId(i + 1);
+                        }
                     }
                     timerEvent_rows.add(bean);
                     safetyResult.setDatType(32);
@@ -446,7 +455,7 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
                 List<String> Enabled = new ArrayList<>();
                 Enabled.add("禁用");
                 Enabled.add("启用");
-                initRadioPopupWindow(safety_enabled, Enabled,3);
+                initRadioPopupWindow(safety_enabled, Enabled, 3);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
             case R.id.safety_match_code: //对码
@@ -514,11 +523,11 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
                 getDialog();
                 break;
             case R.id.safety_state: //状态
-                initRadioPopupWindow(safety_state, safety_state_data,4);
+                initRadioPopupWindow(safety_state, safety_state_data, 4);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
             case R.id.safety_scene://关联情景
-                initRadioPopupWindow(safety_scene, safety_scene_name,2);
+                initRadioPopupWindow(safety_scene, safety_scene_name, 2);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
             case R.id.safety_type:// type
@@ -566,7 +575,7 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
 //                dialog.dismiss();
                 break;
             case R.id.tv_equipment_parlour://添加设备 选择房间
-                initRadioPopupWindow(tv_text_parlour, home_text,1);
+                initRadioPopupWindow(tv_text_parlour, home_text, 1);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
             case R.id.equipment_close: //关闭  添加设备界面

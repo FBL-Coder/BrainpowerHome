@@ -348,7 +348,9 @@
         <!--主页面-->
         <activity
             android:name=".ui.MainActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".ui.NotificationActivity"
             android:screenOrientation="landscape" />
@@ -372,7 +374,9 @@
         <!--主页-->
         <activity
             android:name=".ui.HomeActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".ui.GroupActivity"
             android:screenOrientation="landscape" />

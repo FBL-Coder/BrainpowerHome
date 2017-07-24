@@ -3,6 +3,9 @@ package cn.etsoft.smarthome;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -28,14 +31,17 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import cn.etsoft.smarthome.domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.domain.City;
 import cn.etsoft.smarthome.domain.Out_List_printcmd;
+import cn.etsoft.smarthome.domain.Safety_Data;
 import cn.etsoft.smarthome.domain.SetSafetyResult;
 import cn.etsoft.smarthome.domain.User;
 import cn.etsoft.smarthome.domain.Weather_All_Bean;
@@ -47,6 +53,8 @@ import cn.etsoft.smarthome.pullmi.entity.UdpProPkt;
 import cn.etsoft.smarthome.pullmi.entity.WareData;
 import cn.etsoft.smarthome.pullmi.entity.WareDev;
 import cn.etsoft.smarthome.pullmi.entity.WareKeyOpItem;
+import cn.etsoft.smarthome.pullmi.utils.Dtat_Cache;
+import cn.etsoft.smarthome.ui.MainActivity;
 import cn.etsoft.smarthome.ui.WelcomeActivity;
 import cn.etsoft.smarthome.utils.CityDB;
 
@@ -494,6 +502,7 @@ public class MyApplication extends Application implements udpService.Callback, N
     public DatagramSocket getSocket() {
         return socket;
     }
+
     /**
      * 获取欢迎页面的对象
      *
@@ -520,7 +529,62 @@ public class MyApplication extends Application implements udpService.Callback, N
     public static Context getContext() {
         return MyApplication.context;
     }
+    /*@Override
+    public void getWareData(int what, WareData wareData) {
+        MyApplication.wareData = wareData;
+        onGetWareDataListener.upDataWareData(what);
 
+        if (what == 100) {
+            Intent intent = new Intent();
+            intent.setPackage("cn.etsoft.smarthome");
+            intent.setAction("service.socket.com");
+            startService(intent);
+        }
+
+        //在任何页面，触发安防警报要发出警报信息
+        if (what == 32 && MyApplication.getWareData().getSafetyResult_alarm() != null && MyApplication.getWareData().getSafetyResult_alarm().getSubType1() == 2 && MyApplication.getWareData().getSafetyResult_alarm().getSubType2() == 0) {
+            int SecDat = MyApplication.getWareData().getSafetyResult_alarm().getSecDat();
+            //对SecDat进行二进制转码，数字为1的位置即为触发警报的防区
+            String SecDatList = Integer.toBinaryString(SecDat);
+
+            Intent intent = new Intent();
+            if (!SecDatList.contains("1"))
+                return;
+            SharedPreferences sharedPreferences1 = getSharedPreferences("profile",
+                    Context.MODE_PRIVATE);
+            int safety_style = sharedPreferences1.getInt("safety_style", 255);
+            boolean isExit = true;
+            for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
+                if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getValid() == 1 && MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecType() == safety_style) {
+//                    String in="";
+//                    if (SecDatList.length() < MyApplication.getWareData().getResult_safety().getSec_info_rows().size()) {
+//                        for (int j = SecDatList.length() + 1; j < MyApplication.getWareData().getResult_safety().getSec_info_rows().size()+1; i++) {
+//                            in+="0";
+//                        }
+//                    }
+//                    SecDatList = in + SecDatList;
+//                    SecDatList = reverseString(SecDatList);
+//                    if (SecDatList.charAt(i) == '1') {
+//                        isExit = false;
+//                    }
+                    isExit = false;
+                }
+            }
+            if (!isExit) {
+                intent.putExtra("index", SecDatList);
+                intent.setPackage("cn.etsoft.smarthome");
+                intent.setAction("cc.test.com");
+                startService(intent);
+
+                Intent intent_notification = new Intent(MyApplication.this, NotificationService.class);
+                intent_notification.putExtra("index", SecDatList);
+                intent.setPackage("cn.etsoft.smarthome");
+                intent.setAction("ymw.MY_SERVICE");
+                startService(intent_notification);
+                MyApplication.getWareData().setSafetyResult_alarm(null);
+            }
+        }
+    }*/
 
     /**
      * 数据服务的回调，接收到数据后触发此方法；
@@ -528,6 +592,7 @@ public class MyApplication extends Application implements udpService.Callback, N
      * @param what     根据what判断数据  What== datType
      * @param wareData 数据本身
      */
+    private int messageNotificationID = 1000;
 
     @Override
     public void getWareData(int what, WareData wareData) {
@@ -542,28 +607,161 @@ public class MyApplication extends Application implements udpService.Callback, N
         }
 
         //在任何页面，触发安防警报要发出警报信息
-        if (what == 32 && MyApplication.getWareData().getSafetyResult_alarm() != null && MyApplication.getWareData().getSafetyResult_alarm().getSubType1() == 2) {
-//        if (what == 4) {
+        if (what == 32 && MyApplication.getWareData().getSafetyResult_alarm() != null && MyApplication.getWareData().getSafetyResult_alarm().getSubType1() == 2 && MyApplication.getWareData().getSafetyResult_alarm().getSubType2() == 0) {
             int SecDat = MyApplication.getWareData().getSafetyResult_alarm().getSecDat();
             //对SecDat进行二进制转码，数字为1的位置即为触发警报的防区
-//            int SecDat = 31;
             String SecDatList = Integer.toBinaryString(SecDat);
-
-            Intent intent = new Intent();
+            String ahead = "";
+            String message = "";
+            String message1 = "";
+            int year = 0, month = 0, day_of_month = 0, hour = 0, minute = 0, second = 0;
+            Calendar cal = Calendar.getInstance();
+            //当前年
+            year = cal.get(Calendar.YEAR);
+            //当前月
+            month = (cal.get(Calendar.MONTH)) + 1;
+            //当前月的第几天：即当前日
+            day_of_month = cal.get(Calendar.DAY_OF_MONTH);
+            //当前时：HOUR_OF_DAY-24小时制；HOUR-12小时制
+            hour = cal.get(Calendar.HOUR_OF_DAY);
+            //当前分
+            minute = cal.get(Calendar.MINUTE);
+            //当前秒
+            second = cal.get(Calendar.SECOND);
+            if (SecDatList.length() < MyApplication.getWareData().getResult_safety().getSec_info_rows().size()) {
+                for (int i = SecDatList.length() + 1; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size() + 1; i++) {
+                    ahead += "0";
+                }
+            }
+            SecDatList = ahead + SecDatList;
+            SecDatList = reverseString(SecDatList);
             if (!SecDatList.contains("1"))
                 return;
-            intent.putExtra("index", SecDatList);
-            intent.setPackage("cn.etsoft.smarthome");
-            intent.setAction("cc.test.com");
-            startService(intent);
 
-            Intent intent_notification = new Intent(MyApplication.this,NotificationService.class);
-            intent_notification.putExtra("index", SecDatList);
-            intent.setPackage("cn.etsoft.smarthome");
-            intent.setAction("ymw.MY_SERVICE");
-            startService(intent_notification);
+            SharedPreferences sharedPreferences1 = getSharedPreferences("profile",
+                    Context.MODE_PRIVATE);
+            int safety_style = sharedPreferences1.getInt("safety_style", 255);
+
+            boolean isValid = true;
+            for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
+                if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getValid() == 1) {
+                    if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecType() == safety_style) {
+                        if (SecDatList.charAt(i) == '1') {
+                            isValid = false;
+                            message += MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecName() + "、";
+                            message1 += i + 1 + "、";
+                        }
+                    }
+                }
+            }
+            if (!isValid) {
+                if (!"".equals(message)) {
+                    message = message.substring(0, message.lastIndexOf("、"));
+                }
+                Notification notification = new Notification();
+                notification.icon = R.drawable.et;
+                notification.tickerText = "警报";
+                notification.defaults = Notification.DEFAULT_SOUND;
+                notification.flags = notification.FLAG_AUTO_CANCEL;
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("title", "MESSAGE");
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                        intent, 0);
+                String serverMessage = getServerMessage();
+                if (serverMessage != null && !"".equals(serverMessage)) {
+                    // 更新通知栏
+                    notification.setLatestEventInfo(
+                            getApplicationContext(), "警报", message + "报警，请及时处理"
+                                    + serverMessage, pendingIntent);
+                    notificationManager.notify(messageNotificationID,
+                            notification);
+                    // 每次通知完，通知ID递增一下，避免消息覆盖掉
+                    messageNotificationID++;
+
+                    String id = "";
+                    List<String> ID = new ArrayList<>();
+                    Safety_Data data = Dtat_Cache.readFile_safety(false);
+                    if (data == null)
+                        data = new Safety_Data();
+                    List<Safety_Data.Data_Data> safety_datalist = data.getDatas();
+                    if (message1.length() == 1) {
+                        id = message1;
+                        safety_datalist.add(setSafety(year, month, day_of_month, hour, minute, second, id, data));
+                    } else {
+                        StringTokenizer st = new StringTokenizer(message1, "、");
+                        while (st.hasMoreTokens()) {
+                            String a = st.nextToken();
+                            ID.add(a);
+                        }
+                        for (int j = 0; j < ID.size(); j++) {
+                            safety_datalist.add(setSafety(year, month, day_of_month, hour, minute, second, ID.get(j), data));
+                        }
+                    }
+                    data.setDatas(safety_datalist);
+                    Dtat_Cache.writeFile_safety(data);
+                    //警报一触发，主页安防页面刷新
+                    if (onGetSafetyDataListener != null)
+                        onGetSafetyDataListener.getSafetyData();
+                }
+            }
             MyApplication.getWareData().setSafetyResult_alarm(null);
         }
+    }
+
+    /**
+     * 回调接口
+     * 警报一触发，主页安防页面刷新
+     */
+    private static OnGetSafetyDataListener onGetSafetyDataListener;
+
+    public static void setOnGetSafetyDataListener(OnGetSafetyDataListener ongetSafetyDataListener) {
+        onGetSafetyDataListener = ongetSafetyDataListener;
+    }
+
+    public interface OnGetSafetyDataListener {
+        void getSafetyData();
+    }
+
+    /**
+     * 模拟发送消息
+     *
+     * @return 返回服务器要推送的消息，否则如果为空的话，不推送
+     */
+    public String getServerMessage() {
+        return "!";
+    }
+
+    /**
+     * 倒置字符串
+     *
+     * @param str
+     * @return
+     */
+    public static String reverseString(String str) {
+        char[] arr = str.toCharArray();
+        int middle = arr.length >> 1;//EQ length/2
+        int limit = arr.length - 1;
+        for (int i = 0; i < middle; i++) {
+            char tmp = arr[i];
+            arr[i] = arr[limit - i];
+            arr[limit - i] = tmp;
+        }
+        return new String(arr);
+    }
+
+    //设置报警消息
+    private Safety_Data.Data_Data setSafety(int year, int month, int day_of_month, int hour, int minute, int second, String id, Safety_Data data) {
+        Safety_Data.Data_Data data_data = data.new Data_Data();
+        data_data.setYear(year);
+        data_data.setMonth(month);
+        data_data.setDay(day_of_month);
+        data_data.setH(hour);
+        data_data.setM(minute);
+        data_data.setS(second);
+        data_data.setId(Integer.parseInt(id));
+        return data_data;
     }
 
     /**

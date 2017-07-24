@@ -473,8 +473,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonnts/hua.ttf");
         //使用字体成楷体
         textView_banner.setTypeface(typeface);
-
-        textView_banner.setText(text_room.get(0));
+        if (text_room.size() != 0)
+            textView_banner.setText(text_room.get(0));
         mViewPager = (ViewPagerCompat) findViewById(R.id.id_viewpager);
         mViewPager.setPageTransformer(true, new DepthPageTransformer());
         // 设置填充ViewPager页面的适配器
@@ -506,7 +506,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         //页面状态改变的时候调用
         public void onPageSelected(int position) {
             room_position = position;
-            textView_banner.setText(text_room.get(position));
+            if (text_room.size() != 0)
+                textView_banner.setText(text_room.get(position));
             dots_iv.get(oldPosition).setBackgroundResource(R.drawable.point_unfocused);
             dots_iv.get(position).setBackgroundResource(R.drawable.point_focused);
             oldPosition = position;
@@ -617,8 +618,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.user:
                 if (ishavedata || MyApplication.mInstance.isReadData()) {
-                    if (MyApplication.mInstance.isSkip()){
-                        ToastUtil.showToast(this,"跳过登录不能体验此功能");
+                    if (MyApplication.mInstance.isSkip()) {
+                        ToastUtil.showToast(this, "跳过登录不能体验此功能");
                         return;
                     }
                     MyApplication.setmHomeActivity(this);
@@ -695,12 +696,13 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             MyApplication.getWareData().setBoardChnouts(new ArrayList<WareBoardChnout>());
             Dtat_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
             MyApplication.mInstance.setDevUnitID(GlobalVars.getDevid());
-            MyApplication.mInstance.getActivity().finish();
+            if (MyApplication.mInstance.getActivity() != null)
+                MyApplication.mInstance.getActivity().finish();
             finish();
             System.exit(0);
-        } else if(MyApplication.mInstance.isSkip() == true){
+        } else if (MyApplication.mInstance.isSkip() == true) {
             finish();
-        }else {
+        } else {
             Toast.makeText(HomeActivity.this, "再按一次退出", Toast.LENGTH_SHORT).show();
             TimeExit = System.currentTimeMillis();
         }

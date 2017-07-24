@@ -34,7 +34,7 @@ import java.util.List;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.adapter.ModuleEditAdapter1;
+import cn.etsoft.smarthome.adapter.ModuleEditAdapter;
 import cn.etsoft.smarthome.adapter.PopupWindowAdapter2;
 import cn.etsoft.smarthome.pullmi.app.GlobalVars;
 import cn.etsoft.smarthome.pullmi.common.CommonUtils;
@@ -56,7 +56,7 @@ public class EditModuleFragment extends Fragment implements View.OnClickListener
     private List<String> count_text;
     private EditText name;
     private GridView gridView;
-    private ModuleEditAdapter1 moduleEditAdapter1;
+    private ModuleEditAdapter moduleEditAdapter1;
     private String[] keyName;
     private List<String> listData;
     private byte countData = 0;
@@ -497,8 +497,7 @@ public class EditModuleFragment extends Fragment implements View.OnClickListener
                 listData.add(keyName[i]);
             }
         }
-//        moduleEditAdapter = new ModuleEditAdapter(getActivity(), listData);
-        moduleEditAdapter1 = new ModuleEditAdapter1(getActivity(), listData);
+        moduleEditAdapter1 = new ModuleEditAdapter(getActivity(), listData);
         gridView.setAdapter(moduleEditAdapter1);
         gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
     }

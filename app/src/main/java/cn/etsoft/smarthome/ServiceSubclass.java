@@ -29,32 +29,10 @@ public class ServiceSubclass extends Service {
     }
 
     public void onCreate() {
-        System.out.println("---> Service onCreate()");
-        //防区警报通知
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-//        builder.setContentTitle("警报");
-//        builder.setContentText("有防区发生警报，请及时处理");
-//        builder.setSmallIcon(R.drawable.et);
-//        //收到通知一般有三种用户提示方式：声音，震动，呼吸灯
-//        builder.setDefaults(Notification.DEFAULT_ALL);
-//        //所有设置必须在builder.build之前
-//        //commit，确认刚才的设置，并且生成一个Notification对象
-//        //创建一个pendingIntent对象用于点击notification之后跳转
-//        PendingIntent intent1 = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), SafetyActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-//        builder.setContentIntent(intent1);
-//        //设置点击之后notification消失
-//        builder.setAutoCancel(true);
-//        Notification build = builder.build();
-//        //创建并在通知栏弹出一个消息
-//        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//        nm.notify(1, build);//1为notification一个标签，可以通过这个标签进行取消等操作
-        System.out.println("---> Service onCreate()");
     }
 
     @Override
     public void onStart(Intent intent, int startId) {
-        System.out.println("---> Service onStart()");
-        System.out.println("---> Service onStart()");
     }
 
     /**
@@ -76,7 +54,6 @@ public class ServiceSubclass extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        System.out.println("---> Service onStartCommand()");
         SharedPreferences sharedPreferences1 = getSharedPreferences("profile",
                 Context.MODE_PRIVATE);
         int safety_style = sharedPreferences1.getInt("safety_style", 255);
@@ -84,6 +61,7 @@ public class ServiceSubclass extends Service {
             return super.onStartCommand(intent, flags, startId);
         }
         String index;
+        String in="";
         int year = 0, month = 0, day_of_month = 0, hour = 0, minute = 0, second = 0;
         try {
             Calendar cal = Calendar.getInstance();
@@ -108,22 +86,24 @@ public class ServiceSubclass extends Service {
         }
         String message = "";
         //警报位置集合
-        List<Integer> index_list = new ArrayList<>();
-        for (int i = 0; i < index.length(); i++) {
-            if (index.charAt(index.length() - i - 1) == '1')
-                index_list.add(index.length() - i - 1);
+        if (index.length() < MyApplication.getWareData().getResult_safety().getSec_info_rows().size()) {
+            for (int i = index.length() + 1; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size()+1; i++) {
+                in+="0";
+            }
         }
+        index = in + index;
+        index = reverseString(index);
         try {
             for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
-                if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecType() == safety_style) {
-                    boolean IsContain = false;
-                    for (int j = 0; j < index_list.size(); j++) {
-                        if (i == index_list.get(j)) {
+                if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getValid() == 1) {
+                    if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecType() == safety_style) {
+                        boolean IsContain = false;
+                        if (index.charAt(i) == '1') {
                             IsContain = true;
                         }
+                        if (IsContain)
+                            message += i + 1 + "、";
                     }
-                    if (IsContain)
-                        message += i + 1 + "、";
                 }
             }
         } catch (Exception e) {
@@ -194,8 +174,9 @@ public class ServiceSubclass extends Service {
 //                    }
 //                }
 //            }, 5000);
+            if (sever != null)
+                sever.stopSelf();
         }
-        System.out.println("---> Service onStartCommand()");
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -215,6 +196,21 @@ public class ServiceSubclass extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        System.out.println("---> Service onDestroy()");
+    }
+    /**
+     * 倒置字符串
+     * @param str
+     * @return
+     */
+    public static String reverseString(String str) {
+        char[] arr = str.toCharArray();
+        int middle = arr.length >> 1;//EQ length/2
+        int limit = arr.length - 1;
+        for (int i = 0; i < middle; i++) {
+            char tmp = arr[i];
+            arr[i] = arr[limit - i];
+            arr[limit - i] = tmp;
+        }
+        return new String(arr);
     }
 }

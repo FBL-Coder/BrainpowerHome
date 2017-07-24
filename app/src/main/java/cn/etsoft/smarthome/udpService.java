@@ -414,7 +414,7 @@ public class udpService extends Service {
                     //修改联网模块防区信息
                     safety_result(info);
                     isFreshData = true;
-                } else if (subType1 == 2) {
+                } else if (subType1 == 2 && subType2 == 0) {
                     //防区报警信息
                     safety_alarm(info);
                     isFreshData = true;
@@ -1179,8 +1179,6 @@ public class udpService extends Service {
             System.out.println(e.toString());
         }
     }
-
-    String inf = "{ \"devUnitID\": \"39ffd505484d303408650743\", \"datType\": 8, \"subType1\": 1, \"subType2\": 1, \"keyinput\": 2, \"keyinput_rows\": [ { \"canCpuID\": \"48ff6c065087485725170287\", \"boardName\": \"b0b4bcfcb0e5c3fbb3c60000\", \"boardType\": 1, \"keyCnt\": 1, \"bResetKey\": 1, \"ledBkType\": 2, \"keyName_rows\": [ \"bcfc30000000000000000000\" ], \"keyAllCtrlType_rows\": [ 0, 0, 0, 0, 0, 0, 0, 0 ], \"roomName\": \"b2cdccfc0000000000000000\" }, {\"canCpuID\": \"48ff6c065087485725170286\", \"boardName\": \"b0b4bcfcb0e5c3fbb3c60000\", \"boardType\": 1, \"keyCnt\": 1, \"bResetKey\": 1, \"ledBkType\": 2, \"keyName_rows\": [ \"bcfc30000000000000000000\" ], \"keyAllCtrlType_rows\": [ 0, 0, 0, 0, 0, 0, 0, 0 ], \"roomName\": \"b2cdccfc0000000000000000\" } ] }";
 
     /**
      * 获取输入板按键

@@ -72,9 +72,15 @@ public class MainActivity extends FragmentActivity {
         fragmentManager = getSupportFragmentManager();
         radioGroup_main = (RadioGroup) findViewById(R.id.radioGroup_main);
         transaction = fragmentManager.beginTransaction();
-
         //设备类型 从首页获取到的
-        type_name = getIntent().getStringExtra("title").toString();
+        try {
+            type_name = getIntent().getStringExtra("title").toString();
+        }catch (Exception e){
+            type_name = getIntent().getStringExtra("message").toString();
+        }
+        if ("MESSAGE".equals(type_name)) {
+            type_name = title[7];
+        }
         //房间集合
         text = MyApplication.getRoom_list();
         mWareDev_room = new ArrayList<>();

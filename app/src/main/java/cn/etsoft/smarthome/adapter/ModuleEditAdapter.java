@@ -1,19 +1,19 @@
 package cn.etsoft.smarthome.adapter;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.utils.ToastUtil;
 
 /**
  * Created by Say GoBay on 2016/9/1.
@@ -54,36 +54,21 @@ public class ModuleEditAdapter extends BaseAdapter {
     }
 
     int pos;
-    private boolean ischange = true;
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(this.context).inflate(R.layout.gridview_item_light5, null, false);
+            convertView = LayoutInflater.from(this.context).inflate(R.layout.gridview_item_light6, null, false);
             viewHolder.appliance = (ImageView) convertView.findViewById(R.id.appliance);
+            viewHolder.sure = (ImageView) convertView.findViewById(R.id.sure);
+            viewHolder.cancel = (ImageView) convertView.findViewById(R.id.cancel);
             viewHolder.title = (TextView) convertView.findViewById(R.id.title);
-            viewHolder.name = (EditText) convertView.findViewById(R.id.name);
-
-            viewHolder.name.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (!ischange) {
-                        listData.set(position, s + "");
-                    }
-                }
-            });
+            viewHolder.name = (TextView) convertView.findViewById(R.id.name);
+            viewHolder.name_edit = (EditText) convertView.findViewById(R.id.name_edit);
+            viewHolder.name_ll = (LinearLayout) convertView.findViewById(R.id.name_ll);
+            viewHolder.name_edit_ll = (LinearLayout) convertView.findViewById(R.id.name_edit_ll);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -91,12 +76,41 @@ public class ModuleEditAdapter extends BaseAdapter {
         viewHolder.appliance.setImageResource(R.drawable.g);
         pos = position + 1;
         viewHolder.title.setText("按键" + pos);
-
-        ischange = true;
         viewHolder.name.setText("");
         viewHolder.name.setHint(listData.get(position));
-//        notifyDataSetChanged(listData);
-        ischange = false;
+        viewHolder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.name_ll.setVisibility(View.GONE);
+                viewHolder.name_edit_ll.setVisibility(View.VISIBLE);
+            }
+        });
+        viewHolder.sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!"".equals(viewHolder.name_edit.getText().toString())) {
+                    listData.set(position, viewHolder.name_edit.getText().toString());
+                }else {
+                    listData.set(position, listData.get(position));
+                }
+                if (viewHolder.name_edit.getText().toString().length() > 24) {
+                    ToastUtil.showToast(context, "输入按键名称不能过长");
+                    return;
+                }
+                notifyDataSetChanged(listData);
+                viewHolder.name_edit_ll.setVisibility(View.GONE);
+                viewHolder.name_ll.setVisibility(View.VISIBLE);
+            }
+        });
+        viewHolder.cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listData.set(position, listData.get(position));
+                notifyDataSetChanged(listData);
+                viewHolder.name_edit_ll.setVisibility(View.GONE);
+                viewHolder.name_ll.setVisibility(View.VISIBLE);
+            }
+        });
 
         return convertView;
     }
@@ -110,8 +124,9 @@ public class ModuleEditAdapter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        ImageView appliance;
-        TextView title;
-        EditText name;
+        ImageView appliance, sure, cancel;
+        TextView title, name;
+        EditText name_edit;
+        LinearLayout name_ll, name_edit_ll;
     }
 }
