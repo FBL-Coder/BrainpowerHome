@@ -144,7 +144,7 @@ public class KeyAdapter_keyscene extends BaseAdapter {
             }
         } else {
             for (int i = 0; i < items.size(); i++) {
-                if (items.get(i).getCanCpuID().equals(MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getDevUnitID()) &&
+                if (items.get(i).getCanCpuID().equals(MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getCanCpuID()) &&
                         items.get(i).getEventId() == Sceneid) {
                     int index = items.get(i).getKeyIndex();
                     //index位置的按键名称与原始按键名称进行匹配，相同的时候，此按键进行选中操作
