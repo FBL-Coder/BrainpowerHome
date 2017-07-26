@@ -25,7 +25,6 @@ public class KeyAdapter_keyscene extends BaseAdapter {
     private List<String> listData;
     private List<String> listData_beremove;
     private List<String> listData_all;
-    int mSelect = 0;   //选中项
     private int Sceneid;
     private int keyinputPsoition;
     private boolean ISCHOOSE = false;
@@ -73,7 +72,7 @@ public class KeyAdapter_keyscene extends BaseAdapter {
             }
             //打开只看选中按键的时候，赋值
             for (int k = 0; k < items.size(); k++) {
-                if (items.get(k).getCanCpuID().equals(MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getDevUnitID()) &&
+                if (items.get(k).getCanCpuID().equals(MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getCanCpuID()) &&
                         items.get(k).getEventId() == Sceneid) {
                     int index = items.get(k).getKeyIndex();
                     MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[index] = 1;
@@ -144,8 +143,7 @@ public class KeyAdapter_keyscene extends BaseAdapter {
             }
         } else {
             for (int i = 0; i < items.size(); i++) {
-                if (items.get(i).getCanCpuID().equals(MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getCanCpuID()) &&
-                        items.get(i).getEventId() == Sceneid) {
+                if (items.get(i).getCanCpuID().equals(MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getCanCpuID()) && items.get(i).getEventId() == Sceneid) {
                     int index = items.get(i).getKeyIndex();
                     //index位置的按键名称与原始按键名称进行匹配，相同的时候，此按键进行选中操作
                     if (listData.get(position).equals(listData_all.get(index))) {
@@ -172,7 +170,7 @@ public class KeyAdapter_keyscene extends BaseAdapter {
                     MyApplication.getWareData().getKeyInputs().get(keyinputPsoition).getKeyIsSelect()[position] = 0;
                     //如果是选中，去掉选中之后，将选中的数据去掉
                     for (int i = 0; i < items.size(); i++) {
-                        if (items.get(i).getCanCpuID().equals(MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getDevUnitID()) &&
+                        if (items.get(i).getCanCpuID().equals(MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getCanCpuID()) &&
                                 items.get(i).getEventId() == Sceneid) {
                             items.remove(i);
                         }
@@ -181,7 +179,7 @@ public class KeyAdapter_keyscene extends BaseAdapter {
                     viewHolder.appliance.setImageResource(R.drawable.k);
                     //如果是未选中，选中之后，将选中的数据添加进去
                     ChnOpItem_scene.Key2sceneItemBean item = new ChnOpItem_scene.Key2sceneItemBean();
-                    item.setCanCpuID(MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getDevUnitID());
+                    item.setCanCpuID(MyApplication.getWareData_Scene().getKeyInputs().get(keyinputPsoition).getCanCpuID());
                     item.setEventId(Sceneid);
                     item.setKeyIndex(position);
                     items.add(item);
@@ -191,14 +189,6 @@ public class KeyAdapter_keyscene extends BaseAdapter {
             }
         });
         return convertView;
-    }
-
-    //刷新方法
-    public void changeSelected(int position) {
-        if (position != mSelect) {
-            mSelect = position;
-            notifyDataSetChanged();
-        }
     }
 
     private class ViewHolder {

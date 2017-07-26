@@ -322,7 +322,6 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener{
                 onGetIsChooseListener.getOutChoose(ISCHOOSE);
                 break;
         }
-
     }
 
     //数据刷新后提供数据接口
