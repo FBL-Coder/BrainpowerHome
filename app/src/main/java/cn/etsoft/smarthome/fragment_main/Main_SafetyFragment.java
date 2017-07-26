@@ -1,6 +1,5 @@
 package cn.etsoft.smarthome.fragment_main;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -35,7 +33,7 @@ import cn.etsoft.smarthome.widget.CustomDatePicker;
 
 /**
  * Created by Say GoBay on 2016/11/28.
- * 暗安防模块
+ * 主页安防模块
  */
 public class Main_SafetyFragment extends Fragment implements View.OnClickListener {
     private LayoutInflater inflater;
@@ -56,8 +54,6 @@ public class Main_SafetyFragment extends Fragment implements View.OnClickListene
     private List<Safety_Data.Data_Data> data_data;
     private List<String> getTime;
     private List<Long> Time;
-    private DatePickerDialog mDatePickerDialog;
-    private DatePicker mDatePicker;
     private Dialog mDialog;
     private long startTime = 0, endTime = 0;
 

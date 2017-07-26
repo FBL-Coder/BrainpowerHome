@@ -15,6 +15,7 @@ import cn.etsoft.smarthome.domain.KyeInputResult;
 import cn.etsoft.smarthome.domain.SaveDevControl_Result;
 import cn.etsoft.smarthome.domain.SearchNet;
 import cn.etsoft.smarthome.domain.SetEquipmentResult;
+import cn.etsoft.smarthome.domain.SetGroupData;
 import cn.etsoft.smarthome.domain.SetSafetyResult;
 import cn.etsoft.smarthome.domain.SetSafetyResult_alarm;
 import cn.etsoft.smarthome.domain.Timer_Data;
@@ -292,6 +293,16 @@ public class WareData implements Serializable {
         if (this.tvs != null)
             this.tvs.clear();
         this.tvs = tvs;
+    }
+
+    public SetGroupData groupData;
+
+    public SetGroupData getGroupData() {
+        return groupData;
+    }
+
+    public void setGroupData(SetGroupData groupData) {
+        this.groupData = groupData;
     }
 
     public Timer_Data getTimer_data() {

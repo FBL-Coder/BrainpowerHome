@@ -382,7 +382,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
         recyclerAdapter_light.setOnItemClick(new RecyclerViewAdapter_Dev_output.SceneViewHolder.OnItemClick() {
             @Override
             public void OnItemClick(View view, int position) {
-                transaction = mActivity.getSupportFragmentManager().beginTransaction();
+                transaction = getChildFragmentManager().beginTransaction();
                 devPosition = position;
                 outPutFragment_key = new OutPutFragment_key(mActivity);
                 Bundle bundle = new Bundle();
@@ -424,7 +424,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
 //        }
         recyclerAdapter_equip = new RecyclerViewAdapter_equip(input_name);
         RecyclerView_equip.setAdapter(recyclerAdapter_equip);
-        transaction = mActivity.getSupportFragmentManager().beginTransaction();
+        transaction = getChildFragmentManager().beginTransaction();
         outPutFragment_key = new OutPutFragment_key(mActivity);
         Bundle bundle = new Bundle();
         if (Dev_room != null && Dev_room.size() > 0)
@@ -437,7 +437,7 @@ public class OutPutFragment extends Fragment implements View.OnClickListener {
         recyclerAdapter_equip.setOnItemClick(new RecyclerViewAdapter_equip.SceneViewHolder.OnItemClick() {
             @Override
             public void OnItemClick(View view, int position) {
-                transaction = mActivity.getSupportFragmentManager().beginTransaction();
+                transaction = getChildFragmentManager().beginTransaction();
                 outPutFragment_key = new OutPutFragment_key(mActivity);
                 Bundle bundle = new Bundle();
                 bundle.putInt("devtype", Dev_room.get(devPosition).getType());

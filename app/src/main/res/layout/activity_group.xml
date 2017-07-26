@@ -16,6 +16,8 @@
         android:layout_height="@dimen/dp_0"
         android:layout_alignParentBottom="true"
         android:layout_weight="1"
+        android:checkedButton="@+id/group_input"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <RadioButton

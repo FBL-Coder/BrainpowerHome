@@ -159,7 +159,7 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener{
      * 初始化控件
      */
     private void initView(View view) {
-        fragmentManager = mActivity.getSupportFragmentManager();
+        fragmentManager =  getChildFragmentManager();
         transaction = fragmentManager.beginTransaction();
         input_save = (Button) view.findViewById(R.id.input_save);
         input_choose = (ImageView) view.findViewById(R.id.input_choose);
@@ -184,7 +184,7 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener{
                 int listSize = event.size();
                 if (listSize > 0) {
                     sceneid = MyApplication.getWareData().getSceneEvents().get(position).getEventld();
-                    transaction = mActivity.getSupportFragmentManager().beginTransaction();
+                    transaction =  getChildFragmentManager().beginTransaction();
                     keySceneFragment_key = new KeySceneFragment_key();
                     Bundle bundle = new Bundle();
                     bundle.putInt("sceneid", sceneid);
@@ -217,7 +217,7 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener{
         }
         recyclerAdapter_equip = new RecyclerViewAdapter_equip(input_name);
         RecyclerView_key.setAdapter(recyclerAdapter_equip);
-        transaction = mActivity.getSupportFragmentManager().beginTransaction();
+        transaction =  getChildFragmentManager().beginTransaction();
         keySceneFragment_key = new KeySceneFragment_key();
         Bundle bundle = new Bundle();
         bundle.putInt("sceneid", 0);
@@ -229,7 +229,7 @@ public class KeySceneFragment extends Fragment implements View.OnClickListener{
         recyclerAdapter_equip.setOnItemClick(new RecyclerViewAdapter_equip.SceneViewHolder.OnItemClick() {
             @Override
             public void OnItemClick(View view, int position) {
-                transaction = mActivity.getSupportFragmentManager().beginTransaction();
+                transaction =  getChildFragmentManager().beginTransaction();
                 keySceneFragment_key = new KeySceneFragment_key();
                 Bundle bundle = new Bundle();
                 bundle.putInt("sceneid", sceneid);

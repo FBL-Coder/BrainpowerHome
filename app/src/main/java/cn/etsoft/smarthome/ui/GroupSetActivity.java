@@ -2,6 +2,7 @@ package cn.etsoft.smarthome.ui;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,9 +35,8 @@ import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.TreeMap;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
@@ -52,6 +52,7 @@ import cn.etsoft.smarthome.pullmi.entity.WareSetBox;
 import cn.etsoft.smarthome.pullmi.entity.WareTv;
 import cn.etsoft.smarthome.utils.ToastUtil;
 import cn.etsoft.smarthome.view.Circle_Progress;
+import cn.etsoft.smarthome.widget.CustomDialog_comment;
 import cn.etsoft.smarthome.widget.VerticalPageSeekBar;
 
 import static cn.etsoft.smarthome.R.id.tv_equipment_parlour;
@@ -102,7 +103,7 @@ public class GroupSetActivity extends FragmentActivity implements View.OnClickLi
     // 当前页面的每一项的偏移数据 方便检索数据和删除数据
     protected ArrayList<Integer> mPageItemsIndex = new ArrayList<>();
 
-    private Map<Integer, Boolean> map = new HashMap<>();// 存放已被选中的CheckBox
+    private TreeMap<Integer, Boolean> map = new TreeMap<>();// 存放已被选中的CheckBox
 
     String ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
             ",\"datType\":66" +
@@ -433,6 +434,7 @@ public class GroupSetActivity extends FragmentActivity implements View.OnClickLi
     /**
      * 初始化GridView
      */
+    int position_delete;
     public void initGridView() {
         if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().size() == 0)
             return;
@@ -443,9 +445,31 @@ public class GroupSetActivity extends FragmentActivity implements View.OnClickLi
         gridView_groupSet.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                common_dev.remove(position);
-                GridViewAdapter_groupSet.notifyDataSetChanged(common_dev);
+                position_delete = position;
+                CustomDialog_comment.Builder builder = new CustomDialog_comment.Builder(GroupSetActivity.this);
+                builder.setTitle("提示 :");
+                builder.setMessage("您确定删除此设备?");
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+//                        initDialog("正在删除...");
+                        common_dev.remove(position_delete);
+                        GridViewAdapter_groupSet.notifyDataSetChanged(common_dev);
+                        ToastUtil.showToast(GroupSetActivity.this,"删除成功");
+                    }
+                });
+                builder.create().show();
                 return true;
+//                common_dev.remove(position);
+//                GridViewAdapter_groupSet.notifyDataSetChanged(common_dev);
+//                return true;
             }
         });
         gridView_groupSet.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -539,12 +563,6 @@ public class GroupSetActivity extends FragmentActivity implements View.OnClickLi
             return;
         }
         switch (v.getId()) {
-//            case R.id.imageViewUp:
-//                setPrePage();
-//                break;
-//            case R.id.imageViewDown:
-//                setAftPage();
-//                break;
             case R.id.save://保存
                 try {
                     GroupSet_Data time_data = new GroupSet_Data();
@@ -582,18 +600,26 @@ public class GroupSetActivity extends FragmentActivity implements View.OnClickLi
                     if ("是".equals(event_way.getText().toString()))
                         bean.setReportServ(1);
                     else bean.setReportServ(0);
-
-
-//                    if (map.size() == 0) {
-//                        ToastUtil.showToast(GroupSetActivity.this, "请选择防区");
-//                        return;
-//                    }
-                    String data = "";
-                    map.keySet().toArray();
-                    for (int i = 0; i < map.keySet().toArray().length; i++) {
-                        data += String.valueOf((Integer) map.keySet().toArray()[i] + 1);
+                    int length = MyApplication.getWareData().getResult_safety().getSec_info_rows().size();
+                    int[] data = new int[length];
+                    if (map.keySet().toArray().length == 0) {
+                        ToastUtil.showToast(this, "请选择防区");
+                        return;
                     }
-                    bean.setTriggerSecs(str2num(data));
+                    for (int i = 0; i < length; i++) {
+                        for (int k = 0; k < map.keySet().toArray().length; k++) {
+                            int key = (Integer) map.keySet().toArray()[k];
+                            if (i == key) {
+                                data[i] = 1;
+                                break;
+                            } else data[i] = 0;
+                        }
+                    }
+                    String data_str = "";
+                    for (int i = 0; i < data.length; i++) {
+                        data_str += data[i];
+                    }
+                    bean.setTriggerSecs(str2num(data_str));
                     envEvent_rows.add(bean);
                     time_data.setDatType(66);
                     time_data.setDevUnitID(GlobalVars.getDevid());

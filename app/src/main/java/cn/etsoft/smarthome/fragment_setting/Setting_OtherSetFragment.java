@@ -70,11 +70,9 @@ public class Setting_OtherSetFragment extends Fragment implements View.OnClickLi
                 startActivity(new Intent(mActivity, Equipment_control.class));
                 break;
             case R.id.tv_other:
-//                startActivity(new Intent(mActivity, GroupActivity.class));
                 startActivity(new Intent(mActivity, GroupActivity.class));
                 break;
             case R.id.tv_scene:
-//                startActivity(new Intent(mActivity, SceneSetActivity.class));
                 startActivity(new Intent(mActivity, SceneSetActivity.class));
                 break;
             case R.id.tv_safety:

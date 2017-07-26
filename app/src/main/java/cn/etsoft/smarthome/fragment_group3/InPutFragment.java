@@ -258,7 +258,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
      */
     private void initFragment() {
         Bundle bundle = new Bundle();
-        transaction = mActivity.getSupportFragmentManager().beginTransaction();
+        transaction =  getChildFragmentManager().beginTransaction();
         inputFragment_dev = new InputFragment_dev(mActivity);
         bundle.putInt("room_position", room_position);
         bundle.putInt("index", index);

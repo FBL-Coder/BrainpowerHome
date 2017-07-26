@@ -1449,6 +1449,12 @@ public class udpService extends Service {
         GroupSet_Data result = gson.fromJson(info, GroupSet_Data.class);
         MyApplication.getWareData().setmGroupSet_Data(result);
     }
+//    public void setGroupSetData1(String info) {
+//        Gson gson = new Gson();
+//        Log.i("JSON", info);
+//        SetGroupData result = gson.fromJson(info, SetGroupData.class);
+//        MyApplication.getWareData().setGroupData(result);
+//    }
 
     public void setGroupSetData(String info) {
 //        {
@@ -1491,21 +1497,20 @@ public class udpService extends Service {
         try {
             JSONObject jsonObject = new JSONObject(info);
             JSONArray jsonArray = jsonObject.getJSONArray("secs_trigger_rows");
-            GroupSet_Data.SecsTriggerRowsBean bean = new GroupSet_Data.SecsTriggerRowsBean();
             List<GroupSet_Data.SecsTriggerRowsBean.RunDevItemBean> list_dev = new ArrayList<>();
-            GroupSet_Data.SecsTriggerRowsBean.RunDevItemBean decbean = new GroupSet_Data.SecsTriggerRowsBean.RunDevItemBean();
-
             for (int i = 0; i < MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().size(); i++) {
+                GroupSet_Data.SecsTriggerRowsBean bean = new GroupSet_Data.SecsTriggerRowsBean();
                 if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(i).getTriggerId()
-                        == jsonArray.getJSONObject(0).getInt("triggerId")) {
-                    bean.setTriggerName(jsonArray.getJSONObject(0).getString("triggerName"));
-                    bean.setTriggerSecs(jsonArray.getJSONObject(0).getInt("triggerSecs"));
-                    bean.setReportServ(jsonArray.getJSONObject(0).getInt("reportServ"));
-                    bean.setTriggerId(jsonArray.getJSONObject(0).getInt("triggerId"));
-                    bean.setDevCnt(jsonArray.getJSONObject(0).getInt("devCnt"));
-                    bean.setValid(jsonArray.getJSONObject(0).getInt("valid"));
-                    JSONArray jsonArray_dev = jsonArray.getJSONObject(0).getJSONArray("run_dev_item");
+                        == jsonArray.getJSONObject(i).getInt("triggerId")) {
+                    bean.setTriggerName(jsonArray.getJSONObject(i).getString("triggerName"));
+                    bean.setTriggerSecs(jsonArray.getJSONObject(i).getInt("triggerSecs"));
+                    bean.setReportServ(jsonArray.getJSONObject(i).getInt("reportServ"));
+                    bean.setTriggerId(jsonArray.getJSONObject(i).getInt("triggerId"));
+                    bean.setDevCnt(jsonArray.getJSONObject(i).getInt("devCnt"));
+                    bean.setValid(jsonArray.getJSONObject(i).getInt("valid"));
+                    JSONArray jsonArray_dev = jsonArray.getJSONObject(i).getJSONArray("run_dev_item");
                     for (int j = 0; j < jsonArray_dev.length(); j++) {
+                        GroupSet_Data.SecsTriggerRowsBean.RunDevItemBean decbean = new GroupSet_Data.SecsTriggerRowsBean.RunDevItemBean();
                         decbean.setCanCpuID(jsonArray_dev.getJSONObject(j).getString("canCpuID"));
                         decbean.setBOnOff(jsonArray_dev.getJSONObject(j).getInt("bOnOff"));
                         decbean.setDevID(jsonArray_dev.getJSONObject(j).getInt("devID"));

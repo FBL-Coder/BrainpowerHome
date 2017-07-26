@@ -18,54 +18,81 @@ import cn.etsoft.smarthome.fragment_group3.OutPutFragment;
  * 高级设置-控制设置页面
  */
 public class GroupActivity extends FragmentActivity {
-    private RadioGroup group;
-    private FragmentManager fragmentManager;
-    private FragmentTransaction transaction;
-    private Fragment outPutFragment, inPutFragment, infraredFragment;
+    private RadioGroup radioGroup;
+    public Fragment inputFragment,outPutFragment,keySceneFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
-        //初始化控件
-        initView();
-        //初始化数据
-        initData();
-    }
-    /**
-     * 初始化控件
-     */
-    private void initView() {
-        fragmentManager = getSupportFragmentManager();
-        group = (RadioGroup) findViewById(R.id.rg_group);
-        ((RadioButton) group.findViewById(R.id.group_input)).setChecked(true);
-        transaction = fragmentManager.beginTransaction();
-    }
-    /**
-     * 初始化数据
-     */
-    private void initData() {
-        outPutFragment = new OutPutFragment(GroupActivity.this);
-        inPutFragment = new InPutFragment(GroupActivity.this);
-        infraredFragment = new KeySceneFragment(GroupActivity.this);
+        radioGroup = (RadioGroup) findViewById(R.id.rg_group);
 
-        transaction.replace(R.id.group, inPutFragment).commit();
-        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                transaction = fragmentManager.beginTransaction();
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                if (inputFragment != null) {
+                    ft.hide(inputFragment);
+                }
+                if (outPutFragment != null) {
+                    ft.hide(outPutFragment);
+                }
+                if (keySceneFragment != null) {
+                    ft.hide(keySceneFragment);
+                }
                 switch (checkedId) {
-                    case R.id.group_output:
-                        transaction.replace(R.id.group, outPutFragment);
-                        break;
                     case R.id.group_input:
-                        transaction.replace(R.id.group, inPutFragment);
+                        if (inputFragment == null) {
+                            inputFragment = new InPutFragment(GroupActivity.this);
+                            ft.add(R.id.group, inputFragment);
+                        } else {
+                            ft.show(inputFragment);
+                        }
+                        break;
+                    case R.id.group_output:
+                        if (outPutFragment == null) {
+                            outPutFragment = new OutPutFragment(GroupActivity.this);
+                            ft.add(R.id.group, outPutFragment);
+                        } else {
+                            ft.show(outPutFragment);
+                        }
                         break;
                     case R.id.group_infrared:
-                        transaction.replace(R.id.group, infraredFragment);
+                        if (keySceneFragment == null) {
+                            keySceneFragment = new KeySceneFragment(GroupActivity.this);
+                            ft.add(R.id.group, keySceneFragment);
+                        } else {
+                            ft.show(keySceneFragment);
+                        }
+                        break;
+                    default:
                         break;
                 }
-                transaction.commit();
+                ft.commit();
             }
         });
+        if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            inputFragment = new InPutFragment(GroupActivity.this);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.group, inputFragment).commit();
+        }
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            RadioButton mTab = (RadioButton) radioGroup.getChildAt(i);
+            FragmentManager fm = getSupportFragmentManager();
+            Fragment fragment = fm.findFragmentByTag((String) mTab.getTag());
+            FragmentTransaction ft = fm.beginTransaction();
+            if (fragment != null) {
+                if (!mTab.isChecked()) {
+                    ft.hide(fragment);
+                }
+            }
+            ft.commit();
+        }
     }
 }

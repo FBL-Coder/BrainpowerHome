@@ -16,6 +16,9 @@
         android:layout_height="@dimen/dp_0"
         android:layout_alignParentBottom="true"
         android:layout_weight="1"
+        android:background="#ffffff"
+        android:checkedButton="@+id/edit_dev"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <RadioButton

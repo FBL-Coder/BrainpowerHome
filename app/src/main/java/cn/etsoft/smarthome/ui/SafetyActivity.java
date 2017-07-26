@@ -280,14 +280,14 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
                 safety_state.setText(safety_state_data.get(3));
             }
         }
-        if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSceneId() == 0) {
+        if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSceneId() == 255) {
             safety_scene.setText(safety_scene_name.get(0));
         } else {
             //情景
             if (MyApplication.getWareData().getSceneEvents() != null) {
                 for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
                     if (MyApplication.getWareData().getSceneEvents().get(i).getEventld()
-                            == MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSceneId() - 1) {
+                            == MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSceneId()) {
                         safety_scene.setText(MyApplication.getWareData()
                                 .getSceneEvents().get(i).getSceneName());
                     }
@@ -364,12 +364,12 @@ public class SafetyActivity extends FragmentActivity implements View.OnClickList
                     }
 
                     if ("无".equals(safety_scene.getText().toString())) {
-                        bean.setSceneId(0);
+                        bean.setSceneId(255);
                     } else {
                         //关联情景
                         for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
                             if (safety_scene.getText().toString().equals(MyApplication.getWareData().getSceneEvents().get(i).getSceneName()))
-                                bean.setSceneId(i + 1);
+                                bean.setSceneId(i);
                         }
                     }
                     timerEvent_rows.add(bean);

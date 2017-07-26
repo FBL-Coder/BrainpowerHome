@@ -255,12 +255,8 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                             MyApplication.getWareData().getDevs().add(dev1);
                             MyApplication.getWareData().getCurtains().add(curtain);
                         }
-//                        if (devAdapter != null)
-//                            devAdapter.notifyDataSetChanged();
-//                        else {
                         devAdapter = new DevAdapter(mListener);
                         equi_control.setAdapter(devAdapter);
-//                        }
                         Toast.makeText(mActivity, "添加成功", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(mActivity, "添加失败", Toast.LENGTH_SHORT).show();
@@ -275,27 +271,13 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                     }
                 }
                 MyApplication.getWareData().setDev_result(null);
-
-
             }
         });
         return view_parent;
     }
 
-//    @Override
-//    public void onResume() {
-//        if (devAdapter != null)
-//            devAdapter.notifyDataSetChanged();
-//        else {
-//            devAdapter = new DevAdapter(mListener);
-//            equi_control.setAdapter(devAdapter);
-//        }
-//        super.onResume();
-//    }
-
     /**
      * 初始化控件
-     *
      * @param view
      */
     private void initView(View view) {
@@ -541,13 +523,6 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                 case R.id.devGallery:
                     List<Integer> list_voard_cancpuid = new ArrayList<>();
                     if (dev_all.get(position).getType() == 0) {
-//                        for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
-//                            if (dev_all.get(position).getDevId() == MyApplication.getWareData().getAirConds().get(i).getDev().getDevId()
-//                                    && dev_all.get(position).getCanCpuId()
-//                                    .equals(MyApplication.getWareData().getAirConds().get(i).getDev().getCanCpuId())) {
-//                                airCondDev = MyApplication.getWareData().getAirConds().get(i);
-//                            }
-//                        }
                         for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
                             if (dev_all.get(position).getCanCpuId()
                                     .equals(MyApplication.getWareData().getAirConds().get(i).getDev().getCanCpuId())
@@ -564,7 +539,6 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                                 }
                                 list_voard_cancpuid.addAll(index_list);
                             }
-
                         }
                     } else if (dev_all.get(position).getType() == 3) {
                         for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
@@ -593,14 +567,12 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                                 }
                                 list_voard_cancpuid.addAll(index_list);
                             }
-
                         }
                     }
                     list_channel = new ArrayList<>();
                     for (int i = 1; i < 13; i++) {
                         list_channel.add(i);
                     }
-
                     for (int i = 0; i < list_voard_cancpuid.size(); i++) {
                         for (int j = 0; j < list_channel.size(); j++) {
                             if (list_channel.get(j) == list_voard_cancpuid.get(i)) {
@@ -737,7 +709,6 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                                 }
                             }
                         }
-
                     }
                     break;
                 case R.id.save:
@@ -978,7 +949,6 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                 for (int i = 0; i < data.length; i++) {
                     data_str += data[i];
                 }
-//                message_save = new ArrayList<>();
                 for (int i = 0; i < map.keySet().toArray().length; i++) {
                     message += String.valueOf(map.keySet().toArray()[i]) + ".";
 
@@ -1023,7 +993,6 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
 
     /**
      * 得到字符串中的数字和
-     *
      * @param str
      * @return
      */
@@ -1034,7 +1003,6 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
 
     /**
      * 倒置字符串
-     *
      * @param str
      * @return
      */
@@ -1112,7 +1080,6 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
                     }
                 }
             });
-
             if (map != null && map.containsKey(list_channel.get(position))) {
                 viewHolder.checkBox.setChecked(true);
             } else {
@@ -1133,7 +1100,6 @@ public class EditDevFragment extends Fragment implements View.OnClickListener {
 
     /**
      * 空调控制  头命令字符串
-     *
      * @return
      */
     public String getDevCmdstr(int position) {
