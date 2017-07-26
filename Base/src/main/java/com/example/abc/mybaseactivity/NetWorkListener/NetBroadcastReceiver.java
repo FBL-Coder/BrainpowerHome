@@ -18,7 +18,10 @@ public class NetBroadcastReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
             int netWorkState = NetUtil.getNetWorkState(context);
             // 接口回调传过去状态的类型
-            netEvevt.onNetChange(netWorkState);
+            try {
+                netEvevt.onNetChange(netWorkState);
+            }catch (Exception e){
+            }
         }
     }
 

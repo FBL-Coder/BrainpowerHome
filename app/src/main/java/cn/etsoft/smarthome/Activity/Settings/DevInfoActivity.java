@@ -1,5 +1,7 @@
 package cn.etsoft.smarthome.Activity.Settings;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 
@@ -40,12 +42,27 @@ public class DevInfoActivity extends BaseActivity {
     public void initView() {
         setLayout(R.layout.activity_devinfo);
         DevInfoGridView = getViewById(R.id.DevInfo_Info);
+
+        setTitleViewVisible(true, R.color.blue);
+        setTitleImageBtn(true, R.drawable.back_image_select, true, R.drawable.ic_launcher);
+        setTitleText("设备编辑",20,R.color.white);
+        getLiftImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 // TODO  数据返回处理
-                if (datType == 5 || datType == 6 || datType == 7) {
+                if (datType == 6 || datType == 7) {
                     MyApplication.mApplication.dismissLoadDialog();
+                    if (subtype2 != 1) {
+                        ToastUtil.showText("操作失败");
+                        return;
+                    }
+                    ToastUtil.showText("操作成功");
                     mRoomDevs = getRoomDev(RoomName);
                     if (mRoomDevs == null) return;
                     List<WareDev> gridviewDev = new ArrayList<>();
@@ -124,6 +141,12 @@ public class DevInfoActivity extends BaseActivity {
                     adapter.notifyDataSetChanged(gridviewDev);
             }
         });
+        getRightImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(DevInfoActivity.this, AddDevActivity.class), 0);
+            }
+        });
     }
 
     public List<WareDev> getRoomDev(String roomname) {
@@ -142,5 +165,24 @@ public class DevInfoActivity extends BaseActivity {
             }
         }
         return RoomDevs;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i("DEV", "onActivityResult: ");
+        initData();
+        if (OuterCircleClick) {
+            List<WareDev> gridviewDev = new ArrayList<>();
+            for (int i = 0; i < mRoomDevs.size(); i++) {
+                if (mRoomDevs.get(i).getType() == DevType)
+                    gridviewDev.add(mRoomDevs.get(i));
+            }
+            if (adapter == null) {
+                adapter = new DevInfosAdapter(gridviewDev, DevInfoActivity.this);
+                DevInfoGridView.setAdapter(adapter);
+            } else
+                adapter.notifyDataSetChanged(gridviewDev);
+        }
     }
 }

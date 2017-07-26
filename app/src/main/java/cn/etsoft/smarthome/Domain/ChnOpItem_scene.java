@@ -1,6 +1,7 @@
 package cn.etsoft.smarthome.Domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,6 +67,8 @@ public class ChnOpItem_scene implements Serializable {
     }
 
     public List<Key2sceneItemBean> getKey2scene_item() {
+        if (key2scene_item == null)
+            key2scene_item = new ArrayList<>();
         return key2scene_item;
     }
 

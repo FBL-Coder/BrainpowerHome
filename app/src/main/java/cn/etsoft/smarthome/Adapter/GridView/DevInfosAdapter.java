@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -39,8 +37,6 @@ import cn.etsoft.smarthome.Utils.CommonUtils;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.PopupWindow.MultiChoicePopWindow;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Author：FBL  Time： 2017/6/29.
  * 设备详情  设备适配器
@@ -60,8 +56,6 @@ public class DevInfosAdapter extends BaseAdapter {
     public DevInfosAdapter(List<WareDev> list, Activity context) {
         RoomNames = MyApplication.getWareData().getRooms();
         Devs = list;
-        WareDev addDev = new WareDev();
-        Devs.add(addDev);
         mDevTypes = new ArrayList<>();
         mDevTypes.add("空调");
         mDevTypes.add("灯光");
@@ -76,8 +70,6 @@ public class DevInfosAdapter extends BaseAdapter {
     public void notifyDataSetChanged(List<WareDev> list) {
         RoomNames = MyApplication.getWareData().getRooms();
         Devs = list;
-        WareDev addDev = new WareDev();
-        Devs.add(addDev);
         super.notifyDataSetChanged();
     }
 
@@ -112,6 +104,7 @@ public class DevInfosAdapter extends BaseAdapter {
         viewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
         viewHolder.mDevInfoEditLook.setVisibility(View.GONE);
         viewHolder.mDevInfoEditEditRoom.setVisibility(View.GONE);
+        viewHolder.mDevInfoEdit.setImageResource(R.drawable.edit_dev);
 
         final ViewHolder finalViewHolder = viewHolder;
         ShowView(position, viewHolder);
@@ -151,6 +144,8 @@ public class DevInfosAdapter extends BaseAdapter {
                 } else {
                     finalViewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
                     finalViewHolder.mDevInfoEditLook.setVisibility(View.GONE);
+                    finalViewHolder.mDevInfoDelete.setImageResource(R.drawable.delete_edit_dev);
+                    finalViewHolder.mDevInfoEdit.setImageResource(R.drawable.edit_dev);
                 }
             }
         });
@@ -188,7 +183,7 @@ public class DevInfosAdapter extends BaseAdapter {
                                 .equals(MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId())
                                 && Devs.get(position).getDevId() != MyApplication.getWareData().getLights().get(i).getDev().getDevId()) {
                             //TODO  3968
-                            int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn();
+                            int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn() + 1;
                             list_voard_cancpuid.add(PowChn);
                         }
                     }
@@ -278,7 +273,8 @@ public class DevInfosAdapter extends BaseAdapter {
                 if (finalViewHolder.mDevInfoLook.getVisibility() == View.VISIBLE) {
                     finalViewHolder.mDevInfoLook.setVisibility(View.GONE);
                     finalViewHolder.mDevInfoEditLook.setVisibility(View.VISIBLE);
-                    finalViewHolder.mDevInfoEdit.setImageResource(R.drawable.ic_launcher);
+                    finalViewHolder.mDevInfoEdit.setImageResource(R.drawable.save_edit_dev);
+                    finalViewHolder.mDevInfoDelete.setImageResource(R.drawable.back_edit_dev);
                 } else {
 //                    finalViewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
 //                    finalViewHolder.mDevInfoEditLook.setVisibility(View.GONE);
@@ -367,12 +363,12 @@ public class DevInfosAdapter extends BaseAdapter {
                             } else if (Devs.get(position).getType() == 3) {
                                 //设备通道 保存数据处理
                                 String Way_Str = finalViewHolder.mDevInfoEditWay.getText().toString();
-                                Save_DevWay = Integer.parseInt(Way_Str);
+                                Save_DevWay = Integer.parseInt(Way_Str) - 1;
                             } else if (Devs.get(position).getType() == 4) {
-                                for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
-                                    if (MyApplication.getWareData().getAirConds().get(i).getDev().getDevId()
+                                for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
+                                    if (MyApplication.getWareData().getCurtains().get(i).getDev().getDevId()
                                             == Devs.get(position).getDevId()
-                                            && MyApplication.getWareData().getAirConds().get(i).getDev().getCanCpuId()
+                                            && MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId()
                                             .equals(Devs.get(position).getCanCpuId())) {
                                         //设备通道 保存数据处理
                                         String Way_Str = finalViewHolder.mDevInfoEditWay.getText().toString();
@@ -425,6 +421,7 @@ public class DevInfosAdapter extends BaseAdapter {
                             dialog.dismiss();
                             finalViewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
                             finalViewHolder.mDevInfoEditLook.setVisibility(View.GONE);
+                            finalViewHolder.mDevInfoEdit.setImageResource(R.drawable.edit_dev);
                         }
                     });
                     builder.create().show();
@@ -563,7 +560,7 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoName.setText(light.getDev().getDevName());
                     viewHolder.mDevInfoRoom.setText(light.getDev().getRoomName());
                     viewHolder.mDevInfoType.setText("灯光");
-                    viewHolder.mDevInfoWay.setText(light.getPowChn() + "");
+                    viewHolder.mDevInfoWay.setText(light.getPowChn() + 1 + "");
                     if ("".equals(BoardName))
                         viewHolder.mDevInfoOutBoard.setText("数据解析出错");
                     viewHolder.mDevInfoOutBoard.setText(BoardName);
@@ -571,8 +568,9 @@ public class DevInfosAdapter extends BaseAdapter {
                     //不可视布局数据
                     viewHolder.mDevInfoEditEditRoom.setHint(light.getDev().getRoomName());
                     viewHolder.mDevInfoEditRoom.setText(light.getDev().getRoomName());
+                    viewHolder.mDevInfoEditName.setText("");
                     viewHolder.mDevInfoEditName.setHint(light.getDev().getDevName());
-                    viewHolder.mDevInfoEditWay.setText(light.getPowChn() + "");
+                    viewHolder.mDevInfoEditWay.setText(light.getPowChn() + 1 + "");
                     viewHolder.mDevInfoEditType.setText("灯光");
                 }
             }
@@ -708,7 +706,7 @@ public class DevInfosAdapter extends BaseAdapter {
      * 选择通道
      */
     public void initWayDialog(Context context, final TextView view, List<Integer> Way, boolean[] isSelect) {
-        List<String> Ways_str = new ArrayList<>();
+        final List<String> Ways_str = new ArrayList<>();
         for (int i = 0; i < Way.size(); i++) {
             Ways_str.add(Way.get(i) + "");
         }
@@ -729,7 +727,7 @@ public class DevInfosAdapter extends BaseAdapter {
                 StringBuffer stringBuffer = new StringBuffer();
                 for (int i = 0; i < size; i++) {
                     if (selItems[i]) {
-                        stringBuffer.append(i + 1 + "、");
+                        stringBuffer.append(Ways_str.get(i) + "、");
                     }
                 }
                 if (stringBuffer.toString().length() == 0)

@@ -1,9 +1,7 @@
 package cn.etsoft.smarthome.Activity.Settings;
 
-import android.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -136,7 +134,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
                 WareDataHliper.initCopyWareData().getScenekeysResult().setSubType2(0);
                 WareDataHliper.initCopyWareData().getScenekeysResult().setItemCnt(WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size());
                 gson.toJson(WareDataHliper.initCopyWareData().getScenekeysResult());
-//                Log.i("WareDataHliper", "onClick: " + gson.toJson(WareDataHliper.initCopyWareData().getScenekeysResult()));
+//              Log.i("WareDataHliper", "onClick: " + gson.toJson(WareDataHliper.initCopyWareData().getScenekeysResult()));
                 MyApplication.mApplication.getUdpServer().send(gson.toJson(WareDataHliper.initCopyWareData().getScenekeysResult()));
                 break;
         }
@@ -148,6 +146,10 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
             public void onClickOuterCircle(int position, View view) {
                 if (IsNoData) {
                     ToastUtil.showText("数据未加载成功，不可操作！");
+                    return;
+                }
+                if (MyApplication.getWareData().getSceneEvents().size() == 0) {
+                    ToastUtil.showText("情景数据加载失败，不可操作！");
                     return;
                 }
                 Scene_ID = MyApplication.getWareData().getSceneEvents().

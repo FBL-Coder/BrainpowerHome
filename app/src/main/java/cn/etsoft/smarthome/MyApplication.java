@@ -37,6 +37,8 @@ import cn.etsoft.smarthome.Utils.CityDB;
 import cn.etsoft.smarthome.Utils.Data_Cache;
 import cn.etsoft.smarthome.Utils.WratherUtil;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Author：FBL  Time： 2017/6/12.
  */
@@ -83,6 +85,10 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     public List<Weather_Bean> mWeathers_list;//天气图标集合
     public CityDB mCityDB;
+
+    //添加或者编辑设备名以及房间名
+    public static String AddOrEditDevName;
+    public static String AddOrEditRoomName;
 
     /**
      * 局域网内连接状态
@@ -255,7 +261,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             @Override
             public void run() {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(8000);
                     if (progressDialog.isShowing()) {
                         Message message = handler.obtainMessage();
                         message.what = DIALOG_DISMISS;
@@ -276,6 +282,22 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             progressDialog.dismiss();
             progressDialog = null;
         }
+    }
+
+    public static String getAddOrEditDevName() {
+        return AddOrEditDevName;
+    }
+
+    public static void setAddOrEditDevName(String addOrEditDevName) {
+        AddOrEditDevName = addOrEditDevName;
+    }
+
+    public static String getAddOrEditRoomName() {
+        return AddOrEditRoomName;
+    }
+
+    public static void setAddOrEditRoomName(String addOrEditRoomName) {
+        AddOrEditRoomName = addOrEditRoomName;
     }
 
     /**
@@ -314,6 +336,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 }
             }
             if (msg.what == application.WS_DATA_OK) {//WebSocket 数据
+//                Log.i(TAG, "handleMessage: " + msg.obj);
                 MyApplication.mApplication.getUdpServer().webSocketData((String) msg.obj);
             }
             if (msg.what == application.WS_Error) {
@@ -373,6 +396,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             if (msg.what == application.DIALOG_DISMISS) {
                 if (application.progressDialog != null && application.progressDialog.isShowing()) {
                     application.progressDialog.dismiss();
+                    ToastUtil.showText("发送超时");
                     application.progressDialog = null;
                 }
             }

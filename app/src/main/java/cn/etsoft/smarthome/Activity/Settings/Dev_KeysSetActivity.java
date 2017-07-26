@@ -206,7 +206,13 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
             public void OnItemClick(View view, int position) {
                 devPosition = position;
                 MyApplication.mApplication.showLoadDialog(Dev_KeysSetActivity.this);
-                SendDataUtil.getChnItemInfo(mRoomDevs.get(position));
+
+                List<WareDev> RecyclerViewDev = new ArrayList<>();
+                for (int i = 0; i < mRoomDevs.size(); i++) {
+                    if (mRoomDevs.get(i).getType() == DevType)
+                        RecyclerViewDev.add(mRoomDevs.get(i));
+                }
+                SendDataUtil.getChnItemInfo(RecyclerViewDev.get(position));
             }
 
             @Override

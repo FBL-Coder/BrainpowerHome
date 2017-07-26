@@ -8,18 +8,19 @@
         android:id="@+id/DevInfo_Info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="2"
         android:layout_marginLeft="@dimen/dp_250"
-        android:background="@color/Myblue" />
+        android:background="@color/Myblue"
+        android:numColumns="2" />
 
     <RelativeLayout
         android:layout_width="@dimen/dp_250"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        >
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/DevInfo_CircleMenu"
             android:layout_width="@dimen/dp_250"
             android:layout_height="match_parent" />
     </RelativeLayout>
+
 
 </RelativeLayout>

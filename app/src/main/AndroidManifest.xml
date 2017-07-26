@@ -116,6 +116,12 @@
             android:name=".Activity.Settings.DevInfoActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
+        <!--添加设备-->
+        <activity
+            android:name=".Activity.Settings.AddDevActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!--安防设置-->
         <activity
             android:name=".Activity.Settings.SafetySetActivity"

@@ -36,9 +36,13 @@ public class SceneSetHelper {
     public static String getRoomName() {
         return RoomName;
     }
+
     public static void setRoomName(String roomName) {
         RoomName = roomName;
     }
+
+    private static int[] images = new int[]{R.drawable.woshi, R.drawable.weishengjian, R.drawable.zoulang, R.drawable.chufang
+            , R.drawable.canting, R.drawable.yangtai, R.drawable.yushi};
 
     /**
      * 初始化外部转盘数据
@@ -84,6 +88,7 @@ public class SceneSetHelper {
         }
         return Data_OuterCircleList;
     }
+
     /**
      * 初始化内部转盘数据
      */
@@ -119,8 +124,24 @@ public class SceneSetHelper {
         Data_InnerCircleList.clear();
         for (int i = 0; i < maxsize; i++) {
             CircleDataEvent event = new CircleDataEvent();
-            event.setImage(R.mipmap.ic_launcher_round);
             event.setTitle(MyApplication.getWareData().getRooms().get(i % MyApplication.getWareData().getRooms().size()));
+            if (event.getTitle().contains("卧"))
+                event.setImage(R.drawable.woshi);
+            else if (event.getTitle().contains("厨"))
+                event.setImage(R.drawable.chufang);
+            else if (event.getTitle().contains("餐"))
+                event.setImage(R.drawable.canting);
+            else if (event.getTitle().contains("卫") || event.getTitle().contains("厕"))
+                event.setImage(R.drawable.weishengjian);
+            else if (event.getTitle().contains("阳"))
+                event.setImage(R.drawable.yangtai);
+            else if (event.getTitle().contains("客") || event.getTitle().contains("大厅"))
+                event.setImage(R.drawable.keting);
+            else if (event.getTitle().contains("走") || event.getTitle().contains("过道"))
+                event.setImage(R.drawable.zoulang);
+            else {
+                event.setImage(images[i % images.length]);
+            }
             Data_InnerCircleList.add(event);
         }
         return Data_InnerCircleList;
@@ -143,7 +164,7 @@ public class SceneSetHelper {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                AddSceneSenddata(mDialogName,activity);
+                AddSceneSenddata(mDialogName, activity);
             }
         });
     }
@@ -151,7 +172,7 @@ public class SceneSetHelper {
     /**
      * 添加情景模式
      */
-    public static void AddSceneSenddata(EditText name,Activity activity) {
+    public static void AddSceneSenddata(EditText name, Activity activity) {
 
         String data = name.getText().toString();
         if (!"".equals(data)) {

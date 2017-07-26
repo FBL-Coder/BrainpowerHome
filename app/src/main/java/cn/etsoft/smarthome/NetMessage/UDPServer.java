@@ -263,21 +263,32 @@ public class UDPServer implements Runnable {
                 break;
             case 5: // adddev
                 if (subType1 == 1) {
-                    isFreshData = true;
-                    addDev_result(info);
-
+                    if (subType2 == 1) {
+                        addDev_result(info);
+                        isFreshData = true;
+                    } else {
+                        isFreshData = true;
+                    }
                 }
                 break;
             case 6: // editdev
                 if (subType1 == 1) {
-                    editDev_result(info);
-                    isFreshData = true;
+                    if (subType2 == 1) {
+                        editDev_result(info);
+                        isFreshData = true;
+                    } else {
+                        isFreshData = true;
+                    }
                 }
                 break;
             case 7: // delDev
                 if (subType1 == 1) {
-                    deleteDev_result(info);
-                    isFreshData = true;
+                    if (subType2 == 1) {
+                        deleteDev_result(info);
+                        isFreshData = true;
+                    } else {
+                        isFreshData = true;
+                    }
                 }
                 break;
             case 8:
@@ -486,6 +497,7 @@ public class UDPServer implements Runnable {
     /**
      * 返回001的包处理联网模块信息
      */
+
     public void setRcuInfo(String info) {
         if (System.currentTimeMillis() - TimeExit > 200) {
             Log.i("SLEEP", System.currentTimeMillis() - TimeExit + "");
@@ -996,11 +1008,11 @@ public class UDPServer implements Runnable {
             JSONArray array = jsonObject.getJSONArray("dev_rows");
 
             devType = array.getJSONObject(0).getInt("devType");
-
+            WareDev dev = null;
             if (devType == 4) {
                 WareCurtain curtain = new WareCurtain();
                 JSONObject jsonobj = array.getJSONObject(0);
-                WareDev dev = new WareDev();
+                dev = new WareDev();
                 dev.setCanCpuId(jsonobj.getString("canCpuID"));
                 dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
                 dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
@@ -1015,7 +1027,7 @@ public class UDPServer implements Runnable {
             } else if (devType == 0) {
                 WareAirCondDev airCondDev = new WareAirCondDev();
                 JSONObject jsonobj = array.getJSONObject(0);
-                WareDev dev = new WareDev();
+                dev = new WareDev();
                 dev.setCanCpuId(jsonobj.getString("canCpuID"));
                 dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
                 dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
@@ -1034,7 +1046,7 @@ public class UDPServer implements Runnable {
                 WareLight wareLight = new WareLight();
 
                 JSONObject jsonobj = array.getJSONObject(0);
-                WareDev dev = new WareDev();
+                dev = new WareDev();
                 dev.setCanCpuId(jsonobj.getString("canCpuID"));
                 dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
                 dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
@@ -1047,6 +1059,13 @@ public class UDPServer implements Runnable {
                 wareLight.setLmVal(jsonobj.getInt("lmVal"));
                 MyApplication.getWareData().getLights().add(wareLight);
             }
+            boolean isContain = false;
+            for (int i = 0; i < MyApplication.getWareData().getRooms().size(); i++) {
+                if (dev.getRoomName().equals(MyApplication.getWareData().getRooms()))
+                    isContain = true;
+            }
+            if (!isContain)
+                MyApplication.getWareData().getRooms().add(dev.getRoomName());
         } catch (Exception e) {
             isFreshData = false;
             System.out.println(e.toString());
@@ -1669,18 +1688,23 @@ public class UDPServer implements Runnable {
      */
     public void getChnOpItem(String info) {
 //        {
-//            "chn_opitem_rows":	[{
-//            "key_cpuCanID":	"50ff6c067184515640421267",
-//                    "keyDownValid":	1,
-//                    "keyUpValid":	0,
-
-//                    "keyUpCmd":	[0, 0, 0, 0, 163, 772],
-//            "keyDownCmd":	[4, 0, 0, 0, 0, 0]
-//        }],
-//            "devUnitID":	"37ffdb05424e323416702443",
+//            "devUnitID":	"39ffd505484d303408650743",
 //                "datType":	14,
 //                "subType1":	1,
 //                "subType2":	1,
+//                "chn_opitem_rows":	[{
+//            "key_cpuCanID":	"48ff6c065087485725170287",
+//                    "keyDownValid":	0,
+//                    "keyUpValid":	0,
+//                    "rev1":	0,
+//                    "keyUpCmd":	[0, 0, 0, 0, 0, 0, 0, 0],
+//            "rev2":	0,
+//                    "keyDownCmd":	[0, 0, 0, 0, 0, 0, 0, 0],
+//            "rev3":	0
+//        }],
+//            "out_cpuCanID":	"36ffd4054842373532790843",
+//                "devType":	3,
+//                "devID":	2,
 //                "chn_opitem":	1
 //        }
         List<WareChnOpItem> inputs = new ArrayList<>();

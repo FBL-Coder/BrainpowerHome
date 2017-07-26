@@ -16,7 +16,7 @@
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/delete_edit_dev" />
 
         <TextView
             android:id="@+id/Dev_Info_Name"
@@ -33,7 +33,7 @@
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_launcher_round" />
+            android:src="@drawable/edit_dev" />
     </LinearLayout>
 
 
@@ -214,7 +214,7 @@
                     android:layout_width="@dimen/dp_40"
                     android:layout_height="@dimen/dp_40"
                     android:layout_alignParentRight="true"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@drawable/input_edit_dev" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -240,7 +240,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="床头灯"
+                android:text="布局数据"
                 android:textColor="@color/color_000"
                 android:textSize="@dimen/sp_20" />
         </LinearLayout>

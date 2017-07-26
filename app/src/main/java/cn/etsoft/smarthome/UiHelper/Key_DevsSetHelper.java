@@ -40,6 +40,9 @@ public class Key_DevsSetHelper {
         return RoomName;
     }
 
+    private static int[] images = new int[]{R.drawable.woshi, R.drawable.weishengjian, R.drawable.zoulang, R.drawable.chufang
+            , R.drawable.canting, R.drawable.yangtai, R.drawable.yushi};
+
     public static void setRoomName(String roomName) {
         RoomName = roomName;
     }
@@ -140,8 +143,25 @@ public class Key_DevsSetHelper {
         Data_InnerCircleList.clear();
         for (int i = 0; i < maxsize; i++) {
             CircleDataEvent event = new CircleDataEvent();
-            event.setImage(R.mipmap.ic_launcher_round);
             event.setTitle(MyApplication.getWareData().getRooms().get(i % MyApplication.getWareData().getRooms().size()));
+            if (event.getTitle().contains("卧"))
+                event.setImage(R.drawable.woshi);
+            else if (event.getTitle().contains("厨"))
+                event.setImage(R.drawable.chufang);
+            else if (event.getTitle().contains("餐"))
+                event.setImage(R.drawable.canting);
+            else if (event.getTitle().contains("卫") || event.getTitle().contains("厕"))
+                event.setImage(R.drawable.weishengjian);
+            else if (event.getTitle().contains("阳"))
+                event.setImage(R.drawable.yangtai);
+            else if (event.getTitle().contains("客") || event.getTitle().contains("大厅"))
+                event.setImage(R.drawable.keting);
+            else if (event.getTitle().contains("走") || event.getTitle().contains("过道"))
+                event.setImage(R.drawable.zoulang);
+            else {
+                event.setImage(images[i % images.length]);
+            }
+
             Data_InnerCircleList.add(event);
         }
         return Data_InnerCircleList;
