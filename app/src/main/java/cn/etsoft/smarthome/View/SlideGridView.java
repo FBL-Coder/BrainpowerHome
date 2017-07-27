@@ -12,6 +12,7 @@ import android.widget.GridView;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import cn.etsoft.smarthome.R;
@@ -45,9 +46,10 @@ public class SlideGridView extends GridView {
         for (int i = 0; i < getChildCount(); i++) {
             LinearLayout linearLayout = ((LinearLayout) getChildAt(i));
             for (int j = 0; j < linearLayout.getChildCount(); j++) {
-                if (linearLayout.getChildAt(j).getId() == R.id.RotateControButton) {
-                    RotateControButton btn = (RotateControButton) linearLayout.getChildAt(j);
-                    if (inRangeOfView(btn, event)) {
+                if (linearLayout.getChildAt(j).getId() == R.id.RotateControButton ||
+                        linearLayout.getChildAt(j).getId() == R.id.img_list_item) {
+                    View view =  linearLayout.getChildAt(j);
+                    if (inRangeOfView(view, event)) {
                         isIntercept = false;
                     }
                 }

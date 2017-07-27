@@ -216,7 +216,7 @@ public class UDPServer implements Runnable {
             subType1 = jsonObject.getInt("subType1");
             subType2 = jsonObject.getInt("subType2");
         } catch (JSONException e) {
-            System.out.println(e.toString());
+            System.out.println(this.getClass().getName() + "219" + e.toString());
         }
         if (datType != 35)
             show(info);
@@ -855,7 +855,7 @@ public class UDPServer implements Runnable {
             }
         } catch (JSONException e) {
             isFreshData = false;
-            System.out.println(e.toString());
+            System.out.println(this.getClass().getName() + "858" + e.toString());
         }
     }
 
@@ -972,7 +972,7 @@ public class UDPServer implements Runnable {
             }
         } catch (Exception e) {
             isFreshData = false;
-            System.out.println(e.toString());
+            System.out.println(this.getClass().getName() + "975" + e.toString());
         }
     }
 
@@ -1068,7 +1068,7 @@ public class UDPServer implements Runnable {
                 MyApplication.getWareData().getRooms().add(dev.getRoomName());
         } catch (Exception e) {
             isFreshData = false;
-            System.out.println(e.toString());
+            System.out.println(this.getClass().getName() + "1071" + e.toString());
         }
 
     }
@@ -1216,7 +1216,7 @@ public class UDPServer implements Runnable {
             }
         } catch (Exception e) {
             isFreshData = false;
-            System.out.println(e.toString());
+            System.out.println(this.getClass().getName() + "1219" + e.toString());
         }
     }
 
@@ -1300,7 +1300,7 @@ public class UDPServer implements Runnable {
 
         } catch (JSONException e) {
             isFreshData = false;
-            System.out.println(e.toString());
+            System.out.println(this.getClass().getName() + "1303" + e.toString());
         }
     }
 
@@ -1382,7 +1382,7 @@ public class UDPServer implements Runnable {
             }
         } catch (JSONException e) {
             isFreshData = false;
-            System.out.println(e.toString());
+            System.out.println(this.getClass().getName() + "1385" + e.toString());
         }
     }
 
@@ -1415,12 +1415,12 @@ public class UDPServer implements Runnable {
 //        }],
 //        "key_opitem":	2
 //    }
-        MyApplication.getWareData().setKeyOpItems(new ArrayList<WareKeyOpItem>());
         try {
             JSONObject jsonObject = new JSONObject(info);
             JSONArray array = jsonObject.getJSONArray("key_opitem_rows");
             List<WareKeyOpItem> WareKeyOpItem = new ArrayList<>();
             for (int i = 0; i < array.length(); i++) {
+                boolean Ishave = false;
                 WareKeyOpItem opItem = new WareKeyOpItem();
                 JSONObject object = array.getJSONObject(i);
                 opItem.setOut_cpuCanID(object.getString("out_cpuCanID"));
@@ -1429,13 +1429,22 @@ public class UDPServer implements Runnable {
                 opItem.setDevId(object.getInt("devID"));
                 opItem.setKeyOpCmd(object.getInt("keyOpCmd"));
                 opItem.setKeyOp(object.getInt("keyOp"));
-                WareKeyOpItem.add(opItem);
+                for (int j = 0; j < MyApplication.getWareData().getKeyOpItems().size(); j++) {
+                    WareKeyOpItem opItem_location = MyApplication.getWareData().getKeyOpItems().get(j);
+                    if (opItem.getDevId() == opItem_location.getDevId()
+                            && opItem.getDevType() == opItem_location.getDevType()
+                            && opItem.getOut_cpuCanID().equals(opItem_location.getOut_cpuCanID())) {
+                        Ishave = true;
+                        MyApplication.getWareData().getKeyOpItems().set(j, opItem);
+                    }
+                }
+                if (!Ishave)
+                    MyApplication.getWareData().getKeyOpItems().add(opItem);
             }
-            MyApplication.getWareData().setKeyOpItems(WareKeyOpItem);
-
+            Log.i(TAG, "getKeyOpItem: "+MyApplication.getWareData().getKeyOpItems().size());
         } catch (JSONException e) {
             isFreshData = false;
-            System.out.println(e.toString());
+            System.out.println(this.getClass().getName() + "1444" + e.toString());
         }
     }
 
@@ -1739,7 +1748,7 @@ public class UDPServer implements Runnable {
                 MyApplication.getWareData().setChnOpItems(new ArrayList<WareChnOpItem>());
             }
         } catch (JSONException e) {
-            System.out.println(e + "");
+            System.out.println(this.getClass().getName() + "1748" + e);
         }
     }
 
@@ -1858,7 +1867,7 @@ public class UDPServer implements Runnable {
             MyApplication.getWareData().getSceneEvents();
         } catch (Exception e) {
             isFreshData = false;
-            System.out.println(e.toString());
+            System.out.println(this.getClass().getName() + "1867" + e.toString());
         }
     }
 
@@ -1904,7 +1913,7 @@ public class UDPServer implements Runnable {
             MyApplication.getWareData().getSceneEvents().add(event);
         } catch (JSONException e) {
             isFreshData = false;
-            System.out.println(e.toString());
+            System.out.println(this.getClass().getName() + "1913" + e.toString());
         }
 
     }
@@ -1941,7 +1950,7 @@ public class UDPServer implements Runnable {
             }
         } catch (Exception e) {
             isFreshData = false;
-            System.out.println(e.toString());
+            System.out.println(this.getClass().getName() + "1950" + e.toString());
         }
     }
 
@@ -2131,7 +2140,7 @@ public class UDPServer implements Runnable {
             }
             MyApplication.getWareData().setLights(lights);
         } catch (JSONException e) {
-            System.out.println(e.toString());
+            System.out.println(this.getClass().getName() + "2140" + e.toString());
         }
     }
 

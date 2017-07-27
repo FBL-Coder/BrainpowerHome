@@ -115,8 +115,8 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                 IsSelect = new boolean[MyApplication.getWareData().getResult_safety().getSec_info_rows().size()];
                 if (mBean.getRun_dev_item() == null
                         || mBean.getRun_dev_item().size() == 0) {
-                    mShiNeng.setImageResource(R.drawable.ic_launcher);
-                    mSyncSever.setImageResource(R.drawable.ic_launcher);
+                    mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+                    mSyncSever.setImageResource(R.drawable.checkbox1_unselect);
                     if (mBean.getTriggerSecs() == 0)
                         mGroupSetSafetys.setText("点击选择防区");
                     else {
@@ -134,10 +134,10 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     if (mBean.getValid() == 1) {
                         IsOpenShiNeng = true;
-                        mShiNeng.setImageResource(R.drawable.ic_launcher_round);
+                        mShiNeng.setImageResource(R.drawable.checkbox1_selected);
                     } else {
                         IsOpenShiNeng = false;
-                        mShiNeng.setImageResource(R.drawable.ic_launcher);
+                        mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
                     }
                     int weekSelect_10 = (int) mBean.getTriggerSecs();
                     String weekSelect_2 = reverseString(Integer.toBinaryString(weekSelect_10));
@@ -151,10 +151,10 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                     mGroupSetSafetys.setText(weekSelect_2_data);
 
                     if (mBean.getReportServ() == 1) {
-                        mSyncSever.setImageResource(R.drawable.ic_launcher_round);
+                        mSyncSever.setImageResource(R.drawable.checkbox1_selected);
                         IsyncSever = true;
                     } else {
-                        mSyncSever.setImageResource(R.drawable.ic_launcher);
+                        mSyncSever.setImageResource(R.drawable.checkbox1_unselect);
                         IsyncSever = false;
                     }
                 }
@@ -199,8 +199,8 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.GroupSet_ShiNeng: //使能开关
                 IsOpenShiNeng = !IsOpenShiNeng;
-                if (IsOpenShiNeng) mShiNeng.setImageResource(R.drawable.ic_launcher_round);
-                else mShiNeng.setImageResource(R.drawable.ic_launcher);
+                if (IsOpenShiNeng) mShiNeng.setImageResource(R.drawable.checkbox1_selected);
+                else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
                 break;
             case R.id.GroupSet_AddDevs: //添加设备
                 Intent intent = new Intent(GroupSetActivity.this, SetAddDevActivity.class);
@@ -219,8 +219,8 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.GroupSet_SyncSever://同步服务器
                 IsyncSever = !IsyncSever;
-                if (IsyncSever) mSyncSever.setImageResource(R.drawable.ic_launcher_round);
-                else mSyncSever.setImageResource(R.drawable.ic_launcher);
+                if (IsyncSever) mSyncSever.setImageResource(R.drawable.checkbox1_selected);
+                else mSyncSever.setImageResource(R.drawable.checkbox1_unselect);
                 break;
         }
     }

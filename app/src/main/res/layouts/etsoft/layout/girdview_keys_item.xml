@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_00000000"
-    android:clickable="true"
     android:gravity="center"
     android:padding="@dimen/dp_10"
     android:orientation="vertical">
@@ -17,8 +16,8 @@
 
     <cn.etsoft.smarthome.View.RotateBtn.RotateControButton
         android:id="@+id/RotateControButton"
-        android:layout_width="180dp"
-        android:layout_height="180dp" />
+        android:layout_width="150dp"
+        android:layout_height="150dp" />
 
     <TextView
         android:id="@+id/text_list_item"

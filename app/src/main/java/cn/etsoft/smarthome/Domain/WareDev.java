@@ -14,6 +14,7 @@ public class WareDev implements Serializable {
     private boolean isSelect;
     private int bOnOff;
     private String powChn;
+    private int cmd;
 
     public String getCanCpuId() {
         return canCpuId;
@@ -85,5 +86,13 @@ public class WareDev implements Serializable {
 
     public void setPowChn(int powChn) {
         this.powChn = powChn + "";
+    }
+
+    public int getCmd() {
+        return cmd;
+    }
+
+    public void setCmd(int cmd) {
+        this.cmd = cmd;
     }
 }

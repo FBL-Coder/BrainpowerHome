@@ -31,7 +31,6 @@ public class CircleMenuLayout extends RelativeLayout {
     private List<CircleDataEvent> Data_InnerCircleList;
     private ImageView btn_view;
     private RelativeLayout ll_btn_view;
-    private Animation mAnim_circle_item_clicked;
 
     public CircleMenuLayout(Context context) {
         super(context);
@@ -62,7 +61,6 @@ public class CircleMenuLayout extends RelativeLayout {
         initView(Radius_outer, Radius_inner);
         UIEvent_Circle_Outer();
         UIEvent_Circle_Inner();
-        initAnimations_One();
     }
 
     public void setInnerCircleMenuData(List<CircleDataEvent> Data_InnerCircleList) {
@@ -75,12 +73,6 @@ public class CircleMenuLayout extends RelativeLayout {
         UIEvent_Circle_Outer();
     }
 
-    /**
-     * 初始化所需动画
-     */
-    private void initAnimations_One() {
-        mAnim_circle_item_clicked = AnimationUtils.loadAnimation(context, R.anim.anim_circlelayout_item_click);
-    }
 
     /**
      * 内圆转盘事件
@@ -99,7 +91,6 @@ public class CircleMenuLayout extends RelativeLayout {
             final TextView t = new TextView(context);
             if (Data_InnerCircleList.get(i).isSelect) {
                 t.setTextColor(Color.BLUE);
-                l.setAnimation(mAnim_circle_item_clicked);
             } else {
                 t.setTextColor(Color.WHITE);
             }
@@ -141,7 +132,6 @@ public class CircleMenuLayout extends RelativeLayout {
             t.setTextColor(Color.WHITE);
             if (Data_OuterCircleList.get(i).isSelect) {
                 t.setTextColor(Color.BLUE);
-                l.setAnimation(mAnim_circle_item_clicked);
             } else {
                 t.setTextColor(Color.WHITE);
             }
@@ -178,7 +168,7 @@ public class CircleMenuLayout extends RelativeLayout {
         circle_1.setMaxWidth(dip2px(context, Radius_outer + 50));
         circle_2.setMaxWidth(dip2px(context, Radius_inner + 50));
         circle_1.setmTranslationX(-(dip2px(context, 2 * Radius_outer / 3)));
-        circle_2.setmTranslationX(-(dip2px(context, 2 * Radius_inner / 3)));
+        circle_2.setmTranslationX(-(dip2px(context, 4 * Radius_inner / 5)));
         circle_1.setCanScroll(true);
         circle_2.setCanScroll(true);
         circle_1.setRadius(dip2px(context, Radius_outer));

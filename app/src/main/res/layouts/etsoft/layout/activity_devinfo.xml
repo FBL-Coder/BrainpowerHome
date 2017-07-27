@@ -2,25 +2,46 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
 
     <GridView
         android:id="@+id/DevInfo_Info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/dp_250"
-        android:background="@color/Myblue"
+        android:layout_marginTop="@dimen/dp_50"
+        android:background="@null"
         android:numColumns="2" />
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/color_302f35"
+        android:paddingLeft="@dimen/dp_150">
+
+        <TextView
+            android:id="@+id/Dev_Info_AddDevs"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:gravity="center"
+            android:text="添加新设备"
+            android:textSize="@dimen/sp_22"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+    <RelativeLayout
         android:layout_width="@dimen/dp_250"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/DevInfo_CircleMenu"
             android:layout_width="@dimen/dp_250"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/circlebg" />
     </RelativeLayout>
-
 
 </RelativeLayout>

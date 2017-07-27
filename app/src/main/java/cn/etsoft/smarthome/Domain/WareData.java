@@ -44,7 +44,7 @@ public class WareData implements Serializable {
 
     public ChnOpItem_scene getChnOpItem_scene() {
         if (chnOpItem_scene == null)
-            chnOpItem_scene =  new ChnOpItem_scene();
+            chnOpItem_scene = new ChnOpItem_scene();
         return chnOpItem_scene;
     }
 
@@ -137,7 +137,7 @@ public class WareData implements Serializable {
 
     public List<RcuInfo> getRcuInfos() {
         if (rcuInfos == null)
-            rcuInfos =  new ArrayList<>();
+            rcuInfos = new ArrayList<>();
         return rcuInfos;
     }
 
@@ -300,6 +300,8 @@ public class WareData implements Serializable {
     }
 
     public List<WareChnOpItem> getChnOpItems() {
+        if (chnOpItems == null)
+            chnOpItems = new ArrayList<>();
         return chnOpItems;
     }
 
@@ -308,6 +310,8 @@ public class WareData implements Serializable {
     }
 
     public List<WareKeyOpItem> getKeyOpItems() {
+        if (keyOpItems == null)
+            keyOpItems = new ArrayList<>();
         return keyOpItems;
     }
 

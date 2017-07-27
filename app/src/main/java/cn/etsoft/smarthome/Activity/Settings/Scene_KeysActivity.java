@@ -3,6 +3,8 @@ package cn.etsoft.smarthome.Activity.Settings;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
@@ -13,6 +15,7 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.GridView.Scene_KeysSet_KeysAdapter;
 import cn.etsoft.smarthome.Adapter.RecyclerView.Scene_KeysSet_BoardAdapter;
+import cn.etsoft.smarthome.Domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.Domain.WareBoardKeyInput;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.MyApplication;
@@ -33,7 +36,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
     private RecyclerView mSceneKeys_Boards;
-    private SlideGridView mSceneKeys_Keys;
+    private GridView mSceneKeys_Keys;
     private TextView mSceneKeys_TestBtn, mSceneKeys_SaveBtn;
     //设备适配器
     private Scene_KeysSet_BoardAdapter mBoardAdapter;
@@ -46,7 +49,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
     //情景数据
     private List<WareSceneEvent> mSceneS;
     //情景位置
-    private int position_keyinput = 0, Scene_ID = 0;
+    private int position_keyinput = 0, Scene_ID = -1;
 
     @Override
     public void initView() {
@@ -56,7 +59,6 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 MyApplication.mApplication.dismissLoadDialog();
-
                 if (datType == 58 && MyApplication.getWareData().getChnOpItem_scene().getSubType1() == 1) {
                     WareDataHliper.initCopyWareData().startCopyScene_KeysData();
                     IsNoData = false;
@@ -104,8 +106,30 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
         Data_OuterCircleList = Scene_KeysSetHelper.initSceneCircleOUterData(false, 0);
         layout.Init(200, 0);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
-
         initEvent();
+        mSceneKeys_Keys.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                boolean isCantain = false;
+                for (int i = 0; i < WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size(); i++) {
+                    ChnOpItem_scene.Key2sceneItemBean itemBean = WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().get(i);
+                    if (itemBean.getEventId() == Scene_ID
+                            && itemBean.getKeyUId().equals(wareBoardKeyInputs.get(position_keyinput).getCanCpuID())
+                            && itemBean.getKeyIndex() == position) {
+                        WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().remove(i);
+                        isCantain = true;
+                    }
+                }
+                if (!isCantain) {
+                    ChnOpItem_scene.Key2sceneItemBean itemBean = new ChnOpItem_scene.Key2sceneItemBean();
+                    itemBean.setEventId(Scene_ID);
+                    itemBean.setKeyUId(wareBoardKeyInputs.get(position_keyinput).getCanCpuID());
+                    itemBean.setKeyIndex(position);
+                    WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().add(itemBean);
+                }
+                mKeysAdapter.notifyDataSetChanged(Scene_ID, position_keyinput, Scene_KeysActivity.this, false);
+            }
+        });
     }
 
     private void initKeyAdapter() {
@@ -124,18 +148,19 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
             ToastUtil.showText("数据未加载成功，不可操作！");
             return;
         }
+        if (Scene_ID == -1) {
+            ToastUtil.showText("请选择情景");
+            return;
+        }
         switch (v.getId()) {
             case R.id.Scene_KeysSet_Test_Btn: // 测试
                 break;
             case R.id.Scene_KeysSet_Save_Btn: // 保存
-                Gson gson = new Gson();
-                WareDataHliper.initCopyWareData().getScenekeysResult().setDatType(59);
-                WareDataHliper.initCopyWareData().getScenekeysResult().setSubType1(0);
-                WareDataHliper.initCopyWareData().getScenekeysResult().setSubType2(0);
-                WareDataHliper.initCopyWareData().getScenekeysResult().setItemCnt(WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size());
-                gson.toJson(WareDataHliper.initCopyWareData().getScenekeysResult());
-//              Log.i("WareDataHliper", "onClick: " + gson.toJson(WareDataHliper.initCopyWareData().getScenekeysResult()));
-                MyApplication.mApplication.getUdpServer().send(gson.toJson(WareDataHliper.initCopyWareData().getScenekeysResult()));
+                if (WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size() > 12) {
+                    ToastUtil.showText("最多12个关联事件，目前已有" + WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size() + "个;");
+                    return;
+                }
+                Scene_KeysSetHelper.Save(this);
                 break;
         }
     }

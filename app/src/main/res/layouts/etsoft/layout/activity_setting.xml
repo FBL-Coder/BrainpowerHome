@@ -300,7 +300,7 @@
                     android:layout_height="@dimen/dp_0"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="按键-情景"
+                    android:text="情景-按键"
                     android:textColor="@color/white"
                     android:textSize="@dimen/dp_30" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>

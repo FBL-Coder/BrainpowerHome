@@ -137,7 +137,7 @@
                         android:layout_width="@dimen/dp_40"
                         android:layout_height="@dimen/dp_40"
                         android:layout_alignParentRight="true"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@drawable/input_edit_dev" />
                 </RelativeLayout>
             </LinearLayout>
 

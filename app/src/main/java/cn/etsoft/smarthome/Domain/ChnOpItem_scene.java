@@ -15,7 +15,10 @@ public class ChnOpItem_scene implements Serializable {
      * datType : 58
      * subType1 : 1
      * subType2 : 0
-     * key2scene_item : [{"keyUId":"48ff6c065087485725170287","keyIndex":4,"eventId":3,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":5,"eventId":3,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":0,"eventId":3,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":1,"eventId":3,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":2,"eventId":3,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":3,"eventId":3,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":0,"eventId":0,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":1,"eventId":1,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":0,"eventId":2,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":2,"eventId":2,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":4,"eventId":2,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":7,"eventId":2,"valid":1,"rev3":0}]
+     * key2scene_item : [
+     * {"keyUId":"48ff6c065087485725170287","keyIndex":4,"eventId":3,"valid":1,"rev3":0},
+     * {"keyUId":"48ff6c065087485725170287","keyIndex":5,"eventId":3,"valid":1,"rev3":0},
+     * {"keyUId":"48ff6c065087485725170287","keyIndex":0,"eventId":3,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":1,"eventId":3,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":2,"eventId":3,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":3,"eventId":3,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":0,"eventId":0,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":1,"eventId":1,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":0,"eventId":2,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":2,"eventId":2,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":4,"eventId":2,"valid":1,"rev3":0},{"keyUId":"48ff6c065087485725170287","keyIndex":7,"eventId":2,"valid":1,"rev3":0}]
      * itemCnt : 12
      */
 
@@ -76,7 +79,7 @@ public class ChnOpItem_scene implements Serializable {
         this.key2scene_item = key2scene_item;
     }
 
-    public static class Key2sceneItemBean {
+    public static class Key2sceneItemBean implements Serializable {
         /**
          * keyUId : 48ff6c065087485725170287
          * keyIndex : 4

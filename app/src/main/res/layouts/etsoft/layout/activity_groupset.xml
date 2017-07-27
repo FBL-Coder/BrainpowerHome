@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,8 +15,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/color1FF1A2"
-            android:paddingLeft="@dimen/dp_150">
+            android:background="@color/color_302f35"
+            android:paddingLeft="@dimen/dp_120">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -26,23 +27,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="名称："
-                    android:textColor="@color/red"
+                    android:textColor="@color/gray_pressed"
                     android:textSize="@dimen/sp_16" />
 
                 <EditText
                     android:id="@+id/GroupSet_Name"
-                    android:layout_width="@dimen/dp_100"
+                    android:layout_width="@dimen/dp_120"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:lines="1"
                     android:hint="无"
-                    android:textColor="@color/red"
+                    android:textColorHint="@color/white"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="使能"
-                    android:textColor="@color/red"
+                    android:textColor="@color/gray_pressed"
                     android:textSize="@dimen/sp_16" />
 
                 <ImageView
@@ -50,13 +53,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp_10"
-                    android:src="@mipmap/ic_launcher_round" />
+                    android:src="@drawable/checkbox1_unselect" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="同步服务器"
-                    android:textColor="@color/red"
+                    android:textColor="@color/gray_pressed"
                     android:textSize="@dimen/sp_16" />
 
                 <ImageView
@@ -64,23 +67,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp_10"
-                    android:src="@mipmap/ic_launcher_round" />
+                    android:src="@drawable/checkbox1_unselect" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="防区集: "
-                    android:textColor="@color/red"
+                    android:textColor="@color/gray_pressed"
                     android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/GroupSet_Safetys"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/red"
                     android:gravity="center"
                     android:minWidth="@dimen/dp_120"
+                    android:maxWidth="@dimen/dp_180"
+                    android:lines="1"
                     android:text="点击选择防区"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_16" />
@@ -90,10 +94,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dp_20"
-                    android:background="@color/red"
                     android:gravity="center"
                     android:minWidth="@dimen/dp_80"
                     android:text="添加设备"
+                    android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_18" />
 
@@ -102,8 +106,9 @@
                     android:layout_width="@dimen/dp_70"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dp_10"
-                    android:background="@color/red"
                     android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
                     android:text="保存"
                     android:textSize="@dimen/sp_18" />
             </LinearLayout>
@@ -114,7 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/dp_250"
-            android:background="@color/Myblue"
+            android:background="@null"
             android:numColumns="2" />
     </LinearLayout>
 
@@ -125,6 +130,7 @@
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/GroupSet_CircleMenu"
             android:layout_width="@dimen/dp_250"
+            android:background="@drawable/circlebg"
             android:layout_height="match_parent" />
     </FrameLayout>
 </RelativeLayout>

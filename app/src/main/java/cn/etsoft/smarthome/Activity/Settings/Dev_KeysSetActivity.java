@@ -51,7 +51,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
     //按键适配器
     private Dev_Keys_KeysAdapter devsAdapter;
     private PopupWindow popupWindow;
-    private int DevType = 0;
+    private int DevType = -1;
     private String RoomName = "";
     private boolean IsNoData = true;
     private boolean OuterCircleClick = false;
@@ -78,7 +78,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                 if (datType == 14) {
                     IsNoData = false;
                     Dev_KeysHandler handler = new Dev_KeysHandler(Dev_KeysSetActivity.this);
-                    Dev_KeysSetHelper.InitKeyData(position_keyinput,handler, mRoomDevs, devPosition);
+                    Dev_KeysSetHelper.InitKeyData(position_keyinput, handler, mRoomDevs, devPosition);
                 }
                 if (datType == 15 && MyApplication.getWareData().getResult() != null
                         && MyApplication.getWareData().getResult().getResult() == 1) {
@@ -135,6 +135,10 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
             ToastUtil.showText("数据未加载成功，不可操作！");
             return;
         }
+        if (mRoomDevs == null || mRoomDevs.size() == 0 || DevType == -1) {
+            ToastUtil.showText("请选择房间和设备类型");
+            return;
+        }
         switch (v.getId()) {
             case R.id.Dev_KeysSet_KeyBoards: //按键板
                 initRadioPopupWindow(v, keyInputnames);
@@ -143,6 +147,12 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
             case R.id.Dev_KeysSet_Test_Btn: // 测试
                 break;
             case R.id.Dev_KeysSet_Save_Btn: // 保存
+                List<WareDev> RecyclerViewDev = new ArrayList<>();
+                for (int i = 0; i < mRoomDevs.size(); i++) {
+                    if (mRoomDevs.get(i).getType() == DevType)
+                        RecyclerViewDev.add(mRoomDevs.get(i));
+                }
+                Dev_KeysSetHelper.Save(RecyclerViewDev.get(devPosition));
                 break;
         }
     }
@@ -257,9 +267,9 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                 popupWindow.dismiss();
                 position_keyinput = position;
                 if (devsAdapter == null)
-                    devsAdapter = new Dev_Keys_KeysAdapter(Dev_KeysSetHelper.getListData_all(), Dev_KeysSetActivity.this, position_keyinput, false);
+                    devsAdapter = new Dev_Keys_KeysAdapter(DevType, Dev_KeysSetHelper.getListData_all(), Dev_KeysSetActivity.this, position_keyinput, false);
                 else
-                    devsAdapter.notifyDataSetChanged(Dev_KeysSetHelper.getListData_all(), position_keyinput, false);
+                    devsAdapter.notifyDataSetChanged(DevType, Dev_KeysSetHelper.getListData_all(), position_keyinput, false);
                 mDevKeys_Keys.setAdapter(devsAdapter);
             }
         });
@@ -291,10 +301,10 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (weakReference.get().devsAdapter == null)
-                weakReference.get().devsAdapter = new Dev_Keys_KeysAdapter(Dev_KeysSetHelper.getListData_all(),
+                weakReference.get().devsAdapter = new Dev_Keys_KeysAdapter(weakReference.get().DevType, Dev_KeysSetHelper.getListData_all(),
                         weakReference.get(), weakReference.get().position_keyinput, false);
             else
-                weakReference.get().devsAdapter.notifyDataSetChanged(Dev_KeysSetHelper.getListData_all(), weakReference.get().position_keyinput, false);
+                weakReference.get().devsAdapter.notifyDataSetChanged(weakReference.get().DevType, Dev_KeysSetHelper.getListData_all(), weakReference.get().position_keyinput, false);
             weakReference.get().mDevKeys_Keys.setAdapter(weakReference.get().devsAdapter);
         }
     }

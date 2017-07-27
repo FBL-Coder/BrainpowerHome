@@ -19,6 +19,7 @@ import cn.etsoft.smarthome.Domain.PrintCmd;
 import cn.etsoft.smarthome.Domain.Save_Quipment;
 import cn.etsoft.smarthome.Domain.UpBoardKeyData;
 import cn.etsoft.smarthome.Domain.WareChnOpItem;
+import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.Domain.WareDev;
 import cn.etsoft.smarthome.Domain.WareKeyOpItem;
 import cn.etsoft.smarthome.MyApplication;
@@ -54,12 +55,13 @@ public class Key_DevsSetHelper {
 
     public static List<WareKeyOpItem> getInput_key_data() {
         if (input_key_data == null)
-            return new ArrayList<>();
+            input_key_data = new ArrayList<>();
         return input_key_data;
     }
 
     public static void setInput_key_data(List<WareKeyOpItem> input_key_data) {
-        Key_DevsSetHelper.input_key_data = input_key_data;
+        Key_DevsSetHelper.input_key_data = new ArrayList<>();
+        Key_DevsSetHelper.input_key_data.addAll(input_key_data);
     }
 
     /**
@@ -190,7 +192,7 @@ public class Key_DevsSetHelper {
     }
 
 
-    public static void Save(final Activity activity, final String cancupid, final int position_key, WareDev dev) {
+    public static void Save(final Activity activity, final String cancupid, final int position_key, List<WareDev> devs) {
         if (MyApplication.getWareData().getKeyInputs().size() == 0) {
             ToastUtil.showText("没有输入板信息，不能保存");
             return;
@@ -210,9 +212,12 @@ public class Key_DevsSetHelper {
                 dialog.dismiss();
                 MyApplication.mApplication.showLoadDialog(activity);
                 try {
-                    List<WareKeyOpItem> keyOpItems = getInput_key_data();
-                    if (keyOpItems.size() == 0)
-                        return;
+                    List<WareKeyOpItem> keyOpItems = Key_DevsSetHelper.input_key_data;
+
+                    if (keyOpItems.size() == 0) {
+
+                    }
+
                     Save_Quipment save_quipment = new Save_Quipment();
                     List<Save_Quipment.key_Opitem_Rows> list_kor = new ArrayList<>();
                     for (int i = 0; i < keyOpItems.size(); i++) {
@@ -240,6 +245,8 @@ public class Key_DevsSetHelper {
                 }
             }
         });
-        builder.create().show();
+        builder.create().
+
+                show();
     }
 }

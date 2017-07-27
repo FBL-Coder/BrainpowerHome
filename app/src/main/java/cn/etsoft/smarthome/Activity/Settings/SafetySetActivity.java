@@ -133,7 +133,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
             for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
                 mSafety_Scene_Name.add(MyApplication.getWareData().getSceneEvents().get(i).getSceneName());
             }
-
+        mSafety_Scene_Name.add("无");
         Data_OuterCircleList = SafetySetHelper.initSceneCircleOUterData(IsCanClick, CirclePosition);
         layout.Init(200, 0);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
@@ -154,15 +154,15 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
 
                 //某一安防里的设备为空或长度为0时
                 if (mBean.getRun_dev_item().size() == 0) {
-                    mShiNeng.setImageResource(R.drawable.ic_launcher);
+                    mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
                     IsShiNeng = false;
                     mSafetyScene.setText("点击选择关联情景");
                     mSafetyType.setText("点击选择安防状态");
                 } else {
                     if (mBean.getValid() == 1) {
-                        mShiNeng.setImageResource(R.drawable.ic_launcher_round);
+                        mShiNeng.setImageResource(R.drawable.checkbox1_selected);
                         IsShiNeng = true;
-                    } else mShiNeng.setImageResource(R.drawable.ic_launcher);
+                    } else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
 
                     //布防类型是"撤防状态"
                     if (mBean.getSecType() == 255)
@@ -228,8 +228,8 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.SafetySet_ShiNeng: //使能开关
                 IsShiNeng = !IsShiNeng;
-                if (IsShiNeng) mShiNeng.setImageResource(R.drawable.ic_launcher_round);
-                else mShiNeng.setImageResource(R.drawable.ic_launcher);
+                if (IsShiNeng) mShiNeng.setImageResource(R.drawable.checkbox1_selected);
+                else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
                 break;
             case R.id.SafetySet_DuiMa: //对码
                 SafetySetHelper.safetySetDuiMa(this, mSafetyName, IsShiNeng, mSafetyScene, mSafetyNow,

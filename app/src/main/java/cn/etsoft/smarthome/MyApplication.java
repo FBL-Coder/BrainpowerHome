@@ -262,13 +262,13 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             public void run() {
                 try {
                     Thread.sleep(8000);
-                    if (progressDialog.isShowing()) {
+                    if (progressDialog != null && progressDialog.isShowing()) {
                         Message message = handler.obtainMessage();
                         message.what = DIALOG_DISMISS;
                         handler.sendMessage(message);
                     }
                 } catch (Exception e) {
-                    System.out.println(e + "");
+                    System.out.println(this.getClass().getName() + "行271" + e + "");
                 }
             }
         }).start();

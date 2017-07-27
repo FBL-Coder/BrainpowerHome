@@ -38,6 +38,7 @@ import static cn.etsoft.smarthome.UiHelper.TimerSetHelper.reverseString;
 
 public class AddDevActivity extends BaseActivity implements View.OnClickListener {
 
+    //969426423464226
     private static final String TAG = "AddDevActivity";
     private int BOARD = 0, ROOM = 1, TYPE = 2;
     private EditText mAddDevName, mAddDevEditRoom;

@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +26,7 @@
             android:layout_weight="5"
             android:gravity="center"
             android:text="床头灯"
-            android:textColor="@color/color_000"
+            android:textColor="@color/white"
             android:textSize="@dimen/dp_20" />
 
         <ImageView
@@ -58,8 +59,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="设备所属输出饭 "
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
 
             <TextView
                 android:id="@+id/Dev_Info_OutBoard"
@@ -69,8 +70,8 @@
                 android:gravity="center"
                 android:padding="@dimen/dp_10"
                 android:text="12通道输出"
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
         </LinearLayout>
 
         <LinearLayout
@@ -85,8 +86,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="设备所属房间 "
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
 
             <TextView
                 android:id="@+id/Dev_Info_Room"
@@ -96,8 +97,8 @@
                 android:gravity="center"
                 android:padding="@dimen/dp_10"
                 android:text="卫生间 "
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
         </LinearLayout>
 
         <LinearLayout
@@ -112,8 +113,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="设备类型 "
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
 
             <TextView
                 android:id="@+id/Dev_Info_Type"
@@ -123,8 +124,8 @@
                 android:gravity="center"
                 android:padding="@dimen/dp_10"
                 android:text="灯光 "
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
         </LinearLayout>
 
         <LinearLayout
@@ -136,11 +137,11 @@
             <TextView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
                 android:gravity="center"
                 android:text="设备通道 "
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
 
             <TextView
                 android:id="@+id/Dev_Info_Way"
@@ -150,8 +151,8 @@
                 android:gravity="center"
                 android:padding="@dimen/dp_10"
                 android:text="5 "
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
         </LinearLayout>
 
     </LinearLayout>
@@ -178,8 +179,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="设备所属房间 "
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
 
             <RelativeLayout
                 android:layout_width="@dimen/dp_0"
@@ -197,16 +198,16 @@
                     android:gravity="center"
                     android:padding="@dimen/dp_10"
                     android:text="卫生间 "
-                    android:textColor="@color/color_000"
-                    android:textSize="@dimen/sp_20" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_18" />
 
                 <EditText
                     android:id="@+id/Dev_Info_Edit_EditRoom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/dp_40"
-                    android:textColor="@color/color_000"
-                    android:textSize="@dimen/sp_20"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_18"
                     android:visibility="gone" />
 
                 <ImageView
@@ -231,8 +232,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="设备名称 "
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
 
             <EditText
                 android:id="@+id/Dev_Info_Edit_Name"
@@ -240,9 +241,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="布局数据"
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
         </LinearLayout>
 
 
@@ -258,8 +258,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="设备类型 "
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
 
             <TextView
                 android:id="@+id/Dev_Info_Edit_Type"
@@ -269,8 +269,8 @@
                 android:gravity="center"
                 android:padding="@dimen/dp_10"
                 android:text="灯光 "
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
         </LinearLayout>
 
         <LinearLayout
@@ -282,11 +282,11 @@
             <TextView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
                 android:gravity="center"
                 android:text="设备通道 "
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
 
             <TextView
                 android:id="@+id/Dev_Info_Edit_Way"
@@ -296,8 +296,8 @@
                 android:gravity="center"
                 android:padding="@dimen/dp_10"
                 android:text="5 "
-                android:textColor="@color/color_000"
-                android:textSize="@dimen/sp_20" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
         </LinearLayout>
 
     </LinearLayout>

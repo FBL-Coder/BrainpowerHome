@@ -33,7 +33,7 @@ import cn.etsoft.smarthome.View.PopupWindow.MultiChoicePopWindow;
 public class SafetySetHelper {
 
 
-    public static List<CircleDataEvent> initSceneCircleOUterData(boolean isClick,int position) {
+    public static List<CircleDataEvent> initSceneCircleOUterData(boolean isClick, int position) {
 
         if (WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows()
                 .size() == 0)
@@ -98,10 +98,13 @@ public class SafetySetHelper {
             }
 
             //关联情景
-            for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
-                if (safety_scene.getText().toString().equals(MyApplication.getWareData().getSceneEvents().get(i).getSceneName()))
-                    bean.setSceneId(i);
-            }
+            if ("无".equals(safety_scene.getText().toString()) || "点击选择关联情景".equals(safety_scene)) {
+                bean.setSceneId(255);
+            } else
+                for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size() + 1; i++) {
+                    if (safety_scene.getText().toString().equals(MyApplication.getWareData().getSceneEvents().get(i).getSceneName()))
+                        bean.setSceneId(i);
+                }
             timerEvent_rows.add(bean);
             safetyResult.setDatType(32);
             safetyResult.setDevUnitID(GlobalVars.getDevid());

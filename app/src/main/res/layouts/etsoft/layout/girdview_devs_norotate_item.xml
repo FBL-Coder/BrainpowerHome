@@ -14,10 +14,6 @@
         android:layout_height="@dimen/dp_0"
         android:layout_weight="3" />
 
-    <cn.etsoft.smarthome.View.RotateBtn.RotateControButton
-        android:id="@+id/RotateControButton"
-        android:layout_width="150dp"
-        android:layout_height="150dp" />
 
     <TextView
         android:id="@+id/text_list_item"

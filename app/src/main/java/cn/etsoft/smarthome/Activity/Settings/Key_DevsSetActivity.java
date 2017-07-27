@@ -48,7 +48,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
     //按键适配器
     private Key_Devs_KeysAdapter KeysAdapter;
     private PopupWindow popupWindow;
-    private int DevType = 0;
+    private int DevType = -1;
     private String RoomName = "";
     private boolean IsNoData = true;
     private boolean OuterCircleClick = false;
@@ -169,6 +169,10 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
             ToastUtil.showText("数据未加载成功，不可操作！");
             return;
         }
+        if (mRoomDevs == null || mRoomDevs.size() == 0 || DevType == -1) {
+            ToastUtil.showText("请选择房间和设备类型");
+            return;
+        }
         switch (v.getId()) {
             case R.id.Key_DevsSet_KeyBoards: //按键板
                 initRadioPopupWindow(v, InputKey_names);
@@ -177,6 +181,12 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
             case R.id.Key_DevsSet_Test_Btn: // 测试
                 break;
             case R.id.Key_DevsSet_Save_Btn: // 保存
+                List<WareDev> devs = new ArrayList<>();
+                for (int i = 0; i < mRoomDevs.size(); i++) {
+                    if (mRoomDevs.get(i).getType() == DevType)
+                        devs.add(mRoomDevs.get(i));
+                }
+                Key_DevsSetHelper.Save(this, CanCupID, position_keyinput, devs);
                 break;
         }
     }
@@ -200,10 +210,10 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                             devs.add(mRoomDevs.get(i));
                     }
                     if (mKeyDevsKeysAdapter == null)
-                        mKeyDevsKeysAdapter = new Key_DevsSetAdapter(position_keyinput, KeyPosition,
+                        mKeyDevsKeysAdapter = new Key_DevsSetAdapter(DevType, position_keyinput, KeyPosition,
                                 Key_DevsSetActivity.this, devs, false);
                     else
-                        mKeyDevsKeysAdapter.notifyDataSetChanged(position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
+                        mKeyDevsKeysAdapter.notifyDataSetChanged(DevType, position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
                     mKeyDevs_Devs.setAdapter(mKeyDevsKeysAdapter);
                 }
             }
@@ -227,9 +237,9 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                         devs.add(mRoomDevs.get(i));
                 }
                 if (mKeyDevsKeysAdapter == null)
-                    mKeyDevsKeysAdapter = new Key_DevsSetAdapter(position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
+                    mKeyDevsKeysAdapter = new Key_DevsSetAdapter(DevType, position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
                 else
-                    mKeyDevsKeysAdapter.notifyDataSetChanged(position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
+                    mKeyDevsKeysAdapter.notifyDataSetChanged(DevType, position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
                 mKeyDevs_Devs.setAdapter(mKeyDevsKeysAdapter);
             }
         });

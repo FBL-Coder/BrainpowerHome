@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class WareBoardKeyInput implements Serializable {
     /**
-     *
+     *输入板实体
      */
     private static final long serialVersionUID = 8372972355485111907L;
     private String canCpuID; //12

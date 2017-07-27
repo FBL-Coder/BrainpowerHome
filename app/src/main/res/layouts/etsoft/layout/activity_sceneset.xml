@@ -2,12 +2,13 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70"
-        android:background="@color/color_FF99CC"/>
+        android:background="@color/color_302f35"/>
 
     <RelativeLayout
         android:id="@+id/SceneSet_Info"
@@ -15,7 +16,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/dp_250"
         android:layout_marginTop="@dimen/dp_70"
-        android:background="@color/Myblue" />
+        android:background="@null" />
 
     <RelativeLayout
         android:layout_width="@dimen/dp_250"
@@ -24,6 +25,7 @@
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/SceneSet_CircleMenu"
             android:layout_width="@dimen/dp_250"
+            android:background="@drawable/circlebg"
             android:layout_height="match_parent" />
     </RelativeLayout>
 
@@ -31,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70"
         android:layout_marginLeft="@dimen/dp_150"
-        android:background="@color/color_FF99CC"
+        android:background="@null"
         android:gravity="right"
         android:orientation="horizontal">
 
@@ -40,7 +42,7 @@
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/red"
+            android:background="@null"
             android:scrollbars="none" />
 
         <TextView
@@ -49,7 +51,8 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="新增"
-            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textColor="@color/white"
             android:textSize="@dimen/dp_22" />
 
         <TextView
@@ -58,7 +61,8 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="测试"
-            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textColor="@color/white"
             android:textSize="@dimen/dp_22" />
 
         <TextView
@@ -66,7 +70,9 @@
             android:layout_width="@dimen/dp_70"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:textColor="@color/white"
             android:text="保存"
+            android:textStyle="bold"
             android:textSize="@dimen/dp_22" />
     </LinearLayout>
 </RelativeLayout>

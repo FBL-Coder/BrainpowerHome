@@ -128,7 +128,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
                 mConditionName.setText("");
                 mConditionName.setHint(mBean.getEventName());
                 if (mBean == null || mBean.getRun_dev_item().size() == 0) {
-                    mShiNeng.setImageResource(R.drawable.ic_launcher);
+                    mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
                     mConditionChuFaZhi.setHint("输入触发值");
                     mConditionWay.setText("选择触发方式");
                     mConditionType.setText("选择触发类别");
@@ -136,8 +136,8 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
                     mConditionName.setText(mBean.getEventName());
                     mConditionChuFaZhi.setText(mBean.getValTh() + "");
                     if (mBean.getValid() == 1)
-                        mShiNeng.setImageResource(R.drawable.ic_launcher_round);
-                    else mShiNeng.setImageResource(R.drawable.ic_launcher);
+                        mShiNeng.setImageResource(R.drawable.checkbox1_selected);
+                    else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
                     mConditionWay.setText(Event_Way.get(mBean.getThType()));
                     mConditionType.setText(Event_type.get(mBean.getEnvType()));
                 }
@@ -239,8 +239,8 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.ConditionSet_ShiNeng: //使能开关
                 IsOpenShiNeng = !IsOpenShiNeng;
-                if (IsOpenShiNeng) mShiNeng.setImageResource(R.drawable.ic_launcher_round);
-                else mShiNeng.setImageResource(R.drawable.ic_launcher);
+                if (IsOpenShiNeng) mShiNeng.setImageResource(R.drawable.checkbox1_selected);
+                else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
                 break;
             case R.id.ConditionSet_Type: //触发器类型
                 initRadioPopupWindow(mConditionType, Event_type);

@@ -40,29 +40,59 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
     private List<PrintCmd> listData;
     private int position_keyinput;
     private List<String> texts;
+    private int DevType = 0;
+    private boolean isShowSelect;
 
-    public Dev_Keys_KeysAdapter(List<Out_List_printcmd> listData_all, Context context, int position_keyinput, boolean isShowSelect) {
+    public Dev_Keys_KeysAdapter(int devType, List<Out_List_printcmd> listData_all, Context context, int position_keyinput, boolean isShowSelect) {
         this.listData_all = listData_all;
         this.position_keyinput = position_keyinput;
+        this.isShowSelect = isShowSelect;
+        DevType = devType;
         mContext = context;
-        texts = new ArrayList<>();
-        texts.add("关闭");
-        texts.add("半关");
-        texts.add("中间");
-        texts.add("半开");
-        texts.add("打开");
         IsShowSelect(isShowSelect);
     }
 
-
-    public void notifyDataSetChanged(List<Out_List_printcmd> listData_all, int position_keyinput, boolean mIsShowSelect) {
+    public void notifyDataSetChanged(int devType, List<Out_List_printcmd> listData_all, int position_keyinput, boolean mIsShowSelect) {
         this.listData_all = listData_all;
+        DevType = devType;
         this.position_keyinput = position_keyinput;
+        this.isShowSelect = mIsShowSelect;
         super.notifyDataSetChanged();
         IsShowSelect(mIsShowSelect);
     }
 
+    @Override
+    public void notifyDataSetChanged() {
+        IsShowSelect(isShowSelect);
+        super.notifyDataSetChanged();
+    }
+
     public void IsShowSelect(boolean IsShowSelect) {
+
+        if (DevType == 0) {
+            texts = new ArrayList<>();
+            texts.add("未设置");
+            texts.add("开关");
+            texts.add("模式");
+            texts.add("风速");
+            texts.add("温度+");
+            texts.add("温度-");
+        } else if (DevType == 3) {
+            texts = new ArrayList<>();
+            texts.add("未设置");
+            texts.add("打开");
+            texts.add("关闭");
+            texts.add("开关");
+            texts.add("变暗");
+            texts.add("变亮");
+        } else if (DevType == 4) {
+            texts = new ArrayList<>();
+            texts.add("未设置");
+            texts.add("打开");
+            texts.add("关闭");
+            texts.add("开关停");
+            texts.add("停止");
+        }
         if (IsShowSelect) {
             listData = new ArrayList<>();
             for (int i = 0; i < listData_all.size(); i++) {
@@ -112,22 +142,46 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
 
         if (listData.get(position).isSelect()) {
             viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
+            viewHoler.rotateControButton.setCanTouch(true);
         } else {
             viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+            viewHoler.rotateControButton.setCanTouch(false);
         }
 
         //TODO 点击按钮选择关联设备并且设置相关命令
 
-        viewHoler.rotateControButton.setTemp(0, 4, 0, texts);
-        viewHoler.mName.setText(listData.get(position).getKeyname());
+        if (DevType == 0) {
+            viewHoler.rotateControButton.setTitle("开关", "按键命令", "温度-");
+            viewHoler.rotateControButton.setTemp(0, 5, listData.get(position).getKey_cmd(), texts);
+        } else if (DevType == 3) {
+            viewHoler.rotateControButton.setTitle("打开", "按键命令", "变亮");
+            viewHoler.rotateControButton.setTemp(0, 5, listData.get(position).getKey_cmd(), texts);
+        } else if (DevType == 4) {
+            viewHoler.rotateControButton.setTitle("打开", "按键命令", "停止");
+            viewHoler.rotateControButton.setTemp(0, 4, listData.get(position).getKey_cmd(), texts);
+        }
 
+        viewHoler.mName.setText(listData.get(position).getKeyname());
         viewHoler.rotateControButton.setOnTempChangeListener(new RotateControButton.OnTempChangeListener() {
             @Override
             public void change(int temp) {
-                ToastUtil.showText("点击返回" + texts.get(temp));
+                if (listData.get(position).isSelect()) {
+                    listData.get(position).setKey_cmd(temp);
+                }
             }
         });
-
+        viewHoler.mIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listData.get(position).isSelect()) {
+                    listData.get(position).setSelect(false);
+                    listData.get(position).setKey_cmd(0);
+                } else {
+                    listData.get(position).setSelect(true);
+                }
+                notifyDataSetChanged();
+            }
+        });
         return convertView;
     }
 

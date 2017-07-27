@@ -50,7 +50,7 @@ public class RotateControButton extends View {
     // 值含义显示画笔
     private Paint valuePaint;
     // 文本提示
-    private String title = "按键命令设置";
+    private String title_min = "按键命令设置";
     // 当前index
     private int valueNow = 0;
     // 最低值
@@ -81,6 +81,8 @@ public class RotateControButton extends View {
 
     private List<String> valueString;
 
+    private String Title_Left = "", Title_right = "";
+
     public RotateControButton(Context context) {
         this(context, null);
     }
@@ -92,6 +94,12 @@ public class RotateControButton extends View {
     public RotateControButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
+    }
+
+    public void setTitle(String left, String min, String right) {
+        Title_Left = left;
+        Title_right = right;
+        title_min = min;
     }
 
     public boolean isCanTouch() {
@@ -117,7 +125,7 @@ public class RotateControButton extends View {
         titlePaint = new Paint();
         titlePaint.setAntiAlias(true);
         titlePaint.setTextSize(sp2px(15));
-        titlePaint.setColor(Color.parseColor("#3B434E"));
+        titlePaint.setColor(Color.parseColor("#3CB7EA"));
         titlePaint.setStyle(Paint.Style.STROKE);
 
         valueFlagPaint = new Paint();
@@ -133,7 +141,7 @@ public class RotateControButton extends View {
 
         valuePaint = new Paint();
         valuePaint.setAntiAlias(true);
-        valuePaint.setTextSize(sp2px(25));
+        valuePaint.setTextSize(sp2px(18));
         valuePaint.setColor(Color.parseColor("#E27A3F"));
         valuePaint.setStyle(Paint.Style.STROKE);
     }
@@ -207,18 +215,19 @@ public class RotateControButton extends View {
         canvas.save();
 
         // 绘制标题
-        float titleWidth = titlePaint.measureText(title);
-        canvas.drawText(title, (width - titleWidth) / 2, dialRadius * 2 + dp2px(15), titlePaint);
+        float titleWidth = titlePaint.measureText(title_min);
+        canvas.drawText(title_min, (width - titleWidth) / 2, dialRadius * 2 + dp2px(15), titlePaint);
 
         // 绘制最小刻度标识
         float tempFlagWidth = titlePaint.measureText(valueMax + "");
         canvas.rotate(55, width / 2, height / 2);
-        canvas.drawText("关闭", (width - tempFlagWidth) / 2, height + dp2px(5), valueFlagPaint);
+        canvas.drawText(Title_Left, (width - tempFlagWidth) / 2, height + dp2px(5), valueFlagPaint);
         // 绘制最打大刻度标识
         canvas.rotate(-95, width / 2, height / 2);
-        canvas.drawText("打开", (width - tempFlagWidth) / 2, height + dp2px(5), valueFlagPaint);
+        canvas.drawText(Title_right, (width - tempFlagWidth) / 2, height + dp2px(5), valueFlagPaint);
         canvas.restore();
     }
+
 
     /**
      * 绘制旋转按钮
@@ -267,7 +276,8 @@ public class RotateControButton extends View {
             Log.i(TAG, "drawTemp: 数据处理异常！");
             return;
         }
-        canvas.drawText(valueString.get(valueNow), -tempWidth / 2 - 15, -tempHeight, valuePaint);
+        ;
+        canvas.drawText(valueString.get(valueNow), tempWidth / 2 - valuePaint.measureText(valueString.get(valueNow)) / 2 - 10, -tempHeight, valuePaint);
         canvas.restore();
     }
 

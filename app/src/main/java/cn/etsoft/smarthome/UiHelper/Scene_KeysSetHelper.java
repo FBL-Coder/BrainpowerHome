@@ -1,5 +1,6 @@
 package cn.etsoft.smarthome.UiHelper;
 
+import android.app.Activity;
 import android.os.Handler;
 import android.util.Log;
 
@@ -10,6 +11,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.Domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.Out_List_printcmd;
 import cn.etsoft.smarthome.Domain.PrintCmd;
@@ -115,17 +117,14 @@ public class Scene_KeysSetHelper {
         return Data_InnerCircleList;
     }
 
-
-    public static void InitKeyData(final int keyInputPosition, final Handler handler, final List<WareDev> Dev_room, final int devposition) {
-
-    }
-
-
-    private static List<WareDev> mDev_Room;
-    private static String DEVS_ALL_ROOM = "全部";
-
-
-    public static void Save(WareDev dev) {
-
+    public static void Save(Activity activity) {
+        ChnOpItem_scene scene_Save = WareDataHliper.initCopyWareData().getScenekeysResult();
+        scene_Save.setDatType(59);
+        scene_Save.setSubType1(0);
+        scene_Save.setSubType2(0);
+        scene_Save.setItemCnt(scene_Save.getKey2scene_item().size());
+        Gson gson = new Gson();
+        MyApplication.mApplication.getUdpServer().send(gson.toJson(scene_Save));
+        MyApplication.mApplication.showLoadDialog(activity);
     }
 }

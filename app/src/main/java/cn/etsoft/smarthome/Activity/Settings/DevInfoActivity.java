@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
@@ -37,21 +39,13 @@ public class DevInfoActivity extends BaseActivity {
     private boolean OuterCircleClick = false;
     private List<WareDev> mRoomDevs;
     private String DEVS_ALL_ROOM = "全部";
+    private TextView mDevInfoAddDevs;
 
     @Override
     public void initView() {
         setLayout(R.layout.activity_devinfo);
         DevInfoGridView = getViewById(R.id.DevInfo_Info);
-
-        setTitleViewVisible(true, R.color.blue);
-        setTitleImageBtn(true, R.drawable.back_image_select, true, R.drawable.ic_launcher);
-        setTitleText("设备编辑",20,R.color.white);
-        getLiftImage().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        mDevInfoAddDevs = getViewById(R.id.Dev_Info_AddDevs);
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
@@ -141,7 +135,7 @@ public class DevInfoActivity extends BaseActivity {
                     adapter.notifyDataSetChanged(gridviewDev);
             }
         });
-        getRightImage().setOnClickListener(new View.OnClickListener() {
+        mDevInfoAddDevs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(DevInfoActivity.this, AddDevActivity.class), 0);

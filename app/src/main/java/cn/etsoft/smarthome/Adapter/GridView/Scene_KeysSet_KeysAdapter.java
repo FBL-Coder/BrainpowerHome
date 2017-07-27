@@ -82,10 +82,9 @@ public class Scene_KeysSet_KeysAdapter extends BaseAdapter {
         ViewHoler viewHoler = null;
         if (convertView == null) {
             viewHoler = new ViewHoler();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.girdview_devs_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.girdview_devs_norotate_item, null);
             viewHoler.mName = (TextView) convertView.findViewById(R.id.text_list_item);
             viewHoler.mIV = (ImageView) convertView.findViewById(R.id.img_list_item);
-            viewHoler.rotateControButton = (RotateControButton) convertView.findViewById(R.id.RotateControButton);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
 
@@ -95,7 +94,7 @@ public class Scene_KeysSet_KeysAdapter extends BaseAdapter {
                 viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
 
         }
-        viewHoler.rotateControButton.setVisibility(View.GONE);
+
         viewHoler.mName.setText(KeyNames.get(position));
 
         return convertView;
@@ -104,6 +103,5 @@ public class Scene_KeysSet_KeysAdapter extends BaseAdapter {
     class ViewHoler {
         ImageView mIV;
         TextView mName;
-        RotateControButton rotateControButton;
     }
 }

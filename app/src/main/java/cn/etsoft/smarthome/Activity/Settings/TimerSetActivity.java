@@ -124,19 +124,19 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
 
                 if (mBean.getRun_dev_item() == null
                         || mBean.getRun_dev_item().size() == 0) {
-                    mShiNeng.setImageResource(R.drawable.ic_launcher);
-                    mWeekAgain.setImageResource(R.drawable.ic_launcher);
-                    mQuanWang.setImageResource(R.drawable.ic_launcher);
+                    mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+                    mWeekAgain.setImageResource(R.drawable.checkbox1_unselect);
+                    mQuanWang.setImageResource(R.drawable.checkbox1_unselect);
                     mTimerStartTime.setText("点击选择时间");
                     mTimerEndTime.setText("点击选择时间");
                     mTimerWeeks.setText("点击选择星期");
                 } else {
                     if (mBean.getValid() == 1) {
                         IsOpenShiNeng = true;
-                        mShiNeng.setImageResource(R.drawable.ic_launcher_round);
+                        mShiNeng.setImageResource(R.drawable.checkbox1_selected);
                     } else {
                         IsOpenShiNeng = false;
-                        mShiNeng.setImageResource(R.drawable.ic_launcher);
+                        mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
                     }
 
                     List<Integer> data_start = mBean.getTimSta();
@@ -157,10 +157,10 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                     mTimerEndTime.setText(endtime);
 
                     if (data_end.get(3) == 1) {
-                        mWeekAgain.setImageResource(R.drawable.ic_launcher_round);
+                        mWeekAgain.setImageResource(R.drawable.checkbox1_selected);
                         IsOpenWeekAgain = true;
                     } else {
-                        mWeekAgain.setImageResource(R.drawable.ic_launcher);
+                        mWeekAgain.setImageResource(R.drawable.checkbox1_unselect);
                         IsOpenWeekAgain = false;
                     }
                 }
@@ -229,8 +229,8 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.Timer_ShiNeng: //使能开关
                 IsOpenShiNeng = !IsOpenShiNeng;
-                if (IsOpenShiNeng) mShiNeng.setImageResource(R.drawable.ic_launcher_round);
-                else mShiNeng.setImageResource(R.drawable.ic_launcher);
+                if (IsOpenShiNeng) mShiNeng.setImageResource(R.drawable.checkbox1_selected);
+                else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
                 break;
             case R.id.Timer_Weeks: //星期时间
                 TimerSetHelper.initWeekDialog(this, mTimerWeeks, new boolean[7]);
@@ -262,13 +262,13 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.Timer_WeekAgain://是否周重复
                 IsOpenWeekAgain = !IsOpenWeekAgain;
-                if (IsOpenWeekAgain) mWeekAgain.setImageResource(R.drawable.ic_launcher_round);
-                else mWeekAgain.setImageResource(R.drawable.ic_launcher);
+                if (IsOpenWeekAgain) mWeekAgain.setImageResource(R.drawable.checkbox1_selected);
+                else mWeekAgain.setImageResource(R.drawable.checkbox1_unselect);
                 break;
             case R.id.Timer_QuanWang://是否开开全网
                 IsOPenQuanWang = !IsOPenQuanWang;
-                if (IsOPenQuanWang) mQuanWang.setImageResource(R.drawable.ic_launcher_round);
-                else mQuanWang.setImageResource(R.drawable.ic_launcher);
+                if (IsOPenQuanWang) mQuanWang.setImageResource(R.drawable.checkbox1_selected);
+                else mQuanWang.setImageResource(R.drawable.checkbox1_unselect);
                 break;
 
         }
