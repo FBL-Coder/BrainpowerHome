@@ -69,7 +69,6 @@ public class LoginActivity extends BaseActivity {
         mLoginPass =  getViewById(R.id.login_pass);
         mLoginBtn =  getViewById(R.id.login_btn);
         mRegister =  getViewById(R.id.register_btn);
-
     }
 
     @Override
@@ -78,37 +77,6 @@ public class LoginActivity extends BaseActivity {
             @SuppressLint("NewApi")
             @Override
             public void onClick(View v) {
-//                final OkHttpClient client = new OkHttpClient();
-//                final Request request = new Request.Builder()
-////                        .url("http://192.168.1.220:8080")
-//                        .url("http://192.168.1.220:25000/index.php/api/index/index")
-//                        .build();
-//
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Response response = null;
-//                        try {
-//                            response = client.newCall(request).execute();
-//                            Log.i("NETWORK", response.code() + "");
-//                            if (response.code() == 200) {
-//                                Log.i(TAG, "onSuccess: " + response.body().string());
-//                            } else {
-//                                Log.i(TAG, "onFailure: " + response.code()+response.body().string());
-//                                new Thread() {
-//                                    @Override
-//                                    public void run() {
-//                                        Looper.prepare();
-//                                        ToastUtil.showText("数据加载失败！网络服务器异常...");
-//                                        Looper.loop();
-//                                    }
-//                                }.start();
-//                            }
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }).start();
                 Login_Helper.login_helper.login(LoginActivity.this, mLoginId, mLoginPass);
             }
         });
@@ -131,19 +99,4 @@ public class LoginActivity extends BaseActivity {
             mLoginPass.setText(bundle.getString("PASS"));
         }
     }
-
-
-
-//    @Override
-//    protected void onRestart() {
-//        if ("".equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE,""))){
-//            finish();
-//        }else {
-//            startActivity(new Intent(LoginActivity.this,HomeActivity.class));
-//            finish();
-//        }
-//        super.onRestart();
-//    }
-
-
 }
