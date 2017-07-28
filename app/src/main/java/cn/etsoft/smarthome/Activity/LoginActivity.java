@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.HttpGetDataUtils.HttpCallback;
@@ -57,7 +58,8 @@ import static android.content.ContentValues.TAG;
 public class LoginActivity extends BaseActivity {
 
     private EditText mLoginId, mLoginPass;
-    private Button mLoginBtn, mRegister;
+    private Button mLoginBtn;
+    private TextView mRegister;
 
     @SuppressLint("WrongViewCast")
     @Override

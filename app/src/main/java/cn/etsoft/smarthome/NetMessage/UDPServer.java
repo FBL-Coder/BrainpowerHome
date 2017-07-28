@@ -258,7 +258,7 @@ public class UDPServer implements Runnable {
             case 4: // ctrlDev
                 if (subType1 == 1) {
                     isFreshData = true;
-                    refreshDevData(info);
+                    refreshDevData(4, info);
                 }
                 break;
             case 5: // adddev
@@ -862,7 +862,7 @@ public class UDPServer implements Runnable {
     /**
      * 单个控制设备返回状态数据
      */
-    public void refreshDevData(String info) {
+    public void refreshDevData(int dattype, String info) {
 
 //        控制模块都得数据类型；
 //        {
@@ -883,6 +883,17 @@ public class UDPServer implements Runnable {
 //                    "selDirect":	0,
 //                    "rev1":	24,
 //                    "powChn":	31
+
+        //灯
+//        "canCpuID":	"36ffda054842373503711843",
+//                "devName":	"",
+//                "roomName":	"",
+//                "devType":	3,
+//                "devID":	0,
+//                "bOnOff":	0,
+//                "bTuneEn":	0,
+//                "lmVal":	0,
+//                "powChn":	0
 //        }]
 //        }
 
@@ -900,8 +911,10 @@ public class UDPServer implements Runnable {
                 JSONObject jsonobj = array.getJSONObject(0);
                 WareDev dev = new WareDev();
                 dev.setCanCpuId(jsonobj.getString("canCpuID"));
-                dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
-                dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
+                if (dattype == 6) {
+                    dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
+                    dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
+                }
                 dev.setDevId(jsonobj.getInt("devID"));
                 dev.setType(jsonobj.getInt("devType"));
                 dev.setbOnOff(jsonobj.getInt("bOnOff"));
@@ -914,6 +927,10 @@ public class UDPServer implements Runnable {
                     WareCurtain curtain1 = MyApplication.getWareData().getCurtains().get(i);
                     if (curtain1.getDev().getCanCpuId().equals(curtain.getDev().getCanCpuId())
                             && curtain1.getDev().getDevId() == curtain.getDev().getDevId()) {
+                        if (dattype == 4) {
+                            curtain.getDev().setDevName(curtain1.getDev().getDevName());
+                            curtain.getDev().setRoomName(curtain1.getDev().getRoomName());
+                        }
                         MyApplication.getWareData().getCurtains().set(i, curtain);
                     }
                 }
@@ -924,8 +941,10 @@ public class UDPServer implements Runnable {
                 JSONObject jsonobj = array.getJSONObject(0);
                 WareDev dev = new WareDev();
                 dev.setCanCpuId(jsonobj.getString("canCpuID"));
-                dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
-                dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
+                if (dattype == 6) {
+                    dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
+                    dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
+                }
                 dev.setDevId(jsonobj.getInt("devID"));
                 dev.setType(jsonobj.getInt("devType"));
                 airCondDev.setDev(dev);
@@ -941,18 +960,22 @@ public class UDPServer implements Runnable {
                     WareAirCondDev air = MyApplication.getWareData().getAirConds().get(i);
                     if (air.getDev().getCanCpuId().equals(airCondDev.getDev().getCanCpuId())
                             && air.getDev().getDevId() == airCondDev.getDev().getDevId()) {
+                        if (dattype == 4) {
+                            airCondDev.getDev().setDevName(air.getDev().getDevName());
+                            airCondDev.getDev().setRoomName(air.getDev().getRoomName());
+                        }
                         MyApplication.getWareData().getAirConds().set(i, airCondDev);
                     }
                 }
             } else if (devType == 3) {
-
                 WareLight wareLight = new WareLight();
-
                 JSONObject jsonobj = array.getJSONObject(0);
                 WareDev dev = new WareDev();
                 dev.setCanCpuId(jsonobj.getString("canCpuID"));
-                dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
-                dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
+                if (dattype == 6) {
+                    dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
+                    dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
+                }
                 dev.setDevId(jsonobj.getInt("devID"));
                 dev.setType(jsonobj.getInt("devType"));
                 wareLight.setDev(dev);
@@ -964,6 +987,10 @@ public class UDPServer implements Runnable {
                     WareLight light = MyApplication.getWareData().getLights().get(i);
                     if (light.getDev().getCanCpuId().equals(wareLight.getDev().getCanCpuId())
                             && light.getDev().getDevId() == wareLight.getDev().getDevId()) {
+                        if (dattype == 4) {
+                            wareLight.getDev().setDevName(light.getDev().getDevName());
+                            wareLight.getDev().setRoomName(light.getDev().getRoomName());
+                        }
                         MyApplication.getWareData().getLights().set(i, wareLight);
                         Log.i("Light", wareLight.getDev().getDevId() + "");
                         break;
@@ -972,7 +999,7 @@ public class UDPServer implements Runnable {
             }
         } catch (Exception e) {
             isFreshData = false;
-            System.out.println(this.getClass().getName() + "975" + e.toString());
+            System.out.println(this.getClass().getName() + "993" + e.toString());
         }
     }
 
@@ -1096,7 +1123,7 @@ public class UDPServer implements Runnable {
 //                    "powChn":	21
 //        }]
 //    }
-        refreshDevData(info);
+        refreshDevData(6, info);
 
     }
 
@@ -1441,7 +1468,7 @@ public class UDPServer implements Runnable {
                 if (!Ishave)
                     MyApplication.getWareData().getKeyOpItems().add(opItem);
             }
-            Log.i(TAG, "getKeyOpItem: "+MyApplication.getWareData().getKeyOpItems().size());
+            Log.i(TAG, "getKeyOpItem: " + MyApplication.getWareData().getKeyOpItems().size());
         } catch (JSONException e) {
             isFreshData = false;
             System.out.println(this.getClass().getName() + "1444" + e.toString());

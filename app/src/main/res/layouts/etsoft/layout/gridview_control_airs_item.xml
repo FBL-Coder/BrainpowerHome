@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/dp_30">
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="0.5"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="空调名称"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_16" />
+
+            <TextView
+                android:id="@+id/air_name"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:lines="1"
+                android:text="客厅空调"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dp_22" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_margin="@dimen/dp_20"
+            android:layout_weight="2.5"
+            android:background="@drawable/bg_orthogon_ring"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_weight="0.3"
+                android:gravity="center_vertical"
+                android:text="当前温度"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18" />
+
+            <TextView
+                android:id="@+id/air_now_temp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_weight="0.6"
+                android:gravity="center_horizontal"
+                android:text="26"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_50" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_weight="0.6">
+
+                <TextView
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="风速"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_22" />
+
+                <ImageView
+                    android:id="@+id/air_now_spead"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="@dimen/dp_10"
+                    android:src="@drawable/spead_big" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1.5"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/air_switch"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_weight="1"
+                android:src="@drawable/switch_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="开关"
+                android:textColor="@color/white"
+                android:textSize="22dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_marginTop="@dimen/dp_50"
+            android:layout_weight="0.6"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/air_temp_down"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/temp_down" />
+
+            <com.lantouzi.wheelview.WheelView
+                android:id="@+id/HorizontalSelect_temp"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                app:lwvCenterMarkTextSize="@dimen/sp_24"
+                app:lwvHighlightColor="#7CD717"
+                app:lwvIntervalFactor="2"
+                app:lwvMarkTextColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/air_temp_add"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/temp_add" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="0.5" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="0.6"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/air_tospead_sam"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/tospead_sam" />
+
+            <com.lantouzi.wheelview.WheelView
+                android:id="@+id/HorizontalSelect_spead"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="@android:color/transparent"
+                app:lwvCenterMarkTextSize="@dimen/sp_24"
+                app:lwvHighlightColor="#7CD717"
+                app:lwvIntervalFactor="2"
+                app:lwvMarkTextColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/air_tospead_big"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/tospead_big" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="0.6" />
+
+        <RadioGroup
+            android:id="@+id/air_mode"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/air_tocool"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/tocool"
+                android:gravity="center"
+                android:paddingBottom="@dimen/sp_30"
+                android:text="制冷"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_22" />
+
+            <RadioButton
+                android:id="@+id/air_toheat"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/toheat"
+                android:gravity="center"
+                android:paddingBottom="@dimen/sp_30"
+                android:text="制热"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_22" />
+
+            <RadioButton
+                android:id="@+id/air_xeransis"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/xeransis"
+                android:gravity="center"
+                android:paddingBottom="@dimen/sp_30"
+                android:text="除湿"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_22" />
+
+            <RadioButton
+                android:id="@+id/air_swing_flap"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/swing_flap"
+                android:gravity="center"
+                android:paddingBottom="@dimen/sp_30"
+                android:text="扫风"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_22" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -28,6 +28,7 @@ import cn.etsoft.smarthome.Utils.NewHttpPort;
 public class RegisterActivity extends BaseActivity {
     private EditText mRegisterId;
     private EditText mRegisterPass;
+    private EditText mRegisterAgainPass;
     private Button mRegisterBtn;
     private Intent mIntent;
     @Override
@@ -37,6 +38,7 @@ public class RegisterActivity extends BaseActivity {
         mRegisterId =  getViewById(R.id.register_id);
         mRegisterPass =  getViewById(R.id.register_pass);
         mRegisterBtn =  getViewById(R.id.register_btn);
+        mRegisterAgainPass =  getViewById(R.id.register_againpass);
     }
 
     @Override
@@ -45,7 +47,7 @@ public class RegisterActivity extends BaseActivity {
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Register_Helper.register_helper.register(RegisterActivity.this,mRegisterId,mRegisterPass);
+                Register_Helper.register_helper.register(RegisterActivity.this,mRegisterId,mRegisterPass,mRegisterAgainPass);
             }
         });
     }

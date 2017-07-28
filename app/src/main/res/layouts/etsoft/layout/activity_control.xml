@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <RelativeLayout
+        android:id="@+id/SceneSet_Info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp_250"
+        android:background="@null" />
+
+    <RelativeLayout
+        android:layout_width="@dimen/dp_250"
+        android:layout_height="match_parent">
+
+        <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
+            android:id="@+id/SceneSet_CircleMenu"
+            android:layout_width="@dimen/dp_250"
+            android:background="@drawable/circlebg"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+</RelativeLayout>

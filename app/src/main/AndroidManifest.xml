@@ -95,12 +95,13 @@
         <activity
             android:name=".Activity.LoginActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!--注册页面-->
         <activity
             android:name=".Activity.RegisterActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
+        />
         <!--环境事件-->
         <activity
             android:name=".Activity.Settings.ConditionSetActivity"
@@ -160,6 +161,11 @@
         <!--定时器、环境事件等添加设备界面-->
         <activity
             android:name=".Activity.Settings.SetAddDevActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
+        <!-- 设备控制-->
+        <activity
+            android:name=".Activity.ControlActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
 

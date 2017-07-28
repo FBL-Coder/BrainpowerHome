@@ -32,7 +32,7 @@ import cn.etsoft.smarthome.UiHelper.New_AddorDel_Helper;
  */
 
 public class NewWorkSetActivity extends BaseActivity {
-    private TextView mNetmoduleAdd;
+    private TextView mNetmoduleAdd,mNewWorksetlogout;
     private ListView mNetmoduleListview;
     private TextView mDialogCancle, mDialogOk;
     private EditText mDialogName, mDialogID, mDialogPass;
@@ -50,6 +50,7 @@ public class NewWorkSetActivity extends BaseActivity {
 
         mNetmoduleListview = getViewById(R.id.NewWork_set_netmodule_listview);
         mNetmoduleAdd = getViewById(R.id.NewWork_set_netmodule_add);
+        mNewWorksetlogout = getViewById(R.id.NewWork_set_logout);
     }
 
 
@@ -90,6 +91,13 @@ public class NewWorkSetActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 backEvent();
+            }
+        });
+
+        mNewWorksetlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO  退出登录
             }
         });
     }

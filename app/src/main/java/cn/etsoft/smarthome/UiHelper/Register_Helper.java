@@ -28,11 +28,19 @@ public class Register_Helper {
 
     public static Register_Helper register_helper = new Register_Helper();
 
-    public void register(final Activity activity, EditText mRegisterId, EditText mRegisterPass) {
+    public void register(final Activity activity, EditText mRegisterId, EditText mRegisterPass,EditText mRegisterAgainpass) {
         final String id_input = mRegisterId.getText().toString();
         final String pass_input = mRegisterPass.getText().toString();
+        final String againpass_input = mRegisterAgainpass.getText().toString();
+
         if (!(HTTPRequest_BackCode.id_rule.matcher(id_input).matches() && HTTPRequest_BackCode.pass_rule.matcher(pass_input).matches())) {
             ToastUtil.showText("账号或密码输入人不正确");
+            return;
+        }
+        if (!againpass_input.equals(pass_input)){
+            ToastUtil.showText("两次密码不一致，请重新输入");
+            mRegisterPass.setText("");
+            mRegisterAgainpass.setText("");
             return;
         }
         MyApplication.mApplication.showLoadDialog(activity);
