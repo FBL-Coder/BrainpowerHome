@@ -18,8 +18,10 @@ import com.lantouzi.wheelview.WheelView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 /**
  * Author：FBL  Time： 2017/6/26.
@@ -33,17 +35,15 @@ public class Control_Air_Adapter extends BaseAdapter {
     private List<String> temp_texts = new ArrayList<>();
     private List<String> spead_texts = new ArrayList<>();
 
-    public Control_Air_Adapter( Context context, List<WareAirCondDev> airs) {
+    public Control_Air_Adapter(Context context, List<WareAirCondDev> airs) {
         mAirs = airs;
         mContext = context;
     }
-
 
     public void notifyDataSetChanged(List<WareAirCondDev> mAirs) {
         this.mAirs = mAirs;
         super.notifyDataSetChanged();
     }
-
 
     @Override
     public int getCount() {
@@ -73,10 +73,10 @@ public class Control_Air_Adapter extends BaseAdapter {
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHolder) convertView.getTag();
 
-        mAirs.get(position).setbOnOff((byte) 0);
-        viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher);
-        viewHoler.mAirSelect.setImageResource(R.drawable.ic_launcher);
-
+        //初始化开关
+        if (mAirs.get(position).getbOnOff() == 0)
+            viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher);
+        else viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher_round);
 
         final ViewHolder finalViewHoler = viewHoler;
 
@@ -89,7 +89,7 @@ public class Control_Air_Adapter extends BaseAdapter {
         spead_texts.add("高档");
         if (mAirs.get(position).getSelTemp() < 16 || mAirs.get(position).getSelTemp() > 30)
             mAirs.get(position).setSelTemp(16);
-        viewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp());
+        viewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp()-16);
         viewHoler.mHorizontalSelectTemp.setItems(temp_texts);
         viewHoler.mHorizontalSelectTemp.setAdditionCenterMark("℃");
         viewHoler.mHorizontalSelectTemp.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
@@ -100,7 +100,7 @@ public class Control_Air_Adapter extends BaseAdapter {
             @Override
             public void onWheelItemSelected(WheelView wheelView, int i) {
                 ToastUtil.showText(temp_texts.get(i));
-                mAirs.get(position).setSelTemp(Byte.valueOf(temp_texts.get(i)));
+                SendDataUtil.controlDev(mAirs.get(position).getDev(), getAirCmdTempstr(Integer.parseInt(temp_texts.get(i))));
             }
         });
         viewHoler.mHorizontalSelectSpead.setItems(spead_texts);
@@ -112,7 +112,7 @@ public class Control_Air_Adapter extends BaseAdapter {
             @Override
             public void onWheelItemSelected(WheelView wheelView, int i) {
                 ToastUtil.showText(spead_texts.get(i));
-                mAirs.get(position).setSelSpd((byte) i);
+                SendDataUtil.controlDev(mAirs.get(position).getDev(), i + 2);
             }
         });
 
@@ -125,6 +125,11 @@ public class Control_Air_Adapter extends BaseAdapter {
         viewHoler.mAirMode.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (mAirs.get(position).getbOnOff() == 0) {
+                    ToastUtil.showText("请先打开空调");
+                    return;
+                }
+                ToastUtil.showText("等着，未完善...");
                 switch (checkedId) {
                     case R.id.air_tocool://制冷
                         break;
@@ -141,6 +146,7 @@ public class Control_Air_Adapter extends BaseAdapter {
         return convertView;
     }
 
+    //风速事件
     private void SpeadClick(final int position, ViewHolder viewHoler, final ViewHolder finalViewHoler) {
         viewHoler.mAirTospeadSam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,12 +155,13 @@ public class Control_Air_Adapter extends BaseAdapter {
                     ToastUtil.showText("不能再低了");
                     return;
                 }
-                mAirs.get(position).setSelSpd((byte) (mAirs.get(position).getSelSpd() - 1));
-                //getSceneDev(position)  TODO 数据变化，改变情景数据中的设备信息。
-                finalViewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd() - 1);
-                MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
-                        , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() + 100, v.getY(), 0);
-                finalViewHoler.mHorizontalSelectSpead.onSingleTapUp(event);
+                ToastUtil.showText("等着，未完善...");
+//                SendDataUtil.controlDev(mAirs.get(position).getDev(), mAirs.get(position).getSelSpd() - 1);
+//
+//                finalViewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd() - 1);
+//                MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
+//                        , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() + 100, v.getY(), 0);
+//                finalViewHoler.mHorizontalSelectSpead.onSingleTapUp(event);
             }
         });
         viewHoler.mAirTospeadBig.setOnClickListener(new View.OnClickListener() {
@@ -164,16 +171,17 @@ public class Control_Air_Adapter extends BaseAdapter {
                     ToastUtil.showText("不能再高了");
                     return;
                 }
-                mAirs.get(position).setSelSpd((byte) (mAirs.get(position).getSelSpd() + 1));
-                //getSceneDev(position)  TODO 数据变化，改变情景数据中的设备信息。
-                finalViewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd() + 1);
-                MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
-                        , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() - 150, v.getY(), 0);
-                finalViewHoler.mHorizontalSelectSpead.onSingleTapUp(event);
+                ToastUtil.showText("等着，未完善...");
+//                SendDataUtil.controlDev(mAirs.get(position).getDev(), mAirs.get(position).getSelSpd() + 1);
+//                finalViewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd() + 1);
+//                MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
+//                        , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() - 150, v.getY(), 0);
+//                finalViewHoler.mHorizontalSelectSpead.onSingleTapUp(event);
             }
         });
     }
 
+    //温度事件
     private void TempClick(final int position, ViewHolder viewHoler, final ViewHolder finalViewHoler) {
         viewHoler.mAirTempDown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,8 +190,11 @@ public class Control_Air_Adapter extends BaseAdapter {
                     ToastUtil.showText("不能再低了");
                     return;
                 }
-                mAirs.get(position).setSelTemp((byte) (mAirs.get(position).getSelTemp() - 1));
-                //getSceneDev(position)  TODO 数据变化，改变情景数据中的设备信息。
+                if (mAirs.get(position).getbOnOff() == 0) {
+                    ToastUtil.showText("请先打开空调");
+                    return;
+                }
+                SendDataUtil.controlDev(mAirs.get(position).getDev(), getAirCmdTempstr(mAirs.get(position).getSelTemp() - 1));
                 finalViewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp());
                 MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
                         , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() + 100, v.getY(), 0);
@@ -198,8 +209,11 @@ public class Control_Air_Adapter extends BaseAdapter {
                     ToastUtil.showText("不能再高了");
                     return;
                 }
-                mAirs.get(position).setSelTemp((byte) (mAirs.get(position).getSelTemp() + 1));
-                //getSceneDev(position)  TODO 数据变化，改变情景数据中的设备信息。
+                if (mAirs.get(position).getbOnOff() == 0) {
+                    ToastUtil.showText("请先打开空调");
+                    return;
+                }
+                SendDataUtil.controlDev(mAirs.get(position).getDev(), getAirCmdTempstr(mAirs.get(position).getSelTemp() + 1));
                 finalViewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp());
                 MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
                         , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() - 100, v.getY(), 0);
@@ -208,16 +222,78 @@ public class Control_Air_Adapter extends BaseAdapter {
         });
     }
 
+    //开关
     private void SwitchClick(final int position, ViewHolder viewHoler, final ViewHolder finalViewHoler) {
         viewHoler.mAirSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mAirs.get(position).getDev().isSelect()) {
-                    //TODO  开关
-                }else {
+                if (mAirs.get(position).getbOnOff() == 0) {
+                    SendDataUtil.controlDev(mAirs.get(position).getDev(), UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue());
+                } else {
+                    SendDataUtil.controlDev(mAirs.get(position).getDev(), UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue());
                 }
             }
         });
+    }
+
+    public int getAirCmdTempstr(int curValue) {
+        int cmdValue = 0;
+        switch (curValue) {
+            case 14:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp14.getValue();
+                break;
+            case 15:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp15.getValue();
+                break;
+            case 16:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp16.getValue();
+                break;
+            case 17:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp17.getValue();
+                break;
+            case 18:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp18.getValue();
+                break;
+            case 19:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp19.getValue();
+                break;
+            case 20:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp20.getValue();
+                break;
+            case 21:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp21.getValue();
+                break;
+            case 22:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp22.getValue();
+                break;
+            case 23:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp23.getValue();
+                break;
+            case 24:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp24.getValue();
+                break;
+            case 25:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp25.getValue();
+                break;
+            case 26:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp26.getValue();
+                break;
+            case 27:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp27.getValue();
+                break;
+            case 28:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp28.getValue();
+                break;
+            case 29:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp29.getValue();
+                break;
+            case 30:
+                cmdValue = UdpProPkt.E_AIR_CMD.e_air_temp30.getValue();
+                break;
+            default:
+                break;
+        }
+        return cmdValue;
     }
 
     public static class ViewHolder {
@@ -226,7 +302,6 @@ public class Control_Air_Adapter extends BaseAdapter {
         public TextView mAirNowTemp;
         public ImageView mAirNowSpead;
         public ImageView mAirTempDown;
-        public ImageView mAirSelect;
         public ImageView mAirSwitch;
         public WheelView mHorizontalSelectTemp;
         public ImageView mAirTempAdd;
@@ -246,7 +321,6 @@ public class Control_Air_Adapter extends BaseAdapter {
             this.mAirNowSpead = (ImageView) rootView.findViewById(R.id.air_now_spead);
             this.mAirTempDown = (ImageView) rootView.findViewById(R.id.air_temp_down);
             this.mAirSwitch = (ImageView) rootView.findViewById(R.id.air_switch);
-            this.mAirSelect = (ImageView) rootView.findViewById(R.id.air_select);
             this.mHorizontalSelectTemp = (WheelView) rootView.findViewById(R.id.HorizontalSelect_temp);
             this.mAirTempAdd = (ImageView) rootView.findViewById(R.id.air_temp_add);
             this.mAirTospeadSam = (ImageView) rootView.findViewById(R.id.air_tospead_sam);
