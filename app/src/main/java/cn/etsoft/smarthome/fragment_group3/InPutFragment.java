@@ -173,7 +173,7 @@ public class InPutFragment extends Fragment implements View.OnClickListener {
         if (input_name.size() > 0)
             equip_input.setText(input_name.get(input_position));
         //初始化按键RecycleView
-        initRecycleView(view_p);
+        initRecycleView(view_p);  
     }
 
     /**
