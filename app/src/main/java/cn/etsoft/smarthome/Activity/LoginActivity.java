@@ -65,10 +65,10 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initView() {
         setLayout(R.layout.activity_login);
-        mLoginId =  getViewById(R.id.login_id);
-        mLoginPass =  getViewById(R.id.login_pass);
-        mLoginBtn =  getViewById(R.id.login_btn);
-        mRegister =  getViewById(R.id.register_btn);
+        mLoginId = getViewById(R.id.login_id);
+        mLoginPass = getViewById(R.id.login_pass);
+        mLoginBtn = getViewById(R.id.login_btn);
+        mRegister = getViewById(R.id.register_btn);
     }
 
     @Override
@@ -98,5 +98,11 @@ public class LoginActivity extends BaseActivity {
             mLoginId.setText(bundle.getString("ID"));
             mLoginPass.setText(bundle.getString("PASS"));
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        MyApplication.finishAllActivity();
     }
 }

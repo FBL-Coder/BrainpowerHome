@@ -13,4 +13,5 @@ public class NewHttpPort {
     public static String ADDNETMODULE = "netmodel/add";
     public static String EDITNETMODULE = "netmodel/edit";
     public static String DELETENETMODULE = "netmodel/del";
+    public static String LOGOUT = "account/logout";
 }

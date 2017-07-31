@@ -6,10 +6,12 @@ import android.os.Message;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.R;
@@ -45,9 +47,6 @@ public class WelcomeActivity extends BaseActivity {
             }
         }).start();
     }
-
-
-
     static class WelcomeHandler extends Handler {
         WeakReference<WelcomeActivity> weakReference;
 
@@ -71,7 +70,8 @@ public class WelcomeActivity extends BaseActivity {
                     weakReference.get().finish();
                 }
                 if (!"".equals(UserID) && "".equals(json_RcuinfoID)) {
-                    weakReference.get().startActivity(new Intent(weakReference.get(), SettingActivity.class));
+                    weakReference.get().startActivity(new Intent(weakReference.get(), NewWorkSetActivity.class));
+                    ToastUtil.showText("请选择联网模块");
                     weakReference.get().finish();
                 }
                 if (!"".equals(UserID) && !"".equals(json_RcuinfoID)) {
