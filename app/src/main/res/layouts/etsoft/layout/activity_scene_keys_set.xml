@@ -15,7 +15,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="@color/color_302f35"/>
+            android:background="@drawable/menuup_bg"/>
 
         <GridView
             android:id="@+id/Scene_KeysSet_Keys"

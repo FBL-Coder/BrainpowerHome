@@ -1,8 +1,10 @@
 package cn.etsoft.smarthome.Adapter.ListView;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.util.List;
 
+import cn.etsoft.smarthome.Activity.HomeActivity;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
@@ -30,9 +33,9 @@ import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 public class NetWork_Adapter extends BaseAdapter {
     private List<RcuInfo> list;
-    private Context mContext;
+    private Activity mContext;
 
-    public NetWork_Adapter(Context context) {
+    public NetWork_Adapter(Activity context) {
         mContext = context;
         list = MyApplication.mApplication.getRcuInfoList();
     }
@@ -102,7 +105,7 @@ public class NetWork_Adapter extends BaseAdapter {
                 else {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
                     dialog.setTitle("提示 :");
-                    dialog.setMessage("您是否要切换联网模块？");
+                    dialog.setMessage("您是否要使用此联网模块？");
                     dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -117,7 +120,8 @@ public class NetWork_Adapter extends BaseAdapter {
                             SendDataUtil.getNetWorkInfo();
                             notifyDataSetChanged();
                             dialog.dismiss();
-                            ToastUtil.showText("切换成功，请求数据已发送！");
+                            mContext.startActivity(new Intent(mContext, HomeActivity.class));
+                            mContext.finish();
                         }
                     });
                     dialog.create().show();

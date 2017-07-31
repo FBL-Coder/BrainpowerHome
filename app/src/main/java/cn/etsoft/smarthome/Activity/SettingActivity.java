@@ -111,6 +111,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
                                 if (result.getCode() == 0) {
                                     ToastUtil.showText("退出成功");
+                                    GlobalVars.setDevid("");
+                                    GlobalVars.setDevpass("");
+                                    GlobalVars.setUserid("");
                                     startActivity(new Intent(SettingActivity.this, LoginActivity.class));
                                     finish();
                                     AppSharePreferenceMgr.clear(MyApplication.mApplication);

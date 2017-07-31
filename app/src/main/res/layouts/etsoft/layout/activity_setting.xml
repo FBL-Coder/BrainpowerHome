@@ -26,10 +26,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0"
-                    android:layout_weight="2"
-                    android:paddingLeft="@dimen/dp_30"
-                    android:paddingRight="@dimen/dp_30"
-                    android:paddingTop="@dimen/dp_30"
+                    android:layout_weight="1.5"
+                    android:paddingLeft="@dimen/dp_40"
+                    android:paddingRight="@dimen/dp_40"
+                    android:paddingTop="@dimen/sp_40"
                     android:src="@drawable/set_newwork" />
 
                 <TextView
@@ -58,10 +58,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0"
-                    android:layout_weight="2"
-                    android:paddingLeft="@dimen/dp_30"
-                    android:paddingRight="@dimen/dp_30"
-                    android:paddingTop="@dimen/dp_30"
+                    android:layout_weight="1.5"
+                    android:paddingLeft="@dimen/dp_40"
+                    android:paddingRight="@dimen/dp_40"
+                    android:paddingTop="@dimen/sp_40"
                     android:src="@drawable/set_control" />
 
                 <TextView
@@ -90,10 +90,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0"
-                    android:layout_weight="2"
-                    android:paddingLeft="@dimen/dp_30"
-                    android:paddingRight="@dimen/dp_30"
-                    android:paddingTop="@dimen/dp_30"
+                    android:layout_weight="1.5"
+                    android:paddingLeft="@dimen/dp_40"
+                    android:paddingRight="@dimen/dp_40"
+                    android:paddingTop="@dimen/sp_40"
                     android:src="@drawable/set_devinfo" />
 
                 <TextView
@@ -122,10 +122,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0"
-                    android:layout_weight="2"
-                    android:paddingLeft="@dimen/dp_30"
-                    android:paddingRight="@dimen/dp_30"
-                    android:paddingTop="@dimen/dp_30"
+                    android:layout_weight="1.5"
+                    android:paddingLeft="@dimen/dp_40"
+                    android:paddingRight="@dimen/dp_40"
+                    android:paddingTop="@dimen/sp_40"
                     android:src="@drawable/set_scene" />
 
                 <TextView
@@ -154,10 +154,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0"
-                    android:layout_weight="2"
-                    android:paddingLeft="@dimen/dp_30"
-                    android:paddingRight="@dimen/dp_30"
-                    android:paddingTop="@dimen/dp_30"
+                    android:layout_weight="1.5"
+                    android:paddingLeft="@dimen/dp_40"
+                    android:paddingRight="@dimen/dp_40"
+                    android:paddingTop="@dimen/sp_40"
                     android:src="@drawable/set_safety" />
 
                 <TextView
@@ -173,7 +173,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_10"/>
+            android:layout_height="@dimen/dp_10" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -193,10 +193,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0"
-                    android:layout_weight="2"
-                    android:paddingLeft="@dimen/dp_30"
-                    android:paddingRight="@dimen/dp_30"
-                    android:paddingTop="@dimen/dp_30"
+                    android:layout_weight="1.5"
+                    android:paddingLeft="@dimen/dp_40"
+                    android:paddingRight="@dimen/dp_40"
+                    android:paddingTop="@dimen/sp_40"
                     android:src="@drawable/set_timer" />
 
                 <TextView
@@ -225,10 +225,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0"
-                    android:layout_weight="2"
-                    android:paddingLeft="@dimen/dp_30"
-                    android:paddingRight="@dimen/dp_30"
-                    android:paddingTop="@dimen/dp_30"
+                    android:layout_weight="1.5"
+                    android:paddingLeft="@dimen/dp_40"
+                    android:paddingRight="@dimen/dp_40"
+                    android:paddingTop="@dimen/sp_40"
                     android:src="@drawable/set_condition" />
 
                 <TextView
@@ -257,11 +257,11 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0"
-                    android:layout_weight="2"
-                    android:paddingLeft="@dimen/dp_30"
-                    android:paddingRight="@dimen/dp_30"
-                    android:paddingTop="@dimen/dp_30"
-                    android:src="@drawable/set_group" />
+                    android:layout_weight="1.5"
+                    android:paddingLeft="@dimen/dp_40"
+                    android:paddingRight="@dimen/dp_40"
+                    android:paddingTop="@dimen/sp_40"
+                    android:src="@drawable/anjian_dev" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -289,11 +289,11 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0"
-                    android:layout_weight="2"
-                    android:paddingLeft="@dimen/dp_30"
-                    android:paddingRight="@dimen/dp_30"
-                    android:paddingTop="@dimen/dp_30"
-                    android:src="@drawable/set_group" />
+                    android:layout_weight="1.5"
+                    android:paddingLeft="@dimen/dp_40"
+                    android:paddingRight="@dimen/dp_40"
+                    android:paddingTop="@dimen/sp_40"
+                    android:src="@drawable/anjian_qingjing" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -321,11 +321,11 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0"
-                    android:layout_weight="2"
-                    android:paddingLeft="@dimen/dp_30"
-                    android:paddingRight="@dimen/dp_30"
-                    android:paddingTop="@dimen/dp_30"
-                    android:src="@drawable/set_group" />
+                    android:layout_weight="1.5"
+                    android:paddingLeft="@dimen/dp_40"
+                    android:paddingRight="@dimen/dp_40"
+                    android:paddingTop="@dimen/sp_40"
+                    android:src="@drawable/dev_anjain" />
 
                 <TextView
                     android:layout_width="match_parent"

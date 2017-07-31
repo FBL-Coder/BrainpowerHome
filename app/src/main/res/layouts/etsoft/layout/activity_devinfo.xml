@@ -17,7 +17,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/color_302f35"
+        android:background="@drawable/menuup_bg"
         android:paddingLeft="@dimen/dp_150">
 
         <TextView

@@ -70,11 +70,11 @@ public class Dev_KeysSetHelper {
             }
             if (i == 1 || i == 9) {
                 event.setTitle("电视");
-                event.setImage(R.drawable.ic_launcher_round);
+                event.setImage(R.drawable.tv_icon);
             }
             if (i == 2 || i == 10) {
                 event.setTitle("机顶盒");
-                event.setImage(R.drawable.jiadian_icon);
+                event.setImage(R.drawable.tvup_icon);
             }
             if (i == 3 || i == 11) {
                 event.setTitle("灯光");
