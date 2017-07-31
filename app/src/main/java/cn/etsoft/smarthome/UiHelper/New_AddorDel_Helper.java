@@ -72,19 +72,19 @@ public class New_AddorDel_Helper {
                     Message message = handler.obtainMessage();
                     message.what = ADDNEWMODULE_OK;
                     handler.sendMessage(message);
-                    //TODO 添加成功
+                    //添加成功
                     ToastUtil.showText("联网模块添加成功");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR) {
-                    //TODO 添加失败
+                    //添加失败
                     ToastUtil.showText("联网模块添加失败，模块ID已存在");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR_Exception) {
-                    //TODO 请求失败
+                    //请求失败
                     ToastUtil.showText("联网模块添加失败，请求异常");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_NETERROR) {
-                    //TODO 执行失败
+                    //执行失败
                     ToastUtil.showText("联网模块添加失败，服务器执行未成功");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_VERIFY_ERROR) {
-                    //TODO 添加失败  验证失败
+                    // 添加失败  验证失败
                     ToastUtil.showText("联网模块认证失败");
                 }
             }
@@ -92,7 +92,7 @@ public class New_AddorDel_Helper {
             @Override
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
-                //TODO 添加失败
+                // 添加失败
                 MyApplication.mApplication.dismissLoadDialog();
                 ToastUtil.showText("联网模块添加失败");
             }
@@ -136,22 +136,22 @@ public class New_AddorDel_Helper {
                 Gson gson = new Gson();
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
                 if (result.getCode() == HTTPRequest_BackCode.RCUINFO_OK) {
-                    //TODO 修改成功
+                    //修改成功
                     Message message = handler.obtainMessage();
                     message.what = EDITNEWMODULE_OK;
                     handler.sendMessage(message);
                     ToastUtil.showText("联网模块修改成功");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR) {
-                    //TODO 修改失败
+                    // 修改失败
                     ToastUtil.showText("联网模块修改失败，模块ID不存在");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR_Exception) {
-                    //TODO 请求失败
+                    // 请求失败
                     ToastUtil.showText("联网模块修改失败，请求异常");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_NETERROR) {
-                    //TODO 执行失败
+                    // 执行失败
                     ToastUtil.showText("联网模块修改失败，服务器执行未成功");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_VERIFY_ERROR) {
-                    //TODO 修改失败  验证失败
+                    // 修改失败  验证失败
                     ToastUtil.showText("联网模块修改验证失败");
                 }
             }
@@ -159,7 +159,7 @@ public class New_AddorDel_Helper {
             @Override
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
-                //TODO 修改失败
+                // 修改失败
                 MyApplication.mApplication.dismissLoadDialog();
                 ToastUtil.showText("联网模块修改失败");
             }
@@ -189,22 +189,22 @@ public class New_AddorDel_Helper {
                 Gson gson = new Gson();
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
                 if (result.getCode() == HTTPRequest_BackCode.RCUINFO_OK) {
-                    //TODO 删除成功
+                    // 删除成功
                     Message message = handler.obtainMessage();
                     message.what = DELNEWMODULE_OK;
                     handler.sendMessage(message);
                     ToastUtil.showText("联网模块删除成功");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR) {
-                    //TODO 删除失败
+                    // 删除失败
                     ToastUtil.showText("联网模块删除失败，模块ID不存在");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR_Exception) {
-                    //TODO 请求失败
+                    // 请求失败
                     ToastUtil.showText("联网模块删除失败，请求异常");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_NETERROR) {
-                    //TODO 执行失败
+                    // 执行失败
                     ToastUtil.showText("联网模块删除失败，服务器执行未成功");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_VERIFY_ERROR) {
-                    //TODO 删除失败  验证失败
+                    // 删除失败  验证失败
                     ToastUtil.showText("联网模块删除失败");
                 }
             }
@@ -212,7 +212,7 @@ public class New_AddorDel_Helper {
             @Override
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
-                //TODO 删除失败
+                // 删除失败
                 MyApplication.mApplication.dismissLoadDialog();
                 ToastUtil.showText("联网模块删除失败");
             }

@@ -39,17 +39,19 @@ public class DevInfoActivity extends BaseActivity {
     private boolean OuterCircleClick = false;
     private List<WareDev> mRoomDevs;
     private String DEVS_ALL_ROOM = "全部";
-    private TextView mDevInfoAddDevs;
+    private TextView mDevInfoAddDevs,mDevInfoNullData;
 
     @Override
     public void initView() {
         setLayout(R.layout.activity_devinfo);
         DevInfoGridView = getViewById(R.id.DevInfo_Info);
         mDevInfoAddDevs = getViewById(R.id.Dev_Info_AddDevs);
+        mDevInfoNullData = getViewById(R.id.Dev_Info_NullData);
+        DevInfoGridView.setEmptyView(mDevInfoNullData);
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                // TODO  数据返回处理
+                // 数据返回处理
                 if (datType == 6 || datType == 7) {
                     MyApplication.mApplication.dismissLoadDialog();
                     if (subtype2 != 1) {

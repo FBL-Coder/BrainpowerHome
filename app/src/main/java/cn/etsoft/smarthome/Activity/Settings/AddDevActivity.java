@@ -122,7 +122,7 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        // TODO 保存修改
+                        //  保存修改
                         int Save_DevWay = 0;
                         //设备名数据处理
                         Save_DevName = mAddDevName.getText().toString();
@@ -280,7 +280,7 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                 if (type_position == 0) {
                     for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
                         WareAirCondDev airCondDev = MyApplication.getWareData().getAirConds().get(i);
-                        //TODO  3968
+
                         if (list_board.get(board_position).getDevUnitID().equals(airCondDev.getDev().getCanCpuId())) {
                             int PowChn = airCondDev.getPowChn();
                             String PowChnList = Integer.toBinaryString(PowChn);
@@ -296,7 +296,7 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                     }
                 } else if (type_position == 1) {
                     for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
-                        //TODO  3968
+
                         if (list_board.get(board_position).getDevUnitID().equals(
                                 MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId())) {
                             int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn() + 1;

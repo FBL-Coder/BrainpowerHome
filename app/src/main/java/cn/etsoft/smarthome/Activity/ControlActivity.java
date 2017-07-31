@@ -39,7 +39,6 @@ public class ControlActivity extends BaseActivity {
     private Fragment mLightFragment, mAirFragment, mTVFragment, mTvUpFragment, mCurFragment;
     private int DevType = 0, OutCircleposition = -1;
     private String RoomName = "";
-    private boolean isCanClick = false;
 
     @Override
     public void initView() {
@@ -69,8 +68,8 @@ public class ControlActivity extends BaseActivity {
             public void onClickInnerCircle(int position, View view) {
                 RoomName = Data_InnerCircleList.get(position).getTitle();
                 SceneSetHelper.setRoomName(RoomName);
-                if (isCanClick && OutCircleposition != -1)
-                    OuterCircleClick(ControlActivity.this, OutCircleposition, RoomName);
+                if (controlDevListener != null)
+                    controlDevListener.UpData(RoomName);
             }
         });
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
@@ -79,7 +78,6 @@ public class ControlActivity extends BaseActivity {
                 OutCircleposition = position;
                 OuterCircleClick(ControlActivity.this, position, RoomName);
                 DevType = position % 8;
-                isCanClick = true;
             }
         });
     }
@@ -156,5 +154,15 @@ public class ControlActivity extends BaseActivity {
                 break;
         }
         transaction.commit();
+    }
+
+    public static ControlDevListener controlDevListener;
+
+    public static void setControlDevListener(ControlDevListener controlDevListener) {
+        ControlActivity.controlDevListener = controlDevListener;
+    }
+
+    public interface ControlDevListener {
+        void UpData(String roomname);
     }
 }

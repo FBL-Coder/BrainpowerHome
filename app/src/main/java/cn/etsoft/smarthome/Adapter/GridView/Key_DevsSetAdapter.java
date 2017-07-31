@@ -155,12 +155,18 @@ public class Key_DevsSetAdapter extends BaseAdapter {
         }
 
         if (DevType == 0) {
+            if (listData.get(position).getCmd() > 5)
+                listData.get(position).setCmd(0);
             viewHoler.rotateControButton.setTitle("开关", "设备命令", "温度-");
             viewHoler.rotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
         } else if (DevType == 3) {
+            if (listData.get(position).getCmd() > 5)
+                listData.get(position).setCmd(0);
             viewHoler.rotateControButton.setTitle("打开", "设备命令", "变亮");
             viewHoler.rotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
         } else if (DevType == 4) {
+            if (listData.get(position).getCmd() > 4)
+                listData.get(position).setCmd(0);
             viewHoler.rotateControButton.setTitle("未设置", "设备命令", "停止");
             viewHoler.rotateControButton.setTemp(0, 4, listData.get(position).getCmd(), texts);
         }

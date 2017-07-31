@@ -2,12 +2,14 @@ package cn.etsoft.smarthome.Fragment.Control;
 
 import android.os.Bundle;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.Activity.ControlActivity;
 import cn.etsoft.smarthome.Adapter.GridView.Control_Curtain_Adapter;
 import cn.etsoft.smarthome.Domain.WareCurtain;
 import cn.etsoft.smarthome.MyApplication;
@@ -21,7 +23,7 @@ import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
 
 public class CurtarnControlFragment extends BaseFragment {
 
-    private GridView mSceneSet_Girdview;
+    private GridView mCurtain_Girdview;
     private Control_Curtain_Adapter mCurtainAdapter;
     private String mRoomName = "全部";
     private List<WareCurtain> mCurtain_Room;
@@ -30,7 +32,7 @@ public class CurtarnControlFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        mSceneSet_Girdview = findViewById(R.id.Control_Fragment_GridView);
+        mCurtain_Girdview = findViewById(R.id.Control_Fragment_GridView);
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
@@ -64,13 +66,23 @@ public class CurtarnControlFragment extends BaseFragment {
         }
         if (mCurtainAdapter == null) {
             mCurtainAdapter = new Control_Curtain_Adapter(mActivity, mCurtain_Room);
-            mSceneSet_Girdview.setAdapter(mCurtainAdapter);
+            mCurtain_Girdview.setAdapter(mCurtainAdapter);
         } else
             mCurtainAdapter.notifyDataSetChanged(mCurtain_Room);
+
+        TextView nulltv= findViewById(R.id.null_tv);
+        mCurtain_Girdview.setEmptyView(nulltv);
     }
 
     @Override
     protected void setListener() {
+        ControlActivity.setControlDevListener(new ControlActivity.ControlDevListener() {
+            @Override
+            public void UpData(String roomname) {
+                mRoomName = roomname;
+                initDev();
+            }
+        });
     }
 
     @Override
@@ -80,7 +92,7 @@ public class CurtarnControlFragment extends BaseFragment {
 
 
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
+
         super.onHiddenChanged(hidden);
         if (!hidden) {
             mRoomName = SceneSetHelper.getRoomName();

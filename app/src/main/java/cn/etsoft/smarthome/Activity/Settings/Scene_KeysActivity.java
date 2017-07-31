@@ -179,7 +179,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
                 }
                 Scene_ID = MyApplication.getWareData().getSceneEvents().
                         get(position % MyApplication.getWareData().getSceneEvents().size()).getEventId();
-                // TODO  转盘点击事件
+                // 转盘点击事件
                 initKeyAdapter();
             }
         });
@@ -190,7 +190,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
             @Override
             public void OnItemClick(View view, int position) {
                 position_keyinput = position;
-                //TODO  板子点击事件
+                //板子点击事件
             }
 
             @Override

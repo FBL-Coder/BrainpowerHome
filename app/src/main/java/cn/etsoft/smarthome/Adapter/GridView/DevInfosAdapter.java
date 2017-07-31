@@ -1,9 +1,9 @@
 package cn.etsoft.smarthome.Adapter.GridView;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -125,11 +125,12 @@ public class DevInfosAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (finalViewHolder.mDevInfoLook.getVisibility() == View.VISIBLE) {
                     builder = new AlertDialog.Builder(mContext);
+                    builder.setTitle("提示");
                     builder.setMessage("是否要删除此设备？");
                     builder.setPositiveButton("是的", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //TODO 删除设备
+                            // 删除设备
                             SendDataUtil.deleteDev(Devs.get(position));
                             MyApplication.mApplication.showLoadDialog(mContext);
                         }
@@ -164,7 +165,7 @@ public class DevInfosAdapter extends BaseAdapter {
                         if (Devs.get(position).getCanCpuId()
                                 .equals(MyApplication.getWareData().getAirConds().get(i).getDev().getCanCpuId())
                                 && Devs.get(position).getDevId() != MyApplication.getWareData().getAirConds().get(i).getDev().getDevId()) {
-                            //TODO  3968
+
                             int PowChn = MyApplication.getWareData().getAirConds().get(i).getPowChn();
                             String PowChnList = Integer.toBinaryString(PowChn);
                             PowChnList = new StringBuffer(PowChnList).reverse().toString();
@@ -182,7 +183,7 @@ public class DevInfosAdapter extends BaseAdapter {
                         if (Devs.get(position).getCanCpuId()
                                 .equals(MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId())
                                 && Devs.get(position).getDevId() != MyApplication.getWareData().getLights().get(i).getDev().getDevId()) {
-                            //TODO  3968
+
                             int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn() + 1;
                             list_voard_cancpuid.add(PowChn);
                         }
@@ -192,7 +193,7 @@ public class DevInfosAdapter extends BaseAdapter {
                         if (Devs.get(position).getCanCpuId()
                                 .equals(MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())
                                 && Devs.get(position).getDevId() != MyApplication.getWareData().getCurtains().get(i).getDev().getDevId()) {
-                            //TODO  3968
+
                             int PowChn = MyApplication.getWareData().getCurtains().get(i).getPowChn();
                             String PowChnList = Integer.toBinaryString(PowChn);
                             PowChnList = new StringBuffer(PowChnList).reverse().toString();
@@ -280,12 +281,13 @@ public class DevInfosAdapter extends BaseAdapter {
 //                    finalViewHolder.mDevInfoEditLook.setVisibility(View.GONE);
 //                    finalViewHolder.mDevInfoEdit.setImageResource(R.drawable.ic_launcher_round);
                     builder = new AlertDialog.Builder(mContext);
+                    builder.setTitle("保存");
                     builder.setMessage("是否保存设置？");
                     builder.setPositiveButton("是的", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            // TODO 保存修改
+                            // 保存修改
                             String Save_DevName;
                             String Save_Roomname;
                             int Save_DevWay;

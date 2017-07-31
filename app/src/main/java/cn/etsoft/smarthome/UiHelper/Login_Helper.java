@@ -67,13 +67,13 @@ public class Login_Helper {
                     ToastUtil.showText("登陆成功");
                     setRcuInfoList(result);
                 } else if (result.getCode() == HTTPRequest_BackCode.LOGIN_ERROR) {
-                    //TODO 登陆失败
+                    // 登陆失败
                     ToastUtil.showText("登陆失败，请稍后再试");
                 } else if (result.getCode() == HTTPRequest_BackCode.LOGIN_USER_NOTFIND) {
-                    //TODO 用户不存在
+                    //用户不存在
                     ToastUtil.showText("登陆失败，用户不存在");
                 } else if (result.getCode() == HTTPRequest_BackCode.LOGIN_ERROR_Exception) {
-                    //TODO 服务器查询失败
+                    //服务器查询失败
                     ToastUtil.showText("登陆失败，服务器查询失败");
                 }
             }
@@ -82,7 +82,7 @@ public class Login_Helper {
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
                 Log.i(TAG, "onFailure: " + code + "****" + message);
-                //TODO 登陆失败
+                //登陆失败
                 MyApplication.mApplication.dismissLoadDialog();
                 ToastUtil.showText("登陆失败，网络不可用或服务器异常");
             }

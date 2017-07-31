@@ -102,7 +102,7 @@ public class TVSceneFragment extends BaseFragment {
 
 
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
+
         super.onHiddenChanged(hidden);
         if (!hidden) {// 不在最前端界面显示
             mRoomName = SceneSetHelper.getRoomName();

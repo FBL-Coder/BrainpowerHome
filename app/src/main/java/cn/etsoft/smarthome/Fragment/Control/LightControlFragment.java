@@ -1,15 +1,18 @@
 package cn.etsoft.smarthome.Fragment.Control;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.Activity.ControlActivity;
 import cn.etsoft.smarthome.Adapter.GridView.Control_Light_Adapter;
 import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.MyApplication;
@@ -37,7 +40,7 @@ public class LightControlFragment extends BaseFragment {
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                if (datType == 4){
+                if (datType == 4) {
                     initDev();
                 }
             }
@@ -53,10 +56,17 @@ public class LightControlFragment extends BaseFragment {
     @Override
     protected void setListener() {
 
+        ControlActivity.setControlDevListener(new ControlActivity.ControlDevListener() {
+            @Override
+            public void UpData(String roomname) {
+                mRoomName = roomname;
+                initDev();
+            }
+        });
     }
 
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
+
         super.onHiddenChanged(hidden);
         if (!hidden) {// 不在最前端界面显示
             mRoomName = SceneSetHelper.getRoomName();
@@ -85,6 +95,9 @@ public class LightControlFragment extends BaseFragment {
             mSceneSet_Light.setAdapter(mLightAdapter);
         } else
             mLightAdapter.notifyDataSetChanged(mLight_Room);
+
+        TextView nulltv= findViewById(R.id.null_tv);
+        mSceneSet_Light.setEmptyView(nulltv);
         mSceneSet_Light.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

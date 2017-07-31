@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:paddingTop="@dimen/dp_20"
+    android:paddingBottom="@dimen/dp_20"
+    android:background="@color/color_item_bg"
     android:orientation="horizontal"
-    android:paddingBottom="@dimen/dp_30">
+    >
 
     <LinearLayout
         android:layout_width="@dimen/dp_0"
@@ -15,8 +17,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_0"
-            android:layout_weight="0.5"
+            android:layout_height="@dimen/dp_50"
             android:orientation="horizontal">
 
             <TextView
@@ -42,9 +43,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_0"
+            android:layout_height="@dimen/dp_300"
             android:layout_margin="@dimen/dp_20"
-            android:layout_weight="2.5"
             android:background="@drawable/bg_orthogon_ring"
             android:orientation="vertical">
 
@@ -99,8 +99,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_0"
-            android:layout_weight="1.5"
+            android:layout_height="@dimen/dp_150"
             android:orientation="vertical">
 
             <ImageView

@@ -148,15 +148,21 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
             viewHoler.rotateControButton.setCanTouch(false);
         }
 
-        //TODO 点击按钮选择关联设备并且设置相关命令
+        //点击按钮选择关联设备并且设置相关命令
 
         if (DevType == 0) {
+            if (listData.get(position).getKey_cmd() > 5)
+                listData.get(position).setKey_cmd(0);
             viewHoler.rotateControButton.setTitle("开关", "按键命令", "温度-");
             viewHoler.rotateControButton.setTemp(0, 5, listData.get(position).getKey_cmd(), texts);
         } else if (DevType == 3) {
+            if (listData.get(position).getKey_cmd() > 5)
+                listData.get(position).setKey_cmd(0);
             viewHoler.rotateControButton.setTitle("打开", "按键命令", "变亮");
             viewHoler.rotateControButton.setTemp(0, 5, listData.get(position).getKey_cmd(), texts);
         } else if (DevType == 4) {
+            if (listData.get(position).getKey_cmd() > 4)
+                listData.get(position).setKey_cmd(0);
             viewHoler.rotateControButton.setTitle("打开", "按键命令", "停止");
             viewHoler.rotateControButton.setTemp(0, 4, listData.get(position).getKey_cmd(), texts);
         }

@@ -8,6 +8,7 @@ import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.Activity.ControlActivity;
 import cn.etsoft.smarthome.Activity.Settings.SceneSetActivity;
 import cn.etsoft.smarthome.Adapter.GridView.Control_Tv_Adapter;
 import cn.etsoft.smarthome.Adapter.GridView.SceneSet_TV_Adapter;
@@ -66,6 +67,13 @@ public class TVControlFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
+        ControlActivity.setControlDevListener(new ControlActivity.ControlDevListener() {
+            @Override
+            public void UpData(String roomname) {
+                mRoomName = roomname;
+                initDev();
+            }
+        });
     }
 
     @Override
@@ -75,7 +83,7 @@ public class TVControlFragment extends BaseFragment {
 
 
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
+
         super.onHiddenChanged(hidden);
         if (!hidden) {// 不在最前端界面显示
             mRoomName = SceneSetHelper.getRoomName();

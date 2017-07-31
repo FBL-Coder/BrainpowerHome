@@ -2,12 +2,14 @@ package cn.etsoft.smarthome.Fragment.Control;
 
 import android.os.Bundle;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.Activity.ControlActivity;
 import cn.etsoft.smarthome.Adapter.GridView.Control_Air_Adapter;
 import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.MyApplication;
@@ -21,7 +23,7 @@ import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
 
 public class AirControlFragment extends BaseFragment {
 
-    private GridView mSceneSet_Girdview;
+    private GridView mAir_Girdview;
     private Control_Air_Adapter mAirAdapter;
     private String mRoomName = "全部";
     private List<WareAirCondDev> mAir_Room;
@@ -30,8 +32,8 @@ public class AirControlFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        mSceneSet_Girdview = findViewById(R.id.Control_Fragment_GridView);
-        mSceneSet_Girdview.setNumColumns(1);
+        mAir_Girdview = findViewById(R.id.Control_Fragment_GridView);
+        mAir_Girdview.setNumColumns(1);
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
@@ -65,13 +67,15 @@ public class AirControlFragment extends BaseFragment {
         }
         if (mAirAdapter == null) {
             mAirAdapter = new Control_Air_Adapter( mActivity, mAir_Room);
-            mSceneSet_Girdview.setAdapter(mAirAdapter);
+            mAir_Girdview.setAdapter(mAirAdapter);
         } else
             mAirAdapter.notifyDataSetChanged(mAir_Room);
+        TextView nulltv= findViewById(R.id.null_tv);
+        mAir_Girdview.setEmptyView(nulltv);
     }
 
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
+
         super.onHiddenChanged(hidden);
         if (!hidden) {// 不在最前端界面显示
             mRoomName = SceneSetHelper.getRoomName();
@@ -81,6 +85,14 @@ public class AirControlFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
+        ControlActivity.setControlDevListener(new ControlActivity.ControlDevListener() {
+            @Override
+            public void UpData(String roomname) {
+                mRoomName = roomname;
+                initDev();
+            }
+        });
+
     }
 
     @Override

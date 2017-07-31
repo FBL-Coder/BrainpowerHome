@@ -64,7 +64,7 @@
     <color name="pickerview_wheelview_textcolor_divider">#d5d5d5</color>
     <!--覆盖颜色-->
     <color name="bgColor_overlay">#60000000</color>
-    <color name="color_60212121">#60212121</color>
+    <color name="color_item_bg">#66444444</color>
 
 
 
@@ -166,8 +166,6 @@
     <color name="color_ED9015">#ED9015</color>
 
     <color name="color_A9AAAB">#A9AAAB</color>
-
-    <color name="color_66212121">#66212121</color>
 
     <color name="color_546A78">#546A78</color>
 

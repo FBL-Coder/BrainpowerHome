@@ -8,6 +8,7 @@ import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.Activity.ControlActivity;
 import cn.etsoft.smarthome.Domain.WareSetBox;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
@@ -59,6 +60,13 @@ public class TvUpControlFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
+        ControlActivity.setControlDevListener(new ControlActivity.ControlDevListener() {
+            @Override
+            public void UpData(String roomname) {
+                mRoomName = roomname;
+                initDev();
+            }
+        });
     }
 
     @Override
@@ -68,7 +76,7 @@ public class TvUpControlFragment extends BaseFragment {
 
 
     public void onHiddenChanged(boolean hidden) {
-        // TODO Auto-generated method stub
+
         super.onHiddenChanged(hidden);
         if (!hidden) {// 不在最前端界面显示
             mRoomName = SceneSetHelper.getRoomName();

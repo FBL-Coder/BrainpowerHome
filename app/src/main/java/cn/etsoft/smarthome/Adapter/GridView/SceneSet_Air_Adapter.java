@@ -221,7 +221,7 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
                     return;
                 }
                 mAirs.get(position).setSelSpd((byte) (mAirs.get(position).getSelSpd() - 1));
-                //getSceneDev(position)  TODO 数据变化，改变情景数据中的设备信息。
+                //getSceneDev(position)   数据变化，改变情景数据中的设备信息。
                 finalViewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd() - 1);
                 MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
                         , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() + 100, v.getY(), 0);
@@ -236,7 +236,7 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
                     return;
                 }
                 mAirs.get(position).setSelSpd((byte) (mAirs.get(position).getSelSpd() + 1));
-                //getSceneDev(position)  TODO 数据变化，改变情景数据中的设备信息。
+                //getSceneDev(position)  数据变化，改变情景数据中的设备信息。
                 finalViewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd() + 1);
                 MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
                         , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() - 150, v.getY(), 0);
@@ -254,7 +254,7 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
                     return;
                 }
                 mAirs.get(position).setSelTemp((byte) (mAirs.get(position).getSelTemp() - 1));
-                //getSceneDev(position)  TODO 数据变化，改变情景数据中的设备信息。
+                //getSceneDev(position)   数据变化，改变情景数据中的设备信息。
                 finalViewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp());
                 MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
                         , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() + 100, v.getY(), 0);
@@ -270,7 +270,7 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
                     return;
                 }
                 mAirs.get(position).setSelTemp((byte) (mAirs.get(position).getSelTemp() + 1));
-                //getSceneDev(position)  TODO 数据变化，改变情景数据中的设备信息。
+                //getSceneDev(position)   数据变化，改变情景数据中的设备信息。
                 finalViewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp());
                 MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
                         , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() - 100, v.getY(), 0);

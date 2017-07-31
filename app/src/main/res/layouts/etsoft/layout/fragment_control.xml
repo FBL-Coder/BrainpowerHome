@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/null_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right|bottom"
+        android:text="没有数据"
+        android:textColor="@color/white"
+        android:padding="@dimen/dp_20"
+        android:textSize="@dimen/sp_26"
+        android:textStyle="italic" />
 
     <GridView
         android:id="@+id/Control_Fragment_GridView"
@@ -10,5 +21,7 @@
         android:layout_margin="@dimen/dp_10"
         android:horizontalSpacing="@dimen/dp_10"
         android:numColumns="2"
-        android:verticalSpacing="@dimen/dp_10"/>
-</LinearLayout>
+        android:verticalSpacing="@dimen/dp_10" />
+
+
+</FrameLayout>

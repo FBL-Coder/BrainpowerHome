@@ -12,7 +12,22 @@
         android:layout_marginLeft="@dimen/dp_250"
         android:layout_marginTop="@dimen/dp_50"
         android:background="@null"
-        android:numColumns="2" />
+        android:horizontalSpacing="@dimen/dp_10"
+        android:numColumns="2"
+        android:padding="@dimen/dp_10"
+        android:verticalSpacing="@dimen/dp_10" />
+
+    <TextView
+        android:id="@+id/Dev_Info_NullData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp_250"
+        android:layout_marginTop="@dimen/dp_50"
+        android:gravity="right|bottom"
+        android:padding="@dimen/dp_20"
+        android:text="没有数据"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_26" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,11 +43,12 @@
             android:layout_marginRight="@dimen/dp_20"
             android:gravity="center"
             android:text="添加新设备"
-            android:textSize="@dimen/sp_22"
             android:textColor="@color/white"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/sp_22"
+            android:textStyle="bold" />
 
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="@dimen/dp_250"
         android:layout_height="match_parent">

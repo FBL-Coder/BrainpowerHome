@@ -36,7 +36,6 @@ public class MultiChoicePopWindow extends AbstractChoicePopWindow {
     }
 
     protected void initData(boolean flag[]) {
-        // TODO Auto-generated method stub
         mMultiChoicAdapter = new MultiChoicAdapter<String>(mContext, mList, flag, R.drawable.selector_checkbox1);
         mListView.setAdapter(mMultiChoicAdapter);
 //		mListView.setOnItemClickListener(mMultiChoicAdapter);
