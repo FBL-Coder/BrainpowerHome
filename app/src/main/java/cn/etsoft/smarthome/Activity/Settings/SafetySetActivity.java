@@ -41,7 +41,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
 
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
-    private TextView mSafetyType, mSafetyScene, mSafetyNow, mSafetySaveBtn, mSafety_AddDev, mSafetyDuiMa;
+    private TextView mSafetyType, mSafetyScene, mSafetyNow, mSafetySaveBtn, mSafety_AddDev, mSafetyDuiMa, mNull_tv;
     private EditText mSafetyName;
     private ImageView mShiNeng;
     private GridView mSafetyGirdView;
@@ -51,7 +51,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
     private boolean IsShiNeng;
     private SetSafetyResult.SecInfoRowsBean mBean;
     private List<String> mSafety_State_List, mSafety_Scene_Name;
-    private int mSafetyPosition = 0;
+    private int mSafetyPosition = -1;
     private int CirclePosition = 0;
     private PopupWindow popupWindow;
 
@@ -69,8 +69,9 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
         mSafetyDuiMa = getViewById(R.id.SafetySet_DuiMa);
         mSafetyName = getViewById(R.id.SafetySet_Name);
         mSafetyGirdView = getViewById(R.id.SafetySet_GirdView);
+        mNull_tv = getViewById(R.id.null_tv);
 
-
+        mSafetyGirdView.setEmptyView(mNull_tv);
         mShiNeng.setOnClickListener(this);
         mSafetySaveBtn.setOnClickListener(this);
         mSafetyType.setOnClickListener(this);
@@ -119,6 +120,9 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
         } else {
             initSafety();
         }
+        if (mSafetyPosition == -1){
+            mNull_tv.setText("请先选择防区");
+        }
     }
 
     private void initSafety() {
@@ -142,6 +146,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onClickOuterCircle(int position, View view) {
                 IsCanClick = true;
+                mNull_tv.setText("没有设备，可以添加设备");
                 CirclePosition = position;
                 mSafetyPosition = position % WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().size();
                 mBean = WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().get(mSafetyPosition);

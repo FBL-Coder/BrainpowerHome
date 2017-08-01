@@ -8,7 +8,19 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_70"
-        android:background="@color/color_302f35"/>
+        android:background="@color/color_302f35" />
+
+    <TextView
+        android:id="@+id/null_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp_250"
+        android:gravity="right|bottom"
+        android:padding="@dimen/dp_20"
+        android:text="请先选择房间和设备类型"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_26"
+        android:textStyle="italic" />
 
     <RelativeLayout
         android:id="@+id/SceneSet_Info"
@@ -25,8 +37,8 @@
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/SceneSet_CircleMenu"
             android:layout_width="@dimen/dp_250"
-            android:background="@drawable/circlebg"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/circlebg" />
     </RelativeLayout>
 
     <LinearLayout
@@ -51,9 +63,9 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="新增"
-            android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="@dimen/dp_22" />
+            android:textSize="@dimen/dp_22"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/SceneSet_Test_Btn"
@@ -61,18 +73,18 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="测试"
-            android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="@dimen/dp_22" />
+            android:textSize="@dimen/dp_22"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/SceneSet_Save_Btn"
             android:layout_width="@dimen/dp_70"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textColor="@color/white"
             android:text="保存"
-            android:textStyle="bold"
-            android:textSize="@dimen/dp_22" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_22"
+            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>

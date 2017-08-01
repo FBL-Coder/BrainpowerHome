@@ -63,7 +63,7 @@ public class Control_Curtain_Adapter extends BaseAdapter {
         } else viewHoler = (ViewHolder) convertView.getTag();
 
         mCurtains.get(position).setbOnOff(0);
-        viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+        viewHoler.mIV.setImageResource(R.drawable.chuanglian_heng);
         viewHoler.mName.setText(mCurtains.get(position).getDev().getDevName());
         viewHoler.mOpen.setOnClickListener(new View.OnClickListener() {
             @Override

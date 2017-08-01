@@ -35,10 +35,10 @@
                     android:layout_width="@dimen/dp_120"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:lines="1"
                     android:hint="无"
-                    android:textColorHint="@color/white"
+                    android:lines="1"
                     android:textColor="@color/white"
+                    android:textColorHint="@color/white"
                     android:textSize="@dimen/sp_16" />
 
                 <TextView
@@ -82,9 +82,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:minWidth="@dimen/dp_120"
-                    android:maxWidth="@dimen/dp_180"
                     android:lines="1"
+                    android:maxWidth="@dimen/dp_180"
+                    android:minWidth="@dimen/dp_120"
                     android:text="点击选择防区"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_16" />
@@ -97,9 +97,9 @@
                     android:gravity="center"
                     android:minWidth="@dimen/dp_80"
                     android:text="添加设备"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/sp_18" />
+                    android:textSize="@dimen/sp_18"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/GroupSet_Save_Btn"
@@ -107,23 +107,40 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
                     android:text="保存"
-                    android:textSize="@dimen/sp_18" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_18"
+                    android:textStyle="bold" />
             </LinearLayout>
         </RelativeLayout>
 
-        <GridView
-            android:id="@+id/GroupSet_GirdView"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:horizontalSpacing="@dimen/dp_10"
-            android:verticalSpacing="@dimen/dp_10"
-            android:padding="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/dp_250"
-            android:background="@null"
-            android:numColumns="2" />
+            android:layout_marginLeft="@dimen/dp_250">
+
+            <TextView
+                android:id="@+id/null_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|bottom"
+                android:padding="@dimen/dp_20"
+                android:text="没有数据"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_26"
+                android:textStyle="italic" />
+
+            <GridView
+                android:id="@+id/GroupSet_GirdView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:horizontalSpacing="@dimen/dp_10"
+                android:numColumns="2"
+                android:padding="@dimen/dp_10"
+                android:verticalSpacing="@dimen/dp_10" />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <FrameLayout
@@ -133,7 +150,7 @@
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/GroupSet_CircleMenu"
             android:layout_width="@dimen/dp_250"
-            android:background="@drawable/circlebg"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/circlebg" />
     </FrameLayout>
 </RelativeLayout>

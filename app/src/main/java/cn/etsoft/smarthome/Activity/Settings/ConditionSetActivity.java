@@ -39,7 +39,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
 
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
-    private TextView mConditionSaveBtn, mConditionType, mConditionWay, mConditionSet_AddDev;
+    private TextView mConditionSaveBtn, mConditionType, mConditionWay, mConditionSet_AddDev, mNull_tv;
     private EditText mConditionName, mConditionChuFaZhi;
     private ImageView mShiNeng;
     private GridView mConditionGirdView;
@@ -47,7 +47,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
     private Condition_Event_Bean.EnvEventRowsBean mBean;
     private boolean IsNoData = true;
     private boolean IsOpenShiNeng = false;
-    private int mConditionPosition = 0;
+    private int mConditionPosition = -1;
     private int CirclePosition = 0;
     private boolean IsCanClick = false;
     private PopupWindow popupWindow;
@@ -67,8 +67,10 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
         mConditionWay = getViewById(R.id.ConditionSet_Way);
         mConditionSet_AddDev = getViewById(R.id.ConditionSet_AddDev);
         mConditionGirdView = getViewById(R.id.ConditionSet_GirdView);
+        mNull_tv = getViewById(R.id.null_tv);
 
 
+        mConditionGirdView.setEmptyView(mNull_tv);
         mShiNeng.setOnClickListener(this);
         mConditionSaveBtn.setOnClickListener(this);
         mConditionType.setOnClickListener(this);
@@ -100,8 +102,10 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
             ToastUtil.showText("没有定时器数据");
             return;
         } else {
-
             initCondition();
+        }
+        if (mConditionPosition == -1) {
+            mNull_tv.setText("请先选择触发器");
         }
     }
 
@@ -124,7 +128,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
                 CirclePosition = position;
                 mConditionPosition = position % WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().size();
                 mBean = WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().get(mConditionPosition);
-
+                mNull_tv.setText("没有设备，可以添加设备");
                 mConditionName.setText("");
                 mConditionName.setHint(mBean.getEventName());
                 if (mBean == null || mBean.getRun_dev_item().size() == 0) {

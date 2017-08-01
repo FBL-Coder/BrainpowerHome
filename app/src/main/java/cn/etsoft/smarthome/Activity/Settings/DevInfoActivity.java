@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
+import org.xml.sax.DTDHandler;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class DevInfoActivity extends BaseActivity {
     private GridView DevInfoGridView;
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
-    private int DevType = 0;
+    private int DevType = -1;
     private String RoomName = "";
     private DevInfosAdapter adapter;
     private boolean OuterCircleClick = false;
@@ -89,6 +91,8 @@ public class DevInfoActivity extends BaseActivity {
         layout.Init(200, 100);
         layout.setInnerCircleMenuData(Data_InnerCircleList);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
+        if (DevType == -1 || "".equals(RoomName))
+            mDevInfoNullData.setText("请先选择房间和设备类型");
         initEvent();
     }
 
@@ -100,7 +104,7 @@ public class DevInfoActivity extends BaseActivity {
                 //内圈点击
                 mRoomDevs = getRoomDev(RoomName);
                 if (mRoomDevs == null) return;
-
+                mDevInfoNullData.setText("没有数据");
                 if (OuterCircleClick) {
                     List<WareDev> gridviewDev = new ArrayList<>();
                     for (int i = 0; i < mRoomDevs.size(); i++) {
@@ -123,6 +127,7 @@ public class DevInfoActivity extends BaseActivity {
                 if ("".equals(RoomName)) {
                     return;
                 }
+                mDevInfoNullData.setText("没有数据");
                 mRoomDevs = getRoomDev(RoomName);
                 if (mRoomDevs == null) return;
                 List<WareDev> gridviewDev = new ArrayList<>();

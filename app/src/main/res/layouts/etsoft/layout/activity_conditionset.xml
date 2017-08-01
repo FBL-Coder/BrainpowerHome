@@ -145,17 +145,33 @@
                     android:textSize="@dimen/dp_22" />
             </LinearLayout>
         </RelativeLayout>
-
-        <GridView
-            android:id="@+id/ConditionSet_GirdView"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:horizontalSpacing="@dimen/dp_10"
-            android:verticalSpacing="@dimen/dp_10"
-            android:padding="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/dp_250"
-            android:background="@null"
-            android:numColumns="2" />
+            android:layout_marginLeft="@dimen/dp_250">
+
+            <TextView
+                android:id="@+id/null_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|bottom"
+                android:padding="@dimen/dp_20"
+                android:text="没有数据"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_26"
+                android:textStyle="italic" />
+
+            <GridView
+                android:id="@+id/ConditionSet_GirdView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:horizontalSpacing="@dimen/dp_10"
+                android:numColumns="2"
+                android:padding="@dimen/dp_10"
+                android:verticalSpacing="@dimen/dp_10" />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <FrameLayout

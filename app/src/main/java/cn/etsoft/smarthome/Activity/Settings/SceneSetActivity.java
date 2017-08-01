@@ -42,10 +42,10 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
     private RecyclerView mSceneSetScenes;
-    private TextView mSceneSet_Add_Btn, mSceneSetTestBtn, mSceneSetSaveBtn;
+    private TextView mSceneSet_Add_Btn, mSceneSetTestBtn, mSceneSetSaveBtn,mNull_tv;
     private SceneSet_ScenesAdapter mScenesAdapter;
     private Fragment mLightFragment, mAirFragment, mTVFragment, mTvUpFragment, mCurFragment;
-    private int ScenePosition = 0, DevType = 0;
+    private int ScenePosition = 0, DevType = -1;
     private String RoomName = "";
     private boolean IsNoData = true;
 
@@ -83,6 +83,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         mSceneSet_Add_Btn = getViewById(R.id.SceneSet_Add_Btn);
         mSceneSetTestBtn = getViewById(R.id.SceneSet_Test_Btn);
         mSceneSetSaveBtn = getViewById(R.id.SceneSet_Save_Btn);
+        mNull_tv = getViewById(R.id.null_tv);
 
         mSceneSet_Add_Btn.setOnClickListener(this);
         mSceneSetTestBtn.setOnClickListener(this);
@@ -110,6 +111,9 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
 
         mScenesAdapter = new SceneSet_ScenesAdapter(WareDataHliper.initCopyWareData().getCopyScenes());
         mSceneSetScenes.setAdapter(mScenesAdapter);
+        if ("".equals(RoomName) || DevType == -1) {
+            mNull_tv.setVisibility(View.VISIBLE);
+        }
         initEvent();
     }
 
@@ -139,6 +143,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                     ToastUtil.showText("数据未加载成功，不可操作！");
                     return;
                 }
+                mNull_tv.setVisibility(View.GONE);
                 if (mSceneSetSceneClickListener != null)
                     mSceneSetSceneClickListener.SceneClickPosition(ScenePosition, DevType, Data_InnerCircleList.get(position).getTitle());
                 RoomName = Data_InnerCircleList.get(position).getTitle();
@@ -152,6 +157,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                     ToastUtil.showText("数据未加载成功，不可操作！");
                     return;
                 }
+                mNull_tv.setVisibility(View.GONE);
                 OuterCircleClick(SceneSetActivity.this, position, RoomName);
                 if (mSceneSetSceneClickListener != null)
                     mSceneSetSceneClickListener.SceneClickPosition(ScenePosition, position % 8, RoomName);

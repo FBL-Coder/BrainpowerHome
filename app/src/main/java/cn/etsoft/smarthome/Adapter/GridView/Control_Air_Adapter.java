@@ -74,9 +74,13 @@ public class Control_Air_Adapter extends BaseAdapter {
         } else viewHoler = (ViewHolder) convertView.getTag();
 
         //初始化开关
-        if (mAirs.get(position).getbOnOff() == 0)
-            viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher);
-        else viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher_round);
+        if (mAirs.get(position).getbOnOff() == 0) {
+            viewHoler.mAirSwitch.setImageResource(R.drawable.switch_icon);
+            viewHoler.mAirSwitchTv.setText("关闭");
+        } else {
+            viewHoler.mAirSwitchTv.setText("打开");
+            viewHoler.mAirSwitch.setImageResource(R.drawable.switch_open);
+        }
 
         final ViewHolder finalViewHoler = viewHoler;
 
@@ -89,7 +93,7 @@ public class Control_Air_Adapter extends BaseAdapter {
         spead_texts.add("高档");
         if (mAirs.get(position).getSelTemp() < 16 || mAirs.get(position).getSelTemp() > 30)
             mAirs.get(position).setSelTemp(16);
-        viewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp()-16);
+        viewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp() - 16);
         viewHoler.mHorizontalSelectTemp.setItems(temp_texts);
         viewHoler.mHorizontalSelectTemp.setAdditionCenterMark("℃");
         viewHoler.mHorizontalSelectTemp.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
@@ -313,6 +317,7 @@ public class Control_Air_Adapter extends BaseAdapter {
         public RadioButton mAirXeransis;
         public RadioButton mAirSwingFlap;
         private RadioGroup mAirMode;
+        private TextView mAirSwitchTv;
 
         public ViewHolder(View rootView) {
             this.rootView = rootView;
@@ -331,6 +336,7 @@ public class Control_Air_Adapter extends BaseAdapter {
             this.mAirXeransis = (RadioButton) rootView.findViewById(R.id.air_xeransis);
             this.mAirSwingFlap = (RadioButton) rootView.findViewById(R.id.air_swing_flap);
             this.mAirMode = (RadioGroup) rootView.findViewById(R.id.air_mode);
+            this.mAirSwitchTv = (TextView) rootView.findViewById(R.id.air_switch_tv);
         }
 
     }

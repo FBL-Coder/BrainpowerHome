@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
 
@@ -32,12 +33,15 @@ public class CurtarnSceneFragment extends BaseFragment {
     private List<WareCurtain> mCurtain_Room;
     private boolean IsShowSelect = false;
     private String DEVS_ALL_ROOM = "全部";
+    private TextView mNull_tv;
 
 
     @Override
     protected void initView() {
         mSceneSet_Girdview = findViewById(R.id.SceneSet_Fragment_GridView);
         mSceneSet_IsSelectDev = findViewById(R.id.SceneSet_IsSelectDev);
+        mNull_tv = findViewById(R.id.null_tv);
+        mSceneSet_Girdview.setEmptyView(mNull_tv);
     }
 
     @Override

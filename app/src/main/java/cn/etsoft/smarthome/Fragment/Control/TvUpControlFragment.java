@@ -27,7 +27,6 @@ public class TvUpControlFragment extends BaseFragment {
     @Override
     protected void initView() {
         mSceneSet_Girdview = findViewById(R.id.Control_Fragment_GridView);
-        mSceneSet_Girdview.setBackgroundResource(R.drawable.ic_launcher);
     }
 
     @Override

@@ -37,7 +37,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
 
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
-    private TextView mTimerWeeks, mTimerStartTime, mTimerEndTime, mTimerSaveBtn, mTimer_AddDev;
+    private TextView mTimerWeeks, mTimerStartTime, mTimerEndTime, mTimerSaveBtn, mTimer_AddDev, mNull_tv;
     private EditText mTimerName;
     private ImageView mShiNeng, mWeekAgain, mQuanWang;
     private GridView mTimerGirdView;
@@ -46,8 +46,8 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
     private boolean IsCanClick = false;
     private boolean IsOpenShiNeng = false, IsOpenWeekAgain = false, IsOPenQuanWang = false;
     private Timer_Data.TimerEventRowsBean mBean;
-    private int mTimerPosition = 0;
-    private int CirclePosition = 0;
+    private int mTimerPosition = -1;
+    private int CirclePosition = -1;
 
 
     @Override
@@ -64,7 +64,8 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
         mTimerName = getViewById(R.id.Timer_Name);
         mTimerGirdView = getViewById(R.id.Timer_GirdView);
         mTimer_AddDev = getViewById(R.id.Timer_AddDev);
-
+        mNull_tv = getViewById(R.id.null_tv);
+        mTimerGirdView.setEmptyView(mNull_tv);
 
         mShiNeng.setOnClickListener(this);
         mWeekAgain.setOnClickListener(this);
@@ -101,6 +102,9 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
         } else {
             initTimer();
         }
+        if (mTimerPosition == -1) {
+            mNull_tv.setText("请先选择定时器");
+        }
     }
 
     private void initTimer() {
@@ -112,6 +116,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClickOuterCircle(int position, View view) {
                 IsCanClick = true;
+                mNull_tv.setText("没有设备，可以添加设备");
                 CirclePosition = position;
                 mTimerPosition = position % WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows().size();
                 mBean = WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows()

@@ -11,6 +11,17 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/dp_250"
         android:background="@null" />
+    <TextView
+        android:id="@+id/null_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp_250"
+        android:gravity="right|bottom"
+        android:padding="@dimen/dp_20"
+        android:text="请先选择房间和设备类型"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_26"
+        android:textStyle="italic" />
 
     <RelativeLayout
         android:layout_width="@dimen/dp_250"
@@ -19,8 +30,8 @@
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/SceneSet_CircleMenu"
             android:layout_width="@dimen/dp_250"
-            android:background="@drawable/circlebg"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/circlebg" />
     </RelativeLayout>
 
 </RelativeLayout>

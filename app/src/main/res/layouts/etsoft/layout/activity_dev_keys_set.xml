@@ -15,15 +15,34 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="@drawable/menuup_bg"/>
+            android:background="@drawable/menuup_bg" />
 
-        <cn.etsoft.smarthome.View.SlideGridView
-            android:id="@+id/Dev_KeysSet_Keys"
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dp_250"
-            android:background="@null"
-            android:numColumns="2" />
+            android:layout_marginLeft="@dimen/dp_250">
+
+            <TextView
+                android:id="@+id/key_null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18"
+                android:gravity="right|bottom"
+                android:padding="@dimen/dp_20"/>
+
+            <cn.etsoft.smarthome.View.SlideGridView
+                android:id="@+id/Dev_KeysSet_Keys"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:horizontalSpacing="@dimen/dp_10"
+                android:verticalSpacing="@dimen/dp_10"
+                android:padding="@dimen/dp_10"
+                android:background="@null"
+                android:numColumns="2" />
+        </RelativeLayout>
+
     </LinearLayout>
 
     <RelativeLayout
@@ -32,10 +51,20 @@
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/Dev_KeysSet_CircleMenu"
-            android:background="@drawable/circlebg"
             android:layout_width="@dimen/dp_250"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/circlebg" />
     </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/dev_null_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_70"
+        android:layout_marginLeft="@dimen/dp_150"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16"
+        android:gravity="center"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,9 +89,9 @@
             android:background="@null"
             android:gravity="center"
             android:text="按键板"
-            android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="@dimen/dp_22" />
+            android:textSize="@dimen/dp_22"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/Dev_KeysSet_Test_Btn"
@@ -70,18 +99,18 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="测试"
-            android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="@dimen/dp_22" />
+            android:textSize="@dimen/dp_22"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/Dev_KeysSet_Save_Btn"
             android:layout_width="@dimen/dp_70"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textStyle="bold"
-            android:textColor="@color/white"
             android:text="保存"
-            android:textSize="@dimen/dp_22" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_22"
+            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>

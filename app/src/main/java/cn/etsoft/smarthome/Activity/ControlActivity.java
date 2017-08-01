@@ -6,10 +6,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Fragment.Control.AirControlFragment;
@@ -39,6 +41,7 @@ public class ControlActivity extends BaseActivity {
     private Fragment mLightFragment, mAirFragment, mTVFragment, mTvUpFragment, mCurFragment;
     private int DevType = 0, OutCircleposition = -1;
     private String RoomName = "";
+    private TextView mNull_tv;
 
     @Override
     public void initView() {
@@ -53,12 +56,16 @@ public class ControlActivity extends BaseActivity {
             return;
         }
         layout = getViewById(R.id.SceneSet_CircleMenu);
+        mNull_tv = getViewById(R.id.null_tv);
         Data_OuterCircleList = SceneSetHelper.initSceneCircleOUterData();
         Data_InnerCircleList = SceneSetHelper.initSceneCircleInnerData();
         layout.Init(200, 100);
         layout.setInnerCircleMenuData(Data_InnerCircleList);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 
+        if ("".equals(RoomName) || OutCircleposition == -1) {
+            mNull_tv.setVisibility(View.VISIBLE);
+        }
         initEvent();
     }
 
@@ -68,16 +75,21 @@ public class ControlActivity extends BaseActivity {
             public void onClickInnerCircle(int position, View view) {
                 RoomName = Data_InnerCircleList.get(position).getTitle();
                 SceneSetHelper.setRoomName(RoomName);
-                if (controlDevListener != null)
-                    controlDevListener.UpData(RoomName);
+                mNull_tv.setVisibility(View.GONE);
+                if (controlDevListenerList.size() != 0)
+                    for (int i = 0; i < controlDevListenerList.size(); i++) {
+                        controlDevListenerList.get(i).UpData(RoomName);
+                    }
+                OuterCircleClick(ControlActivity.this, DevType, RoomName);
             }
         });
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
                 OutCircleposition = position;
-                OuterCircleClick(ControlActivity.this, position, RoomName);
+                mNull_tv.setVisibility(View.GONE);
                 DevType = position % 8;
+                OuterCircleClick(ControlActivity.this, DevType, RoomName);
             }
         });
     }
@@ -107,7 +119,6 @@ public class ControlActivity extends BaseActivity {
         bundle.putString("RoomName", RoomName);
         switch (position) {
             case 0:
-            case 8:
                 if (mAirFragment == null) {
                     mAirFragment = new AirControlFragment();
                     mAirFragment.setArguments(bundle);
@@ -115,7 +126,6 @@ public class ControlActivity extends BaseActivity {
                 } else transaction.show(mAirFragment);
                 break;
             case 1:
-            case 9:
                 if (mTVFragment == null) {
                     mTVFragment = new TVControlFragment();
                     mTVFragment.setArguments(bundle);
@@ -123,7 +133,9 @@ public class ControlActivity extends BaseActivity {
                 } else transaction.show(mTVFragment);
                 break;
             case 2:
-            case 10:
+            case 5:
+            case 6:
+            case 7:
                 if (mTvUpFragment == null) {
                     mTvUpFragment = new TvUpControlFragment();
                     mTvUpFragment.setArguments(bundle);
@@ -131,7 +143,6 @@ public class ControlActivity extends BaseActivity {
                 } else transaction.show(mTvUpFragment);
                 break;
             case 3:
-            case 11:
                 if (mLightFragment == null) {
                     mLightFragment = new LightControlFragment();
                     mLightFragment.setArguments(bundle);
@@ -139,18 +150,11 @@ public class ControlActivity extends BaseActivity {
                 } else transaction.show(mLightFragment);
                 break;
             case 4:
-            case 12:
                 if (mCurFragment == null) {
                     mCurFragment = new CurtarnControlFragment();
                     mCurFragment.setArguments(bundle);
                     transaction.add(R.id.SceneSet_Info, mCurFragment);
                 } else transaction.show(mCurFragment);
-                break;
-            case 5:
-                break;
-            case 6:
-            case 14:
-
                 break;
         }
         transaction.commit();
@@ -158,8 +162,11 @@ public class ControlActivity extends BaseActivity {
 
     public static ControlDevListener controlDevListener;
 
+    public static List<ControlDevListener> controlDevListenerList = new ArrayList<>();
+
     public static void setControlDevListener(ControlDevListener controlDevListener) {
         ControlActivity.controlDevListener = controlDevListener;
+        controlDevListenerList.add(controlDevListener);
     }
 
     public interface ControlDevListener {

@@ -52,7 +52,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void initView() {
 
         setTitleViewVisible(true, R.color.color_4489CA);
-        setTitleImageBtn(true, R.drawable.back_image_select, true, R.drawable.ic_launcher_round);
+        setTitleImageBtn(true, R.drawable.back_image_select, true, R.drawable.logout_icon);
         setLayout(R.layout.activity_setting);
         mSettingNetwork = getViewById(R.id.setting_network);
         mSettingDevinfo = getViewById(R.id.setting_devinfo);

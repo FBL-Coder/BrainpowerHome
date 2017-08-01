@@ -34,7 +34,7 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
 
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
-    private TextView mGroupSetSafetys, mGroupSetSaveBtn, mGroupSet_AddDev;
+    private TextView mGroupSetSafetys, mGroupSetSaveBtn, mGroupSet_AddDev, mNull_tv;
     private EditText mGroupSetName;
     private ImageView mShiNeng, mSyncSever;
     private GridView mGroupSetGirdView;
@@ -43,7 +43,7 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
     private boolean IsNoData = true;
     private boolean IsCanClick = false;
     private boolean IsOpenShiNeng = false, IsyncSever = false;
-    private int mGroupSetPosition = 0;
+    private int mGroupSetPosition = -1;
     private int CirclePosition = 0;
     private boolean[] IsSelect;
 
@@ -58,8 +58,9 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
         mGroupSetName = getViewById(R.id.GroupSet_Name);
         mGroupSetGirdView = getViewById(R.id.GroupSet_GirdView);
         mGroupSet_AddDev = getViewById(R.id.GroupSet_AddDevs);
+        mNull_tv = getViewById(R.id.null_tv);
 
-
+        mGroupSetGirdView.setEmptyView(mNull_tv);
         mShiNeng.setOnClickListener(this);
         mSyncSever.setOnClickListener(this);
         mGroupSetSafetys.setOnClickListener(this);
@@ -88,6 +89,9 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
         } else {
             initGroupSet();
         }
+        if (mGroupSetPosition == -1){
+            mNull_tv.setText("请先选择组合触发器");
+        }
     }
 
     private void initGroupSet() {
@@ -102,6 +106,7 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                     ToastUtil.showText("获取数据异常，请稍后在试");
                     return;
                 }
+                mNull_tv.setText("没有设备，可以添加设备");
                 IsCanClick = true;
                 CirclePosition = position;
                 mGroupSetPosition = position % WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows().size();

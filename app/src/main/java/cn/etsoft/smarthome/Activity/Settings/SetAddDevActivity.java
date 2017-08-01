@@ -33,10 +33,10 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
     private CircleMenuLayout mCirclelayout;
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
-    private TextView mSetAddDev_Back_Btn, mSetAddDev_Save_Btn;
+    private TextView mSetAddDev_Back_Btn, mSetAddDev_Save_Btn, mNullTv;
     private GridView mSetAddDev_Info;
     private ImageView mSceneSet_IsSelectDev;
-    private int DevType = 0;
+    private int DevType = -1;
     private String RoomName = "";
     private boolean OuterCircleClick = false;
     private boolean IsShowSelect;
@@ -54,6 +54,8 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
         mSetAddDev_Save_Btn = getViewById(R.id.SetAddDev_Save_Btn);
         mSetAddDev_Info = getViewById(R.id.SetAddDev_Info);
         mSceneSet_IsSelectDev = getViewById(R.id.SceneSet_IsSelectDev);
+        mNullTv = getViewById(R.id.null_tv);
+        mSetAddDev_Info.setEmptyView(mNullTv);
 
         mSetAddDev_Back_Btn.setOnClickListener(this);
         mSceneSet_IsSelectDev.setOnClickListener(this);
@@ -141,14 +143,16 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                 mRoomDevs = SetAddDevHelper.getRoomDev(RoomName);
 
                 if (OuterCircleClick) {
+                    mNullTv.setText("没有数据");
                     List<WareDev> RecyclerViewDev = new ArrayList<>();
                     for (int i = 0; i < mRoomDevs.size(); i++) {
                         if (mRoomDevs.get(i).getType() == DevType)
                             RecyclerViewDev.add(mRoomDevs.get(i));
                     }
                     if (mAdapter == null)
-                        mAdapter = new SetAddDev_Adapter(SetAddDevHelper.getAddDevs(), SetAddDevActivity.this, RecyclerViewDev,IsShowSelect);
-                    else mAdapter.notifyDataSetChanged(RecyclerViewDev,SetAddDevHelper.getAddDevs(),IsShowSelect);
+                        mAdapter = new SetAddDev_Adapter(SetAddDevHelper.getAddDevs(), SetAddDevActivity.this, RecyclerViewDev, IsShowSelect);
+                    else
+                        mAdapter.notifyDataSetChanged(RecyclerViewDev, SetAddDevHelper.getAddDevs(), IsShowSelect);
                     mSetAddDev_Info.setAdapter(mAdapter);
                 }
             }
@@ -160,6 +164,7 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                 if ("".equals(RoomName)) {
                     return;
                 }
+                mNullTv.setText("没有数据");
                 OuterCircleClick = true;
                 DevType = position % 8;
 
@@ -169,11 +174,16 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
                         RecyclerViewDev.add(mRoomDevs.get(i));
                 }
                 if (mAdapter == null)
-                    mAdapter = new SetAddDev_Adapter(SetAddDevHelper.getAddDevs(), SetAddDevActivity.this, RecyclerViewDev,IsShowSelect);
-                else mAdapter.notifyDataSetChanged(RecyclerViewDev,SetAddDevHelper.getAddDevs(),IsShowSelect);
+                    mAdapter = new SetAddDev_Adapter(SetAddDevHelper.getAddDevs(), SetAddDevActivity.this, RecyclerViewDev, IsShowSelect);
+                else
+                    mAdapter.notifyDataSetChanged(RecyclerViewDev, SetAddDevHelper.getAddDevs(), IsShowSelect);
                 mSetAddDev_Info.setAdapter(mAdapter);
             }
         });
+
+        if (DevType == -1 || "".equals(RoomName)){
+            mNullTv.setText("请先选择房间和设备类型");
+        }
     }
 
     @Override

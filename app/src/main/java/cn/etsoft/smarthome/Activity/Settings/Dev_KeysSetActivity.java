@@ -1,7 +1,9 @@
 package cn.etsoft.smarthome.Activity.Settings;
 
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -45,7 +47,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
     private List<CircleDataEvent> Data_InnerCircleList;
     private RecyclerView mDevKeys_Devs;
     private SlideGridView mDevKeys_Keys;
-    private TextView mDevKeys_KeyBoards, mDevKeys_TestBtn, mDevKeys_SaveBtn;
+    private TextView mDevKeys_KeyBoards, mDevKeys_TestBtn, mDevKeys_SaveBtn, mDevNullTv, mKeynull;
     //设备适配器
     private Dev_KeysSet_DevsAdapter mDevKeysDevsAdapter;
     //按键适配器
@@ -93,7 +95,10 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
         mDevKeys_TestBtn = getViewById(R.id.Dev_KeysSet_Test_Btn);
         mDevKeys_SaveBtn = getViewById(R.id.Dev_KeysSet_Save_Btn);
         mDevKeys_Keys = getViewById(R.id.Dev_KeysSet_Keys);
-
+        mDevNullTv = getViewById(R.id.dev_null_tv);
+        mKeynull = getViewById(R.id.key_null);
+        mKeynull.setText("请选择设备");
+        mDevKeys_Keys.setEmptyView(mKeynull);
         mDevKeys_KeyBoards.setOnClickListener(this);
         mDevKeys_TestBtn.setOnClickListener(this);
         mDevKeys_SaveBtn.setOnClickListener(this);
@@ -126,6 +131,9 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
         if (keyInputnames.size() > 0)
             mDevKeys_KeyBoards.setText(keyInputnames.get(0));
 
+        if ("".equals(RoomName) || DevType == -1) {
+            mDevNullTv.setText("请先选择房间和设备类型");
+        }
         initEvent();
     }
 
@@ -152,7 +160,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                     if (mRoomDevs.get(i).getType() == DevType)
                         RecyclerViewDev.add(mRoomDevs.get(i));
                 }
-                Dev_KeysSetHelper.Save(Dev_KeysSetActivity.this,RecyclerViewDev.get(devPosition));
+                Dev_KeysSetHelper.Save(Dev_KeysSetActivity.this, RecyclerViewDev.get(devPosition));
                 break;
         }
     }
@@ -168,7 +176,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                 RoomName = Data_InnerCircleList.get(position).getTitle();
                 Dev_KeysSetHelper.setRoomName(RoomName);
                 mRoomDevs = Dev_KeysSetHelper.getRoomDev(RoomName);
-
+                mDevNullTv.setText("没有数据");
                 if (OuterCircleClick) {
                     List<WareDev> RecyclerViewDev = new ArrayList<>();
                     for (int i = 0; i < mRoomDevs.size(); i++) {
@@ -179,6 +187,10 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                         mDevKeysDevsAdapter = new Dev_KeysSet_DevsAdapter(RecyclerViewDev);
                     else mDevKeysDevsAdapter.upData(RecyclerViewDev);
                     mDevKeys_Devs.setAdapter(mDevKeysDevsAdapter);
+                    if (mDevKeysDevsAdapter.getItemCount() == 0) {
+                        mDevNullTv.setVisibility(View.VISIBLE);
+                    } else mDevNullTv.setVisibility(View.GONE);
+                    mDevKeys_Keys.setAdapter(null);
                     RecyclerViewClick();
                 }
             }
@@ -193,6 +205,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                 if ("".equals(RoomName)) {
                     return;
                 }
+                mDevNullTv.setText("没有数据");
                 OuterCircleClick = true;
                 DevType = position % 8;
 
@@ -205,6 +218,11 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                     mDevKeysDevsAdapter = new Dev_KeysSet_DevsAdapter(RecyclerViewDev);
                 else mDevKeysDevsAdapter.upData(RecyclerViewDev);
                 mDevKeys_Devs.setAdapter(mDevKeysDevsAdapter);
+
+                if (mDevKeysDevsAdapter.getItemCount() == 0) {
+                    mDevNullTv.setVisibility(View.VISIBLE);
+                } else mDevNullTv.setVisibility(View.GONE);
+                mDevKeys_Keys.setAdapter(null);
                 RecyclerViewClick();
             }
         });
