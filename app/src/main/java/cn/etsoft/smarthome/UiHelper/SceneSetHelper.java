@@ -1,9 +1,9 @@
 package cn.etsoft.smarthome.UiHelper;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -228,7 +228,6 @@ public class SceneSetHelper {
                             break;
                         }
                     }
-
                     String div;
                     String more_data = "";
                     String data_str = "";
@@ -257,6 +256,7 @@ public class SceneSetHelper {
                     try {
                         more_data = more_data.substring(0, more_data.lastIndexOf(","));
                     } catch (Exception e) {
+                        MyApplication.mApplication.dismissLoadDialog();
                         System.out.println(e + "");
                     }
                     //这就是要上传的字符串:data_hoad

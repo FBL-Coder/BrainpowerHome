@@ -7,9 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,43 +135,43 @@ public class Key_DevsSetAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHoler viewHoler = null;
+        ViewHolder viewHoler = null;
         if (convertView == null) {
-            viewHoler = new ViewHoler();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.girdview_devs_item, null);
-            viewHoler.mName = (TextView) convertView.findViewById(R.id.text_list_item);
-            viewHoler.mIV = (ImageView) convertView.findViewById(R.id.img_list_item);
-            viewHoler.rotateControButton = (RotateControButton) convertView.findViewById(R.id.RotateControButton);
+            viewHoler = new ViewHolder(convertView);
             convertView.setTag(viewHoler);
-        } else viewHoler = (ViewHoler) convertView.getTag();
+        } else viewHoler = (ViewHolder) convertView.getTag();
 
         if (listData.get(position).isSelect()) {
-            viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
-            viewHoler.rotateControButton.setCanTouch(true);
+            viewHoler.mIV.setImageResource(R.drawable.select_ok);
+            viewHoler.mRotateControButton.setCanTouch(true);
         } else {
-            viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
-            viewHoler.rotateControButton.setCanTouch(false);
+            viewHoler.mIV.setImageResource(R.drawable.select_no);
+            viewHoler.mRotateControButton.setCanTouch(false);
         }
 
         if (DevType == 0) {
+            viewHoler.mIconListItem.setImageResource(R.drawable.kongtiao_anjian_dev);
             if (listData.get(position).getCmd() > 5)
                 listData.get(position).setCmd(0);
-            viewHoler.rotateControButton.setTitle("开关", "设备命令", "温度-");
-            viewHoler.rotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
+            viewHoler.mRotateControButton.setTitle("开关", "设备命令", "温度-");
+            viewHoler.mRotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
         } else if (DevType == 3) {
+            viewHoler.mIconListItem.setImageResource(R.drawable.light_anjian_dev);
             if (listData.get(position).getCmd() > 5)
                 listData.get(position).setCmd(0);
-            viewHoler.rotateControButton.setTitle("打开", "设备命令", "变亮");
-            viewHoler.rotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
+            viewHoler.mRotateControButton.setTitle("打开", "设备命令", "变亮");
+            viewHoler.mRotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
         } else if (DevType == 4) {
+            viewHoler.mIconListItem.setImageResource(R.drawable.chuanglian_anjian_dev);
             if (listData.get(position).getCmd() > 4)
                 listData.get(position).setCmd(0);
-            viewHoler.rotateControButton.setTitle("未设置", "设备命令", "停止");
-            viewHoler.rotateControButton.setTemp(0, 4, listData.get(position).getCmd(), texts);
+            viewHoler.mRotateControButton.setTitle("打开", "设备命令", "停止");
+            viewHoler.mRotateControButton.setTemp(0, 4, listData.get(position).getCmd(), texts);
         }
         viewHoler.mName.setText(listData.get(position).getDevName());
 
-        viewHoler.rotateControButton.setOnTempChangeListener(new RotateControButton.OnTempChangeListener() {
+        viewHoler.mRotateControButton.setOnTempChangeListener(new RotateControButton.OnTempChangeListener() {
             @Override
             public void change(int temp) {
                 if (listData.get(position).isSelect()) {
@@ -239,10 +238,22 @@ public class Key_DevsSetAdapter extends BaseAdapter {
 
         return convertView;
     }
+    public static class ViewHolder {
+        public View rootView;
+        public ImageView mIconListItem;
+        public ImageView mIV;
+        public RotateControButton mRotateControButton;
+        public TextView mName;
+        public LinearLayout mSceneItemLl;
 
-    class ViewHoler {
-        ImageView mIV;
-        TextView mName;
-        RotateControButton rotateControButton;
+        public ViewHolder(View rootView) {
+            this.rootView = rootView;
+            this.mIconListItem = (ImageView) rootView.findViewById(R.id.icon_list_item);
+            this.mIV = (ImageView) rootView.findViewById(R.id.img_list_item);
+            this.mRotateControButton = (RotateControButton) rootView.findViewById(R.id.RotateControButton);
+            this.mName = (TextView) rootView.findViewById(R.id.text_list_item);
+            this.mSceneItemLl = (LinearLayout) rootView.findViewById(R.id.scene_item_ll);
+        }
+
     }
 }

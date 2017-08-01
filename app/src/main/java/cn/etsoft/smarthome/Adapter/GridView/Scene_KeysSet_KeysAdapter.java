@@ -34,6 +34,8 @@ public class Scene_KeysSet_KeysAdapter extends BaseAdapter {
         this.Scene_ID = Scene_ID;
         listData = new ArrayList<>();
         KeyNames = new ArrayList<>();
+        if (MyApplication.getWareData().getKeyInputs().size() == 0)
+            return;
         for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyName().length; i++) {
             KeyNames.add(MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyName()[i]);
         }
@@ -88,11 +90,10 @@ public class Scene_KeysSet_KeysAdapter extends BaseAdapter {
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
 
-        viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+        viewHoler.mIV.setImageResource(R.drawable.anjian_icon);
         for (int i = 0; i < listData.size(); i++) {
             if (position == listData.get(i).getKeyIndex())
                 viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
-
         }
 
         viewHoler.mName.setText(KeyNames.get(position));

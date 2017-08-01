@@ -186,8 +186,8 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
             case R.id.SceneSet_IsSelectDev:
                 IsShowSelect = !IsShowSelect;
                 if (IsShowSelect)
-                    mSceneSet_IsSelectDev.setImageResource(R.drawable.ic_launcher_round);
-                else mSceneSet_IsSelectDev.setImageResource(R.drawable.ic_launcher);
+                    mSceneSet_IsSelectDev.setImageResource(R.drawable.show_on);
+                else mSceneSet_IsSelectDev.setImageResource(R.drawable.show_off);
                 break;
             case R.id.SetAddDev_Save_Btn:
                 if ("Timer".equals(IntentFlag)) {

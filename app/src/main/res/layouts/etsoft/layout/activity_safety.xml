@@ -161,6 +161,9 @@
             android:id="@+id/SafetySet_GirdView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:horizontalSpacing="@dimen/dp_10"
+            android:verticalSpacing="@dimen/dp_10"
+            android:padding="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_250"
             android:background="@null"
             android:numColumns="2" />

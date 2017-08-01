@@ -80,10 +80,10 @@ public class ConditionSet_DevAdapter extends BaseAdapter {
                         timer_list.get(position).getCanCpuID().endsWith(AirCondDev.getDev().getCanCpuId())) {
                     viewHolder.name.setText(AirCondDev.getDev().getDevName());
                     if (timer_list.get(position).getBOnOff() == 0) {
-                        viewHolder.type.setImageResource(R.drawable.ic_launcher);
+                        viewHolder.type.setImageResource(R.drawable.kt_dev_item_close);
                         viewHolder.state.setText("关闭");
                     } else {
-                        viewHolder.type.setImageResource(R.drawable.ic_launcher_round);
+                        viewHolder.type.setImageResource(R.drawable.kt_dev_item_open);
                         viewHolder.state.setText("打开");
                     }
                 }
@@ -125,10 +125,10 @@ public class ConditionSet_DevAdapter extends BaseAdapter {
                         timer_list.get(position).getCanCpuID().endsWith(Light.getDev().getCanCpuId())) {
                     viewHolder.name.setText(Light.getDev().getDevName());
                     if (timer_list.get(position).getBOnOff() == 0) {
-                        viewHolder.type.setImageResource(R.drawable.ic_launcher);
+                        viewHolder.type.setImageResource(R.drawable.dg_dev_item_close);
                         viewHolder.state.setText("关闭");
                     } else {
-                        viewHolder.type.setImageResource(R.drawable.ic_launcher_round);
+                        viewHolder.type.setImageResource(R.drawable.dg_dev_item_open);
                         viewHolder.state.setText("打开");
                     }
                 }
@@ -140,10 +140,10 @@ public class ConditionSet_DevAdapter extends BaseAdapter {
                         timer_list.get(position).getCanCpuID().endsWith(Curtain.getDev().getCanCpuId())) {
                     viewHolder.name.setText(Curtain.getDev().getDevName());
                     if (timer_list.get(position).getBOnOff() == 0) {
-                        viewHolder.type.setImageResource(R.drawable.ic_launcher);
+                        viewHolder.type.setImageResource(R.drawable.cl_dev_item_close);
                         viewHolder.state.setText("关闭");
                     } else {
-                        viewHolder.type.setImageResource(R.drawable.ic_launcher_round);
+                        viewHolder.type.setImageResource(R.drawable.cl_dev_item_open);
                         viewHolder.state.setText("打开");
                     }
                 }

@@ -82,8 +82,8 @@ public class TvUpSceneFragment extends BaseFragment {
             public void onClick(View v) {
                 IsShowSelect = !IsShowSelect;
                 if (IsShowSelect)
-                    mSceneSet_IsSelectDev.setImageResource(R.drawable.ic_launcher);
-                else mSceneSet_IsSelectDev.setImageResource(R.drawable.ic_launcher_round);
+                    mSceneSet_IsSelectDev.setImageResource(R.drawable.show_on);
+                else mSceneSet_IsSelectDev.setImageResource(R.drawable.show_off);
                 initDev();
 
             }

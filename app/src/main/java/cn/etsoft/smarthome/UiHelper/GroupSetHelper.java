@@ -1,6 +1,9 @@
 package cn.etsoft.smarthome.UiHelper;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -55,79 +58,98 @@ public class GroupSetHelper {
     /**
      * 保存
      */
-    public static void Save(int group_position, TextView safety_nums,
-                            EditText groupName, boolean enabled, boolean event_way,
-                            GroupSet_Data.SecsTriggerRowsBean Bean) {
+    public static void Save(Activity activity, final int group_position, final TextView safety_nums,
+                            final EditText groupName, final boolean enabled, final boolean event_way,
+                            final GroupSet_Data.SecsTriggerRowsBean Bean) {
 
-        List<GroupSet_Data.SecsTriggerRowsBean.RunDevItemBean> common_dev = Bean.getRun_dev_item();
-        try {
-            GroupSet_Data groupSet_data = new GroupSet_Data();
-            List<GroupSet_Data.SecsTriggerRowsBean> envEvent_rows = new ArrayList<>();
-            GroupSet_Data.SecsTriggerRowsBean bean = new GroupSet_Data.SecsTriggerRowsBean();
-            //  "devCnt": 1,
-            bean.setDevCnt(common_dev.size());
-            //"eventId":	0,
-            bean.setTriggerId(Bean.getTriggerId());
-            // "run_dev_item":
-            bean.setRun_dev_item(common_dev);
-
-            if ("".equals(groupName.getText().toString())) {
-                bean.setTriggerName(CommonUtils.bytesToHexString(
-                        MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows()
-                                .get(group_position).getTriggerName().getBytes("GB2312")));
-            } else {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("提示 :");
+        builder.setMessage("您要保存这些设置吗？");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("是的", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                List<GroupSet_Data.SecsTriggerRowsBean.RunDevItemBean> common_dev = Bean.getRun_dev_item();
                 try {
-                    //触发器名称
-                    bean.setTriggerName(CommonUtils.bytesToHexString(
-                            groupName.getText().toString().getBytes("GB2312")));
-                } catch (UnsupportedEncodingException e) {
-                    ToastUtil.showText("触发器名称不合适");
-                    return;
+                    GroupSet_Data groupSet_data = new GroupSet_Data();
+                    List<GroupSet_Data.SecsTriggerRowsBean> envEvent_rows = new ArrayList<>();
+                    GroupSet_Data.SecsTriggerRowsBean bean = new GroupSet_Data.SecsTriggerRowsBean();
+                    //  "devCnt": 1,
+                    bean.setDevCnt(common_dev.size());
+                    //"eventId":	0,
+                    bean.setTriggerId(Bean.getTriggerId());
+                    // "run_dev_item":
+                    bean.setRun_dev_item(common_dev);
+
+                    if ("".equals(groupName.getText().toString())) {
+                        bean.setTriggerName(CommonUtils.bytesToHexString(
+                                MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows()
+                                        .get(group_position).getTriggerName().getBytes("GB2312")));
+                    } else {
+                        try {
+                            //触发器名称
+                            bean.setTriggerName(CommonUtils.bytesToHexString(
+                                    groupName.getText().toString().getBytes("GB2312")));
+                        } catch (UnsupportedEncodingException e) {
+                            MyApplication.mApplication.dismissLoadDialog();
+                            ToastUtil.showText("触发器名称不合适");
+                            return;
+                        }
+                    }
+                    if (groupName.getText().toString().length() > 24) {
+                        MyApplication.mApplication.dismissLoadDialog();
+                        ToastUtil.showText("触发器名称不能过长");
+                        return;
+                    }
+                    //组合触发器是否启用 "valid":
+                    if (enabled)
+                        bean.setValid(1);
+                    else
+                        bean.setValid(0);
+                    //是否上报服务器
+                    if (event_way)
+                        bean.setReportServ(1);
+                    else bean.setReportServ(0);
+                    String SafetyData = safety_nums.getText().toString();
+                    if (SafetyData.equals("点击选择防区")) {
+                        ToastUtil.showText("请选择防区");
+                        MyApplication.mApplication.dismissLoadDialog();
+                        return;
+                    }
+                    SafetyData = SafetyData.replaceAll(" ", "");
+                    StringBuffer Safety_sb = new StringBuffer(SafetyData);
+                    for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
+                        if (Safety_sb.length() <= i)
+                            Safety_sb.append("0");
+                    }
+                    for (int i = 0; i < Safety_sb.length(); i++) {
+                        if (Safety_sb.charAt(i) != '0')
+                            Safety_sb.setCharAt(i, '1');
+                    }
+                    bean.setTriggerSecs(Integer.parseInt(Safety_sb.reverse().toString(), 2));
+                    envEvent_rows.add(bean);
+                    groupSet_data.setDatType(66);
+                    groupSet_data.setDevUnitID(GlobalVars.getDevid());
+                    groupSet_data.setItemCnt(1);
+                    groupSet_data.setSubType1(2);
+                    groupSet_data.setSubType2(0);
+                    groupSet_data.setSecs_trigger_rows(envEvent_rows);
+                    Gson gson = new Gson();
+                    Log.i("保存触发器数据", gson.toJson(groupSet_data));
+                    MyApplication.mApplication.getUdpServer().send(gson.toJson(groupSet_data));
+                } catch (Exception e) {
+                    MyApplication.mApplication.dismissLoadDialog();
+                    Log.e("保存触发器数据", "保存数据异常" + e);
+                    ToastUtil.showText("保存数据异常,请检查数据是否合适");
                 }
             }
-            if (groupName.getText().toString().length() > 24) {
-                ToastUtil.showText("触发器名称不能过长");
-                return;
-            }
-            //组合触发器是否启用 "valid":
-            if (enabled)
-                bean.setValid(1);
-            else
-                bean.setValid(0);
-            //是否上报服务器
-            if (event_way)
-                bean.setReportServ(1);
-            else bean.setReportServ(0);
-            String SafetyData = safety_nums.getText().toString();
-            if (SafetyData.equals("点击选择防区")) {
-                ToastUtil.showText("请选择防区");
-                return;
-            }
-            SafetyData = SafetyData.replaceAll(" ", "");
-            StringBuffer Safety_sb = new StringBuffer(SafetyData);
-            for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
-                if (Safety_sb.length() <= i)
-                    Safety_sb.append("0");
-            }
-            for (int i = 0; i < Safety_sb.length(); i++) {
-                if (Safety_sb.charAt(i) != '0')
-                    Safety_sb.setCharAt(i, '1');
-            }
-            bean.setTriggerSecs(Integer.parseInt(Safety_sb.reverse().toString(), 2));
-            envEvent_rows.add(bean);
-            groupSet_data.setDatType(66);
-            groupSet_data.setDevUnitID(GlobalVars.getDevid());
-            groupSet_data.setItemCnt(1);
-            groupSet_data.setSubType1(2);
-            groupSet_data.setSubType2(0);
-            groupSet_data.setSecs_trigger_rows(envEvent_rows);
-            Gson gson = new Gson();
-            Log.i("保存触发器数据", gson.toJson(groupSet_data));
-            MyApplication.mApplication.getUdpServer().send(gson.toJson(groupSet_data));
-        } catch (Exception e) {
-            Log.e("保存触发器数据", "保存数据异常" + e);
-            ToastUtil.showText("保存数据异常,请检查数据是否合适");
-        }
+        });
+        builder.create().show();
     }
 
     /**

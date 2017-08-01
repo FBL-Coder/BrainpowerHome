@@ -117,8 +117,8 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
         } else viewHoler = (ViewHoler) convertView.getTag();
 
         mCurtains.get(position).setbOnOff(0);
-        viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
-        viewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
+        viewHoler.mIV.setImageResource(R.drawable.cl_dev_item_close);
+        viewHoler.mSelect.setImageResource(R.drawable.select_no);
         viewHoler.mSeekBar.setVisibility(View.GONE);
         if (mSceneDev != null) {
             for (int i = 0; i < mSceneDev.size(); i++) {//根据设给的数据判断状态以及显示图标
@@ -126,13 +126,13 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
                         && mSceneDev.get(i).getCanCpuID().equals(mCurtains.get(position).getDev().getCanCpuId())
                         && mSceneDev.get(i).getDevType() == mCurtains.get(position).getDev().getType()) {
                     mCurtains.get(position).getDev().setSelect(true);
-                    viewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
+                    viewHoler.mSelect.setImageResource(R.drawable.select_ok);
                     if (mSceneDev.get(i).getbOnOff() == 0) {
                         mCurtains.get(position).setbOnOff(0);
-                        viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+                        viewHoler.mIV.setImageResource(R.drawable.cl_dev_item_close);
                     } else if (mSceneDev.get(i).getbOnOff() == 1) {
                         mCurtains.get(position).setbOnOff(1);
-                        viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
+                        viewHoler.mIV.setImageResource(R.drawable.cl_dev_item_open);
                     }
                 }
             }
@@ -147,7 +147,7 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
                                 && mCurtains.get(position).getDev().getType() == mSceneDev.get(i).getDevType()
                                 && mCurtains.get(position).getDev().getCanCpuId().equals(mSceneDev.get(i).getCanCpuID())) {
                             mSceneDev.remove(i);
-                            finalViewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
+                            finalViewHoler.mSelect.setImageResource(R.drawable.select_no);
                             mCurtains.get(position).getDev().setSelect(false);
                         }
                     }
@@ -159,7 +159,7 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
                     item.setDevType(mCurtains.get(position).getDev().getType());
                     item.setCanCpuID(mCurtains.get(position).getDev().getCanCpuId());
                     mSceneDev.add(item);
-                    finalViewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
+                    finalViewHoler.mSelect.setImageResource(R.drawable.select_ok);
                 }
                 Log.i(TAG, "onClick: ****" + mSceneDev.size());
             }

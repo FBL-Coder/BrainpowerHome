@@ -1,25 +1,18 @@
 package cn.etsoft.smarthome.UiHelper;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Domain.GlobalVars;
-import cn.etsoft.smarthome.Domain.Out_List_printcmd;
-import cn.etsoft.smarthome.Domain.PrintCmd;
 import cn.etsoft.smarthome.Domain.Save_Quipment;
-import cn.etsoft.smarthome.Domain.UpBoardKeyData;
-import cn.etsoft.smarthome.Domain.WareChnOpItem;
-import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.Domain.WareDev;
 import cn.etsoft.smarthome.Domain.WareKeyOpItem;
 import cn.etsoft.smarthome.MyApplication;
@@ -226,6 +219,11 @@ public class Key_DevsSetHelper {
                         key_opitem_rows.setDevID(keyOpItems.get(i).getDevId());
                         key_opitem_rows.setDevType(keyOpItems.get(i).getDevType());
                         key_opitem_rows.setKeyOp(keyOpItems.get(i).getKeyOp());
+                        if (keyOpItems.get(i).getKeyOpCmd() == 0){
+                            ToastUtil.showText("存在未设置，不能保存");
+                            MyApplication.mApplication.dismissLoadDialog();
+                            return;
+                        }
                         key_opitem_rows.setKeyOpCmd(keyOpItems.get(i).getKeyOpCmd());
                         list_kor.add(key_opitem_rows);
                     }

@@ -121,8 +121,8 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
         } else viewHoler = (ViewHoler) convertView.getTag();
 
         mLights.get(position).setbOnOff((byte) 0);
-        viewHoler.mIV.setImageResource(R.drawable.light_close);
-        viewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
+        viewHoler.mIV.setImageResource(R.drawable.dg_dev_item_close);
+        viewHoler.mSelect.setImageResource(R.drawable.select_no);
         viewHoler.mSeekBar.setRight(4);
 
         if (mSceneDev != null) {
@@ -131,13 +131,13 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
                         && mSceneDev.get(i).getCanCpuID().equals(mLights.get(position).getDev().getCanCpuId())
                         && mSceneDev.get(i).getDevType() == mLights.get(position).getDev().getType()) {
                     mLights.get(position).getDev().setSelect(true);
-                    viewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
+                    viewHoler.mSelect.setImageResource(R.drawable.select_ok);
                     if (mSceneDev.get(i).getbOnOff() == 0) {
                         mLights.get(position).setbOnOff((byte) 0);
-                        viewHoler.mIV.setImageResource(R.drawable.light_close);
+                        viewHoler.mIV.setImageResource(R.drawable.dg_dev_item_close);
                     } else if (mSceneDev.get(i).getbOnOff() == 1) {
                         mLights.get(position).setbOnOff((byte) 1);
-                        viewHoler.mIV.setImageResource(R.drawable.light_open);
+                        viewHoler.mIV.setImageResource(R.drawable.dg_dev_item_open);
                     }
                 }
             }
@@ -152,7 +152,7 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
                                 && mLights.get(position).getDev().getType() == mSceneDev.get(i).getDevType()
                                 && mLights.get(position).getDev().getCanCpuId().equals(mSceneDev.get(i).getCanCpuID())) {
                             mSceneDev.remove(i);
-                            finalViewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
+                            finalViewHoler.mSelect.setImageResource(R.drawable.select_no);
                             mLights.get(position).getDev().setSelect(false);
                         }
                     }
@@ -164,7 +164,7 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
                     item.setDevType((byte) mLights.get(position).getDev().getType());
                     item.setCanCpuID(mLights.get(position).getDev().getCanCpuId());
                     mSceneDev.add(item);
-                    finalViewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
+                    finalViewHoler.mSelect.setImageResource(R.drawable.select_ok);
                 }
                 Log.i(TAG, "onClick: ****" + mSceneDev.size());
             }

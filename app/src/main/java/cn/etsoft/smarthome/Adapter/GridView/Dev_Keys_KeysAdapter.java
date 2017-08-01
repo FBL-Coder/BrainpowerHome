@@ -141,10 +141,10 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
         } else viewHoler = (ViewHoler) convertView.getTag();
 
         if (listData.get(position).isSelect()) {
-            viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
+            viewHoler.mIV.setImageResource(R.drawable.select_ok);
             viewHoler.rotateControButton.setCanTouch(true);
         } else {
-            viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+            viewHoler.mIV.setImageResource(R.drawable.select_no);
             viewHoler.rotateControButton.setCanTouch(false);
         }
 

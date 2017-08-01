@@ -194,7 +194,7 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.GroupSet_Save_Btn://保存
                 MyApplication.mApplication.showLoadDialog(this);
-                GroupSetHelper.Save(mGroupSetPosition, mGroupSetSafetys
+                GroupSetHelper.Save(GroupSetActivity.this, mGroupSetPosition, mGroupSetSafetys
                         , mGroupSetName, IsOpenShiNeng, IsyncSever, mBean);
                 break;
             case R.id.GroupSet_ShiNeng: //使能开关

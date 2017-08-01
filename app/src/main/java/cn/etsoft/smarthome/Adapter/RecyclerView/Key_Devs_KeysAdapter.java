@@ -49,7 +49,7 @@ public class Key_Devs_KeysAdapter extends RecyclerView.Adapter<Key_Devs_KeysAdap
         } else {
             holder.itemView.setBackgroundResource(R.color.color_08143F);  //其他项背景
         }
-        holder.iv.setImageResource(R.drawable.ic_launcher);
+        holder.iv.setImageResource(R.drawable.anjian_icon);
 
         holder.tv.setText(list.get(position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -424,6 +424,7 @@ public class DevInfosAdapter extends BaseAdapter {
                             finalViewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
                             finalViewHolder.mDevInfoEditLook.setVisibility(View.GONE);
                             finalViewHolder.mDevInfoEdit.setImageResource(R.drawable.edit_dev);
+                            finalViewHolder.mDevInfoDelete.setImageResource(R.drawable.delete_edit_dev);
                         }
                     });
                     builder.create().show();

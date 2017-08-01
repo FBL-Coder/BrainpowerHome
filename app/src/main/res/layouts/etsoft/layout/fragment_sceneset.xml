@@ -2,36 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/sliding_left_press">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/select_rl"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_30">
+
         <ImageView
             android:id="@+id/SceneSet_IsSelectDev"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_40"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dp_40"
             android:layout_alignParentRight="true"
-            android:src= "@drawable/ic_launcher"/>
+            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_40"
+            android:src="@drawable/show_off" />
+
         <TextView
-            android:layout_toLeftOf="@id/SceneSet_IsSelectDev"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/SceneSet_IsSelectDev"
             android:gravity="center"
-            android:textSize="@dimen/sp_16"
+            android:text="是否只显示选中设备"
             android:textColor="@color/colorAccent"
-            android:text="是否只显示选中设备"/>
+            android:textSize="@dimen/sp_16" />
     </RelativeLayout>
 
     <GridView
         android:id="@+id/SceneSet_Fragment_GridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:horizontalSpacing="@dimen/dp_10"
         android:numColumns="2"
-        >
-    </GridView>
+        android:padding="@dimen/dp_10"
+        android:verticalSpacing="@dimen/dp_10"/>
 
 </LinearLayout>

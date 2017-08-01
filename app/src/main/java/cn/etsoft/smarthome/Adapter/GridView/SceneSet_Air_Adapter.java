@@ -122,8 +122,8 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
         } else viewHoler = (ViewHolder) convertView.getTag();
 
         mAirs.get(position).setbOnOff((byte) 0);
-        viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher);
-        viewHoler.mAirSelect.setImageResource(R.drawable.ic_launcher);
+        viewHoler.mAirSwitch.setImageResource(R.drawable.kt_dev_item_close);
+        viewHoler.mAirSelect.setImageResource(R.drawable.select_no);
         if (mSceneDev != null) {
             for (int i = 0; i < mSceneDev.size(); i++) {//根据设给的数据判断状态以及显示图标
                 if (mSceneDev.get(i).getDevID() == mAirs.get(position).getDev().getDevId()
@@ -131,13 +131,13 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
                         && mSceneDev.get(i).getDevType() == mAirs.get(position).getDev().getType()) {
 
                     mAirs.get(position).getDev().setSelect(true);
-                    viewHoler.mAirSelect.setImageResource(R.drawable.ic_launcher_round);
+                    viewHoler.mAirSelect.setImageResource(R.drawable.select_ok);
                     if (mSceneDev.get(i).getbOnOff() == 0) {
                         mAirs.get(position).setbOnOff((byte) 0);
-                        viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher);
+                        viewHoler.mAirSwitch.setImageResource(R.drawable.kt_dev_item_close);
                     } else {
-                        mAirs.get(position).setbOnOff((byte) 0);
-                        viewHoler.mAirSwitch.setImageResource(R.drawable.ic_launcher_round);
+                        mAirs.get(position).setbOnOff((byte) 1);
+                        viewHoler.mAirSwitch.setImageResource(R.drawable.kt_dev_item_open);
                     }
                     viewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd());
                     viewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp());
@@ -313,7 +313,7 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
                                 && mAirs.get(position).getDev().getType() == mSceneDev.get(i).getDevType()
                                 && mAirs.get(position).getDev().getCanCpuId().equals(mSceneDev.get(i).getCanCpuID())) {
                             mSceneDev.remove(i);
-                            finalViewHoler.mAirSelect.setImageResource(R.drawable.ic_launcher);
+                            finalViewHoler.mAirSelect.setImageResource(R.drawable.select_no);
                             mAirs.get(position).getDev().setSelect(false);
                         }
                     }
@@ -325,7 +325,7 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
                     item.setDevType((byte) mAirs.get(position).getDev().getType());
                     item.setCanCpuID(mAirs.get(position).getDev().getCanCpuId());
                     mSceneDev.add(item);
-                    finalViewHoler.mAirSelect.setImageResource(R.drawable.ic_launcher_round);
+                    finalViewHoler.mAirSelect.setImageResource(R.drawable.select_ok);
                 }
                 Log.i(TAG, "onClick: ****" + mSceneDev.size());
             }

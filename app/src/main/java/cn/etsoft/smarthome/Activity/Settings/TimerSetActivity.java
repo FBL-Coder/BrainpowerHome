@@ -270,7 +270,6 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                 if (IsOPenQuanWang) mQuanWang.setImageResource(R.drawable.checkbox1_selected);
                 else mQuanWang.setImageResource(R.drawable.checkbox1_unselect);
                 break;
-
         }
     }
 

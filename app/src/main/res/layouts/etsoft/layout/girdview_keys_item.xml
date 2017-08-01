@@ -5,14 +5,15 @@
     android:layout_height="match_parent"
     android:background="@color/color_00000000"
     android:gravity="center"
-    android:padding="@dimen/dp_10"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/dp_10">
 
     <ImageView
         android:id="@+id/img_list_item"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_0"
-        android:layout_weight="3" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/dp_50" />
 
     <cn.etsoft.smarthome.View.RotateBtn.RotateControButton
         android:id="@+id/RotateControButton"

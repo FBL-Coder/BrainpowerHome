@@ -2,6 +2,8 @@ package cn.etsoft.smarthome.UiHelper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -32,7 +34,7 @@ public class TimerSetHelper {
     public static MultiChoicePopWindow mMultiChoicePopWindow;
 
 
-    public static List<CircleDataEvent> initSceneCircleOUterData(boolean IsClick,int position) {
+    public static List<CircleDataEvent> initSceneCircleOUterData(boolean IsClick, int position) {
 
         if (MyApplication.getWareData().getTimer_data().getTimerEvent_rows()
                 .size() == 0)
@@ -64,80 +66,99 @@ public class TimerSetHelper {
      * @param TimerEvent 计时器对象
      * @param common_dev 计时器对象中的设备
      */
-    public static void Timer_Save(Activity activity, String TimerName,
-                                  String time_start, String time_end, boolean WeekAgain,
-                                  boolean ShiNeng, String Weeks,
-                                  Timer_Data.TimerEventRowsBean TimerEvent,
-                                  List<Timer_Data.TimerEventRowsBean.RunDevItemBean> common_dev) {
-        try {
-            Timer_Data time_data = new Timer_Data();
-            List<Timer_Data.TimerEventRowsBean> timerEvent_rows = new ArrayList<>();
-            Timer_Data.TimerEventRowsBean bean = new Timer_Data.TimerEventRowsBean();
-            bean.setDevCnt(common_dev.size());
-            bean.setEventId(TimerEvent.getEventId());
-            bean.setRun_dev_item(common_dev);
-            if ("".equals(TimerName)) {
-                bean.setTimerName(CommonUtils.bytesToHexString(TimerEvent.getTimerName().getBytes("GB2312")));
-            } else {
+    public static void Timer_Save(final Activity activity, final String TimerName,
+                                  final String time_start, final String time_end, final boolean WeekAgain,
+                                  final boolean ShiNeng, final String Weeks,
+                                  final Timer_Data.TimerEventRowsBean TimerEvent,
+                                  final List<Timer_Data.TimerEventRowsBean.RunDevItemBean> common_dev) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("提示 :");
+        builder.setMessage("您要保存这些设置吗？");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("是的", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
                 try {
-                    //触发器名称
-                    bean.setTimerName(CommonUtils.bytesToHexString(TimerName.getBytes("GB2312")));
-                } catch (UnsupportedEncodingException e) {
-                    ToastUtil.showText("定时器名称不合适");
-                    return;
+                    Timer_Data time_data = new Timer_Data();
+                    List<Timer_Data.TimerEventRowsBean> timerEvent_rows = new ArrayList<>();
+                    Timer_Data.TimerEventRowsBean bean = new Timer_Data.TimerEventRowsBean();
+                    bean.setDevCnt(common_dev.size());
+                    bean.setEventId(TimerEvent.getEventId());
+                    bean.setRun_dev_item(common_dev);
+                    if ("".equals(TimerName)) {
+                        bean.setTimerName(CommonUtils.bytesToHexString(TimerEvent.getTimerName().getBytes("GB2312")));
+                    } else {
+                        try {
+                            //触发器名称
+                            bean.setTimerName(CommonUtils.bytesToHexString(TimerName.getBytes("GB2312")));
+                        } catch (UnsupportedEncodingException e) {
+                            MyApplication.mApplication.dismissLoadDialog();
+                            ToastUtil.showText("定时器名称不合适");
+                            return;
+                        }
+                    }
+
+                    List<Integer> time_Data_start = new ArrayList<>();
+                    if ("点击选择时间".equals(time_start) || "点击选择时间".equals(time_end)) {
+                        MyApplication.mApplication.dismissLoadDialog();
+                        ToastUtil.showText("请选择时间");
+                        return;
+                    }
+                    time_Data_start.add(Integer.parseInt(time_start.substring(0, time_start.indexOf(" : "))));
+                    time_Data_start.add(Integer.parseInt(time_start.substring(time_start.indexOf(" : ") + 3)));
+                    time_Data_start.add(0);
+                    if (str2num(Weeks) == 0) {
+                        MyApplication.mApplication.dismissLoadDialog();
+                        ToastUtil.showText("请选择星期");
+                        return;
+                    }
+                    time_Data_start.add(str2num(Weeks));
+                    bean.setTimSta(time_Data_start);
+                    List<Integer> time_Data_end = new ArrayList<>();
+                    time_Data_end.add(Integer.parseInt(time_end.substring(0, time_end.indexOf(" : "))));
+                    time_Data_end.add(Integer.parseInt(time_end.substring(time_end.indexOf(" : ") + 3)));
+                    time_Data_end.add(0);
+
+                    if (WeekAgain)
+                        time_Data_end.add(1);
+                    else
+                        time_Data_end.add(0);
+                    bean.setTimEnd(time_Data_end);
+
+                    if (time_Data_start.get(0) > time_Data_end.get(0)) {
+                        MyApplication.mApplication.dismissLoadDialog();
+                        ToastUtil.showText("开始时间不能比结束时间迟");
+                        return;
+                    }
+
+                    if (ShiNeng)
+                        bean.setValid(1);
+                    else
+                        bean.setValid(0);
+                    timerEvent_rows.add(bean);
+                    time_data.setDatType(19);
+                    time_data.setDevUnitID(GlobalVars.getDevid());
+                    time_data.setItemCnt(1);
+                    time_data.setSubType1(0);
+                    time_data.setSubType2(0);
+                    time_data.setTimerEvent_rows(timerEvent_rows);
+                    Gson gson = new Gson();
+                    Log.e("0000", gson.toJson(time_data));
+                    MyApplication.mApplication.showLoadDialog(activity);
+                    MyApplication.mApplication.getUdpServer().send(gson.toJson(time_data));
+                } catch (Exception e) {
+                    MyApplication.mApplication.dismissLoadDialog();
+                    Log.e("保存定时器数据", "保存数据异常" + e);
+                    ToastUtil.showText("保存数据异常,请检查数据是否合适");
                 }
             }
-
-            List<Integer> time_Data_start = new ArrayList<>();
-            if ("点击选择时间".equals(time_start) || "点击选择时间".equals(time_end)) {
-                ToastUtil.showText("请选择时间");
-                return;
-            }
-            time_Data_start.add(Integer.parseInt(time_start.substring(0, time_start.indexOf(" : "))));
-            time_Data_start.add(Integer.parseInt(time_start.substring(time_start.indexOf(" : ") + 3)));
-            time_Data_start.add(0);
-            if (str2num(Weeks) == 0) {
-                ToastUtil.showText("请选择星期");
-                return;
-            }
-            time_Data_start.add(str2num(Weeks));
-            bean.setTimSta(time_Data_start);
-            List<Integer> time_Data_end = new ArrayList<>();
-            time_Data_end.add(Integer.parseInt(time_end.substring(0, time_end.indexOf(" : "))));
-            time_Data_end.add(Integer.parseInt(time_end.substring(time_end.indexOf(" : ") + 3)));
-            time_Data_end.add(0);
-
-            if (WeekAgain)
-                time_Data_end.add(1);
-            else
-                time_Data_end.add(0);
-            bean.setTimEnd(time_Data_end);
-
-            if (time_Data_start.get(0) > time_Data_end.get(0)) {
-                ToastUtil.showText("开始时间不能比结束时间迟");
-                return;
-            }
-
-            if (ShiNeng)
-                bean.setValid(1);
-            else
-                bean.setValid(0);
-            timerEvent_rows.add(bean);
-            time_data.setDatType(19);
-            time_data.setDevUnitID(GlobalVars.getDevid());
-            time_data.setItemCnt(1);
-            time_data.setSubType1(0);
-            time_data.setSubType2(0);
-            time_data.setTimerEvent_rows(timerEvent_rows);
-            Gson gson = new Gson();
-            Log.e("0000", gson.toJson(time_data));
-            MyApplication.mApplication.showLoadDialog(activity);
-            MyApplication.mApplication.getUdpServer().send(gson.toJson(time_data));
-        } catch (Exception e) {
-            MyApplication.mApplication.dismissLoadDialog();
-            Log.e("保存定时器数据", "保存数据异常" + e);
-            ToastUtil.showText("保存数据异常,请检查数据是否合适");
-        }
+        });
+        builder.create().show();
     }
 
     /**
@@ -174,7 +195,7 @@ public class TimerSetHelper {
      *
      * @param view 显示控件
      */
-    public static void initWeekDialog(Context context, final TextView view,boolean[] isSelect) {
+    public static void initWeekDialog(Context context, final TextView view, boolean[] isSelect) {
 
 
         List<String> Time_week = new ArrayList<>();

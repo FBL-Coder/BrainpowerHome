@@ -1,40 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="@dimen/dp_20">
+    android:background="@color/color_item_bg"
+    android:padding="@dimen/dp_10">
 
-
-    <TextView
-        android:id="@+id/SceneSet_GridView_Item_Name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/item_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="asdasdad"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/dp_20" />
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="设备名称  :"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_18" />
+
+        <TextView
+            android:id="@+id/SceneSet_GridView_Item_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:minWidth="@dimen/dp_100"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_18" />
+    </LinearLayout>
+
 
     <ImageView
         android:id="@+id/SceneSet_GridView_Item_IV"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_160"
-        android:layout_below="@id/SceneSet_GridView_Item_Name"
+        android:layout_below="@id/item_title"
+        android:padding="@dimen/dp_10"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:layout_marginRight="@dimen/dp_20"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/dg_dev_item_close" />
 
 
     <ImageView
         android:id="@+id/SceneSet_GridView_Item_Select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dp_20"
-        />
+        android:layout_marginRight="@dimen/dp_10"
+        android:src="@drawable/select_no" />
 
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/SceneSet_GridView_Item_Slide"
@@ -42,18 +55,17 @@
         android:layout_height="60dp"
         android:layout_below="@id/SceneSet_GridView_Item_IV"
         android:layout_centerHorizontal="true"
-        app:markTextArray="@array/wordsArray"
-        app:lineColorSelected="@color/color_10AEFF"
-        app:lineColorEdge="@color/colorAccent"
-        app:textPadding="17dp"
+        app:cellMode="other"
         app:cells="4"
         app:hideProgressHint="true"
-        app:textSize="12sp"
         app:hintBGHeight="28dp"
+        app:lineColorEdge="@color/colorAccent"
+        app:lineColorSelected="@color/color_10AEFF"
+        app:markTextArray="@array/wordsArray"
         app:seekBarHeight="8dp"
-        app:thumbSize="26dp"
-        app:cellMode="other"
         app:seekBarMode="single"
-        />
+        app:textPadding="17dp"
+        app:textSize="12sp"
+        app:thumbSize="26dp" />
 
 </RelativeLayout>

@@ -74,6 +74,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/dp_250"
+            android:horizontalSpacing="@dimen/dp_10"
+            android:verticalSpacing="@dimen/dp_10"
+            android:padding="@dimen/dp_10"
             android:numColumns="2"
             android:background="@null" />
     </LinearLayout>

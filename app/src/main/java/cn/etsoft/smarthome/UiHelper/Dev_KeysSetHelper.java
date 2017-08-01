@@ -1,6 +1,9 @@
 package cn.etsoft.smarthome.UiHelper;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
@@ -249,77 +252,96 @@ public class Dev_KeysSetHelper {
         return mDev_Room;
     }
 
-    public static void Save(WareDev dev) {
-        try {
-            listData_all = Dev_KeysSetHelper.getListData_all();
-            for (int i = 0; i < listData_all.size(); i++) {
-                List<PrintCmd> listData = listData_all.get(i).getPrintCmds();
-                for (int j = 0; j < listData.size(); j++) {
-                    if (listData.get(j).isSelect() && listData.get(j).getKey_cmd() == 0) {
-                        ToastUtil.showText("存在未设置，请设置完成后保存");
-                        return;
+    public static void Save(final Activity activity, final WareDev dev) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("提示 :");
+        builder.setMessage("您要保存这些设置吗？");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("是的", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                try {
+                    listData_all = Dev_KeysSetHelper.getListData_all();
+                    for (int i = 0; i < listData_all.size(); i++) {
+                        List<PrintCmd> listData = listData_all.get(i).getPrintCmds();
+                        for (int j = 0; j < listData.size(); j++) {
+                            if (listData.get(j).isSelect() && listData.get(j).getKey_cmd() == 0) {
+                                MyApplication.mApplication.dismissLoadDialog();
+                                ToastUtil.showText("存在未设置，请设置完成后保存");
+                                return;
+                            }
+                        }
                     }
+                    //根据以上注释掉的数据结构，将已有数据已此格式寄存；
+                    UpBoardKeyData data = new UpBoardKeyData();//上传数据实体；
+                    List<UpBoardKeyData.ChnOpitemRowsBean> bean_list = new ArrayList<>();//按键板实体集合；
+
+                    for (int i = 0; i < listData_all.size(); i++) {
+                        UpBoardKeyData.ChnOpitemRowsBean bean = data.new ChnOpitemRowsBean();
+                        bean.setKey_cpuCanID(listData_all.get(i).getUnitid());
+                        byte[] Valid_up = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放弹起键相应位置；
+                        byte[] Cmd_up = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放弹起键相应的命令；
+                        byte[] Valid_down = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放按下键的相应位置；
+                        byte[] Cmd_down = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放按下键相应的命令
+                        List<PrintCmd> listData = listData_all.get(i).getPrintCmds();
+
+                        for (int j = 0; j < listData.size(); j++) {
+                            if (listData.get(j).isSelect()) {
+                                Cmd_up[j] = (byte) listData.get(j).getKey_cmd();
+                                Valid_up[j] = 1;
+                            } else {
+                                Cmd_up[j] = 0;
+                                Valid_up[j] = 0;
+                            }
+                        }
+                        for (int j = 0; j < listData.size(); j++) {
+                            Valid_down[j] = 0;
+                            Cmd_down[j] = 0;
+                        }
+                        bean.setKeyDownValid(0);
+                        bean.setKeyUpValid(0);
+                        bean.setKeyDownCmd(Cmd_down);
+                        bean.setKeyUpCmd(Cmd_up);
+                        //因为数据传递时，高位、低位和现实中相反，so循环赋值；
+                        String down_v = "";
+                        for (int j = 0; j < Valid_up.length; j++) {
+                            down_v += Valid_up[Valid_up.length - 1 - j];
+                        }
+                        //将改好的2#字符串转成10#；
+                        BigInteger bi_down = new BigInteger(down_v, 2);  //转换成BigInteger类型
+                        int v_down = Integer.parseInt(bi_down.toString(10)); //参数2指定的是转化成X进制，默认10进制
+                        bean.setKeyUpValid(v_down);
+                        bean_list.add(bean);
+                    }
+
+                    //将以上数据加入到上传实体中；
+                    data.setDevUnitID(GlobalVars.getDevid());
+                    data.setChn_opitem_rows(bean_list);
+                    data.setDatType(15);
+                    data.setSubType1(0);
+                    data.setSubType2(0);
+                    data.setDevType(dev.getType());
+                    data.setDevID(dev.getDevId());
+                    data.setOut_cpuCanID(dev.getCanCpuId());
+                    data.setChn_opitem(bean_list.size());
+
+                    Gson gson = new Gson();
+                    System.out.println(gson.toJson(data));
+                    MyApplication.mApplication.getUdpServer().send(gson.toJson(data).toString());
+                } catch (Exception e) {
+                    MyApplication.mApplication.dismissLoadDialog();
+                    Log.e("Exception", e + "");
+                    ToastUtil.showText("保存失败，请检查数据是否合适");
                 }
             }
-            //根据以上注释掉的数据结构，将已有数据已此格式寄存；
-            UpBoardKeyData data = new UpBoardKeyData();//上传数据实体；
-            List<UpBoardKeyData.ChnOpitemRowsBean> bean_list = new ArrayList<>();//按键板实体集合；
-
-            for (int i = 0; i < listData_all.size(); i++) {
-                UpBoardKeyData.ChnOpitemRowsBean bean = data.new ChnOpitemRowsBean();
-                bean.setKey_cpuCanID(listData_all.get(i).getUnitid());
-                byte[] Valid_up = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放弹起键相应位置；
-                byte[] Cmd_up = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放弹起键相应的命令；
-                byte[] Valid_down = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放按下键的相应位置；
-                byte[] Cmd_down = new byte[]{0, 0, 0, 0, 0, 0, 0, 0};//存放按下键相应的命令
-                List<PrintCmd> listData = listData_all.get(i).getPrintCmds();
-
-                for (int j = 0; j < listData.size(); j++) {
-                    if (listData.get(j).isSelect()) {
-                        Cmd_up[j] = (byte) listData.get(j).getKey_cmd();
-                        Valid_up[j] = 1;
-                    } else {
-                        Cmd_up[j] = 0;
-                        Valid_up[j] = 0;
-                    }
-                }
-                for (int j = 0; j < listData.size(); j++) {
-                    Valid_down[j] = 0;
-                    Cmd_down[j] = 0;
-                }
-                bean.setKeyDownValid(0);
-                bean.setKeyUpValid(0);
-                bean.setKeyDownCmd(Cmd_down);
-                bean.setKeyUpCmd(Cmd_up);
-                //因为数据传递时，高位、低位和现实中相反，so循环赋值；
-                String down_v = "";
-                for (int j = 0; j < Valid_up.length; j++) {
-                    down_v += Valid_up[Valid_up.length - 1 - j];
-                }
-                //将改好的2#字符串转成10#；
-                BigInteger bi_down = new BigInteger(down_v, 2);  //转换成BigInteger类型
-                int v_down = Integer.parseInt(bi_down.toString(10)); //参数2指定的是转化成X进制，默认10进制
-                bean.setKeyUpValid(v_down);
-                bean_list.add(bean);
-            }
-
-            //将以上数据加入到上传实体中；
-            data.setDevUnitID(GlobalVars.getDevid());
-            data.setChn_opitem_rows(bean_list);
-            data.setDatType(15);
-            data.setSubType1(0);
-            data.setSubType2(0);
-            data.setDevType(dev.getType());
-            data.setDevID(dev.getDevId());
-            data.setOut_cpuCanID(dev.getCanCpuId());
-            data.setChn_opitem(bean_list.size());
-
-            Gson gson = new Gson();
-            System.out.println(gson.toJson(data));
-            MyApplication.mApplication.getUdpServer().send(gson.toJson(data).toString());
-        } catch (Exception e) {
-            Log.e("Exception", e + "");
-            ToastUtil.showText("保存失败，请检查数据是否合适");
-        }
+        });
+        builder.create().show();
     }
 }

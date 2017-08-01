@@ -1,23 +1,16 @@
 package cn.etsoft.smarthome.UiHelper;
 
 import android.app.Activity;
-import android.os.Handler;
-import android.util.Log;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 
-import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Domain.ChnOpItem_scene;
-import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.Out_List_printcmd;
-import cn.etsoft.smarthome.Domain.PrintCmd;
-import cn.etsoft.smarthome.Domain.UpBoardKeyData;
-import cn.etsoft.smarthome.Domain.WareChnOpItem;
-import cn.etsoft.smarthome.Domain.WareDev;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
@@ -117,14 +110,29 @@ public class Scene_KeysSetHelper {
         return Data_InnerCircleList;
     }
 
-    public static void Save(Activity activity) {
-        ChnOpItem_scene scene_Save = WareDataHliper.initCopyWareData().getScenekeysResult();
-        scene_Save.setDatType(59);
-        scene_Save.setSubType1(0);
-        scene_Save.setSubType2(0);
-        scene_Save.setItemCnt(scene_Save.getKey2scene_item().size());
-        Gson gson = new Gson();
-        MyApplication.mApplication.getUdpServer().send(gson.toJson(scene_Save));
-        MyApplication.mApplication.showLoadDialog(activity);
+    public static void Save(final Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("提示 :");
+        builder.setMessage("您要保存这些设置吗？");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("是的", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ChnOpItem_scene scene_Save = WareDataHliper.initCopyWareData().getScenekeysResult();
+                scene_Save.setDatType(59);
+                scene_Save.setSubType1(0);
+                scene_Save.setSubType2(0);
+                scene_Save.setItemCnt(scene_Save.getKey2scene_item().size());
+                Gson gson = new Gson();
+                MyApplication.mApplication.getUdpServer().send(gson.toJson(scene_Save));
+                MyApplication.mApplication.showLoadDialog(activity);
+            }
+        });
+        builder.create().show();
     }
 }

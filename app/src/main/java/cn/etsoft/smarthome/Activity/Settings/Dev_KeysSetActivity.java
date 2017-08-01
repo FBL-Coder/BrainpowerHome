@@ -152,7 +152,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                     if (mRoomDevs.get(i).getType() == DevType)
                         RecyclerViewDev.add(mRoomDevs.get(i));
                 }
-                Dev_KeysSetHelper.Save(RecyclerViewDev.get(devPosition));
+                Dev_KeysSetHelper.Save(Dev_KeysSetActivity.this,RecyclerViewDev.get(devPosition));
                 break;
         }
     }

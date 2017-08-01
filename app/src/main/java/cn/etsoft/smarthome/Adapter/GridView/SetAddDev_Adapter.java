@@ -106,10 +106,20 @@ public class SetAddDev_Adapter extends BaseAdapter {
             viewHoler.mSeekBar.setVisibility(View.GONE);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
-        if (mAllDevs.get(position).getbOnOff() == 0)
-            viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
-        else viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
-        viewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
+        if (mAllDevs.get(position).getType() == 0) {
+            if (mAllDevs.get(position).getbOnOff() == 0)
+                viewHoler.mIV.setImageResource(R.drawable.kt_dev_item_close);
+            else viewHoler.mIV.setImageResource(R.drawable.kt_dev_item_open);
+        } else if (mAllDevs.get(position).getType() == 3) {
+            if (mAllDevs.get(position).getbOnOff() == 0)
+                viewHoler.mIV.setImageResource(R.drawable.dg_dev_item_close);
+            else viewHoler.mIV.setImageResource(R.drawable.dg_dev_item_open);
+        } else if (mAllDevs.get(position).getType() == 4) {
+            if (mAllDevs.get(position).getbOnOff() == 0)
+                viewHoler.mIV.setImageResource(R.drawable.cl_dev_item_close);
+            else viewHoler.mIV.setImageResource(R.drawable.cl_dev_item_open);
+        }
+        viewHoler.mSelect.setImageResource(R.drawable.select_no);
 
         if (mSaveDevs != null) {
             for (int i = 0; i < mSaveDevs.size(); i++) {//根据设给的数据判断状态以及显示图标
@@ -117,11 +127,19 @@ public class SetAddDev_Adapter extends BaseAdapter {
                         && mSaveDevs.get(i).getCanCpuId().equals(mAllDevs.get(position).getCanCpuId())
                         && mSaveDevs.get(i).getType() == mAllDevs.get(position).getType()) {
                     mAllDevs.get(position).setSelect(true);
-                    viewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
-                    if (mSaveDevs.get(i).getbOnOff() == 0) {
-                        viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
-                    } else if (mSaveDevs.get(i).getbOnOff() == 1) {
-                        viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
+                    viewHoler.mSelect.setImageResource(R.drawable.select_ok);
+                    if (mAllDevs.get(position).getType() == 0) {
+                        if (mAllDevs.get(position).getbOnOff() == 0)
+                            viewHoler.mIV.setImageResource(R.drawable.kt_dev_item_close);
+                        else viewHoler.mIV.setImageResource(R.drawable.kt_dev_item_open);
+                    } else if (mAllDevs.get(position).getType() == 3) {
+                        if (mAllDevs.get(position).getbOnOff() == 0)
+                            viewHoler.mIV.setImageResource(R.drawable.dg_dev_item_close);
+                        else viewHoler.mIV.setImageResource(R.drawable.dg_dev_item_open);
+                    } else if (mAllDevs.get(position).getType() == 4) {
+                        if (mAllDevs.get(position).getbOnOff() == 0)
+                            viewHoler.mIV.setImageResource(R.drawable.cl_dev_item_close);
+                        else viewHoler.mIV.setImageResource(R.drawable.cl_dev_item_open);
                     }
                 }
             }
@@ -136,7 +154,7 @@ public class SetAddDev_Adapter extends BaseAdapter {
                                 && mAllDevs.get(position).getType() == mSaveDevs.get(i).getType()
                                 && mAllDevs.get(position).getCanCpuId().equals(mSaveDevs.get(i).getCanCpuId())) {
                             mSaveDevs.remove(i);
-                            finalViewHoler.mSelect.setImageResource(R.drawable.ic_launcher);
+                            finalViewHoler.mSelect.setImageResource(R.drawable. select_no);
                             mAllDevs.get(position).setSelect(false);
                         }
                     }
@@ -148,7 +166,7 @@ public class SetAddDev_Adapter extends BaseAdapter {
                     dev.setType((byte) mAllDevs.get(position).getType());
                     dev.setCanCpuId(mAllDevs.get(position).getCanCpuId());
                     mSaveDevs.add(dev);
-                    finalViewHoler.mSelect.setImageResource(R.drawable.ic_launcher_round);
+                    finalViewHoler.mSelect.setImageResource(R.drawable.select_ok);
                 }
                 Log.i(TAG, "onClick: ****" + mSaveDevs.size());
             }
@@ -160,11 +178,10 @@ public class SetAddDev_Adapter extends BaseAdapter {
 
                 if (mAllDevs.get(position).getbOnOff() == 0) {
                     mAllDevs.get(position).setbOnOff((byte) 1);
-                    finalViewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
                 } else {
                     mAllDevs.get(position).setbOnOff((byte) 0);
-                    finalViewHoler.mIV.setImageResource(R.drawable.ic_launcher);
                 }
+                notifyDataSetChanged();
             }
         });
         viewHoler.mName.setText(mAllDevs.get(position).getDevName());
