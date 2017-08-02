@@ -42,7 +42,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
     private List<CircleDataEvent> Data_InnerCircleList;
     private RecyclerView mKeyDevs_Keys;
     private SlideGridView mKeyDevs_Devs;
-    private TextView mKeyDevs_KeyBoards, mKeyDevs_TestBtn, mKeyDevs_SaveBtn;
+    private TextView mKeyDevs_KeyBoards, mKeyDevs_TestBtn, mKeyDevs_SaveBtn, mKey_null;
     //设备适配器
     private Key_DevsSetAdapter mKeyDevsKeysAdapter;
     //按键适配器
@@ -91,6 +91,9 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
         mKeyDevs_TestBtn = getViewById(R.id.Key_DevsSet_Test_Btn);
         mKeyDevs_SaveBtn = getViewById(R.id.Key_DevsSet_Save_Btn);
         mKeyDevs_Devs = getViewById(R.id.Key_DevsSet_Keys);
+        mKey_null = getViewById(R.id.key_null);
+        mKeyDevs_Devs.setEmptyView(mKey_null);
+
 
         mKeyDevs_KeyBoards.setOnClickListener(this);
         mKeyDevs_TestBtn.setOnClickListener(this);
@@ -129,6 +132,10 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
         //设置按键板名称
         if (InputKey_names.size() > 0)
             mKeyDevs_KeyBoards.setText(InputKey_names.get(0));
+
+        if (DevType == -1 || "".equals(RoomName)) {
+            mKey_null.setText("请先选择房间和设备类型");
+        }
         RecyclerViewClick();
         initEvent();
     }
@@ -199,6 +206,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                     ToastUtil.showText("数据未加载成功，不可操作！");
                     return;
                 }
+                mKey_null.setText("没有数据");
                 RoomName = Data_InnerCircleList.get(position).getTitle();
                 Key_DevsSetHelper.setRoomName(RoomName);
                 mRoomDevs = Key_DevsSetHelper.getRoomDev(RoomName);
@@ -228,6 +236,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                 if ("".equals(RoomName)) {
                     return;
                 }
+                mKey_null.setText("没有数据");
                 OuterCircleClick = true;
                 DevType = position % 8;
 

@@ -50,7 +50,7 @@ public class Scene_KeysSet_BoardAdapter extends RecyclerView.Adapter<Scene_KeysS
         } else {
             holder.itemView.setBackgroundResource(R.color.color_08143F);  //其他项背景
         }
-        holder.iv.setImageResource(R.drawable.ic_launcher);
+        holder.iv.setImageResource(R.drawable.board_icon);
 
         holder.tv.setText(list.get(position).getBoardName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {

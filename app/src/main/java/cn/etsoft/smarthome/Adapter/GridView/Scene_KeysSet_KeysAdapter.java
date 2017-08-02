@@ -87,22 +87,22 @@ public class Scene_KeysSet_KeysAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.girdview_devs_norotate_item, null);
             viewHoler.mName = (TextView) convertView.findViewById(R.id.text_list_item);
             viewHoler.mIV = (ImageView) convertView.findViewById(R.id.img_list_item);
+            viewHoler.select_key = (ImageView) convertView.findViewById(R.id.select_key);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
-
+        viewHoler.select_key.setImageResource(R.drawable.select_no);
         viewHoler.mIV.setImageResource(R.drawable.anjian_icon);
         for (int i = 0; i < listData.size(); i++) {
             if (position == listData.get(i).getKeyIndex())
-                viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
+                viewHoler.select_key.setImageResource(R.drawable.select_ok);
         }
 
         viewHoler.mName.setText(KeyNames.get(position));
-
         return convertView;
     }
 
     class ViewHoler {
-        ImageView mIV;
+        ImageView mIV, select_key;
         TextView mName;
     }
 }

@@ -1,49 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scene_item_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_00000000"
-    android:gravity="center"
-    android:orientation="vertical"
+    android:background="@color/color_item_bg"
     android:padding="@dimen/dp_10">
 
-    <RelativeLayout
-        android:id="@+id/up_icon_ll"
-        android:layout_width="match_parent"
+
+    <ImageView
+        android:id="@+id/icon_list_item"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/chuanglian_anjian_dev" />
 
-        <ImageView
-            android:id="@+id/icon_list_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_50"
-            android:src="@drawable/chuanglian_anjian_dev" />
-
-        <ImageView
-            android:id="@+id/img_list_item"
-            android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_50"
-            android:layout_height="wrap_content"
-            android:src="@drawable/select_no" />
-
-    </RelativeLayout>
-
+    <ImageView
+        android:id="@+id/img_list_item"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/dp_20"
+        android:src="@drawable/select_no" />
 
     <cn.etsoft.smarthome.View.RotateBtn.RotateControButton
         android:id="@+id/RotateControButton"
         android:layout_width="170dp"
-        android:layout_height="170dp" />
+        android:layout_height="170dp"
+        android:layout_centerInParent="true" />
 
-    <TextView
-        android:id="@+id/text_list_item"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_0"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textColor="@color/color_fff"
-        android:textSize="@dimen/sp_16" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/RotateControButton"
+        android:layout_marginTop="@dimen/dp_20"
+        android:orientation="horizontal">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="设备名称:"
+            android:textColor="@color/colorCC"
+            android:textSize="@dimen/sp_16" />
+
+        <TextView
+            android:id="@+id/text_list_item"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/color_fff"
+            android:textSize="@dimen/sp_18"
+            android:textStyle="bold" />
+    </LinearLayout>
+</RelativeLayout>

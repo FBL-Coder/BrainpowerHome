@@ -65,13 +65,31 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <cn.etsoft.smarthome.View.SlideGridView
-            android:id="@+id/Key_DevsSet_Keys"
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dp_250"
-            android:background="@null"
-            android:numColumns="2" />
+            android:layout_marginLeft="@dimen/dp_250">
+
+            <TextView
+                android:id="@+id/key_null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18"
+                android:gravity="right|bottom"
+                android:padding="@dimen/dp_20"/>
+
+            <cn.etsoft.smarthome.View.SlideGridView
+                android:id="@+id/Key_DevsSet_Keys"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:horizontalSpacing="@dimen/dp_10"
+                android:verticalSpacing="@dimen/dp_10"
+                android:padding="@dimen/dp_10"
+                android:background="@null"
+                android:numColumns="2" />
+        </RelativeLayout>
     </LinearLayout>
 
     <FrameLayout

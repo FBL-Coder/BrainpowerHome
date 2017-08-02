@@ -15,7 +15,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="@drawable/menuup_bg"/>
+            android:background="@drawable/menuup_bg" />
 
         <GridView
             android:id="@+id/Scene_KeysSet_Keys"
@@ -23,7 +23,10 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/dp_250"
             android:background="@null"
-            android:numColumns="2" />
+            android:horizontalSpacing="@dimen/dp_10"
+            android:numColumns="2"
+            android:padding="@dimen/dp_10"
+            android:verticalSpacing="@dimen/dp_10" />
     </LinearLayout>
 
     <RelativeLayout
@@ -32,9 +35,9 @@
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/Scene_KeysSet_CircleMenu"
-            android:background="@drawable/circlebg"
             android:layout_width="@dimen/dp_250"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/circlebg" />
     </RelativeLayout>
 
     <LinearLayout
@@ -59,18 +62,18 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="测试"
-            android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="@dimen/dp_22" />
+            android:textSize="@dimen/dp_22"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/Scene_KeysSet_Save_Btn"
             android:layout_width="@dimen/dp_70"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textStyle="bold"
-            android:textColor="@color/white"
             android:text="保存"
-            android:textSize="@dimen/dp_22" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_22"
+            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -244,7 +245,7 @@ public class Key_DevsSetAdapter extends BaseAdapter {
         public ImageView mIV;
         public RotateControButton mRotateControButton;
         public TextView mName;
-        public LinearLayout mSceneItemLl;
+        public RelativeLayout mSceneItemLl;
 
         public ViewHolder(View rootView) {
             this.rootView = rootView;
@@ -252,7 +253,7 @@ public class Key_DevsSetAdapter extends BaseAdapter {
             this.mIV = (ImageView) rootView.findViewById(R.id.img_list_item);
             this.mRotateControButton = (RotateControButton) rootView.findViewById(R.id.RotateControButton);
             this.mName = (TextView) rootView.findViewById(R.id.text_list_item);
-            this.mSceneItemLl = (LinearLayout) rootView.findViewById(R.id.scene_item_ll);
+            this.mSceneItemLl = (RelativeLayout) rootView.findViewById(R.id.scene_item_ll);
         }
 
     }
