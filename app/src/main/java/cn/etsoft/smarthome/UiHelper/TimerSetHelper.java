@@ -212,7 +212,7 @@ public class TimerSetHelper {
             mMultiChoicePopWindow.upDataFlag(isSelect);
             mMultiChoicePopWindow.upParentView(view);
         }
-        mMultiChoicePopWindow.setTitle("选择防区");
+        mMultiChoicePopWindow.setTitle("选择星期");
         mMultiChoicePopWindow.setOnOKButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,7 +225,7 @@ public class TimerSetHelper {
                     }
                 }
                 if (stringBuffer.toString().length() == 0)
-                    view.setText("点击选择防区");
+                    view.setText("点击选择星期");
                 view.setText(stringBuffer.toString());
             }
         });

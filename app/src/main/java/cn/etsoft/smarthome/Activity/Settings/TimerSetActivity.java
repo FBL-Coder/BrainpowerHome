@@ -155,7 +155,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                         if (weekSelect_2.toCharArray()[i] == '1')
                             weekSelect_2_data += " " + (i + 1);
                     }
-                    mTimerWeeks.setText("星期集： " + weekSelect_2_data + "");
+                    mTimerWeeks.setText(weekSelect_2_data + "");
 
                     List<Integer> data_end = mBean.getTimEnd();
                     String endtime = data_end.get(0) + " : " + data_end.get(1);
@@ -224,7 +224,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                     return;
                 }
                 String weekss = mTimerWeeks.getText().toString();
-                if ("点击选择星期".equals(weekss) || "星期集：".equals(weekss)) {
+                if ("点击选择星期".equals(weekss)) {
                     ToastUtil.showText("请选择星期");
                     return;
                 }

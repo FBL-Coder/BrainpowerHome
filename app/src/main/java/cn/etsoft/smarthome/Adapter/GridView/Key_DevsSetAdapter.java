@@ -152,19 +152,19 @@ public class Key_DevsSetAdapter extends BaseAdapter {
         }
 
         if (DevType == 0) {
-            viewHoler.mIconListItem.setImageResource(R.drawable.kongtiao_anjian_dev);
+            viewHoler.mIconListItem.setImageResource(R.drawable.kt_dev_item_close);
             if (listData.get(position).getCmd() > 5)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("开关", "设备命令", "温度-");
             viewHoler.mRotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
         } else if (DevType == 3) {
-            viewHoler.mIconListItem.setImageResource(R.drawable.light_anjian_dev);
+            viewHoler.mIconListItem.setImageResource(R.drawable.dg_dev_item_close);
             if (listData.get(position).getCmd() > 5)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "变亮");
             viewHoler.mRotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
         } else if (DevType == 4) {
-            viewHoler.mIconListItem.setImageResource(R.drawable.chuanglian_anjian_dev);
+            viewHoler.mIconListItem.setImageResource(R.drawable.cl_dev_item_close);
             if (listData.get(position).getCmd() > 4)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "停止");

@@ -19,7 +19,7 @@
         android:padding="@dimen/dp_20"
         android:text="请先选择房间和设备类型"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_26"
+        android:textSize="@dimen/sp_20"
         android:textStyle="italic" />
 
     <RelativeLayout

@@ -12,167 +12,187 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/color1FF1A2"
-            android:paddingLeft="@dimen/dp_150">
+            android:layout_height="wrap_content"
+            android:background="@drawable/menuup_bg"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:paddingLeft="@dimen/dp_150">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="定时器名称："
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
-
-                <EditText
-                    android:id="@+id/Timer_Name"
-                    android:layout_width="@dimen/dp_100"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:hint="无"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="使能"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
-
-                <ImageView
-                    android:id="@+id/Timer_ShiNeng"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
-                    android:src="@drawable/checkbox1_unselect" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="周重复"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
-
-                <ImageView
-                    android:id="@+id/Timer_WeekAgain"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
-                    android:src="@drawable/checkbox1_unselect" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="全网"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
-
-                <ImageView
-                    android:id="@+id/Timer_QuanWang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
-                    android:src="@drawable/checkbox1_unselect" />
-
-                <TextView
-                    android:id="@+id/Timer_Save_Btn"
-                    android:layout_width="@dimen/dp_70"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/red"
-                    android:gravity="center"
-                    android:text="保存"
-                    android:textSize="@dimen/dp_22" />
-            </LinearLayout>
-        </RelativeLayout>
+                    android:gravity="right"
+                    android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/color1FF1A2"
-            android:paddingLeft="@dimen/dp_200">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="定时器名称："
+                        android:textColor="@color/main_white3"
+                        android:textSize="@dimen/sp_18" />
 
-            <LinearLayout
+                    <EditText
+                        android:id="@+id/Timer_Name"
+                        android:layout_width="@dimen/dp_120"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:hint="无"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="@dimen/sp_18"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:text="使能"
+                        android:textColor="@color/main_white3"
+                        android:textSize="@dimen/sp_18" />
+
+                    <ImageView
+                        android:id="@+id/Timer_ShiNeng"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp_10"
+                        android:src="@drawable/checkbox1_unselect" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:text="周重复"
+                        android:textColor="@color/main_white3"
+                        android:textSize="@dimen/sp_18" />
+
+                    <ImageView
+                        android:id="@+id/Timer_WeekAgain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp_10"
+                        android:src="@drawable/checkbox1_unselect" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:text="全网"
+                        android:textColor="@color/main_white3"
+                        android:textSize="@dimen/sp_18" />
+
+                    <ImageView
+                        android:id="@+id/Timer_QuanWang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp_10"
+                        android:src="@drawable/checkbox1_unselect" />
+
+                    <TextView
+                        android:id="@+id/Timer_AddDev"
+                        android:layout_width="@dimen/dp_100"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:gravity="center"
+                        android:text="添加设备"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dp_22"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/Timer_Save_Btn"
+                        android:layout_width="@dimen/dp_70"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:gravity="center"
+                        android:text="保存"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dp_22"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="50dp"
+                android:paddingLeft="@dimen/dp_200">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="星期集"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
+                    android:gravity="right"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/Timer_Weeks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@color/red"
-                    android:gravity="center"
-                    android:minWidth="@dimen/dp_80"
-                    android:text="点击选择星期集"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_18" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:gravity="center"
+                        android:text="星期集"
+                        android:textColor="@color/main_white3"
+                        android:textSize="@dimen/sp_18" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="开始时间"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
+                    <TextView
+                        android:id="@+id/Timer_Weeks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:minWidth="@dimen/dp_80"
+                        android:text="点击选择星期集"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_18"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/Timer_TImer_StartTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:background="@color/red"
-                    android:gravity="center"
-                    android:minWidth="@dimen/dp_80"
-                    android:src="@mipmap/ic_launcher_round"
-                    android:text="点击选择时间"
-                    android:textSize="@dimen/sp_18" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:text="开始时间"
+                        android:textColor="@color/main_white3"
+                        android:textSize="@dimen/sp_18" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_20"
-                    android:text="结束时间"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/sp_18" />
+                    <TextView
+                        android:id="@+id/Timer_TImer_StartTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:gravity="center"
+                        android:minWidth="@dimen/dp_80"
+                        android:src="@mipmap/ic_launcher_round"
+                        android:text="点击选择时间"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_18"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/Timer_EndTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:background="@color/red"
-                    android:gravity="center"
-                    android:minWidth="@dimen/dp_80"
-                    android:src="@mipmap/ic_launcher_round"
-                    android:text="点击选择时间"
-                    android:textSize="@dimen/sp_18" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_30"
+                        android:text="结束时间"
+                        android:textColor="@color/main_white3"
+                        android:textSize="@dimen/sp_18" />
 
-                <TextView
-                    android:id="@+id/Timer_AddDev"
-                    android:layout_width="@dimen/dp_100"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_20"
-                    android:background="@color/red"
-                    android:gravity="center"
-                    android:text="添加设备"
-                    android:textSize="@dimen/dp_22" />
-
-            </LinearLayout>
-        </RelativeLayout>
+                    <TextView
+                        android:id="@+id/Timer_EndTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_30"
+                        android:gravity="center"
+                        android:minWidth="@dimen/dp_80"
+                        android:src="@mipmap/ic_launcher_round"
+                        android:text="点击选择时间"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_18"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -187,7 +207,7 @@
                 android:padding="@dimen/dp_20"
                 android:text="没有数据"
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp_26"
+                android:textSize="@dimen/sp_20"
                 android:textStyle="italic" />
 
             <GridView
