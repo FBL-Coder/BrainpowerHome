@@ -1,0 +1,149 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/incoming_bg"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/statubar_padding_top">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4">
+
+        <TextView
+            android:id="@+id/tv_comefrom"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/color1FF1A2"
+            android:textSize="@dimen/activity_title_textSize"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:id="@+id/video"
+            android:layout_width="360dp"
+            android:layout_height="270dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/calling_loading"
+                android:textColor="@color/main_blue1"
+                android:textSize="@dimen/main_textSize17" />
+
+            <org.linphone.mediastream.video.display.GL2JNIView
+                android:id="@+id/remotevideo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"></org.linphone.mediastream.video.display.GL2JNIView>
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_handFree"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@id/video"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/iv_handFree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/calling_handfree" />
+
+            <TextView
+                android:id="@+id/tv_handFree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:text="@string/calling_handFree"
+                android:textColor="@color/color1FF1A2"
+                android:textSize="@dimen/main_textSize14" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_silence"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/iv_silence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/calling_micon" />
+
+            <TextView
+                android:id="@+id/tv_silence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:text="@string/calling_mute"
+                android:textColor="@color/color1FF1A2"
+                android:textSize="@dimen/main_textSize14" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="top">
+
+        <TextView
+            android:id="@+id/btn_hangup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/calling_hangup"
+            android:gravity="center_horizontal"
+            android:text="@string/calling_hangup"
+            android:textColor="@color/color1FF1A2"
+            android:textSize="@dimen/main_textSize14" />
+
+        <TextView
+            android:id="@+id/btn_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/calling_tackpic"
+            android:enabled="false"
+            android:gravity="center_horizontal"
+            android:text="@string/calling_pic"
+            android:textColor="@color/color1FF1A2"
+            android:textSize="@dimen/main_textSize14" />
+
+        <TextView
+            android:id="@+id/btn_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/calling_opendoor"
+            android:enabled="false"
+            android:gravity="center_horizontal"
+            android:text="@string/calling_open"
+            android:textColor="@color/color1FF1A2"
+            android:textSize="@dimen/main_textSize14" />
+    </RelativeLayout>
+
+</LinearLayout>

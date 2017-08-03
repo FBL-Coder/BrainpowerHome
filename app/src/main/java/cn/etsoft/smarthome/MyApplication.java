@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -90,6 +92,16 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public static String AddOrEditDevName;
     public static String AddOrEditRoomName;
 
+    private SoundPool sp;//声明一个SoundPool
+    private int music;//定义一个整型用load（）；来设置suondID
+    private int music1;//定义一个整型用load（）；来设置suondID
+
+
+    //区分发82返回的0 0 1包还是发33返回的 0 0 1包，做标记
+    private boolean isSearch;
+    //是否是跳过登录进入的设置界面
+    private boolean isSkip;
+
     /**
      * 局域网内连接状态
      */
@@ -127,9 +139,26 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         //启动心跳包定时监听
         udpServer.heartBeat();
 
+        sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
+        music = sp.load(this, R.raw.key_sound, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
 
         //设置上次使用的联网模块ID；
         GlobalVars.setDevid((String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""));
+    }
+
+
+    public SoundPool getSp() {
+        if (sp == null) {
+            sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
+        }
+        return sp;
+    }
+
+    public int getMusic() {
+        if (music == 0) {
+            music = sp.load(this, R.raw.key_sound, 1);
+        }
+        return music;
     }
 
     /**
@@ -300,6 +329,22 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         AddOrEditRoomName = addOrEditRoomName;
     }
 
+
+    public boolean isSearch() {
+        return isSearch;
+    }
+
+    public void setSearch(boolean search) {
+        isSearch = search;
+    }
+
+    public boolean isSkip() {
+        return isSkip;
+    }
+
+    public void setSkip(boolean skip) {
+        isSkip = skip;
+    }
     /**
      * 静态Handler WebSocket以及Udp连接，数据监听
      */

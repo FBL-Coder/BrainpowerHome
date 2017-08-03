@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/register_bg"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/dp_50"
         android:paddingRight="@dimen/dp_50">
 
@@ -95,6 +95,38 @@
                 android:textSize="@dimen/sp_20" />
         </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:background="@drawable/register_edittext_bg"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/register_verify"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_50"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="确认密码"
+                android:paddingLeft="@dimen/dp_20"
+                android:text="123456"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_pressed"
+                android:textSize="@dimen/sp_20" />
+
+            <TextView
+                android:id="@+id/register_verify_btn"
+                android:layout_width="@dimen/dp_150"
+                android:layout_height="match_parent"
+                android:background="@drawable/register_yanzheng"
+                android:gravity="center"
+                android:text="获取验证码"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_22" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/register_btn"

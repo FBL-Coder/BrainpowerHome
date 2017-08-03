@@ -3,6 +3,7 @@ package cn.etsoft.smarthome.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
@@ -30,6 +31,18 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     public void initView() {
         setLayout(R.layout.activity_welcome);
+
+        try {
+            //获取屏幕数据
+            DisplayMetrics metric = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(metric);
+            // 屏幕宽度（像素）
+            cn.semtec.community2.MyApplication.display_width = metric.widthPixels;
+            // 屏幕高度（像素）
+            cn.semtec.community2.MyApplication.display_height = metric.heightPixels;
+            cn.semtec.community2.MyApplication.density = metric.density;
+        } catch (Exception e1) {
+        }
     }
 
     @Override
@@ -66,7 +79,7 @@ public class WelcomeActivity extends BaseActivity {
                 String UserID = (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, "");
 
                 if ("".equals(UserID)) {
-                    weakReference.get().startActivity(new Intent(weakReference.get(), LoginActivity.class));
+                    weakReference.get().startActivity(new Intent(weakReference.get(), cn.semtec.community2.activity.LoginActivity.class));
                     weakReference.get().finish();
                 }
                 if (!"".equals(UserID) && "".equals(json_RcuinfoID)) {

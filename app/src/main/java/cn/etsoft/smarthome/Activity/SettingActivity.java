@@ -31,7 +31,6 @@ import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.Http_Result;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.UiHelper.HTTPRequest_BackCode;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout;
@@ -114,7 +113,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                                     GlobalVars.setDevid("");
                                     GlobalVars.setDevpass("");
                                     GlobalVars.setUserid("");
-                                    startActivity(new Intent(SettingActivity.this, LoginActivity.class));
+                                    startActivity(new Intent(SettingActivity.this, cn.semtec.community2.activity.LoginActivity.class));
                                     finish();
                                     AppSharePreferenceMgr.clear(MyApplication.mApplication);
                                 } else {
@@ -124,6 +123,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                                         ToastUtil.showText(result.getMsg());
                                 }
                             }
+
                             @Override
                             public void onFailure(int code, String message) {
                                 super.onFailure(code, message);

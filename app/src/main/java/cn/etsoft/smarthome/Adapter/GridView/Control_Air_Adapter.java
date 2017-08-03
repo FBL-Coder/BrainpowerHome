@@ -20,6 +20,7 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.WareAirCondDev;
+import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 
@@ -85,9 +86,11 @@ public class Control_Air_Adapter extends BaseAdapter {
         final ViewHolder finalViewHoler = viewHoler;
 
         viewHoler.mAirName.setText(mAirs.get(position).getDev().getDevName());
+        viewHoler.mAirNowTemp.setText(mAirs.get(position).getSelTemp()+"℃");
         for (int i = 16; i < 31; i++) {
             temp_texts.add(i + "");
         }
+
         spead_texts.add("低档");
         spead_texts.add("中档");
         spead_texts.add("高档");
@@ -95,6 +98,7 @@ public class Control_Air_Adapter extends BaseAdapter {
             mAirs.get(position).setSelTemp(16);
         viewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp() - 16);
         viewHoler.mHorizontalSelectTemp.setItems(temp_texts);
+
         viewHoler.mHorizontalSelectTemp.setAdditionCenterMark("℃");
         viewHoler.mHorizontalSelectTemp.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
             @Override
@@ -134,6 +138,7 @@ public class Control_Air_Adapter extends BaseAdapter {
                     return;
                 }
                 ToastUtil.showText("等着，未完善...");
+                MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic(), 1, 1, 0, 0, 1);
                 switch (checkedId) {
                     case R.id.air_tocool://制冷
                         break;
@@ -198,6 +203,7 @@ public class Control_Air_Adapter extends BaseAdapter {
                     ToastUtil.showText("请先打开空调");
                     return;
                 }
+                MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic(), 1, 1, 0, 0, 1);
                 SendDataUtil.controlDev(mAirs.get(position).getDev(), getAirCmdTempstr(mAirs.get(position).getSelTemp() - 1));
                 finalViewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp());
                 MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
@@ -217,6 +223,7 @@ public class Control_Air_Adapter extends BaseAdapter {
                     ToastUtil.showText("请先打开空调");
                     return;
                 }
+                MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic(), 1, 1, 0, 0, 1);
                 SendDataUtil.controlDev(mAirs.get(position).getDev(), getAirCmdTempstr(mAirs.get(position).getSelTemp() + 1));
                 finalViewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp());
                 MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
@@ -231,6 +238,7 @@ public class Control_Air_Adapter extends BaseAdapter {
         viewHoler.mAirSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic(), 1, 1, 0, 0, 1);
                 if (mAirs.get(position).getbOnOff() == 0) {
                     SendDataUtil.controlDev(mAirs.get(position).getDev(), UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue());
                 } else {

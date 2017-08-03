@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <cn.semtec.community2.view.WheelView
+        android:id="@+id/wheelView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:bottomLineColor="#33B5E5"
+        app:firstLineAndSecondLineSpace="60dp"
+        app:itemNumber="5"
+        app:lineColor="#33B5E5"
+        app:lineHeight="1dp"
+        app:normalTextColor="#808080"
+        app:normalTextSize="16dp"
+        app:selectedTextColor="#33B5E5"
+        app:selectedTextSize="24dp"
+        app:unitHight="60dp" />
+</LinearLayout>

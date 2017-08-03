@@ -126,6 +126,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 SendDataUtil.getNetWorkInfo();
                 break;
             case R.id.Home_YunVideo:
+                startActivity(new Intent(HomeActivity.this, cn.semtec.community2.WelcomeActivity.class));
                 break;
             case R.id.Home_Safety:
                 break;

@@ -19,9 +19,9 @@ import cn.etsoft.smarthome.R;
 public class SceneSet_ScenesAdapter extends RecyclerView.Adapter<SceneSet_ScenesAdapter.SceneViewHolder> {
     private List<WareSceneEvent> list;
     private int mPosition = 0;
-    private int[] image = {R.drawable.ic_launcher, R.drawable.ic_launcher,
-            R.drawable.ic_launcher, R.drawable.ic_launcher,
-            R.drawable.ic_launcher};
+    private int[] image = {R.drawable.huike, R.drawable.xizao,
+            R.drawable.yongcan, R.drawable.baitian,
+            R.drawable.yejian, R.drawable.lijia};
     private SceneViewHolder.OnItemClick onItemClick;
 
     public SceneSet_ScenesAdapter(List<WareSceneEvent> list) {
@@ -47,7 +47,20 @@ public class SceneSet_ScenesAdapter extends RecyclerView.Adapter<SceneSet_Scenes
         } else {
             holder.itemView.setBackgroundResource(R.color.color_08143F);  //其他项背景
         }
-        holder.iv.setImageResource(image[position % 5]);
+        if (list.get(position).getSceneName().contains("离"))
+            holder.iv.setImageResource(R.drawable.lijia);
+        else if (list.get(position).getSceneName().contains("会"))
+            holder.iv.setImageResource(R.drawable.huike);
+        else if (list.get(position).getSceneName().contains("白"))
+            holder.iv.setImageResource(R.drawable.baitian);
+        else if (list.get(position).getSceneName().contains("夜"))
+            holder.iv.setImageResource(R.drawable.yejian);
+        else if (list.get(position).getSceneName().contains("洗"))
+            holder.iv.setImageResource(R.drawable.xizao);
+        else if (list.get(position).getSceneName().contains("餐"))
+            holder.iv.setImageResource(R.drawable.yongcan);
+        else holder.iv.setImageResource(image[position]);
+
         holder.tv.setText(list.get(position).getSceneName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
