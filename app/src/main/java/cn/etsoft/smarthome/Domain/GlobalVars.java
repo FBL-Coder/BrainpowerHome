@@ -68,8 +68,7 @@ public class GlobalVars {
     }
 
     public static String getDevid() {
-        if (devid == null || devid == "")
-            devid = (String) AppSharePreferenceMgr.get(RCUINFOID_SHAREPREFERENCE, "");
+        devid = (String) AppSharePreferenceMgr.get(RCUINFOID_SHAREPREFERENCE, "");
         return devid;
     }
 

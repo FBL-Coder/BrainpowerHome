@@ -202,6 +202,12 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         return json_rcuinfolist;
     }
 
+    public void setRcuInfoList(List<RcuInfo> list) {
+        Gson gson = new Gson();
+        String str = gson.toJson(list);
+        AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, str);
+    }
+
     /**
      * 获取网络数据Handler;
      */
@@ -345,6 +351,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public void setSkip(boolean skip) {
         isSkip = skip;
     }
+
     /**
      * 静态Handler WebSocket以及Udp连接，数据监听
      */

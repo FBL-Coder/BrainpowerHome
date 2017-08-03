@@ -1,9 +1,11 @@
 package cn.etsoft.smarthome.Activity.Settings;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -25,6 +27,7 @@ import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.New_AddorDel_Helper;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 /**
  * Author：FBL  Time： 2017/7/10.
@@ -39,6 +42,7 @@ public class NewWorkSetActivity extends BaseActivity {
     private NewModuleHandler mNewModuleHandler = new NewModuleHandler(this);
     private Gson gson = new Gson();
     private NetWork_Adapter mAdapter;
+    private int mDeleteNet_Position = -1;
 
     @Override
     public void initView() {
@@ -54,7 +58,9 @@ public class NewWorkSetActivity extends BaseActivity {
 
 
     private void initLIstview() {
-        mAdapter = new NetWork_Adapter(this);
+        if (mAdapter == null)
+            mAdapter = new NetWork_Adapter(this);
+        else mAdapter.notifyDataSetChanged();
         mNetmoduleListview.setAdapter(mAdapter);
 
     }
@@ -82,8 +88,62 @@ public class NewWorkSetActivity extends BaseActivity {
 
         mNetmoduleListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                if (GlobalVars.getDevid().equals(MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID()))
+                    ToastUtil.showText("联网模块正在使用中！");
+                else {
+                    android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(NewWorkSetActivity.this);
+                    dialog.setTitle("提示 :");
+                    dialog.setMessage("您是否要使用此联网模块？");
+                    dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.setPositiveButton("是的", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
+                                    MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID());
+                            MyApplication.setNewWareData();
+                            SendDataUtil.getNetWorkInfo();
+                            mAdapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                            startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+                            finish();
+                        }
+                    });
+                    dialog.create().show();
+                }
+            }
+        });
+        mNetmoduleListview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(NewWorkSetActivity.this);
+                builder.setTitle("删除");
+                builder.setMessage("您是否要删除联网模块？");
+                builder.setNegativeButton("不要", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setPositiveButton("是的", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        mDeleteNet_Position = position;
+                        MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this);
+                        New_AddorDel_Helper.deleteNew(mNewModuleHandler,
+                                NewWorkSetActivity.this,
+                                MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID());
+                    }
+                });
+                builder.create().show();
+                return true;
             }
         });
         getLiftImage().setOnClickListener(new View.OnClickListener() {
@@ -151,8 +211,14 @@ public class NewWorkSetActivity extends BaseActivity {
                     json_rcuinfolist.add(info);
                     AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, weakReference.get().gson.toJson(json_rcuinfolist));
                     weakReference.get().initLIstview();
-                    ToastUtil.showText("Handler返回 添加成功");
+                    ToastUtil.showText("添加成功");
                 } else if (msg.what == New_AddorDel_Helper.DELNEWMODULE_OK) {
+                    MyApplication.mApplication.dismissLoadDialog();
+                    List<RcuInfo> list = MyApplication.mApplication.getRcuInfoList();
+                    list.remove(weakReference.get().mDeleteNet_Position);
+                    MyApplication.mApplication.setRcuInfoList(list);
+                    weakReference.get().initLIstview();
+                    ToastUtil.showText("删除成功");
                     //TODO 删除成功
                 } else if (msg.what == New_AddorDel_Helper.EDITNEWMODULE_OK) {
                     //TODO 修改成功

@@ -203,8 +203,11 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
     }
 
     protected void startBleService() {
-        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
-        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+        try {
+            Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+            bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+        }catch (Exception e){
+        }
     }
 
     private void initDevices() {

@@ -97,39 +97,6 @@ public class NetWork_Adapter extends BaseAdapter {
             viewHoler.Select.setImageResource(R.drawable.selected);
         else viewHoler.Select.setImageResource(R.drawable.noselect);
 
-        viewHoler.Select.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (GlobalVars.getDevid().equals(list.get(position).getDevUnitID()))
-                    ToastUtil.showText("联网模块正在使用中！");
-                else {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-                    dialog.setTitle("提示 :");
-                    dialog.setMessage("您是否要使用此联网模块？");
-                    dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.setPositiveButton("是的", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, list.get(position).getDevUnitID());
-                            MyApplication.setNewWareData();
-                            SendDataUtil.getNetWorkInfo();
-                            notifyDataSetChanged();
-                            dialog.dismiss();
-                            mContext.startActivity(new Intent(mContext, HomeActivity.class));
-                            mContext.finish();
-                        }
-                    });
-                    dialog.create().show();
-                }
-            }
-        });
-
-
         final ViewHoler finalViewHoler = viewHoler;
         viewHoler.ShowInfo.setOnClickListener(new View.OnClickListener() {
             @Override

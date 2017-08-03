@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/menuup_bg">
+
+            <ImageView
+                android:id="@+id/Control_Scene_Run"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_launcher_round"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_20"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_250">
+
+            <TextView
+                android:id="@+id/null_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|bottom"
+                android:padding="@dimen/dp_20"
+                android:text="没有数据"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_20"
+                android:textStyle="italic" />
+
+            <GridView
+                android:id="@+id/Control_Scene_GirdView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:background="@null"
+                android:horizontalSpacing="@dimen/dp_10"
+                android:numColumns="2"
+                android:padding="@dimen/dp_10"
+                android:verticalSpacing="@dimen/dp_10" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="@dimen/dp_250"
+        android:layout_height="match_parent">
+
+        <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
+            android:id="@+id/Control_Scene_CircleMenu"
+            android:layout_width="@dimen/dp_250"
+            android:layout_height="match_parent"
+            android:background="@drawable/circlebg" />
+    </FrameLayout>
+</RelativeLayout>

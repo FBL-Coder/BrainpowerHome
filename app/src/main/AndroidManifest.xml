@@ -177,6 +177,11 @@
             android:name=".Activity.ControlActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
+        <!-- 情景控制-->
+        <activity
+            android:name=".Activity.ControlSceneActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
 
 
         //高德地图定位

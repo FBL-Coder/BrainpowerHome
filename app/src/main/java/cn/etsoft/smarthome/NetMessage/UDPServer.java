@@ -207,11 +207,16 @@ public class UDPServer implements Runnable {
 
     public void extractData(String info) {
 
+        String devUnitID = "";
         int datType = 0;
         int subType2 = 0;
         int subType1 = 0;
         try {
             JSONObject jsonObject = new JSONObject(info);
+            devUnitID = jsonObject.getString("devUnitID");
+            if (!devUnitID.equals(GlobalVars.getDevid())) {
+                return;
+            }
             datType = jsonObject.getInt("datType");
             subType1 = jsonObject.getInt("subType1");
             subType2 = jsonObject.getInt("subType2");
