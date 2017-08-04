@@ -17,14 +17,30 @@
             android:layout_height="wrap_content"
             android:background="@drawable/menuup_bg">
 
-            <ImageView
-                android:id="@+id/Control_Scene_Run"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_launcher_round"
+                android:layout_marginLeft="@dimen/dp_150"
+                android:text="情景控制"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_26"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/Control_Scene_Run"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_20"/>
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_20"
+                android:text="启用情景"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_26"
+                android:textStyle="bold"
+
+                />
 
         </RelativeLayout>
 

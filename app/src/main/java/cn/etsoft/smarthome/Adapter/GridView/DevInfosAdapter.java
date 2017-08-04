@@ -103,14 +103,12 @@ public class DevInfosAdapter extends BaseAdapter {
         //首先隐藏部分布局
         viewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
         viewHolder.mDevInfoEditLook.setVisibility(View.GONE);
-        viewHolder.mDevInfoEditEditRoom.setVisibility(View.GONE);
         viewHolder.mDevInfoEdit.setImageResource(R.drawable.edit_dev);
 
         final ViewHolder finalViewHolder = viewHolder;
         ShowView(position, viewHolder);
         EditClick(viewHolder, finalViewHolder, position);
         EditRoomClick(finalViewHolder);
-        EditInputRoomClick(finalViewHolder);
         EditWayClick(position, finalViewHolder);
         DeleteClick(finalViewHolder, position);
         return convertView;
@@ -233,23 +231,6 @@ public class DevInfosAdapter extends BaseAdapter {
         });
     }
 
-    /**
-     * 输入房间名
-     */
-    private void EditInputRoomClick(final ViewHolder finalViewHolder) {
-        finalViewHolder.mDevInfoEditInputRoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (finalViewHolder.mDevInfoEditRoom.getVisibility() == View.VISIBLE) {
-                    finalViewHolder.mDevInfoEditRoom.setVisibility(View.GONE);
-                    finalViewHolder.mDevInfoEditEditRoom.setVisibility(View.VISIBLE);
-                } else {
-                    finalViewHolder.mDevInfoEditRoom.setVisibility(View.VISIBLE);
-                    finalViewHolder.mDevInfoEditEditRoom.setVisibility(View.GONE);
-                }
-            }
-        });
-    }
 
     /**
      * 切换房间名
@@ -298,7 +279,7 @@ public class DevInfosAdapter extends BaseAdapter {
                             }
                             //设备名数据处理
                             Save_DevName = finalViewHolder.mDevInfoEditName.getText().toString();
-                            if ("".equals(Save_DevName) || Save_DevName.length() > 8) {
+                            if ("".equals(Save_DevName) || Save_DevName.length() > 6) {
                                 ToastUtil.showText("设备名称过长");
                                 return;
                             }
@@ -309,19 +290,7 @@ public class DevInfosAdapter extends BaseAdapter {
                                 return;
                             }
                             //房间名数据处理
-                            if (finalViewHolder.mDevInfoEditRoom.getVisibility() == View.VISIBLE)
-                                Save_Roomname = finalViewHolder.mDevInfoEditRoom.getText().toString();
-                            else {
-                                Save_Roomname = finalViewHolder.mDevInfoEditEditRoom.getText().toString();
-                                if (Save_Roomname.length() > 8) {
-                                    ToastUtil.showText("房间名过长");
-                                    return;
-                                }
-                            }
-                            if ("".equals(Save_Roomname)) {
-                                ToastUtil.showText("房间名为空");
-                                return;
-                            }
+                            Save_Roomname = finalViewHolder.mDevInfoEditRoom.getText().toString();
                             try {
                                 Save_Roomname = CommonUtils.bytesToHexString(Save_Roomname.getBytes("GB2312"));
                             } catch (UnsupportedEncodingException e) {
@@ -472,8 +441,6 @@ public class DevInfosAdapter extends BaseAdapter {
                         viewHolder.mDevInfoOutBoard.setText("数据解析出错");
                     viewHolder.mDevInfoOutBoard.setText(BoardName);
 
-                    //不可视布局数据
-                    viewHolder.mDevInfoEditEditRoom.setHint(Air.getDev().getRoomName());
                     viewHolder.mDevInfoEditRoom.setText(Air.getDev().getRoomName());
                     viewHolder.mDevInfoEditName.setHint(Air.getDev().getDevName());
                     viewHolder.mDevInfoEditWay.setText(Way_ok);
@@ -569,7 +536,6 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoOutBoard.setText(BoardName);
 
                     //不可视布局数据
-                    viewHolder.mDevInfoEditEditRoom.setHint(light.getDev().getRoomName());
                     viewHolder.mDevInfoEditRoom.setText(light.getDev().getRoomName());
                     viewHolder.mDevInfoEditName.setText("");
                     viewHolder.mDevInfoEditName.setHint(light.getDev().getDevName());
@@ -601,7 +567,6 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoOutBoard.setText(BoardName);
 
                     //不可视布局数据
-                    viewHolder.mDevInfoEditEditRoom.setHint(curtain.getDev().getRoomName());
                     viewHolder.mDevInfoEditRoom.setText(curtain.getDev().getRoomName());
                     viewHolder.mDevInfoEditName.setHint(curtain.getDev().getDevName());
                     viewHolder.mDevInfoEditWay.setText(curtain.getPowChn() + "");
@@ -625,12 +590,10 @@ public class DevInfosAdapter extends BaseAdapter {
         public TextView mDevInfoWay;
         public LinearLayout mDevInfoLook;
         public TextView mDevInfoEditRoom;
-        public EditText mDevInfoEditEditRoom;
         public EditText mDevInfoEditName;
         public TextView mDevInfoEditType;
         public TextView mDevInfoEditWay;
         public LinearLayout mDevInfoEditLook;
-        public ImageView mDevInfoEditInputRoom;
 
         public ViewHolder(View rootView) {
             this.rootView = rootView;
@@ -643,14 +606,11 @@ public class DevInfosAdapter extends BaseAdapter {
             this.mDevInfoWay = (TextView) rootView.findViewById(R.id.Dev_Info_Way);
             this.mDevInfoLook = (LinearLayout) rootView.findViewById(R.id.Dev_Info_Look);
             this.mDevInfoEditRoom = (TextView) rootView.findViewById(R.id.Dev_Info_Edit_Room);
-            this.mDevInfoEditEditRoom = (EditText) rootView.findViewById(R.id.Dev_Info_Edit_EditRoom);
             this.mDevInfoEditName = (EditText) rootView.findViewById(R.id.Dev_Info_Edit_Name);
             this.mDevInfoEditType = (TextView) rootView.findViewById(R.id.Dev_Info_Edit_Type);
             this.mDevInfoEditWay = (TextView) rootView.findViewById(R.id.Dev_Info_Edit_Way);
             this.mDevInfoEditLook = (LinearLayout) rootView.findViewById(R.id.Dev_Info_Edit_Look);
-            this.mDevInfoEditInputRoom = (ImageView) rootView.findViewById(R.id.Dev_Info_Edit_InputRoom);
         }
-
     }
 
     /**

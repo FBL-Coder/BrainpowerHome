@@ -194,29 +194,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_40"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="@dimen/dp_10"
                     android:text="卫生间 "
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_18" />
-
-                <EditText
-                    android:id="@+id/Dev_Info_Edit_EditRoom"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dp_40"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_18"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/Dev_Info_Edit_InputRoom"
-                    android:layout_width="@dimen/dp_40"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/input_edit_dev" />
             </RelativeLayout>
         </LinearLayout>
 

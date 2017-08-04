@@ -126,7 +126,7 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                         int Save_DevWay = 0;
                         //设备名数据处理
                         Save_DevName = mAddDevName.getText().toString();
-                        if ("".equals(Save_DevName) || Save_DevName.length() > 8) {
+                        if ("".equals(Save_DevName) || Save_DevName.length() > 6) {
                             ToastUtil.showText("设备名称过长");
                             return;
                         }
@@ -141,7 +141,7 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                             Save_Roomname = mAddDevRoom.getText().toString();
                         else {
                             Save_Roomname = mAddDevEditRoom.getText().toString();
-                            if (Save_Roomname.length() > 8) {
+                            if (Save_Roomname.length() > 6) {
                                 ToastUtil.showText("房间名过长");
                                 return;
                             }

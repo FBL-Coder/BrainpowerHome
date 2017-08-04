@@ -101,12 +101,12 @@ public class SendDataUtil {
         MyApplication.mApplication.getUdpServer().send(str);
     }
 
-    public static void executelScene(WareSceneEvent event) {
+    public static void executelScene(int sceneid) {
         String str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
                 ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_exeSceneEvents.getValue() +
                 ",\"subType1\":0" +
                 ",\"subType2\":0" +
-                ",\"eventId\":" + event.getEventId() + "}";
+                ",\"eventId\":" + sceneid + "}";
         MyApplication.mApplication.getUdpServer().send(str);
     }
 

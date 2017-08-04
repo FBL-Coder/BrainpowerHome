@@ -80,7 +80,7 @@ public class Control_Scene_DevAdapter extends BaseAdapter {
                 if (sceneDevs.get(position).getDevID() == AirCondDev.getDev().getDevId() &&
                         sceneDevs.get(position).getCanCpuID().endsWith(AirCondDev.getDev().getCanCpuId())) {
                     viewHolder.name.setText(AirCondDev.getDev().getDevName());
-                    if (sceneDevs.get(position).getbOnOff() == 0) {
+                    if (AirCondDev.getbOnOff() == 0) {
                         viewHolder.type.setImageResource(R.drawable.kt_dev_item_close);
                         viewHolder.state.setText("关闭");
                     } else {
@@ -89,43 +89,13 @@ public class Control_Scene_DevAdapter extends BaseAdapter {
                     }
                 }
             }
-        } else if (type_dev == 1) {
-            for (int j = 0; j < MyApplication.getWareData().getTvs().size(); j++) {
-                WareTv tv = MyApplication.getWareData().getTvs().get(j);
-                if (sceneDevs.get(position).getDevID() == tv.getDev().getDevId() &&
-                        sceneDevs.get(position).getCanCpuID().endsWith(tv.getDev().getCanCpuId())) {
-                    viewHolder.name.setText(tv.getDev().getDevName());
-                    if (sceneDevs.get(position).getbOnOff() == 0) {
-                        viewHolder.type.setImageResource(R.drawable.ic_launcher);
-                        viewHolder.state.setText("关闭");
-                    } else {
-                        viewHolder.type.setImageResource(R.drawable.ic_launcher_round);
-                        viewHolder.state.setText("打开");
-                    }
-                }
-            }
-        } else if (type_dev == 2) {
-            for (int j = 0; j < MyApplication.getWareData().getStbs().size(); j++) {
-                WareSetBox box = MyApplication.getWareData().getStbs().get(j);
-                if (sceneDevs.get(position).getDevID() == box.getDev().getDevId() &&
-                        sceneDevs.get(position).getCanCpuID().endsWith(box.getDev().getCanCpuId())) {
-                    viewHolder.name.setText(box.getDev().getDevName());
-                    if (sceneDevs.get(position).getbOnOff() == 0) {
-                        viewHolder.type.setImageResource(R.drawable.ic_launcher);
-                        viewHolder.state.setText("关闭");
-                    } else {
-                        viewHolder.type.setImageResource(R.drawable.ic_launcher_round);
-                        viewHolder.state.setText("打开");
-                    }
-                }
-            }
-        } else if (type_dev == 3) {
+        }else if (type_dev == 3) {
             for (int j = 0; j < MyApplication.getWareData().getLights().size(); j++) {
                 WareLight Light = MyApplication.getWareData().getLights().get(j);
                 if (sceneDevs.get(position).getDevID() == Light.getDev().getDevId() &&
                         sceneDevs.get(position).getCanCpuID().endsWith(Light.getDev().getCanCpuId())) {
                     viewHolder.name.setText(Light.getDev().getDevName());
-                    if (sceneDevs.get(position).getbOnOff() == 0) {
+                    if (Light.getbOnOff() == 0) {
                         viewHolder.type.setImageResource(R.drawable.dg_dev_item_close);
                         viewHolder.state.setText("关闭");
                     } else {
@@ -140,7 +110,7 @@ public class Control_Scene_DevAdapter extends BaseAdapter {
                 if (sceneDevs.get(position).getDevID() == Curtain.getDev().getDevId() &&
                         sceneDevs.get(position).getCanCpuID().endsWith(Curtain.getDev().getCanCpuId())) {
                     viewHolder.name.setText(Curtain.getDev().getDevName());
-                    if (sceneDevs.get(position).getbOnOff() == 0) {
+                    if (Curtain.getbOnOff() == 0) {
                         viewHolder.type.setImageResource(R.drawable.cl_dev_item_close);
                         viewHolder.state.setText("关闭");
                     } else {
