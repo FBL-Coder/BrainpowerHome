@@ -223,8 +223,8 @@ public class UDPServer implements Runnable {
         } catch (JSONException e) {
             System.out.println(this.getClass().getName() + "219" + e.toString());
         }
-        if (datType != 35)
-            show(info);
+//        if (datType != 35)
+        show(info);
         switch (datType) {
             case 0:// e_udpPro_getRcuinfo
                 if (subType2 == 1) {
@@ -2055,86 +2055,19 @@ public class UDPServer implements Runnable {
      */
     public void ctrlDevReply(String info) {
 
-//        灯返回数据类型；
-//        light:
-//        {
-//            "devUnitID":	"37ffdb05424e323416702443",
+//        情景控制返回数据；
+//     {
+//        "devUnitID":	"39ffd505484d303408650743",
 //                "datType":	35,
 //                "subType1":	1,
 //                "subType2":	1,
-//                "light_rows":	[{
-//            "canCpuID":	"31ffdf054257313827502543",
-//                    "devName":	"b5c635350000000000000000",
-//                    "roomName":	"ceb4b6a8d2e5000000000000",
-//                    "devType":	3,
-//                    "devID":	5,
-//                    "bOnOff":	1,
-//                    "bTuneEn":	0,
-//                    "lmVal":	0,
-//                    "powChn":	5
-//        }, {
-//            "canCpuID":	"31ffdf054257313827502543",
-//                    "devName":	"b5c636360000000000000000",
-//                    "roomName":	"ceb4b6a8d2e5000000000000",
-//                    "devType":	3,
-//                    "devID":	6,
-//                    "bOnOff":	0,
-//                    "bTuneEn":	0,
-//                    "lmVal":	0,
-//                    "powChn":	6
-//        }, {
-//            "canCpuID":	"31ffdf054257313827502543",
-//                    "devName":	"b5c637000000000000000000",
-//                    "roomName":	"ceb4b6a8d2e5000000000000",
-//                    "devType":	3,
-//                    "devID":	7,
-//                    "bOnOff":	1,
-//                    "bTuneEn":	0,
-//                    "lmVal":	0,
-//                    "powChn":	7
-//        }, {
-//            "canCpuID":	"31ffdf054257313827502543",
-//                    "devName":	"b5c638000000000000000000",
-//                    "roomName":	"ceb4b6a8d2e5000000000000",
-//                    "devType":	3,
-//                    "devID":	8,
-//                    "bOnOff":	1,
-//                    "bTuneEn":	0,
-//                    "lmVal":	0,
-//                    "powChn":	8
-//        }, {
-//            "canCpuID":	"31ffdf054257313827502543",
-//                    "devName":	"b5c639000000000000000000",
-//                    "roomName":	"ceb4b6a8d2e5000000000000",
-//                    "devType":	3,
-//                    "devID":	9,
-//                    "bOnOff":	1,
-//                    "bTuneEn":	0,
-//                    "lmVal":	0,
-//                    "powChn":	9
-//        }, {
-//            "canCpuID":	"31ffdf054257313827502543",
-//                    "devName":	"b5c631300000000000000000",
-//                    "roomName":	"ceb4b6a8d2e5000000000000",
-//                    "devType":	3,
-//                    "devID":	10,
-//                    "bOnOff":	1,
-//                    "bTuneEn":	0,
-//                    "lmVal":	0,
-//                    "powChn":	10
-//        }, {
-//            "canCpuID":	"31ffdf054257313827502543",
-//                    "devName":	"b5c631310000000000000000",
-//                    "roomName":	"ceb4b6a8d2e5000000000000",
-//                    "devType":	3,
-//                    "devID":	11,
-//                    "bOnOff":	1,
-//                    "bTuneEn":	0,
-//                    "lmVal":	0,
-//                    "powChn":	11
-//        }],
-//            "light":	7
-//        }
+//                "state_ rows":	[{
+//            "devState":	32,
+//                    "devUnitID":	"36ffda054842373503711843"
+//        }]
+//    }
+        //TODO  情景控制新版本的数据需要重新写。
+        Error
 
         try {
             JSONObject jsonObject = new JSONObject(info);

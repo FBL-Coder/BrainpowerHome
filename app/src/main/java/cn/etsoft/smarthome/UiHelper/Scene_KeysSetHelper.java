@@ -57,10 +57,9 @@ public class Scene_KeysSetHelper {
         List<CircleDataEvent> list = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
             CircleDataEvent event = new CircleDataEvent();
-
             event.setTitle(MyApplication.getWareData().getSceneEvents().get(
                     i % MyApplication.getWareData().getSceneEvents().size()).getSceneName());
-            event.setImage(R.drawable.timer_icon);
+            event.setImage(R.drawable.set_scene);
             if (IsClick && i == position)
                 event.setSelect(true);
             list.add(event);

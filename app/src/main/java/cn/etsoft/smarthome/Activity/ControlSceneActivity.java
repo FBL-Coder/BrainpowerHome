@@ -3,7 +3,6 @@ package cn.etsoft.smarthome.Activity;
 import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.GridView.Control_Scene_DevAdapter;
-import cn.etsoft.smarthome.Domain.WareSceneDevItem;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
@@ -24,7 +22,7 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 
 /**
  * Author：FBL  Time： 2017/6/22.
- * 定时器页面
+ * 情景控制页面
  */
 
 public class ControlSceneActivity extends BaseActivity implements View.OnClickListener {

@@ -182,6 +182,11 @@
             android:name=".Activity.ControlSceneActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
+        <!-- 定时详情-->
+        <activity
+            android:name=".Activity.TimerInfoActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
 
 
         //高德地图定位
@@ -338,11 +343,11 @@
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="developer-default" />
-        //原程序  APPKEY
+        //原程序 APPKEY
         <!--<meta-data-->
         <!--android:name="JPUSH_APPKEY"-->
         <!--android:value="8ba03b857169cb3a6d03e7ae" />-->
-        //现程序  APPKEY  极光推送
+        //现程序 APPKEY 极光推送
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="af17846b8bec05b92a711ed6" />
