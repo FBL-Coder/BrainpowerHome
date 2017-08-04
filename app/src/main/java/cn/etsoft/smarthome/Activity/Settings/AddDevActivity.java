@@ -115,7 +115,6 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.AddDev_Save:
-
                 builder = new AlertDialog.Builder(this);
                 builder.setMessage("是否保存设置？");
                 builder.setPositiveButton("是的", new DialogInterface.OnClickListener() {
