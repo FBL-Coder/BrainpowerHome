@@ -187,6 +187,11 @@
             android:name=".Activity.TimerInfoActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
+        <!-- 安防首页进入详情-->
+        <activity
+            android:name=".Activity.SafetyHomeActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
 
 
         //高德地图定位

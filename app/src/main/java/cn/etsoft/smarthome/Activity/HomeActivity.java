@@ -129,6 +129,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(new Intent(HomeActivity.this, cn.semtec.community2.WelcomeActivity.class));
                 break;
             case R.id.Home_Safety:
+                startActivity(new Intent(HomeActivity.this,SafetyHomeActivity.class));
                 break;
             case R.id.Home_JiaDian:
                 startActivity(new Intent(HomeActivity.this,ControlActivity.class));

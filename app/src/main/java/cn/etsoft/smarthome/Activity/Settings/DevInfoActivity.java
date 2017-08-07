@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
-
-import org.xml.sax.DTDHandler;
 
 import java.util.ArrayList;
 import java.util.List;

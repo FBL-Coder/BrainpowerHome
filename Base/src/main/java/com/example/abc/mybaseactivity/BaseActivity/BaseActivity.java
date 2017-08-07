@@ -209,6 +209,7 @@ public abstract class BaseActivity extends FragmentActivity {
      * @param imageResourceid_right 右边图按钮资源
      */
     public void setTitleImageBtn(boolean isVisible_left, int imageResourceid_left, boolean isVisible_right, int imageResourceid_right) {
+
         if (isVisible_left) {
             leftBack.setVisibility(View.VISIBLE);
             if (imageResourceid_left != 0)

@@ -217,7 +217,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
     @SuppressLint("WrongConstant")
     @Override
     public void onClick(View v) {
-        if (!IsNoData || WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().size() == 0) {
+        if (IsNoData || WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().size() == 0) {
             ToastUtil.showText("获取数据异常，请稍后在试");
             return;
         }

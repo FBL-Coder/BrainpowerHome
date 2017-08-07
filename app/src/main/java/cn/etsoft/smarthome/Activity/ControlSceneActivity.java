@@ -42,6 +42,12 @@ public class ControlSceneActivity extends BaseActivity implements View.OnClickLi
 
 
     @Override
+    protected void onResume() {
+        MyApplication.mApplication.setSceneIsShow(true);
+        super.onResume();
+    }
+
+    @Override
     public void initView() {
         setLayout(R.layout.activity_controlscene);
         layout = getViewById(R.id.Control_Scene_CircleMenu);
@@ -53,7 +59,7 @@ public class ControlSceneActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 MyApplication.mApplication.dismissLoadDialog();
-                if (datType == 26) {
+                if (datType == 35) {
                     if (mScenePosition == -1) return;
                     if (mAdapter == null)
                         mAdapter = new Control_Scene_DevAdapter(mSceneDatas.get(mScenePosition).getItemAry(), ControlSceneActivity.this);
@@ -149,5 +155,11 @@ public class ControlSceneActivity extends BaseActivity implements View.OnClickLi
             list.add(event);
         }
         return list;
+    }
+
+    @Override
+    protected void onStop() {
+        MyApplication.mApplication.setSceneIsShow(false);
+        super.onStop();
     }
 }

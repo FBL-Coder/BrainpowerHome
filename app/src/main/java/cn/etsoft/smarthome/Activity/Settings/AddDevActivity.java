@@ -1,9 +1,8 @@
 package cn.etsoft.smarthome.Activity.Settings;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,8 +28,6 @@ import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.Utils.CommonUtils;
 import cn.etsoft.smarthome.View.PopupWindow.MultiChoicePopWindow;
-
-import static cn.etsoft.smarthome.UiHelper.TimerSetHelper.reverseString;
 
 /**
  * Author：FBL  Time： 2017/7/24.

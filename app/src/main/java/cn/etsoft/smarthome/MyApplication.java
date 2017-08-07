@@ -1,5 +1,6 @@
 package cn.etsoft.smarthome;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -21,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.ref.WeakReference;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,6 +32,7 @@ import java.util.concurrent.Executors;
 import cn.etsoft.smarthome.Activity.Settings.SafetySetActivity;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
+import cn.etsoft.smarthome.Domain.Safety_Data;
 import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.Domain.Weather_All_Bean;
 import cn.etsoft.smarthome.Domain.Weather_Bean;
@@ -106,6 +109,11 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      * 局域网内连接状态
      */
     private boolean Isheartting = false;
+
+    /**
+     * 情景控制页面是否可见；
+     */
+    private boolean SceneIsShow = false;
 
     @Override
     public void onCreate() {
@@ -352,6 +360,14 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         isSkip = skip;
     }
 
+    public boolean isSceneIsShow() {
+        return SceneIsShow;
+    }
+
+    public void setSceneIsShow(boolean sceneIsShow) {
+        SceneIsShow = sceneIsShow;
+    }
+
     /**
      * 静态Handler WebSocket以及Udp连接，数据监听
      */
@@ -360,7 +376,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         private MyApplication application;
         private boolean UdpIsHaveBackData = false;
         private boolean WSIsOpen = false;
-        private int NotificationID = 0;
+        private int NotificationID = 10;
 
 
         APPHandler(MyApplication application) {
@@ -398,19 +414,20 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             //UDP数据报
             if (msg.what == application.UDP_DATA_OK) {
                 UdpIsHaveBackData = true;
-                if (onGetWareDataListener != null)
-                    onGetWareDataListener.upDataWareData((int) msg.obj, msg.arg1, msg.arg2);
-
-                String contont = Safety_Baojing();
-                if ("".equals(contont)) {
-                    return;
-                }
                 if ((int) msg.obj == 32 && msg.arg1 == 2) {
+                    String contont = Safety_Baojing();
+                    if ("".equals(contont)) {
+                        return;
+                    }
+
+
                     NotificationUtils.createNotif(
                             MyApplication.mApplication, R.mipmap.ic_launcher, "报警",
                             "警报", contont, new Intent(MyApplication.mApplication, SafetySetActivity.class), NotificationID, 0);
                     NotificationID++;
                 }
+                if (onGetWareDataListener != null)
+                    onGetWareDataListener.upDataWareData((int) msg.obj, msg.arg1, msg.arg2);
             }
             //UDP
             if (msg.what == application.UDP_NOSEND)
@@ -459,6 +476,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
          *
          * @return 用户可见数据
          */
+        @SuppressLint("WrongConstant")
         public String Safety_Baojing() {
             //报警提示信息
             String message = "";
@@ -466,25 +484,42 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             int SAFETY_TYPE = 0;
             String index = Integer.toBinaryString(MyApplication.getWareData().getSafetyResult_alarm().getSecDat());
             StringBuffer index_sb = new StringBuffer(index).reverse();
+            index_sb = index_sb.reverse();
             for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
                 if (index_sb.length() <= i)
                     index_sb.append("0");
             }
-            index_sb = index_sb.reverse();
-            SAFETY_TYPE = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
+            SAFETY_TYPE = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0);
+
+            Safety_Data safetyData = Data_Cache.readFile_safety(false);
             try {
                 for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
                     if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecType() == SAFETY_TYPE
                             && MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getValid() == 1) {
                         boolean IsContain = false;
                         for (int j = 0; j < index_sb.length(); j++) {
-                            if (i == index_sb.charAt('1')) {
+                            if (i == j && '1' == index_sb.charAt(j)) {
                                 IsContain = true;
                             }
                         }
-                        if (IsContain)
+                        if (IsContain) {
                             message += MyApplication.getWareData().getResult_safety()
                                     .getSec_info_rows().get(i).getSecName() + "、";
+                            if (safetyData == null)
+                                safetyData = new Safety_Data();
+                            Safety_Data.Safety_Time time = safetyData.new Safety_Time();
+                            Calendar cal = Calendar.getInstance();
+                            time.setYear(cal.get(Calendar.YEAR));
+                            time.setMonth(cal.get(Calendar.MONTH) + 1);
+                            time.setDay(cal.get(Calendar.DAY_OF_MONTH));
+                            time.setH(cal.get(Calendar.HOUR_OF_DAY));
+                            time.setM(cal.get(Calendar.MINUTE));
+                            time.setS(cal.get(Calendar.SECOND));
+                            time.setSafetyBean(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i));
+
+                            safetyData.getSafetyTime().add(time);
+                            Data_Cache.writeFile_safety(safetyData);
+                        }
                     }
                 }
                 if (!"".equals(message)) {
@@ -493,6 +528,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 } else
                     return "";
             } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("MyApp" + "Safety_Baojing()" + e);
                 return "";
             }
         }

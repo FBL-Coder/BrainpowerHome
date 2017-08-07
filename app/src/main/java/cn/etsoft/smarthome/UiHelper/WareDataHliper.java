@@ -90,10 +90,10 @@ public class WareDataHliper {
             List<WareSceneDevItem> mSceneDevItems = new ArrayList<>();
             if (j == 0) {
                 mWareSceneEvent.setEventId(0);
-                mWareSceneEvent.setSceneName("全关模式");
+                mWareSceneEvent.setSceneName("全开模式");
             } else {
                 mWareSceneEvent.setEventId(1);
-                mWareSceneEvent.setSceneName("全开模式");
+                mWareSceneEvent.setSceneName("全关模式");
             }
             for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                 WareSceneDevItem item = new WareSceneDevItem();

@@ -118,7 +118,7 @@ public class TimerInfoActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 if (IsOpenShiNeng) {
-                    Error
+//                    Error
                     //TODO 定时器详情页面的启动按钮事件
                 } else {
 
