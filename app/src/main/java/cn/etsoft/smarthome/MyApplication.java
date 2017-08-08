@@ -489,9 +489,13 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 if (index_sb.length() <= i)
                     index_sb.append("0");
             }
-            SAFETY_TYPE = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0);
-
-            Safety_Data safetyData = Data_Cache.readFile_safety(false);
+            SAFETY_TYPE = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 1);
+            Safety_Data safetyData;
+            try {
+                safetyData = Data_Cache.readFile_safety(false);
+            } catch (Exception e) {
+                safetyData = new Safety_Data();
+            }
             try {
                 for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
                     if (MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i).getSecType() == SAFETY_TYPE

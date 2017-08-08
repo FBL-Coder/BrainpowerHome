@@ -66,7 +66,6 @@ public class DevInfosAdapter extends BaseAdapter {
         }
         mContext = context;
     }
-
     public void notifyDataSetChanged(List<WareDev> list) {
         RoomNames = MyApplication.getWareData().getRooms();
         Devs = list;

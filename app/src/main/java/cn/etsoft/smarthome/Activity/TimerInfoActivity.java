@@ -96,7 +96,7 @@ public class TimerInfoActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onClickOuterCircle(int position, View view) {
                 IsCanClick = true;
-                mNull_tv.setText("没有设备，通过情景设置添加设备");
+                mNull_tv.setText("没有设备，通过定时设置添加设备");
                 TimerInfo_Data.setVisibility(View.VISIBLE);
                 CirclePosition = position;
                 mTimerPosition = position % MyApplication.getWareData().getTimer_data().getTimerEvent_rows().size();

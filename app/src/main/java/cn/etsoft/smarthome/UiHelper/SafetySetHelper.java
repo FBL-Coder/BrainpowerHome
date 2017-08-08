@@ -58,7 +58,7 @@ public class SafetySetHelper {
     /**
      * 保存
      */
-    public static void safetySet_Save(Activity activity, final EditText safety_name, final boolean ShiNeng
+    public static void safetySet_Save(final Activity activity, final EditText safety_name, final boolean ShiNeng
             , final TextView safety_scene, final TextView safety_state, final List<String> safety_state_data,
                                       final int Safety_position, final List<SetSafetyResult.SecInfoRowsBean.RunDevItemBean> common_dev) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -99,7 +99,7 @@ public class SafetySetHelper {
                         bean.setValid(1);
                     else
                         bean.setValid(0);
-                    bean.setSecCode(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSecCode());
+                    bean.setSecCode(WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().get(Safety_position).getSecCode());
                     //safety_state_data : 选择布防类型
                     //safety_state : 状态
                     for (int i = 0; i < safety_state_data.size(); i++) {
@@ -115,7 +115,7 @@ public class SafetySetHelper {
                     if ("无".equals(safety_scene.getText().toString()) || "点击选择关联情景".equals(safety_scene)) {
                         bean.setSceneId(255);
                     } else
-                        for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size() + 1; i++) {
+                        for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
                             if (safety_scene.getText().toString().equals(MyApplication.getWareData().getSceneEvents().get(i).getSceneName()))
                                 bean.setSceneId(i);
                         }
@@ -124,16 +124,19 @@ public class SafetySetHelper {
                     safetyResult.setDevUnitID(GlobalVars.getDevid());
                     safetyResult.setSubType1(5);
                     safetyResult.setItemCnt(1);
-                    safetyResult.setSubType2(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSecId());
+                    safetyResult.setSubType2(WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().get(Safety_position).getSecId());
                     safetyResult.setSec_info_rows(timerEvent_rows);
                     Gson gson = new Gson();
                     Log.e("保存安防数据", gson.toJson(safetyResult));
                     MyApplication.mApplication.getUdpServer().send(gson.toJson(safetyResult));
+                    MyApplication.mApplication.showLoadDialog(activity);
+
                 } catch (Exception e) {
                     MyApplication.mApplication.dismissLoadDialog();
                     Log.e("保存安防数据", "保存数据异常" + e);
                     ToastUtil.showText("保存数据异常,请检查数据是否合适");
                 }
+
             }
         });
         builder.create().show();

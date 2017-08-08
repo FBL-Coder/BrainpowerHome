@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/color_EEFFFFFF"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_10">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:background="@color/colorCC"
+        android:gravity="center"
+        android:padding="@dimen/dp_10"
+        android:text="布撤防设置"
+        android:textColor="@color/color_000"
+        android:textSize="@dimen/sp_22" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/sp_20"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_100"
+        android:paddingRight="@dimen/dp_100">
+
+        <TextView
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="安防类型 "
+            android:textColor="@color/color_000"
+            android:textSize="@dimen/sp_20" />
+
+        <TextView
+            android:id="@+id/Safety_Home_BuChe_Select"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="选择安防类型"
+            android:padding="@dimen/dp_5"
+            android:textColor="@color/color_000"
+            android:textSize="@dimen/sp_24"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/Safety_Home_BuChe_BuFang"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_weight="1"
+            android:background="@color/colorCC"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="全部布防"
+            android:textColor="@color/color_000"
+            android:textSize="@dimen/sp_26"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Safety_Home_BuChes_CheFang"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_weight="1"
+            android:background="@color/colorCC"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="全部撤防"
+            android:textColor="@color/color_000"
+            android:textSize="@dimen/sp_26"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

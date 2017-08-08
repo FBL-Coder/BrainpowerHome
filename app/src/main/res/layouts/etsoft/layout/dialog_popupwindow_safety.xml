@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingTop="@dimen/dp_10"
+        android:text="选择安防类型"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_22" />
+
+    <ListView
+        android:id="@+id/popupWindow_equipment_lv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1"
+        android:divider="@color/color_00000000"
+        android:dividerHeight="@dimen/dp_1" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue">
+        <TextView
+            android:id="@+id/cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/dp_10"
+            android:text="取消"
+            android:layout_marginRight="@dimen/sp_20"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_22"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</LinearLayout>

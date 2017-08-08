@@ -2,7 +2,7 @@ package cn.etsoft.smarthome.Activity.Settings;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
+import android.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -53,7 +53,6 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
     private String Save_DevName;
     private String Save_Roomname;
 
-    private AlertDialog.Builder builder;
 
     @Override
     public void initView() {
@@ -112,7 +111,7 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.AddDev_Save:
-                builder = new AlertDialog.Builder(this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("是否保存设置？");
                 builder.setPositiveButton("是的", new DialogInterface.OnClickListener() {
                     @Override
@@ -376,7 +375,13 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                 else if (Flag == ROOM)
                     room_position = position;
                 else if (Flag == TYPE)
-                    type_position = position;
+                    if (position == 0)
+                        type_position = 0;
+                    else if (position == 1)
+                        type_position = 3;
+                    else if (position == 2)
+                        type_position = 4;
+
                 popupWindow.dismiss();
             }
         });

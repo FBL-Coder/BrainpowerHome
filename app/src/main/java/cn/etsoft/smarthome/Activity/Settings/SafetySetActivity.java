@@ -16,6 +16,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
+import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.GridView.SafetySet_DevAdapter;
 import cn.etsoft.smarthome.Adapter.PopupWindow.PopupWindowAdapter2;
+import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.SetSafetyResult;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
@@ -83,7 +85,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 if (datType == 32) {
                     MyApplication.mApplication.dismissLoadDialog();
-                    if (MyApplication.getWareData().getResult() != null && MyApplication.getWareData().getResult().getSubType1() == 5) {
+                    if (subtype1 == 5) {
                         ToastUtil.showText("保存成功");
                         //保存成功之后获取最新数据
                         MyApplication.getWareData().setResult(null);
@@ -94,14 +96,6 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
                             && MyApplication.getWareData().getResult_safety().getSubType1() == 4) {
                         WareDataHliper.initCopyWareData().startCopySafetySetData();
                         IsNoData = false;
-                        initSafety();
-
-                    }
-                    if (MyApplication.getWareData().getResult() != null && MyApplication.getWareData().getResult().getSubType1() == 1) {
-                        ToastUtil.showText("布防成功");
-                        SharedPreferences sharedPreferences1 = getSharedPreferences("profile",
-                                Context.MODE_PRIVATE);
-                        sharedPreferences1.edit().putInt("safety_style", MyApplication.getWareData().getResult().getSubType2()).commit();
                         initSafety();
                     }
                 }
@@ -120,13 +114,12 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
         } else {
             initSafety();
         }
-        if (mSafetyPosition == -1){
+        if (mSafetyPosition == -1) {
             mNull_tv.setText("请先选择防区");
         }
     }
 
     private void initSafety() {
-
         mSafety_State_List = new ArrayList<>();
         mSafety_State_List.add("24小时布防");
         mSafety_State_List.add("在家布防");
@@ -169,14 +162,25 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
                         IsShiNeng = true;
                     } else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
 
-                    //布防类型是"撤防状态"
-                    if (mBean.getSecType() == 255)
+                    // 全局布撤状态
+                    int type = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
+                    if (type == 255)
                         mSafetyNow.setText(mSafety_State_List.get(3));
                     else {//布防类型是"24小时布防"、"在家布防"、"外出布防"
                         try {
                             mSafetyNow.setText(mSafety_State_List.get(mBean.getSecType()));
                         } catch (Exception e) {
                             mSafetyNow.setText(mSafety_State_List.get(3));
+                        }
+                    }
+                    //布防类型是"撤防状态"
+                    if (mBean.getSecType() == 255)
+                        mSafetyType.setText(mSafety_State_List.get(3));
+                    else {//布防类型是"24小时布防"、"在家布防"、"外出布防"
+                        try {
+                            mSafetyType.setText(mSafety_State_List.get(mBean.getSecType()));
+                        } catch (Exception e) {
+                            mSafetyType.setText(mSafety_State_List.get(3));
                         }
                     }
                     //情景
@@ -217,7 +221,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
     @SuppressLint("WrongConstant")
     @Override
     public void onClick(View v) {
-        if (IsNoData || WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().size() == 0) {
+        if (IsNoData && WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().size() == 0) {
             ToastUtil.showText("获取数据异常，请稍后在试");
             return;
         }
@@ -227,9 +231,9 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
         }
         switch (v.getId()) {
             case R.id.SafetySet_Save_Btn://保存
-                SafetySetHelper.safetySet_Save(this, mSafetyName, IsShiNeng, mSafetyScene, mSafetyNow, mSafety_State_List
+                SafetySetHelper.safetySet_Save(this, mSafetyName, IsShiNeng, mSafetyScene, mSafetyType, mSafety_State_List
                         , mSafetyPosition, mBean.getRun_dev_item());
-                MyApplication.mApplication.showLoadDialog(this);
+
                 break;
             case R.id.SafetySet_ShiNeng: //使能开关
                 IsShiNeng = !IsShiNeng;
@@ -237,7 +241,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
                 else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
                 break;
             case R.id.SafetySet_DuiMa: //对码
-                SafetySetHelper.safetySetDuiMa(this, mSafetyName, IsShiNeng, mSafetyScene, mSafetyNow,
+                SafetySetHelper.safetySetDuiMa(this, mSafetyName, IsShiNeng, mSafetyScene, mSafetyType,
                         mSafety_State_List, mSafetyPosition, mBean.getRun_dev_item());
                 MyApplication.mApplication.showLoadDialog(this);
                 break;

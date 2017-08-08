@@ -61,6 +61,15 @@ public class SafetyRecordAdapter extends BaseAdapter {
                 safety_data.get(position).getDay() + "日" + safety_data.get(position).getH() + "时" +
                 safety_data.get(position).getM() + "分" + safety_data.get(position).getS() + "秒";
         viewHolder.mItemTime.setText(time);
+
+        if (safety_data.get(position).getSafetyBean().getSecType() == 0)
+            viewHolder.mItemType.setText("安防类型 : 24小时布防");
+        else if (safety_data.get(position).getSafetyBean().getSecType() == 1)
+            viewHolder.mItemType.setText("安防类型 : 在家布防");
+        else if (safety_data.get(position).getSafetyBean().getSecType() == 2)
+            viewHolder.mItemType.setText("安防类型 : 外出布防");
+        else if (safety_data.get(position).getSafetyBean().getSecType() == 255)
+            viewHolder.mItemType.setText("安防类型 : 全部撤防");
         return convertView;
     }
 
@@ -68,11 +77,13 @@ public class SafetyRecordAdapter extends BaseAdapter {
         public View rootView;
         public TextView mItemName;
         public TextView mItemTime;
+        public TextView mItemType;
 
         public ViewHolder(View rootView) {
             this.rootView = rootView;
             this.mItemName = (TextView) rootView.findViewById(R.id.item_name);
             this.mItemTime = (TextView) rootView.findViewById(R.id.item_time);
+            this.mItemType = (TextView) rootView.findViewById(R.id.item_type);
         }
 
     }
