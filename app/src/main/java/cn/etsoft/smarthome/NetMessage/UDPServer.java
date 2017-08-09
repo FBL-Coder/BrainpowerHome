@@ -1104,7 +1104,6 @@ public class UDPServer implements Runnable {
             isFreshData = false;
             System.out.println(this.getClass().getName() + "datType = 5" + e.toString());
         }
-
     }
 
     /**

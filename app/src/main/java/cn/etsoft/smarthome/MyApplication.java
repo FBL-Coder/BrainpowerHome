@@ -371,13 +371,15 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     /**
      * 静态Handler WebSocket以及Udp连接，数据监听
      */
+
+
     static class APPHandler extends Handler {
         private WeakReference<MyApplication> weakReference;
         private MyApplication application;
         private boolean UdpIsHaveBackData = false;
         private boolean WSIsOpen = false;
         private int NotificationID = 10;
-
+        private long time_WebSocket = 0;
 
         APPHandler(MyApplication application) {
             this.weakReference = new WeakReference<>(application);
@@ -394,6 +396,9 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 Log.e("WebSiocket", "链接成功");
             }
             if (msg.what == application.WS_CLOSE) {
+                if (System.currentTimeMillis() - time_WebSocket < 2000)
+                    return;
+                time_WebSocket = System.currentTimeMillis();
                 Log.e("WSException", "链接关闭" + msg.obj);
                 application.wsClient = new WebSocket_Client();
                 try {
