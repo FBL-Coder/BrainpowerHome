@@ -152,66 +152,62 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                             return;
                         }
                         if (type_position == 0) {
-                            for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
-                                //设备通道 保存数据处理
-                                String Way_Str = mAddDevWay.getText().toString();
-                                String[] WayStr_ok = Way_Str.split("、");
-                                if (WayStr_ok.length == 0) {
-                                    ToastUtil.showText("请选择通道");
+                            //设备通道 保存数据处理
+                            String Way_Str = mAddDevWay.getText().toString();
+                            String[] WayStr_ok = Way_Str.split("、");
+                            if (WayStr_ok.length == 0) {
+                                ToastUtil.showText("请选择通道");
+                                return;
+                            } else {
+                                if (WayStr_ok.length > 5) {//135
+                                    ToastUtil.showText("空调最多5个通道");
                                     return;
-                                } else {
-                                    if (WayStr_ok.length > 5) {//135
-                                        ToastUtil.showText("空调最多5个通道");
-                                        return;
-                                    }
-                                    String Way = "";
-                                    for (int j = 0; j < 12; j++) {
-                                        boolean IsEnter = false;
-                                        for (int k = 0; k < WayStr_ok.length; k++) {
-                                            if (j == Integer.parseInt(WayStr_ok[k]) - 1) {
-                                                Way += "1";
-                                                IsEnter = true;
-                                            }
-                                        }
-                                        if (!IsEnter) {
-                                            Way += "0";
-                                        }
-                                    }
-                                    Save_DevWay = Integer.parseInt(new StringBuffer(Way).reverse().toString(), 2);
                                 }
+                                String Way = "";
+                                for (int j = 0; j < 12; j++) {
+                                    boolean IsEnter = false;
+                                    for (int k = 0; k < WayStr_ok.length; k++) {
+                                        if (j == Integer.parseInt(WayStr_ok[k]) - 1) {
+                                            Way += "1";
+                                            IsEnter = true;
+                                        }
+                                    }
+                                    if (!IsEnter) {
+                                        Way += "0";
+                                    }
+                                }
+                                Save_DevWay = Integer.parseInt(new StringBuffer(Way).reverse().toString(), 2);
                             }
-                        } else if (type_position == 1) {
+                        } else if (type_position == 3) {
                             //设备通道 保存数据处理
                             String Way_Str = mAddDevWay.getText().toString();
                             Save_DevWay = Integer.parseInt(Way_Str) - 1;
-                        } else if (type_position == 2) {
-                            for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
-                                //设备通道 保存数据处理
-                                String Way_Str = mAddDevWay.getText().toString();
-                                String[] WayStr_ok = Way_Str.split("、");
-                                if (WayStr_ok.length == 0) {
-                                    ToastUtil.showText("请选择通道");
+                        } else if (type_position == 4) {
+                            //设备通道 保存数据处理
+                            String Way_Str = mAddDevWay.getText().toString();
+                            String[] WayStr_ok = Way_Str.split("、");
+                            if (WayStr_ok.length == 0) {
+                                ToastUtil.showText("请选择通道");
+                                return;
+                            } else {
+                                if (WayStr_ok.length > 3) {//135
+                                    ToastUtil.showText("窗帘最多3个通道");
                                     return;
-                                } else {
-                                    if (WayStr_ok.length > 3) {//135
-                                        ToastUtil.showText("窗帘最多3个通道");
-                                        return;
-                                    }
-                                    String Way = "";
-                                    for (int j = 0; j < 12; j++) {
-                                        boolean IsEnter = false;
-                                        for (int k = 0; k < WayStr_ok.length; k++) {
-                                            if (j == Integer.parseInt(WayStr_ok[k]) - 1) {
-                                                Way += "1";
-                                                IsEnter = true;
-                                            }
-                                        }
-                                        if (!IsEnter) {
-                                            Way += "0";
-                                        }
-                                    }
-                                    Save_DevWay = Integer.parseInt(new StringBuffer(Way).reverse().toString(), 2);
                                 }
+                                String Way = "";
+                                for (int j = 0; j < 12; j++) {
+                                    boolean IsEnter = false;
+                                    for (int k = 0; k < WayStr_ok.length; k++) {
+                                        if (j == Integer.parseInt(WayStr_ok[k]) - 1) {
+                                            Way += "1";
+                                            IsEnter = true;
+                                        }
+                                    }
+                                    if (!IsEnter) {
+                                        Way += "0";
+                                    }
+                                }
+                                Save_DevWay = Integer.parseInt(new StringBuffer(Way).reverse().toString(), 2);
                             }
                         }
                         String chn_str = "";
@@ -240,10 +236,14 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                 builder.create().show();
                 break;
             case R.id.AddDev_OutBoard:
+                if (popupWindow != null && popupWindow.isShowing())
+                    popupWindow.dismiss();
                 initRadioPopupWindow(v, OutBoardNames, BOARD);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
             case R.id.AddDev_Room:
+                if (popupWindow != null && popupWindow.isShowing())
+                    popupWindow.dismiss();
                 initRadioPopupWindow(v, MyApplication.getWareData().getRooms(), ROOM);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
@@ -259,6 +259,8 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
             case R.id.AddDev_EditRoom:
                 break;
             case R.id.AddDev_Type:
+                if (popupWindow != null && popupWindow.isShowing())
+                    popupWindow.dismiss();
                 initRadioPopupWindow(v, DevTypes, TYPE);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
@@ -289,7 +291,7 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                             list_voard_cancpuid.addAll(index_list);
                         }
                     }
-                } else if (type_position == 1) {
+                } else if (type_position == 3) {
                     for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
 
                         if (list_board.get(board_position).getDevUnitID().equals(
@@ -298,7 +300,7 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                             list_voard_cancpuid.add(PowChn);
                         }
                     }
-                } else if (type_position == 2) {
+                } else if (type_position == 4) {
                     for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
                         if (list_board.get(board_position).getDevUnitID().equals(
                                 MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())) {

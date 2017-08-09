@@ -185,6 +185,7 @@ public class DevInfosAdapter extends BaseAdapter {
                             list_voard_cancpuid.add(PowChn);
                         }
                     }
+                    list_voard_cancpuid.size();
                 } else if (Devs.get(position).getType() == 4) {
                     for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
                         if (Devs.get(position).getCanCpuId()

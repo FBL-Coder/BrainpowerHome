@@ -243,6 +243,7 @@ public class UDPServer implements Runnable {
 //                    MyApplication.getWareData().getDevs().clear();
                     isFreshData = true;
                     getDevsInfo(info);
+
                     //删除重复的设备
 //                    List<WareDev> devs = removeDuplicateDevs(wareData.getDevs());
 //                    MyApplication.getWareData().setDevs(devs);
@@ -292,7 +293,7 @@ public class UDPServer implements Runnable {
                         deleteDev_result(info);
                         isFreshData = true;
                     } else {
-                        isFreshData = true;
+                        isFreshData = false;
                     }
                 }
                 break;
@@ -1076,9 +1077,7 @@ public class UDPServer implements Runnable {
                 airCondDev.setSelTemp(jsonobj.getInt("selTemp"));
                 MyApplication.getWareData().getAirConds().add(airCondDev);
             } else if (devType == 3) {
-
                 WareLight wareLight = new WareLight();
-
                 JSONObject jsonobj = array.getJSONObject(0);
                 dev = new WareDev();
                 dev.setCanCpuId(jsonobj.getString("canCpuID"));
@@ -1093,9 +1092,10 @@ public class UDPServer implements Runnable {
                 wareLight.setLmVal(jsonobj.getInt("lmVal"));
                 MyApplication.getWareData().getLights().add(wareLight);
             }
+            MyApplication.getWareData().getDevs().add(dev);
             boolean isContain = false;
             for (int i = 0; i < MyApplication.getWareData().getRooms().size(); i++) {
-                if (dev.getRoomName().equals(MyApplication.getWareData().getRooms()))
+                if (dev.getRoomName().equals(MyApplication.getWareData().getRooms().get(i)))
                     isContain = true;
             }
             if (!isContain)
@@ -2093,6 +2093,7 @@ public class UDPServer implements Runnable {
                     }
                 }
             }
+            MyApplication.getWareData().getLights();
         } catch (JSONException e) {
             isFreshData = false;
             System.out.println(this.getClass().getName() + "datType = 35" + e.toString());

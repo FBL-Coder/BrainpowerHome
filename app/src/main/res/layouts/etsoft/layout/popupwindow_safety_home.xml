@@ -42,7 +42,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textStyle="bold"
             android:hint="选择开始时间"
             android:padding="@dimen/dp_5"
             android:textColor="@color/color_000"
@@ -73,7 +72,6 @@
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textStyle="bold"
             android:gravity="center"
             android:hint="选择截止时间"
             android:padding="@dimen/dp_5"
@@ -107,7 +105,6 @@
             android:layout_weight="1"
             android:gravity="center"
             android:hint="选择安防类型"
-            android:textStyle="bold"
             android:padding="@dimen/dp_5"
             android:textColor="@color/color_000"
             android:textSize="@dimen/sp_20" />
@@ -128,7 +125,7 @@
             android:padding="@dimen/dp_10"
             android:text="确 定"
             android:background="@color/colorCC"
-            android:textColor="@color/color_000"
+            android:textColor="@color/blue"
             android:textSize="@dimen/sp_26"
             android:layout_marginRight="@dimen/dp_10"
             android:textStyle="bold" />
@@ -143,7 +140,7 @@
             android:text="取 消"
             android:layout_marginLeft="@dimen/dp_10"
             android:background="@color/colorCC"
-            android:textColor="@color/color_000"
+            android:textColor="@color/blue"
             android:textSize="@dimen/sp_26"
             android:textStyle="bold" />
     </LinearLayout>

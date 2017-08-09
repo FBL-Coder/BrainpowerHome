@@ -1,7 +1,10 @@
 package cn.etsoft.smarthome.Activity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.icu.text.IDNA;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -11,15 +14,19 @@ import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+import com.google.gson.Gson;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.GridView.TimerInfo_DevAdapter;
+import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.Timer_Data;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
+import cn.etsoft.smarthome.Utils.CommonUtils;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 
@@ -65,14 +72,21 @@ public class TimerInfoActivity extends BaseActivity implements View.OnClickListe
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                MyApplication.mApplication.dismissLoadDialog();
                 if (datType == 17) {
+                    MyApplication.mApplication.dismissLoadDialog();
                     if (mTimerPosition == -1) return;
                     if (mAdapter == null)
                         mAdapter = new TimerInfo_DevAdapter(mBean.getRun_dev_item(), TimerInfoActivity.this);
                     else
                         mAdapter.notifyDataSetChanged(mBean.getRun_dev_item());
                     mTimerInfoGirdView.setAdapter(mAdapter);
+                }
+                if (datType == 19) {
+                    MyApplication.mApplication.dismissLoadDialog();
+                    ToastUtil.showText("操作成功");
+                    WareDataHliper.initCopyWareData().startCopyTimerData();
+                    initTimer();
+                    setData();
                 }
             }
         });
@@ -108,7 +122,6 @@ public class TimerInfoActivity extends BaseActivity implements View.OnClickListe
                 else
                     mAdapter.notifyDataSetChanged(mBean.getRun_dev_item());
                 mTimerInfoGirdView.setAdapter(mAdapter);
-
                 setData();
 
             }
@@ -117,11 +130,46 @@ public class TimerInfoActivity extends BaseActivity implements View.OnClickListe
         mTimerInfoShiNeng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (IsOpenShiNeng) {
-//                    Error
-                    //TODO 定时器详情页面的启动按钮事件
+                Timer_Data time_data = new Timer_Data();
+                List<Timer_Data.TimerEventRowsBean> timerEvent_rows = new ArrayList<>();
+                if (!IsOpenShiNeng) {
+                    try {
+                        mBean.setValid(1);
+                        timerEvent_rows.add(mBean);
+                        time_data.setDatType(19);
+                        time_data.setDevUnitID(GlobalVars.getDevid());
+                        time_data.setItemCnt(1);
+                        time_data.setSubType1(0);
+                        time_data.setSubType2(0);
+                        time_data.setTimerEvent_rows(timerEvent_rows);
+                        Gson gson = new Gson();
+                        Log.e("0000", gson.toJson(time_data));
+                        MyApplication.mApplication.showLoadDialog(TimerInfoActivity.this);
+                        MyApplication.mApplication.getUdpServer().send(gson.toJson(time_data));
+                    } catch (Exception e) {
+                        MyApplication.mApplication.dismissLoadDialog();
+                        Log.e("保存定时器数据", "保存数据异常" + e);
+                        ToastUtil.showText("开启定时器失败");
+                    }
                 } else {
-
+                    try {
+                        mBean.setValid(0);
+                        timerEvent_rows.add(mBean);
+                        time_data.setDatType(19);
+                        time_data.setDevUnitID(GlobalVars.getDevid());
+                        time_data.setItemCnt(1);
+                        time_data.setSubType1(0);
+                        time_data.setSubType2(0);
+                        time_data.setTimerEvent_rows(timerEvent_rows);
+                        Gson gson = new Gson();
+                        Log.e("0000", gson.toJson(time_data));
+                        MyApplication.mApplication.showLoadDialog(TimerInfoActivity.this);
+                        MyApplication.mApplication.getUdpServer().send(gson.toJson(time_data));
+                    } catch (Exception e) {
+                        MyApplication.mApplication.dismissLoadDialog();
+                        Log.e("保存定时器数据", "保存数据异常" + e);
+                        ToastUtil.showText("关闭定时器失败");
+                    }
                 }
             }
         });

@@ -33,12 +33,13 @@ public class DevInfoActivity extends BaseActivity {
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
     private int DevType = -1;
+    private int roomSize = -1;
     private String RoomName = "";
     private DevInfosAdapter adapter;
     private boolean OuterCircleClick = false;
     private List<WareDev> mRoomDevs;
     private String DEVS_ALL_ROOM = "全部";
-    private TextView mDevInfoAddDevs,mDevInfoNullData;
+    private TextView mDevInfoAddDevs, mDevInfoNullData;
 
     @Override
     public void initView() {
@@ -51,7 +52,7 @@ public class DevInfoActivity extends BaseActivity {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 // 数据返回处理
-                if (datType == 6 || datType == 7) {
+                if (datType == 5 || datType == 6 || datType == 7) {
                     MyApplication.mApplication.dismissLoadDialog();
                     if (subtype2 != 1) {
                         ToastUtil.showText("操作失败");
@@ -142,6 +143,7 @@ public class DevInfoActivity extends BaseActivity {
         mDevInfoAddDevs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                roomSize = MyApplication.getWareData().getRooms().size();
                 startActivityForResult(new Intent(DevInfoActivity.this, AddDevActivity.class), 0);
             }
         });
@@ -169,8 +171,19 @@ public class DevInfoActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.i("DEV", "onActivityResult: ");
-        initData();
-        if (OuterCircleClick) {
+
+        if (roomSize < MyApplication.getWareData().getRooms().size()) {
+            initData();
+            DevInfoGridView.setAdapter(null);
+            ToastUtil.showText("房间增加，请重新选择房间和类型");
+        } else {
+            OuterCircleClick = true;
+            if ("".equals(RoomName)) {
+                return;
+            }
+            mDevInfoNullData.setText("没有数据");
+            mRoomDevs = getRoomDev(RoomName);
+            if (mRoomDevs == null) return;
             List<WareDev> gridviewDev = new ArrayList<>();
             for (int i = 0; i < mRoomDevs.size(); i++) {
                 if (mRoomDevs.get(i).getType() == DevType)

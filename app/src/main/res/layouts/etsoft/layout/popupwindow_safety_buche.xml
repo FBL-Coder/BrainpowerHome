@@ -23,8 +23,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
         android:layout_marginBottom="@dimen/sp_20"
+        android:layout_marginTop="@dimen/dp_20"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/dp_100"
         android:paddingRight="@dimen/dp_100">
@@ -47,8 +47,7 @@
             android:hint="选择安防类型"
             android:padding="@dimen/dp_5"
             android:textColor="@color/color_000"
-            android:textSize="@dimen/sp_24"
-            android:textStyle="bold" />
+            android:textSize="@dimen/sp_24" />
 
     </LinearLayout>
 
@@ -67,7 +66,7 @@
             android:gravity="center"
             android:padding="@dimen/dp_10"
             android:text="全部布防"
-            android:textColor="@color/color_000"
+            android:textColor="@color/blue"
             android:textSize="@dimen/sp_26"
             android:textStyle="bold" />
 
@@ -81,7 +80,7 @@
             android:gravity="center"
             android:padding="@dimen/dp_10"
             android:text="全部撤防"
-            android:textColor="@color/color_000"
+            android:textColor="@color/blue"
             android:textSize="@dimen/sp_26"
             android:textStyle="bold" />
     </LinearLayout>

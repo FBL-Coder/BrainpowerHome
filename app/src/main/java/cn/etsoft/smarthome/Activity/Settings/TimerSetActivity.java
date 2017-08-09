@@ -85,7 +85,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                     initTimer();
                 }
                 if (datType == 19) {
-                    ToastUtil.showText("添加成功");
+                    ToastUtil.showText("操作成功");
                     WareDataHliper.initCopyWareData().startCopyTimerData();
                     initTimer();
                 }
