@@ -41,9 +41,9 @@ public class Data_Cache {
 //            fos = MyApplication.getContext().openFileOutput(id + ".txt", Context.MODE_PRIVATE);
             oos = new ObjectOutputStream(fos);
             oos.writeObject(wareData);
-            Log.e("Exception", "写入成功");
+            Log.e("WareData", "写入成功");
         } catch (Exception e) {
-            Log.e("Exception", e + "");
+            Log.e("WareData", e + "");
             //e.printStackTrace();
             // 这里是保存文件产生异常
         } finally {
@@ -51,7 +51,7 @@ public class Data_Cache {
                 try {
                     fos.close();
                 } catch (IOException e) {
-                    Log.e("Exception", e + "");
+                    Log.e("WareData", e + "");
                     // fos流关闭异常
                     //e.printStackTrace();
                 }
@@ -60,7 +60,7 @@ public class Data_Cache {
                 try {
                     oos.close();
                 } catch (IOException e) {
-                    Log.e("Exception", e + "");
+                    Log.e("WareData", e + "");
                     // oos流关闭异常
                     //e.printStackTrace();
                 }
@@ -82,10 +82,10 @@ public class Data_Cache {
             String saveFileName = "/sdcard/Home/" + id + ".txt";
             fis = new FileInputStream(saveFileName);
             ois = new ObjectInputStream(fis);
-            Log.e("Exception", "读取成功");
+            Log.e("WareData-read", "读取成功");
             return ois.readObject();
         } catch (Exception e) {
-            Log.e("Exception", e + "");
+            Log.e("WareData-read", e + "");
             //e.printStackTrace();
             // 这里是读取文件产生异常
         } finally {
@@ -93,7 +93,7 @@ public class Data_Cache {
                 try {
                     fis.close();
                 } catch (IOException e) {
-                    Log.e("Exception", e + "");
+                    Log.e("WareData-read", e + "");
                     // fis流关闭异常
                     //e.printStackTrace();
                 }
@@ -102,7 +102,7 @@ public class Data_Cache {
                 try {
                     ois.close();
                 } catch (IOException e) {
-                    Log.e("Exception", e + "");
+                    Log.e("WareData-read", e + "");
                     // ois流关闭异常
                     //e.printStackTrace();
                 }
@@ -120,7 +120,7 @@ public class Data_Cache {
      *
      * @param safety_data
      */
-    public static void writeFile_safety(Safety_Data safety_data) {
+    public static void writeFile_safety(String id, Safety_Data safety_data) {
         Log.i("SafetyData", "writeFile_safety: " + safety_data.getSafetyTime().size());
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
@@ -129,14 +129,15 @@ public class Data_Cache {
             if (!file.exists()) {
                 file.mkdir();
             }
-            String saveFileName = "/sdcard/HomeSafety/" + "safety.txt";
-            File ApkFile = new File(saveFileName);
+            String Filename = id + ".txt";
+            File ApkFile = new File(savePath_safety, Filename);
             fos = new FileOutputStream(ApkFile);
             oos = new ObjectOutputStream(fos);
             oos.writeObject(safety_data);
-            Log.e("Exception", "写入成功");
+            Log.e("Safety-write", "写入成功");
+            Log.i("Safety-write", ApkFile.getPath());
         } catch (Exception e) {
-            Log.e("Exception", e + "");
+            Log.e("Safety-write", e + "");
             //e.printStackTrace();
             // 这里是保存文件产生异常
         } finally {
@@ -144,7 +145,7 @@ public class Data_Cache {
                 try {
                     fos.close();
                 } catch (IOException e) {
-                    Log.e("Exception", e + "");
+                    Log.e("Safety-write", e + "");
                     // fos流关闭异常
                     //e.printStackTrace();
                 }
@@ -153,7 +154,7 @@ public class Data_Cache {
                 try {
                     oos.close();
                 } catch (IOException e) {
-                    Log.e("Exception", e + "");
+                    Log.e("Safety-write", e + "");
                     // oos流关闭异常
                     //e.printStackTrace();
                 }
@@ -168,21 +169,21 @@ public class Data_Cache {
      * @throws IOException
      */
 
-    public static Safety_Data readFile_safety(boolean isCollections) {
+    public static Safety_Data readFile_safety(String id, boolean isCollections) {
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
-            String saveFileName = "/sdcard/HomeSafety/" + "safety.txt";
+            String saveFileName = "/sdcard/HomeSafety/" + id + ".txt";
             fis = new FileInputStream(saveFileName);
             ois = new ObjectInputStream(fis);
-            Log.e("Exception", "读取成功");
+            Log.e("Safety", "读取成功");
             Safety_Data safety_Data = (Safety_Data) ois.readObject();
             if (isCollections)
                 //读取的数据反向
                 Collections.reverse(safety_Data.getSafetyTime());
             return safety_Data;
         } catch (Exception e) {
-            Log.e("Exception", e + "");
+            Log.e("Safety", e + "");
             return null;
             //e.printStackTrace();
             // 这里是读取文件产生异常
@@ -191,7 +192,7 @@ public class Data_Cache {
                 try {
                     fis.close();
                 } catch (IOException e) {
-                    Log.e("Exception", e + "");
+                    Log.e("Safety", e + "");
                     return null;
                     // fis流关闭异常
                     //e.printStackTrace();
@@ -201,7 +202,7 @@ public class Data_Cache {
                 try {
                     ois.close();
                 } catch (IOException e) {
-                    Log.e("Exception", e + "");
+                    Log.e("Safety", e + "");
                     return null;
                     // ois流关闭异常
                     //e.printStackTrace();

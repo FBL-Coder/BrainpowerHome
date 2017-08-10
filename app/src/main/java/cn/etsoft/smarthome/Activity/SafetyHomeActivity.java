@@ -56,7 +56,7 @@ public class SafetyHomeActivity extends BaseActivity implements View.OnClickList
     @Override
     public void initView() {
 
-        mSafetyData_All = Data_Cache.readFile_safety(true);
+        mSafetyData_All = Data_Cache.readFile_safety(GlobalVars.getDevid(),true);
         setTitleViewVisible(true, R.color.color_4489CA);
         setTitleText("报警记录", 20, Color.WHITE);
         setTitleImageBtn(true, R.drawable.back_image_select, false, 0);
@@ -74,7 +74,7 @@ public class SafetyHomeActivity extends BaseActivity implements View.OnClickList
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 if (datType == 32 && subtype1 == 2) {
                     MyApplication.mApplication.dismissLoadDialog();
-                    mSafetyData_All = Data_Cache.readFile_safety(true);
+                    mSafetyData_All = Data_Cache.readFile_safety(GlobalVars.getDevid(),true);
                     if (mSafetyData_All == null)
                         mSafetyData_All = new Safety_Data();
                     if (Safetyadapter == null)
