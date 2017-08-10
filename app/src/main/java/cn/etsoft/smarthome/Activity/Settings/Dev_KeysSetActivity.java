@@ -82,10 +82,10 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                     Dev_KeysHandler handler = new Dev_KeysHandler(Dev_KeysSetActivity.this);
                     Dev_KeysSetHelper.InitKeyData(position_keyinput, handler, mRoomDevs, devPosition);
                 }
-                if (datType == 15 && MyApplication.getWareData().getResult() != null
-                        && MyApplication.getWareData().getResult().getResult() == 1) {
+                if (datType == 15 && subtype1 == 1) {
+                    if (subtype2 == 1)
                     ToastUtil.showText("保存成功");
-                    MyApplication.getWareData().setResult(null);
+                    else ToastUtil.showText("保存失败");
                 }
             }
         });

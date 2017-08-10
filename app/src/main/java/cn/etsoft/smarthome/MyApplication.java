@@ -396,9 +396,9 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 Log.e("WebSiocket", "链接成功");
             }
             if (msg.what == application.WS_CLOSE) {
-                if (System.currentTimeMillis() - time_WebSocket < 2000)
-                    return;
-                time_WebSocket = System.currentTimeMillis();
+//                if (System.currentTimeMillis() - time_WebSocket < 2000)
+//                    return;
+//                time_WebSocket = System.currentTimeMillis();
                 Log.e("WSException", "链接关闭" + msg.obj);
                 application.wsClient = new WebSocket_Client();
                 try {

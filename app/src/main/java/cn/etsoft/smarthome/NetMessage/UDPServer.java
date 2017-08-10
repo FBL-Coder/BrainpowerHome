@@ -705,6 +705,7 @@ public class UDPServer implements Runnable {
                         airCondDev.setDev(dev);
                         airCondDev.setbOnOff(jsonobj.getInt("bOnOff"));
                         airCondDev.setSelTemp(jsonobj.getInt("selTemp"));
+                        airCondDev.setSelMode(jsonobj.getInt("selMode"));
                         airCondDev.setSelSpd(jsonobj.getInt("selSpd"));
                         airCondDev.setPowChn(jsonobj.getInt("powChn"));
                         airCondDev.setSelDirect(jsonobj.getInt("selDirect"));
@@ -960,7 +961,7 @@ public class UDPServer implements Runnable {
                 airCondDev.setPowChn(jsonobj.getInt("powChn"));
                 airCondDev.setRev1(jsonobj.getInt("rev1"));
                 airCondDev.setSelDirect(jsonobj.getInt("selDirect"));
-//                airCondDev.setSelMode(jsonobj.getInt("selMode"));
+                airCondDev.setSelMode(jsonobj.getInt("selMode"));
                 airCondDev.setSelSpd(jsonobj.getInt("selSpd"));
                 airCondDev.setSelTemp(jsonobj.getInt("selTemp"));
 
@@ -1072,6 +1073,7 @@ public class UDPServer implements Runnable {
                 airCondDev.setbOnOff(jsonobj.getInt("bOnOff"));
                 airCondDev.setPowChn(jsonobj.getInt("powChn"));
                 airCondDev.setRev1(jsonobj.getInt("rev1"));
+                airCondDev.setSelMode(jsonobj.getInt("selMode"));
                 airCondDev.setSelDirect(jsonobj.getInt("selDirect"));
                 airCondDev.setSelSpd(jsonobj.getInt("selSpd"));
                 airCondDev.setSelTemp(jsonobj.getInt("selTemp"));

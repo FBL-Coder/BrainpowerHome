@@ -1,6 +1,7 @@
 package cn.etsoft.smarthome.Adapter.GridView;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -35,6 +36,7 @@ public class Control_Air_Adapter extends BaseAdapter {
     private List<WareAirCondDev> mAirs;
     private List<String> temp_texts = new ArrayList<>();
     private List<String> spead_texts = new ArrayList<>();
+    private int cmdValue, modelValue;
 
     public Control_Air_Adapter(Context context, List<WareAirCondDev> airs) {
         mAirs = airs;
@@ -86,7 +88,7 @@ public class Control_Air_Adapter extends BaseAdapter {
         final ViewHolder finalViewHoler = viewHoler;
 
         viewHoler.mAirName.setText(mAirs.get(position).getDev().getDevName());
-        viewHoler.mAirNowTemp.setText(mAirs.get(position).getSelTemp()+"℃");
+        viewHoler.mAirNowTemp.setText(mAirs.get(position).getSelTemp() + "℃");
         for (int i = 16; i < 31; i++) {
             temp_texts.add(i + "");
         }
@@ -94,6 +96,7 @@ public class Control_Air_Adapter extends BaseAdapter {
         spead_texts.add("低档");
         spead_texts.add("中档");
         spead_texts.add("高档");
+        spead_texts.add("自动");
         if (mAirs.get(position).getSelTemp() < 16 || mAirs.get(position).getSelTemp() > 30)
             mAirs.get(position).setSelTemp(16);
         viewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp() - 16);
@@ -124,6 +127,27 @@ public class Control_Air_Adapter extends BaseAdapter {
             }
         });
 
+        if (mAirs.get(position).getSelMode() == 1) {
+            viewHoler.mAirTocool.setTextColor(Color.WHITE);
+            viewHoler.mAirToheat.setTextColor(Color.GREEN);
+            viewHoler.mAirXeransis.setTextColor(Color.WHITE);
+            viewHoler.mAirSwingFlap.setTextColor(Color.WHITE);
+        } else if (mAirs.get(position).getSelMode() == 2) {
+            viewHoler.mAirTocool.setTextColor(Color.GREEN);
+            viewHoler.mAirToheat.setTextColor(Color.WHITE);
+            viewHoler.mAirXeransis.setTextColor(Color.WHITE);
+            viewHoler.mAirSwingFlap.setTextColor(Color.WHITE);
+        } else if (mAirs.get(position).getSelMode() == 3) {
+            viewHoler.mAirTocool.setTextColor(Color.WHITE);
+            viewHoler.mAirToheat.setTextColor(Color.WHITE);
+            viewHoler.mAirXeransis.setTextColor(Color.GREEN);
+            viewHoler.mAirSwingFlap.setTextColor(Color.WHITE);
+        } else if (mAirs.get(position).getSelMode() == 4) {
+            viewHoler.mAirTocool.setTextColor(Color.WHITE);
+            viewHoler.mAirToheat.setTextColor(Color.WHITE);
+            viewHoler.mAirXeransis.setTextColor(Color.WHITE);
+            viewHoler.mAirSwingFlap.setTextColor(Color.GREEN);
+        }
         SwitchClick(position, viewHoler, finalViewHoler);
 
         TempClick(position, viewHoler, finalViewHoler);
@@ -137,18 +161,23 @@ public class Control_Air_Adapter extends BaseAdapter {
                     ToastUtil.showText("请先打开空调");
                     return;
                 }
-                ToastUtil.showText("等着，未完善...");
                 MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic(), 1, 1, 0, 0, 1);
                 switch (checkedId) {
                     case R.id.air_tocool://制冷
+                        modelValue = UdpProPkt.E_AIR_MODE.e_air_cool.getValue();
                         break;
                     case R.id.air_toheat://制热
+                        modelValue = UdpProPkt.E_AIR_MODE.e_air_hot.getValue();
                         break;
                     case R.id.air_xeransis://除湿
+                        modelValue = UdpProPkt.E_AIR_MODE.e_air_dry.getValue();
                         break;
                     case R.id.air_swing_flap://扫风
+                        modelValue = UdpProPkt.E_AIR_MODE.e_air_wind.getValue();
                         break;
                 }
+                int value = (modelValue << 5) | cmdValue;
+                SendDataUtil.controlDev(mAirs.get(position).getDev(), value);
             }
         });
 
@@ -160,32 +189,33 @@ public class Control_Air_Adapter extends BaseAdapter {
         viewHoler.mAirTospeadSam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mAirs.get(position).getSelSpd() < 0) {
+                if (mAirs.get(position).getSelSpd() < 2) {
                     ToastUtil.showText("不能再低了");
                     return;
                 }
-                ToastUtil.showText("等着，未完善...");
-//                SendDataUtil.controlDev(mAirs.get(position).getDev(), mAirs.get(position).getSelSpd() - 1);
-//
-//                finalViewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd() - 1);
-//                MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
-//                        , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() + 100, v.getY(), 0);
-//                finalViewHoler.mHorizontalSelectSpead.onSingleTapUp(event);
+                cmdValue = mAirs.get(position).getSelSpd() - 1;
+                int value = (modelValue << 5) | cmdValue;
+                SendDataUtil.controlDev(mAirs.get(position).getDev(), value);
+                finalViewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd() - 1);
+                MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
+                        , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() + 100, v.getY(), 0);
+                finalViewHoler.mHorizontalSelectSpead.onSingleTapUp(event);
             }
         });
         viewHoler.mAirTospeadBig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mAirs.get(position).getSelSpd() > 2) {
+                if (mAirs.get(position).getSelSpd() > 5) {
                     ToastUtil.showText("不能再高了");
                     return;
                 }
-                ToastUtil.showText("等着，未完善...");
-//                SendDataUtil.controlDev(mAirs.get(position).getDev(), mAirs.get(position).getSelSpd() + 1);
-//                finalViewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd() + 1);
-//                MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
-//                        , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() - 150, v.getY(), 0);
-//                finalViewHoler.mHorizontalSelectSpead.onSingleTapUp(event);
+                cmdValue = mAirs.get(position).getSelSpd() + 1;
+                int value = (modelValue << 5) | cmdValue;
+                SendDataUtil.controlDev(mAirs.get(position).getDev(), value);
+                finalViewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd() + 1);
+                MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
+                        , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() - 150, v.getY(), 0);
+                finalViewHoler.mHorizontalSelectSpead.onSingleTapUp(event);
             }
         });
     }
@@ -204,7 +234,9 @@ public class Control_Air_Adapter extends BaseAdapter {
                     return;
                 }
                 MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic(), 1, 1, 0, 0, 1);
-                SendDataUtil.controlDev(mAirs.get(position).getDev(), getAirCmdTempstr(mAirs.get(position).getSelTemp() - 1));
+                cmdValue = mAirs.get(position).getSelTemp() - 1;
+                int value = (modelValue << 5) | cmdValue;
+                SendDataUtil.controlDev(mAirs.get(position).getDev(), value);
                 finalViewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp());
                 MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
                         , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() + 100, v.getY(), 0);
@@ -224,7 +256,9 @@ public class Control_Air_Adapter extends BaseAdapter {
                     return;
                 }
                 MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic(), 1, 1, 0, 0, 1);
-                SendDataUtil.controlDev(mAirs.get(position).getDev(), getAirCmdTempstr(mAirs.get(position).getSelTemp() + 1));
+                cmdValue = mAirs.get(position).getSelTemp() + 1;
+                int value = (modelValue << 5) | cmdValue;
+                SendDataUtil.controlDev(mAirs.get(position).getDev(), value);
                 finalViewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp());
                 MotionEvent event = MotionEvent.obtain(SystemClock.uptimeMillis()
                         , SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, v.getX() - 100, v.getY(), 0);
@@ -240,9 +274,13 @@ public class Control_Air_Adapter extends BaseAdapter {
             public void onClick(View v) {
                 MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic(), 1, 1, 0, 0, 1);
                 if (mAirs.get(position).getbOnOff() == 0) {
-                    SendDataUtil.controlDev(mAirs.get(position).getDev(), UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue());
+                    cmdValue = UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue();
+                    int value = (modelValue << 5) | cmdValue;
+                    SendDataUtil.controlDev(mAirs.get(position).getDev(), value);
                 } else {
-                    SendDataUtil.controlDev(mAirs.get(position).getDev(), UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue());
+                    cmdValue = UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue();
+                    int value = (modelValue << 5) | cmdValue;
+                    SendDataUtil.controlDev(mAirs.get(position).getDev(), value);
                 }
             }
         });

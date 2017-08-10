@@ -42,7 +42,6 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
     private Scene_KeysSet_BoardAdapter mBoardAdapter;
     //按键适配器
     private Scene_KeysSet_KeysAdapter mKeysAdapter;
-    private boolean IsNoData = true;
 
     //按键板数据
     private List<WareBoardKeyInput> wareBoardKeyInputs;
@@ -61,10 +60,8 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
                 MyApplication.mApplication.dismissLoadDialog();
                 if (datType == 58 && MyApplication.getWareData().getChnOpItem_scene().getSubType1() == 1) {
                     WareDataHliper.initCopyWareData().startCopyScene_KeysData();
-                    IsNoData = false;
                     initKeyAdapter();
                 }
-
                 if (datType == 59 && MyApplication.getWareData().getResult() != null && MyApplication.getWareData().getResult().getSubType1() == 1) {
                     ToastUtil.showText("保存成功");
                 }
@@ -103,7 +100,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
         initKeyAdapter();
         //转盘数据适配
         layout = getViewById(R.id.Scene_KeysSet_CircleMenu);
-        Data_OuterCircleList = Scene_KeysSetHelper.initSceneCircleOUterData(false, 0);
+        Data_OuterCircleList = Scene_KeysSetHelper.initSceneCircleOUterData(true, 0);
         layout.Init(200, 0);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
         initEvent();
@@ -144,7 +141,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (IsNoData) {
+        if (WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size() == 0) {
             ToastUtil.showText("数据未加载成功，不可操作！");
             return;
         }
@@ -169,7 +166,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-                if (IsNoData) {
+                if (WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size() == 0) {
                     ToastUtil.showText("数据未加载成功，不可操作！");
                     return;
                 }

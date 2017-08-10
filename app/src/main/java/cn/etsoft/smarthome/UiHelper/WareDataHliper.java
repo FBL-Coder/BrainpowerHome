@@ -133,13 +133,15 @@ public class WareDataHliper {
     }
 
     public GroupSet_Data getGroupSetResult() {
-        startCopyGroupSetData();
+        if (mGroupSet_Data == null)
+            startCopyGroupSetData();
         return mGroupSet_Data;
 
     }
 
     public ChnOpItem_scene getScenekeysResult() {
-        startCopyScene_KeysData();
+        if (mChnOpItem_scene == null)
+            startCopyScene_KeysData();
         return mChnOpItem_scene;
     }
 
