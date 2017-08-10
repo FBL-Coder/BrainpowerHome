@@ -107,7 +107,7 @@ public class ControlSceneActivity extends BaseActivity implements View.OnClickLi
                     ToastUtil.showText("请选择情景");
                     return;
                 }
-                SendDataUtil.executelScene(mScenePosition % Data_OuterCircleList.size());
+                SendDataUtil.executelScene(mSceneDatas.get(mScenePosition).getEventId());
             }
         });
     }
@@ -148,8 +148,13 @@ public class ControlSceneActivity extends BaseActivity implements View.OnClickLi
                 event.setImage(R.drawable.scene_quanguan);
             else if (event.getTitle().contains("用餐"))
                 event.setImage(R.drawable.scene_yongcan);
-            else event.setImage(images[i % mlist.size()]);
-
+            else {
+                try {
+                    event.setImage(images[i % mlist.size()]);
+                } catch (Exception e) {
+                    event.setImage(images[0]);
+                }
+            }
             if (i == position)
                 event.setSelect(true);
             list.add(event);
