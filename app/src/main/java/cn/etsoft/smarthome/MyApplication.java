@@ -424,8 +424,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                     if ("".equals(contont)) {
                         return;
                     }
-
-
                     NotificationUtils.createNotif(
                             MyApplication.mApplication, R.mipmap.ic_launcher, "报警",
                             "警报", contont, new Intent(MyApplication.mApplication, SafetySetActivity.class), NotificationID, 0);
@@ -497,7 +495,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             SAFETY_TYPE = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 1);
             Safety_Data safetyData;
             try {
-                safetyData = Data_Cache.readFile_safety(GlobalVars.getDevid(),false);
+                safetyData = Data_Cache.readFile_safety(GlobalVars.getDevid(), false);
             } catch (Exception e) {
                 safetyData = new Safety_Data();
             }
@@ -527,7 +525,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                             time.setSafetyBean(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(i));
 
                             safetyData.getSafetyTime().add(time);
-                            Data_Cache.writeFile_safety(GlobalVars.getDevid(),safetyData);
+                            Data_Cache.writeFile_safety(GlobalVars.getDevid(), safetyData);
                         }
                     }
                 }

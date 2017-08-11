@@ -81,12 +81,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity.Circle_MenuActivity"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".Activity.MainActivity"
-            android:screenOrientation="landscape" />
         <!--主页面-->
         <activity
             android:name=".Activity.HomeActivity"
