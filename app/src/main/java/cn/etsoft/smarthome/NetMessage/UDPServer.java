@@ -27,6 +27,7 @@ import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.GroupSet_Data;
 import cn.etsoft.smarthome.Domain.RcuInfo;
+import cn.etsoft.smarthome.Domain.SearchNet;
 import cn.etsoft.smarthome.Domain.SetEquipmentResult;
 import cn.etsoft.smarthome.Domain.SetSafetyResult;
 import cn.etsoft.smarthome.Domain.SetSafetyResult_alarm;
@@ -214,9 +215,11 @@ public class UDPServer implements Runnable {
         try {
             JSONObject jsonObject = new JSONObject(info);
             devUnitID = jsonObject.getString("devUnitID");
-            if (!devUnitID.equals(GlobalVars.getDevid())) {
-                return;
-            }
+            if (!MyApplication.mApplication.isVisitor())
+                if (!devUnitID.equals(GlobalVars.getDevid())) {
+                    Log.i(TAG, "extractData: devUnitID判断不一致，退出方法 ");
+                    return;
+                }
             datType = jsonObject.getInt("datType");
             subType1 = jsonObject.getInt("subType1");
             subType2 = jsonObject.getInt("subType2");
@@ -228,8 +231,13 @@ public class UDPServer implements Runnable {
         switch (datType) {
             case 0:// e_udpPro_getRcuinfo
                 if (subType2 == 1) {
-                    MyApplication.setNewWareData();
-                    setRcuInfo(info);
+                    if (MyApplication.mApplication.isSeekNet() == false) {
+                        //设置联网模块信息
+                        MyApplication.setNewWareData();
+                        setRcuInfo(info);
+                    } else if (MyApplication.mApplication.isSeekNet() == true) {
+                        setRcuInfo_search(info);
+                    }
                 }
                 break;
             case 2:// e_udpPro_getRcuinfo
@@ -558,18 +566,6 @@ public class UDPServer implements Runnable {
             } catch (Exception e) {//服务器和本地单片机数据不一，解析异常
                 Log.w("Exception", e + "");
             }
-//            "uid":	"39ffd505484d303408650743",
-//            "pass":	"39ffd505",
-//            "name":	"cef7b0b2d1d0b7a2",
-//            "IpAddr":	"192.168.0.102",
-//            "SubMask":	"255.255.255.0",
-//            "Gateway":	"192.168.0.1",
-//            "centerServ":	"192.168.0.104",
-//            "roomNum":	"",
-//            "macAddr":	"00502a040506",
-//            "SoftVersion":	"",
-//            "HwVersion":	"",
-//            "bDhcp":	0
             info1.setDevUnitID(jsonObject1.getString("uid"));
             info1.setDevUnitPass(jsonObject1.getString("pass"));
             info1.setName(jsonObject1.getString("name"));
@@ -646,6 +642,30 @@ public class UDPServer implements Runnable {
 
     }
 
+
+    /**
+     * 联网模块--搜索联网
+     *
+     * @param info
+     */
+    public void setRcuInfo_search(String info) {
+
+        List<SearchNet> rcuInfo_searches = MyApplication.getWareData().getSeekNets();
+        Gson gson = new Gson();
+        SearchNet result = gson.fromJson(info, SearchNet.class);
+        boolean IsExit = true;
+        for (int i = 0; i < rcuInfo_searches.size(); i++) {
+            if ((result.getDevUnitID().equals(rcuInfo_searches.get(i).getDevUnitID())) || (result.getRcu_rows().get(0).getCanCpuID().equals(rcuInfo_searches.get(i).getRcu_rows().get(0).getCanCpuID()))) {
+                IsExit = false;
+            }
+        }
+        if (IsExit) {
+            rcuInfo_searches.add(result);
+        }
+        Log.i("NET", "搜索数据解析");
+        MyApplication.getWareData().setSeekNets(rcuInfo_searches);
+        isFreshData = true;
+    }
 
     /**
      * 所有设备数据

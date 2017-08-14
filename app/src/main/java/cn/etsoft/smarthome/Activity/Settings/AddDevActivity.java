@@ -31,6 +31,7 @@ import cn.etsoft.smarthome.View.PopupWindow.MultiChoicePopWindow;
 
 /**
  * Author：FBL  Time： 2017/7/24.
+ * 添加设备
  */
 
 public class AddDevActivity extends BaseActivity implements View.OnClickListener {

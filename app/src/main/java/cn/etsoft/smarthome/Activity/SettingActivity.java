@@ -29,8 +29,10 @@ import cn.etsoft.smarthome.Activity.Settings.Scene_KeysActivity;
 import cn.etsoft.smarthome.Activity.Settings.TimerSetActivity;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.Http_Result;
+import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.Utils.Data_Cache;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout;
@@ -110,12 +112,17 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
                                 if (result.getCode() == 0) {
                                     ToastUtil.showText("退出成功");
+                                    Data_Cache.writeFile(GlobalVars.getDevid(), new WareData());
                                     GlobalVars.setDevid("");
                                     GlobalVars.setDevpass("");
                                     GlobalVars.setUserid("");
+                                    AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
+                                    AppSharePreferenceMgr.put(GlobalVars.USERID_SHAREPREFERENCE, "");
+                                    AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0);
+                                    AppSharePreferenceMgr.put(GlobalVars.USERPASSWORD_SHAREPREFERENCE, "");
+                                    AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
                                     startActivity(new Intent(SettingActivity.this, cn.semtec.community2.activity.LoginActivity.class));
                                     finish();
-                                    AppSharePreferenceMgr.clear(MyApplication.mApplication);
                                 } else {
                                     if ("".equals(result.getMsg()))
                                         ToastUtil.showText("退出失败");

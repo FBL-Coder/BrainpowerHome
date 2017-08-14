@@ -186,6 +186,11 @@
             android:name=".Activity.SafetyHomeActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
+        <!-- 搜索联网模块-->
+        <activity
+            android:name=".Activity.Settings.SeekActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
 
 
         //高德地图定位

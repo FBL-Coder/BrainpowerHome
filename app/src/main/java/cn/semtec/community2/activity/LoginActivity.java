@@ -15,13 +15,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.util.regex.Pattern;
 
+import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.User;
+import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.Login_Helper;
+import cn.etsoft.smarthome.Utils.Data_Cache;
 import cn.semtec.community2.MyApplication;
 import cn.semtec.community2.model.LoginHelper;
 import cn.semtec.community2.model.MyHttpUtil;
@@ -119,7 +123,17 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_ourist:
-                cn.etsoft.smarthome.MyApplication.mApplication.setSkip(true);
+                cn.etsoft.smarthome.MyApplication.mApplication.setVisitor(true);
+                Data_Cache.writeFile(GlobalVars.getDevid(), new WareData());
+                MyApplication.setNewWareData();
+                GlobalVars.setDevid("");
+                GlobalVars.setDevpass("");
+                GlobalVars.setUserid("");
+                AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
+                AppSharePreferenceMgr.put(GlobalVars.USERID_SHAREPREFERENCE, "");
+                AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0);
+                AppSharePreferenceMgr.put(GlobalVars.USERPASSWORD_SHAREPREFERENCE, "");
+                AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
                 Intent intent = new Intent(this, cn.etsoft.smarthome.Activity.SettingActivity.class);
                 startActivity(intent);
                 break;

@@ -28,6 +28,23 @@ public class WareData implements Serializable {
     private GroupSet_Data mGroupSet_Data;
     //防区模块显示信息
     private SetSafetyResult result_safety;
+    //联网模块（搜索多个联网模块）
+    public List<SearchNet> rcuInfo_SeekNet;
+    //高级设置-按键情景模块
+    private ChnOpItem_scene chnOpItem_scene;
+    //防区模块报警
+    private SetSafetyResult_alarm safetyResult_alarm;
+
+    public List<SearchNet> getSeekNets() {
+        if (rcuInfo_SeekNet == null)
+            rcuInfo_SeekNet = new ArrayList<>();
+        return rcuInfo_SeekNet;
+    }
+
+    public void setSeekNets(List<SearchNet> rcuInfo_searches) {
+        this.rcuInfo_SeekNet = rcuInfo_searches;
+    }
+
 
     public SetSafetyResult getResult_safety() {
         if (result_safety == null)
@@ -39,9 +56,6 @@ public class WareData implements Serializable {
         this.result_safety = result_safety;
     }
 
-    //高级设置-按键情景模块
-    private ChnOpItem_scene chnOpItem_scene;
-
     public ChnOpItem_scene getChnOpItem_scene() {
         if (chnOpItem_scene == null)
             chnOpItem_scene = new ChnOpItem_scene();
@@ -52,8 +66,6 @@ public class WareData implements Serializable {
         this.chnOpItem_scene = chnOpItem_scene;
     }
 
-    //防区模块报警
-    private SetSafetyResult_alarm safetyResult_alarm;
 
     public SetSafetyResult_alarm getSafetyResult_alarm() {
         if (safetyResult_alarm == null)

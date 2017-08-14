@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import cn.etsoft.smarthome.Activity.HomeActivity;
 import cn.etsoft.smarthome.Adapter.ListView.NetWork_Adapter;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
+import cn.etsoft.smarthome.Domain.SearchNet;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.New_AddorDel_Helper;
@@ -37,7 +39,7 @@ import cn.etsoft.smarthome.Utils.SendDataUtil;
 public class NewWorkSetActivity extends BaseActivity {
     private TextView mNetmoduleAdd;
     private ListView mNetmoduleListview;
-    private TextView mDialogCancle, mDialogOk;
+    private TextView mDialogCancle, mDialogOk, mSousuo;
     private EditText mDialogName, mDialogID, mDialogPass;
     private NewModuleHandler mNewModuleHandler = new NewModuleHandler(this);
     private Gson gson = new Gson();
@@ -54,6 +56,7 @@ public class NewWorkSetActivity extends BaseActivity {
 
         mNetmoduleListview = getViewById(R.id.NewWork_set_netmodule_listview);
         mNetmoduleAdd = getViewById(R.id.NewWork_set_netmodule_add);
+        mSousuo = getViewById(R.id.NewWork_set_netmodule_Sousuo);
     }
 
 
@@ -152,6 +155,34 @@ public class NewWorkSetActivity extends BaseActivity {
                 backEvent();
             }
         });
+
+
+        mSousuo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(NewWorkSetActivity.this, SeekActivity.class), 0);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            int position = data.getIntExtra("yes", -1);
+            if (position != -1) {
+                if (position == -5) {
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    SearchNet net = MyApplication.getWareData().getSeekNets().get(position);
+                    Log.i("SeekNet", "onActivityResult: " + net.getRcu_rows().get(0).getName() + "--"
+                            + net.getRcu_rows().get(0).getCanCpuID() + "--" + net.getRcu_rows().get(0).getDevUnitPass());
+                    New_AddorDel_Helper.addNew(mNewModuleHandler, NewWorkSetActivity.this,
+                            net.getRcu_rows().get(0).getName(), net.getRcu_rows().get(0).getCanCpuID(),
+                            net.getRcu_rows().get(0).getDevUnitPass());
+                }
+            }
+        }
     }
 
     private void initAddNetModuleDialog(final Dialog dialog) {
@@ -170,7 +201,9 @@ public class NewWorkSetActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                New_AddorDel_Helper.addNew(mNewModuleHandler, NewWorkSetActivity.this, mDialogName, mDialogID, mDialogPass);
+                New_AddorDel_Helper.addNew(mNewModuleHandler,
+                        NewWorkSetActivity.this, mDialogName.getText().toString(),
+                        mDialogID.getText().toString(), mDialogPass.getText().toString());
             }
         });
     }

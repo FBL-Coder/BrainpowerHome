@@ -40,16 +40,13 @@ public class New_AddorDel_Helper {
      * @param id
      * @param pass
      */
-    public static void addNew(final Handler handler, Activity activity, EditText name, EditText id, EditText pass) {
-        String name_input = name.getText().toString();
-        String id_input = id.getText().toString();
-        String pass_input = pass.getText().toString();
+    public static void addNew(final Handler handler, Activity activity, String name, String id, String pass) {
 
-        if (name_input.isEmpty() || name_input.length() > 7) {
-            ToastUtil.showText("模块名称不合适");
+        if (name.isEmpty() || name.length() > 7) {
+            ToastUtil.showText("模块名称过长或为空");
             return;
         }
-        if (id_input.isEmpty() || pass_input.isEmpty()) {
+        if (id.isEmpty() || pass.isEmpty()) {
             ToastUtil.showText("模块ID和模块密码不能为空");
             return;
         }
@@ -57,9 +54,9 @@ public class New_AddorDel_Helper {
         Map<String, String> param = new HashMap<>();
         param.put("userName", (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));
         param.put("passwd", (String) AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
-        param.put("devUnitID", id_input);
-        param.put("canCpuName", name_input);
-        param.put("devPass", pass_input);
+        param.put("devUnitID", id);
+        param.put("canCpuName", name);
+        param.put("devPass", pass);
         OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.ADDNETMODULE, param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {

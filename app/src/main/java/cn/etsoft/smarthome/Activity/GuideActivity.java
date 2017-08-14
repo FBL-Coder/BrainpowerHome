@@ -82,16 +82,16 @@ public class GuideActivity extends Activity {
             }
         });
 
-        ((TextView) view1.findViewById(R.id.tv_title)).setText("精彩首页");
+        ((TextView) view1.findViewById(R.id.tv_title)).setText("科技生活");
         ((TextView) view1.findViewById(R.id.tv_title)).setTextColor(Color.parseColor("#FF5000"));
-        ((TextView) view2.findViewById(R.id.tv_title)).setText("发现定位");
+        ((TextView) view2.findViewById(R.id.tv_title)).setText("便捷操作");
         ((TextView) view2.findViewById(R.id.tv_title)).setTextColor(Color.parseColor("#49ca65"));
-        ((TextView) view3.findViewById(R.id.tv_title)).setText("欢乐互动");
+        ((TextView) view3.findViewById(R.id.tv_title)).setText("个性DIY场景");
         ((TextView) view3.findViewById(R.id.tv_title)).setTextColor(Color.parseColor("#16c5c6"));
 
-        ((TextView) view1.findViewById(R.id.tv_desc)).setText("优惠第一时间为你奉上\n");
+        ((TextView) view1.findViewById(R.id.tv_desc)).setText("科技与生活的融合\n");
         ((TextView) view2.findViewById(R.id.tv_desc)).setText("给你最好的\n做你最想要的");
-        ((TextView) view3.findViewById(R.id.tv_desc)).setText("欢迎互动\n精彩由你");
+        ((TextView) view3.findViewById(R.id.tv_desc)).setText("随心所欲\n精彩由你");
 
         mViewPager = (ViewPager) findViewById(R.id.vp_guide);
 

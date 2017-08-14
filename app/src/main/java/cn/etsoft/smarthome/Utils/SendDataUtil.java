@@ -21,6 +21,19 @@ public class SendDataUtil {
     }
 
 
+    public static void SeekNet() {
+        MyApplication.mApplication.setSeekNet(true);
+        String SeekNet = "{" +
+                "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
+                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfoNoPwd.getValue() + "," +
+                "\"uuid\":\"" + "\"," +
+                "\"subType1\":0," +
+                "\"subType2\":0}";
+        MyApplication.mApplication.getUdpServer().send(SeekNet);
+    }
+
+
     public static void getSafetyInfo() {
         String GETSECURITYINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() + "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_security_info.getValue() + "," + "\"subType1\": 3," + "\"subType2\": 255" + "}";
         MyApplication.mApplication.getUdpServer().send(GETSECURITYINFO);
