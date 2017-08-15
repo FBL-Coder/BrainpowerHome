@@ -216,15 +216,17 @@ public class UDPServer implements Runnable {
             JSONObject jsonObject = new JSONObject(info);
             devUnitID = jsonObject.getString("devUnitID");
             if (!MyApplication.mApplication.isVisitor())
-                if (!devUnitID.equals(GlobalVars.getDevid())) {
-                    Log.i(TAG, "extractData: devUnitID判断不一致，退出方法 ");
-                    return;
-                }
+                if (!devUnitID.equals(GlobalVars.getDevid()))
+                    if (!MyApplication.mApplication.isSeekNet()) {
+                        Log.i(TAG, "extractData: devUnitID判断不一致，退出方法 ");
+                        return;
+                    }
+
             datType = jsonObject.getInt("datType");
             subType1 = jsonObject.getInt("subType1");
             subType2 = jsonObject.getInt("subType2");
         } catch (JSONException e) {
-            System.out.println(this.getClass().getName() + "219" + e.toString());
+            System.out.println(this.getClass().getName() + "--extractData--" + e.toString());
         }
 //        if (datType != 35)
         show(info);
@@ -638,10 +640,7 @@ public class UDPServer implements Runnable {
                 }
             }
         }).start();
-
-
     }
-
 
     /**
      * 联网模块--搜索联网

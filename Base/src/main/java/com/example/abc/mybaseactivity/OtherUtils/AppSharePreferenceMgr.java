@@ -99,7 +99,7 @@ public class AppSharePreferenceMgr {
         SharedPreferencesCompat.apply(editor);
     }
 
-    /**
+    /*
      * 查询某个key是否已经存在
      */
     public static boolean contains(Context context, String key) {

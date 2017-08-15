@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import cn.etsoft.smarthome.Adapter.ListView.SeekListAdapter;
 import cn.etsoft.smarthome.Domain.GlobalVars;
@@ -75,7 +76,7 @@ public class SeekActivity extends BaseActivity {
                 builder.setPositiveButton("是的", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if ("".equals(AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE,""))){
+                        if ("".equals(AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""))) {
                             GlobalVars.setDevid(MyApplication.getWareData().getSeekNets().get(position).getDevUnitID());
                             RcuInfo info = new RcuInfo();
                             info.setDevUnitID(MyApplication.getWareData().getSeekNets().get(position).getDevUnitID());
@@ -91,10 +92,17 @@ public class SeekActivity extends BaseActivity {
                             info.setRoomNum(MyApplication.getWareData().getSeekNets().get(position).getRcu_rows().get(0).getRoomNum());
                             info.setSoftVersion(MyApplication.getWareData().getSeekNets().get(position).getRcu_rows().get(0).getSoftVersion());
                             info.setSubMask(MyApplication.getWareData().getSeekNets().get(position).getRcu_rows().get(0).getSubMask());
+
+                            for (int i = 0; i < MyApplication.getWareData().getRcuInfos().size(); i++) {
+                                if (MyApplication.getWareData().getRcuInfos().get(i).getDevUnitID().equals(info.getDevUnitID())){
+                                    ToastUtil.showText("这个联网模块已存在");
+                                    return;
+                                }
+                            }
                             MyApplication.getWareData().getRcuInfos().add(info);
                             MyApplication.mApplication.setRcuInfoList(MyApplication.getWareData().getRcuInfos());
                             setResult(1, getIntent().putExtra("yes", -5));
-                        }else {
+                        } else {
                             setResult(1, getIntent().putExtra("yes", position));
                         }
                         finish();
