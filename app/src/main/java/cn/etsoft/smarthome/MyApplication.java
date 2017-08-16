@@ -95,8 +95,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     private SoundPool sp;//声明一个SoundPool
     private int music;//定义一个整型用load（）；来设置suondID
-    private int music1;//定义一个整型用load（）；来设置suondID
-
 
     //区分发82返回的0 0 1包还是发33返回的 0 0 1包，做标记
     private boolean isSearch;
@@ -276,7 +274,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 }
             if (mWareData == null)
                 mWareData = new WareData();
-
         }
         return mWareData;
     }
@@ -294,7 +291,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         progressDialog.setCancelable(false);
         return progressDialog;
     }
-
     /**
      * 加载框显示
      */

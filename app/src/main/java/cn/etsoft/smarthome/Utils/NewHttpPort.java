@@ -5,8 +5,8 @@ package cn.etsoft.smarthome.Utils;
  */
 
 public class NewHttpPort {
-    public static String ROOT = "http://192.168.1.220:25000";
-//    public static String ROOT = "http://123.206.104.89:25000";
+//    public static String ROOT = "http://192.168.1.220:25000";
+    public static String ROOT = "http://123.206.104.89:25000";
     public static String LOCATION = "/api/";
 
     public static String LOGIN = "account/login";
