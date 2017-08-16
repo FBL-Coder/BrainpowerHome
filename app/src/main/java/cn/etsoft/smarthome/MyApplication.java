@@ -34,7 +34,6 @@ import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.Safety_Data;
 import cn.etsoft.smarthome.Domain.WareData;
-import cn.etsoft.smarthome.Domain.Weather_All_Bean;
 import cn.etsoft.smarthome.Domain.Weather_Bean;
 import cn.etsoft.smarthome.NetMessage.UDPServer;
 import cn.etsoft.smarthome.NetMessage.WebSocket_Client;
@@ -42,10 +41,9 @@ import cn.etsoft.smarthome.Utils.CityDB;
 import cn.etsoft.smarthome.Utils.Data_Cache;
 import cn.etsoft.smarthome.Utils.WratherUtil;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Author：FBL  Time： 2017/6/12.
+ * 全局 MyApplication
  */
 public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.MyApplication {
 

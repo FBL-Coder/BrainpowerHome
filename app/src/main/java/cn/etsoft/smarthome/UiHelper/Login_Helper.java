@@ -11,6 +11,7 @@ import com.example.abc.mybaseactivity.HttpGetDataUtils.ResultDesc;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +59,7 @@ public class Login_Helper {
                 Log.i("LOGIN", resultDesc.getResult());
                 MyApplication.mApplication.dismissLoadDialog();
                 super.onSuccess(resultDesc);
-                Log.i(TAG, "onSuccess: "+resultDesc.getResult());
+                Log.i(TAG, "onSuccess: " + resultDesc.getResult());
                 gson = new Gson();
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
 
@@ -111,6 +112,7 @@ public class Login_Helper {
         if (rcuInfos.size() != 1)
             mContext.startActivity(new Intent(mContext, NewWorkSetActivity.class));
         else {
+            AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, rcuInfos.get(0).getDevUnitID());
             SendDataUtil.getNetWorkInfo();
             mContext.startActivity(new Intent(mContext, HomeActivity.class));
         }

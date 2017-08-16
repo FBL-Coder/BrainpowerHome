@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -73,11 +73,11 @@ public class NetWork_Adapter extends BaseAdapter {
             viewHoler.Select = (ImageView) convertView.findViewById(R.id.NetWork_Checked);
             viewHoler.net_ID = (TextView) convertView.findViewById(R.id.NetWork_ID);
             viewHoler.net_Pass = (TextView) convertView.findViewById(R.id.NetWork_Pass);
-            viewHoler.name = (EditText) convertView.findViewById(R.id.NetWork_Name);
-            viewHoler.IP = (EditText) convertView.findViewById(R.id.NetWork_Ip);
-            viewHoler.Ip_mask = (EditText) convertView.findViewById(R.id.NetWork_Ip_Mask);
-            viewHoler.GetWay = (EditText) convertView.findViewById(R.id.NetWork_GetWay);
-            viewHoler.Server = (EditText) convertView.findViewById(R.id.NetWork_Server);
+            viewHoler.name = (TextView) convertView.findViewById(R.id.NetWork_Name);
+            viewHoler.IP = (TextView) convertView.findViewById(R.id.NetWork_Ip);
+            viewHoler.Ip_mask = (TextView) convertView.findViewById(R.id.NetWork_Ip_Mask);
+            viewHoler.GetWay = (TextView) convertView.findViewById(R.id.NetWork_GetWay);
+            viewHoler.Server = (TextView) convertView.findViewById(R.id.NetWork_Server);
             viewHoler.ShowInfo = (ImageView) convertView.findViewById(R.id.NetWork_ShowInfo);
             viewHoler.NetWork_Info = (LinearLayout) convertView.findViewById(R.id.NetWork_Info);
             convertView.setTag(viewHoler);
@@ -113,7 +113,7 @@ public class NetWork_Adapter extends BaseAdapter {
 
     class ViewHoler {
         TextView title, title_ID, net_ID, net_Pass;
-        EditText name, IP, Ip_mask, GetWay, Server;
+        TextView name, IP, Ip_mask, GetWay, Server;
         ImageView Select, ShowInfo;
         LinearLayout NetWork_Info;
     }

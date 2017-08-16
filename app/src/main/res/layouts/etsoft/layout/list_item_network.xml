@@ -91,7 +91,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_18" />
 
-            <EditText
+            <TextView
                 android:id="@+id/NetWork_Name"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_40"
@@ -169,7 +169,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_18" />
 
-            <EditText
+            <TextView
                 android:id="@+id/NetWork_Ip"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_40"
@@ -195,7 +195,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_18" />
 
-            <EditText
+            <TextView
                 android:id="@+id/NetWork_Ip_Mask"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_40"
@@ -221,7 +221,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_18" />
 
-            <EditText
+            <TextView
                 android:id="@+id/NetWork_GetWay"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_40"
@@ -247,7 +247,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_18" />
 
-            <EditText
+            <TextView
                 android:id="@+id/NetWork_Server"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_40"

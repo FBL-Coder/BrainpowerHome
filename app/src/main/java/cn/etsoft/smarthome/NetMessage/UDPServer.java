@@ -207,7 +207,7 @@ public class UDPServer implements Runnable {
     long time = 0;
 
     public void extractData(String info) {
-
+        show(info);
         String devUnitID = "";
         int datType = 0;
         int subType2 = 0;
@@ -219,9 +219,9 @@ public class UDPServer implements Runnable {
                 if (!devUnitID.equals(GlobalVars.getDevid()))
                     if (!MyApplication.mApplication.isSeekNet()) {
                         Log.i(TAG, "extractData: devUnitID判断不一致，退出方法 ");
+                        Log.i(TAG, "extractData: GlobalVars" + GlobalVars.getDevid() + "-----devUnitID " + devUnitID);
                         return;
                     }
-
             datType = jsonObject.getInt("datType");
             subType1 = jsonObject.getInt("subType1");
             subType2 = jsonObject.getInt("subType2");
@@ -229,7 +229,7 @@ public class UDPServer implements Runnable {
             System.out.println(this.getClass().getName() + "--extractData--" + e.toString());
         }
 //        if (datType != 35)
-        show(info);
+
         switch (datType) {
             case 0:// e_udpPro_getRcuinfo
                 if (subType2 == 1) {
