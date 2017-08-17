@@ -1,30 +1,25 @@
 package cn.etsoft.smarthome.Adapter.ListView;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.app.Dialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
-import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.util.List;
 
-import cn.etsoft.smarthome.Activity.HomeActivity;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.Utils.SendDataUtil;
+import cn.etsoft.smarthome.UiHelper.Net_AddorDel_Helper;
 
 /**
  * Author：FBL  Time： 2017/6/22.
@@ -34,10 +29,12 @@ import cn.etsoft.smarthome.Utils.SendDataUtil;
 public class NetWork_Adapter extends BaseAdapter {
     private List<RcuInfo> list;
     private Activity mContext;
+    private NetWork_Adapter adapter;
 
     public NetWork_Adapter(Activity context) {
         mContext = context;
         list = MyApplication.mApplication.getRcuInfoList();
+        adapter = this;
     }
 
     @Override
@@ -80,6 +77,7 @@ public class NetWork_Adapter extends BaseAdapter {
             viewHoler.Server = (TextView) convertView.findViewById(R.id.NetWork_Server);
             viewHoler.ShowInfo = (ImageView) convertView.findViewById(R.id.NetWork_ShowInfo);
             viewHoler.NetWork_Info = (LinearLayout) convertView.findViewById(R.id.NetWork_Info);
+            viewHoler.NetWork_EditName = (ImageView) convertView.findViewById(R.id.NetWork_EditName);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
 
@@ -106,6 +104,42 @@ public class NetWork_Adapter extends BaseAdapter {
                 else finalViewHoler.NetWork_Info.setVisibility(View.VISIBLE);
             }
         });
+        viewHoler.NetWork_EditName.setOnClickListener(new View.OnClickListener() {
+            private TextView mDialogAddSceneOk;
+            private TextView mDialogAddSceneCancle;
+            private EditText mDialogAddSceneName;
+            private TextView mTitleName;
+            private TextView mTitle;
+
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(mContext, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+                dialog.setContentView(R.layout.dialog_addscene);
+                dialog.show();
+                mDialogAddSceneName = (EditText) dialog.findViewById(R.id.dialog_addScene_name);
+                mDialogAddSceneCancle = (TextView) dialog.findViewById(R.id.dialog_addScene_cancle);
+                mDialogAddSceneOk = (TextView) dialog.findViewById(R.id.dialog_addScene_ok);
+                mTitleName = (TextView) dialog.findViewById(R.id.title_name);
+                mTitle = (TextView) dialog.findViewById(R.id.title);
+                mTitle.setText("修改模块名称");
+                mTitleName.setText("模块名称 :");
+                mDialogAddSceneOk.setText("确定");
+                mDialogAddSceneCancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                mDialogAddSceneOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        Net_AddorDel_Helper.editNew(adapter,list,position,mContext, mDialogAddSceneName,
+                                list.get(position).getDevUnitID(), list.get(position).getDevUnitPass());
+                    }
+                });
+            }
+        });
 
         viewHoler.NetWork_Info.setVisibility(View.GONE);
         return convertView;
@@ -114,7 +148,7 @@ public class NetWork_Adapter extends BaseAdapter {
     class ViewHoler {
         TextView title, title_ID, net_ID, net_Pass;
         TextView name, IP, Ip_mask, GetWay, Server;
-        ImageView Select, ShowInfo;
+        ImageView Select, ShowInfo, NetWork_EditName;
         LinearLayout NetWork_Info;
     }
 }

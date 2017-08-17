@@ -15,10 +15,13 @@ import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import cn.etsoft.smarthome.Adapter.ListView.NetWork_Adapter;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.Http_Result;
+import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
 
@@ -27,7 +30,7 @@ import cn.etsoft.smarthome.Utils.NewHttpPort;
  * 联网模块设置  辅助类
  */
 
-public class New_AddorDel_Helper {
+public class Net_AddorDel_Helper {
 
     public static int ADDNEWMODULE_OK = 11;
     public static int EDITNEWMODULE_OK = 21;
@@ -101,19 +104,15 @@ public class New_AddorDel_Helper {
      * 修改联网模块
      *
      * @param name
-     * @param id
-     * @param pass
      */
-    public static void editNew(final Handler handler, Activity activity, EditText name, EditText id, EditText pass) {
-        String name_input = name.getText().toString();
-        String id_input = id.getText().toString();
-        String pass_input = pass.getText().toString();
+    public static void editNew(final NetWork_Adapter adapter, final List<RcuInfo> list, final int position, Activity activity, EditText name, String devUnitID, String devPass) {
+        final String name_input = name.getText().toString();
 
         if (name_input.isEmpty() || name_input.length() > 7) {
             ToastUtil.showText("模块名称不合适");
             return;
         }
-        if (id_input.isEmpty() || pass_input.isEmpty()) {
+        if (devUnitID.isEmpty() || devPass.isEmpty()) {
             ToastUtil.showText("模块ID和模块密码不能为空");
             return;
         }
@@ -121,9 +120,9 @@ public class New_AddorDel_Helper {
         Map<String, String> param = new HashMap<>();
         param.put("userName", (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));
         param.put("passwd", (String) AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
-        param.put("devUnitID", id_input);
+        param.put("devUnitID", devUnitID);
         param.put("canCpuName", name_input);
-        param.put("devPass", pass_input);
+        param.put("devPass", devPass);
         OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.EDITNETMODULE, param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
@@ -134,9 +133,9 @@ public class New_AddorDel_Helper {
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
                 if (result.getCode() == HTTPRequest_BackCode.RCUINFO_OK) {
                     //修改成功
-                    Message message = handler.obtainMessage();
-                    message.what = EDITNEWMODULE_OK;
-                    handler.sendMessage(message);
+                    list.get(position).setCanCpuName(name_input);
+                    MyApplication.mApplication.setRcuInfoList(list);
+                    adapter.notifyDataSetChanged();
                     ToastUtil.showText("联网模块修改成功");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR) {
                     // 修改失败

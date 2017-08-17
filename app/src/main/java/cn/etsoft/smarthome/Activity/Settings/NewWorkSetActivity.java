@@ -28,7 +28,7 @@ import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.SearchNet;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.UiHelper.New_AddorDel_Helper;
+import cn.etsoft.smarthome.UiHelper.Net_AddorDel_Helper;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 /**
@@ -140,7 +140,7 @@ public class NewWorkSetActivity extends BaseActivity {
                         dialog.dismiss();
                         mDeleteNet_Position = position;
                         MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this);
-                        New_AddorDel_Helper.deleteNew(mNewModuleHandler,
+                        Net_AddorDel_Helper.deleteNew(mNewModuleHandler,
                                 NewWorkSetActivity.this,
                                 MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID());
                     }
@@ -177,7 +177,7 @@ public class NewWorkSetActivity extends BaseActivity {
                     SearchNet net = MyApplication.getWareData().getSeekNets().get(position);
                     Log.i("SeekNet", "onActivityResult: " + net.getRcu_rows().get(0).getName() + "--"
                             + net.getRcu_rows().get(0).getCanCpuID() + "--" + net.getRcu_rows().get(0).getDevUnitPass());
-                    New_AddorDel_Helper.addNew(mNewModuleHandler, NewWorkSetActivity.this,
+                    Net_AddorDel_Helper.addNew(mNewModuleHandler, NewWorkSetActivity.this,
                             net.getRcu_rows().get(0).getName(), net.getRcu_rows().get(0).getCanCpuID(),
                             net.getRcu_rows().get(0).getDevUnitPass());
                 }
@@ -201,7 +201,7 @@ public class NewWorkSetActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                New_AddorDel_Helper.addNew(mNewModuleHandler,
+                Net_AddorDel_Helper.addNew(mNewModuleHandler,
                         NewWorkSetActivity.this, mDialogName.getText().toString(),
                         mDialogID.getText().toString(), mDialogPass.getText().toString());
             }
@@ -221,7 +221,7 @@ public class NewWorkSetActivity extends BaseActivity {
         finish();
     }
 
-    static class NewModuleHandler extends Handler {
+    public static class NewModuleHandler extends Handler {
 
         WeakReference<NewWorkSetActivity> weakReference;
 
@@ -233,7 +233,7 @@ public class NewWorkSetActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (weakReference != null) {
-                if (msg.what == New_AddorDel_Helper.ADDNEWMODULE_OK) {
+                if (msg.what == Net_AddorDel_Helper.ADDNEWMODULE_OK) {
                     // 添加成功
                     RcuInfo info = new RcuInfo();
                     info.setDevUnitID(weakReference.get().mDialogID.getText().toString());
@@ -245,7 +245,7 @@ public class NewWorkSetActivity extends BaseActivity {
                     AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, weakReference.get().gson.toJson(json_rcuinfolist));
                     weakReference.get().initLIstview();
                     ToastUtil.showText("添加成功");
-                } else if (msg.what == New_AddorDel_Helper.DELNEWMODULE_OK) {
+                } else if (msg.what == Net_AddorDel_Helper.DELNEWMODULE_OK) {
                     MyApplication.mApplication.dismissLoadDialog();
                     List<RcuInfo> list = MyApplication.mApplication.getRcuInfoList();
                     list.remove(weakReference.get().mDeleteNet_Position);
@@ -253,8 +253,9 @@ public class NewWorkSetActivity extends BaseActivity {
                     weakReference.get().initLIstview();
                     ToastUtil.showText("删除成功");
                     //TODO 删除成功
-                } else if (msg.what == New_AddorDel_Helper.EDITNEWMODULE_OK) {
+                } else if (msg.what == Net_AddorDel_Helper.EDITNEWMODULE_OK) {
                     //TODO 修改成功
+                    MyApplication.mApplication.dismissLoadDialog();
                 }
             }
         }

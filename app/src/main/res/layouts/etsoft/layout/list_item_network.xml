@@ -85,7 +85,7 @@
             <TextView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:gravity="center"
                 android:text="模块名称"
                 android:textColor="@color/black"
@@ -99,6 +99,13 @@
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_18" />
+
+            <ImageView
+                android:id="@+id/NetWork_EditName"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/edit_net_name"/>
 
         </LinearLayout>
 

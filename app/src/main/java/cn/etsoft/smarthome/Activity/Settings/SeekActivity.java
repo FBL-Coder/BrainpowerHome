@@ -1,7 +1,6 @@
 package cn.etsoft.smarthome.Activity.Settings;
 
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,7 +16,6 @@ import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.UiHelper.New_AddorDel_Helper;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 /**
