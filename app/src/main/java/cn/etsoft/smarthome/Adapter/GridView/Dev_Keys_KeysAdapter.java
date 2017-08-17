@@ -1,7 +1,6 @@
 package cn.etsoft.smarthome.Adapter.GridView;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,24 +8,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
-import com.jaygoo.widget.RangeSeekBar;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Domain.Out_List_printcmd;
 import cn.etsoft.smarthome.Domain.PrintCmd;
-import cn.etsoft.smarthome.Domain.WareAirCondDev;
-import cn.etsoft.smarthome.Domain.WareSceneDevItem;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.Dev_KeysSetHelper;
-import cn.etsoft.smarthome.UiHelper.WareDataHliper;
-import cn.etsoft.smarthome.Utils.CommonUtils;
 import cn.etsoft.smarthome.View.RotateBtn.RotateControButton;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Author：FBL  Time： 2017/6/26.

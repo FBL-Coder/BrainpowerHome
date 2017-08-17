@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.Domain.Timer_Data;
 import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.Domain.WareCurtain;

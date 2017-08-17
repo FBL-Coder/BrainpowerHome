@@ -15,7 +15,6 @@ import cn.etsoft.smarthome.Domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
-import cn.etsoft.smarthome.View.RotateBtn.RotateControButton;
 
 /**
  * Author：FBL  Time： 2017/6/26.

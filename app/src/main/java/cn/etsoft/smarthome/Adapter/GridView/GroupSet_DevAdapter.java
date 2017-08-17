@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.etsoft.smarthome.Domain.GroupSet_Data;
-import cn.etsoft.smarthome.Domain.Timer_Data;
 import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.Domain.WareCurtain;
 import cn.etsoft.smarthome.Domain.WareLight;

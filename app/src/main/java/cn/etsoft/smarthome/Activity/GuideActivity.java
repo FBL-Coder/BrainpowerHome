@@ -14,11 +14,11 @@ import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 
+import java.util.ArrayList;
+
 import cn.etsoft.smarthome.Adapter.ViewPage.Welcome_ViewPaperAdapter;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-
-import java.util.ArrayList;
 
 /**
  * Author：FBL  Time： 2017/6/13.

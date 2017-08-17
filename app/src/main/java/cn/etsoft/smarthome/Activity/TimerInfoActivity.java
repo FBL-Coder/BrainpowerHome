@@ -1,9 +1,6 @@
 package cn.etsoft.smarthome.Activity;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
-import android.icu.text.IDNA;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
@@ -16,7 +13,6 @@ import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +22,6 @@ import cn.etsoft.smarthome.Domain.Timer_Data;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
-import cn.etsoft.smarthome.Utils.CommonUtils;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 

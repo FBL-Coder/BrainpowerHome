@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -24,7 +23,6 @@ import cn.etsoft.smarthome.UiHelper.Scene_KeysSetHelper;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
-import cn.etsoft.smarthome.View.SlideGridView;
 
 /**
  * Author：FBL  Time： 2017/6/22.

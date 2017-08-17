@@ -10,13 +10,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import cn.etsoft.smarthome.Domain.Timer_Data;
 import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.Domain.WareCurtain;
 import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.Domain.WareSceneDevItem;
-import cn.etsoft.smarthome.Domain.WareSetBox;
-import cn.etsoft.smarthome.Domain.WareTv;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 

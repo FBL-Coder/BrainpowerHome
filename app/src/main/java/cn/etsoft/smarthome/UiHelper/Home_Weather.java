@@ -5,8 +5,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -23,14 +21,12 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.etsoft.smarthome.Domain.City;
 import cn.etsoft.smarthome.Domain.Weather_All_Bean;
 import cn.etsoft.smarthome.MyApplication;
-import cn.etsoft.smarthome.R;
 
 /**
  * Author：FBL  Time： 2017/6/14.

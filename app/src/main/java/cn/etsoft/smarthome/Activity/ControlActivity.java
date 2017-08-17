@@ -19,8 +19,6 @@ import cn.etsoft.smarthome.Fragment.Control.CurtarnControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.LightControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.TVControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.TvUpControlFragment;
-import cn.etsoft.smarthome.Fragment.SceneSet.TVSceneFragment;
-import cn.etsoft.smarthome.Fragment.SceneSet.TvUpSceneFragment;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.SceneSetHelper;

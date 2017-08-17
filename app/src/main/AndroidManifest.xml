@@ -192,7 +192,6 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
 
-
         //高德地图定位
         <meta-data
             android:name="com.amap.api.v2.apikey"

@@ -8,8 +8,6 @@ import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.Domain.GroupSet_Data;
 import cn.etsoft.smarthome.Domain.SetSafetyResult;
 import cn.etsoft.smarthome.Domain.Timer_Data;
-import cn.etsoft.smarthome.Domain.WareData;
-import cn.etsoft.smarthome.Domain.WareEnvDevItem;
 import cn.etsoft.smarthome.Domain.WareSceneDevItem;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.MyApplication;

@@ -191,7 +191,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     }
 
     /**
-     * 获取全局Context
+     * 获取全局 Context
      */
     public static Context getContext() {
         return mContext;

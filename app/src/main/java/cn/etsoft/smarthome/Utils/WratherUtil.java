@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import cn.etsoft.smarthome.Domain.City;
-import cn.etsoft.smarthome.Domain.Weather_All_Bean;
 import cn.etsoft.smarthome.Domain.Weather_Bean;
 import cn.etsoft.smarthome.MyApplication;
 
@@ -92,11 +91,11 @@ public class WratherUtil {
                 }
                 fos.close();
                 is.close();
-                Log.i("DB","OPEN DB  成功");
+                Log.i("DB", "OPEN DB  成功");
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(0);
-                Log.i("DB","OPEN DB  失败");
+                Log.i("DB", "OPEN DB  失败");
             }
         }
         return new CityDB(MyApplication.mContext, path);
@@ -133,7 +132,7 @@ public class WratherUtil {
             mPositions.add(position);// 首字母在listview中位置，存入list中
             position += mMap.get(mSections.get(i)).size();// 计算下一个首字母在listview的位置
         }
-        Log.i("City","City COPY成功");
+        Log.i("City", "City COPY成功");
         return true;
     }
 }

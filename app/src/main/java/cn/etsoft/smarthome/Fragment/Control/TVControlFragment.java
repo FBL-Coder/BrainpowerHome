@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Activity.ControlActivity;
-import cn.etsoft.smarthome.Activity.Settings.SceneSetActivity;
 import cn.etsoft.smarthome.Adapter.GridView.Control_Tv_Adapter;
-import cn.etsoft.smarthome.Adapter.GridView.SceneSet_TV_Adapter;
 import cn.etsoft.smarthome.Domain.WareTv;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;

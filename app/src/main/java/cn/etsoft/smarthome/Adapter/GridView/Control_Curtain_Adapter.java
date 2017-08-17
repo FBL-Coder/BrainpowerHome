@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.WareCurtain;
 import cn.etsoft.smarthome.MyApplication;

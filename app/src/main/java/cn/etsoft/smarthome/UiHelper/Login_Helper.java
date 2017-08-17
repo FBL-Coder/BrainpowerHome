@@ -11,7 +11,6 @@ import com.example.abc.mybaseactivity.HttpGetDataUtils.ResultDesc;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
