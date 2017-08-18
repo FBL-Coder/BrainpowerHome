@@ -122,6 +122,7 @@ public class HomeWeatherAnim {
         msg.setData(b);
         forecastHandler.sendMessage(msg);
 
+
     }
 
     //加载预报数据
