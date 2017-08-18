@@ -18,7 +18,7 @@ import cn.etsoft.smarthome.MyApplication;
 public class WebSocket_Client {
     //WebSocket_Client 和 address
     private WebSocketClient mWebSocketClient;
-    private String address = "ws://192.168.1.220:25002";
+    private String address = "ws://123.206.104.89:25002";
     private Handler mHandler;
 
     /**

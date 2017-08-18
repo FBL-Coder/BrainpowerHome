@@ -116,7 +116,7 @@ public class JReceiver extends BroadcastReceiver {
 //			if(BaseActivity.instance != null){
 //				BaseActivity.instance.setCount();
 //			}
-            //TODO
+            //
 //			if(MessageFragment.instance != null){
 //			    MessageFragment.instance.initData();
 //			    MessageFragment.instance.adapter.notifyDataSetChanged();

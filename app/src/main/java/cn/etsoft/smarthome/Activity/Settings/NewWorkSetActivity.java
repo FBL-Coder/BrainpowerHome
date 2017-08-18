@@ -252,9 +252,9 @@ public class NewWorkSetActivity extends BaseActivity {
                     MyApplication.mApplication.setRcuInfoList(list);
                     weakReference.get().initLIstview();
                     ToastUtil.showText("删除成功");
-                    //TODO 删除成功
+                    //删除成功
                 } else if (msg.what == Net_AddorDel_Helper.EDITNEWMODULE_OK) {
-                    //TODO 修改成功
+                    //修改成功
                     MyApplication.mApplication.dismissLoadDialog();
                 }
             }

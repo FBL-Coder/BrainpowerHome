@@ -660,8 +660,6 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
                         }
                         Message msg1 = new Message();
                         msg1.what = END_SHAKE;
@@ -677,7 +675,7 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
 
         @Override
         public void onAccuracyChanged(Sensor arg0, int arg1) {
-            // TODO 自动生成的方法存根
+            //自动生成的方法存根
 
         }
     };

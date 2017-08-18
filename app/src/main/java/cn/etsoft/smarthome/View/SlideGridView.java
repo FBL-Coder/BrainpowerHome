@@ -18,7 +18,7 @@ import cn.etsoft.smarthome.R;
 
 /**
  * @ClassName: MyGridView
- * @Description: TODO(自定义GridView——解决和ScollView的滑动冲突问题)
+ * @Description: 自定义GridView——解决和ScollView的滑动冲突问题
  */
 public class SlideGridView extends GridView {
 

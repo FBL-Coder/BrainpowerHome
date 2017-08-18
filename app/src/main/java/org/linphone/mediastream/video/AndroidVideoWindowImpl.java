@@ -189,10 +189,10 @@ public class AndroidVideoWindowImpl {
 				mSurface.unlockCanvasAndPost(canvas);
 				 
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			} catch (OutOfResourcesException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}  
 		} 

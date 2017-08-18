@@ -381,12 +381,12 @@ public class BluetoothLeService extends Service {
    			
    			@Override
    			public void run() {
-   				// TODO Auto-generated method stub
+
    				while (isEnd) {
    						try {
    							Thread.sleep(5000);
    						} catch (InterruptedException e) {
-   							// TODO Auto-generated catch block
+
    							e.printStackTrace();
    						}
    					if(BaseActivity.instance != null && isEnd){

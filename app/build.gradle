@@ -58,7 +58,9 @@ dependencies {
     compile 'com.github.citux:datetimepicker:0.2.0'
     //横向选择器
     compile 'com.lantouzi.wheelview:library:1.1.2'
+    //高德定位
     compile files('libs/AMap_Location_V3.4.1_20170629.jar')
+    //视频对讲
     compile files('libs/activation.jar')
     compile files('libs/additionnal.jar')
     compile files('libs/common.util.1.1.2.jar')

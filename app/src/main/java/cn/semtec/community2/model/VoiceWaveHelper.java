@@ -66,7 +66,7 @@ public class VoiceWaveHelper {
     public void play() {
         if (MyApplication.houseProperty != null && MyApplication.cellphone != null) {
             if (player.isStopped()) {
-                // TODO 声音 控制
+                //  声音 控制
                 player.setPlayerType(VoicePlayer.PT_SoundPlayer);
                 // String name =Environment.getExternalStorageDirectory().getAbsolutePath();
                 // 生成文件

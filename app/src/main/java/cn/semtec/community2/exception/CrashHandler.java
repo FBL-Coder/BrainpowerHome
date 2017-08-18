@@ -29,7 +29,7 @@ import cn.semtec.community2.util.ToastUtil;
 
 /**
  * ClassName: CrashHandler <br/>
- * Function: TODO 上传崩溃日志到后台. <br/>
+ * Function:  上传崩溃日志到后台. <br/>
  * date: 2015-4-3 下午5:35:34 <br/>
  *
  * @author Ladystyle002

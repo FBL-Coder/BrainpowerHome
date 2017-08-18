@@ -16,7 +16,7 @@ import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
  */
 
 public abstract class BaseFragment extends Fragment {
-    //TODO 下拉刷新，下拉加载为封装未完成。待完成！！
+    // 下拉刷新，下拉加载为封装未完成。待完成！！
     /**
      * 贴附的activity
      */

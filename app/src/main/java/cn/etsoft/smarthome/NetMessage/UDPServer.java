@@ -2088,7 +2088,7 @@ public class UDPServer implements Runnable {
 //                    "devUnitID":	"36ffda054842373503711843"
 //        }]
 //    }
-        //TODO  情景控制新版本的数据需要重新写。
+        // 情景控制新版本的数据需要重新写。
         try {
             JSONObject object = new JSONObject(info);
             JSONArray array = object.getJSONArray("state_rows");
