@@ -243,6 +243,20 @@ public class UdpProPkt {
 		}
 	}
 
+	public static enum E_FLOOR_HEAT_CMD {
+		e_floorHeat_open(0), e_floorHeat_auto(1), e_floorHeat_close(2), e_floorHeat_cmd_total(3);
+
+		private int value;
+
+		E_FLOOR_HEAT_CMD(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return this.value;
+		}
+	}
+
 	// 多通道控制命令
 	public static enum E_MULTICHN_CMD {
 		e_multiChn_offOn(0), e_multiChn_onOff(1), e_multiChn_cmd_total(2);

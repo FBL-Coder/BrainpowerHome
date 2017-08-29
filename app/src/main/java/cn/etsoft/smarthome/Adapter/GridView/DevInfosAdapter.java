@@ -30,6 +30,7 @@ import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.Domain.WareBoardChnout;
 import cn.etsoft.smarthome.Domain.WareCurtain;
 import cn.etsoft.smarthome.Domain.WareDev;
+import cn.etsoft.smarthome.Domain.WareFreshAir;
 import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
@@ -571,6 +572,36 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoEditName.setHint(curtain.getDev().getDevName());
                     viewHolder.mDevInfoEditWay.setText(curtain.getPowChn() + "");
                     viewHolder.mDevInfoEditType.setText("窗帘");
+                }
+            }
+        } else if (Devs.get(position).getType() == 7) {//新风
+            List<WareFreshAir> freshAirs = MyApplication.getWareData().getFreshAirs();
+            for (int i = 0; i < freshAirs.size(); i++) {
+                if (Devs.get(position).getCanCpuId().equals(freshAirs.get(i).getDev().getCanCpuId())
+                        && Devs.get(position).getDevId() == freshAirs.get(i).getDev().getDevId() &&
+                        Devs.get(position).getType() == freshAirs.get(i).getDev().getType()) {
+                    WareFreshAir freshAir = freshAirs.get(i);
+                    String BoardName = "";
+                    for (int j = 0; j < MyApplication.getWareData().getBoardChnouts().size(); j++) {
+                        WareBoardChnout chnout = MyApplication.getWareData().getBoardChnouts().get(j);
+                        if (Devs.get(position).getCanCpuId().equals(chnout.getDevUnitID())) {
+                            BoardName = chnout.getBoardName();
+                        }
+                    }
+                    //可视布局数据
+                    viewHolder.mDevInfoName.setText(freshAir.getDev().getDevName());
+                    viewHolder.mDevInfoRoom.setText(freshAir.getDev().getRoomName());
+                    viewHolder.mDevInfoType.setText("新风");
+                    viewHolder.mDevInfoWay.setText(freshAir.getPowChn() + "");
+                    if ("".equals(BoardName))
+                        viewHolder.mDevInfoOutBoard.setText("数据解析出错");
+                    viewHolder.mDevInfoOutBoard.setText(BoardName);
+
+                    //不可视布局数据
+                    viewHolder.mDevInfoEditRoom.setText(freshAir.getDev().getRoomName());
+                    viewHolder.mDevInfoEditName.setHint(freshAir.getDev().getDevName());
+                    viewHolder.mDevInfoEditWay.setText(freshAir.getPowChn() + "");
+                    viewHolder.mDevInfoEditType.setText("新风");
                 }
             }
         }

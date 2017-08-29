@@ -13,6 +13,7 @@ import java.util.List;
 import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.Domain.WareCurtain;
+import cn.etsoft.smarthome.Domain.WareFreshAir;
 import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.Domain.WareSetBox;
 import cn.etsoft.smarthome.Domain.WareTv;
@@ -144,6 +145,21 @@ public class ConditionSet_DevAdapter extends BaseAdapter {
                         viewHolder.state.setText("关闭");
                     } else {
                         viewHolder.type.setImageResource(R.drawable.cl_dev_item_open);
+                        viewHolder.state.setText("打开");
+                    }
+                }
+            }
+        } else if (type_dev == 7) {
+            for (int j = 0; j < MyApplication.getWareData().getCurtains().size(); j++) {
+                WareFreshAir freshAir = MyApplication.getWareData().getFreshAirs().get(j);
+                if (timer_list.get(position).getDevID() == freshAir.getDev().getDevId() &&
+                        timer_list.get(position).getCanCpuID().endsWith(freshAir.getDev().getCanCpuId())) {
+                    viewHolder.name.setText(freshAir.getDev().getDevName());
+                    if (timer_list.get(position).getBOnOff() == 0) {
+                        viewHolder.type.setImageResource(R.drawable.ic_launcher);
+                        viewHolder.state.setText("关闭");
+                    } else {
+                        viewHolder.type.setImageResource(R.drawable.ic_launcher_round);
                         viewHolder.state.setText("打开");
                     }
                 }

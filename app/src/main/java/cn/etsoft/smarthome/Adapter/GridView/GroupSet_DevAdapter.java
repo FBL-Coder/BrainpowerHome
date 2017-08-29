@@ -13,6 +13,7 @@ import java.util.List;
 import cn.etsoft.smarthome.Domain.GroupSet_Data;
 import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.Domain.WareCurtain;
+import cn.etsoft.smarthome.Domain.WareFreshAir;
 import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.Domain.WareSetBox;
 import cn.etsoft.smarthome.Domain.WareTv;
@@ -139,6 +140,21 @@ public class GroupSet_DevAdapter extends BaseAdapter {
                 if (timer_list.get(position).getDevID() == Curtain.getDev().getDevId() &&
                         timer_list.get(position).getCanCpuID().endsWith(Curtain.getDev().getCanCpuId())) {
                     viewHolder.name.setText(Curtain.getDev().getDevName());
+                    if (timer_list.get(position).getBOnOff() == 0) {
+                        viewHolder.type.setImageResource(R.drawable.cl_dev_item_close);
+                        viewHolder.state.setText("关闭");
+                    } else {
+                        viewHolder.type.setImageResource(R.drawable.cl_dev_item_open);
+                        viewHolder.state.setText("打开");
+                    }
+                }
+            }
+        }else if (type_dev == 7) {
+            for (int j = 0; j < MyApplication.getWareData().getCurtains().size(); j++) {
+                WareFreshAir freshAir = MyApplication.getWareData().getFreshAirs().get(j);
+                if (timer_list.get(position).getDevID() == freshAir.getDev().getDevId() &&
+                        timer_list.get(position).getCanCpuID().endsWith(freshAir.getDev().getCanCpuId())) {
+                    viewHolder.name.setText(freshAir.getDev().getDevName());
                     if (timer_list.get(position).getBOnOff() == 0) {
                         viewHolder.type.setImageResource(R.drawable.cl_dev_item_close);
                         viewHolder.state.setText("关闭");

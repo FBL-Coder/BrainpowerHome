@@ -40,6 +40,7 @@ import cn.etsoft.smarthome.Domain.WareChnOpItem;
 import cn.etsoft.smarthome.Domain.WareCurtain;
 import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.Domain.WareDev;
+import cn.etsoft.smarthome.Domain.WareFreshAir;
 import cn.etsoft.smarthome.Domain.WareKeyOpItem;
 import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.Domain.WareSceneDevItem;
@@ -699,6 +700,7 @@ public class UDPServer implements Runnable {
 
         int devnum_air = 0;
         int devnum_cur = 0;
+        int devnum_frair = 0;
         int devnum_box = 0;
         int devnum_tv = 0;
         int devnum_light = 0;
@@ -877,6 +879,42 @@ public class UDPServer implements Runnable {
                         if (!IsContain) {
                             MyApplication.getWareData().getDevs().add(dev);
                             MyApplication.getWareData().getCurtains().add(curtain);
+                        }
+                    }
+                }
+            }
+            if (subType2 == 7) {
+                devnum_frair = jsonObject.getInt("frair");
+                if (devnum_frair > 0) {
+                    JSONArray jsonArray = jsonObject.getJSONArray("dev_rows");
+                    for (int i = 0; i < devnum_frair; i++) {
+                        WareFreshAir freshAir = new WareFreshAir();
+                        JSONObject jsonobj = jsonArray.getJSONObject(i);
+                        WareDev dev = new WareDev();
+                        dev.setCanCpuId(jsonobj.getString("canCpuID"));
+                        dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
+                        dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
+                        MyApplication.getWareData().getRooms().add(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
+                        dev.setDevId(jsonobj.getInt("devID"));
+                        dev.setType(jsonobj.getInt("devType"));
+                        dev.setbOnOff(jsonobj.getInt("bOnOff"));
+
+                        freshAir.setDev(dev);
+                        freshAir.setbOnOff(jsonobj.getInt("bOnOff"));
+                        freshAir.setPowChn(jsonobj.getInt("powChn"));
+                        freshAir.setbOnOff(jsonobj.getInt("spdSel"));
+
+                        boolean IsContain = false;
+                        for (int j = 0; j < MyApplication.getWareData().getDevs().size(); j++) {
+                            if (dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(j).getCanCpuId())
+                                    && dev.getDevId() == MyApplication.getWareData().getDevs().get(j).getDevId()
+                                    && dev.getType() == MyApplication.getWareData().getDevs().get(j).getType()) {
+                                IsContain = true;
+                            }
+                        }
+                        if (!IsContain) {
+                            MyApplication.getWareData().getDevs().add(dev);
+                            MyApplication.getWareData().getFreshAirs().add(freshAir);
                         }
                     }
                 }

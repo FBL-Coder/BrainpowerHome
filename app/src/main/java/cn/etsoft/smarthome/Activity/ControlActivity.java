@@ -14,8 +14,10 @@ import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.Domain.WareFreshAir;
 import cn.etsoft.smarthome.Fragment.Control.AirControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.CurtarnControlFragment;
+import cn.etsoft.smarthome.Fragment.Control.FreshAirFragment;
 import cn.etsoft.smarthome.Fragment.Control.LightControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.TVControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.TvUpControlFragment;
@@ -36,7 +38,7 @@ public class ControlActivity extends BaseActivity {
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
-    private Fragment mLightFragment, mAirFragment, mTVFragment, mTvUpFragment, mCurFragment;
+    private Fragment mLightFragment, mAirFragment, mTVFragment, mTvUpFragment, mCurFragment,mFreshAirFragment;
     private int DevType = 0, OutCircleposition = -1;
     private String RoomName = "";
     private TextView mNull_tv;
@@ -113,6 +115,8 @@ public class ControlActivity extends BaseActivity {
             transaction.hide(mAirFragment);
         if (mLightFragment != null)
             transaction.hide(mLightFragment);
+        if (mFreshAirFragment != null)
+            transaction.hide(mFreshAirFragment);
         Bundle bundle = new Bundle();
         bundle.putString("RoomName", RoomName);
         switch (position) {
@@ -133,12 +137,18 @@ public class ControlActivity extends BaseActivity {
             case 2:
             case 5:
             case 6:
-            case 7:
                 if (mTvUpFragment == null) {
                     mTvUpFragment = new TvUpControlFragment();
                     mTvUpFragment.setArguments(bundle);
                     transaction.add(R.id.SceneSet_Info, mTvUpFragment);
                 } else transaction.show(mTvUpFragment);
+                break;
+            case 7:
+                if (mFreshAirFragment == null) {
+                    mFreshAirFragment = new FreshAirFragment();
+                    mFreshAirFragment.setArguments(bundle);
+                    transaction.add(R.id.SceneSet_Info, mFreshAirFragment);
+                } else transaction.show(mFreshAirFragment);
                 break;
             case 3:
                 if (mLightFragment == null) {

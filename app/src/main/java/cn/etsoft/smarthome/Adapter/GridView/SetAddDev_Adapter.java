@@ -118,6 +118,10 @@ public class SetAddDev_Adapter extends BaseAdapter {
             if (mAllDevs.get(position).getbOnOff() == 0)
                 viewHoler.mIV.setImageResource(R.drawable.cl_dev_item_close);
             else viewHoler.mIV.setImageResource(R.drawable.cl_dev_item_open);
+        } else if (mAllDevs.get(position).getType() == 7) {
+            if (mAllDevs.get(position).getbOnOff() == 0)
+                viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+            else viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
         }
         viewHoler.mSelect.setImageResource(R.drawable.select_no);
 
@@ -140,6 +144,10 @@ public class SetAddDev_Adapter extends BaseAdapter {
                         if (mAllDevs.get(position).getbOnOff() == 0)
                             viewHoler.mIV.setImageResource(R.drawable.cl_dev_item_close);
                         else viewHoler.mIV.setImageResource(R.drawable.cl_dev_item_open);
+                    } else if (mAllDevs.get(position).getType() == 7) {
+                        if (mAllDevs.get(position).getbOnOff() == 0)
+                            viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
+                        else viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
                     }
                 }
             }

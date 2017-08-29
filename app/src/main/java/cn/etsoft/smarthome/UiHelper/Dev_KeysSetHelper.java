@@ -65,37 +65,40 @@ public class Dev_KeysSetHelper {
         List<CircleDataEvent> Data_OuterCircleList = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
             CircleDataEvent event = new CircleDataEvent();
-            event.setImage(R.mipmap.ic_launcher_round);
 
-            if (i == 0 || i == 8) {
+            if (i == 0||i == 9) {
                 event.setTitle("空调");
                 event.setImage(R.drawable.air_icon);
             }
-            if (i == 1 || i == 9) {
+            if (i == 1 || i == 10) {
                 event.setTitle("电视");
                 event.setImage(R.drawable.tv_icon);
             }
-            if (i == 2 || i == 10) {
+            if (i == 2 || i == 11) {
                 event.setTitle("机顶盒");
                 event.setImage(R.drawable.tvup_icon);
             }
-            if (i == 3 || i == 11) {
+            if (i == 3 || i == 12) {
                 event.setTitle("灯光");
                 event.setImage(R.drawable.light_icon);
             }
-            if (i == 4 || i == 12) {
+            if (i == 4 || i == 13) {
                 event.setTitle("窗帘");
                 event.setImage(R.drawable.curtian_icon);
             }
-            if (i == 5 || i == 13) {
+            if (i == 5 || i == 14) {
                 event.setTitle("监控");
                 event.setImage(R.drawable.jiankong_icon);
             }
-            if (i == 6 || i == 14) {
+            if (i == 6 || i == 15) {
                 event.setTitle("门禁");
                 event.setImage(R.drawable.mensuo_icon);
             }
             if (i == 7) {
+                event.setTitle("新风");
+                event.setImage(R.drawable.ic_launcher);
+            }
+            if (i == 8) {
                 event.setTitle("插座");
                 event.setImage(R.drawable.socket_icon);
             }
