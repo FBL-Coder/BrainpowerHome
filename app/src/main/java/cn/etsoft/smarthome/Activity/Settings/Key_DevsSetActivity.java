@@ -77,6 +77,14 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                 if (datType == 11) {
                     IsNoData = false;
                     Key_DevsSetHelper.setInput_key_data(MyApplication.getWareData().getKeyOpItems());
+                    if (mKeyDevsKeysAdapter != null) {
+                        List<WareDev> devs = new ArrayList<>();
+                        for (int i = 0; i < mRoomDevs.size(); i++) {
+                            if (mRoomDevs.get(i).getType() == DevType)
+                                devs.add(mRoomDevs.get(i));
+                        }
+                        mKeyDevsKeysAdapter.notifyDataSetChanged(DevType, position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
+                    }
                 }
                 if (datType == 12 && MyApplication.getWareData().getResult() != null
                         && MyApplication.getWareData().getResult().getResult() == 1) {

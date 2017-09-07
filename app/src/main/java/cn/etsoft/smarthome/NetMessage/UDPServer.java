@@ -1484,7 +1484,7 @@ public class UDPServer implements Runnable {
      * 获取输入板设备详情
      */
     public void getKeyOpItem(String info) {
-
+        MyApplication.getWareData().setKeyOpItems(new ArrayList<WareKeyOpItem>());
 //        返回数据类型；
 //       {
 //        "devUnitID":	"39ffd505484d303408650743",
