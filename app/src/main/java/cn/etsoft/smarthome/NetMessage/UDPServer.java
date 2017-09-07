@@ -48,6 +48,7 @@ import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.Domain.WareSetBox;
 import cn.etsoft.smarthome.Domain.WareTv;
 import cn.etsoft.smarthome.MyApplication;
+import cn.etsoft.smarthome.UiHelper.Login_Helper;
 import cn.etsoft.smarthome.Utils.CommonUtils;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 
@@ -1647,6 +1648,20 @@ public class UDPServer implements Runnable {
 //        }],
 //            "itemCnt":	1
 //        }
+        try {
+            Gson gson = new Gson();
+            Timer_Data result = gson.fromJson(info, Timer_Data.class);
+            for (int i = 0; i < MyApplication.getWareData().getTimer_data().getTimerEvent_rows().size(); i++) {
+                if (MyApplication.getWareData().getTimer_data().getTimerEvent_rows().get(i).getEventId() ==
+                        result.getTimerEvent_rows().get(0).getEventId()) {
+                    MyApplication.getWareData().getTimer_data().getTimerEvent_rows()
+                            .set(i, result.getTimerEvent_rows().get(0));
+                }
+            }
+        } catch (Exception e) {
+            isFreshData = false;
+            Log.e(TAG, " UDPSever ===setTimerData_back()     -------Exception: " + e);
+        }
     }
 
     //获取触发器数据
