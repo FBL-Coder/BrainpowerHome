@@ -1,8 +1,8 @@
 package cn.etsoft.smarthome.Activity.Settings;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;

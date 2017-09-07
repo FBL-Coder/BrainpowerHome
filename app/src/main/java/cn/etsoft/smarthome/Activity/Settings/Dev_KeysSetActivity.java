@@ -81,9 +81,10 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                     Dev_KeysSetHelper.InitKeyData(position_keyinput, handler, mRoomDevs, devPosition);
                 }
                 if (datType == 15 && subtype1 == 1) {
-                    if (subtype2 == 1)
-                    ToastUtil.showText("保存成功");
-                    else ToastUtil.showText("保存失败");
+                    if (MyApplication.getWareData().getResult().getResult() == 1) {
+                        MyApplication.getWareData().setResult(null);
+                        ToastUtil.showText("保存成功");
+                    } else ToastUtil.showText("保存失败");
                 }
             }
         });
@@ -201,6 +202,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                     return;
                 }
                 if ("".equals(RoomName)) {
+
                     return;
                 }
                 mDevNullTv.setText("没有数据");

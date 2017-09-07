@@ -137,7 +137,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
                     mConditionWay.setText("选择触发方式");
                     mConditionType.setText("选择触发类别");
                 } else {
-                    mConditionName.setText(mBean.getEventName());
+                    mConditionName.setHint(mBean.getEventName());
                     mConditionChuFaZhi.setText(mBean.getValTh() + "");
                     if (mBean.getValid() == 1)
                         mShiNeng.setImageResource(R.drawable.checkbox1_selected);

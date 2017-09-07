@@ -67,6 +67,7 @@ public class DevInfosAdapter extends BaseAdapter {
         }
         mContext = context;
     }
+
     public void notifyDataSetChanged(List<WareDev> list) {
         RoomNames = MyApplication.getWareData().getRooms();
         Devs = list;
@@ -262,6 +263,7 @@ public class DevInfosAdapter extends BaseAdapter {
 //                    finalViewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
 //                    finalViewHolder.mDevInfoEditLook.setVisibility(View.GONE);
 //                    finalViewHolder.mDevInfoEdit.setImageResource(R.drawable.ic_launcher_round);
+
                     builder = new AlertDialog.Builder(mContext);
                     builder.setTitle("保存");
                     builder.setMessage("是否保存设置？");
@@ -280,8 +282,14 @@ public class DevInfosAdapter extends BaseAdapter {
                             }
                             //设备名数据处理
                             Save_DevName = finalViewHolder.mDevInfoEditName.getText().toString();
-                            if ("".equals(Save_DevName) || Save_DevName.length() > 6) {
+                            if ("".equals(Save_DevName))
+                                Save_DevName = finalViewHolder.mDevInfoEditName.getHint().toString();
+                            if (Save_DevName.length() > 6) {
                                 ToastUtil.showText("设备名称过长");
+                                return;
+                            }
+                            if ("".equals(Save_DevName)) {
+                                ToastUtil.showText("请输入设备名称");
                                 return;
                             }
                             try {
@@ -385,6 +393,7 @@ public class DevInfosAdapter extends BaseAdapter {
                                     "\"cmd\":" + 1 + "}";
                             MyApplication.mApplication.getUdpServer().send(chn_str);
                             MyApplication.mApplication.showLoadDialog(mContext);
+                            finalViewHolder.mDevInfoDelete.setImageResource(R.drawable.delete_edit_dev);
                         }
                     });
                     builder.setNegativeButton("不要", new DialogInterface.OnClickListener() {
