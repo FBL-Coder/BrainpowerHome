@@ -48,9 +48,17 @@ public class Net_AddorDel_Helper {
             ToastUtil.showText("模块名称过长或为空");
             return;
         }
-        if (id.isEmpty() || pass.isEmpty()) {
-            ToastUtil.showText("模块ID和模块密码不能为空");
+        if (id.isEmpty()) {
+            ToastUtil.showText("模块ID不能为空");
             return;
+        }
+        try {
+            if (pass.isEmpty()) {
+                ToastUtil.showText("模块密码不能为空");
+                return;
+            }
+        } catch (Exception e) {
+            pass = "";
         }
         MyApplication.mApplication.showLoadDialog(activity);
         Map<String, String> param = new HashMap<>();
