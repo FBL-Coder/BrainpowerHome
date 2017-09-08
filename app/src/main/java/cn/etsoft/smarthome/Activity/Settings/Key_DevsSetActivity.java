@@ -111,6 +111,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mKeyDevs_Keys.setLayoutManager(layoutManager);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
     }
 
     @Override
@@ -147,7 +148,6 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
         RecyclerViewClick();
         initEvent();
     }
-
 
     private void initRecycleView() {
         MyApplication.mApplication.showLoadDialog(Key_DevsSetActivity.this);

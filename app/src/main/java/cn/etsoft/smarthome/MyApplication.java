@@ -41,6 +41,7 @@ import cn.etsoft.smarthome.NetMessage.WebSocket_Client;
 import cn.etsoft.smarthome.Utils.CityDB;
 import cn.etsoft.smarthome.Utils.Data_Cache;
 import cn.etsoft.smarthome.Utils.GetIPAddress;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.Utils.WratherUtil;
 
 /**
@@ -179,11 +180,16 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             GlobalVars.setIPisEqual(GlobalVars.NOCOMPARE);
         else {
             String rcuInfo_Use_ip = rcuInfo_Use.getIpAddr();
+            if ("".equals(rcuInfo_Use_ip) || rcuInfo_Use_ip == null) {
+                GlobalVars.setIPisEqual(GlobalVars.IPDIFFERENT);
+                return;
+            }
             rcuInfo_Use_ip = rcuInfo_Use_ip.substring(0, rcuInfo_Use_ip.lastIndexOf("."));
 
             IPAddress = IPAddress.substring(0, IPAddress.lastIndexOf("."));
             if (rcuInfo_Use_ip.equals(IPAddress)) {//ip前三位一样，即局域网内的；
                 GlobalVars.setIPisEqual(GlobalVars.IPEQUAL);
+                SendDataUtil.getNetWorkInfo();
             } else {//网段不一样，公网；
                 GlobalVars.setIPisEqual(GlobalVars.IPDIFFERENT);
             }

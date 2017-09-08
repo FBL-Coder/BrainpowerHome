@@ -53,7 +53,7 @@ public class MyApplication extends cn.etsoft.smarthome.MyApplication {
 
     public static SharedPreferenceUtil getSharedPreferenceUtil() {
         if (preference == null) {
-            preference = new SharedPreferenceUtil(instance);
+            preference = new SharedPreferenceUtil(mContext);
         }
         return preference;
     }
