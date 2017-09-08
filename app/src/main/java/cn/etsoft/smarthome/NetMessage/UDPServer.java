@@ -27,6 +27,7 @@ import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.GroupSet_Data;
 import cn.etsoft.smarthome.Domain.RcuInfo;
+import cn.etsoft.smarthome.Domain.Safety_Data;
 import cn.etsoft.smarthome.Domain.SearchNet;
 import cn.etsoft.smarthome.Domain.SetEquipmentResult;
 import cn.etsoft.smarthome.Domain.SetSafetyResult;
@@ -737,7 +738,11 @@ public class UDPServer implements Runnable {
                         airCondDev.setDev(dev);
                         airCondDev.setbOnOff(jsonobj.getInt("bOnOff"));
                         airCondDev.setSelTemp(jsonobj.getInt("selTemp"));
-                        airCondDev.setSelMode(jsonobj.getInt("selMode"));
+                        try {
+                            airCondDev.setSelMode(jsonobj.getInt("selMode"));
+                        } catch (Exception e) {
+
+                        }
                         airCondDev.setSelSpd(jsonobj.getInt("selSpd"));
                         airCondDev.setPowChn(jsonobj.getInt("powChn"));
                         airCondDev.setSelDirect(jsonobj.getInt("selDirect"));
@@ -1607,6 +1612,27 @@ public class UDPServer implements Runnable {
         Gson gson = new Gson();
         Timer_Data result = gson.fromJson(info, Timer_Data.class);
         MyApplication.getWareData().setTimer_data(result);
+
+
+        List<Timer_Data.TimerEventRowsBean> rowsBeans = MyApplication.getWareData().getTimer_data().getTimerEvent_rows();
+        for (int i = 0; i < rowsBeans.size(); i++) {
+            List<Timer_Data.TimerEventRowsBean.RunDevItemBean> beans = rowsBeans.get(i).getRun_dev_item();
+            for (int j = 0; j < beans.size(); j++) {
+                boolean isContain = false;
+                for (int k = 0; k < MyApplication.getWareData().getDevs().size(); k++) {
+                    WareDev dev = MyApplication.getWareData().getDevs().get(k);
+                    if (beans.get(j).getCanCpuID().equals(dev.getCanCpuId())
+                            && beans.get(j).getDevID() == dev.getDevId()
+                            && beans.get(j).getDevType() == dev.getType()) {
+                        isContain = true;
+                    }
+                }
+                if (!isContain){
+                    beans.remove(j);
+                    j = 0;
+                }
+            }
+        }
     }
 
     //保存定时器 数据返回
@@ -1680,6 +1706,26 @@ public class UDPServer implements Runnable {
         Gson gson = new Gson();
         Condition_Event_Bean result = gson.fromJson(info, Condition_Event_Bean.class);
         MyApplication.getWareData().setCondition_event_bean(result);
+
+        List<Condition_Event_Bean.EnvEventRowsBean> rowsBeans = MyApplication.getWareData().getCondition_event_bean().getenvEvent_rows();
+        for (int i = 0; i < rowsBeans.size(); i++) {
+            List<Condition_Event_Bean.EnvEventRowsBean.RunDevItemBean> beans = rowsBeans.get(i).getRun_dev_item();
+            for (int j = 0; j < beans.size(); j++) {
+                boolean isContain = false;
+                for (int k = 0; k < MyApplication.getWareData().getDevs().size(); k++) {
+                    WareDev dev = MyApplication.getWareData().getDevs().get(k);
+                    if (beans.get(j).getCanCpuID().equals(dev.getCanCpuId())
+                            && beans.get(j).getDevID() == dev.getDevId()
+                            && beans.get(j).getDevType() == dev.getType()) {
+                        isContain = true;
+                    }
+                }
+                if (!isContain){
+                    beans.remove(j);
+                    j = 0;
+                }
+            }
+        }
     }
 
     //撤防、布防
@@ -1715,6 +1761,26 @@ public class UDPServer implements Runnable {
         Log.i("JSON", info);
         GroupSet_Data result = gson.fromJson(info, GroupSet_Data.class);
         MyApplication.getWareData().setmGroupSet_Data(result);
+
+        List<GroupSet_Data.SecsTriggerRowsBean> rowsBeans = MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows();
+        for (int i = 0; i < rowsBeans.size(); i++) {
+            List<GroupSet_Data.SecsTriggerRowsBean.RunDevItemBean> beans = rowsBeans.get(i).getRun_dev_item();
+            for (int j = 0; j < beans.size(); j++) {
+                boolean isContain = false;
+                for (int k = 0; k < MyApplication.getWareData().getDevs().size(); k++) {
+                    WareDev dev = MyApplication.getWareData().getDevs().get(k);
+                    if (beans.get(j).getCanCpuID().equals(dev.getCanCpuId())
+                            && beans.get(j).getDevID() == dev.getDevId()
+                            && beans.get(j).getDevType() == dev.getType()) {
+                        isContain = true;
+                    }
+                }
+                if (!isContain){
+                    beans.remove(j);
+                    j = 0;
+                }
+            }
+        }
     }
 
     /**
@@ -1797,6 +1863,26 @@ public class UDPServer implements Runnable {
         Gson gson = new Gson();
         SetSafetyResult result = gson.fromJson(info, SetSafetyResult.class);
         MyApplication.getWareData().setResult_safety(result);
+
+        List<SetSafetyResult.SecInfoRowsBean> rowsBeans = MyApplication.getWareData().getResult_safety().getSec_info_rows();
+        for (int i = 0; i < rowsBeans.size(); i++) {
+            List<SetSafetyResult.SecInfoRowsBean.RunDevItemBean> beans = rowsBeans.get(i).getRun_dev_item();
+            for (int j = 0; j < beans.size(); j++) {
+                boolean isContain = false;
+                for (int k = 0; k < MyApplication.getWareData().getDevs().size(); k++) {
+                    WareDev dev = MyApplication.getWareData().getDevs().get(k);
+                    if (beans.get(j).getCanCpuID().equals(dev.getCanCpuId())
+                            && beans.get(j).getDevID() == dev.getDevId()
+                            && beans.get(j).getDevType() == dev.getType()) {
+                        isContain = true;
+                    }
+                }
+                if (!isContain){
+                    beans.remove(j);
+                    j = 0;
+                }
+            }
+        }
     }
 
     /**
