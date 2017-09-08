@@ -161,12 +161,12 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onClickOuterCircle(int position, View view) {
                 DevType = position % 8;
-                if ("".equals(RoomName)) {
-                    return;
-                }
                 mNullTv.setText("没有数据");
                 OuterCircleClick = true;
                 DevType = position % 8;
+                if ("".equals(RoomName)) {
+                    return;
+                }
 
                 List<WareDev> RecyclerViewDev = new ArrayList<>();
                 for (int i = 0; i < mRoomDevs.size(); i++) {

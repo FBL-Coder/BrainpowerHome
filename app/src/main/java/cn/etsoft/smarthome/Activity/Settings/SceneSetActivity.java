@@ -158,11 +158,10 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                     return;
                 }
                 mNull_tv.setVisibility(View.GONE);
+                DevType = position % 8;
                 OuterCircleClick(SceneSetActivity.this, position, RoomName);
                 if (mSceneSetSceneClickListener != null)
                     mSceneSetSceneClickListener.SceneClickPosition(ScenePosition, position % 8, RoomName);
-                DevType = position % 8;
-
             }
         });
 
@@ -202,10 +201,10 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
      * 外圆菜单 点击事件
      */
     public void OuterCircleClick(FragmentActivity activity, int position, String RoomName) {
-        if ("".equals(RoomName)) {
-            ToastUtil.showText("请先选择房间");
-            return;
-        }
+//        if ("".equals(RoomName)) {
+//            ToastUtil.showText("请先选择房间");
+//            return;
+//        }
         FragmentManager manager = activity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
@@ -224,7 +223,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         bundle.putInt("ScenePosition", ScenePosition);
         switch (position) {
             case 0:
-            case 8:
+            case 9:
                 if (mAirFragment == null) {
                     mAirFragment = new AirSceneFragment();
                     mAirFragment.setArguments(bundle);
@@ -232,7 +231,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 } else transaction.show(mAirFragment);
                 break;
             case 1:
-            case 9:
+            case 10:
                 if (mTVFragment == null) {
                     mTVFragment = new TVSceneFragment();
                     mTVFragment.setArguments(bundle);
@@ -240,7 +239,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 } else transaction.show(mTVFragment);
                 break;
             case 2:
-            case 10:
+            case 11:
                 if (mTvUpFragment == null) {
                     mTvUpFragment = new TvUpSceneFragment();
                     mTvUpFragment.setArguments(bundle);
@@ -248,7 +247,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 } else transaction.show(mTvUpFragment);
                 break;
             case 3:
-            case 11:
+            case 12:
                 if (mLightFragment == null) {
                     mLightFragment = new LightSceneFragment();
                     mLightFragment.setArguments(bundle);
@@ -256,7 +255,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 } else transaction.show(mLightFragment);
                 break;
             case 4:
-            case 12:
+            case 13:
                 if (mCurFragment == null) {
                     mCurFragment = new CurtarnSceneFragment();
                     mCurFragment.setArguments(bundle);

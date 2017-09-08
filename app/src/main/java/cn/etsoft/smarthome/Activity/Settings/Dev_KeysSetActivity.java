@@ -201,14 +201,12 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                     ToastUtil.showText("数据未加载成功，不可操作！");
                     return;
                 }
-                if ("".equals(RoomName)) {
-
-                    return;
-                }
                 mDevNullTv.setText("没有数据");
                 OuterCircleClick = true;
                 DevType = position % 8;
-
+                if ("".equals(RoomName)) {
+                    return;
+                }
                 List<WareDev> RecyclerViewDev = new ArrayList<>();
                 for (int i = 0; i < mRoomDevs.size(); i++) {
                     if (mRoomDevs.get(i).getType() == DevType)
