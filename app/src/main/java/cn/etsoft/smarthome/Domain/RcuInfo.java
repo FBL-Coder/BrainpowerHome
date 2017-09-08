@@ -20,7 +20,7 @@ public class RcuInfo implements Serializable {
     private String devUnitID;
     private String devUnitPass;
     private String name;
-    private static String IpAddr;
+    private String IpAddr;
     private String SubMask;
     private String GateWay;
     private String centerServ;

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.lang.ref.WeakReference;
@@ -64,6 +65,14 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         MyApplication.addActivity(this);
         initView();
         initData();
+
+        //网络改变监听
+        BaseActivity.setGetNetChangeListener(new BaseActivity.getNetChangeListener() {
+            @Override
+            public void NetChange() {
+                MyApplication.mApplication.queryIP();
+            }
+        });
     }
 
 

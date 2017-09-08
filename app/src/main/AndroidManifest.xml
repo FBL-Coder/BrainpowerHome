@@ -69,6 +69,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
+        <!--&lt;!&ndash;网络监听&ndash;&gt;-->
+        <!--<receiver android:name="Utils.NetBroadcastReceiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+
         /* 智能家居页面 */
         <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////-->
         <!--引导页面-->

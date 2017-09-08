@@ -13,6 +13,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Window;
 
+import com.example.abc.mybaseactivity.NetWorkListener.AppNetworkMgr;
 import com.example.abc.mybaseactivity.Notifications.NotificationUtils;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
@@ -39,6 +40,7 @@ import cn.etsoft.smarthome.NetMessage.UDPServer;
 import cn.etsoft.smarthome.NetMessage.WebSocket_Client;
 import cn.etsoft.smarthome.Utils.CityDB;
 import cn.etsoft.smarthome.Utils.Data_Cache;
+import cn.etsoft.smarthome.Utils.GetIPAddress;
 import cn.etsoft.smarthome.Utils.WratherUtil;
 
 /**
@@ -85,6 +87,9 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public int DIALOG_DISMISS = 2222;
     //全局数据
     private static WareData mWareData;
+
+    //上次使用的联网模快ID;
+    private static RcuInfo rcuInfo_Use;
 
     public List<Weather_Bean> mWeathers_list;//天气图标集合
     public CityDB mCityDB;
@@ -149,9 +154,40 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
         sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
         music = sp.load(this, R.raw.key_sound, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
+        queryIP();
+    }
 
+    public static void queryIP() {
         //设置上次使用的联网模块ID；
         GlobalVars.setDevid((String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""));
+        List<RcuInfo> rcuInfos = MyApplication.mApplication.getRcuInfoList();
+        for (int i = 0; i < rcuInfos.size(); i++) {
+            if (GlobalVars.getDevid().equals(rcuInfos.get(i).getDevUnitID())) {
+                rcuInfo_Use = rcuInfos.get(i);
+            }
+        }
+        int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
+        String IPAddress = "";
+        if (NETWORK == 0) {
+            ToastUtil.showText("请检查网络连接");
+        } else if (NETWORK != 0 && NETWORK < 10) {//数据流量
+            IPAddress = GetIPAddress.getLocalIpAddress();
+        } else {
+            IPAddress = GetIPAddress.getWifiIP(MyApplication.mContext);
+        }
+        if ("".equals(IPAddress))
+            GlobalVars.setIPisEqual(GlobalVars.NOCOMPARE);
+        else {
+            String rcuInfo_Use_ip = rcuInfo_Use.getIpAddr();
+            rcuInfo_Use_ip = rcuInfo_Use_ip.substring(0, rcuInfo_Use_ip.lastIndexOf("."));
+
+            IPAddress = IPAddress.substring(0, IPAddress.lastIndexOf("."));
+            if (rcuInfo_Use_ip.equals(IPAddress)) {//ip前三位一样，即局域网内的；
+                GlobalVars.setIPisEqual(GlobalVars.IPEQUAL);
+            } else {//网段不一样，公网；
+                GlobalVars.setIPisEqual(GlobalVars.IPDIFFERENT);
+            }
+        }
     }
 
 
@@ -291,6 +327,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         progressDialog.setCancelable(false);
         return progressDialog;
     }
+
     /**
      * 加载框显示
      */

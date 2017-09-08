@@ -148,6 +148,7 @@ public abstract class BaseActivity extends FragmentActivity {
         NetBroadcastReceiver.setEvevt(new NetBroadcastReceiver.NetEvevtChangListener() {
             @Override
             public void onNetChange(int netMobile) {
+                getNetChangeListener.NetChange();
                 if (netMobile == NetUtil.NETWORK_NONE)
                     network.setVisibility(View.VISIBLE);
                 else network.setVisibility(View.GONE);
@@ -265,6 +266,16 @@ public abstract class BaseActivity extends FragmentActivity {
      */
     public abstract void initData();
 
+
+    public static getNetChangeListener getNetChangeListener;
+
+    public static void setGetNetChangeListener(BaseActivity.getNetChangeListener getNetChangeListener) {
+        BaseActivity.getNetChangeListener = getNetChangeListener;
+    }
+
+    public interface getNetChangeListener{
+        void NetChange();
+    }
 }
 
 

@@ -85,6 +85,7 @@ public class UDPServer implements Runnable {
     }
 
     public void webSocketData(String info) {
+        Log.i(TAG, "webSocket接收数据");
         extractData(info);
     }
 
@@ -135,20 +136,30 @@ public class UDPServer implements Runnable {
             Log.i("数据流量发送WebSocket", "WEB" + msg);
             MyApplication.mApplication.getWsClient().sendMsg(msg);
         } else {
-            MyApplication.setOnUdpgetDataNoBackListener(new MyApplication.OnUdpgetDataNoBackListener() {
-                @Override
-                public void WSSendDatd(String msg) {
-                    String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
-                    if ("".equals(GlobalVars.getDevid())) {
-                        return;
-                    }
-                    Log.i("Udp发送无返回，改WebSocket发送", "WEB" + jsonToServer);
-                    MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
-
-                    UdpSendMsg(msg);
-                }
-            });
-            if (!GlobalVars.isIsLAN()) {
+//            MyApplication.setOnUdpgetDataNoBackListener(new MyApplication.OnUdpgetDataNoBackListener() {
+//                @Override
+//                public void WSSendDatd(String msg) {
+//                    String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
+//                    if ("".equals(GlobalVars.getDevid())) {
+//                        return;
+//                    }
+//                    Log.i("Udp发送无返回，改WebSocket发送", "WEB" + jsonToServer);
+//                    MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
+//
+//                    UdpSendMsg(msg);
+//                }
+//            });
+//            if (!GlobalVars.isIsLAN()) {
+//                if ("".equals(GlobalVars.getDevid())) {
+//                    return;
+//                }
+//                String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
+//                Log.i("发送WebSocket", "WEB" + jsonToServer);
+//                MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
+//            } else {
+//                UdpSendMsg(msg);
+//            }
+            if (GlobalVars.isIPisEqual() == GlobalVars.IPDIFFERENT) {
                 if ("".equals(GlobalVars.getDevid())) {
                     return;
                 }
@@ -532,26 +543,25 @@ public class UDPServer implements Runnable {
         }
 //        获取联网模块的返回数据类型；
 //        {
-//        "devUnitID":	"39ffdb05484d303430690543",
+//            "devUnitID":	"39ffd805484d303408580143",
 //                "datType":	0,
 //                "subType1":	0,
 //                "subType2":	1,
 //                "rcu_rows":	[{
-//            "canCpuID":	"39ffdb05484d303430690543",
-//                    "devUnitPass":	"30690543�\b@",
-//                    "canCpuName":	"我的板子",
-//                    "name":	"",
-//                    "IpAddr":	"",
-//                    "SubMask":	"",
-//                    "Gateway":	"",
-//                    "centerServ":	"",
+//            "uid":	"39ffd805484d303408580143",
+//                    "pass":	"39ffd805",
+//                    "name":	"52435530313433",
+//                    "IpAddr":	"131.107.1.108",
+//                    "SubMask":	"255.255.255.0",
+//                    "Gateway":	"131.107.1.1",
+//                    "centerServ":	"123.206.104.89",
 //                    "roomNum":	"",
-//                    "macAddr":	"",
+//                    "macAddr":	"00502a040106",
 //                    "SoftVersion":	"",
 //                    "HwVersion":	"",
 //                    "bDhcp":	0
 //        }]
-//    }
+//        }
 
         List<RcuInfo> json_list = new ArrayList<>();
         String json_rcuinfo_list = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
