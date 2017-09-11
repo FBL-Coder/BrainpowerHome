@@ -52,10 +52,15 @@ public class Scene_KeysSetHelper {
      */
     public static List<CircleDataEvent> initSceneCircleOUterData(boolean IsClick, int position) {
 
-        if (MyApplication.getWareData().getSceneEvents().size() == 0)
+        int SceneSize = MyApplication.getWareData().getSceneEvents().size();
+        if (SceneSize == 0)
             return new ArrayList<>();
+        int num = 0;
+        if (SceneSize <= 2) num = 4;
+        else if (SceneSize > 2 && SceneSize < 5) num = 6;
+        else num = 8;
         List<CircleDataEvent> list = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < num; i++) {
             CircleDataEvent event = new CircleDataEvent();
             event.setTitle(MyApplication.getWareData().getSceneEvents().get(
                     i % MyApplication.getWareData().getSceneEvents().size()).getSceneName());

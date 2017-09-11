@@ -47,7 +47,7 @@ public class GroupSetHelper {
             event.setTitle(WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows()
                     .get(i % WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows()
                             .size()).getTriggerName());
-            event.setImage(R.drawable.timer_icon);
+            event.setImage(R.drawable.group_icon);
             if (IsClick && i == position)
                 event.setSelect(true);
             list.add(event);

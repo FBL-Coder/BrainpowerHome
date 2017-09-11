@@ -126,7 +126,7 @@
                     android:paddingLeft="@dimen/dp_40"
                     android:paddingRight="@dimen/dp_40"
                     android:paddingTop="@dimen/sp_40"
-                    android:src="@drawable/set_scene" />
+                    android:src="@drawable/anjian_icon" />
 
                 <TextView
                     android:layout_width="match_parent"

@@ -100,14 +100,14 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mHome_Safety.setOnClickListener(this);
         mHome_JiaDian = (BamLinearLayout) findViewById(R.id.Home_JiaDian);
         mHome_JiaDian.setOnClickListener(this);
-        mHome_State = (BamLinearLayout) findViewById(R.id.Home_State);
-        mHome_State.setOnClickListener(this);
+//        mHome_State = (BamLinearLayout) findViewById(R.id.Home_State);
+//        mHome_State.setOnClickListener(this);
         mHome_Scene = (BamLinearLayout) findViewById(R.id.Home_Scene);
         mHome_Scene.setOnClickListener(this);
-        mHome_Timer = (BamLinearLayout) findViewById(R.id.Home_Timer);
-        mHome_Timer.setOnClickListener(this);
-        mHome_Health = (BamLinearLayout) findViewById(R.id.Home_Health);
-        mHome_Health.setOnClickListener(this);
+//        mHome_Timer = (BamLinearLayout) findViewById(R.id.Home_Timer);
+//        mHome_Timer.setOnClickListener(this);
+//        mHome_Health = (BamLinearLayout) findViewById(R.id.Home_Health);
+//        mHome_Health.setOnClickListener(this);
         mHome_Setting = (BamLinearLayout) findViewById(R.id.Home_Setting);
         mHome_Setting.setOnClickListener(this);
     }
@@ -141,17 +141,17 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             case R.id.Home_JiaDian:
                 startActivity(new Intent(HomeActivity.this,ControlActivity.class));
                 break;
-            case R.id.Home_State:
-                break;
+//            case R.id.Home_State:
+//                break;
             case R.id.Home_Scene:
                 startActivity(new Intent(HomeActivity.this,ControlSceneActivity.class));
                 break;
-            case R.id.Home_Timer:
-                SendDataUtil.getTimerInfo();
-                startActivity(new Intent(HomeActivity.this, TimerInfoActivity.class));
-                break;
-            case R.id.Home_Health:
-                break;
+//            case R.id.Home_Timer:
+//                SendDataUtil.getTimerInfo();
+//                startActivity(new Intent(HomeActivity.this, TimerInfoActivity.class));
+//                break;
+//            case R.id.Home_Health:
+//                break;
             case R.id.Home_Setting:
                 startActivity(new Intent(HomeActivity.this,SettingActivity.class));
                 break;
