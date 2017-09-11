@@ -203,7 +203,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                 }
                 mDevNullTv.setText("没有数据");
                 OuterCircleClick = true;
-                DevType = position % 8;
+                DevType = position % 10;
                 if ("".equals(RoomName)) {
                     return;
                 }

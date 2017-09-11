@@ -82,6 +82,20 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
             texts.add("关闭");
             texts.add("开关停");
             texts.add("停止");
+        }else if (DevType == 7) {
+            texts = new ArrayList<>();
+            texts.add("未设置");
+            texts.add("打开");
+            texts.add("关闭");
+//            texts.add("开关停");
+//            texts.add("停止");
+        }else if (DevType == 9) {
+            texts = new ArrayList<>();
+            texts.add("未设置");
+            texts.add("打开");
+            texts.add("关闭");
+//            texts.add("开关停");
+//            texts.add("停止");
         }
         if (IsShowSelect) {
             listData = new ArrayList<>();
@@ -155,6 +169,16 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
                 listData.get(position).setKey_cmd(0);
             viewHoler.rotateControButton.setTitle("打开", "按键命令", "停止");
             viewHoler.rotateControButton.setTemp(0, 4, listData.get(position).getKey_cmd(), texts);
+        }else if (DevType == 7) {
+            if (listData.get(position).getKey_cmd() > 4)
+                listData.get(position).setKey_cmd(0);
+            viewHoler.rotateControButton.setTitle("打开", "按键命令", "关闭");
+            viewHoler.rotateControButton.setTemp(0, 2, listData.get(position).getKey_cmd(), texts);
+        }else if (DevType == 9) {
+            if (listData.get(position).getKey_cmd() > 4)
+                listData.get(position).setKey_cmd(0);
+            viewHoler.rotateControButton.setTitle("打开", "按键命令", "关闭");
+            viewHoler.rotateControButton.setTemp(0, 2, listData.get(position).getKey_cmd(), texts);
         }
 
         viewHoler.mName.setText(listData.get(position).getKeyname());

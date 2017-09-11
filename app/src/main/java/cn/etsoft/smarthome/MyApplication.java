@@ -465,7 +465,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             }
             if (msg.what == application.WS_Error) {
                 Log.e("WSException", "数据异常" + msg.obj);
-                ToastUtil.showText("数据发送失败，与服务器连接已断开，请稍后再试！");
+//                ToastUtil.showText("数据发送失败，与服务器连接已断开，请稍后再试！");
             }
             //UDP数据报
             if (msg.what == application.UDP_DATA_OK) {

@@ -30,6 +30,7 @@ import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.Domain.WareBoardChnout;
 import cn.etsoft.smarthome.Domain.WareCurtain;
 import cn.etsoft.smarthome.Domain.WareDev;
+import cn.etsoft.smarthome.Domain.WareFloorHeat;
 import cn.etsoft.smarthome.Domain.WareFreshAir;
 import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.MyApplication;
@@ -611,6 +612,36 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoEditName.setHint(freshAir.getDev().getDevName());
                     viewHolder.mDevInfoEditWay.setText(freshAir.getPowChn() + "");
                     viewHolder.mDevInfoEditType.setText("新风");
+                }
+            }
+        } else if (Devs.get(position).getType() == 9) {//地暖
+            List<WareFloorHeat> floorHeats = MyApplication.getWareData().getFloorHeat();
+            for (int i = 0; i < floorHeats.size(); i++) {
+                if (Devs.get(position).getCanCpuId().equals(floorHeats.get(i).getDev().getCanCpuId())
+                        && Devs.get(position).getDevId() == floorHeats.get(i).getDev().getDevId() &&
+                        Devs.get(position).getType() == floorHeats.get(i).getDev().getType()) {
+                    WareFloorHeat floorHeat = floorHeats.get(i);
+                    String BoardName = "";
+                    for (int j = 0; j < MyApplication.getWareData().getBoardChnouts().size(); j++) {
+                        WareBoardChnout chnout = MyApplication.getWareData().getBoardChnouts().get(j);
+                        if (Devs.get(position).getCanCpuId().equals(chnout.getDevUnitID())) {
+                            BoardName = chnout.getBoardName();
+                        }
+                    }
+                    //可视布局数据
+                    viewHolder.mDevInfoName.setText(floorHeat.getDev().getDevName());
+                    viewHolder.mDevInfoRoom.setText(floorHeat.getDev().getRoomName());
+                    viewHolder.mDevInfoType.setText("地暖");
+                    viewHolder.mDevInfoWay.setText(floorHeat.getPowChn() + "");
+                    if ("".equals(BoardName))
+                        viewHolder.mDevInfoOutBoard.setText("数据解析出错");
+                    viewHolder.mDevInfoOutBoard.setText(BoardName);
+
+                    //不可视布局数据
+                    viewHolder.mDevInfoEditRoom.setText(floorHeat.getDev().getRoomName());
+                    viewHolder.mDevInfoEditName.setHint(floorHeat.getDev().getDevName());
+                    viewHolder.mDevInfoEditWay.setText(floorHeat.getPowChn() + "");
+                    viewHolder.mDevInfoEditType.setText("地暖");
                 }
             }
         }

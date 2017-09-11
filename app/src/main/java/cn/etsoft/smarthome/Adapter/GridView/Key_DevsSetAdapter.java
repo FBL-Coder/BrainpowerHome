@@ -91,6 +91,20 @@ public class Key_DevsSetAdapter extends BaseAdapter {
             texts.add("关闭");
             texts.add("开关停");
             texts.add("停止");
+        }else if (DevType == 7) {
+            texts = new ArrayList<>();
+            texts.add("未设置");
+            texts.add("打开");
+            texts.add("关闭");
+//            texts.add("开关停");
+//            texts.add("停止");
+        }else if (DevType == 9) {
+            texts = new ArrayList<>();
+            texts.add("未设置");
+            texts.add("打开");
+            texts.add("关闭");
+//            texts.add("开关停");
+//            texts.add("停止");
         }
         //给所有设备和按键关联的赋值
         for (int j = 0; j < roomDevs.size(); j++) {
@@ -168,6 +182,18 @@ public class Key_DevsSetAdapter extends BaseAdapter {
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "停止");
             viewHoler.mRotateControButton.setTemp(0, 4, listData.get(position).getCmd(), texts);
+        } else if (DevType == 7) {
+            viewHoler.mIconListItem.setImageResource(R.drawable.cl_dev_item_close);
+            if (listData.get(position).getCmd() > 4)
+                listData.get(position).setCmd(0);
+            viewHoler.mRotateControButton.setTitle("打开", "设备命令", "关闭");
+            viewHoler.mRotateControButton.setTemp(0, 2, listData.get(position).getCmd(), texts);
+        } else if (DevType == 9) {
+            viewHoler.mIconListItem.setImageResource(R.drawable.cl_dev_item_close);
+            if (listData.get(position).getCmd() > 4)
+                listData.get(position).setCmd(0);
+            viewHoler.mRotateControButton.setTitle("打开", "设备命令", "关闭");
+            viewHoler.mRotateControButton.setTemp(0, 2, listData.get(position).getCmd(), texts);
         }
         viewHoler.mName.setText(listData.get(position).getDevName());
 
@@ -238,6 +264,7 @@ public class Key_DevsSetAdapter extends BaseAdapter {
 
         return convertView;
     }
+
     public static class ViewHolder {
         public View rootView;
         public ImageView mIconListItem;

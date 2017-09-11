@@ -120,7 +120,7 @@ public class DevInfoActivity extends BaseActivity {
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-                DevType = position % 9;
+                DevType = position % 10;
                 OuterCircleClick = true;
                 if ("".equals(RoomName)) {
                     return;

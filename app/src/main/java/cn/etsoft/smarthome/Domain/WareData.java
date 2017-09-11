@@ -17,6 +17,7 @@ public class WareData implements Serializable {
     private List<WareAirCondDev> airConds;
     private List<WareCurtain> curtains;
     private List<WareFreshAir> freshAirs;
+    private List<WareFloorHeat> floorHeat;
     private List<WareSceneEvent> sceneEvents;
     private List<WareBoardChnout> boardChnouts;
     private List<WareBoardKeyInput> keyInputs;
@@ -216,11 +217,24 @@ public class WareData implements Serializable {
     }
 
     public List<WareFreshAir> getFreshAirs() {
+        if (freshAirs == null)
+            freshAirs = new ArrayList<>();
         return freshAirs;
     }
 
     public void setFreshAirs(List<WareFreshAir> freshAirs) {
         this.freshAirs = freshAirs;
+    }
+
+
+    public List<WareFloorHeat> getFloorHeat() {
+        if (floorHeat == null)
+            floorHeat = new ArrayList<>();
+        return floorHeat;
+    }
+
+    public void setFloorHeat(List<WareFloorHeat> floorHeat) {
+        this.floorHeat = floorHeat;
     }
 
     /**

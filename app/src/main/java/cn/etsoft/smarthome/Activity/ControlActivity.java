@@ -88,7 +88,7 @@ public class ControlActivity extends BaseActivity {
             public void onClickOuterCircle(int position, View view) {
                 OutCircleposition = position;
                 mNull_tv.setVisibility(View.GONE);
-                DevType = position % 8;
+                DevType = position % 10;
                 OuterCircleClick(ControlActivity.this, DevType, RoomName);
             }
         });

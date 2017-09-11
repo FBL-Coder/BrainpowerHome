@@ -158,7 +158,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                     return;
                 }
                 mNull_tv.setVisibility(View.GONE);
-                DevType = position % 8;
+                DevType = position % 10;
                 OuterCircleClick(SceneSetActivity.this, position, RoomName);
                 if (mSceneSetSceneClickListener != null)
                     mSceneSetSceneClickListener.SceneClickPosition(ScenePosition, position % 8, RoomName);

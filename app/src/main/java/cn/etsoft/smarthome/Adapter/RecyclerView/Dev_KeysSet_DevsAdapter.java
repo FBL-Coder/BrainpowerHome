@@ -67,6 +67,8 @@ public class Dev_KeysSet_DevsAdapter extends RecyclerView.Adapter<Dev_KeysSet_De
             holder.iv.setImageResource(R.drawable.ic_launcher);
         else if (list.get(position).getType() == 8)
             holder.iv.setImageResource(R.drawable.ic_launcher);
+        else if (list.get(position).getType() == 9)
+            holder.iv.setImageResource(R.drawable.ic_launcher);
 
         holder.tv.setText(list.get(position).getDevName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
