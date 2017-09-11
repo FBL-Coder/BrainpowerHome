@@ -20,6 +20,8 @@ import java.util.List;
 import cn.etsoft.smarthome.Adapter.RecyclerView.SceneSet_ScenesAdapter;
 import cn.etsoft.smarthome.Fragment.SceneSet.AirSceneFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.CurtarnSceneFragment;
+import cn.etsoft.smarthome.Fragment.SceneSet.FloorHeatFragment;
+import cn.etsoft.smarthome.Fragment.SceneSet.FreshAirFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.LightSceneFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.TVSceneFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.TvUpSceneFragment;
@@ -44,7 +46,8 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
     private RecyclerView mSceneSetScenes;
     private TextView mSceneSet_Add_Btn, mSceneSetTestBtn, mSceneSetSaveBtn,mNull_tv;
     private SceneSet_ScenesAdapter mScenesAdapter;
-    private Fragment mLightFragment, mAirFragment, mTVFragment, mTvUpFragment, mCurFragment;
+    private Fragment mLightFragment, mAirFragment, mTVFragment,
+            mTvUpFragment, mCurFragment,mFreshAirFragment,mFloorHeatFragment;
     private int ScenePosition = 0, DevType = -1;
     private String RoomName = "";
     private boolean IsNoData = true;
@@ -218,12 +221,16 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             transaction.hide(mAirFragment);
         if (mLightFragment != null)
             transaction.hide(mLightFragment);
+        if (mFreshAirFragment != null)
+            transaction.hide(mFreshAirFragment);
+        if (mFloorHeatFragment != null)
+            transaction.hide(mFloorHeatFragment);
         Bundle bundle = new Bundle();
         bundle.putString("RoomName", RoomName);
         bundle.putInt("ScenePosition", ScenePosition);
         switch (position) {
             case 0:
-            case 9:
+            case 10:
                 if (mAirFragment == null) {
                     mAirFragment = new AirSceneFragment();
                     mAirFragment.setArguments(bundle);
@@ -231,7 +238,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 } else transaction.show(mAirFragment);
                 break;
             case 1:
-            case 10:
+            case 11:
                 if (mTVFragment == null) {
                     mTVFragment = new TVSceneFragment();
                     mTVFragment.setArguments(bundle);
@@ -239,7 +246,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 } else transaction.show(mTVFragment);
                 break;
             case 2:
-            case 11:
+            case 12:
                 if (mTvUpFragment == null) {
                     mTvUpFragment = new TvUpSceneFragment();
                     mTvUpFragment.setArguments(bundle);
@@ -247,7 +254,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 } else transaction.show(mTvUpFragment);
                 break;
             case 3:
-            case 12:
+            case 13:
                 if (mLightFragment == null) {
                     mLightFragment = new LightSceneFragment();
                     mLightFragment.setArguments(bundle);
@@ -255,7 +262,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 } else transaction.show(mLightFragment);
                 break;
             case 4:
-            case 13:
+            case 14:
                 if (mCurFragment == null) {
                     mCurFragment = new CurtarnSceneFragment();
                     mCurFragment.setArguments(bundle);
@@ -265,7 +272,22 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             case 5:
                 break;
             case 6:
-            case 14:
+
+                break;
+            case 7:
+                if (mFreshAirFragment == null) {
+                    mFreshAirFragment = new FreshAirFragment();
+                    mFreshAirFragment.setArguments(bundle);
+                    transaction.add(R.id.SceneSet_Info, mFreshAirFragment);
+                } else transaction.show(mFreshAirFragment);
+
+                break;
+            case 9:
+                if (mFloorHeatFragment == null) {
+                    mFloorHeatFragment = new FloorHeatFragment();
+                    mFloorHeatFragment.setArguments(bundle);
+                    transaction.add(R.id.SceneSet_Info, mFloorHeatFragment);
+                } else transaction.show(mFloorHeatFragment);
 
                 break;
         }

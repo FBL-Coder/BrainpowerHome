@@ -17,6 +17,7 @@ import java.util.List;
 import cn.etsoft.smarthome.Domain.WareFreshAir;
 import cn.etsoft.smarthome.Fragment.Control.AirControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.CurtarnControlFragment;
+import cn.etsoft.smarthome.Fragment.Control.FloorHeatFragment;
 import cn.etsoft.smarthome.Fragment.Control.FreshAirFragment;
 import cn.etsoft.smarthome.Fragment.Control.LightControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.TVControlFragment;
@@ -38,7 +39,9 @@ public class ControlActivity extends BaseActivity {
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
-    private Fragment mLightFragment, mAirFragment, mTVFragment, mTvUpFragment, mCurFragment,mFreshAirFragment;
+    private Fragment mLightFragment, mAirFragment,
+            mTVFragment, mTvUpFragment, mCurFragment,
+            mFreshAirFragment,mFloorHeatFragment;
     private int DevType = 0, OutCircleposition = -1;
     private String RoomName = "";
     private TextView mNull_tv;
@@ -117,6 +120,8 @@ public class ControlActivity extends BaseActivity {
             transaction.hide(mLightFragment);
         if (mFreshAirFragment != null)
             transaction.hide(mFreshAirFragment);
+        if (mFloorHeatFragment != null)
+            transaction.hide(mFloorHeatFragment);
         Bundle bundle = new Bundle();
         bundle.putString("RoomName", RoomName);
         switch (position) {
@@ -149,6 +154,13 @@ public class ControlActivity extends BaseActivity {
                     mFreshAirFragment.setArguments(bundle);
                     transaction.add(R.id.SceneSet_Info, mFreshAirFragment);
                 } else transaction.show(mFreshAirFragment);
+                break;
+            case 9:
+                if (mFloorHeatFragment == null) {
+                    mFloorHeatFragment = new FloorHeatFragment();
+                    mFloorHeatFragment.setArguments(bundle);
+                    transaction.add(R.id.SceneSet_Info, mFloorHeatFragment);
+                } else transaction.show(mFloorHeatFragment);
                 break;
             case 3:
                 if (mLightFragment == null) {

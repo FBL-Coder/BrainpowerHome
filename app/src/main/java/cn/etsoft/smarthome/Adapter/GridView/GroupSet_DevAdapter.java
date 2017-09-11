@@ -13,6 +13,7 @@ import java.util.List;
 import cn.etsoft.smarthome.Domain.GroupSet_Data;
 import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.Domain.WareCurtain;
+import cn.etsoft.smarthome.Domain.WareFloorHeat;
 import cn.etsoft.smarthome.Domain.WareFreshAir;
 import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.Domain.WareSetBox;
@@ -156,10 +157,26 @@ public class GroupSet_DevAdapter extends BaseAdapter {
                         timer_list.get(position).getCanCpuID().endsWith(freshAir.getDev().getCanCpuId())) {
                     viewHolder.name.setText(freshAir.getDev().getDevName());
                     if (timer_list.get(position).getBOnOff() == 0) {
-                        viewHolder.type.setImageResource(R.drawable.cl_dev_item_close);
+                        viewHolder.type.setImageResource(R.drawable.freshair_close);
                         viewHolder.state.setText("关闭");
                     } else {
-                        viewHolder.type.setImageResource(R.drawable.cl_dev_item_open);
+                        viewHolder.type.setImageResource(R.drawable.freshair_open);
+                        viewHolder.state.setText("打开");
+                    }
+                }
+            }
+        }
+        else if (type_dev == 9) {
+            for (int j = 0; j < MyApplication.getWareData().getCurtains().size(); j++) {
+                WareFloorHeat floorHeat = MyApplication.getWareData().getFloorHeat().get(j);
+                if (timer_list.get(position).getDevID() == floorHeat.getDev().getDevId() &&
+                        timer_list.get(position).getCanCpuID().endsWith(floorHeat.getDev().getCanCpuId())) {
+                    viewHolder.name.setText(floorHeat.getDev().getDevName());
+                    if (timer_list.get(position).getBOnOff() == 0) {
+                        viewHolder.type.setImageResource(R.drawable.floorheat_close);
+                        viewHolder.state.setText("关闭");
+                    } else {
+                        viewHolder.type.setImageResource(R.drawable.floorheat_open);
                         viewHolder.state.setText("打开");
                     }
                 }

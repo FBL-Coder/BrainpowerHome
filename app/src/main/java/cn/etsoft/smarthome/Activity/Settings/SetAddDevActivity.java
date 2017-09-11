@@ -160,10 +160,9 @@ public class SetAddDevActivity extends BaseActivity implements View.OnClickListe
         mCirclelayout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-                DevType = position % 8;
+                DevType = position % 10;
                 mNullTv.setText("没有数据");
                 OuterCircleClick = true;
-                DevType = position % 8;
                 if ("".equals(RoomName)) {
                     return;
                 }

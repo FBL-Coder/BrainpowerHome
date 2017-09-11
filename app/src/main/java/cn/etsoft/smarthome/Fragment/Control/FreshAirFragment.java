@@ -9,24 +9,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Activity.ControlActivity;
+import cn.etsoft.smarthome.Adapter.GridView.Control_FreshAir_Adapter;
+import cn.etsoft.smarthome.Domain.WareFreshAir;
 import cn.etsoft.smarthome.Domain.WareSetBox;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
 
 /**
- * Author：FBL  Time： 2017/8/29.
+ * Author：FBL  Time： 2017/8/
+ * 新风控制   Fragment
+ *
  */
 
 public class FreshAirFragment extends BaseFragment {
-    private GridView mSceneSet_Girdview;
+    private GridView mGirdview;
     private String mRoomName = "全部";
-    private List<WareSetBox> mTvUp_Room;
+    private List<WareFreshAir> mFreshAir_Rooms;
     private String DEVS_ALL_ROOM = "全部";
+    private Control_FreshAir_Adapter mAdapter;
 
     @Override
     protected void initView() {
-        mSceneSet_Girdview = findViewById(R.id.Control_Fragment_GridView);
+        mGirdview = findViewById(R.id.Control_Fragment_GridView);
     }
 
     @Override
@@ -36,25 +41,25 @@ public class FreshAirFragment extends BaseFragment {
     }
 
     private void initDev() {
-        List<WareSetBox> TvUps;
-        TvUps = MyApplication.getWareData().getStbs();
+        List<WareFreshAir> freshAirs;
+        freshAirs = MyApplication.getWareData().getFreshAirs();
         //房间内的灯集合
-        mTvUp_Room = new ArrayList<>();
+        mFreshAir_Rooms = new ArrayList<>();
         //根据房间id获取设备；
         if (DEVS_ALL_ROOM.equals(mRoomName)) {
-            mTvUp_Room.addAll(TvUps);
+            mFreshAir_Rooms.addAll(freshAirs);
         } else {
-            for (int i = 0; i < TvUps.size(); i++) {
-                if (TvUps.get(i).getDev().getRoomName().equals(mRoomName)) {
-                    mTvUp_Room.add(TvUps.get(i));
+            for (int i = 0; i < freshAirs.size(); i++) {
+                if (freshAirs.get(i).getDev().getRoomName().equals(mRoomName)) {
+                    mFreshAir_Rooms.add(freshAirs.get(i));
                 }
             }
         }
-//        if (mTvUpAdapter == null) {
-//            mTvUpAdapter = new SceneSet_TvUp_Adapter(mScenePosition, mActivity, mTvUp_Room, IsShowSelect);
-//            mSceneSet_Girdview.setAdapter(mTvUpAdapter);
-//        } else
-//            mTvUpAdapter.notifyDataSetChanged(mTvUp_Room, mScenePosition, IsShowSelect);
+        if (mAdapter == null) {
+            mAdapter = new Control_FreshAir_Adapter(mActivity, mFreshAir_Rooms);
+            mGirdview.setAdapter(mAdapter);
+        } else
+            mAdapter.notifyDataSetChanged(mFreshAir_Rooms);
     }
 
     @Override
