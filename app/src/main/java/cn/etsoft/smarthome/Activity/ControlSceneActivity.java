@@ -1,6 +1,8 @@
 package cn.etsoft.smarthome.Activity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -107,7 +109,25 @@ public class ControlSceneActivity extends BaseActivity implements View.OnClickLi
                     ToastUtil.showText("请选择情景");
                     return;
                 }
-                SendDataUtil.executelScene(mSceneDatas.get(mScenePosition).getEventId());
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ControlSceneActivity.this);
+                builder.setTitle("提示");
+                builder.setMessage("您是否启用此情景？");
+                builder.setPositiveButton("启用", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        SendDataUtil.executelScene(mSceneDatas.get(mScenePosition).getEventId());
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.create().show();
+
             }
         });
     }

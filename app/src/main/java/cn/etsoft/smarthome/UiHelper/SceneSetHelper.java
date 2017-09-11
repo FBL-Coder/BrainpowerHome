@@ -82,7 +82,7 @@ public class SceneSetHelper {
             }
             if (i == 7) {
                 event.setTitle("新风");
-                event.setImage(R.drawable.ic_launcher);
+                event.setImage(R.drawable.freshair);
             }
             if (i == 8) {
                 event.setTitle("插座");
@@ -90,7 +90,7 @@ public class SceneSetHelper {
             }
             if (i == 9) {
                 event.setTitle("地暖");
-                event.setImage(R.drawable.ic_launcher);
+                event.setImage(R.drawable.floorheat);
             }
             Data_OuterCircleList.add(event);
         }

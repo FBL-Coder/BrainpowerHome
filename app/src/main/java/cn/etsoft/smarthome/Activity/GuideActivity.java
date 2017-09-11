@@ -50,9 +50,9 @@ public class GuideActivity extends Activity {
         View view2 = View.inflate(this, R.layout.viewpage_guide_item, null);
         View view3 = View.inflate(this, R.layout.viewpage_guide_item, null);
 
-        ((ImageView) view1.findViewById(R.id.tv_pic)).setImageResource(R.mipmap.ic_launcher);
-        ((ImageView) view2.findViewById(R.id.tv_pic)).setImageResource(R.mipmap.ic_launcher);
-        ((ImageView) view3.findViewById(R.id.tv_pic)).setImageResource(R.mipmap.ic_launcher);
+        ((ImageView) view1.findViewById(R.id.tv_pic)).setImageResource(R.drawable.one_1);
+        ((ImageView) view2.findViewById(R.id.tv_pic)).setImageResource(R.drawable.two_2);
+        ((ImageView) view3.findViewById(R.id.tv_pic)).setImageResource(R.drawable.three_3);
 
         mBtnGo.setOnClickListener(new View.OnClickListener() {
             @Override

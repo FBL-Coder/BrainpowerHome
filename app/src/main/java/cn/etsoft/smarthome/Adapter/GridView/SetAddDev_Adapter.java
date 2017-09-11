@@ -120,8 +120,12 @@ public class SetAddDev_Adapter extends BaseAdapter {
             else viewHoler.mIV.setImageResource(R.drawable.cl_dev_item_open);
         } else if (mAllDevs.get(position).getType() == 7) {
             if (mAllDevs.get(position).getbOnOff() == 0)
-                viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
-            else viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
+                viewHoler.mIV.setImageResource(R.drawable.freshair_close);
+            else viewHoler.mIV.setImageResource(R.drawable.freshair_open);
+        }else if (mAllDevs.get(position).getType() == 9) {
+            if (mAllDevs.get(position).getbOnOff() == 0)
+                viewHoler.mIV.setImageResource(R.drawable.floorheat_close);
+            else viewHoler.mIV.setImageResource(R.drawable.floorheat_open);
         }
         viewHoler.mSelect.setImageResource(R.drawable.select_no);
 
@@ -146,8 +150,12 @@ public class SetAddDev_Adapter extends BaseAdapter {
                         else viewHoler.mIV.setImageResource(R.drawable.cl_dev_item_open);
                     } else if (mAllDevs.get(position).getType() == 7) {
                         if (mAllDevs.get(position).getbOnOff() == 0)
-                            viewHoler.mIV.setImageResource(R.drawable.ic_launcher);
-                        else viewHoler.mIV.setImageResource(R.drawable.ic_launcher_round);
+                            viewHoler.mIV.setImageResource(R.drawable.freshair_close);
+                        else viewHoler.mIV.setImageResource(R.drawable.freshair_open);
+                    }else if (mAllDevs.get(position).getType() == 9) {
+                        if (mAllDevs.get(position).getbOnOff() == 0)
+                            viewHoler.mIV.setImageResource(R.drawable.floorheat_close);
+                        else viewHoler.mIV.setImageResource(R.drawable.floorheat_open);
                     }
                 }
             }

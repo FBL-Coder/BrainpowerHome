@@ -183,13 +183,13 @@ public class Key_DevsSetAdapter extends BaseAdapter {
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "停止");
             viewHoler.mRotateControButton.setTemp(0, 4, listData.get(position).getCmd(), texts);
         } else if (DevType == 7) {
-            viewHoler.mIconListItem.setImageResource(R.drawable.cl_dev_item_close);
+            viewHoler.mIconListItem.setImageResource(R.drawable.freshair_close);
             if (listData.get(position).getCmd() > 4)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "关闭");
             viewHoler.mRotateControButton.setTemp(0, 2, listData.get(position).getCmd(), texts);
         } else if (DevType == 9) {
-            viewHoler.mIconListItem.setImageResource(R.drawable.cl_dev_item_close);
+            viewHoler.mIconListItem.setImageResource(R.drawable.floorheat_close);
             if (listData.get(position).getCmd() > 4)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "关闭");
