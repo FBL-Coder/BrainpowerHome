@@ -131,7 +131,7 @@
         <activity
             android:name=".Activity.Settings.AddDevActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Translucent"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!--安防设置-->
         <activity

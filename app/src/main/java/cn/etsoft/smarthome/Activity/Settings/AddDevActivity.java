@@ -1,8 +1,8 @@
 package cn.etsoft.smarthome.Activity.Settings;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,10 +24,13 @@ import cn.etsoft.smarthome.Adapter.PopupWindow.PopupWindowAdapter2;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.Domain.WareBoardChnout;
+import cn.etsoft.smarthome.Domain.WareDev;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.Utils.CommonUtils;
 import cn.etsoft.smarthome.View.PopupWindow.MultiChoicePopWindow;
+
+//import android.support.v7.app.AlertDialog;
 
 /**
  * Author：FBL  Time： 2017/7/24.
@@ -84,6 +87,8 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
         DevTypes.add("空调");
         DevTypes.add("灯光");
         DevTypes.add("窗帘");
+        DevTypes.add("新风");
+        DevTypes.add("地暖");
         DevWays = new ArrayList<>();
         list_board = MyApplication.getWareData().getBoardChnouts();
         for (int i = 0; i < list_board.size(); i++) {
@@ -120,6 +125,7 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
 
                         //  保存修改
                         int Save_DevWay = 0;
+                        String[] WayStr_ok = null;
                         //设备名数据处理
                         Save_DevName = mAddDevName.getText().toString();
                         if ("".equals(Save_DevName) || Save_DevName.length() > 6) {
@@ -142,7 +148,7 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                                 return;
                             }
                         }
-                        if ("".equals(Save_Roomname)) {
+                        if ("".equals(Save_Roomname) || "点击选择房间".equals(Save_Roomname)) {
                             ToastUtil.showText("房间名为空");
                             return;
                         }
@@ -155,20 +161,20 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                         if (type_position == 0) {
                             //设备通道 保存数据处理
                             String Way_Str = mAddDevWay.getText().toString();
-                            String[] WayStr_ok = Way_Str.split("、");
-                            if (WayStr_ok.length == 0) {
+                            String[] WayStr_air = Way_Str.split("、");
+                            if (WayStr_air.length == 0) {
                                 ToastUtil.showText("请选择通道");
                                 return;
                             } else {
-                                if (WayStr_ok.length > 5) {//135
+                                if (WayStr_air.length > 5) {//135
                                     ToastUtil.showText("空调最多5个通道");
                                     return;
                                 }
                                 String Way = "";
                                 for (int j = 0; j < 12; j++) {
                                     boolean IsEnter = false;
-                                    for (int k = 0; k < WayStr_ok.length; k++) {
-                                        if (j == Integer.parseInt(WayStr_ok[k]) - 1) {
+                                    for (int k = 0; k < WayStr_air.length; k++) {
+                                        if (j == Integer.parseInt(WayStr_air[k]) - 1) {
                                             Way += "1";
                                             IsEnter = true;
                                         }
@@ -182,45 +188,86 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                         } else if (type_position == 3) {
                             //设备通道 保存数据处理
                             String Way_Str = mAddDevWay.getText().toString();
+                            if (Way_Str.length() == 0) {
+                                ToastUtil.showText("请选择通道");
+                                return;
+                            } else if (Way_Str.contains("、")) {
+                                ToastUtil.showText("灯光只能有一个通道");
+                                return;
+                            }
                             Save_DevWay = Integer.parseInt(Way_Str) - 1;
                         } else if (type_position == 4) {
                             //设备通道 保存数据处理
                             String Way_Str = mAddDevWay.getText().toString();
-                            String[] WayStr_ok = Way_Str.split("、");
-                            if (WayStr_ok.length == 0) {
+                            if (Way_Str.length() == 0) {
                                 ToastUtil.showText("请选择通道");
                                 return;
                             } else {
-                                if (WayStr_ok.length > 3) {//135
-                                    ToastUtil.showText("窗帘最多3个通道");
+                                if (Way_Str.length() > 1) {
+                                    ToastUtil.showText("窗帘最多只有1个通道");
                                     return;
                                 }
-                                String Way = "";
-                                for (int j = 0; j < 12; j++) {
-                                    boolean IsEnter = false;
-                                    for (int k = 0; k < WayStr_ok.length; k++) {
-                                        if (j == Integer.parseInt(WayStr_ok[k]) - 1) {
-                                            Way += "1";
-                                            IsEnter = true;
-                                        }
-                                    }
-                                    if (!IsEnter) {
-                                        Way += "0";
-                                    }
-                                }
-                                Save_DevWay = Integer.parseInt(new StringBuffer(Way).reverse().toString(), 2);
+                                Save_DevWay = Integer.parseInt(Way_Str) - 1;
                             }
+                        } else if (type_position == 7) {
+                            //设备通道 保存数据处理
+                            String Way_Str = mAddDevWay.getText().toString();
+                            WayStr_ok = Way_Str.split("、");
+                            if (WayStr_ok.length < 4 || WayStr_ok.length > 4) {
+                                ToastUtil.showText("新风是4个通道");
+                                return;
+                            }
+                        } else if (type_position == 9) {
+                            //设备通道 保存数据处理
+                            String Way_Str = mAddDevWay.getText().toString();
+                            if (Way_Str.length() == 0) {
+                                ToastUtil.showText("请选择通道");
+                                return;
+                            } else if (Way_Str.contains("、")) {
+                                ToastUtil.showText("地暖只能有一个通道");
+                                return;
+                            }
+                            Save_DevWay = Integer.parseInt(Way_Str) - 1;
                         }
                         String chn_str = "";
-                        chn_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
-                                "\"datType\":" + 5 + "," +
-                                "\"subType1\":0," +
-                                "\"subType2\":0," +
-                                "\"canCpuID\":\"" + list_board.get(board_position).getDevUnitID() + "\"," +
-                                "\"devType\":" + type_position + "," +
-                                "\"devName\":" + "\"" + Save_DevName + "\"," +
-                                "\"roomName\":" + "\"" + Save_Roomname + "\"," +
-                                "\"powChn\":" + Save_DevWay + "}";
+                        if (type_position == 7)
+                            chn_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                                    "\"datType\":" + 5 + "," +
+                                    "\"subType1\":0," +
+                                    "\"subType2\":0," +
+                                    "\"canCpuID\":\"" + list_board.get(board_position).getDevUnitID() + "\"," +
+                                    "\"devType\":" + type_position + "," +
+                                    "\"devName\":" + "\"" + Save_DevName + "\"," +
+                                    "\"roomName\":" + "\"" + Save_Roomname + "\"," +
+                                    "\"spdLowChn\":" + (Integer.parseInt(WayStr_ok[1]) - 1) + "," +
+                                    "\"spdMidChn\":" + (Integer.parseInt(WayStr_ok[2]) - 1) + "," +
+                                    "\"spdHighChn\":" + (Integer.parseInt(WayStr_ok[3]) - 1) + "," +
+                                    "\"autoRun\":" + 0 + "," +
+                                    "\"valPm10\":" + 0 + "," +
+                                    "\"valPm25\":" + 0 + "," +
+                                    "\"powChn\":" + (Integer.parseInt(WayStr_ok[0]) - 1) + "}";
+                        else if (type_position == 9)
+                            chn_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                                    "\"datType\":" + 5 + "," +
+                                    "\"subType1\":0," +
+                                    "\"subType2\":0," +
+                                    "\"canCpuID\":\"" + list_board.get(board_position).getDevUnitID() + "\"," +
+                                    "\"devType\":" + type_position + "," +
+                                    "\"devName\":" + "\"" + Save_DevName + "\"," +
+                                    "\"roomName\":" + "\"" + Save_Roomname + "\"," +
+                                    "\"tempset\":" + 0 + "," +
+                                    "\"autoRun\":" + 0 + "," +
+                                    "\"powChn\":" + Save_DevWay + "}";
+                        else
+                            chn_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                                    "\"datType\":" + 5 + "," +
+                                    "\"subType1\":0," +
+                                    "\"subType2\":0," +
+                                    "\"canCpuID\":\"" + list_board.get(board_position).getDevUnitID() + "\"," +
+                                    "\"devType\":" + type_position + "," +
+                                    "\"devName\":" + "\"" + Save_DevName + "\"," +
+                                    "\"roomName\":" + "\"" + Save_Roomname + "\"," +
+                                    "\"powChn\":" + Save_DevWay + "}";
 //                        Log.i(TAG, "onClick: " + chn_str);
                         MyApplication.setAddOrEditDevName(Save_DevName);
                         MyApplication.setAddOrEditRoomName(Save_Roomname);
@@ -275,49 +322,136 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                     return;
                 }
                 List<Integer> list_voard_cancpuid = new ArrayList<>();
-                if (type_position == 0) {
-                    for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
-                        WareAirCondDev airCondDev = MyApplication.getWareData().getAirConds().get(i);
 
-                        if (list_board.get(board_position).getDevUnitID().equals(airCondDev.getDev().getCanCpuId())) {
-                            int PowChn = airCondDev.getPowChn();
-                            String PowChnList = Integer.toBinaryString(PowChn);
-                            PowChnList = new StringBuffer(PowChnList).reverse().toString();
-                            List<Integer> index_list = new ArrayList<>();
-                            for (int j = 0; j < PowChnList.length(); j++) {
-                                if (PowChnList.charAt(j) == '1') {
-                                    index_list.add(j + 1);
-                                }
-                            }
-                            list_voard_cancpuid.addAll(index_list);
-                        }
-                    }
-                } else if (type_position == 3) {
-                    for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
+//                if (type_position == 0) {
+//                    for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
+//                        WareAirCondDev airCondDev = MyApplication.getWareData().getAirConds().get(i);
+//
+//                        if (list_board.get(board_position).getDevUnitID().equals(airCondDev.getDev().getCanCpuId())) {
+//                            int PowChn = airCondDev.getPowChn();
+//                            String PowChnList = Integer.toBinaryString(PowChn);
+//                            PowChnList = new StringBuffer(PowChnList).reverse().toString();
+//                            List<Integer> index_list = new ArrayList<>();
+//                            for (int j = 0; j < PowChnList.length(); j++) {
+//                                if (PowChnList.charAt(j) == '1') {
+//                                    index_list.add(j + 1);
+//                                }
+//                            }
+//                            list_voard_cancpuid.addAll(index_list);
+//                        }
+//                    }
+//                } else if (type_position == 3) {
+//                    for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
+//
+//                        if (list_board.get(board_position).getDevUnitID().equals(
+//                                MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId())) {
+//                            int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn() + 1;
+//                            list_voard_cancpuid.add(PowChn);
+//                        }
+//                    }
+//                } else if (type_position == 4) {
+//                    for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
+//                        if (list_board.get(board_position).getDevUnitID().equals(
+//                                MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())) {
+//                            int PowChn = MyApplication.getWareData().getCurtains().get(i).getPowChn();
+//                            String PowChnList = Integer.toBinaryString(PowChn);
+//                            PowChnList = new StringBuffer(PowChnList).reverse().toString();
+//                            List<Integer> index_list = new ArrayList<>();
+//                            for (int j = 0; j < PowChnList.length(); j++) {
+//                                if (PowChnList.charAt(j) == '1') {
+//                                    index_list.add(j + 1);
+//                                }
+//                            }
+//                            list_voard_cancpuid.addAll(index_list);
+//                        }
+//                    }
+//                } else if (type_position == 7) {
+//                    for (int i = 0; i < MyApplication.getWareData().getFreshAirs().size(); i++) {
+//
+//                        if (list_board.get(board_position).getDevUnitID().equals(
+//                                MyApplication.getWareData().getFreshAirs().get(i).getDev().getCanCpuId())) {
+//                            list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getOnOffChn() + 1);
+//                            list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdHighChn() + 1);
+//                            list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdLowChn() + 1);
+//                            list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdMidChn() + 1);
+//                        }
+//                    }
+//                } else if (type_position == 9) {
+//                    for (int i = 0; i < MyApplication.getWareData().getFloorHeat().size(); i++) {
+//                        if (list_board.get(board_position).getDevUnitID().equals(
+//                                MyApplication.getWareData().getFloorHeat().get(i).getDev().getCanCpuId())) {
+//                            int PowChn = MyApplication.getWareData().getFloorHeat().get(i).getPowChn() + 1;
+//                            list_voard_cancpuid.add(PowChn);
+//                        }
+//                    }
+//                }
 
-                        if (list_board.get(board_position).getDevUnitID().equals(
-                                MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId())) {
-                            int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn() + 1;
-                            list_voard_cancpuid.add(PowChn);
-                        }
-                    }
-                } else if (type_position == 4) {
-                    for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
-                        if (list_board.get(board_position).getDevUnitID().equals(
-                                MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())) {
-                            int PowChn = MyApplication.getWareData().getCurtains().get(i).getPowChn();
-                            String PowChnList = Integer.toBinaryString(PowChn);
-                            PowChnList = new StringBuffer(PowChnList).reverse().toString();
-                            List<Integer> index_list = new ArrayList<>();
-                            for (int j = 0; j < PowChnList.length(); j++) {
-                                if (PowChnList.charAt(j) == '1') {
-                                    index_list.add(j + 1);
+                for (int z = 0; z < MyApplication.getWareData().getDevs().size(); z++) {
+                    WareDev dev = MyApplication.getWareData().getDevs().get(z);
+                    if (dev.getType() == 0) {
+                        for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
+                            WareAirCondDev airCondDev = MyApplication.getWareData().getAirConds().get(i);
+
+                            if (list_board.get(board_position).getDevUnitID().equals(airCondDev.getDev().getCanCpuId())) {
+                                int PowChn = airCondDev.getPowChn();
+                                String PowChnList = Integer.toBinaryString(PowChn);
+                                PowChnList = new StringBuffer(PowChnList).reverse().toString();
+                                List<Integer> index_list = new ArrayList<>();
+                                for (int j = 0; j < PowChnList.length(); j++) {
+                                    if (PowChnList.charAt(j) == '1') {
+                                        index_list.add(j + 1);
+                                    }
                                 }
+                                list_voard_cancpuid.addAll(index_list);
                             }
-                            list_voard_cancpuid.addAll(index_list);
+                        }
+                    } else if (dev.getType() == 3) {
+                        for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
+
+                            if (list_board.get(board_position).getDevUnitID().equals(
+                                    MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId())) {
+                                int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn() + 1;
+                                list_voard_cancpuid.add(PowChn);
+                            }
+                        }
+                    } else if (dev.getType() == 4) {
+                        for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
+                            if (list_board.get(board_position).getDevUnitID().equals(
+                                    MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())) {
+                                int PowChn = MyApplication.getWareData().getCurtains().get(i).getPowChn();
+                                String PowChnList = Integer.toBinaryString(PowChn);
+                                PowChnList = new StringBuffer(PowChnList).reverse().toString();
+                                List<Integer> index_list = new ArrayList<>();
+                                for (int j = 0; j < PowChnList.length(); j++) {
+                                    if (PowChnList.charAt(j) == '1') {
+                                        index_list.add(j + 1);
+                                    }
+                                }
+                                list_voard_cancpuid.addAll(index_list);
+                            }
+                        }
+                    } else if (dev.getType() == 7) {
+                        for (int i = 0; i < MyApplication.getWareData().getFreshAirs().size(); i++) {
+
+                            if (list_board.get(board_position).getDevUnitID().equals(
+                                    MyApplication.getWareData().getFreshAirs().get(i).getDev().getCanCpuId())) {
+                                list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getOnOffChn() + 1);
+                                list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdHighChn() + 1);
+                                list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdLowChn() + 1);
+                                list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdMidChn() + 1);
+                            }
+                        }
+                    } else if (dev.getType() == 9) {
+                        for (int i = 0; i < MyApplication.getWareData().getFloorHeat().size(); i++) {
+                            if (list_board.get(board_position).getDevUnitID().equals(
+                                    MyApplication.getWareData().getFloorHeat().get(i).getDev().getCanCpuId())) {
+                                int PowChn = MyApplication.getWareData().getFloorHeat().get(i).getPowChn() + 1;
+                                list_voard_cancpuid.add(PowChn);
+                            }
                         }
                     }
                 }
+                list_voard_cancpuid.size();
                 List<Integer> list_channel = new ArrayList<>();
                 for (int i = 1; i < 13; i++) {
                     list_channel.add(i);
@@ -373,6 +507,7 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView tv = (TextView) view_parent;
                 tv.setText(text.get(position));
+
                 if (Flag == BOARD)
                     board_position = position;
                 else if (Flag == ROOM)
@@ -384,6 +519,10 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                         type_position = 3;
                     else if (position == 2)
                         type_position = 4;
+                    else if (position == 3)
+                        type_position = 7;
+                    else if (position == 4)
+                        type_position = 9;
 
                 popupWindow.dismiss();
             }

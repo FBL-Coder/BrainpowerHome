@@ -13,7 +13,7 @@ public class WareDev implements Serializable {
     private int devCtrlType; // 取值范围E_DEV_TYPE
     private boolean isSelect;
     private int bOnOff;
-    private String powChn;
+    private int powChn;
     private int cmd;
 
     public String getCanCpuId() {
@@ -80,12 +80,12 @@ public class WareDev implements Serializable {
         this.bOnOff = bOnOff;
     }
 
-    public String getPowChn() {
+    public int getPowChn() {
         return powChn;
     }
 
     public void setPowChn(int powChn) {
-        this.powChn = powChn + "";
+        this.powChn = powChn ;
     }
 
     public int getCmd() {

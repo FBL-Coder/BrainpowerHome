@@ -41,7 +41,7 @@ import cn.etsoft.smarthome.View.PopupWindow.MultiChoicePopWindow;
 
 /**
  * Author：FBL  Time： 2017/6/29.
- * 设备详情  设备适配器
+ * 设备详情  设备适配器(注.代码量较大,修改需谨慎)
  */
 
 public class DevInfosAdapter extends BaseAdapter {
@@ -160,51 +160,108 @@ public class DevInfosAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 List<Integer> list_voard_cancpuid = new ArrayList<>();
-                if (Devs.get(position).getType() == 0) {
-                    for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
-                        if (Devs.get(position).getCanCpuId()
-                                .equals(MyApplication.getWareData().getAirConds().get(i).getDev().getCanCpuId())
-                                && Devs.get(position).getDevId() != MyApplication.getWareData().getAirConds().get(i).getDev().getDevId()) {
-
-                            int PowChn = MyApplication.getWareData().getAirConds().get(i).getPowChn();
-                            String PowChnList = Integer.toBinaryString(PowChn);
-                            PowChnList = new StringBuffer(PowChnList).reverse().toString();
-                            List<Integer> index_list = new ArrayList<>();
-                            for (int j = 0; j < PowChnList.length(); j++) {
-                                if (PowChnList.charAt(j) == '1') {
-                                    index_list.add(j + 1);
+//                if (Devs.get(position).getType() == 0) {
+//                    for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
+//                        if (Devs.get(position).getCanCpuId()
+//                                .equals(MyApplication.getWareData().getAirConds().get(i).getDev().getCanCpuId())
+//                                && Devs.get(position).getDevId() != MyApplication.getWareData().getAirConds().get(i).getDev().getDevId()) {
+//
+//                            int PowChn = MyApplication.getWareData().getAirConds().get(i).getPowChn();
+//                            String PowChnList = Integer.toBinaryString(PowChn);
+//                            PowChnList = new StringBuffer(PowChnList).reverse().toString();
+//                            List<Integer> index_list = new ArrayList<>();
+//                            for (int j = 0; j < PowChnList.length(); j++) {
+//                                if (PowChnList.charAt(j) == '1') {
+//                                    index_list.add(j + 1);
+//                                }
+//                            }
+//                            list_voard_cancpuid.addAll(index_list);
+//                        }
+//                    }
+//                } else if (Devs.get(position).getType() == 3) {
+//                    for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
+//                        if (Devs.get(position).getCanCpuId()
+//                                .equals(MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId())
+//                                && Devs.get(position).getDevId() != MyApplication.getWareData().getLights().get(i).getDev().getDevId()) {
+//
+//                            int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn() + 1;
+//                            list_voard_cancpuid.add(PowChn);
+//                        }
+//                    }
+//                    list_voard_cancpuid.size();
+//                } else if (Devs.get(position).getType() == 4) {
+//                    for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
+//                        if (Devs.get(position).getCanCpuId()
+//                                .equals(MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())
+//                                && Devs.get(position).getDevId() != MyApplication.getWareData().getCurtains().get(i).getDev().getDevId()) {
+//
+//                            int PowChn = MyApplication.getWareData().getCurtains().get(i).getPowChn();
+//                            String PowChnList = Integer.toBinaryString(PowChn);
+//                            PowChnList = new StringBuffer(PowChnList).reverse().toString();
+//                            List<Integer> index_list = new ArrayList<>();
+//                            for (int j = 0; j < PowChnList.length(); j++) {
+//                                if (PowChnList.charAt(j) == '1') {
+//                                    index_list.add(j + 1);
+//                                }
+//                            }
+//                            list_voard_cancpuid.addAll(index_list);
+//                        }
+//                    }
+//                }
+                for (int z = 0; z < MyApplication.getWareData().getDevs().size(); z++) {
+                    WareDev dev = MyApplication.getWareData().getDevs().get(z);
+                    if (dev.getType() == 0 && Devs.get(position).getType() != 0) {
+                        for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
+                            WareAirCondDev airCondDev = MyApplication.getWareData().getAirConds().get(i);
+                            if (Devs.get(position).getCanCpuId().equals(airCondDev.getDev().getCanCpuId())) {
+                                int PowChn = airCondDev.getPowChn();
+                                String PowChnList = Integer.toBinaryString(PowChn);
+                                PowChnList = new StringBuffer(PowChnList).reverse().toString();
+                                List<Integer> index_list = new ArrayList<>();
+                                for (int j = 0; j < PowChnList.length(); j++) {
+                                    if (PowChnList.charAt(j) == '1') {
+                                        index_list.add(j + 1);
+                                    }
                                 }
+                                list_voard_cancpuid.addAll(index_list);
                             }
-                            list_voard_cancpuid.addAll(index_list);
                         }
-                    }
-                } else if (Devs.get(position).getType() == 3) {
-                    for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
-                        if (Devs.get(position).getCanCpuId()
-                                .equals(MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId())
-                                && Devs.get(position).getDevId() != MyApplication.getWareData().getLights().get(i).getDev().getDevId()) {
+                    } else if (dev.getType() == 3 && Devs.get(position).getType() != 3) {
+                        for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
+                            if (Devs.get(position).getCanCpuId()
+                                    .equals(MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId())
+                                    && Devs.get(position).getDevId() != MyApplication.getWareData().getLights().get(i).getDev().getDevId()) {
 
-                            int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn() + 1;
-                            list_voard_cancpuid.add(PowChn);
-                        }
-                    }
-                    list_voard_cancpuid.size();
-                } else if (Devs.get(position).getType() == 4) {
-                    for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
-                        if (Devs.get(position).getCanCpuId()
-                                .equals(MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())
-                                && Devs.get(position).getDevId() != MyApplication.getWareData().getCurtains().get(i).getDev().getDevId()) {
-
-                            int PowChn = MyApplication.getWareData().getCurtains().get(i).getPowChn();
-                            String PowChnList = Integer.toBinaryString(PowChn);
-                            PowChnList = new StringBuffer(PowChnList).reverse().toString();
-                            List<Integer> index_list = new ArrayList<>();
-                            for (int j = 0; j < PowChnList.length(); j++) {
-                                if (PowChnList.charAt(j) == '1') {
-                                    index_list.add(j + 1);
-                                }
+                                int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn() + 1;
+                                list_voard_cancpuid.add(PowChn);
                             }
-                            list_voard_cancpuid.addAll(index_list);
+                        }
+                    } else if (dev.getType() == 4 && Devs.get(position).getType() != 4) {
+                        for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
+                            if (Devs.get(position).getCanCpuId()
+                                    .equals(MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())
+                                    && Devs.get(position).getDevId() != MyApplication.getWareData().getCurtains().get(i).getDev().getDevId()) {
+                                list_voard_cancpuid.add(MyApplication.getWareData().getCurtains().get(i).getDev().getPowChn() + 1);
+                            }
+                        }
+                    } else if (dev.getType() == 7 && Devs.get(position).getType() != 7) {
+                        for (int i = 0; i < MyApplication.getWareData().getFreshAirs().size(); i++) {
+
+                            if (Devs.get(position).getCanCpuId().equals(
+                                    MyApplication.getWareData().getFreshAirs().get(i).getDev().getCanCpuId())) {
+                                list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getOnOffChn() + 1);
+                                list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdHighChn() + 1);
+                                list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdLowChn() + 1);
+                                list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdMidChn() + 1);
+                            }
+                        }
+                    } else if (dev.getType() == 9 && Devs.get(position).getType() != 9) {
+                        for (int i = 0; i < MyApplication.getWareData().getFloorHeat().size(); i++) {
+                            if (Devs.get(position).getCanCpuId().equals(
+                                    MyApplication.getWareData().getFloorHeat().get(i).getDev().getCanCpuId())) {
+                                int PowChn = MyApplication.getWareData().getFloorHeat().get(i).getPowChn() + 1;
+                                list_voard_cancpuid.add(PowChn);
+                            }
                         }
                     }
                 }
@@ -213,7 +270,6 @@ public class DevInfosAdapter extends BaseAdapter {
                 for (int i = 1; i < 13; i++) {
                     list_channel.add(i);
                 }
-
 
                 for (int i = 0; i < list_voard_cancpuid.size(); i++) {
                     for (int j = 0; j < list_channel.size(); j++) {
@@ -275,9 +331,10 @@ public class DevInfosAdapter extends BaseAdapter {
                             // 保存修改
                             String Save_DevName;
                             String Save_Roomname;
+                            String[] WayStr_ok = null;
                             int Save_DevWay;
                             try {
-                                Save_DevWay = Integer.parseInt(Devs.get(position).getPowChn());
+                                Save_DevWay = Devs.get(position).getPowChn();
                             } catch (Exception e) {
                                 Save_DevWay = 0;
                             }
@@ -307,6 +364,7 @@ public class DevInfosAdapter extends BaseAdapter {
                                 ToastUtil.showText("房间名称不合适");
                                 return;
                             }
+
                             if (Devs.get(position).getType() == 0) {
                                 for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
                                     if (MyApplication.getWareData().getAirConds().get(i).getDev().getDevId()
@@ -315,20 +373,20 @@ public class DevInfosAdapter extends BaseAdapter {
                                             .equals(Devs.get(position).getCanCpuId())) {
                                         //设备通道 保存数据处理
                                         String Way_Str = finalViewHolder.mDevInfoEditWay.getText().toString();
-                                        String[] WayStr_ok = Way_Str.split("、");
-                                        if (WayStr_ok.length == 0) {
+                                        String[] WayStr_ok_air = Way_Str.split("、");
+                                        if (WayStr_ok_air.length == 0) {
                                             ToastUtil.showText("请选择通道");
                                             return;
                                         } else {
-                                            if (WayStr_ok.length > 5) {//135
+                                            if (WayStr_ok_air.length > 5) {//135
                                                 ToastUtil.showText("空调最多5个通道");
                                                 return;
                                             }
                                             String Way = "";
                                             for (int j = 0; j < 12; j++) {
                                                 boolean IsEnter = false;
-                                                for (int k = 0; k < WayStr_ok.length; k++) {
-                                                    if (j == Integer.parseInt(WayStr_ok[k]) - 1) {
+                                                for (int k = 0; k < WayStr_ok_air.length; k++) {
+                                                    if (j == Integer.parseInt(WayStr_ok_air[k]) - 1) {
                                                         Way += "1";
                                                         IsEnter = true;
                                                     }
@@ -344,54 +402,94 @@ public class DevInfosAdapter extends BaseAdapter {
                             } else if (Devs.get(position).getType() == 3) {
                                 //设备通道 保存数据处理
                                 String Way_Str = finalViewHolder.mDevInfoEditWay.getText().toString();
+                                if (Way_Str.length() == 0) {
+                                    ToastUtil.showText("请选择通道");
+                                    return;
+                                } else if (Way_Str.contains("、")) {
+                                    ToastUtil.showText("灯光只能有一个通道");
+                                    return;
+                                }
                                 Save_DevWay = Integer.parseInt(Way_Str) - 1;
                             } else if (Devs.get(position).getType() == 4) {
-                                for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
-                                    if (MyApplication.getWareData().getCurtains().get(i).getDev().getDevId()
-                                            == Devs.get(position).getDevId()
-                                            && MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId()
-                                            .equals(Devs.get(position).getCanCpuId())) {
-                                        //设备通道 保存数据处理
-                                        String Way_Str = finalViewHolder.mDevInfoEditWay.getText().toString();
-                                        String[] WayStr_ok = Way_Str.split("、");
-                                        if (WayStr_ok.length == 0) {
-                                            ToastUtil.showText("请选择通道");
-                                            return;
-                                        } else {
-                                            if (WayStr_ok.length > 3) {//135
-                                                ToastUtil.showText("窗帘最多3个通道");
-                                                return;
-                                            }
-                                            String Way = "";
-                                            for (int j = 0; j < 12; j++) {
-                                                boolean IsEnter = false;
-                                                for (int k = 0; k < WayStr_ok.length; k++) {
-                                                    if (j == Integer.parseInt(WayStr_ok[k]) - 1) {
-                                                        Way += "1";
-                                                        IsEnter = true;
-                                                    }
-                                                }
-                                                if (!IsEnter) {
-                                                    Way += "0";
-                                                }
-                                            }
-                                            Save_DevWay = Integer.parseInt(new StringBuffer(Way).reverse().toString(), 2);
-                                        }
+
+                                //设备通道 保存数据处理
+                                String Way_Str = finalViewHolder.mDevInfoEditWay.getText().toString();
+                                if (Way_Str.length() == 0) {
+                                    ToastUtil.showText("请选择通道");
+                                    return;
+                                } else {
+                                    if (Way_Str.length() > 1) {
+                                        ToastUtil.showText("窗帘最多只有1个通道");
+                                        return;
                                     }
+                                    Save_DevWay = Integer.parseInt(Way_Str) - 1;
                                 }
+                            } else if (Devs.get(position).getType() == 7) {
+                                //设备通道 保存数据处理
+                                String Way_Str = finalViewHolder.mDevInfoEditWay.getText().toString();
+                                WayStr_ok = Way_Str.split("、");
+                                if (WayStr_ok.length < 4 || WayStr_ok.length > 4) {
+                                    ToastUtil.showText("新风是4个通道");
+                                    return;
+                                }
+                            } else if (Devs.get(position).getType() == 9) {
+                                //设备通道 保存数据处理
+                                String Way_Str = finalViewHolder.mDevInfoEditWay.getText().toString();
+                                if (Way_Str.length() == 0) {
+                                    ToastUtil.showText("请选择通道");
+                                    return;
+                                } else if (Way_Str.contains("、")) {
+                                    ToastUtil.showText("地暖只能有一个通道");
+                                    return;
+                                }
+                                Save_DevWay = Integer.parseInt(Way_Str) - 1;
                             }
                             String chn_str = "";
-                            chn_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
-                                    "\"datType\":" + 6 + "," +
-                                    "\"subType1\":0," +
-                                    "\"subType2\":0," +
-                                    "\"canCpuID\":\"" + Devs.get(position).getCanCpuId() + "\"," +
-                                    "\"devType\":" + Devs.get(position).getType() + "," +
-                                    "\"devID\":" + +Devs.get(position).getDevId() + "," +
-                                    "\"devName\":" + "\"" + Save_DevName + "\"," +
-                                    "\"roomName\":" + "\"" + Save_Roomname + "\"," +
-                                    "\"powChn\":" + Save_DevWay + "," +
-                                    "\"cmd\":" + 1 + "}";
+                            if (Devs.get(position).getType() == 7)
+                                chn_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                                        "\"datType\":" + 6 + "," +
+                                        "\"subType1\":0," +
+                                        "\"subType2\":0," +
+                                        "\"canCpuID\":\"" + Devs.get(position).getCanCpuId() + "\"," +
+                                        "\"devType\":" + Devs.get(position).getType() + "," +
+                                        "\"devID\":" + Devs.get(position).getDevId() + "," +
+                                        "\"devName\":" + "\"" + Save_DevName + "\"," +
+                                        "\"roomName\":" + "\"" + Save_Roomname + "\"," +
+                                        "\"spdLowChn\":" + (Integer.parseInt(WayStr_ok[1]) - 1) + "," +
+                                        "\"spdMidChn\":" + (Integer.parseInt(WayStr_ok[2]) - 1) + "," +
+                                        "\"spdHighChn\":" + (Integer.parseInt(WayStr_ok[3]) - 1) + "," +
+                                        "\"autoRun\":" + 0 + "," +
+                                        "\"valPm10\":" + 0 + "," +
+                                        "\"valPm25\":" + 0 + "," +
+                                        "\"cmd\":" + 1 + "," +
+                                        "\"powChn\":" + (Integer.parseInt(WayStr_ok[0]) - 1) + "}";
+                            else if (Devs.get(position).getType() == 9)
+                                chn_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                                        "\"datType\":" + 6 + "," +
+                                        "\"subType1\":0," +
+                                        "\"subType2\":0," +
+                                        "\"canCpuID\":\"" + Devs.get(position).getCanCpuId() + "\"," +
+                                        "\"devType\":" + Devs.get(position).getType() + "," +
+                                        "\"devID\":" + Devs.get(position).getDevId() + "," +
+                                        "\"devName\":" + "\"" + Save_DevName + "\"," +
+                                        "\"roomName\":" + "\"" + Save_Roomname + "\"," +
+                                        "\"tempset\":" + 0 + "," +
+                                        "\"autoRun\":" + 0 + "," +
+                                        "\"cmd\":" + 1 + "," +
+                                        "\"powChn\":" + Save_DevWay + "}";
+                            else
+                                chn_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                                        "\"datType\":" + 6 + "," +
+                                        "\"subType1\":0," +
+                                        "\"subType2\":0," +
+                                        "\"canCpuID\":\"" + Devs.get(position).getCanCpuId() + "\"," +
+                                        "\"devType\":" + Devs.get(position).getType() + "," +
+                                        "\"devID\":" + Devs.get(position).getDevId() + "," +
+                                        "\"devName\":" + "\"" + Save_DevName + "\"," +
+                                        "\"roomName\":" + "\"" + Save_Roomname + "\"," +
+                                        "\"powChn\":" + Save_DevWay + "," +
+                                        "\"cmd\":" + 1 + "}";
+//                            Log.i(TAG, "onClick: " + chn_str);
                             MyApplication.mApplication.getUdpServer().send(chn_str);
                             MyApplication.mApplication.showLoadDialog(mContext);
                             finalViewHolder.mDevInfoDelete.setImageResource(R.drawable.delete_edit_dev);
@@ -602,7 +700,9 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoName.setText(freshAir.getDev().getDevName());
                     viewHolder.mDevInfoRoom.setText(freshAir.getDev().getRoomName());
                     viewHolder.mDevInfoType.setText("新风");
-                    viewHolder.mDevInfoWay.setText(freshAir.getPowChn() + "");
+                    viewHolder.mDevInfoWay.setText((freshAir.getOnOffChn() + 1) + "、"
+                            + (freshAir.getSpdLowChn() + 1) + "、" + (freshAir.getSpdMidChn() + 1)
+                            + "、" + (freshAir.getSpdHighChn() + 1));
                     if ("".equals(BoardName))
                         viewHolder.mDevInfoOutBoard.setText("数据解析出错");
                     viewHolder.mDevInfoOutBoard.setText(BoardName);
@@ -610,7 +710,9 @@ public class DevInfosAdapter extends BaseAdapter {
                     //不可视布局数据
                     viewHolder.mDevInfoEditRoom.setText(freshAir.getDev().getRoomName());
                     viewHolder.mDevInfoEditName.setHint(freshAir.getDev().getDevName());
-                    viewHolder.mDevInfoEditWay.setText(freshAir.getPowChn() + "");
+                    viewHolder.mDevInfoEditWay.setText((freshAir.getOnOffChn() + 1) + "、"
+                            + (freshAir.getSpdLowChn() + 1) + "、" + (freshAir.getSpdMidChn() + 1)
+                            + "、" + (freshAir.getSpdHighChn() + 1));
                     viewHolder.mDevInfoEditType.setText("新风");
                 }
             }
@@ -632,7 +734,7 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoName.setText(floorHeat.getDev().getDevName());
                     viewHolder.mDevInfoRoom.setText(floorHeat.getDev().getRoomName());
                     viewHolder.mDevInfoType.setText("地暖");
-                    viewHolder.mDevInfoWay.setText(floorHeat.getPowChn() + "");
+                    viewHolder.mDevInfoWay.setText((floorHeat.getPowChn()+1)+"");
                     if ("".equals(BoardName))
                         viewHolder.mDevInfoOutBoard.setText("数据解析出错");
                     viewHolder.mDevInfoOutBoard.setText(BoardName);
@@ -640,7 +742,7 @@ public class DevInfosAdapter extends BaseAdapter {
                     //不可视布局数据
                     viewHolder.mDevInfoEditRoom.setText(floorHeat.getDev().getRoomName());
                     viewHolder.mDevInfoEditName.setHint(floorHeat.getDev().getDevName());
-                    viewHolder.mDevInfoEditWay.setText(floorHeat.getPowChn() + "");
+                    viewHolder.mDevInfoEditWay.setText((floorHeat.getPowChn()+1) + "");
                     viewHolder.mDevInfoEditType.setText("地暖");
                 }
             }
@@ -773,5 +875,4 @@ public class DevInfosAdapter extends BaseAdapter {
         });
         mMultiChoicePopWindow.show();
     }
-
 }

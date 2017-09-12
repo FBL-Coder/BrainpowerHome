@@ -79,6 +79,13 @@ public class DevInfoActivity extends BaseActivity {
     @Override
     public void initData() {
         WareDataHliper.initCopyWareData().startCopySceneData();
+        mDevInfoAddDevs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                roomSize = MyApplication.getWareData().getRooms().size();
+                startActivityForResult(new Intent(DevInfoActivity.this, AddDevActivity.class), 0);
+            }
+        });
         if (MyApplication.getWareData().getRooms().size() == 0) {
             ToastUtil.showText("没有房间数据");
             return;
@@ -140,13 +147,7 @@ public class DevInfoActivity extends BaseActivity {
                     adapter.notifyDataSetChanged(gridviewDev);
             }
         });
-        mDevInfoAddDevs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                roomSize = MyApplication.getWareData().getRooms().size();
-                startActivityForResult(new Intent(DevInfoActivity.this, AddDevActivity.class), 0);
-            }
-        });
+
     }
 
     public List<WareDev> getRoomDev(String roomname) {

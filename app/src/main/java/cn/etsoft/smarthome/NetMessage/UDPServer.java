@@ -295,8 +295,8 @@ public class UDPServer implements Runnable {
             case 5: // adddev
                 if (subType1 == 1) {
                     if (subType2 == 1) {
-                        addDev_result(info);
                         isFreshData = true;
+                        addDev_result(info);
                     } else {
                         isFreshData = true;
                     }
@@ -305,8 +305,8 @@ public class UDPServer implements Runnable {
             case 6: // editdev
                 if (subType1 == 1) {
                     if (subType2 == 1) {
-                        editDev_result(info);
                         isFreshData = true;
+                        editDev_result(info);
                     } else {
                         isFreshData = true;
                     }
@@ -1143,6 +1143,70 @@ public class UDPServer implements Runnable {
                         break;
                     }
                 }
+            }else if (devType == 7) {
+                WareFreshAir freshAir = new WareFreshAir();
+                JSONObject jsonobj = array.getJSONObject(0);
+                WareDev dev = new WareDev();
+                dev.setCanCpuId(jsonobj.getString("canCpuID"));
+                if (dattype == 6) {
+                    dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
+                    dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
+                }
+                dev.setDevId(jsonobj.getInt("devID"));
+                dev.setType(jsonobj.getInt("devType"));
+                freshAir.setDev(dev);
+                freshAir.setbOnOff(jsonobj.getInt("bOnOff"));
+                freshAir.setSpdSel(jsonobj.getInt("spdSel"));
+                freshAir.setOnOffChn(jsonobj.getInt("onOffChn"));
+                freshAir.setSpdHighChn(jsonobj.getInt("spdHighChn"));
+                freshAir.setSpdLowChn(jsonobj.getInt("spdLowChn"));
+                freshAir.setSpdMidChn(jsonobj.getInt("spdMidChn"));
+                freshAir.setValPm25(jsonobj.getInt("valPm25"));
+                freshAir.setValPm10(jsonobj.getInt("valPm10"));
+                freshAir.setAutoRun(jsonobj.getInt("autoRun"));
+                for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
+                    WareLight light = MyApplication.getWareData().getLights().get(i);
+                    if (light.getDev().getCanCpuId().equals(freshAir.getDev().getCanCpuId())
+                            && light.getDev().getDevId() == freshAir.getDev().getDevId()) {
+                        if (dattype == 4) {
+                            freshAir.getDev().setDevName(light.getDev().getDevName());
+                            freshAir.getDev().setRoomName(light.getDev().getRoomName());
+                        }
+                        MyApplication.getWareData().getFreshAirs().set(i, freshAir);
+                        Log.i("Light", freshAir.getDev().getDevId() + "");
+                        break;
+                    }
+                }
+            }else if (devType == 9) {
+                WareFloorHeat floorHeat = new WareFloorHeat();
+                JSONObject jsonobj = array.getJSONObject(0);
+                WareDev dev = new WareDev();
+                dev.setCanCpuId(jsonobj.getString("canCpuID"));
+                if (dattype == 6) {
+                    dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
+                    dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
+                }
+                dev.setDevId(jsonobj.getInt("devID"));
+                dev.setType(jsonobj.getInt("devType"));
+                floorHeat.setDev(dev);
+                floorHeat.setbOnOff(jsonobj.getInt("bOnOff"));
+                floorHeat.setPowChn(jsonobj.getInt("powChn"));
+                floorHeat.setAutoRun(jsonobj.getInt("autoRun"));
+                floorHeat.setTempget(jsonobj.getInt("tempGet"));
+                floorHeat.setTempset(jsonobj.getInt("tempSet"));
+                for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
+                    WareLight light = MyApplication.getWareData().getLights().get(i);
+                    if (light.getDev().getCanCpuId().equals(floorHeat.getDev().getCanCpuId())
+                            && light.getDev().getDevId() == floorHeat.getDev().getDevId()) {
+                        if (dattype == 4) {
+                            floorHeat.getDev().setDevName(light.getDev().getDevName());
+                            floorHeat.getDev().setRoomName(light.getDev().getRoomName());
+                        }
+                        MyApplication.getWareData().getFloorHeat().set(i, floorHeat);
+                        Log.i("Light", floorHeat.getDev().getDevId() + "");
+                        break;
+                    }
+                }
             }
         } catch (Exception e) {
             isFreshData = false;
@@ -1231,6 +1295,42 @@ public class UDPServer implements Runnable {
                 wareLight.setbTuneEn(jsonobj.getInt("bTuneEn"));
                 wareLight.setLmVal(jsonobj.getInt("lmVal"));
                 MyApplication.getWareData().getLights().add(wareLight);
+            }else if (devType == 7) {
+                WareFreshAir freshAir = new WareFreshAir();
+                JSONObject jsonobj = array.getJSONObject(0);
+                dev = new WareDev();
+                dev.setCanCpuId(jsonobj.getString("canCpuID"));
+                dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
+                dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
+                dev.setDevId(jsonobj.getInt("devID"));
+                dev.setType(jsonobj.getInt("devType"));
+                freshAir.setDev(dev);
+                freshAir.setbOnOff(jsonobj.getInt("bOnOff"));
+                freshAir.setOnOffChn(jsonobj.getInt("onOffChn"));
+                freshAir.setSpdMidChn(jsonobj.getInt("spdMidChn"));
+                freshAir.setSpdLowChn(jsonobj.getInt("spdLowChn"));
+                freshAir.setSpdHighChn(jsonobj.getInt("spdHighChn"));
+                freshAir.setSpdSel(jsonobj.getInt("spdSel"));
+                freshAir.setValPm10(jsonobj.getInt("valPm10"));
+                freshAir.setValPm25(jsonobj.getInt("valPm25"));
+                freshAir.setAutoRun(jsonobj.getInt("autoRun"));
+                MyApplication.getWareData().getFreshAirs().add(freshAir);
+            }else if (devType == 9) {
+                WareFloorHeat floorHeat = new WareFloorHeat();
+                JSONObject jsonobj = array.getJSONObject(0);
+                dev = new WareDev();
+                dev.setCanCpuId(jsonobj.getString("canCpuID"));
+                dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
+                dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
+                dev.setDevId(jsonobj.getInt("devID"));
+                dev.setType(jsonobj.getInt("devType"));
+                floorHeat.setDev(dev);
+                floorHeat.setbOnOff(jsonobj.getInt("bOnOff"));
+                floorHeat.setPowChn(jsonobj.getInt("powChn"));
+                floorHeat.setTempset(jsonobj.getInt("tempSet"));
+                floorHeat.setTempget(jsonobj.getInt("tempGet"));
+                floorHeat.setAutoRun(jsonobj.getInt("autoRun"));
+                MyApplication.getWareData().getFloorHeat().add(floorHeat);
             }
             MyApplication.getWareData().getDevs().add(dev);
             boolean isContain = false;
@@ -1382,6 +1482,62 @@ public class UDPServer implements Runnable {
                     WareDev dev1 = MyApplication.getWareData().getDevs().get(i);
                     if (dev1.getCanCpuId().equals(wareLight.getDev().getCanCpuId())
                             && dev1.getDevId() == wareLight.getDev().getDevId()) {
+                        MyApplication.getWareData().getDevs().remove(i);
+                        break;
+                    }
+                }
+            }else if (devType == 7) {
+
+                WareFreshAir freshAir = new WareFreshAir();
+
+                JSONObject jsonobj = array.getJSONObject(0);
+                WareDev dev = new WareDev();
+                dev.setCanCpuId(jsonobj.getString("canCpuID"));
+                dev.setDevId(jsonobj.getInt("devID"));
+                dev.setType(jsonobj.getInt("devType"));
+                freshAir.setDev(dev);
+
+                for (int i = 0; i < MyApplication.getWareData().getFreshAirs().size(); i++) {
+                    WareFreshAir freshAir1 = MyApplication.getWareData().getFreshAirs().get(i);
+                    if (freshAir1.getDev().getCanCpuId().equals(freshAir.getDev().getCanCpuId())
+                            && freshAir1.getDev().getDevId() == freshAir.getDev().getDevId()) {
+                        MyApplication.getWareData().getLights().remove(i);
+                        Log.i("Light", freshAir.getDev().getDevId() + "");
+                        break;
+                    }
+                }
+                for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
+                    WareDev dev1 = MyApplication.getWareData().getDevs().get(i);
+                    if (dev1.getCanCpuId().equals(freshAir.getDev().getCanCpuId())
+                            && dev1.getDevId() == freshAir.getDev().getDevId()) {
+                        MyApplication.getWareData().getDevs().remove(i);
+                        break;
+                    }
+                }
+            }else if (devType == 9) {
+
+                WareFloorHeat floorHeat = new WareFloorHeat();
+
+                JSONObject jsonobj = array.getJSONObject(0);
+                WareDev dev = new WareDev();
+                dev.setCanCpuId(jsonobj.getString("canCpuID"));
+                dev.setDevId(jsonobj.getInt("devID"));
+                dev.setType(jsonobj.getInt("devType"));
+                floorHeat.setDev(dev);
+
+                for (int i = 0; i < MyApplication.getWareData().getFloorHeat().size(); i++) {
+                    WareFloorHeat heat = MyApplication.getWareData().getFloorHeat().get(i);
+                    if (heat.getDev().getCanCpuId().equals(floorHeat.getDev().getCanCpuId())
+                            && heat.getDev().getDevId() == floorHeat.getDev().getDevId()) {
+                        MyApplication.getWareData().getLights().remove(i);
+                        Log.i("Light", floorHeat.getDev().getDevId() + "");
+                        break;
+                    }
+                }
+                for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
+                    WareDev dev1 = MyApplication.getWareData().getDevs().get(i);
+                    if (dev1.getCanCpuId().equals(floorHeat.getDev().getCanCpuId())
+                            && dev1.getDevId() == floorHeat.getDev().getDevId()) {
                         MyApplication.getWareData().getDevs().remove(i);
                         break;
                     }
