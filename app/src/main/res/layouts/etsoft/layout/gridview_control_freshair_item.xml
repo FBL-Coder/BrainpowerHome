@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dp_20"
+    android:background="@color/color_item_bg">
+
+
+    <TextView
+        android:id="@+id/Control_GridView_Item_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="asdasdad"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dp_20" />
+
+    <ImageView
+        android:id="@+id/Control_GridView_Item_IV"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_160"
+        android:layout_below="@id/Control_GridView_Item_Name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:src="@drawable/ic_launcher" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/Control_GridView_Item_IV"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_20"
+        >
+
+        <TextView
+            android:id="@+id/Control_GridView_Item_low"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/white1"
+            android:text="低风"
+            android:textSize="@dimen/sp_16"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/Control_GridView_Item_min"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/white1"
+            android:text="中风"
+            android:textSize="@dimen/sp_16"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/Control_GridView_Item_hig"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/white1"
+            android:text="高风"
+            android:textSize="@dimen/sp_16"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -4,7 +4,21 @@ import java.io.Serializable;
 
 public class WareFreshAir implements Serializable {
 	/**
-	 * 
+	 "canCpuID":	"36ffd7054842373507781843",
+	 "devName":	"d0c2b7e731",
+	 "roomName":	"bfcdccfc",
+	 "devType":	7,
+	 "devID":	0,
+	 "bOnOff":	1,
+	 "spdSel":	4,
+	 "onOffChn":	255,
+	 "spdLowChn":	5,
+	 "spdMidChn":	6,
+	 "spdHighChn":	7,
+	 "autoRun":	0,
+	 "valPm10":	0,
+	 "valPm25":	0
+	 },
 	 */
 	private static final long serialVersionUID = 1L;
 	private WareDev dev;

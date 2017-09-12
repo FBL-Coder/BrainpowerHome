@@ -230,8 +230,8 @@ public class UdpProPkt {
     }
 
     public static enum E_FRESHAIR_CMD {
-        e_freshair_open(0), e_freshair_spd_low(1), e_freshair_spd_mid(2), e_freshair_spd_high(3), e_freshair_close(
-                4), e_freshair_cmd_total(5);
+        e_freshair_open(0), e_freshair_spd_low(1), e_freshair_spd_mid(2), e_freshair_spd_high(3),
+        e_freshair_spd_auto(4),e_freshair_close(5), e_freshair_cmd_total(6);
 
         private int value;
 

@@ -90,7 +90,7 @@ public class CircleMenuLayout extends RelativeLayout {
             if (Data_InnerCircleList.get(i).isSelect) {
                 t.setTextColor(Color.BLUE);
             } else {
-                t.setTextColor(Color.GREEN);
+                t.setTextColor(Color.BLACK);
             }
             t.setGravity(Gravity.CENTER);
             t.setText(Data_InnerCircleList.get(i).getTitle());

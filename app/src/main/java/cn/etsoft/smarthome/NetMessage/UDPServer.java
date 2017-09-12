@@ -918,8 +918,14 @@ public class UDPServer implements Runnable {
 
                         freshAir.setDev(dev);
                         freshAir.setbOnOff(jsonobj.getInt("bOnOff"));
-                        freshAir.setPowChn(jsonobj.getInt("powChn"));
                         freshAir.setSpdSel(jsonobj.getInt("spdSel"));
+                        freshAir.setOnOffChn(jsonobj.getInt("onOffChn"));
+                        freshAir.setSpdHighChn(jsonobj.getInt("spdHighChn"));
+                        freshAir.setSpdLowChn(jsonobj.getInt("spdLowChn"));
+                        freshAir.setSpdMidChn(jsonobj.getInt("spdMidChn"));
+                        freshAir.setValPm25(jsonobj.getInt("valPm25"));
+                        freshAir.setValPm10(jsonobj.getInt("valPm10"));
+                        freshAir.setAutoRun(jsonobj.getInt("autoRun"));
 
                         boolean IsContain = false;
                         for (int j = 0; j < MyApplication.getWareData().getDevs().size(); j++) {
@@ -927,18 +933,27 @@ public class UDPServer implements Runnable {
                                     && dev.getDevId() == MyApplication.getWareData().getDevs().get(j).getDevId()
                                     && dev.getType() == MyApplication.getWareData().getDevs().get(j).getType()) {
                                 IsContain = true;
+                                MyApplication.getWareData().getDevs().set(j, dev);
                             }
                         }
                         if (!IsContain) {
                             MyApplication.getWareData().getDevs().add(dev);
                             MyApplication.getWareData().getFreshAirs().add(freshAir);
+                        } else {
+                            for (int j = 0; j < MyApplication.getWareData().getFreshAirs().size(); j++) {
+                                if (dev.getCanCpuId().equals(MyApplication.getWareData().getFreshAirs().get(j).getDev().getCanCpuId())
+                                        && dev.getDevId() == MyApplication.getWareData().getFreshAirs().get(j).getDev().getDevId()
+                                        && dev.getType() == MyApplication.getWareData().getFreshAirs().get(j).getDev().getType()) {
+                                    MyApplication.getWareData().getFreshAirs().set(j, freshAir);
+                                }
+                            }
                         }
                     }
                 }
             }
 
             if (subType2 == 9) {
-                devnum_frair = jsonObject.getInt("frair");
+                devnum_frair = jsonObject.getInt("floorheat");
                 if (devnum_frair > 0) {
                     JSONArray jsonArray = jsonObject.getJSONArray("dev_rows");
                     for (int i = 0; i < devnum_frair; i++) {
@@ -967,11 +982,20 @@ public class UDPServer implements Runnable {
                                     && dev.getDevId() == MyApplication.getWareData().getDevs().get(j).getDevId()
                                     && dev.getType() == MyApplication.getWareData().getDevs().get(j).getType()) {
                                 IsContain = true;
+                                MyApplication.getWareData().getDevs().set(j,dev);
                             }
                         }
                         if (!IsContain) {
                             MyApplication.getWareData().getDevs().add(dev);
                             MyApplication.getWareData().getFloorHeat().add(floorHeat);
+                        }else {
+                            for (int j = 0; j < MyApplication.getWareData().getFloorHeat().size(); j++) {
+                                if (dev.getCanCpuId().equals(MyApplication.getWareData().getFloorHeat().get(j).getDev().getCanCpuId())
+                                        && dev.getDevId() == MyApplication.getWareData().getFloorHeat().get(j).getDev().getDevId()
+                                        && dev.getType() == MyApplication.getWareData().getFloorHeat().get(j).getDev().getType()) {
+                                    MyApplication.getWareData().getFloorHeat().set(j, floorHeat);
+                                }
+                            }
                         }
                     }
                 }

@@ -33,6 +33,15 @@ public class FloorHeatFragment extends BaseFragment {
     @Override
     protected void initView() {
         mGirdview = findViewById(R.id.Control_Fragment_GridView);
+
+
+        MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
+            @Override
+            public void upDataWareData(int datType, int subtype1, int subtype2) {
+                if (datType == 3 && subtype2 == 9)
+                    initDev();
+            }
+        });
     }
 
     @Override

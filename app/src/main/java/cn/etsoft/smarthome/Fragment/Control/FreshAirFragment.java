@@ -1,6 +1,8 @@
 package cn.etsoft.smarthome.Fragment.Control;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
@@ -10,11 +12,13 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Activity.ControlActivity;
 import cn.etsoft.smarthome.Adapter.GridView.Control_FreshAir_Adapter;
+import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.WareFreshAir;
 import cn.etsoft.smarthome.Domain.WareSetBox;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 /**
  * Author：FBL  Time： 2017/8/
@@ -32,12 +36,20 @@ public class FreshAirFragment extends BaseFragment {
     @Override
     protected void initView() {
         mGirdview = findViewById(R.id.Control_Fragment_GridView);
+        MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
+            @Override
+            public void upDataWareData(int datType, int subtype1, int subtype2) {
+                if (datType == 3 && subtype2 == 7){
+                    initDev();
+                }
+            }
+        });
     }
 
     @Override
     public void initData(Bundle arguments) {
         mRoomName = arguments.getString("RoomName", "全部");
-//        initDev();
+        initDev();
     }
 
     private void initDev() {

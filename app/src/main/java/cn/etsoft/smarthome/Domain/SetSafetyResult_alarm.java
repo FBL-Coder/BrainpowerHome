@@ -8,7 +8,6 @@ import java.io.Serializable;
  */
 public class SetSafetyResult_alarm implements Serializable {
 
-
     /**
      * devUnitID : 39ffd505484d303408650743
      * datType : 32
