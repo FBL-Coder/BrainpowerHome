@@ -63,28 +63,31 @@ public class Control_FreshAir_Adapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.gridview_control_freshair_item, null);
             viewHoler.mName = (TextView) convertView.findViewById(R.id.Control_GridView_Item_Name);
             viewHoler.mIV = (ImageView) convertView.findViewById(R.id.Control_GridView_Item_IV);
-            viewHoler.mLow = (TextView) convertView.findViewById(R.id.Control_GridView_Item_low);
-            viewHoler.mMin = (TextView) convertView.findViewById(R.id.Control_GridView_Item_min);
-            viewHoler.mHig = (TextView) convertView.findViewById(R.id.Control_GridView_Item_hig);
+            viewHoler.mLow = (ImageView) convertView.findViewById(R.id.Control_GridView_Item_low);
+            viewHoler.mMin = (ImageView) convertView.findViewById(R.id.Control_GridView_Item_min);
+            viewHoler.mHig = (ImageView) convertView.findViewById(R.id.Control_GridView_Item_hig);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
         if (mFreshAir.get(position).getbOnOff() == 0)
             viewHoler.mIV.setImageResource(R.drawable.freshair_close);
         else viewHoler.mIV.setImageResource(R.drawable.freshair_open);
         if (mFreshAir.get(position).getSpdSel() == 2) {
-            viewHoler.mLow.setBackground(mContext.getResources().getDrawable(R.color.blue));
-            viewHoler.mMin.setBackground(mContext.getResources().getDrawable(android.R.color.transparent));
-            viewHoler.mHig.setBackground(mContext.getResources().getDrawable(android.R.color.transparent));
+            viewHoler.mLow.setImageResource(R.drawable.freshair_low_down);
+            viewHoler.mMin.setImageResource(R.drawable.freshair_min);
+            viewHoler.mHig.setImageResource(R.drawable.freshair_hig);
         } else if (mFreshAir.get(position).getSpdSel() == 3) {
-            viewHoler.mLow.setBackground(mContext.getResources().getDrawable(android.R.color.transparent));
-            viewHoler.mMin.setBackground(mContext.getResources().getDrawable(R.color.blue));
-            viewHoler.mHig.setBackground(mContext.getResources().getDrawable(android.R.color.transparent));
+            viewHoler.mLow.setImageResource(R.drawable.freshair_low);
+            viewHoler.mMin.setImageResource(R.drawable.freshair_min_dwom);
+            viewHoler.mHig.setImageResource(R.drawable.freshair_hig);
         } else if (mFreshAir.get(position).getSpdSel() == 4) {
-            viewHoler.mLow.setBackground(mContext.getResources().getDrawable(android.R.color.transparent));
-            viewHoler.mMin.setBackground(mContext.getResources().getDrawable(android.R.color.transparent));
-            viewHoler.mHig.setBackground(mContext.getResources().getDrawable(R.color.blue));
+            viewHoler.mLow.setImageResource(R.drawable.freshair_low);
+            viewHoler.mMin.setImageResource(R.drawable.freshair_min);
+            viewHoler.mHig.setImageResource(R.drawable.freshair_hig_down);
+        }else {
+            viewHoler.mLow.setImageResource(R.drawable.freshair_low);
+            viewHoler.mMin.setImageResource(R.drawable.freshair_min);
+            viewHoler.mHig.setImageResource(R.drawable.freshair_hig);
         }
-
 
         viewHoler.mName.setText(mFreshAir.get(position).getDev().getDevName());
 
@@ -126,7 +129,7 @@ public class Control_FreshAir_Adapter extends BaseAdapter {
     }
 
     class ViewHoler {
-        ImageView mIV;
-        TextView mName, mLow, mMin, mHig;
+        ImageView mIV,mLow, mMin, mHig;
+        TextView mName;
     }
 }

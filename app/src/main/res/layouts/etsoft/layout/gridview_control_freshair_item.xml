@@ -33,34 +33,25 @@
         android:paddingBottom="@dimen/dp_20"
         >
 
-        <TextView
+        <ImageView
             android:id="@+id/Control_GridView_Item_low"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/white1"
-            android:text="低风"
-            android:textSize="@dimen/sp_16"
             android:layout_weight="1" />
 
-        <TextView
+        <ImageView
             android:id="@+id/Control_GridView_Item_min"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/white1"
-            android:text="中风"
-            android:textSize="@dimen/sp_16"
             android:layout_weight="1" />
 
-        <TextView
+        <ImageView
             android:id="@+id/Control_GridView_Item_hig"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/white1"
-            android:text="高风"
-            android:textSize="@dimen/sp_16"
             android:layout_weight="1" />
 
     </LinearLayout>

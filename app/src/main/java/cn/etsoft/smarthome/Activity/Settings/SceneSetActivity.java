@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -44,10 +45,10 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
     private RecyclerView mSceneSetScenes;
-    private TextView mSceneSet_Add_Btn, mSceneSetTestBtn, mSceneSetSaveBtn,mNull_tv;
+    private TextView mSceneSet_Add_Btn, mSceneSetTestBtn, mSceneSetSaveBtn, mNull_tv;
     private SceneSet_ScenesAdapter mScenesAdapter;
     private Fragment mLightFragment, mAirFragment, mTVFragment,
-            mTvUpFragment, mCurFragment,mFreshAirFragment,mFloorHeatFragment;
+            mTvUpFragment, mCurFragment, mFreshAirFragment, mFloorHeatFragment;
     private int ScenePosition = 0, DevType = -1;
     private String RoomName = "";
     private boolean IsNoData = true;
@@ -72,9 +73,11 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 }
                 if (datType == 24) {
                     ToastUtil.showText("保存成功");
+                    initData();
                 }
                 if (datType == 25) {
                     WareDataHliper.initCopyWareData().startCopySceneData();
+                    initData();
                     ToastUtil.showText("删除成功");
                 }
             }
@@ -192,7 +195,11 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         MyApplication.mApplication.showLoadDialog(SceneSetActivity.this);
-                        SendDataUtil.deleteScene(WareDataHliper.initCopyWareData().getCopyScenes().get(position));
+                        try {
+                            SendDataUtil.deleteScene(WareDataHliper.initCopyWareData().getCopyScenes().get(position));
+                        } catch (Exception e) {
+                            Log.e("SETSCENE", "onClick: " + e);
+                        }
                     }
                 });
                 builder.create().show();

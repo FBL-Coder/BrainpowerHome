@@ -98,6 +98,7 @@ public class WareFloorHeat implements Serializable {
 
     public void setPowChn(int powChn) {
         this.powChn = powChn;
+        dev.setPowChn(powChn);
     }
 
     public int getAutoRun() {

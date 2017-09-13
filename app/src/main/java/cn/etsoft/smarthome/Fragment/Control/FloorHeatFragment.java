@@ -38,8 +38,9 @@ public class FloorHeatFragment extends BaseFragment {
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                if (datType == 3 && subtype2 == 9)
-                    initDev();
+                if ((datType == 3 && subtype2 == 9) || (datType == 6 && subtype2 == 1))
+                    MyApplication.mApplication.dismissLoadDialog();
+                initDev();
             }
         });
     }

@@ -446,37 +446,56 @@ public class DevInfosAdapter extends BaseAdapter {
                             }
                             String chn_str = "";
                             if (Devs.get(position).getType() == 7)
-                                chn_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
-                                        "\"datType\":" + 6 + "," +
-                                        "\"subType1\":0," +
-                                        "\"subType2\":0," +
-                                        "\"canCpuID\":\"" + Devs.get(position).getCanCpuId() + "\"," +
-                                        "\"devType\":" + Devs.get(position).getType() + "," +
-                                        "\"devID\":" + Devs.get(position).getDevId() + "," +
-                                        "\"devName\":" + "\"" + Save_DevName + "\"," +
-                                        "\"roomName\":" + "\"" + Save_Roomname + "\"," +
-                                        "\"spdLowChn\":" + (Integer.parseInt(WayStr_ok[1]) - 1) + "," +
-                                        "\"spdMidChn\":" + (Integer.parseInt(WayStr_ok[2]) - 1) + "," +
-                                        "\"spdHighChn\":" + (Integer.parseInt(WayStr_ok[3]) - 1) + "," +
-                                        "\"autoRun\":" + 0 + "," +
-                                        "\"valPm10\":" + 0 + "," +
-                                        "\"valPm25\":" + 0 + "," +
-                                        "\"cmd\":" + 1 + "," +
-                                        "\"powChn\":" + (Integer.parseInt(WayStr_ok[0]) - 1) + "}";
+                                for (int i = 0; i < MyApplication.getWareData().getFreshAirs().size(); i++) {
+
+                                    WareFreshAir freshAir = MyApplication.getWareData().getFreshAirs().get(i);
+
+                                    if (Devs.get(position).getCanCpuId().equals(freshAir.getDev().getCanCpuId())
+                                            && Devs.get(position).getType() == freshAir.getDev().getType()
+                                            && Devs.get(position).getDevId() == freshAir.getDev().getDevId()) {
+                                        chn_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                                                "\"datType\":" + 6 + "," +
+                                                "\"subType1\":0," +
+                                                "\"subType2\":0," +
+                                                "\"canCpuID\":\"" + freshAir.getDev().getCanCpuId() + "\"," +
+                                                "\"devType\":" + freshAir.getDev().getType() + "," +
+                                                "\"devID\":" + freshAir.getDev().getDevId() + "," +
+                                                "\"devName\":" + "\"" + Save_DevName + "\"," +
+                                                "\"roomName\":" + "\"" + Save_Roomname + "\"," +
+                                                "\"spdLowChn\":" + (Integer.parseInt(WayStr_ok[1]) - 1) + "," +
+                                                "\"spdMidChn\":" + (Integer.parseInt(WayStr_ok[2]) - 1) + "," +
+                                                "\"spdHighChn\":" + (Integer.parseInt(WayStr_ok[3]) - 1) + "," +
+                                                "\"autoRun\":" + freshAir.getValPm10() + "," +
+                                                "\"valPm10\":" + 0 + "," +
+                                                "\"valPm25\":" + 0 + "," +
+                                                "\"cmd\":" + 1 + "," +
+                                                "\"powChn\":" + (Integer.parseInt(WayStr_ok[0]) - 1) + "}";
+
+                                    }
+                                }
                             else if (Devs.get(position).getType() == 9)
-                                chn_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
-                                        "\"datType\":" + 6 + "," +
-                                        "\"subType1\":0," +
-                                        "\"subType2\":0," +
-                                        "\"canCpuID\":\"" + Devs.get(position).getCanCpuId() + "\"," +
-                                        "\"devType\":" + Devs.get(position).getType() + "," +
-                                        "\"devID\":" + Devs.get(position).getDevId() + "," +
-                                        "\"devName\":" + "\"" + Save_DevName + "\"," +
-                                        "\"roomName\":" + "\"" + Save_Roomname + "\"," +
-                                        "\"tempset\":" + 0 + "," +
-                                        "\"autoRun\":" + 0 + "," +
-                                        "\"cmd\":" + 1 + "," +
-                                        "\"powChn\":" + Save_DevWay + "}";
+                                for (int i = 0; i < MyApplication.getWareData().getFloorHeat().size(); i++) {
+                                    WareFloorHeat floorHeat = MyApplication.getWareData().getFloorHeat().get(i);
+
+                                    if (Devs.get(position).getType() == floorHeat.getDev().getType()
+                                            && Devs.get(position).getDevId() == floorHeat.getDev().getDevId()
+                                            && Devs.get(position).getCanCpuId().equals(floorHeat.getDev().getCanCpuId()))
+                                        chn_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                                                "\"datType\":" + 6 + "," +
+                                                "\"subType1\":0," +
+                                                "\"subType2\":0," +
+                                                "\"canCpuID\":\"" + Devs.get(position).getCanCpuId() + "\"," +
+                                                "\"devType\":" + Devs.get(position).getType() + "," +
+                                                "\"devID\":" + Devs.get(position).getDevId() + "," +
+                                                "\"devName\":" + "\"" + Save_DevName + "\"," +
+                                                "\"roomName\":" + "\"" + Save_Roomname + "\"," +
+                                                "\"bOnOff\":" + floorHeat.getDev().getbOnOff() + "," +
+                                                "\"tempget\":" + floorHeat.getTempget() + "," +
+                                                "\"tempset\":" + floorHeat.getTempset() + "," +
+                                                "\"autoRun\":" + floorHeat.getAutoRun() + "," +
+                                                "\"cmd\":" + 1 + "," +
+                                                "\"powChn\":" + Save_DevWay + "}";
+                                }
                             else
                                 chn_str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
                                         "\"datType\":" + 6 + "," +
@@ -670,7 +689,7 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoName.setText(curtain.getDev().getDevName());
                     viewHolder.mDevInfoRoom.setText(curtain.getDev().getRoomName());
                     viewHolder.mDevInfoType.setText("窗帘");
-                    viewHolder.mDevInfoWay.setText(curtain.getPowChn() + "");
+                    viewHolder.mDevInfoWay.setText((curtain.getPowChn() + 1) + "");
                     if ("".equals(BoardName))
                         viewHolder.mDevInfoOutBoard.setText("数据解析出错");
                     viewHolder.mDevInfoOutBoard.setText(BoardName);
@@ -678,7 +697,7 @@ public class DevInfosAdapter extends BaseAdapter {
                     //不可视布局数据
                     viewHolder.mDevInfoEditRoom.setText(curtain.getDev().getRoomName());
                     viewHolder.mDevInfoEditName.setHint(curtain.getDev().getDevName());
-                    viewHolder.mDevInfoEditWay.setText(curtain.getPowChn() + "");
+                    viewHolder.mDevInfoEditWay.setText((curtain.getPowChn() + 1) + "");
                     viewHolder.mDevInfoEditType.setText("窗帘");
                 }
             }
@@ -734,7 +753,7 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoName.setText(floorHeat.getDev().getDevName());
                     viewHolder.mDevInfoRoom.setText(floorHeat.getDev().getRoomName());
                     viewHolder.mDevInfoType.setText("地暖");
-                    viewHolder.mDevInfoWay.setText((floorHeat.getPowChn()+1)+"");
+                    viewHolder.mDevInfoWay.setText((floorHeat.getPowChn() + 1) + "");
                     if ("".equals(BoardName))
                         viewHolder.mDevInfoOutBoard.setText("数据解析出错");
                     viewHolder.mDevInfoOutBoard.setText(BoardName);
@@ -742,7 +761,7 @@ public class DevInfosAdapter extends BaseAdapter {
                     //不可视布局数据
                     viewHolder.mDevInfoEditRoom.setText(floorHeat.getDev().getRoomName());
                     viewHolder.mDevInfoEditName.setHint(floorHeat.getDev().getDevName());
-                    viewHolder.mDevInfoEditWay.setText((floorHeat.getPowChn()+1) + "");
+                    viewHolder.mDevInfoEditWay.setText((floorHeat.getPowChn() + 1) + "");
                     viewHolder.mDevInfoEditType.setText("地暖");
                 }
             }
