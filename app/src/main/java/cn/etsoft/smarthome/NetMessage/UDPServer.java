@@ -202,19 +202,23 @@ public class UDPServer implements Runnable {
 
     public static void show(String str) {
 
-        str = str.trim();
-        int index = 0;
-        int maxLength = 4000;
-        String sub;
-        while (index < str.length()) {
-            // java的字符不允许指定超过总的长度end
-            if (str.length() <= index + maxLength) {
-                sub = str.substring(index);
-            } else {
-                sub = str.substring(index, maxLength);
+        try {
+            str = str.trim();
+            int index = 0;
+            int maxLength = 4000;
+            String sub;
+            while (index < str.length()) {
+                // java的字符不允许指定超过总的长度end
+                if (str.length() <= index + maxLength) {
+                    sub = str.substring(index);
+                } else {
+                    sub = str.substring(index, maxLength);
+                }
+                index += maxLength;
+                Log.i("接收信息", sub.trim());
             }
-            index += maxLength;
-            Log.i("接收信息", sub.trim());
+        } catch (Exception e) {
+            Log.e("Exception", e.toString());
         }
     }
 
@@ -1426,7 +1430,8 @@ public class UDPServer implements Runnable {
                 for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                     WareDev dev1 = MyApplication.getWareData().getDevs().get(i);
                     if (dev1.getCanCpuId().equals(curtain.getDev().getCanCpuId())
-                            && dev1.getDevId() == curtain.getDev().getDevId()) {
+                            && dev1.getDevId() == curtain.getDev().getDevId()
+                            && dev1.getType() == curtain.getDev().getType()) {
                         MyApplication.getWareData().getDevs().remove(i);
                         break;
                     }
@@ -1452,7 +1457,8 @@ public class UDPServer implements Runnable {
                 for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                     WareDev dev1 = MyApplication.getWareData().getDevs().get(i);
                     if (dev1.getCanCpuId().equals(airCondDev.getDev().getCanCpuId())
-                            && dev1.getDevId() == airCondDev.getDev().getDevId()) {
+                            && dev1.getDevId() == airCondDev.getDev().getDevId()
+                            && dev1.getType() == airCondDev.getDev().getType()) {
                         MyApplication.getWareData().getDevs().remove(i);
                         break;
                     }
@@ -1480,7 +1486,8 @@ public class UDPServer implements Runnable {
                 for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                     WareDev dev1 = MyApplication.getWareData().getDevs().get(i);
                     if (dev1.getCanCpuId().equals(wareLight.getDev().getCanCpuId())
-                            && dev1.getDevId() == wareLight.getDev().getDevId()) {
+                            && dev1.getDevId() == wareLight.getDev().getDevId()
+                            && dev1.getType() == wareLight.getDev().getType()) {
                         MyApplication.getWareData().getDevs().remove(i);
                         break;
                     }
@@ -1508,7 +1515,8 @@ public class UDPServer implements Runnable {
                 for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                     WareDev dev1 = MyApplication.getWareData().getDevs().get(i);
                     if (dev1.getCanCpuId().equals(freshAir.getDev().getCanCpuId())
-                            && dev1.getDevId() == freshAir.getDev().getDevId()) {
+                            && dev1.getDevId() == freshAir.getDev().getDevId()
+                            && dev1.getType() == freshAir.getDev().getType()) {
                         MyApplication.getWareData().getDevs().remove(i);
                         break;
                     }
@@ -1516,7 +1524,7 @@ public class UDPServer implements Runnable {
             } else if (devType == 9) {
 
                 WareFloorHeat floorHeat = new WareFloorHeat();
-
+                MyApplication.getWareData().getDevs();
                 JSONObject jsonobj = array.getJSONObject(0);
                 WareDev dev = new WareDev();
                 dev.setCanCpuId(jsonobj.getString("canCpuID"));
@@ -1536,12 +1544,14 @@ public class UDPServer implements Runnable {
                 for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                     WareDev dev1 = MyApplication.getWareData().getDevs().get(i);
                     if (dev1.getCanCpuId().equals(floorHeat.getDev().getCanCpuId())
-                            && dev1.getDevId() == floorHeat.getDev().getDevId()) {
+                            && dev1.getDevId() == floorHeat.getDev().getDevId()
+                            && dev1.getType() == floorHeat.getDev().getType()) {
                         MyApplication.getWareData().getDevs().remove(i);
                         break;
                     }
                 }
             }
+            MyApplication.getWareData().getDevs();
         } catch (Exception e) {
             isFreshData = false;
             System.out.println(this.getClass().getName() + "datType = 7" + e.toString());

@@ -73,7 +73,6 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 }
                 if (datType == 24) {
                     ToastUtil.showText("保存成功");
-                    initData();
                 }
                 if (datType == 25) {
                     WareDataHliper.initCopyWareData().startCopySceneData();

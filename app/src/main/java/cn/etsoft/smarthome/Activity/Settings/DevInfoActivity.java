@@ -178,7 +178,6 @@ public class DevInfoActivity extends BaseActivity {
                     adapter.notifyDataSetChanged(gridviewDev);
             }
         });
-
     }
 
     public List<WareDev> getRoomDev(String roomname) {

@@ -418,7 +418,7 @@ public class DevInfosAdapter extends BaseAdapter {
                                     ToastUtil.showText("请选择通道");
                                     return;
                                 } else {
-                                    if (Way_Str.length() > 1) {
+                                    if (Way_Str.contains("、")) {
                                         ToastUtil.showText("窗帘最多只有1个通道");
                                         return;
                                     }

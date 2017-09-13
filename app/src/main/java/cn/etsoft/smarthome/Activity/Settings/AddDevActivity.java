@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
+import org.linphone.mediastream.Log;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -203,7 +205,7 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                                 ToastUtil.showText("请选择通道");
                                 return;
                             } else {
-                                if (Way_Str.length() > 1) {
+                                if (Way_Str.contains("、")) {
                                     ToastUtil.showText("窗帘最多只有1个通道");
                                     return;
                                 }
@@ -255,7 +257,9 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                                     "\"devType\":" + type_position + "," +
                                     "\"devName\":" + "\"" + Save_DevName + "\"," +
                                     "\"roomName\":" + "\"" + Save_Roomname + "\"," +
-                                    "\"tempset\":" + 0 + "," +
+                                    "\"tempget\":" + 25 + "," +
+                                    "\"bOnOff\":" + 0 + "," +
+                                    "\"tempset\":" + 25 + "," +
                                     "\"autoRun\":" + 0 + "," +
                                     "\"powChn\":" + Save_DevWay + "}";
                         else
@@ -268,7 +272,7 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                                     "\"devName\":" + "\"" + Save_DevName + "\"," +
                                     "\"roomName\":" + "\"" + Save_Roomname + "\"," +
                                     "\"powChn\":" + Save_DevWay + "}";
-//                        Log.i(TAG, "onClick: " + chn_str);
+                        Log.i(TAG, "onClick: " + chn_str);
                         MyApplication.setAddOrEditDevName(Save_DevName);
                         MyApplication.setAddOrEditRoomName(Save_Roomname);
                         MyApplication.mApplication.getUdpServer().send(chn_str);
@@ -414,16 +418,8 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                         for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
                             if (list_board.get(board_position).getDevUnitID().equals(
                                     MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())) {
-                                int PowChn = MyApplication.getWareData().getCurtains().get(i).getPowChn();
-                                String PowChnList = Integer.toBinaryString(PowChn);
-                                PowChnList = new StringBuffer(PowChnList).reverse().toString();
-                                List<Integer> index_list = new ArrayList<>();
-                                for (int j = 0; j < PowChnList.length(); j++) {
-                                    if (PowChnList.charAt(j) == '1') {
-                                        index_list.add(j + 1);
-                                    }
-                                }
-                                list_voard_cancpuid.addAll(index_list);
+                                int PowChn = MyApplication.getWareData().getCurtains().get(i).getDev().getPowChn() + 1;
+                                list_voard_cancpuid.add(PowChn);
                             }
                         }
                     } else if (dev.getType() == 7) {

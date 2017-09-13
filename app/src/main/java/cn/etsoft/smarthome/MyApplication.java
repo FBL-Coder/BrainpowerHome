@@ -305,7 +305,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     /**
      * 获取所有数据
      */
-    public static WareData getWareData() {
+    public synchronized static WareData getWareData() {
         if (mWareData == null) {
             if (!"".equals(AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, "")))
                 try {

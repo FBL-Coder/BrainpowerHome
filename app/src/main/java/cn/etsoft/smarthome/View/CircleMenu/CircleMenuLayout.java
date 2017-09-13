@@ -145,7 +145,6 @@ public class CircleMenuLayout extends RelativeLayout {
                         if (j == Position)
                             Data_OuterCircleList.get(j).setSelect(true);
                         else Data_OuterCircleList.get(j).setSelect(false);
-
                     }
                     UIEvent_Circle_Outer();
                 }
