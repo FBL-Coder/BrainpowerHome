@@ -137,7 +137,7 @@
                         android:layout_width="@dimen/dp_40"
                         android:layout_height="@dimen/dp_40"
                         android:layout_alignParentRight="true"
-                        android:src="@drawable/input_edit_dev" />
+                        android:src="@drawable/edit_roomname" />
                 </RelativeLayout>
             </LinearLayout>
 

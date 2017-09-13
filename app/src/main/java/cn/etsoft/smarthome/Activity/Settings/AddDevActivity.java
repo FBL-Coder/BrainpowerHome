@@ -313,10 +313,6 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
             case R.id.AddDev_Way:
-                if (type_position == -1) {
-                    ToastUtil.showText("请选择设备类型");
-                    return;
-                }
                 if (board_position == -1) {
                     ToastUtil.showText("请选择输出板");
                     return;

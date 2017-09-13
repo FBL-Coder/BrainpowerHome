@@ -42,6 +42,37 @@ public class DevInfoActivity extends BaseActivity {
     private TextView mDevInfoAddDevs, mDevInfoNullData;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
+            @Override
+            public void upDataWareData(int datType, int subtype1, int subtype2) {
+                // 数据返回处理
+                if (datType == 5 || datType == 6 || datType == 7) {
+                    MyApplication.mApplication.dismissLoadDialog();
+                    if (subtype2 != 1) {
+                        ToastUtil.showText("操作失败");
+                        return;
+                    }
+                    ToastUtil.showText("操作成功");
+                    mRoomDevs = getRoomDev(RoomName);
+                    if (mRoomDevs == null) return;
+                    List<WareDev> gridviewDev = new ArrayList<>();
+                    for (int i = 0; i < mRoomDevs.size(); i++) {
+                        if (mRoomDevs.get(i).getType() == DevType)
+                            gridviewDev.add(mRoomDevs.get(i));
+                    }
+                    if (adapter == null) {
+                        adapter = new DevInfosAdapter(gridviewDev, DevInfoActivity.this);
+                        DevInfoGridView.setAdapter(adapter);
+                    } else
+                        adapter.notifyDataSetChanged(gridviewDev);
+                }
+            }
+        });
+    }
+
+    @Override
     public void initView() {
         setLayout(R.layout.activity_devinfo);
         DevInfoGridView = getViewById(R.id.DevInfo_Info);

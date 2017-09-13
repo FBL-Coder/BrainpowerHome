@@ -1414,7 +1414,6 @@ public class UDPServer implements Runnable {
                 dev.setType(jsonobj.getInt("devType"));
                 dev.setbOnOff(jsonobj.getInt("bOnOff"));
                 curtain.setDev(dev);
-//                MyApplication.getWareData().getCurtains().add(curtain);
 
                 for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
                     WareCurtain curtain1 = MyApplication.getWareData().getCurtains().get(i);
@@ -1473,8 +1472,8 @@ public class UDPServer implements Runnable {
                     WareLight light = MyApplication.getWareData().getLights().get(i);
                     if (light.getDev().getCanCpuId().equals(wareLight.getDev().getCanCpuId())
                             && light.getDev().getDevId() == wareLight.getDev().getDevId()) {
+                        Log.i("Light", "DELETE"+wareLight.getDev().getDevId() + "");
                         MyApplication.getWareData().getLights().remove(i);
-                        Log.i("Light", wareLight.getDev().getDevId() + "");
                         break;
                     }
                 }
@@ -1501,8 +1500,8 @@ public class UDPServer implements Runnable {
                     WareFreshAir freshAir1 = MyApplication.getWareData().getFreshAirs().get(i);
                     if (freshAir1.getDev().getCanCpuId().equals(freshAir.getDev().getCanCpuId())
                             && freshAir1.getDev().getDevId() == freshAir.getDev().getDevId()) {
-                        MyApplication.getWareData().getLights().remove(i);
-                        Log.i("Light", freshAir.getDev().getDevId() + "");
+                        Log.i("FreshAir", "DELETE"+freshAir.getDev().getDevId() + "");
+                        MyApplication.getWareData().getFreshAirs().remove(i);
                         break;
                     }
                 }
@@ -1529,8 +1528,8 @@ public class UDPServer implements Runnable {
                     WareFloorHeat heat = MyApplication.getWareData().getFloorHeat().get(i);
                     if (heat.getDev().getCanCpuId().equals(floorHeat.getDev().getCanCpuId())
                             && heat.getDev().getDevId() == floorHeat.getDev().getDevId()) {
-                        MyApplication.getWareData().getLights().remove(i);
-                        Log.i("Light", floorHeat.getDev().getDevId() + "");
+                        Log.i("FloorHeat", "DELETE"+floorHeat.getDev().getDevId() + "");
+                        MyApplication.getWareData().getFloorHeat().remove(i);
                         break;
                     }
                 }
