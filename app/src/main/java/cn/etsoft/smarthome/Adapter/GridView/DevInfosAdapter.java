@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -38,6 +39,8 @@ import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.Utils.CommonUtils;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.PopupWindow.MultiChoicePopWindow;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * Author：FBL  Time： 2017/6/29.
@@ -131,8 +134,13 @@ public class DevInfosAdapter extends BaseAdapter {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // 删除设备
-                            SendDataUtil.deleteDev(Devs.get(position));
-                            MyApplication.mApplication.showLoadDialog(mContext);
+                            try {
+                                SendDataUtil.deleteDev(Devs.get(position));
+                                MyApplication.mApplication.showLoadDialog(mContext);
+                            } catch (Exception e) {
+                                Log.e(TAG, "DeleteClick: " + e);
+                                return;
+                            }
                         }
                     });
                     builder.setNegativeButton("不要", new DialogInterface.OnClickListener() {

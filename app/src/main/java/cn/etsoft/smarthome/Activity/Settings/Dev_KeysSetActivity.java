@@ -63,7 +63,6 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
     //房间内指定类型设备
     private List<WareDev> mRoomDevs;
 
-
     private int position_keyinput = 0, devPosition = 0;
 
     @Override

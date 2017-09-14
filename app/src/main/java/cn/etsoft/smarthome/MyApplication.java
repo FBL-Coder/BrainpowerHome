@@ -31,7 +31,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import cn.etsoft.smarthome.Activity.SafetyHomeActivity;
-import cn.etsoft.smarthome.Activity.Settings.SafetySetActivity;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.Safety_Data;
@@ -121,6 +120,9 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     //游客登录标记
     private boolean IsVisitor = false;
+
+    //主页对象
+    private Activity mHomeActivity;
 
     @Override
     public void onCreate() {
@@ -348,7 +350,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             @Override
             public void run() {
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(150000);
                     if (progressDialog != null && progressDialog.isShowing()) {
                         Message message = handler.obtainMessage();
                         message.what = DIALOG_DISMISS;
@@ -418,6 +420,14 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     public void setVisitor(boolean visitor) {
         IsVisitor = visitor;
+    }
+
+    public Activity getmHomeActivity() {
+        return mHomeActivity;
+    }
+
+    public void setmHomeActivity(Activity mHomeActivity) {
+        this.mHomeActivity = mHomeActivity;
     }
 
     /**

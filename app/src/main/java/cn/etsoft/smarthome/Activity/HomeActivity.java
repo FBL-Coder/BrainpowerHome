@@ -63,9 +63,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         //添加Activity在ActivityList中
         PermissionsUtli.verifyStoragePermissions(HomeActivity.this);
         MyApplication.addActivity(this);
+        MyApplication.mApplication.setmHomeActivity(this);
         initView();
         initData();
-
         //网络改变监听
         BaseActivity.setGetNetChangeListener(new BaseActivity.getNetChangeListener() {
             @Override

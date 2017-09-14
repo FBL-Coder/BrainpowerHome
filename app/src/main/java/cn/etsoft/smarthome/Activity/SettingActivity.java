@@ -121,6 +121,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                                     AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0);
                                     AppSharePreferenceMgr.put(GlobalVars.USERPASSWORD_SHAREPREFERENCE, "");
                                     AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
+                                    MyApplication.mApplication.getmHomeActivity().finish();
                                     startActivity(new Intent(SettingActivity.this, cn.semtec.community2.activity.LoginActivity.class));
                                     finish();
                                 } else {
