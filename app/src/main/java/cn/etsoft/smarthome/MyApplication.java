@@ -30,6 +30,7 @@ import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import cn.etsoft.smarthome.Activity.SafetyHomeActivity;
 import cn.etsoft.smarthome.Activity.Settings.SafetySetActivity;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
@@ -476,8 +477,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                         return;
                     }
                     NotificationUtils.createNotif(
-                            MyApplication.mApplication, R.mipmap.ic_launcher, "报警",
-                            "警报", contont, new Intent(MyApplication.mApplication, SafetySetActivity.class), NotificationID, 0);
+                            MyApplication.mApplication, R.drawable.notification, "报警",
+                            "警报", contont, new Intent(MyApplication.mApplication, SafetyHomeActivity.class), NotificationID, 0);
                     NotificationID++;
                 }
                 if (onGetWareDataListener != null)

@@ -145,7 +145,6 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
         if (DevType == -1 || "".equals(RoomName)) {
             mKey_null.setText("请先选择房间和设备类型");
         }
-        RecyclerViewClick();
         initEvent();
     }
 
@@ -176,6 +175,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
         Log.e("按键名称", String.valueOf(keyName_list));
         KeysAdapter = new Key_Devs_KeysAdapter(keyName_list);
         mKeyDevs_Keys.setAdapter(KeysAdapter);
+        RecyclerViewClick();
     }
 
     @Override

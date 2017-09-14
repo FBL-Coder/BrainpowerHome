@@ -52,8 +52,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private Home_Weather weather_helper;
     private HomeHandler mHandler = new HomeHandler(HomeActivity.this);
     private HomeWeatherAnim mHomeWeatherAnim;
-    private BamLinearLayout mHome_YunVideo,mHome_Safety,mHome_JiaDian,mHome_State,mHome_Scene,
-            mHome_Timer,mHome_Health,mHome_Setting;
+    private BamLinearLayout mHome_YunVideo, mHome_Safety, mHome_JiaDian, mHome_State, mHome_Scene,
+            mHome_Timer, mHome_Health, mHome_Setting;
 
 
     @Override
@@ -74,7 +74,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             }
         });
     }
-
 
 
     private void initView() {
@@ -136,15 +135,15 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(new Intent(HomeActivity.this, cn.semtec.community2.WelcomeActivity.class));
                 break;
             case R.id.Home_Safety:
-                startActivity(new Intent(HomeActivity.this,SafetyHomeActivity.class));
+                startActivity(new Intent(HomeActivity.this, SafetyHomeActivity.class));
                 break;
             case R.id.Home_JiaDian:
-                startActivity(new Intent(HomeActivity.this,ControlActivity.class));
+                startActivity(new Intent(HomeActivity.this, ControlActivity.class));
                 break;
 //            case R.id.Home_State:
 //                break;
             case R.id.Home_Scene:
-                startActivity(new Intent(HomeActivity.this,ControlSceneActivity.class));
+                startActivity(new Intent(HomeActivity.this, ControlSceneActivity.class));
                 break;
 //            case R.id.Home_Timer:
 //                SendDataUtil.getTimerInfo();
@@ -153,7 +152,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //            case R.id.Home_Health:
 //                break;
             case R.id.Home_Setting:
-                startActivity(new Intent(HomeActivity.this,SettingActivity.class));
+                startActivity(new Intent(HomeActivity.this, SettingActivity.class));
                 break;
         }
     }
@@ -213,12 +212,12 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     String kongtiao = results.getResult().getIndex().get(0).getDetail();
                     String yundong = results.getResult().getIndex().get(1).getDetail();
                     String fengli = results.getResult().getWindpower();
-                    weakReference.get().mHomeWeatherShidu.setText("湿度 : " + shidu);
-                    weakReference.get().mHomeWeatherZhiliang.setText(pm + "  " + zhiliang);
+                    weakReference.get().mHomeWeatherShidu.setText("湿度：" + shidu);
+                    weakReference.get().mHomeWeatherZhiliang.setText(pm + "     " + zhiliang);
                     weakReference.get().mHomeWeatherTemp.setText(temp + " ℃");
                     weakReference.get().mHomeWeatherType.setText(text);
-                    weakReference.get().mHomeWeatherFengli.setText("风力 :" + fengli);
-                    weakReference.get().mHomeWeatherTishi.setText("空气:" + kongqi + "     空调:" + kongtiao + "      运动:" + yundong);
+                    weakReference.get().mHomeWeatherFengli.setText("风力：" + fengli);
+                    weakReference.get().mHomeWeatherTishi.setText("空气：" + kongqi + "     空调：" + kongtiao + "      运动：" + yundong);
                 }
             }
         }

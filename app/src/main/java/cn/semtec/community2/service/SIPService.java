@@ -171,7 +171,7 @@ public class SIPService extends Service {
                         // 获取NotificationManager实例
                         Notification notify = mBuilder.build();
                         notify.flags |= Notification.FLAG_NO_CLEAR;
-                        notificationManager.notify(0, notify);
+//                        notificationManager.notify(0, notify);
                     }
                 });
             }
