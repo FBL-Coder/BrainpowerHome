@@ -42,6 +42,10 @@ public class WareAirCondDev implements Serializable {
     }
 
     public int getSelTemp() {
+        if (selTemp > 30)
+            return 30;
+        if (selTemp < 16)
+            return 16;
         return selTemp;
     }
 

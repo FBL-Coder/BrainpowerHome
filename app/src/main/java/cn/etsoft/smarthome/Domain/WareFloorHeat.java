@@ -77,6 +77,10 @@ public class WareFloorHeat implements Serializable {
     }
 
     public int getTempget() {
+        if (tempget > 30)
+            return 30;
+        if (tempget < 20)
+            return 20;
         return tempget;
     }
 
@@ -85,6 +89,11 @@ public class WareFloorHeat implements Serializable {
     }
 
     public int getTempset() {
+        if (tempset > 30)
+            return 30;
+        if (tempset < 20) {
+            return 20;
+        }
         return tempset;
     }
 

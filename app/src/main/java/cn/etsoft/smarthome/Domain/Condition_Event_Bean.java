@@ -130,6 +130,8 @@ public class Condition_Event_Bean implements Serializable {
         }
 
         public int getThType() {
+            if (thType > 1)
+                return 0;
             return thType;
         }
 
@@ -138,6 +140,8 @@ public class Condition_Event_Bean implements Serializable {
         }
 
         public int getEnvType() {
+            if (envType > 2)
+                return 0;
             return envType;
         }
 
