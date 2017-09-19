@@ -29,7 +29,7 @@ public class Dev_KeysSet_DevsAdapter extends RecyclerView.Adapter<Dev_KeysSet_De
         this.onItemClick = onItemClick;
     }
 
-    public void upData(List<WareDev> list){
+    public void upData(List<WareDev> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -64,11 +64,11 @@ public class Dev_KeysSet_DevsAdapter extends RecyclerView.Adapter<Dev_KeysSet_De
         else if (list.get(position).getType() == 6)
             holder.iv.setImageResource(R.drawable.ic_launcher);
         else if (list.get(position).getType() == 7)
-            holder.iv.setImageResource(R.drawable.ic_launcher);
+            holder.iv.setImageResource(R.drawable.freshair_close);
         else if (list.get(position).getType() == 8)
             holder.iv.setImageResource(R.drawable.ic_launcher);
         else if (list.get(position).getType() == 9)
-            holder.iv.setImageResource(R.drawable.ic_launcher);
+            holder.iv.setImageResource(R.drawable.floorheat_close);
 
         holder.tv.setText(list.get(position).getDevName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {

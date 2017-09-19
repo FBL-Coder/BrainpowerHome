@@ -160,7 +160,8 @@ public class NewWorkSetActivity extends BaseActivity {
         mSousuo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(NewWorkSetActivity.this, SeekActivity.class), 0);
+                startActivityForResult(new Intent(NewWorkSetActivity.this,
+                        SeekActivity.class), 0);
             }
         });
     }

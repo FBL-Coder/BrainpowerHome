@@ -105,8 +105,6 @@ public class Login_Helper {
             rcuInfo.setDevUnitPass(result.getData().get(i).getDevPass());
             rcuInfos.add(rcuInfo);
         }
-//        List<RcuInfo> json_list = gson.fromJson(json_rcuinfo_list, new TypeToken<List<RcuInfo>>() {
-//        }.getType());
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, gson.toJson(rcuInfos));
         if (rcuInfos.size() != 1)
             mContext.startActivity(new Intent(mContext, NewWorkSetActivity.class));

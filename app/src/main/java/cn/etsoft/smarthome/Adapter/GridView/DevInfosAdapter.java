@@ -168,107 +168,65 @@ public class DevInfosAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 List<Integer> list_voard_cancpuid = new ArrayList<>();
-//                if (Devs.get(position).getType() == 0) {
-//                    for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
-//                        if (Devs.get(position).getCanCpuId()
-//                                .equals(MyApplication.getWareData().getAirConds().get(i).getDev().getCanCpuId())
-//                                && Devs.get(position).getDevId() != MyApplication.getWareData().getAirConds().get(i).getDev().getDevId()) {
-//
-//                            int PowChn = MyApplication.getWareData().getAirConds().get(i).getPowChn();
-//                            String PowChnList = Integer.toBinaryString(PowChn);
-//                            PowChnList = new StringBuffer(PowChnList).reverse().toString();
-//                            List<Integer> index_list = new ArrayList<>();
-//                            for (int j = 0; j < PowChnList.length(); j++) {
-//                                if (PowChnList.charAt(j) == '1') {
-//                                    index_list.add(j + 1);
-//                                }
-//                            }
-//                            list_voard_cancpuid.addAll(index_list);
-//                        }
-//                    }
-//                } else if (Devs.get(position).getType() == 3) {
-//                    for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
-//                        if (Devs.get(position).getCanCpuId()
-//                                .equals(MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId())
-//                                && Devs.get(position).getDevId() != MyApplication.getWareData().getLights().get(i).getDev().getDevId()) {
-//
-//                            int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn() + 1;
-//                            list_voard_cancpuid.add(PowChn);
-//                        }
-//                    }
-//                    list_voard_cancpuid.size();
-//                } else if (Devs.get(position).getType() == 4) {
-//                    for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
-//                        if (Devs.get(position).getCanCpuId()
-//                                .equals(MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())
-//                                && Devs.get(position).getDevId() != MyApplication.getWareData().getCurtains().get(i).getDev().getDevId()) {
-//
-//                            int PowChn = MyApplication.getWareData().getCurtains().get(i).getPowChn();
-//                            String PowChnList = Integer.toBinaryString(PowChn);
-//                            PowChnList = new StringBuffer(PowChnList).reverse().toString();
-//                            List<Integer> index_list = new ArrayList<>();
-//                            for (int j = 0; j < PowChnList.length(); j++) {
-//                                if (PowChnList.charAt(j) == '1') {
-//                                    index_list.add(j + 1);
-//                                }
-//                            }
-//                            list_voard_cancpuid.addAll(index_list);
-//                        }
-//                    }
-//                }
+
                 for (int z = 0; z < MyApplication.getWareData().getDevs().size(); z++) {
                     WareDev dev = MyApplication.getWareData().getDevs().get(z);
-                    if (dev.getType() == 0 && Devs.get(position).getType() != 0) {
-                        for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
-                            WareAirCondDev airCondDev = MyApplication.getWareData().getAirConds().get(i);
-                            if (Devs.get(position).getCanCpuId().equals(airCondDev.getDev().getCanCpuId())) {
-                                int PowChn = airCondDev.getPowChn();
-                                String PowChnList = Integer.toBinaryString(PowChn);
-                                PowChnList = new StringBuffer(PowChnList).reverse().toString();
-                                List<Integer> index_list = new ArrayList<>();
-                                for (int j = 0; j < PowChnList.length(); j++) {
-                                    if (PowChnList.charAt(j) == '1') {
-                                        index_list.add(j + 1);
+                    if (!(dev.getType() == Devs.get(position).getType()
+                            && dev.getDevId() == Devs.get(position).getDevId()
+                            && dev.getCanCpuId().equals(Devs.get(position).getCanCpuId()))) {
+                        if (dev.getType() == 0) {
+                            for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
+                                WareAirCondDev airCondDev = MyApplication.getWareData().getAirConds().get(i);
+                                if (dev.getDevId() == airCondDev.getDev().getDevId()
+                                        && dev.getCanCpuId().equals(airCondDev.getDev().getCanCpuId())) {
+                                    int PowChn = airCondDev.getPowChn();
+                                    String PowChnList = Integer.toBinaryString(PowChn);
+                                    PowChnList = new StringBuffer(PowChnList).reverse().toString();
+                                    List<Integer> index_list = new ArrayList<>();
+                                    for (int j = 0; j < PowChnList.length(); j++) {
+                                        if (PowChnList.charAt(j) == '1') {
+                                            index_list.add(j + 1);
+                                        }
                                     }
+                                    list_voard_cancpuid.addAll(index_list);
                                 }
-                                list_voard_cancpuid.addAll(index_list);
                             }
-                        }
-                    } else if (dev.getType() == 3 && Devs.get(position).getType() != 3) {
-                        for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
-                            if (Devs.get(position).getCanCpuId()
-                                    .equals(MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId())
-                                    && Devs.get(position).getDevId() != MyApplication.getWareData().getLights().get(i).getDev().getDevId()) {
-
-                                int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn() + 1;
-                                list_voard_cancpuid.add(PowChn);
+                        } else if (dev.getType() == 3) {
+                            for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
+                                WareLight light = MyApplication.getWareData().getLights().get(i);
+                                if (dev.getDevId() == light.getDev().getDevId()
+                                        && dev.getCanCpuId().equals(light.getDev().getCanCpuId())) {
+                                    int PowChn = light.getPowChn() + 1;
+                                    list_voard_cancpuid.add(PowChn);
+                                }
                             }
-                        }
-                    } else if (dev.getType() == 4 && Devs.get(position).getType() != 4) {
-                        for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
-                            if (Devs.get(position).getCanCpuId()
-                                    .equals(MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())
-                                    && Devs.get(position).getDevId() != MyApplication.getWareData().getCurtains().get(i).getDev().getDevId()) {
-                                list_voard_cancpuid.add(MyApplication.getWareData().getCurtains().get(i).getDev().getPowChn() + 1);
+                        } else if (dev.getType() == 4) {
+                            for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
+                                WareCurtain curtain = MyApplication.getWareData().getCurtains().get(i);
+                                if (dev.getDevId() == curtain.getDev().getDevId()
+                                        && dev.getCanCpuId().equals(curtain.getDev().getCanCpuId())) {
+                                    list_voard_cancpuid.add(curtain.getDev().getPowChn() + 1);
+                                }
                             }
-                        }
-                    } else if (dev.getType() == 7 && Devs.get(position).getType() != 7) {
-                        for (int i = 0; i < MyApplication.getWareData().getFreshAirs().size(); i++) {
-
-                            if (Devs.get(position).getCanCpuId().equals(
-                                    MyApplication.getWareData().getFreshAirs().get(i).getDev().getCanCpuId())) {
-                                list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getOnOffChn() + 1);
-                                list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdHighChn() + 1);
-                                list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdLowChn() + 1);
-                                list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdMidChn() + 1);
+                        } else if (dev.getType() == 7) {
+                            for (int i = 0; i < MyApplication.getWareData().getFreshAirs().size(); i++) {
+                                WareFreshAir freshAir = MyApplication.getWareData().getFreshAirs().get(i);
+                                if (dev.getDevId() == freshAir.getDev().getDevId()
+                                        && dev.getCanCpuId().equals(freshAir.getDev().getCanCpuId())) {
+                                    list_voard_cancpuid.add(freshAir.getOnOffChn() + 1);
+                                    list_voard_cancpuid.add(freshAir.getSpdHighChn() + 1);
+                                    list_voard_cancpuid.add(freshAir.getSpdLowChn() + 1);
+                                    list_voard_cancpuid.add(freshAir.getSpdMidChn() + 1);
+                                }
                             }
-                        }
-                    } else if (dev.getType() == 9 && Devs.get(position).getType() != 9) {
-                        for (int i = 0; i < MyApplication.getWareData().getFloorHeat().size(); i++) {
-                            if (Devs.get(position).getCanCpuId().equals(
-                                    MyApplication.getWareData().getFloorHeat().get(i).getDev().getCanCpuId())) {
-                                int PowChn = MyApplication.getWareData().getFloorHeat().get(i).getPowChn() + 1;
-                                list_voard_cancpuid.add(PowChn);
+                        } else if (dev.getType() == 9) {
+                            for (int i = 0; i < MyApplication.getWareData().getFloorHeat().size(); i++) {
+                                WareFloorHeat floorHeat = MyApplication.getWareData().getFloorHeat().get(i);
+                                if (dev.getDevId() == floorHeat.getDev().getDevId()
+                                        && dev.getCanCpuId().equals(floorHeat.getDev().getCanCpuId())) {
+                                    int PowChn = floorHeat.getPowChn() + 1;
+                                    list_voard_cancpuid.add(PowChn);
+                                }
                             }
                         }
                     }
@@ -885,19 +843,23 @@ public class DevInfosAdapter extends BaseAdapter {
         mMultiChoicePopWindow.setOnOKButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean[] selItems = mMultiChoicePopWindow.getSelectItem();
-                int size = selItems.length;
-                StringBuffer stringBuffer = new StringBuffer();
-                for (int i = 0; i < size; i++) {
-                    if (selItems[i]) {
-                        stringBuffer.append(Ways_str.get(i) + "、");
+                try {
+                    boolean[] selItems = mMultiChoicePopWindow.getSelectItem();
+                    int size = selItems.length;
+                    StringBuffer stringBuffer = new StringBuffer();
+                    for (int i = 0; i < size; i++) {
+                        if (selItems[i]) {
+                            stringBuffer.append(Ways_str.get(i) + "、");
+                        }
                     }
+                    if (stringBuffer.toString().length() == 0)
+                        view.setText("点击选择通道");
+                    String stringBuffer_str = stringBuffer.toString();
+                    stringBuffer_str = stringBuffer_str.substring(0, stringBuffer_str.lastIndexOf("、"));
+                    view.setText(stringBuffer_str.toString());
+                } catch (Exception e) {
+                    return;
                 }
-                if (stringBuffer.toString().length() == 0)
-                    view.setText("点击选择通道");
-                String stringBuffer_str = stringBuffer.toString();
-                stringBuffer_str = stringBuffer_str.substring(0, stringBuffer_str.lastIndexOf("、"));
-                view.setText(stringBuffer_str.toString());
             }
         });
         mMultiChoicePopWindow.show();

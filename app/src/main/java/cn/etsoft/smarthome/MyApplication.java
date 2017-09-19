@@ -102,8 +102,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     private SoundPool sp;//声明一个SoundPool
     private int music;//定义一个整型用load（）；来设置suondID
 
-    //区分发82返回的0 0 1包还是发33返回的 0 0 1包，做标记
-    private boolean isSearch;
 
     /**
      * 局域网内连接状态
@@ -350,7 +348,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             @Override
             public void run() {
                 try {
-                    Thread.sleep(150000);
+                    Thread.sleep(15000);
                     if (progressDialog != null && progressDialog.isShowing()) {
                         Message message = handler.obtainMessage();
                         message.what = DIALOG_DISMISS;
@@ -387,15 +385,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     public static void setAddOrEditRoomName(String addOrEditRoomName) {
         AddOrEditRoomName = addOrEditRoomName;
-    }
-
-
-    public boolean isSearch() {
-        return isSearch;
-    }
-
-    public void setSearch(boolean search) {
-        isSearch = search;
     }
 
     public boolean isSceneIsShow() {

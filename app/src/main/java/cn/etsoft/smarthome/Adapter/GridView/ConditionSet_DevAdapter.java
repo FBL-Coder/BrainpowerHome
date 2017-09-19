@@ -151,7 +151,7 @@ public class ConditionSet_DevAdapter extends BaseAdapter {
                 }
             }
         }else if (type_dev == 7) {
-            for (int j = 0; j < MyApplication.getWareData().getCurtains().size(); j++) {
+            for (int j = 0; j < MyApplication.getWareData().getFreshAirs().size(); j++) {
                 WareFreshAir freshAir = MyApplication.getWareData().getFreshAirs().get(j);
                 if (timer_list.get(position).getDevID() == freshAir.getDev().getDevId() &&
                         timer_list.get(position).getCanCpuID().endsWith(freshAir.getDev().getCanCpuId())) {
@@ -165,9 +165,8 @@ public class ConditionSet_DevAdapter extends BaseAdapter {
                     }
                 }
             }
-        }
-        else if (type_dev == 9) {
-            for (int j = 0; j < MyApplication.getWareData().getCurtains().size(); j++) {
+        } else if (type_dev == 9) {
+            for (int j = 0; j < MyApplication.getWareData().getFloorHeat().size(); j++) {
                 WareFloorHeat floorHeat = MyApplication.getWareData().getFloorHeat().get(j);
                 if (timer_list.get(position).getDevID() == floorHeat.getDev().getDevId() &&
                         timer_list.get(position).getCanCpuID().endsWith(floorHeat.getDev().getCanCpuId())) {

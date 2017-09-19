@@ -51,10 +51,7 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case MyHttpUtil.SUCCESS0:
-//                    // 跳转到 主面板BaseActivity
-//                    Intent intent1 = new Intent(LoginActivity.this, BaseActivity.class);
-//                    startActivity(intent1);
-                    cn.etsoft.smarthome.MyApplication.mApplication.setSearch(false);
+                    cn.etsoft.smarthome.MyApplication.mApplication.setVisitor(false);
                     Login_Helper.login_helper.login(LoginActivity.this, et_account, et_password);
                     break;
                 case MyHttpUtil.SUCCESSELSE:
@@ -96,7 +93,6 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
     protected void onResume() {
         initEvent();
         super.onResume();
-//        image.startPanning();
     }
 
 
@@ -107,9 +103,6 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
         btn_tourist = (TextView) findViewById(R.id.login_ourist);
         et_account = (EditText) findViewById(R.id.login_id);
         et_password = (EditText) findViewById(R.id.login_pass);
-
-//        image = (PanningView) findViewById(R.id.image);
-//        image.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.login_bg));
     }
 
 
