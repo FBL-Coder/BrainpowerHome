@@ -323,69 +323,6 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                 }
                 List<Integer> list_voard_cancpuid = new ArrayList<>();
 
-//                if (type_position == 0) {
-//                    for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
-//                        WareAirCondDev airCondDev = MyApplication.getWareData().getAirConds().get(i);
-//
-//                        if (list_board.get(board_position).getDevUnitID().equals(airCondDev.getDev().getCanCpuId())) {
-//                            int PowChn = airCondDev.getPowChn();
-//                            String PowChnList = Integer.toBinaryString(PowChn);
-//                            PowChnList = new StringBuffer(PowChnList).reverse().toString();
-//                            List<Integer> index_list = new ArrayList<>();
-//                            for (int j = 0; j < PowChnList.length(); j++) {
-//                                if (PowChnList.charAt(j) == '1') {
-//                                    index_list.add(j + 1);
-//                                }
-//                            }
-//                            list_voard_cancpuid.addAll(index_list);
-//                        }
-//                    }
-//                } else if (type_position == 3) {
-//                    for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
-//
-//                        if (list_board.get(board_position).getDevUnitID().equals(
-//                                MyApplication.getWareData().getLights().get(i).getDev().getCanCpuId())) {
-//                            int PowChn = MyApplication.getWareData().getLights().get(i).getPowChn() + 1;
-//                            list_voard_cancpuid.add(PowChn);
-//                        }
-//                    }
-//                } else if (type_position == 4) {
-//                    for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
-//                        if (list_board.get(board_position).getDevUnitID().equals(
-//                                MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())) {
-//                            int PowChn = MyApplication.getWareData().getCurtains().get(i).getPowChn();
-//                            String PowChnList = Integer.toBinaryString(PowChn);
-//                            PowChnList = new StringBuffer(PowChnList).reverse().toString();
-//                            List<Integer> index_list = new ArrayList<>();
-//                            for (int j = 0; j < PowChnList.length(); j++) {
-//                                if (PowChnList.charAt(j) == '1') {
-//                                    index_list.add(j + 1);
-//                                }
-//                            }
-//                            list_voard_cancpuid.addAll(index_list);
-//                        }
-//                    }
-//                } else if (type_position == 7) {
-//                    for (int i = 0; i < MyApplication.getWareData().getFreshAirs().size(); i++) {
-//
-//                        if (list_board.get(board_position).getDevUnitID().equals(
-//                                MyApplication.getWareData().getFreshAirs().get(i).getDev().getCanCpuId())) {
-//                            list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getOnOffChn() + 1);
-//                            list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdHighChn() + 1);
-//                            list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdLowChn() + 1);
-//                            list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getSpdMidChn() + 1);
-//                        }
-//                    }
-//                } else if (type_position == 9) {
-//                    for (int i = 0; i < MyApplication.getWareData().getFloorHeat().size(); i++) {
-//                        if (list_board.get(board_position).getDevUnitID().equals(
-//                                MyApplication.getWareData().getFloorHeat().get(i).getDev().getCanCpuId())) {
-//                            int PowChn = MyApplication.getWareData().getFloorHeat().get(i).getPowChn() + 1;
-//                            list_voard_cancpuid.add(PowChn);
-//                        }
-//                    }
-//                }
-
                 for (int z = 0; z < MyApplication.getWareData().getDevs().size(); z++) {
                     WareDev dev = MyApplication.getWareData().getDevs().get(z);
                     if (dev.getType() == 0) {
@@ -556,19 +493,24 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
         mMultiChoicePopWindow.setOnOKButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean[] selItems = mMultiChoicePopWindow.getSelectItem();
-                int size = selItems.length;
-                StringBuffer stringBuffer = new StringBuffer();
-                for (int i = 0; i < size; i++) {
-                    if (selItems[i]) {
-                        stringBuffer.append(Ways_str.get(i) + "、");
+
+                try {
+                    boolean[] selItems = mMultiChoicePopWindow.getSelectItem();
+                    int size = selItems.length;
+                    StringBuffer stringBuffer = new StringBuffer();
+                    for (int i = 0; i < size; i++) {
+                        if (selItems[i]) {
+                            stringBuffer.append(Ways_str.get(i) + "、");
+                        }
                     }
+                    if (stringBuffer.toString().length() == 0)
+                        view.setText("点击选择通道");
+                    String stringBuffer_str = stringBuffer.toString();
+                    stringBuffer_str = stringBuffer_str.substring(0, stringBuffer_str.lastIndexOf("、"));
+                    view.setText(stringBuffer_str.toString());
+                } catch (Exception e) {
+                    return;
                 }
-                if (stringBuffer.toString().length() == 0)
-                    view.setText("点击选择通道");
-                String stringBuffer_str = stringBuffer.toString();
-                stringBuffer_str = stringBuffer_str.substring(0, stringBuffer_str.lastIndexOf("、"));
-                view.setText(stringBuffer_str.toString());
             }
         });
         mMultiChoicePopWindow.show();
