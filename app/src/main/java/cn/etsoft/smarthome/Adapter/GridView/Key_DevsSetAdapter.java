@@ -68,44 +68,6 @@ public class Key_DevsSetAdapter extends BaseAdapter {
         keyOpItems = Key_DevsSetHelper.getInput_key_data();
         listData = new ArrayList<>();
 
-        if (DevType == 0) {
-            texts = new ArrayList<>();
-            texts.add("未设置");
-            texts.add("开关");
-            texts.add("模式");
-            texts.add("风速");
-            texts.add("温度+");
-            texts.add("温度-");
-        } else if (DevType == 3) {
-            texts = new ArrayList<>();
-            texts.add("未设置");
-            texts.add("打开");
-            texts.add("关闭");
-            texts.add("开关");
-            texts.add("变暗");
-            texts.add("变亮");
-        } else if (DevType == 4) {
-            texts = new ArrayList<>();
-            texts.add("未设置");
-            texts.add("打开");
-            texts.add("关闭");
-            texts.add("开关停");
-            texts.add("停止");
-        }else if (DevType == 7) {
-            texts = new ArrayList<>();
-            texts.add("未设置");
-            texts.add("打开");
-            texts.add("关闭");
-//            texts.add("开关停");
-//            texts.add("停止");
-        }else if (DevType == 9) {
-            texts = new ArrayList<>();
-            texts.add("未设置");
-            texts.add("打开");
-            texts.add("关闭");
-//            texts.add("开关停");
-//            texts.add("停止");
-        }
         //给所有设备和按键关联的赋值
         for (int j = 0; j < roomDevs.size(); j++) {
             boolean isContain = false;
@@ -163,34 +125,59 @@ public class Key_DevsSetAdapter extends BaseAdapter {
             viewHoler.mIV.setImageResource(R.drawable.select_no);
             viewHoler.mRotateControButton.setCanTouch(false);
         }
-
         if (DevType == 0) {
+            texts = new ArrayList<>();
+            texts.add("开关");
+            texts.add("模式");
+            texts.add("风速");
+            texts.add("温度+");
+            texts.add("温度-");
             viewHoler.mIconListItem.setImageResource(R.drawable.kt_dev_item_close);
-            if (listData.get(position).getCmd() > 5)
+            if (listData.get(position).getCmd() > 4)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("开关", "设备命令", "温度-");
-            viewHoler.mRotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
+            viewHoler.mRotateControButton.setTemp(0, 4, listData.get(position).getCmd(), texts);
         } else if (DevType == 3) {
+            texts = new ArrayList<>();
+            texts.add("打开");
+            texts.add("关闭");
+            texts.add("变暗");
+            texts.add("变亮");
             viewHoler.mIconListItem.setImageResource(R.drawable.dg_dev_item_close);
-            if (listData.get(position).getCmd() > 5)
+            if (listData.get(position).getCmd() > 3)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "变亮");
-            viewHoler.mRotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
+            viewHoler.mRotateControButton.setTemp(0, 3, listData.get(position).getCmd(), texts);
         } else if (DevType == 4) {
+            texts = new ArrayList<>();
+            texts.add("打开");
+            texts.add("关闭");
+            texts.add("停止");
             viewHoler.mIconListItem.setImageResource(R.drawable.cl_dev_item_close);
-            if (listData.get(position).getCmd() > 4)
+            if (listData.get(position).getCmd() > 2)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "停止");
-            viewHoler.mRotateControButton.setTemp(0, 4, listData.get(position).getCmd(), texts);
+            viewHoler.mRotateControButton.setTemp(0, 2, listData.get(position).getCmd(), texts);
         } else if (DevType == 7) {
+            texts = new ArrayList<>();
+            texts.add("打开");
+            texts.add("低风");
+            texts.add("中风");
+            texts.add("高风");
+            texts.add("自动");
+            texts.add("关闭");
             viewHoler.mIconListItem.setImageResource(R.drawable.freshair_close);
-            if (listData.get(position).getCmd() > 4)
+            if (listData.get(position).getCmd() > 5)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "关闭");
-            viewHoler.mRotateControButton.setTemp(0, 2, listData.get(position).getCmd(), texts);
+            viewHoler.mRotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
         } else if (DevType == 9) {
+            texts = new ArrayList<>();
+            texts.add("打开");
+            texts.add("自动");
+            texts.add("关闭");
             viewHoler.mIconListItem.setImageResource(R.drawable.floorheat_close);
-            if (listData.get(position).getCmd() > 4)
+            if (listData.get(position).getCmd() > 2)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "关闭");
             viewHoler.mRotateControButton.setTemp(0, 2, listData.get(position).getCmd(), texts);

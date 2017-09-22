@@ -124,7 +124,7 @@ public class Control_Scene_DevAdapter extends BaseAdapter {
                 if (sceneDevs.get(position).getDevID() == freshAir.getDev().getDevId() &&
                         sceneDevs.get(position).getCanCpuID().endsWith(freshAir.getDev().getCanCpuId())) {
                     viewHolder.name.setText(freshAir.getDev().getDevName());
-                    if (sceneDevs.get(position).getbOnOff() == 0) {
+                    if (freshAir.getbOnOff() == 0) {
                         viewHolder.type.setImageResource(R.drawable.freshair_close);
                         viewHolder.state.setText("关闭");
                     } else {
@@ -139,7 +139,7 @@ public class Control_Scene_DevAdapter extends BaseAdapter {
                 if (sceneDevs.get(position).getDevID() == floorHeat.getDev().getDevId() &&
                         sceneDevs.get(position).getCanCpuID().endsWith(floorHeat.getDev().getCanCpuId())) {
                     viewHolder.name.setText(floorHeat.getDev().getDevName());
-                    if (sceneDevs.get(position).getbOnOff() == 0) {
+                    if (floorHeat.getbOnOff() == 0) {
                         viewHolder.type.setImageResource(R.drawable.floorheat_close);
                         viewHolder.state.setText("关闭");
                     } else {

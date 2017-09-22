@@ -19,6 +19,7 @@ import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.lang.ref.WeakReference;
 import java.net.URISyntaxException;
@@ -127,7 +128,10 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         super.onCreate();
 
         mApplication = MyApplication.this;
-
+        /**
+         * 腾讯 bugly
+         */
+        CrashReport.initCrashReport(MyApplication.getContext(), "c8a123eb0c", true);
         //初始化天气数据
         new WratherUtil();
 

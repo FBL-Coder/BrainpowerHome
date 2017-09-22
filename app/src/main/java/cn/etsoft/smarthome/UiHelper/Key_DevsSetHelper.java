@@ -212,9 +212,7 @@ public class Key_DevsSetHelper {
                 MyApplication.mApplication.showLoadDialog(activity);
                 try {
                     List<WareKeyOpItem> keyOpItems = Key_DevsSetHelper.input_key_data;
-
                     if (keyOpItems.size() == 0) {
-
                     }
 
                     Save_Quipment save_quipment = new Save_Quipment();

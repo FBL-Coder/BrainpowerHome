@@ -2,6 +2,7 @@ package cn.etsoft.smarthome.Fragment.Control;
 
 import android.os.Bundle;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
 
@@ -29,12 +30,14 @@ public class FloorHeatFragment extends BaseFragment {
     private List<WareFloorHeat> mfloorHeat_Room;
     private String DEVS_ALL_ROOM = "全部";
     private Control_FloorHeat_Adapter mAdapter;
+    private TextView null_tv;
 
     @Override
     protected void initView() {
         mGirdview = findViewById(R.id.Control_Fragment_GridView);
+        null_tv = findViewById(R.id.null_tv);
 
-
+        mGirdview.setEmptyView(null_tv);
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
