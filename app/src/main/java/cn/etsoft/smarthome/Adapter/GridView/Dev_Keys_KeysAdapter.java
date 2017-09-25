@@ -117,55 +117,62 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
         //点击按钮选择关联设备并且设置相关命令
         if (DevType == 0) {
             texts = new ArrayList<>();
+            texts.add("未设置");
             texts.add("开关");
             texts.add("模式");
             texts.add("风速");
             texts.add("温度+");
             texts.add("温度-");
-            if (listData.get(position).getKey_cmd() > 4)
+            if (listData.get(position).getKey_cmd() > 5)
                 listData.get(position).setKey_cmd(0);
             viewHoler.rotateControButton.setTitle("开关", "按键命令", "温度-");
-            viewHoler.rotateControButton.setTemp(0, 4, listData.get(position).getKey_cmd(), texts);
+            viewHoler.rotateControButton.setTemp(0, 5, listData.get(position).getKey_cmd(), texts);
         } else if (DevType == 3) {
             texts = new ArrayList<>();
+            texts.add("未设置");
             texts.add("打开");
             texts.add("关闭");
+            texts.add("开关");
             texts.add("变暗");
             texts.add("变亮");
-            if (listData.get(position).getKey_cmd() > 3)
+            if (listData.get(position).getKey_cmd() > 5)
                 listData.get(position).setKey_cmd(0);
             viewHoler.rotateControButton.setTitle("打开", "按键命令", "变亮");
-            viewHoler.rotateControButton.setTemp(0, 3, listData.get(position).getKey_cmd(), texts);
+            viewHoler.rotateControButton.setTemp(0, 5, listData.get(position).getKey_cmd(), texts);
         } else if (DevType == 4) {
             texts = new ArrayList<>();
+            texts.add("未设置");
             texts.add("打开");
             texts.add("关闭");
             texts.add("停止");
-            if (listData.get(position).getKey_cmd() > 2)
+            texts.add("开关停");
+            if (listData.get(position).getKey_cmd() > 4)
                 listData.get(position).setKey_cmd(0);
             viewHoler.rotateControButton.setTitle("打开", "按键命令", "停止");
-            viewHoler.rotateControButton.setTemp(0, 2, listData.get(position).getKey_cmd(), texts);
+            viewHoler.rotateControButton.setTemp(0, 4, listData.get(position).getKey_cmd(), texts);
         }else if (DevType == 7) {
             texts = new ArrayList<>();
+            texts.add("未设置");
             texts.add("打开");
             texts.add("低风");
             texts.add("中风");
             texts.add("高风");
             texts.add("自动");
             texts.add("关闭");
-            if (listData.get(position).getKey_cmd() > 5)
+            if (listData.get(position).getKey_cmd() > 6)
                 listData.get(position).setKey_cmd(0);
             viewHoler.rotateControButton.setTitle("打开", "按键命令", "关闭");
-            viewHoler.rotateControButton.setTemp(0, 5, listData.get(position).getKey_cmd(), texts);
+            viewHoler.rotateControButton.setTemp(0, 6, listData.get(position).getKey_cmd(), texts);
         }else if (DevType == 9) {
             texts = new ArrayList<>();
+            texts.add("未设置");
             texts.add("打开");
             texts.add("自动");
             texts.add("关闭");
-            if (listData.get(position).getKey_cmd() > 2)
+            if (listData.get(position).getKey_cmd() > 3)
                 listData.get(position).setKey_cmd(0);
             viewHoler.rotateControButton.setTitle("打开", "按键命令", "关闭");
-            viewHoler.rotateControButton.setTemp(0, 2, listData.get(position).getKey_cmd(), texts);
+            viewHoler.rotateControButton.setTemp(0, 3, listData.get(position).getKey_cmd(), texts);
         }
 
         viewHoler.mName.setText(listData.get(position).getKeyname());

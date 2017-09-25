@@ -201,15 +201,29 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                         } else if (type_position == 4) {
                             //设备通道 保存数据处理
                             String Way_Str = mAddDevWay.getText().toString();
-                            if (Way_Str.length() == 0) {
+                            String[] WayStr_air = Way_Str.split("、");
+                            if (WayStr_air.length == 0) {
                                 ToastUtil.showText("请选择通道");
                                 return;
                             } else {
-                                if (Way_Str.contains("、")) {
-                                    ToastUtil.showText("窗帘最多只有1个通道");
+                                if (WayStr_air.length != 2) {//135
+                                    ToastUtil.showText("窗帘是2个通道");
                                     return;
                                 }
-                                Save_DevWay = Integer.parseInt(Way_Str) - 1;
+                                String Way = "";
+                                for (int j = 0; j < 12; j++) {
+                                    boolean IsEnter = false;
+                                    for (int k = 0; k < WayStr_air.length; k++) {
+                                        if (j == Integer.parseInt(WayStr_air[k]) - 1) {
+                                            Way += "1";
+                                            IsEnter = true;
+                                        }
+                                    }
+                                    if (!IsEnter) {
+                                        Way += "0";
+                                    }
+                                }
+                                Save_DevWay = Integer.parseInt(new StringBuffer(Way).reverse().toString(), 2);
                             }
                         } else if (type_position == 7) {
                             //设备通道 保存数据处理
@@ -328,7 +342,6 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                     if (dev.getType() == 0) {
                         for (int i = 0; i < MyApplication.getWareData().getAirConds().size(); i++) {
                             WareAirCondDev airCondDev = MyApplication.getWareData().getAirConds().get(i);
-
                             if (list_board.get(board_position).getDevUnitID().equals(airCondDev.getDev().getCanCpuId())) {
                                 int PowChn = airCondDev.getPowChn();
                                 String PowChnList = Integer.toBinaryString(PowChn);
@@ -355,8 +368,16 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                         for (int i = 0; i < MyApplication.getWareData().getCurtains().size(); i++) {
                             if (list_board.get(board_position).getDevUnitID().equals(
                                     MyApplication.getWareData().getCurtains().get(i).getDev().getCanCpuId())) {
-                                int PowChn = MyApplication.getWareData().getCurtains().get(i).getDev().getPowChn() + 1;
-                                list_voard_cancpuid.add(PowChn);
+                                int PowChn = MyApplication.getWareData().getCurtains().get(i).getPowChn();
+                                String PowChnList = Integer.toBinaryString(PowChn);
+                                PowChnList = new StringBuffer(PowChnList).reverse().toString();
+                                List<Integer> index_list = new ArrayList<>();
+                                for (int j = 0; j < PowChnList.length(); j++) {
+                                    if (PowChnList.charAt(j) == '1') {
+                                        index_list.add(j + 1);
+                                    }
+                                }
+                                list_voard_cancpuid.addAll(index_list);
                             }
                         }
                     } else if (dev.getType() == 7) {

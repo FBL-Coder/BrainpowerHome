@@ -103,7 +103,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     private SoundPool sp;//声明一个SoundPool
     private int music;//定义一个整型用load（）；来设置suondID
 
-
     /**
      * 局域网内连接状态
      */
@@ -131,7 +130,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         /**
          * 腾讯 bugly
          */
-        CrashReport.initCrashReport(MyApplication.getContext(), "c8a123eb0c", true);
+        CrashReport.initCrashReport(MyApplication.getContext(), "c8a123eb0c", false);
         //初始化天气数据
         new WratherUtil();
 
@@ -352,7 +351,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             @Override
             public void run() {
                 try {
-                    Thread.sleep(15000);
+                    Thread.sleep(5000);
                     if (progressDialog != null && progressDialog.isShowing()) {
                         Message message = handler.obtainMessage();
                         message.what = DIALOG_DISMISS;
@@ -542,12 +541,16 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             int SAFETY_TYPE = 0;
             String index = Integer.toBinaryString(MyApplication.getWareData().getSafetyResult_alarm().getSecDat());
             StringBuffer index_sb = new StringBuffer(index).reverse();
-            index_sb = index_sb.reverse();
+//            index_sb = index_sb.reverse();
             for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
                 if (index_sb.length() <= i)
                     index_sb.append("0");
             }
-            SAFETY_TYPE = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 1);
+//            SAFETY_TYPE = MyApplication.getWareData().getSafetyResult_alarm().getSecStatus();
+            SAFETY_TYPE = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
+            if (SAFETY_TYPE == 255) {
+                return "";
+            }
             Safety_Data safetyData;
             try {
                 safetyData = Data_Cache.readFile_safety(GlobalVars.getDevid(), false);

@@ -39,7 +39,7 @@ public class LightControlFragment extends BaseFragment {
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                if (datType == 4) {
+                if (datType == 4 ||datType == 35 ||datType == 3) {
                     initDev();
                 }
             }

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="ring"
+    android:shape="rectangle"
     android:innerRadius="200dp"
     android:thickness="80dp"
     android:useLevel="false">
     <stroke
-        android:width="2dip"
+        android:width="4dip"
         android:color="#919494" />
-    <gradient
-        android:angle="90"
-        android:startColor="#FFF"
-        android:endColor="#ec7fdf"
-        />
+    <corners
+        android:radius="@dimen/dp_10"/>
+    <!--<gradient-->
+        <!--android:angle="90"-->
+        <!--android:startColor="#FFF"-->
+        <!--android:endColor="#ec7fdf"-->
+        <!--/>-->
 </shape>
 

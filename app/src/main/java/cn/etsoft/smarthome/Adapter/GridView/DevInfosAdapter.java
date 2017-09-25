@@ -205,7 +205,16 @@ public class DevInfosAdapter extends BaseAdapter {
                                 WareCurtain curtain = MyApplication.getWareData().getCurtains().get(i);
                                 if (dev.getDevId() == curtain.getDev().getDevId()
                                         && dev.getCanCpuId().equals(curtain.getDev().getCanCpuId())) {
-                                    list_voard_cancpuid.add(curtain.getDev().getPowChn() + 1);
+                                    int PowChn = curtain.getPowChn();
+                                    String PowChnList = Integer.toBinaryString(PowChn);
+                                    PowChnList = new StringBuffer(PowChnList).reverse().toString();
+                                    List<Integer> index_list = new ArrayList<>();
+                                    for (int j = 0; j < PowChnList.length(); j++) {
+                                        if (PowChnList.charAt(j) == '1') {
+                                            index_list.add(j + 1);
+                                        }
+                                    }
+                                    list_voard_cancpuid.addAll(index_list);
                                 }
                             }
                         } else if (dev.getType() == 7) {
@@ -344,8 +353,8 @@ public class DevInfosAdapter extends BaseAdapter {
                                             ToastUtil.showText("请选择通道");
                                             return;
                                         } else {
-                                            if (WayStr_ok_air.length > 5) {//135
-                                                ToastUtil.showText("空调最多5个通道");
+                                            if (WayStr_ok_air.length != 5) {//135
+                                                ToastUtil.showText("空调是5个通道");
                                                 return;
                                             }
                                             String Way = "";
@@ -377,24 +386,37 @@ public class DevInfosAdapter extends BaseAdapter {
                                 }
                                 Save_DevWay = Integer.parseInt(Way_Str) - 1;
                             } else if (Devs.get(position).getType() == 4) {
-
                                 //设备通道 保存数据处理
                                 String Way_Str = finalViewHolder.mDevInfoEditWay.getText().toString();
-                                if (Way_Str.length() == 0) {
+                                String[] WayStr_ok_air = Way_Str.split("、");
+                                if (WayStr_ok_air.length == 0) {
                                     ToastUtil.showText("请选择通道");
                                     return;
                                 } else {
-                                    if (Way_Str.contains("、")) {
-                                        ToastUtil.showText("窗帘最多只有1个通道");
+                                    if (WayStr_ok_air.length != 2) {//135
+                                        ToastUtil.showText("窗帘是2个通道");
                                         return;
                                     }
-                                    Save_DevWay = Integer.parseInt(Way_Str) - 1;
+                                    String Way = "";
+                                    for (int j = 0; j < 12; j++) {
+                                        boolean IsEnter = false;
+                                        for (int k = 0; k < WayStr_ok_air.length; k++) {
+                                            if (j == Integer.parseInt(WayStr_ok_air[k]) - 1) {
+                                                Way += "1";
+                                                IsEnter = true;
+                                            }
+                                        }
+                                        if (!IsEnter) {
+                                            Way += "0";
+                                        }
+                                    }
+                                    Save_DevWay = Integer.parseInt(new StringBuffer(Way).reverse().toString(), 2);
                                 }
                             } else if (Devs.get(position).getType() == 7) {
                                 //设备通道 保存数据处理
                                 String Way_Str = finalViewHolder.mDevInfoEditWay.getText().toString();
                                 WayStr_ok = Way_Str.split("、");
-                                if (WayStr_ok.length < 4 || WayStr_ok.length > 4) {
+                                if (WayStr_ok.length != 4) {
                                     ToastUtil.showText("新风是4个通道");
                                     return;
                                 }
@@ -651,11 +673,22 @@ public class DevInfosAdapter extends BaseAdapter {
                             BoardName = chnout.getBoardName();
                         }
                     }
+
+                    int Way_num = MyApplication.getWareData().getCurtains().get(i).getPowChn();
+                    String Way_str = new StringBuffer(Integer.toBinaryString(Way_num)).reverse().toString();
+                    String Way_ok = "";
+                    for (int j = 0; j < Way_str.length(); j++) {
+                        if (Way_str.charAt(j) == '1') {
+                            Way_ok += j + 1 + "、";
+                        }
+                    }
+                    if (!"".equals(Way_ok))
+                        Way_ok = Way_ok.substring(0, Way_ok.lastIndexOf("、"));
+                    viewHolder.mDevInfoWay.setText(Way_ok);
                     //可视布局数据
                     viewHolder.mDevInfoName.setText(curtain.getDev().getDevName());
                     viewHolder.mDevInfoRoom.setText(curtain.getDev().getRoomName());
                     viewHolder.mDevInfoType.setText("窗帘");
-                    viewHolder.mDevInfoWay.setText((curtain.getPowChn() + 1) + "");
                     if ("".equals(BoardName))
                         viewHolder.mDevInfoOutBoard.setText("数据解析出错");
                     viewHolder.mDevInfoOutBoard.setText(BoardName);
@@ -663,7 +696,7 @@ public class DevInfosAdapter extends BaseAdapter {
                     //不可视布局数据
                     viewHolder.mDevInfoEditRoom.setText(curtain.getDev().getRoomName());
                     viewHolder.mDevInfoEditName.setHint(curtain.getDev().getDevName());
-                    viewHolder.mDevInfoEditWay.setText((curtain.getPowChn() + 1) + "");
+                    viewHolder.mDevInfoEditWay.setText(Way_ok);
                     viewHolder.mDevInfoEditType.setText("窗帘");
                 }
             }

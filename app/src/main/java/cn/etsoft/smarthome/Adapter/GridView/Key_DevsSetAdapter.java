@@ -127,39 +127,45 @@ public class Key_DevsSetAdapter extends BaseAdapter {
         }
         if (DevType == 0) {
             texts = new ArrayList<>();
+            texts.add("未设置");
             texts.add("开关");
             texts.add("模式");
             texts.add("风速");
             texts.add("温度+");
             texts.add("温度-");
             viewHoler.mIconListItem.setImageResource(R.drawable.kt_dev_item_close);
-            if (listData.get(position).getCmd() > 4)
+            if (listData.get(position).getCmd() > 5)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("开关", "设备命令", "温度-");
-            viewHoler.mRotateControButton.setTemp(0, 4, listData.get(position).getCmd(), texts);
+            viewHoler.mRotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
         } else if (DevType == 3) {
             texts = new ArrayList<>();
+            texts.add("未设置");
             texts.add("打开");
             texts.add("关闭");
+            texts.add("开关");
             texts.add("变暗");
             texts.add("变亮");
             viewHoler.mIconListItem.setImageResource(R.drawable.dg_dev_item_close);
-            if (listData.get(position).getCmd() > 3)
+            if (listData.get(position).getCmd() > 5)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "变亮");
-            viewHoler.mRotateControButton.setTemp(0, 3, listData.get(position).getCmd(), texts);
+            viewHoler.mRotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
         } else if (DevType == 4) {
             texts = new ArrayList<>();
+            texts.add("未设置");
             texts.add("打开");
             texts.add("关闭");
             texts.add("停止");
+            texts.add("开关停");
             viewHoler.mIconListItem.setImageResource(R.drawable.cl_dev_item_close);
-            if (listData.get(position).getCmd() > 2)
+            if (listData.get(position).getCmd() > 4)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "停止");
-            viewHoler.mRotateControButton.setTemp(0, 2, listData.get(position).getCmd(), texts);
+            viewHoler.mRotateControButton.setTemp(0, 4, listData.get(position).getCmd(), texts);
         } else if (DevType == 7) {
             texts = new ArrayList<>();
+            texts.add("未设置");
             texts.add("打开");
             texts.add("低风");
             texts.add("中风");
@@ -167,20 +173,21 @@ public class Key_DevsSetAdapter extends BaseAdapter {
             texts.add("自动");
             texts.add("关闭");
             viewHoler.mIconListItem.setImageResource(R.drawable.freshair_close);
-            if (listData.get(position).getCmd() > 5)
+            if (listData.get(position).getCmd() > 6)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "关闭");
-            viewHoler.mRotateControButton.setTemp(0, 5, listData.get(position).getCmd(), texts);
+            viewHoler.mRotateControButton.setTemp(0, 6, listData.get(position).getCmd(), texts);
         } else if (DevType == 9) {
             texts = new ArrayList<>();
+            texts.add("未设置");
             texts.add("打开");
             texts.add("自动");
             texts.add("关闭");
             viewHoler.mIconListItem.setImageResource(R.drawable.floorheat_close);
-            if (listData.get(position).getCmd() > 2)
+            if (listData.get(position).getCmd() > 3)
                 listData.get(position).setCmd(0);
             viewHoler.mRotateControButton.setTitle("打开", "设备命令", "关闭");
-            viewHoler.mRotateControButton.setTemp(0, 2, listData.get(position).getCmd(), texts);
+            viewHoler.mRotateControButton.setTemp(0, 3, listData.get(position).getCmd(), texts);
         }
         viewHoler.mName.setText(listData.get(position).getDevName());
 
@@ -200,6 +207,8 @@ public class Key_DevsSetAdapter extends BaseAdapter {
             }
         });
 
+        final ViewHolder finalViewHoler = viewHoler;
+        final ViewHolder finalViewHoler1 = viewHoler;
         viewHoler.mIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,6 +222,7 @@ public class Key_DevsSetAdapter extends BaseAdapter {
                             keyOpItems.remove(i);
                         }
                     }
+                    finalViewHoler1.mRotateControButton.setTemp(0, 3, 0, texts);
                 } else {
                     listData.get(position).setSelect(true);
                     if (keyOpItems.size() == 0) {
