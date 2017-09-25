@@ -191,7 +191,8 @@ public class Key_DevsSetHelper {
     }
 
 
-    public static void Save(final Activity activity, final String cancupid, final int position_key, List<WareDev> devs) {
+    public static void Save(final Activity activity, final String cancupid,
+                            final int KeyPosition, List<WareDev> devs) {
         if (MyApplication.getWareData().getKeyInputs().size() == 0) {
             ToastUtil.showText("没有输入板信息，不能保存");
             return;
@@ -220,9 +221,10 @@ public class Key_DevsSetHelper {
                     for (int i = 0; i < keyOpItems.size(); i++) {
                         Save_Quipment.key_Opitem_Rows key_opitem_rows = save_quipment.new key_Opitem_Rows();
                         key_opitem_rows.setOut_cpuCanID(keyOpItems.get(i).getOut_cpuCanID());
+                        key_opitem_rows.setKey_cpuCanID(cancupid);
                         key_opitem_rows.setDevID(keyOpItems.get(i).getDevId());
                         key_opitem_rows.setDevType(keyOpItems.get(i).getDevType());
-                        key_opitem_rows.setKeyOp(keyOpItems.get(i).getKeyOp());
+                        key_opitem_rows.setKeyOp(1);
                         if (keyOpItems.get(i).getKeyOpCmd() == 0){
                             ToastUtil.showText("存在未设置，不能保存");
                             MyApplication.mApplication.dismissLoadDialog();
@@ -235,7 +237,7 @@ public class Key_DevsSetHelper {
                     save_quipment.setDatType(12);
                     save_quipment.setKey_cpuCanID(cancupid);
                     save_quipment.setKey_opitem(keyOpItems.size());
-                    save_quipment.setKey_index(position_key);
+                    save_quipment.setKey_index(KeyPosition);
                     save_quipment.setSubType1(0);
                     save_quipment.setSubType2(0);
                     save_quipment.setKey_opitem_rows(list_kor);

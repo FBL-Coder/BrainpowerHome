@@ -27,6 +27,7 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.PopupWindow.PopupWindowAdapter2;
 import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.Domain.WareBoardChnout;
 import cn.etsoft.smarthome.Domain.WareCurtain;
@@ -522,7 +523,10 @@ public class DevInfosAdapter extends BaseAdapter {
      * item显示
      */
     private void ShowView(int position, final ViewHolder viewHolder) {
-
+        viewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
+        viewHolder.mDevInfoEditLook.setVisibility(View.GONE);
+        viewHolder.mDevInfoEdit.setImageResource(R.drawable.edit_dev);
+        viewHolder.mDevInfoDelete.setImageResource(R.drawable.delete_edit_dev);
         if (Devs.get(position).getType() == 0) {
             List<WareAirCondDev> Airs = MyApplication.getWareData().getAirConds();
             for (int i = 0; i < Airs.size(); i++) {
@@ -540,8 +544,28 @@ public class DevInfosAdapter extends BaseAdapter {
                     //可视布局数据
                     viewHolder.mDevInfoName.setText(Air.getDev().getDevName());
                     viewHolder.mDevInfoRoom.setText(Air.getDev().getRoomName());
-                    viewHolder.mDevInfoType.setText("空调");
+                    if (Air.getbOnOff() == 0) {
+                        viewHolder.mDevInfoTypeIV.setImageResource(R.drawable.kt_dev_item_close);
+                        viewHolder.mDevInfoEditIV.setImageResource(R.drawable.kt_dev_item_close);
+                    } else {
+                        viewHolder.mDevInfoTypeIV.setImageResource(R.drawable.kt_dev_item_open);
+                        viewHolder.mDevInfoEditIV.setImageResource(R.drawable.kt_dev_item_open);
+                    }
+                    final WareAirCondDev airCondDev = Air;
 
+                    viewHolder.mDevInfoTypeIVTest.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            int cmdValue = 0;
+                            if (airCondDev.getbOnOff() == 0) {
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_pwrOn.getValue();//打开空调
+                            } else {
+                                cmdValue = UdpProPkt.E_AIR_CMD.e_air_pwrOff.getValue();//关闭空调
+                            }
+                            int value = (0 << 5) | cmdValue;
+                            SendDataUtil.controlDev(airCondDev.getDev(), value);
+                        }
+                    });
                     int Way_num = MyApplication.getWareData().getAirConds().get(i).getPowChn();
                     String Way_str = new StringBuffer(Integer.toBinaryString(Way_num)).reverse().toString();
                     String Way_ok = "";
@@ -560,7 +584,6 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoEditRoom.setText(Air.getDev().getRoomName());
                     viewHolder.mDevInfoEditName.setHint(Air.getDev().getDevName());
                     viewHolder.mDevInfoEditWay.setText(Way_ok);
-                    viewHolder.mDevInfoEditType.setText("空调");
                 }
             }
         }
@@ -581,7 +604,7 @@ public class DevInfosAdapter extends BaseAdapter {
 //                    //可视布局数据
 //                    viewHolder.mDevInfoName.setText(tv.getDev().getDevName());
 //                    viewHolder.mDevInfoRoom.setText(tv.getDev().getRoomName());
-//                    viewHolder.mDevInfoType.setText("电视");
+//                    viewHolder.mDevInfoTypeIV.setText("电视");
 //                    viewHolder.mDevInfoWay.setText("设备不支持");
 //                    if ("".equals(BoardName))
 //                        viewHolder.mDevInfoOutBoard.setText("数据解析出错");
@@ -613,7 +636,7 @@ public class DevInfosAdapter extends BaseAdapter {
 //                    //可视布局数据
 //                    viewHolder.mDevInfoName.setText(sb.getDev().getDevName());
 //                    viewHolder.mDevInfoRoom.setText(sb.getDev().getRoomName());
-//                    viewHolder.mDevInfoType.setText("机顶盒");
+//                    viewHolder.mDevInfoTypeIV.setText("机顶盒");
 //                    viewHolder.mDevInfoWay.setText("设备不支持");
 //                    if ("".equals(BoardName))
 //                        viewHolder.mDevInfoOutBoard.setText("数据解析出错");
@@ -634,7 +657,7 @@ public class DevInfosAdapter extends BaseAdapter {
                 if (Devs.get(position).getCanCpuId().equals(lights.get(i).getDev().getCanCpuId())
                         && Devs.get(position).getDevId() == lights.get(i).getDev().getDevId() &&
                         Devs.get(position).getType() == lights.get(i).getDev().getType()) {
-                    WareLight light = lights.get(i);
+                    final WareLight light = lights.get(i);
                     String BoardName = "";
                     for (int j = 0; j < MyApplication.getWareData().getBoardChnouts().size(); j++) {
                         WareBoardChnout chnout = MyApplication.getWareData().getBoardChnouts().get(j);
@@ -645,7 +668,25 @@ public class DevInfosAdapter extends BaseAdapter {
                     //可视布局数据
                     viewHolder.mDevInfoName.setText(light.getDev().getDevName());
                     viewHolder.mDevInfoRoom.setText(light.getDev().getRoomName());
-                    viewHolder.mDevInfoType.setText("灯光");
+                    if (light.getbOnOff() == 0) {
+                        viewHolder.mDevInfoTypeIV.setImageResource(R.drawable.light_close);
+                        viewHolder.mDevInfoEditIV.setImageResource(R.drawable.light_close);
+                    } else {
+                        viewHolder.mDevInfoTypeIV.setImageResource(R.drawable.light_open);
+                        viewHolder.mDevInfoEditIV.setImageResource(R.drawable.light_open);
+                    }
+                    final WareLight light_click = light;
+                    viewHolder.mDevInfoTypeIVTest.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (light_click.getbOnOff() == 0) {
+                                SendDataUtil.controlDev(light_click.getDev(), 0);
+                            } else {
+                                SendDataUtil.controlDev(light_click.getDev(), 1);
+                            }
+                        }
+                    });
+
                     viewHolder.mDevInfoWay.setText(light.getPowChn() + 1 + "");
                     if ("".equals(BoardName))
                         viewHolder.mDevInfoOutBoard.setText("数据解析出错");
@@ -656,7 +697,6 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoEditName.setText("");
                     viewHolder.mDevInfoEditName.setHint(light.getDev().getDevName());
                     viewHolder.mDevInfoEditWay.setText(light.getPowChn() + 1 + "");
-                    viewHolder.mDevInfoEditType.setText("灯光");
                 }
             }
         } else if (Devs.get(position).getType() == 4) {
@@ -688,7 +728,17 @@ public class DevInfosAdapter extends BaseAdapter {
                     //可视布局数据
                     viewHolder.mDevInfoName.setText(curtain.getDev().getDevName());
                     viewHolder.mDevInfoRoom.setText(curtain.getDev().getRoomName());
-                    viewHolder.mDevInfoType.setText("窗帘");
+
+                    viewHolder.mDevInfoTypeIV.setImageResource(R.drawable.chuanglian_sta);
+                    viewHolder.mDevInfoEditIV.setImageResource(R.drawable.chuanglian_sta);
+                    final WareCurtain chuanglian_fin = curtain;
+                    viewHolder.mDevInfoTypeIVTest.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            SendDataUtil.controlDev(chuanglian_fin.getDev(), UdpProPkt.E_CURT_CMD.e_curt_offOn.getValue());
+                        }
+                    });
+
                     if ("".equals(BoardName))
                         viewHolder.mDevInfoOutBoard.setText("数据解析出错");
                     viewHolder.mDevInfoOutBoard.setText(BoardName);
@@ -697,7 +747,6 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoEditRoom.setText(curtain.getDev().getRoomName());
                     viewHolder.mDevInfoEditName.setHint(curtain.getDev().getDevName());
                     viewHolder.mDevInfoEditWay.setText(Way_ok);
-                    viewHolder.mDevInfoEditType.setText("窗帘");
                 }
             }
         } else if (Devs.get(position).getType() == 7) {//新风
@@ -717,7 +766,26 @@ public class DevInfosAdapter extends BaseAdapter {
                     //可视布局数据
                     viewHolder.mDevInfoName.setText(freshAir.getDev().getDevName());
                     viewHolder.mDevInfoRoom.setText(freshAir.getDev().getRoomName());
-                    viewHolder.mDevInfoType.setText("新风");
+
+                    if (freshAir.getbOnOff() == 0) {
+                        viewHolder.mDevInfoTypeIV.setImageResource(R.drawable.freshair_close);
+                        viewHolder.mDevInfoEditIV.setImageResource(R.drawable.freshair_close);
+                    } else {
+                        viewHolder.mDevInfoTypeIV.setImageResource(R.drawable.freshair_open);
+                        viewHolder.mDevInfoEditIV.setImageResource(R.drawable.freshair_open);
+                    }
+                    final WareFreshAir freshAir_fin = freshAir;
+                    viewHolder.mDevInfoTypeIVTest.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (freshAir_fin.getbOnOff() == 1) {
+                                SendDataUtil.controlDev(freshAir_fin.getDev(), UdpProPkt.E_FRESHAIR_CMD.e_freshair_close.getValue());
+                            } else {
+                                SendDataUtil.controlDev(freshAir_fin.getDev(), UdpProPkt.E_FRESHAIR_CMD.e_freshair_open.getValue());
+                            }
+                        }
+                    });
+
                     viewHolder.mDevInfoWay.setText((freshAir.getOnOffChn() + 1) + "、"
                             + (freshAir.getSpdLowChn() + 1) + "、" + (freshAir.getSpdMidChn() + 1)
                             + "、" + (freshAir.getSpdHighChn() + 1));
@@ -731,7 +799,6 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoEditWay.setText((freshAir.getOnOffChn() + 1) + "、"
                             + (freshAir.getSpdLowChn() + 1) + "、" + (freshAir.getSpdMidChn() + 1)
                             + "、" + (freshAir.getSpdHighChn() + 1));
-                    viewHolder.mDevInfoEditType.setText("新风");
                 }
             }
         } else if (Devs.get(position).getType() == 9) {//地暖
@@ -751,7 +818,25 @@ public class DevInfosAdapter extends BaseAdapter {
                     //可视布局数据
                     viewHolder.mDevInfoName.setText(floorHeat.getDev().getDevName());
                     viewHolder.mDevInfoRoom.setText(floorHeat.getDev().getRoomName());
-                    viewHolder.mDevInfoType.setText("地暖");
+
+                    if (floorHeat.getbOnOff() == 0) {
+                        viewHolder.mDevInfoTypeIV.setImageResource(R.drawable.floorheat_close);
+                        viewHolder.mDevInfoEditIV.setImageResource(R.drawable.floorheat_close);
+                    } else {
+                        viewHolder.mDevInfoTypeIV.setImageResource(R.drawable.floorheat_open);
+                        viewHolder.mDevInfoEditIV.setImageResource(R.drawable.floorheat_open);
+                    }
+                    final WareFloorHeat floorHeat_fin = floorHeat;
+                    viewHolder.mDevInfoTypeIVTest.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (floorHeat_fin.getbOnOff() == 1) {
+                                SendDataUtil.controlDev(floorHeat_fin.getDev(), UdpProPkt.E_FLOOR_HEAT_CMD.e_floorHeat_close.getValue());
+                            } else
+                                SendDataUtil.controlDev(floorHeat_fin.getDev(), UdpProPkt.E_FLOOR_HEAT_CMD.e_floorHeat_open.getValue());
+                        }
+                    });
+
                     viewHolder.mDevInfoWay.setText((floorHeat.getPowChn() + 1) + "");
                     if ("".equals(BoardName))
                         viewHolder.mDevInfoOutBoard.setText("数据解析出错");
@@ -761,7 +846,6 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoEditRoom.setText(floorHeat.getDev().getRoomName());
                     viewHolder.mDevInfoEditName.setHint(floorHeat.getDev().getDevName());
                     viewHolder.mDevInfoEditWay.setText((floorHeat.getPowChn() + 1) + "");
-                    viewHolder.mDevInfoEditType.setText("地暖");
                 }
             }
         }
@@ -773,32 +857,34 @@ public class DevInfosAdapter extends BaseAdapter {
     public static class ViewHolder {
         public View rootView;
         public ImageView mDevInfoDelete;
+        public ImageView mDevInfoTypeIV;
+        public ImageView mDevInfoEditIV;
         public TextView mDevInfoName;
         public ImageView mDevInfoEdit;
         public TextView mDevInfoOutBoard;
         public TextView mDevInfoRoom;
-        public TextView mDevInfoType;
+        public TextView mDevInfoTypeIVTest;
         public TextView mDevInfoWay;
         public LinearLayout mDevInfoLook;
         public TextView mDevInfoEditRoom;
         public EditText mDevInfoEditName;
-        public TextView mDevInfoEditType;
         public TextView mDevInfoEditWay;
         public LinearLayout mDevInfoEditLook;
 
         public ViewHolder(View rootView) {
             this.rootView = rootView;
             this.mDevInfoDelete = (ImageView) rootView.findViewById(R.id.Dev_Info_Delete);
+            this.mDevInfoTypeIV = (ImageView) rootView.findViewById(R.id.Dev_Info_Type_Iv);
+            this.mDevInfoEditIV = (ImageView) rootView.findViewById(R.id.Dcv_Info_Edit_Type_IV);
             this.mDevInfoName = (TextView) rootView.findViewById(R.id.Dev_Info_Name);
             this.mDevInfoEdit = (ImageView) rootView.findViewById(R.id.Dev_Info_Edit);
             this.mDevInfoOutBoard = (TextView) rootView.findViewById(R.id.Dev_Info_OutBoard);
             this.mDevInfoRoom = (TextView) rootView.findViewById(R.id.Dev_Info_Room);
-            this.mDevInfoType = (TextView) rootView.findViewById(R.id.Dev_Info_Type);
+            this.mDevInfoTypeIVTest = (TextView) rootView.findViewById(R.id.Dev_Info_Edit_Type_Test);
             this.mDevInfoWay = (TextView) rootView.findViewById(R.id.Dev_Info_Way);
             this.mDevInfoLook = (LinearLayout) rootView.findViewById(R.id.Dev_Info_Look);
             this.mDevInfoEditRoom = (TextView) rootView.findViewById(R.id.Dev_Info_Edit_Room);
             this.mDevInfoEditName = (EditText) rootView.findViewById(R.id.Dev_Info_Edit_Name);
-            this.mDevInfoEditType = (TextView) rootView.findViewById(R.id.Dev_Info_Edit_Type);
             this.mDevInfoEditWay = (TextView) rootView.findViewById(R.id.Dev_Info_Edit_Way);
             this.mDevInfoEditLook = (LinearLayout) rootView.findViewById(R.id.Dev_Info_Edit_Look);
         }

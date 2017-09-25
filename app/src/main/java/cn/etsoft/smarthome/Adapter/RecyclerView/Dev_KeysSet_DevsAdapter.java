@@ -50,11 +50,11 @@ public class Dev_KeysSet_DevsAdapter extends RecyclerView.Adapter<Dev_KeysSet_De
             holder.itemView.setBackgroundResource(R.color.color_302f35);  //其他项背景
         }
         if (list.get(position).getType() == 0)
-            holder.iv.setImageResource(R.drawable.kongtiao_heng);
+            holder.iv.setImageResource(R.drawable.kt_dev_item_close);
         else if (list.get(position).getType() == 1)
-            holder.iv.setImageResource(R.drawable.ic_launcher);
+            holder.iv.setImageResource(R.drawable.tv_sam_icon);
         else if (list.get(position).getType() == 2)
-            holder.iv.setImageResource(R.drawable.ic_launcher);
+            holder.iv.setImageResource(R.drawable.jidinghe_sam_icon);
         else if (list.get(position).getType() == 3)
             holder.iv.setImageResource(R.drawable.deng_heng);
         else if (list.get(position).getType() == 4)

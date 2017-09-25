@@ -7,6 +7,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +40,10 @@ public class LightControlFragment extends BaseFragment {
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                if (datType == 4 ||datType == 35 ||datType == 3) {
+                if (datType == 35 || datType == 3) {
                     initDev();
                 }
+                if (datType == 4) ToastUtil.showText("执行成功");
             }
         });
     }
@@ -95,7 +97,7 @@ public class LightControlFragment extends BaseFragment {
         } else
             mLightAdapter.notifyDataSetChanged(mLight_Room);
 
-        TextView nulltv= findViewById(R.id.null_tv);
+        TextView nulltv = findViewById(R.id.null_tv);
         mSceneSet_Light.setEmptyView(nulltv);
         mSceneSet_Light.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

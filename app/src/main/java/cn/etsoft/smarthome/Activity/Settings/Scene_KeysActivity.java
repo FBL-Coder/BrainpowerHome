@@ -108,10 +108,11 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
                 boolean isCantain = false;
                 for (int i = 0; i < WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size(); i++) {
                     ChnOpItem_scene.Key2sceneItemBean itemBean = WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().get(i);
-                    if (itemBean.getEventId() == Scene_ID
-                            && itemBean.getKeyUId().equals(wareBoardKeyInputs.get(position_keyinput).getCanCpuID())
-                            && itemBean.getKeyIndex() == position) {
-                        WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().remove(i);
+                    if (itemBean.getEventId() == Scene_ID) {
+                        itemBean.setEventId(Scene_ID);
+                        itemBean.setKeyUId(wareBoardKeyInputs.get(position_keyinput).getCanCpuID());
+                        itemBean.setKeyIndex(position);
+                        WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().set(i,itemBean);
                         isCantain = true;
                     }
                 }
@@ -172,8 +173,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
                     ToastUtil.showText("情景数据加载失败，不可操作！");
                     return;
                 }
-                Scene_ID = MyApplication.getWareData().getSceneEvents().
-                        get(position % MyApplication.getWareData().getSceneEvents().size()).getEventId();
+                Scene_ID = position % WareDataHliper.initCopyWareData().getSceneControlData().size();
                 // 转盘点击事件
                 initKeyAdapter();
             }
@@ -186,6 +186,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
             public void OnItemClick(View view, int position) {
                 position_keyinput = position;
                 //板子点击事件
+                mKeysAdapter.notifyDataSetChanged(Scene_ID, position_keyinput, Scene_KeysActivity.this, false);
             }
 
             @Override

@@ -24,6 +24,7 @@ import cn.etsoft.smarthome.Adapter.GridView.SafetySet_DevAdapter;
 import cn.etsoft.smarthome.Adapter.PopupWindow.PopupWindowAdapter2;
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.SetSafetyResult;
+import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.SafetySetHelper;
@@ -54,6 +55,8 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
     private int mSafetyPosition = -1;
     private int CirclePosition = 0;
     private PopupWindow popupWindow;
+    private List<WareSceneEvent> wareSceneEvent;
+    private int ScenePosition = 255;
 
 
     @Override
@@ -124,9 +127,20 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
         mSafety_State_List.add("外出布防");
         mSafety_State_List.add("撤防状态");
         mSafety_Scene_Name = new ArrayList<>();
-        if (MyApplication.getWareData().getSceneEvents() != null)
-            for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
-                mSafety_Scene_Name.add(MyApplication.getWareData().getSceneEvents().get(i).getSceneName());
+        wareSceneEvent = new ArrayList<>();
+        WareSceneEvent event = new WareSceneEvent();
+        event.setEventId(0);
+        event.setSceneName("全开模式");
+        WareSceneEvent event1 = new WareSceneEvent();
+        event1.setEventId(1);
+        event1.setSceneName("全关模式");
+        wareSceneEvent.add(event);
+        wareSceneEvent.add(event1);
+        wareSceneEvent.addAll(MyApplication.getWareData().getSceneEvents());
+
+        if (wareSceneEvent != null)
+            for (int i = 0; i < wareSceneEvent.size(); i++) {
+                mSafety_Scene_Name.add(wareSceneEvent.get(i).getSceneName());
             }
         mSafety_Scene_Name.add("无");
         Data_OuterCircleList = SafetySetHelper.initSceneCircleOUterData(IsCanClick, CirclePosition);
@@ -182,11 +196,14 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
                         }
                     }
                     //情景
-                    if (MyApplication.getWareData().getSceneEvents() != null)
-                        for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
-                            if (MyApplication.getWareData().getSceneEvents().get(i).getEventId()
+                    if (wareSceneEvent != null)
+                        for (int i = 0; i < wareSceneEvent.size(); i++) {
+                            if (wareSceneEvent.get(i).getEventId()
                                     == mBean.getSceneId()) {
-                                mSafetyScene.setText(MyApplication.getWareData().getSceneEvents().get(i).getSceneName());
+                                mSafetyScene.setText(wareSceneEvent.get(i).getSceneName());
+                                ScenePosition = i;
+                                if (i == wareSceneEvent.size() - 1)
+                                    ScenePosition = 255;
                             }
                         }
                     else
@@ -229,8 +246,8 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
         }
         switch (v.getId()) {
             case R.id.SafetySet_Save_Btn://保存
-                SafetySetHelper.safetySet_Save(this, mSafetyName, IsShiNeng, mSafetyScene, mSafetyType, mSafety_State_List
-                        , mSafetyPosition, mBean.getRun_dev_item());
+                SafetySetHelper.safetySet_Save(this, mSafetyName, IsShiNeng, ScenePosition,
+                        mSafetyType, mSafety_State_List, mSafetyPosition, mBean.getRun_dev_item());
 
                 break;
             case R.id.SafetySet_ShiNeng: //使能开关
@@ -292,6 +309,11 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView tv = (TextView) view_parent;
                 tv.setText(text.get(position));
+                if (view_parent.getId() == R.id.SafetySet_Scene) {
+                    ScenePosition = position;
+                    if (position == text.size() - 1)
+                        ScenePosition = 255;
+                }
                 popupWindow.dismiss();
             }
         });

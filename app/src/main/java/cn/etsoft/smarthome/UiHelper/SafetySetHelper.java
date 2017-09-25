@@ -16,6 +16,7 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.SetSafetyResult;
+import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.Utils.CommonUtils;
@@ -54,8 +55,9 @@ public class SafetySetHelper {
      * 保存
      */
     public static void safetySet_Save(final Activity activity, final EditText safety_name, final boolean ShiNeng
-            , final TextView safety_scene, final TextView safety_state, final List<String> safety_state_data,
-                                      final int Safety_position, final List<SetSafetyResult.SecInfoRowsBean.RunDevItemBean> common_dev) {
+            , final int ScenePosition, final TextView safety_state, final List<String> safety_state_data,
+                                      final int Safety_position,
+                                      final List<SetSafetyResult.SecInfoRowsBean.RunDevItemBean> common_dev) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle("提示 :");
         builder.setMessage("您要保存这些设置吗？");
@@ -107,13 +109,7 @@ public class SafetySetHelper {
                     }
 
                     //关联情景
-                    if ("无".equals(safety_scene.getText().toString()) || "点击选择关联情景".equals(safety_scene)) {
-                        bean.setSceneId(255);
-                    } else
-                        for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
-                            if (safety_scene.getText().toString().equals(MyApplication.getWareData().getSceneEvents().get(i).getSceneName()))
-                                bean.setSceneId(i);
-                        }
+                    bean.setSceneId(ScenePosition);
                     timerEvent_rows.add(bean);
                     safetyResult.setDatType(32);
                     safetyResult.setDevUnitID(GlobalVars.getDevid());

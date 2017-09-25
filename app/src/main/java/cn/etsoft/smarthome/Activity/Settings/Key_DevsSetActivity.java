@@ -83,7 +83,8 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                             if (mRoomDevs.get(i).getType() == DevType)
                                 devs.add(mRoomDevs.get(i));
                         }
-                        mKeyDevsKeysAdapter.notifyDataSetChanged(DevType, position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
+                        mKeyDevsKeysAdapter.notifyDataSetChanged(DevType, position_keyinput, KeyPosition,
+                                Key_DevsSetActivity.this, devs, false);
                     }
                 }
                 if (datType == 12 && MyApplication.getWareData().getResult() != null
@@ -201,7 +202,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                     if (mRoomDevs.get(i).getType() == DevType)
                         devs.add(mRoomDevs.get(i));
                 }
-                Key_DevsSetHelper.Save(this, CanCupID, position_keyinput, devs);
+                Key_DevsSetHelper.Save(this, CanCupID,KeyPosition, devs);
                 break;
         }
     }

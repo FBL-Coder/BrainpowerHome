@@ -68,6 +68,21 @@ public class DevInfoActivity extends BaseActivity {
                     } else
                         adapter.notifyDataSetChanged(gridviewDev);
                 }
+                if (datType == 3 || datType == 4 || datType == 35
+                        || (datType == 7 || subtype2 == 1)||(datType == 9 && subtype2 == 1)){
+                    mRoomDevs = getRoomDev(RoomName);
+                    if (mRoomDevs == null) return;
+                    List<WareDev> gridviewDev = new ArrayList<>();
+                    for (int i = 0; i < mRoomDevs.size(); i++) {
+                        if (mRoomDevs.get(i).getType() == DevType)
+                            gridviewDev.add(mRoomDevs.get(i));
+                    }
+                    if (adapter == null) {
+                        adapter = new DevInfosAdapter(gridviewDev, DevInfoActivity.this);
+                        DevInfoGridView.setAdapter(adapter);
+                    } else
+                        adapter.notifyDataSetChanged(gridviewDev);
+                }
             }
         });
     }

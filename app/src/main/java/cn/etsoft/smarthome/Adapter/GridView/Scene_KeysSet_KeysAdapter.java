@@ -29,14 +29,20 @@ public class Scene_KeysSet_KeysAdapter extends BaseAdapter {
     private List<String> KeyNames;
     private int Scene_ID = 0;
 
+    private int keyinpur_position_id;
+
     public Scene_KeysSet_KeysAdapter(int Scene_ID, int keyinpur_position, Context context, boolean isShowSelect) {
         this.Scene_ID = Scene_ID;
         listData = new ArrayList<>();
         KeyNames = new ArrayList<>();
+        keyinpur_position_id = keyinpur_position;
         if (MyApplication.getWareData().getKeyInputs().size() == 0)
             return;
-        for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyName().length; i++) {
-            KeyNames.add(MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyName()[i]);
+        for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyCnt(); i++) {
+            if (MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyCnt()
+                    < MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyName().length)
+                KeyNames.add(MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyName()[i]);
+            else KeyNames.add("按键" + i);
         }
         this.listData_all = WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item();
         mContext = context;
@@ -46,10 +52,14 @@ public class Scene_KeysSet_KeysAdapter extends BaseAdapter {
     public void notifyDataSetChanged(int Scene_ID, int keyinpur_position, Context context, boolean isShowSelect) {
         this.Scene_ID = Scene_ID;
         listData = new ArrayList<>();
+        keyinpur_position_id = keyinpur_position;
         this.listData_all = WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item();
         KeyNames = new ArrayList<>();
-        for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyName().length; i++) {
-            KeyNames.add(MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyName()[i]);
+        for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyCnt(); i++) {
+            if (MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyCnt()
+                    < MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyName().length)
+                KeyNames.add(MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyName()[i]);
+            else KeyNames.add("按键" + i);
         }
         Secne_ID_Select();
         super.notifyDataSetChanged();
@@ -92,10 +102,11 @@ public class Scene_KeysSet_KeysAdapter extends BaseAdapter {
         viewHoler.select_key.setImageResource(R.drawable.select_no);
         viewHoler.mIV.setImageResource(R.drawable.anjian_icon);
         for (int i = 0; i < listData.size(); i++) {
-            if (position == listData.get(i).getKeyIndex())
+            if (position == listData.get(i).getKeyIndex()
+                    && MyApplication.getWareData().getKeyInputs().get(keyinpur_position_id).getCanCpuID()
+                    .equals(listData.get(i).getKeyUId()))
                 viewHoler.select_key.setImageResource(R.drawable.select_ok);
         }
-
         viewHoler.mName.setText(KeyNames.get(position));
         return convertView;
     }

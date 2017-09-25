@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_60"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,18 +58,10 @@
             <ImageView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3"
+                android:layout_weight="0.8"
                 android:padding="@dimen/dp_5"
                 android:src="@drawable/board_devinfo" />
 
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="输出饭 "
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_18" />
 
             <TextView
                 android:id="@+id/Dev_Info_OutBoard"
@@ -91,18 +83,10 @@
             <ImageView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3"
+                android:layout_weight="0.8"
                 android:padding="@dimen/dp_5"
                 android:src="@drawable/room_devinfo" />
 
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="房间 "
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_18" />
 
             <TextView
                 android:id="@+id/Dev_Info_Room"
@@ -125,28 +109,18 @@
             <ImageView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3"
+                android:layout_weight="0.8"
                 android:padding="@dimen/dp_5"
                 android:src="@drawable/type_devinfo" />
 
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="类型 "
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_18" />
-
-            <TextView
-                android:id="@+id/Dev_Info_Type"
+            <ImageView
+                android:id="@+id/Dev_Info_Type_Iv"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
-                android:gravity="center"
-                android:padding="@dimen/dp_10"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_18" />
+                android:padding="@dimen/dp_5"
+                android:src="@drawable/light_open" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -158,18 +132,9 @@
             <ImageView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3"
+                android:layout_weight="0.8"
                 android:padding="@dimen/dp_5"
                 android:src="@drawable/way_devinfo" />
-
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="0.8"
-                android:gravity="center"
-                android:text="通道 "
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_18" />
 
             <TextView
                 android:id="@+id/Dev_Info_Way"
@@ -191,7 +156,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_60"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
 
         <LinearLayout
@@ -203,18 +168,10 @@
             <ImageView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3"
+                android:layout_weight="0.8"
                 android:padding="@dimen/dp_5"
                 android:src="@drawable/room_devinfo" />
 
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="房间 "
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_18" />
 
             <RelativeLayout
                 android:layout_width="@dimen/dp_0"
@@ -245,18 +202,10 @@
             <ImageView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3"
+                android:layout_weight="0.8"
                 android:padding="@dimen/dp_5"
                 android:src="@drawable/name_devinfo" />
 
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="名称 "
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_18" />
 
             <EditText
                 android:id="@+id/Dev_Info_Edit_Name"
@@ -264,8 +213,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
                 android:gravity="center"
-                android:textColorHint="@color/white"
                 android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 android:textSize="@dimen/sp_18" />
         </LinearLayout>
 
@@ -277,30 +226,31 @@
             android:padding="@dimen/dp_10">
 
             <ImageView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="0.3"
-                android:padding="@dimen/dp_5"
-                android:src="@drawable/type_devinfo" />
-
-            <TextView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="类型"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_18" />
+                android:padding="@dimen/dp_5"
+                android:src="@drawable/type_devinfo" />
 
-            <TextView
-                android:id="@+id/Dev_Info_Edit_Type"
+            <ImageView
+                android:id="@+id/Dcv_Info_Edit_Type_IV"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_weight="1.5"
+                android:layout_weight="1"
+                android:padding="@dimen/dp_5"
+                android:src="@drawable/light_open" />
+
+            <TextView
+                android:id="@+id/Dev_Info_Edit_Type_Test"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_blue_selector"
                 android:gravity="center"
                 android:padding="@dimen/dp_10"
+                android:text="测 试"
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp_18" />
+                android:textSize="@dimen/sp_22" />
         </LinearLayout>
 
         <LinearLayout
@@ -312,18 +262,10 @@
             <ImageView
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
-                android:layout_weight="0.3"
+                android:layout_weight="0.8"
                 android:padding="@dimen/dp_5"
                 android:src="@drawable/way_devinfo" />
 
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="0.8"
-                android:gravity="center"
-                android:text="通道 "
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_18" />
 
             <TextView
                 android:id="@+id/Dev_Info_Edit_Way"

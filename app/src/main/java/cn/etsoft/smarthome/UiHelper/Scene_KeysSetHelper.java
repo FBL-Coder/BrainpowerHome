@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Domain.ChnOpItem_scene;
+import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.Out_List_printcmd;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
@@ -62,8 +63,9 @@ public class Scene_KeysSetHelper {
         List<CircleDataEvent> list = new ArrayList<>();
         for (int i = 0; i < num; i++) {
             CircleDataEvent event = new CircleDataEvent();
-            event.setTitle(MyApplication.getWareData().getSceneEvents().get(
-                    i % MyApplication.getWareData().getSceneEvents().size()).getSceneName());
+
+            event.setTitle(WareDataHliper.initCopyWareData().getSceneControlData().get(
+                    i % WareDataHliper.initCopyWareData().getSceneControlData().size()).getSceneName());
             event.setImage(R.drawable.set_scene);
             if (IsClick && i == position)
                 event.setSelect(true);
@@ -131,6 +133,7 @@ public class Scene_KeysSetHelper {
                 scene_Save.setDatType(59);
                 scene_Save.setSubType1(0);
                 scene_Save.setSubType2(0);
+                scene_Save.setDevUnitID(GlobalVars.getDevid());
                 scene_Save.setItemCnt(scene_Save.getKey2scene_item().size());
                 Gson gson = new Gson();
                 MyApplication.mApplication.getUdpServer().send(gson.toJson(scene_Save));

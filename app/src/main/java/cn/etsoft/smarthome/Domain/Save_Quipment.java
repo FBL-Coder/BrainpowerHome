@@ -86,6 +86,7 @@ public class Save_Quipment implements Serializable {
 
     public class key_Opitem_Rows implements Serializable{
         String out_cpuCanID;
+        String key_cpuCanID;
         int devType;
         int devID;
         int keyOpCmd;
@@ -131,5 +132,12 @@ public class Save_Quipment implements Serializable {
             KeyOp = keyOp;
         }
 
+        public String getKey_cpuCanID() {
+            return key_cpuCanID;
+        }
+
+        public void setKey_cpuCanID(String key_cpuCanID) {
+            this.key_cpuCanID = key_cpuCanID;
+        }
     }
 }
