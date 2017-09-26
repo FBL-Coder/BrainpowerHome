@@ -216,6 +216,8 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
         mSafetyGirdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position > mBean.getRun_dev_item().size() - 1) return;
+
                 if (mBean.getRun_dev_item().get(position).getBOnOff() == 0)
                     mBean.getRun_dev_item().get(position).setBOnOff(1);
                 else mBean.getRun_dev_item().get(position).setBOnOff(0);
@@ -226,6 +228,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
         mSafetyGirdView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position > mBean.getRun_dev_item().size() - 1) return false;
                 mBean.getRun_dev_item().remove(position);
                 mAdapter.notifyDataSetChanged(mBean.getRun_dev_item());
                 return true;

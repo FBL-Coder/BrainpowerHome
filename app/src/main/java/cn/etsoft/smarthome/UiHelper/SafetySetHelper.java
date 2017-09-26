@@ -74,9 +74,7 @@ public class SafetySetHelper {
                     SetSafetyResult safetyResult = new SetSafetyResult();
                     List<SetSafetyResult.SecInfoRowsBean> timerEvent_rows = new ArrayList<>();
                     SetSafetyResult.SecInfoRowsBean bean = new SetSafetyResult.SecInfoRowsBean();
-                    if (common_dev.size() > 0)
-                        bean.setSecDev(1);
-                    else bean.setSecDev(0);
+                    bean.setSecDev(common_dev.size() > 0 ? 1 : 0);
                     bean.setItemCnt(common_dev.size());
                     bean.setSecId(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSecId());
                     bean.setRun_dev_item(common_dev);
@@ -114,7 +112,6 @@ public class SafetySetHelper {
                     safetyResult.setDatType(32);
                     safetyResult.setDevUnitID(GlobalVars.getDevid());
                     safetyResult.setSubType1(5);
-                    safetyResult.setItemCnt(1);
                     safetyResult.setSubType2(WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().get(Safety_position).getSecId());
                     safetyResult.setSec_info_rows(timerEvent_rows);
                     Gson gson = new Gson();
@@ -140,9 +137,7 @@ public class SafetySetHelper {
             SetSafetyResult safetyResult = new SetSafetyResult();
             List<SetSafetyResult.SecInfoRowsBean> timerEvent_rows = new ArrayList<>();
             SetSafetyResult.SecInfoRowsBean bean = new SetSafetyResult.SecInfoRowsBean();
-            if (common_dev.size() > 0)
-                bean.setSecDev(1);
-            else bean.setSecDev(0);
+            bean.setSecDev(common_dev.size() > 0 ? 1 : 0);
             bean.setItemCnt(common_dev.size());
             bean.setSecId(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSecId());
             bean.setRun_dev_item(common_dev);
@@ -181,7 +176,6 @@ public class SafetySetHelper {
             safetyResult.setDatType(32);
             safetyResult.setDevUnitID(GlobalVars.getDevid());
             safetyResult.setSubType1(7);
-            safetyResult.setItemCnt(1);
             safetyResult.setSubType2(0);
             safetyResult.setSec_info_rows(timerEvent_rows);
             Gson gson = new Gson();
