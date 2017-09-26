@@ -108,11 +108,21 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
                 boolean isCantain = false;
                 for (int i = 0; i < WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size(); i++) {
                     ChnOpItem_scene.Key2sceneItemBean itemBean = WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().get(i);
+
+
                     if (itemBean.getEventId() == Scene_ID) {
+                        if (itemBean.getKeyIndex() == position) {
+                            WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item()
+                                    .remove(i);
+                            mKeysAdapter.notifyDataSetChanged(Scene_ID, position_keyinput, Scene_KeysActivity.this, false);
+
+                            return;
+                        }
                         itemBean.setEventId(Scene_ID);
                         itemBean.setKeyUId(wareBoardKeyInputs.get(position_keyinput).getCanCpuID());
                         itemBean.setKeyIndex(position);
-                        WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().set(i,itemBean);
+                        WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item()
+                                .set(i, itemBean);
                         isCantain = true;
                     }
                 }
@@ -152,10 +162,6 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
             case R.id.Scene_KeysSet_Test_Btn: // 测试
                 break;
             case R.id.Scene_KeysSet_Save_Btn: // 保存
-                if (WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size() > 12) {
-                    ToastUtil.showText("最多12个关联事件，目前已有" + WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size() + "个;");
-                    return;
-                }
                 Scene_KeysSetHelper.Save(this);
                 break;
         }
@@ -175,6 +181,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
                 }
                 Scene_ID = position % WareDataHliper.initCopyWareData().getSceneControlData().size();
                 // 转盘点击事件
+//                WareDataHliper.initCopyWareData().startCopyScene_KeysData();
                 initKeyAdapter();
             }
         });

@@ -40,10 +40,9 @@ public class LightControlFragment extends BaseFragment {
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                if (datType == 35 || datType == 3) {
+                if (datType == 35 || datType == 3||datType == 4) {
                     initDev();
                 }
-                if (datType == 4) ToastUtil.showText("执行成功");
             }
         });
     }

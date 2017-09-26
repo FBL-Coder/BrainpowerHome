@@ -1118,35 +1118,35 @@ public class UDPServer implements Runnable {
                         MyApplication.getWareData().getAirConds().set(i, airCondDev);
                     }
                 }
-//            } else if (devType == 3) {
-//                WareLight wareLight = new WareLight();
-//                JSONObject jsonobj = array.getJSONObject(0);
-//                WareDev dev = new WareDev();
-//                dev.setCanCpuId(jsonobj.getString("canCpuID"));
-//                if (dattype == 6) {
-//                    dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
-//                    dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
-//                }
-//                dev.setDevId(jsonobj.getInt("devID"));
-//                dev.setType(jsonobj.getInt("devType"));
-//                wareLight.setDev(dev);
-//                wareLight.setbOnOff(jsonobj.getInt("bOnOff"));
-//                wareLight.setPowChn(jsonobj.getInt("powChn"));
-//                wareLight.setbTuneEn(jsonobj.getInt("bTuneEn"));
-//                wareLight.setLmVal(jsonobj.getInt("lmVal"));
-//                for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
-//                    WareLight light = MyApplication.getWareData().getLights().get(i);
-//                    if (light.getDev().getCanCpuId().equals(wareLight.getDev().getCanCpuId())
-//                            && light.getDev().getDevId() == wareLight.getDev().getDevId()) {
-//                        if (dattype == 4) {
-//                            wareLight.getDev().setDevName(light.getDev().getDevName());
-//                            wareLight.getDev().setRoomName(light.getDev().getRoomName());
-//                        }
-//                        MyApplication.getWareData().getLights().set(i, wareLight);
-//                        Log.i("Light", wareLight.getDev().getDevId() + "");
-//                        break;
-//                    }
-//                }
+            } else if (devType == 3) {
+                WareLight wareLight = new WareLight();
+                JSONObject jsonobj = array.getJSONObject(0);
+                WareDev dev = new WareDev();
+                dev.setCanCpuId(jsonobj.getString("canCpuID"));
+                if (dattype == 6) {
+                    dev.setDevName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("devName"))));
+                    dev.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonobj.getString("roomName"))));
+                }
+                dev.setDevId(jsonobj.getInt("devID"));
+                dev.setType(jsonobj.getInt("devType"));
+                wareLight.setDev(dev);
+                wareLight.setbOnOff(jsonobj.getInt("bOnOff"));
+                wareLight.setPowChn(jsonobj.getInt("powChn"));
+                wareLight.setbTuneEn(jsonobj.getInt("bTuneEn"));
+                wareLight.setLmVal(jsonobj.getInt("lmVal"));
+                for (int i = 0; i < MyApplication.getWareData().getLights().size(); i++) {
+                    WareLight light = MyApplication.getWareData().getLights().get(i);
+                    if (light.getDev().getCanCpuId().equals(wareLight.getDev().getCanCpuId())
+                            && light.getDev().getDevId() == wareLight.getDev().getDevId()) {
+                        if (dattype == 4) {
+                            wareLight.getDev().setDevName(light.getDev().getDevName());
+                            wareLight.getDev().setRoomName(light.getDev().getRoomName());
+                        }
+                        MyApplication.getWareData().getLights().set(i, wareLight);
+                        Log.i("Light", wareLight.getDev().getDevId() + "");
+                        break;
+                    }
+                }
             } else if (devType == 7) {
                 WareFreshAir freshAir = new WareFreshAir();
                 JSONObject jsonobj = array.getJSONObject(0);
