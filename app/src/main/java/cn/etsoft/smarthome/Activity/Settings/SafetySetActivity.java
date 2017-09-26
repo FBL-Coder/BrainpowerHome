@@ -165,52 +165,52 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
                 //某一安防里的设备为空或长度为0时
                 if (mBean.getRun_dev_item().size() == 0) {
                     mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
-                    IsShiNeng = false;
                     mSafetyScene.setText("点击选择关联情景");
                     mSafetyType.setText("点击选择安防状态");
-                } else {
-                    if (mBean.getValid() == 1) {
-                        mShiNeng.setImageResource(R.drawable.checkbox1_selected);
-                        IsShiNeng = true;
-                    } else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
-
-                    // 全局布撤状态
-                    int type = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
-                    if (type == 255)
-                        mSafetyNow.setText(mSafety_State_List.get(3));
-                    else {//布防类型是"24小时布防"、"在家布防"、"外出布防"
-                        try {
-                            mSafetyNow.setText(mSafety_State_List.get(mBean.getSecType()));
-                        } catch (Exception e) {
-                            mSafetyNow.setText(mSafety_State_List.get(3));
-                        }
-                    }
-                    //布防类型是"撤防状态"
-                    if (mBean.getSecType() == 255)
-                        mSafetyType.setText(mSafety_State_List.get(3));
-                    else {//布防类型是"24小时布防"、"在家布防"、"外出布防"
-                        try {
-                            mSafetyType.setText(mSafety_State_List.get(mBean.getSecType()));
-                        } catch (Exception e) {
-                            mSafetyType.setText(mSafety_State_List.get(3));
-                        }
-                    }
-                    //情景
-                    if (wareSceneEvent != null)
-                        for (int i = 0; i < wareSceneEvent.size(); i++) {
-                            if (wareSceneEvent.get(i).getEventId()
-                                    == mBean.getSceneId()) {
-                                mSafetyScene.setText(wareSceneEvent.get(i).getSceneName());
-                                ScenePosition = i;
-                                if (i == wareSceneEvent.size() - 1)
-                                    ScenePosition = 255;
-                            }
-                        }
-                    else
-                        mSafetyScene.setText("暂无情景数据");
                 }
 
+                if (mBean.getValid() == 1) {
+                    mShiNeng.setImageResource(R.drawable.checkbox1_selected);
+                    IsShiNeng = true;
+                } else {
+                    mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+                    IsShiNeng = false;
+                }
 
+                // 全局布撤状态
+                int type = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
+                if (type == 255)
+                    mSafetyNow.setText(mSafety_State_List.get(3));
+                else {//布防类型是"24小时布防"、"在家布防"、"外出布防"
+                    try {
+                        mSafetyNow.setText(mSafety_State_List.get(mBean.getSecType()));
+                    } catch (Exception e) {
+                        mSafetyNow.setText(mSafety_State_List.get(3));
+                    }
+                }
+                //布防类型是"撤防状态"
+                if (mBean.getSecType() == 255)
+                    mSafetyType.setText(mSafety_State_List.get(3));
+                else {//布防类型是"24小时布防"、"在家布防"、"外出布防"
+                    try {
+                        mSafetyType.setText(mSafety_State_List.get(mBean.getSecType()));
+                    } catch (Exception e) {
+                        mSafetyType.setText(mSafety_State_List.get(3));
+                    }
+                }
+                //情景
+                if (wareSceneEvent != null)
+                    for (int i = 0; i < wareSceneEvent.size(); i++) {
+                        if (wareSceneEvent.get(i).getEventId()
+                                == mBean.getSceneId()) {
+                            mSafetyScene.setText(wareSceneEvent.get(i).getSceneName());
+                            ScenePosition = i;
+                            if (i == wareSceneEvent.size() - 1)
+                                ScenePosition = 255;
+                        }
+                    }
+                else
+                    mSafetyScene.setText("暂无情景数据");
             }
         });
         mSafetyGirdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

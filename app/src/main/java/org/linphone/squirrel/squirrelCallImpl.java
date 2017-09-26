@@ -2,6 +2,7 @@ package org.linphone.squirrel;
 
 import java.util.Timer;
 
+import cn.etsoft.smarthome.R;
 import cn.semtec.community2.MyApplication;
 import cn.semtec.community2.activity.CallingActivity;
 import cn.semtec.community2.service.SIPService;
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 public class squirrelCallImpl extends MyApplication {
     public static final int squirrelCallIdle = 0;
@@ -197,6 +200,7 @@ public class squirrelCallImpl extends MyApplication {
 
     @Override
     public void onCreate() {
+        Log.e(TAG, "onCreate: //***************************************" );
         squirrelCall = squirrelCallImpl.this;
         try {
             super.onCreate();

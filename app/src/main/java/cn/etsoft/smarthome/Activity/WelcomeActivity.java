@@ -1,9 +1,13 @@
 package cn.etsoft.smarthome.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
@@ -18,20 +22,27 @@ import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+
 /**
  * Author：FBL  Time： 2017/6/13.
  * 欢迎界面
  */
 
-public class WelcomeActivity extends BaseActivity {
+public class WelcomeActivity extends Activity {
 
     private List<RcuInfo> mRcuInfos;
     private WelcomeHandler welcomeHandler = new WelcomeHandler(this);
 
     @Override
-    public void initView() {
-        setLayout(R.layout.activity_welcome);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.e(TAG, "onCreate: //*****************************************************" );
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
 
+    public void initView() {
         try {
             //获取屏幕数据
             DisplayMetrics metric = new DisplayMetrics();
@@ -45,14 +56,12 @@ public class WelcomeActivity extends BaseActivity {
         }
     }
 
-    @Override
     public void initData() {
-        setStatusColor(0xffffffff);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -71,13 +80,9 @@ public class WelcomeActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (weakReference != null) {
-
                 String json_RcuInfolist = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
-
                 String json_RcuinfoID = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
-
                 String UserID = (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, "");
-
                 if ("".equals(UserID)) {
                     weakReference.get().startActivity(new Intent(weakReference.get(), cn.semtec.community2.activity.LoginActivity.class));
                     weakReference.get().finish();

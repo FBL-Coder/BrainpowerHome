@@ -32,7 +32,6 @@ public class GuideActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if ((Integer) AppSharePreferenceMgr.get(MyApplication.getContext(), "IsFirst", 0) == 1) {
             startActivity(new Intent(GuideActivity.this, WelcomeActivity.class));
             finish();

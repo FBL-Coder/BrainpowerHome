@@ -144,6 +144,7 @@ public class Data_Cache {
             if (fos != null) {
                 try {
                     fos.close();
+                    oos.close();
                 } catch (IOException e) {
                     Log.e("Safety-write", e + "");
                     // fos流关闭异常
@@ -152,6 +153,7 @@ public class Data_Cache {
             }
             if (oos != null) {
                 try {
+                    fos.close();
                     oos.close();
                 } catch (IOException e) {
                     Log.e("Safety-write", e + "");
@@ -168,7 +170,6 @@ public class Data_Cache {
      * @return
      * @throws IOException
      */
-
     public static Safety_Data readFile_safety(String id, boolean isCollections) {
         FileInputStream fis = null;
         ObjectInputStream ois = null;
@@ -184,12 +185,12 @@ public class Data_Cache {
             return safety_Data;
         } catch (Exception e) {
             Log.e("Safety", e + "");
-            return null;
             //e.printStackTrace();
             // 这里是读取文件产生异常
         } finally {
             if (fis != null) {
                 try {
+                    ois.close();
                     fis.close();
                 } catch (IOException e) {
                     Log.e("Safety", e + "");
@@ -201,6 +202,7 @@ public class Data_Cache {
             if (ois != null) {
                 try {
                     ois.close();
+                    fis.close();
                 } catch (IOException e) {
                     Log.e("Safety", e + "");
                     return null;
@@ -210,6 +212,6 @@ public class Data_Cache {
             }
         }
         // 读取产生异常，返回null
-//        return null;
+        return null;
     }
 }

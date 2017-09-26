@@ -96,7 +96,8 @@
         <!--欢迎页面-->
         <activity
             android:name=".Activity.WelcomeActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/welcome"/>
         <!--设置页面-->
         <activity
             android:name=".Activity.SettingActivity"

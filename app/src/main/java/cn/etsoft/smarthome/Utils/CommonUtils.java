@@ -140,7 +140,6 @@ public class CommonUtils {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
         return "";
     }
 

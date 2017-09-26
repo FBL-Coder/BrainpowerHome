@@ -75,7 +75,7 @@ public class SafetySetHelper {
                     List<SetSafetyResult.SecInfoRowsBean> timerEvent_rows = new ArrayList<>();
                     SetSafetyResult.SecInfoRowsBean bean = new SetSafetyResult.SecInfoRowsBean();
                     bean.setSecDev(common_dev.size() > 0 ? 1 : 0);
-                    bean.setItemCnt(common_dev.size());
+                    bean.setDevCnt(common_dev.size());
                     bean.setSecId(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSecId());
                     bean.setRun_dev_item(common_dev);
                     if ("".equals(safety_name.getText().toString())) {
@@ -104,9 +104,7 @@ public class SafetySetHelper {
                             else
                                 bean.setSecType(i);
                         }
-                    }
-
-                    //关联情景
+                    }//关联情景
                     bean.setSceneId(ScenePosition);
                     timerEvent_rows.add(bean);
                     safetyResult.setDatType(32);
@@ -138,7 +136,6 @@ public class SafetySetHelper {
             List<SetSafetyResult.SecInfoRowsBean> timerEvent_rows = new ArrayList<>();
             SetSafetyResult.SecInfoRowsBean bean = new SetSafetyResult.SecInfoRowsBean();
             bean.setSecDev(common_dev.size() > 0 ? 1 : 0);
-            bean.setItemCnt(common_dev.size());
             bean.setSecId(MyApplication.getWareData().getResult_safety().getSec_info_rows().get(Safety_position).getSecId());
             bean.setRun_dev_item(common_dev);
             if ("".equals(safety_name.getText().toString())) {

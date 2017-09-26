@@ -27,7 +27,6 @@ public class SetSafetyResult implements Serializable {
     private int datType;
     private int subType1;
     private int subType2;
-    private int itemCnt;
     private List<SecInfoRowsBean> sec_info_rows;
 
     public String getDevUnitID() {
@@ -62,14 +61,6 @@ public class SetSafetyResult implements Serializable {
         this.subType2 = subType2;
     }
 
-    public int getItemCnt() {
-        return itemCnt;
-    }
-
-    public void setItemCnt(int itemCnt) {
-        this.itemCnt = itemCnt;
-    }
-
     public List<SecInfoRowsBean> getSec_info_rows() {
         if (sec_info_rows == null)
             sec_info_rows = new ArrayList<>();
@@ -100,7 +91,6 @@ public class SetSafetyResult implements Serializable {
         private int sceneId;
         private int secDev;
         private int devCnt;
-        private int itemCnt;
         private int valid;
         private List<RunDevItemBean> run_dev_item;
 
@@ -159,14 +149,6 @@ public class SetSafetyResult implements Serializable {
 
         public void setDevCnt(int devCnt) {
             this.devCnt = devCnt;
-        }
-
-        public int getItemCnt() {
-            return itemCnt;
-        }
-
-        public void setItemCnt(int itemCnt) {
-            this.itemCnt = itemCnt;
         }
 
         public int getValid() {
