@@ -13,6 +13,14 @@ import com.example.abc.mybaseactivity.HttpGetDataUtils.ResultDesc;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.util.LogUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,10 +40,13 @@ import cn.etsoft.smarthome.Domain.Http_Result;
 import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.UiHelper.LogoutHelper;
 import cn.etsoft.smarthome.Utils.Data_Cache;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout;
+import cn.semtec.community2.model.MyHttpUtil;
+import cn.semtec.community2.tool.Constants;
 
 /**
  * Author：FBL  Time： 2017/6/15.
@@ -89,62 +100,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         getRightImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
-                builder.setTitle("退出登录");
-                builder.setMessage("您是否要退出登录？");
-                builder.setNegativeButton("不要", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Map<String, String> params = new HashMap<>();
-                        params.put("uid", GlobalVars.getUserid());
-                        OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.LOGOUT, params, new HttpCallback() {
-                            @Override
-                            public void onSuccess(ResultDesc resultDesc) {
-                                super.onSuccess(resultDesc);
-                                Log.i("LOGOUT", "onSuccess: " + resultDesc.getResult());
-                                Gson gson = new Gson();
-                                Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
-                                if (result.getCode() == 0) {
-                                    ToastUtil.showText("退出成功");
-                                    Data_Cache.writeFile(GlobalVars.getDevid(), new WareData());
-                                    GlobalVars.setDevid("");
-                                    GlobalVars.setDevpass("");
-                                    GlobalVars.setUserid("");
-                                    AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
-                                    AppSharePreferenceMgr.put(GlobalVars.USERID_SHAREPREFERENCE, "");
-                                    AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0);
-                                    AppSharePreferenceMgr.put(GlobalVars.USERPASSWORD_SHAREPREFERENCE, "");
-                                    AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
-                                    MyApplication.mApplication.getmHomeActivity().finish();
-                                    startActivity(new Intent(SettingActivity.this, cn.semtec.community2.activity.LoginActivity.class));
-                                    finish();
-                                } else {
-                                    if ("".equals(result.getMsg()))
-                                        ToastUtil.showText("退出失败");
-                                    else
-                                        ToastUtil.showText(result.getMsg());
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(int code, String message) {
-                                super.onFailure(code, message);
-                                Log.i("LOGOUT", "onFailure: " + code + message);
-                                ToastUtil.showText("退出失败");
-                            }
-                        });
-                    }
-                });
-                builder.create().show();
+                LogoutHelper.lohout(SettingActivity.this);
             }
         });
     }
+
 
     @Override
     public void onClick(View v) {

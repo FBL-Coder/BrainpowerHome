@@ -11,10 +11,8 @@ import android.widget.TextView;
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import cn.etsoft.smarthome.Domain.WareFreshAir;
 import cn.etsoft.smarthome.Fragment.Control.AirControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.CurtarnControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.FloorHeatFragment;
@@ -24,7 +22,7 @@ import cn.etsoft.smarthome.Fragment.Control.TVControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.TvUpControlFragment;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
+import cn.etsoft.smarthome.UiHelper.ControlHelper;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
@@ -41,7 +39,7 @@ public class ControlActivity extends BaseActivity {
     private List<CircleDataEvent> Data_InnerCircleList;
     private Fragment mLightFragment, mAirFragment,
             mTVFragment, mTvUpFragment, mCurFragment,
-            mFreshAirFragment,mFloorHeatFragment;
+            mFreshAirFragment, mFloorHeatFragment;
     private int DevType = 0, OutCircleposition = -1;
     private String RoomName = "";
     private TextView mNull_tv;
@@ -60,12 +58,11 @@ public class ControlActivity extends BaseActivity {
         }
         layout = getViewById(R.id.SceneSet_CircleMenu);
         mNull_tv = getViewById(R.id.null_tv);
-        Data_OuterCircleList = SceneSetHelper.initSceneCircleOUterData();
-        Data_InnerCircleList = SceneSetHelper.initSceneCircleInnerData();
+        Data_OuterCircleList = ControlHelper.initSceneCircleOUterData();
+        Data_InnerCircleList = ControlHelper.initSceneCircleInnerData();
         layout.Init(200, 100);
         layout.setInnerCircleMenuData(Data_InnerCircleList);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
-
         if ("".equals(RoomName) || OutCircleposition == -1) {
             mNull_tv.setVisibility(View.VISIBLE);
         }
@@ -76,25 +73,36 @@ public class ControlActivity extends BaseActivity {
         layout.setOnInnerCircleLayoutClickListener(new CircleMenuLayout.OnInnerCircleLayoutClickListener() {
             @Override
             public void onClickInnerCircle(int position, View view) {
-                RoomName = Data_InnerCircleList.get(position).getTitle();
-                SceneSetHelper.setRoomName(RoomName);
                 mNull_tv.setVisibility(View.GONE);
-                if (controlDevListenerList.size() != 0)
-                    for (int i = 0; i < controlDevListenerList.size(); i++) {
-                        controlDevListenerList.get(i).UpData(RoomName);
-                    }
-                OuterCircleClick(ControlActivity.this, DevType, RoomName);
+                if (mControlDevClickListener != null)
+                    mControlDevClickListener.ControlClickPosition(DevType, Data_InnerCircleList.get(position).getTitle());
+                RoomName = Data_InnerCircleList.get(position).getTitle();
+                ControlHelper.setRoomName(RoomName);
             }
         });
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-                OutCircleposition = position;
                 mNull_tv.setVisibility(View.GONE);
                 DevType = position % 10;
-                OuterCircleClick(ControlActivity.this, DevType, RoomName);
+                OuterCircleClick(ControlActivity.this, position, RoomName);
+                if (mControlDevClickListener != null)
+                    mControlDevClickListener.ControlClickPosition(position % 8, RoomName);
             }
         });
+
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        Bundle bundle = new Bundle();
+        RoomName = MyApplication.getWareData().getRooms().get(0);
+        ControlHelper.setRoomName(RoomName);
+        bundle.putString("RoomName", MyApplication.getWareData().getRooms().get(0));
+        mLightFragment = new LightControlFragment();
+        mLightFragment.setArguments(bundle);
+        transaction.add(R.id.SceneSet_Info, mLightFragment);
+        transaction.show(mLightFragment);
+        transaction.commit();
+        DevType = 3;
     }
 
     /**
@@ -180,16 +188,15 @@ public class ControlActivity extends BaseActivity {
         transaction.commit();
     }
 
-    public static ControlDevListener controlDevListener;
+    //点击情景，房间，设备。触发回调，刷新界面
+    public static ControlDevClickListener mControlDevClickListener;
 
-    public static List<ControlDevListener> controlDevListenerList = new ArrayList<>();
-
-    public static void setControlDevListener(ControlDevListener controlDevListener) {
-        ControlActivity.controlDevListener = controlDevListener;
-        controlDevListenerList.add(controlDevListener);
+    public static void setmControlDevClickListener(ControlDevClickListener mControlDevClickListener) {
+        ControlActivity.mControlDevClickListener = mControlDevClickListener;
     }
 
-    public interface ControlDevListener {
-        void UpData(String roomname);
+    public interface ControlDevClickListener {
+        void ControlClickPosition(int DevType, String RoomName);
+
     }
 }

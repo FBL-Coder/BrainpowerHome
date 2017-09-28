@@ -1,6 +1,7 @@
 package cn.semtec.community2.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -121,6 +122,8 @@ public class RegistActivity extends MyBaseActivity implements View.OnClickListen
             JSONObject user = new JSONObject();
             user.put("cellphone", cellphone);
             user.put("password", password);
+            user.put("phoneBrand", Build.MODEL);
+            user.put("phoneSystem", Build.VERSION.RELEASE);
 
             JSONObject json = new JSONObject();
             json.put("cellphone", cellphone);

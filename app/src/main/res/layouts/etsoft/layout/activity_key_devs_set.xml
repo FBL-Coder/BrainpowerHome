@@ -51,7 +51,8 @@
                     android:text="测试"
                     android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dp_22" />
+                    android:textSize="@dimen/dp_22"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/Key_DevsSet_Save_Btn"

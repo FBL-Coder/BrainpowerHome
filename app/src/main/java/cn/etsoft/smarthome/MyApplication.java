@@ -87,6 +87,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public int HEARTBEAT_RUN = 8080;
     //loading Dialog
     public int DIALOG_DISMISS = 2222;
+    //网络判断
+    public int NONET = 5555;
     //全局数据
     private static WareData mWareData;
 
@@ -499,6 +501,10 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             //心跳广播运行
             if (msg.what == application.HEARTBEAT_RUN) {
                 GlobalVars.setIsLAN(true);
+            }
+            //网络监听吐司
+            if (msg.what == application.NONET) {
+                ToastUtil.showText("没有可用网络，请检查",5000);
             }
             //udp发送数据后的回调
             if (msg.what == application.UDP_NOBACK) {

@@ -81,6 +81,11 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        int keycnt = MyApplication.getWareData().getKeyInputs().get(position_keyinput).getKeyCnt();
+        for (int i = 0; i < listData.size(); i++) {
+            if (i >= keycnt)
+                listData.remove(i);
+        }
         return listData.size();
     }
 
@@ -150,7 +155,7 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
                 listData.get(position).setKey_cmd(0);
             viewHoler.rotateControButton.setTitle("打开", "按键命令", "停止");
             viewHoler.rotateControButton.setTemp(0, 4, listData.get(position).getKey_cmd(), texts);
-        }else if (DevType == 7) {
+        } else if (DevType == 7) {
             texts = new ArrayList<>();
             texts.add("未设置");
             texts.add("打开");
@@ -163,7 +168,7 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
                 listData.get(position).setKey_cmd(0);
             viewHoler.rotateControButton.setTitle("打开", "按键命令", "关闭");
             viewHoler.rotateControButton.setTemp(0, 6, listData.get(position).getKey_cmd(), texts);
-        }else if (DevType == 9) {
+        } else if (DevType == 9) {
             texts = new ArrayList<>();
             texts.add("未设置");
             texts.add("打开");

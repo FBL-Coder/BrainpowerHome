@@ -12,7 +12,7 @@ import cn.etsoft.smarthome.Activity.ControlActivity;
 import cn.etsoft.smarthome.Domain.WareSetBox;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
+import cn.etsoft.smarthome.UiHelper.ControlHelper;
 
 /**
  * Author：FBL  Time： 2017/6/29.
@@ -36,6 +36,13 @@ public class TvUpControlFragment extends BaseFragment {
     }
 
     private void initDev() {
+        ControlActivity.setmControlDevClickListener(new ControlActivity.ControlDevClickListener() {
+            @Override
+            public void ControlClickPosition(int DevType, String RoomName) {
+                mRoomName = RoomName;
+                initDev();
+            }
+        });
         List<WareSetBox> TvUps;
         TvUps = MyApplication.getWareData().getStbs();
         //房间内的灯集合
@@ -59,13 +66,7 @@ public class TvUpControlFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
-        ControlActivity.setControlDevListener(new ControlActivity.ControlDevListener() {
-            @Override
-            public void UpData(String roomname) {
-                mRoomName = roomname;
-                initDev();
-            }
-        });
+
     }
 
     @Override
@@ -78,7 +79,7 @@ public class TvUpControlFragment extends BaseFragment {
 
         super.onHiddenChanged(hidden);
         if (!hidden) {// 不在最前端界面显示
-            mRoomName = SceneSetHelper.getRoomName();
+            mRoomName = ControlHelper.getRoomName();
             initDev();
         }
     }

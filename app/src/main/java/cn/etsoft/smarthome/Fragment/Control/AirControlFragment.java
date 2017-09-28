@@ -14,6 +14,7 @@ import cn.etsoft.smarthome.Adapter.GridView.Control_Air_Adapter;
 import cn.etsoft.smarthome.Domain.WareAirCondDev;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.UiHelper.ControlHelper;
 import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
 
 /**
@@ -51,6 +52,14 @@ public class AirControlFragment extends BaseFragment {
 
     private void initDev() {
 
+        ControlActivity.setmControlDevClickListener(new ControlActivity.ControlDevClickListener() {
+            @Override
+            public void ControlClickPosition(int DevType, String RoomName) {
+                mRoomName = RoomName;
+                initDev();
+            }
+        });
+
         List<WareAirCondDev> airs;
         airs = MyApplication.getWareData().getAirConds();
         //房间内的灯集合
@@ -75,23 +84,15 @@ public class AirControlFragment extends BaseFragment {
     }
 
     public void onHiddenChanged(boolean hidden) {
-
         super.onHiddenChanged(hidden);
         if (!hidden) {// 不在最前端界面显示
-            mRoomName = SceneSetHelper.getRoomName();
+            mRoomName = ControlHelper.getRoomName();
             initDev();
         }
     }
 
     @Override
     protected void setListener() {
-        ControlActivity.setControlDevListener(new ControlActivity.ControlDevListener() {
-            @Override
-            public void UpData(String roomname) {
-                mRoomName = roomname;
-                initDev();
-            }
-        });
 
     }
 

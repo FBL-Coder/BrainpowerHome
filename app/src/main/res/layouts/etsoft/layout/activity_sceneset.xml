@@ -65,7 +65,8 @@
             android:text="新增"
             android:textColor="@color/white"
             android:textSize="@dimen/dp_22"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
         <TextView
             android:id="@+id/SceneSet_Test_Btn"
@@ -75,7 +76,8 @@
             android:text="测试"
             android:textColor="@color/white"
             android:textSize="@dimen/dp_22"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/SceneSet_Save_Btn"

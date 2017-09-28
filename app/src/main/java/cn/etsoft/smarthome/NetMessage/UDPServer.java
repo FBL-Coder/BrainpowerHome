@@ -135,8 +135,9 @@ public class UDPServer implements Runnable {
         if (NETWORK == 0) {
             ToastUtil.showText("请检查网络连接");
         } else if (NETWORK != 0 && NETWORK < 10) {
-            Log.i("数据流量发送WebSocket", "WEB" + msg);
-            MyApplication.mApplication.getWsClient().sendMsg(msg);
+            Message message = mhandler.obtainMessage();
+            message.what = MyApplication.mApplication.NONET;
+            mhandler.sendMessage(message);
         } else {
 //            MyApplication.setOnUdpgetDataNoBackListener(new MyApplication.OnUdpgetDataNoBackListener() {
 //                @Override

@@ -11,6 +11,23 @@
         android:layout_gravity="right">
 
         <TextView
+            android:id="@+id/NewWork_set_netmodule_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@color/blue"
+            android:padding="@dimen/dp_5"
+            android:text="退出登录"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_26" />
+        <View
+            android:layout_width="@dimen/dp_0"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+
+        <TextView
             android:id="@+id/NewWork_set_netmodule_Sousuo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

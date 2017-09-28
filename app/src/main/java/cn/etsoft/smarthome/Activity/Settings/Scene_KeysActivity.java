@@ -150,10 +150,6 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size() == 0) {
-            ToastUtil.showText("数据未加载成功，不可操作！");
-            return;
-        }
         if (Scene_ID == -1) {
             ToastUtil.showText("请选择情景");
             return;
@@ -171,11 +167,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-                if (WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size() == 0) {
-                    ToastUtil.showText("数据未加载成功，不可操作！");
-                    return;
-                }
-                if (MyApplication.getWareData().getSceneEvents().size() == 0) {
+                if (WareDataHliper.initCopyWareData().getSceneControlData().size() == 0) {
                     ToastUtil.showText("情景数据加载失败，不可操作！");
                     return;
                 }

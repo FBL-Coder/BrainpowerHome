@@ -17,6 +17,7 @@ import cn.etsoft.smarthome.Domain.WareFloorHeat;
 import cn.etsoft.smarthome.Domain.WareSetBox;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.UiHelper.ControlHelper;
 import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
 
 /**
@@ -55,6 +56,15 @@ public class FloorHeatFragment extends BaseFragment {
     }
 
     private void initDev() {
+
+        ControlActivity.setmControlDevClickListener(new ControlActivity.ControlDevClickListener() {
+            @Override
+            public void ControlClickPosition(int DevType, String RoomName) {
+                mRoomName = RoomName;
+                initDev();
+            }
+        });
+
         List<WareFloorHeat> floorHeats = MyApplication.getWareData().getFloorHeat();
         //房间内的灯集合
         mfloorHeat_Room = new ArrayList<>();
@@ -78,13 +88,6 @@ public class FloorHeatFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
-        ControlActivity.setControlDevListener(new ControlActivity.ControlDevListener() {
-            @Override
-            public void UpData(String roomname) {
-                mRoomName = roomname;
-                initDev();
-            }
-        });
     }
 
     @Override
@@ -97,7 +100,7 @@ public class FloorHeatFragment extends BaseFragment {
 
         super.onHiddenChanged(hidden);
         if (!hidden) {// 不在最前端界面显示
-            mRoomName = SceneSetHelper.getRoomName();
+            mRoomName = ControlHelper.getRoomName();
             initDev();
         }
     }

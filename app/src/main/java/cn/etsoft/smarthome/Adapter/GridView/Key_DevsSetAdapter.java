@@ -264,6 +264,7 @@ public class Key_DevsSetAdapter extends BaseAdapter {
                         }
                     }
                 }
+                listData.get(position).setCmd(0);
                 notifyDataSetChanged(roomDevs);
             }
         });

@@ -7,7 +7,6 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseFragment.BaseFragment;
-import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import cn.etsoft.smarthome.Adapter.GridView.Control_Light_Adapter;
 import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
+import cn.etsoft.smarthome.UiHelper.ControlHelper;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 /**
@@ -40,7 +39,7 @@ public class LightControlFragment extends BaseFragment {
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                if (datType == 35 || datType == 3||datType == 4) {
+                if (datType == 35 || datType == 3 || datType == 4) {
                     initDev();
                 }
             }
@@ -56,25 +55,24 @@ public class LightControlFragment extends BaseFragment {
     @Override
     protected void setListener() {
 
-        ControlActivity.setControlDevListener(new ControlActivity.ControlDevListener() {
-            @Override
-            public void UpData(String roomname) {
-                mRoomName = roomname;
-                initDev();
-            }
-        });
     }
 
     public void onHiddenChanged(boolean hidden) {
-
         super.onHiddenChanged(hidden);
         if (!hidden) {// 不在最前端界面显示
-            mRoomName = SceneSetHelper.getRoomName();
+            mRoomName = ControlHelper.getRoomName();
             initDev();
         }
     }
 
     private void initDev() {
+        ControlActivity.setmControlDevClickListener(new ControlActivity.ControlDevClickListener() {
+            @Override
+            public void ControlClickPosition(int DevType, String RoomName) {
+                mRoomName = RoomName;
+                initDev();
+            }
+        });
 
         List<WareLight> lights;
         lights = MyApplication.getWareData().getLights();

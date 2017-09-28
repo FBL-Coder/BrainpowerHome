@@ -28,13 +28,14 @@ import cn.semtec.community2.util.CatchUtil;
 import cn.semtec.community2.util.SharedPreferenceUtil;
 
 public class LoginHelper {
-    private SharedPreferenceUtil prefernceUtil = MyApplication.getSharedPreferenceUtil();
+    private SharedPreferenceUtil prefernceUtil;
     public Handler LoginHandler;
 
     public LoginHelper(Handler handler) {
         LoginHandler = handler;
 
     }
+
     public void loginServer(final String cellphone, final String password) {
 
         try {
@@ -61,6 +62,8 @@ public class LoginHelper {
                         if (jo.getInt("returnCode") == 0) {
                             cn.etsoft.smarthome.MyApplication.mApplication.setVisitor(false);
                             // 保存账号密码
+                            if (prefernceUtil == null)
+                                prefernceUtil = new SharedPreferenceUtil(MyApplication.getContext());
                             prefernceUtil.putString("cellphone", cellphone);
                             prefernceUtil.putString("password", password);
                             LogUtils.i("登录成功");
@@ -71,7 +74,7 @@ public class LoginHelper {
                             MyApplication.houseList.clear();
                             String houseId_last = prefernceUtil.getString("houseId_last");
 //解析 储存房产数据
-                            Log.e("object",object+"");
+                            Log.e("object", object + "");
                             for (int i = 0; i < object.length(); i++) {
                                 JSONObject args = (JSONObject) object.get(i);
                                 HouseProperty houseproperty = new HouseProperty();
@@ -119,6 +122,7 @@ public class LoginHelper {
                         LoginHandler.sendEmptyMessage(MyHttpUtil.CATCH);
                     }
                 }
+
                 @Override
                 public void onFailure(HttpException error, String msg) {
                     LogUtils.i("网络异常:" + msg);
@@ -138,7 +142,7 @@ public class LoginHelper {
         set.add(areacode);
         set.add(communitynum);
         set.add(sipnum);
-        Log.e("sipnum", sipnum + "   "+MyApplication.cellphone);
+        Log.e("sipnum", sipnum + "   " + MyApplication.cellphone);
         JPushInterface.setAliasAndTags(MyApplication.instance, MyApplication.cellphone, set, new TagAliasCallback() {
             @Override
             public void gotResult(int responseCode, String alias, Set<String> arg2) {

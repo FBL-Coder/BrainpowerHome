@@ -14,22 +14,34 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
+import com.example.abc.mybaseactivity.HttpGetDataUtils.HttpCallback;
+import com.example.abc.mybaseactivity.HttpGetDataUtils.OkHttpUtils;
+import com.example.abc.mybaseactivity.HttpGetDataUtils.ResultDesc;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import com.google.gson.Gson;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.etsoft.smarthome.Activity.HomeActivity;
 import cn.etsoft.smarthome.Adapter.ListView.NetWork_Adapter;
 import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Domain.Http_Result;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.SearchNet;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.UiHelper.HTTPRequest_BackCode;
+import cn.etsoft.smarthome.UiHelper.LogoutHelper;
 import cn.etsoft.smarthome.UiHelper.Net_AddorDel_Helper;
+import cn.etsoft.smarthome.Utils.NewHttpPort;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Author：FBL  Time： 2017/7/10.
@@ -37,7 +49,7 @@ import cn.etsoft.smarthome.Utils.SendDataUtil;
  */
 
 public class NewWorkSetActivity extends BaseActivity {
-    private TextView mNetmoduleAdd;
+    private TextView mNetmoduleAdd, NewWork_set_netmodule_logout;
     private ListView mNetmoduleListview;
     private TextView mDialogCancle, mDialogOk, mSousuo;
     private EditText mDialogName, mDialogID, mDialogPass;
@@ -50,22 +62,26 @@ public class NewWorkSetActivity extends BaseActivity {
     public void initView() {
 
         setTitleViewVisible(true, R.color.color_4489CA);
-        setTitleImageBtn(true, R.drawable.back_image_select, false, 0);
-
+        setTitleImageBtn(true, R.drawable.back_image_select, true, R.mipmap.ic_launcher);
         setLayout(R.layout.activity_set_network);
-
         mNetmoduleListview = getViewById(R.id.NewWork_set_netmodule_listview);
         mNetmoduleAdd = getViewById(R.id.NewWork_set_netmodule_add);
         mSousuo = getViewById(R.id.NewWork_set_netmodule_Sousuo);
-    }
+        NewWork_set_netmodule_logout = getViewById(R.id.NewWork_set_netmodule_logout);
 
+        NewWork_set_netmodule_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LogoutHelper.lohout(NewWorkSetActivity.this);
+            }
+        });
+    }
 
     private void initLIstview() {
         if (mAdapter == null)
             mAdapter = new NetWork_Adapter(this);
         else mAdapter.notifyDataSetChanged();
         mNetmoduleListview.setAdapter(mAdapter);
-
     }
 
     @Override
@@ -77,10 +93,37 @@ public class NewWorkSetActivity extends BaseActivity {
                 finish();
             }
         });
+        getRightImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(NewWorkSetActivity.this);
+                builder.setTitle("提示");
+                builder.setMessage("您确定要刷新联网模块列表？");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        refNetLists();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.create().show();
+            }
+        });
+
 
         mNetmoduleAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (MyApplication.mApplication.isVisitor()) {
+                    ToastUtil.showText("游客登录不能进行此操作");
+                    return;
+                }
                 Dialog dialog = new Dialog(NewWorkSetActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
                 dialog.setContentView(R.layout.dialog_addnetmodule);
                 dialog.setTitle("添加联网模块");
@@ -165,6 +208,62 @@ public class NewWorkSetActivity extends BaseActivity {
             }
         });
     }
+
+
+    private void refNetLists() {
+        MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this);
+        Map<String, String> param = new HashMap<>();
+        param.put("userName", GlobalVars.getUserid());
+        param.put("passwd", (String) AppSharePreferenceMgr.
+                get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
+        OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.LOGIN, param, new HttpCallback() {
+            @Override
+            public void onSuccess(ResultDesc resultDesc) {
+                Log.i("LOGIN", resultDesc.getResult());
+                MyApplication.mApplication.dismissLoadDialog();
+                super.onSuccess(resultDesc);
+                Log.i(TAG, "onSuccess: " + resultDesc.getResult());
+                gson = new Gson();
+                Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
+
+                if (result.getCode() == HTTPRequest_BackCode.LOGIN_OK) {
+                    // 刷新成功
+                    setRcuInfoList(result);
+                    ToastUtil.showText("刷新成功");
+                    initData();
+                } else {
+                    // 刷新失败
+                    ToastUtil.showText("刷新失败，请稍后再试");
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+                super.onFailure(code, message);
+                Log.i(TAG, "刷新失败: " + code + "****" + message);
+                //登陆失败
+                MyApplication.mApplication.dismissLoadDialog();
+                ToastUtil.showText("刷新失败，网络不可用或服务器异常");
+            }
+        });
+    }
+
+
+    public void setRcuInfoList(Http_Result result) {
+        if (result == null)
+            return;
+
+        List<RcuInfo> rcuInfos = new ArrayList<>();
+        for (int i = 0; i < result.getData().size(); i++) {
+            RcuInfo rcuInfo = new RcuInfo();
+            rcuInfo.setCanCpuName(result.getData().get(i).getCanCpuName());
+            rcuInfo.setDevUnitID(result.getData().get(i).getDevUnitID());
+            rcuInfo.setDevUnitPass(result.getData().get(i).getDevPass());
+            rcuInfos.add(rcuInfo);
+        }
+        AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, gson.toJson(rcuInfos));
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

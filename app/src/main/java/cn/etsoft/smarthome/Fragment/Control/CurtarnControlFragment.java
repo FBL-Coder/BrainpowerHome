@@ -14,6 +14,7 @@ import cn.etsoft.smarthome.Adapter.GridView.Control_Curtain_Adapter;
 import cn.etsoft.smarthome.Domain.WareCurtain;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.UiHelper.ControlHelper;
 import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
 
 /**
@@ -50,6 +51,14 @@ public class CurtarnControlFragment extends BaseFragment {
 
     private void initDev() {
 
+        ControlActivity.setmControlDevClickListener(new ControlActivity.ControlDevClickListener() {
+            @Override
+            public void ControlClickPosition(int DevType, String RoomName) {
+                mRoomName = RoomName;
+                initDev();
+            }
+        });
+
         List<WareCurtain> Curtains;
         Curtains = MyApplication.getWareData().getCurtains();
         //房间内的灯集合
@@ -76,13 +85,6 @@ public class CurtarnControlFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
-        ControlActivity.setControlDevListener(new ControlActivity.ControlDevListener() {
-            @Override
-            public void UpData(String roomname) {
-                mRoomName = roomname;
-                initDev();
-            }
-        });
     }
 
     @Override
@@ -95,7 +97,7 @@ public class CurtarnControlFragment extends BaseFragment {
 
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            mRoomName = SceneSetHelper.getRoomName();
+            mRoomName = ControlHelper.getRoomName();
             initDev();
         }
     }
