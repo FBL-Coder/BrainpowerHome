@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
@@ -17,9 +16,8 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
-import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
-import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
@@ -93,7 +91,6 @@ public class WelcomeActivity extends Activity {
                     weakReference.get().finish();
                 }
                 if (!"".equals(UserID) && !"".equals(json_RcuinfoID)) {
-                    SendDataUtil.getNetWorkInfo();
                     weakReference.get().startActivity(new Intent(weakReference.get(), HomeActivity.class));
                     weakReference.get().finish();
                 }

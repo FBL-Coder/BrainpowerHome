@@ -3,7 +3,6 @@ package cn.semtec.community2.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -20,7 +19,7 @@ import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.util.regex.Pattern;
 
-import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.User;
 import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.R;

@@ -15,7 +15,7 @@ import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 
 import java.util.List;
 
-import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;

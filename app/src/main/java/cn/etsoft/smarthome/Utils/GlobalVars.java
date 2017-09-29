@@ -1,4 +1,4 @@
-package cn.etsoft.smarthome.Domain;
+package cn.etsoft.smarthome.Utils;
 
 import android.content.Context;
 

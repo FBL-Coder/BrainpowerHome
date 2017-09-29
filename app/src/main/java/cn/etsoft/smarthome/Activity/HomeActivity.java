@@ -60,7 +60,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        MyApplication.mApplication.showLoadDialog(this,false);
         //添加Activity在ActivityList中
+        SendDataUtil.getNetWorkInfo();
         PermissionsUtli.verifyStoragePermissions(HomeActivity.this);
         MyApplication.addActivity(this);
         MyApplication.mApplication.setmHomeActivity(this);
@@ -119,8 +121,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                if (datType == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getDevsInfo.getValue()) {
-                }
+                if (datType == 3)
+                    MyApplication.mApplication.dismissLoadDialog();
             }
         });
     }

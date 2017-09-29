@@ -12,7 +12,7 @@ import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import cn.etsoft.smarthome.Adapter.ListView.SeekListAdapter;
-import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;

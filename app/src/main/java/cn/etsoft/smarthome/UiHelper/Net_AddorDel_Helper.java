@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.etsoft.smarthome.Adapter.ListView.NetWork_Adapter;
-import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.Http_Result;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;

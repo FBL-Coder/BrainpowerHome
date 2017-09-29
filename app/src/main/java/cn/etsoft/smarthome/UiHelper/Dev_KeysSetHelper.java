@@ -13,7 +13,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.Out_List_printcmd;
 import cn.etsoft.smarthome.Domain.PrintCmd;
 import cn.etsoft.smarthome.Domain.UpBoardKeyData;

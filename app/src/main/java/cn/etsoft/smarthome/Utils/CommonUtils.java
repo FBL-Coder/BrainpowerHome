@@ -13,8 +13,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import cn.etsoft.smarthome.Domain.GlobalVars;
-
 //import com.example.smarthouse.MyApplication;
 //import com.example.smarthouse.R.string;
 

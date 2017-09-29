@@ -32,7 +32,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import cn.etsoft.smarthome.Activity.SafetyHomeActivity;
-import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.Safety_Data;
 import cn.etsoft.smarthome.Domain.WareData;
@@ -331,7 +331,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      */
     Dialog progressDialog;
 
-    public Dialog getProgressDialog(Context context,boolean isCancelable) {
+    public Dialog getProgressDialog(Context context, boolean isCancelable) {
         progressDialog = new Dialog(context);
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         progressDialog.setContentView(R.layout.dialog_custom_progress);
@@ -345,7 +345,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      */
     public void showLoadDialog(Activity activity) {
         if (progressDialog == null)
-            getProgressDialog(activity,false);
+            getProgressDialog(activity, true);
         if (!activity.isFinishing() && !progressDialog.isShowing())
             progressDialog.show();
         //加载数据进度条，5秒数据没加载出来自动消失
@@ -360,7 +360,31 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                         handler.sendMessage(message);
                     }
                 } catch (Exception e) {
-                    System.out.println(this.getClass().getName() +"---"+ e );
+                    System.out.println(this.getClass().getName() + "---" + e);
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 加载框显示
+     */
+    public void showLoadDialog(Activity activity, boolean isCancelable) {
+        getProgressDialog(activity, isCancelable);
+        progressDialog.show();
+        //加载数据进度条，5秒数据没加载出来自动消失
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(10000);
+                    if (progressDialog != null && progressDialog.isShowing()) {
+                        Message message = handler.obtainMessage();
+                        message.what = DIALOG_DISMISS;
+                        handler.sendMessage(message);
+                    }
+                } catch (Exception e) {
+                    System.out.println(this.getClass().getName() + "---" + e);
                 }
             }
         }).start();
@@ -504,7 +528,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             }
             //网络监听吐司
             if (msg.what == application.NONET) {
-                ToastUtil.showText("没有可用网络，请检查",5000);
+                ToastUtil.showText("没有可用网络，请检查", 5000);
             }
             //udp发送数据后的回调
             if (msg.what == application.UDP_NOBACK) {

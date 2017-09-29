@@ -24,10 +24,9 @@ import java.util.TimerTask;
 
 import cn.etsoft.smarthome.Domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
-import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.GroupSet_Data;
 import cn.etsoft.smarthome.Domain.RcuInfo;
-import cn.etsoft.smarthome.Domain.Safety_Data;
 import cn.etsoft.smarthome.Domain.SearchNet;
 import cn.etsoft.smarthome.Domain.SetEquipmentResult;
 import cn.etsoft.smarthome.Domain.SetSafetyResult;
@@ -50,7 +49,6 @@ import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.Domain.WareSetBox;
 import cn.etsoft.smarthome.Domain.WareTv;
 import cn.etsoft.smarthome.MyApplication;
-import cn.etsoft.smarthome.UiHelper.Login_Helper;
 import cn.etsoft.smarthome.Utils.CommonUtils;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 

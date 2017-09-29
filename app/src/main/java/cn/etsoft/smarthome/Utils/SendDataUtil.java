@@ -2,7 +2,6 @@ package cn.etsoft.smarthome.Utils;
 
 import java.io.UnsupportedEncodingException;
 
-import cn.etsoft.smarthome.Domain.GlobalVars;
 import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.WareDev;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;

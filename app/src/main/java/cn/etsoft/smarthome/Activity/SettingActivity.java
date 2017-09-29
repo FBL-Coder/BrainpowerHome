@@ -1,29 +1,9 @@
 package cn.etsoft.smarthome.Activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
-import com.example.abc.mybaseactivity.HttpGetDataUtils.HttpCallback;
-import com.example.abc.mybaseactivity.HttpGetDataUtils.OkHttpUtils;
-import com.example.abc.mybaseactivity.HttpGetDataUtils.ResultDesc;
-import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
-import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
-import com.google.gson.Gson;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest;
-import com.lidroid.xutils.util.LogUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import cn.etsoft.smarthome.Activity.Settings.ConditionSetActivity;
 import cn.etsoft.smarthome.Activity.Settings.DevInfoActivity;
@@ -35,18 +15,11 @@ import cn.etsoft.smarthome.Activity.Settings.SafetySetActivity;
 import cn.etsoft.smarthome.Activity.Settings.SceneSetActivity;
 import cn.etsoft.smarthome.Activity.Settings.Scene_KeysActivity;
 import cn.etsoft.smarthome.Activity.Settings.TimerSetActivity;
-import cn.etsoft.smarthome.Domain.GlobalVars;
-import cn.etsoft.smarthome.Domain.Http_Result;
-import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.LogoutHelper;
-import cn.etsoft.smarthome.Utils.Data_Cache;
-import cn.etsoft.smarthome.Utils.NewHttpPort;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout;
-import cn.semtec.community2.model.MyHttpUtil;
-import cn.semtec.community2.tool.Constants;
 
 /**
  * Author：FBL  Time： 2017/6/15.

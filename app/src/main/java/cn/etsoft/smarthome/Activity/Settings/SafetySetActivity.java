@@ -22,7 +22,7 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.GridView.SafetySet_DevAdapter;
 import cn.etsoft.smarthome.Adapter.PopupWindow.PopupWindowAdapter2;
-import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.SetSafetyResult;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.MyApplication;

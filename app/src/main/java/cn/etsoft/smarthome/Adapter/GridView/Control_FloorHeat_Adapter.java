@@ -1,7 +1,6 @@
 package cn.etsoft.smarthome.Adapter.GridView;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.WareFloorHeat;
 import cn.etsoft.smarthome.MyApplication;

@@ -25,7 +25,7 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.ListView.SafetyRecordAdapter;
 import cn.etsoft.smarthome.Adapter.PopupWindow.PopupWindowAdapter2;
-import cn.etsoft.smarthome.Domain.GlobalVars;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.Safety_Data;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
