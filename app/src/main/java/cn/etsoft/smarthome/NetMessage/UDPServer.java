@@ -167,10 +167,16 @@ public class UDPServer implements Runnable {
                     return;
                 }
                 String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
-                Log.i("发送WebSocket", "WEB" + jsonToServer);
+                Log.i("发送WebSocket", "板子和客户端不在同一网络----WEB" + jsonToServer);
                 MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
             } else {
-                UdpSendMsg(msg);
+                if (GlobalVars.isIsLAN())
+                    UdpSendMsg(msg);
+                else {
+                    String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
+                    Log.i("发送WebSocket", "局域网没有200的心跳包----WEB" + jsonToServer);
+                    MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
+                }
             }
         }
     }
@@ -180,7 +186,7 @@ public class UDPServer implements Runnable {
             @Override
             public void run() {
                 try {
-                    local = InetAddress.getByName("localhost"); // 本机测试
+                    local = InetAddress.getByName("localhost"); // 本机地址
                     int msg_len = msg == null ? 0 : msg.getBytes().length;
                     Message message = mhandler.obtainMessage();
                     message.obj = msg;
@@ -475,8 +481,8 @@ public class UDPServer implements Runnable {
                 break;
             case 35:// e_udpPro_chns_status
 //                if (MyApplication.mApplication.isSceneIsShow()) {
-                    ctrlDevReply(info);
-                    isFreshData = true;
+                ctrlDevReply(info);
+                isFreshData = true;
 //                }
                 break;
             case 58: // e_udpPro_get_key2scene

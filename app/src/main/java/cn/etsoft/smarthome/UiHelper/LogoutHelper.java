@@ -42,7 +42,7 @@ import cn.semtec.community2.tool.Constants;
 public class LogoutHelper {
 
 
-    public static void lohout(final Activity activity){
+    public static void logout(final Activity activity){
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle("提示");
         builder.setMessage("您是否要退出登录？");

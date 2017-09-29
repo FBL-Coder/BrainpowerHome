@@ -100,7 +100,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         getRightImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogoutHelper.lohout(SettingActivity.this);
+                LogoutHelper.logout(SettingActivity.this);
             }
         });
     }

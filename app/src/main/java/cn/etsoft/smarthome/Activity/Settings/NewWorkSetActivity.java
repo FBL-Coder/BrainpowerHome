@@ -72,7 +72,7 @@ public class NewWorkSetActivity extends BaseActivity {
         NewWork_set_netmodule_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LogoutHelper.lohout(NewWorkSetActivity.this);
+                LogoutHelper.logout(NewWorkSetActivity.this);
             }
         });
     }

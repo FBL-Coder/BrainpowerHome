@@ -331,12 +331,12 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      */
     Dialog progressDialog;
 
-    public Dialog getProgressDialog(Context context) {
+    public Dialog getProgressDialog(Context context,boolean isCancelable) {
         progressDialog = new Dialog(context);
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         progressDialog.setContentView(R.layout.dialog_custom_progress);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        progressDialog.setCancelable(false);
+        progressDialog.setCancelable(isCancelable);
         return progressDialog;
     }
 
@@ -345,7 +345,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      */
     public void showLoadDialog(Activity activity) {
         if (progressDialog == null)
-            getProgressDialog(activity);
+            getProgressDialog(activity,false);
         if (!activity.isFinishing() && !progressDialog.isShowing())
             progressDialog.show();
         //加载数据进度条，5秒数据没加载出来自动消失
@@ -360,7 +360,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                         handler.sendMessage(message);
                     }
                 } catch (Exception e) {
-                    System.out.println(this.getClass().getName() + "行271" + e + "");
+                    System.out.println(this.getClass().getName() +"---"+ e );
                 }
             }
         }).start();
