@@ -27,16 +27,15 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
  * 情景控制页面
  */
 
-public class ControlSceneActivity extends BaseActivity implements View.OnClickListener {
+public class ControlSceneActivity extends BaseActivity {
 
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
-    private TextView mNull_tv, mRun;
+    private TextView mNull_tv, mRun,SceneName;
     private GridView mControlSceneGirdView;
     private Control_Scene_DevAdapter mAdapter;
-    private boolean IsCanClick = false;
-    private int mScenePosition = -1;
-    private int CirclePosition = -1;
+    private int mScenePosition = 0;
+    private int CirclePosition = 0;
     private List<WareSceneEvent> mSceneDatas;
     private static int[] images = new int[]{R.drawable.scene_baitian, R.drawable.scene_yejian,
             R.drawable.scene_quankai, R.drawable.scene_quanguan, R.drawable.scene_yongcan,
@@ -55,6 +54,7 @@ public class ControlSceneActivity extends BaseActivity implements View.OnClickLi
         layout = getViewById(R.id.Control_Scene_CircleMenu);
         mNull_tv = getViewById(R.id.null_tv);
         mRun = getViewById(R.id.Control_Scene_Run);
+        SceneName = getViewById(R.id.SceneName);
         mControlSceneGirdView = getViewById(R.id.Control_Scene_GirdView);
         mControlSceneGirdView.setEmptyView(mNull_tv);
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
@@ -77,9 +77,6 @@ public class ControlSceneActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void initData() {
         initScene();
-        if (mScenePosition == -1) {
-            mNull_tv.setText("请先选择情景");
-        }
     }
 
     private void initScene() {
@@ -90,10 +87,10 @@ public class ControlSceneActivity extends BaseActivity implements View.OnClickLi
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-                IsCanClick = true;
                 mNull_tv.setText("没有设备，通过情景设置添加设备");
                 CirclePosition = position;
                 mScenePosition = position % mSceneDatas.size();
+                SceneName.setText(mSceneDatas.get(mScenePosition).getSceneName());
                 if (mAdapter == null)
                     mAdapter = new Control_Scene_DevAdapter(mSceneDatas.get(mScenePosition).getItemAry(), ControlSceneActivity.this);
                 else mAdapter.notifyDataSetChanged(mSceneDatas.get(mScenePosition).getItemAry());
@@ -105,11 +102,6 @@ public class ControlSceneActivity extends BaseActivity implements View.OnClickLi
         mRun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mScenePosition == -1) {
-                    ToastUtil.showText("请选择情景");
-                    return;
-                }
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(ControlSceneActivity.this);
                 builder.setTitle("提示");
                 builder.setMessage("您是否启用此情景？");
@@ -130,18 +122,14 @@ public class ControlSceneActivity extends BaseActivity implements View.OnClickLi
 
             }
         });
-    }
 
-    @SuppressLint("WrongConstant")
-    @Override
-    public void onClick(View v) {
-        if (!IsCanClick) {
-            ToastUtil.showText("请先选择情景");
-            return;
-        }
-        switch (v.getId()) {
-            case R.id.Control_Scene_Run://执行情景
-                break;
+        if (mAdapter == null)
+            mAdapter = new Control_Scene_DevAdapter(mSceneDatas.get(mScenePosition).getItemAry(), ControlSceneActivity.this);
+        else mAdapter.notifyDataSetChanged(mSceneDatas.get(mScenePosition).getItemAry());
+        mAdapter = new Control_Scene_DevAdapter(mSceneDatas.get(mScenePosition).getItemAry(), ControlSceneActivity.this);
+        mControlSceneGirdView.setAdapter(mAdapter);
+        if (mScenePosition == 0){
+            SceneName.setText(mSceneDatas.get(mScenePosition).getSceneName());
         }
     }
 
