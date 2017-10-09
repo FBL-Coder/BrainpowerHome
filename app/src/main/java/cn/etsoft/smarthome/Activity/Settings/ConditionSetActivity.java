@@ -47,9 +47,8 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
     private Condition_Event_Bean.EnvEventRowsBean mBean;
     private boolean IsNoData = true;
     private boolean IsOpenShiNeng = false;
-    private int mConditionPosition = -1;
+    private int mConditionPosition = 0;
     private int CirclePosition = 0;
-    private boolean IsCanClick = false;
     private PopupWindow popupWindow;
     private List<String> Event_type;
     private List<String> Event_Way;
@@ -86,7 +85,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
                     initCondition();
                 }
                 if (datType == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_editEnvEvents.getValue())/*29*/ {
-                    ToastUtil.showText("添加成功");
+                    ToastUtil.showText("保存成功");
                     WareDataHliper.initCopyWareData().startCopyConditionData();
                     initCondition();
                 }
@@ -104,9 +103,6 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
         } else {
             initCondition();
         }
-        if (mConditionPosition == -1) {
-            mNull_tv.setText("请先选择触发器");
-        }
     }
 
     private void initCondition() {
@@ -117,14 +113,13 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
         Event_type.add("温度触发");
         Event_type.add("湿度触发");
         Event_type.add("P2.5触发");
-        Data_OuterCircleList = ConditionSetHelper.initSceneCircleOUterData(IsCanClick, CirclePosition);
+        Data_OuterCircleList = ConditionSetHelper.initSceneCircleOUterData(CirclePosition);
         layout.Init(200, 0);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-                IsCanClick = true;
                 CirclePosition = position;
                 mConditionPosition = position % WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().size();
                 mBean = WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().get(mConditionPosition);
@@ -170,6 +165,30 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
                 return true;
             }
         });
+
+        mBean = WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().get(mConditionPosition);
+        mNull_tv.setText("没有设备，可以添加设备");
+        mConditionName.setText("");
+        mConditionName.setHint(mBean.getEventName());
+        if (mBean == null || mBean.getRun_dev_item().size() == 0) {
+            mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+            mConditionChuFaZhi.setHint("输入触发值");
+            mConditionWay.setText("选择触发方式");
+            mConditionType.setText("选择触发类别");
+        } else {
+            mConditionName.setHint(mBean.getEventName());
+            mConditionChuFaZhi.setText(mBean.getValTh() + "");
+            if (mBean.getValid() == 1)
+                mShiNeng.setImageResource(R.drawable.checkbox1_selected);
+            else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+            mConditionWay.setText(Event_Way.get(mBean.getThType()));
+            mConditionType.setText(Event_type.get(mBean.getEnvType()));
+        }
+
+        if (mAdapter == null)
+            mAdapter = new ConditionSet_DevAdapter(mBean.getRun_dev_item(), ConditionSetActivity.this);
+        else mAdapter.notifyDataSetChanged(mBean.getRun_dev_item());
+        mConditionGirdView.setAdapter(mAdapter);
     }
 
 
@@ -230,10 +249,6 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         if (IsNoData && WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().size() == 0) {
             ToastUtil.showText("获取数据异常，请稍后在试");
-            return;
-        }
-        if (!IsCanClick) {
-            ToastUtil.showText("请先选择定时器！");
             return;
         }
         switch (v.getId()) {

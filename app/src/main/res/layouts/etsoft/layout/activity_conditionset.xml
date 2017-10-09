@@ -73,9 +73,9 @@
                     <EditText
                         android:id="@+id/ConditionSet_ChuFaZhi"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:textColorHint="@color/white1"
                         android:textStyle="bold"
                         android:textColor="@color/white"
                         android:minWidth="@dimen/dp_50" />

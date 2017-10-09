@@ -29,7 +29,7 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 
 public class ConditionSetHelper {
 
-    public static List<CircleDataEvent> initSceneCircleOUterData(boolean isClick, int position) {
+    public static List<CircleDataEvent> initSceneCircleOUterData( int position) {
 
         List<CircleDataEvent> list = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
@@ -38,7 +38,7 @@ public class ConditionSetHelper {
                     .get(i % WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows()
                             .size()).getEventName());
             event.setImage(R.drawable.chufaqi_icon);
-            if (isClick && i == position)
+            if (i == position)
                 event.setSelect(true);
             list.add(event);
         }
