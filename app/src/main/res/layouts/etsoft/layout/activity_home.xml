@@ -224,16 +224,33 @@
             </RelativeLayout>
 
 
-            <!--刷新-->
-            <ImageView
-                android:id="@+id/home_ref_btn"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_20"
-                android:layout_marginTop="@dimen/dp_10"
-                android:padding="@dimen/dp_5"
-                android:src="@drawable/selector_ref" />
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true">
+
+                <!--退出-->
+                <ImageView
+                    android:id="@+id/home_logout_btn"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:padding="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:src="@drawable/logout_icon" />
+                <!--刷新-->
+                <ImageView
+                    android:id="@+id/home_ref_btn"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:padding="@dimen/dp_10"
+                    android:src="@drawable/selector_ref" />
+
+            </LinearLayout>
+
+
 
             <!--天气数据-->
             <RelativeLayout
@@ -362,6 +379,7 @@
                     android:textSize="@dimen/sp_20" />
 
             </RelativeLayout>
+
         </RelativeLayout>
 
 
@@ -398,7 +416,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-25dp"
                     android:gravity="center"
                     android:text="云对讲"
                     android:textColor="@color/black"
@@ -427,7 +444,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-25dp"
                     android:gravity="center"
                     android:text="安防"
                     android:textColor="@color/black"
@@ -456,7 +472,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-25dp"
                     android:gravity="center"
                     android:text="家电"
                     android:textColor="@color/black"
@@ -485,7 +500,6 @@
                 <!--<TextView-->
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="-25dp"-->
                     <!--android:gravity="center"-->
                     <!--android:text="状态"-->
                     <!--android:textColor="@color/black"-->
@@ -514,7 +528,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-25dp"
                     android:gravity="center"
                     android:text="场景"
                     android:textColor="@color/black"
@@ -543,7 +556,6 @@
                 <!--<TextView-->
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="-25dp"-->
                     <!--android:gravity="center"-->
                     <!--android:text="定时"-->
                     <!--android:textColor="@color/black"-->
@@ -572,7 +584,6 @@
                 <!--<TextView-->
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="-25dp"-->
                     <!--android:gravity="center"-->
                     <!--android:text="健康"-->
                     <!--android:textColor="@color/black"-->
@@ -601,7 +612,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-25dp"
                     android:gravity="center"
                     android:text="设置"
                     android:textColor="@color/black"

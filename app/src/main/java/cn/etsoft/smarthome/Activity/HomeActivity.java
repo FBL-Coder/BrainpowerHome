@@ -25,6 +25,7 @@ import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.HomeWeatherAnim;
 import cn.etsoft.smarthome.UiHelper.Home_Weather;
+import cn.etsoft.smarthome.UiHelper.LogoutHelper;
 import cn.etsoft.smarthome.Utils.PermissionsUtli;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout;
@@ -45,7 +46,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     private TextView mHomeLoactionText;
     private LinearLayout mHomeLoaction;
-    private ImageView mHomeRefBtn;
+    private ImageView mHomeRefBtn,mHomeLogoutBtn;
     private TextView mHomeWeatherTemp, mHomeWeatherType, mHomeWeatherShidu, mHomeWeatherFengli, mHomeWeatherZhiliang;
     private MarqueeTextView mHomeWeatherTishi;
     private RelativeLayout mHome_weather, mHome_weather_relativelayout;
@@ -83,6 +84,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mHomeLoactionText = (TextView) findViewById(R.id.home_loaction_text);
         mHomeLoaction = (LinearLayout) findViewById(R.id.home_loaction);
         mHomeRefBtn = (ImageView) findViewById(R.id.home_ref_btn);
+        mHomeLogoutBtn = (ImageView) findViewById(R.id.home_logout_btn);
         mHomeWeatherTemp = (TextView) findViewById(R.id.home_weather_temp);
         mHomeWeatherType = (TextView) findViewById(R.id.home_weather_type);
         mHomeWeatherShidu = (TextView) findViewById(R.id.home_weather_shidu);
@@ -91,6 +93,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mHomeWeatherTishi = (MarqueeTextView) findViewById(R.id.home_weather_tishi);
         mHome_weather = (RelativeLayout) findViewById(R.id.home_weather);
         mHomeRefBtn.setOnClickListener(this);
+        mHomeLogoutBtn.setOnClickListener(this);
         mHomeLoaction.setOnClickListener(this);
         mHomeWeatherAnim = new HomeWeatherAnim();
         mHomeWeatherAnim.initAnimWeather(HomeActivity.this, R.layout.activity_home);
@@ -132,6 +135,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.home_ref_btn:
                 SendDataUtil.getNetWorkInfo();
+                break;
+            case R.id.home_logout_btn:
+                LogoutHelper.logout(HomeActivity.this);
                 break;
             case R.id.Home_YunVideo:
                 startActivity(new Intent(HomeActivity.this, cn.semtec.community2.WelcomeActivity.class));

@@ -24,6 +24,7 @@ import java.util.TimerTask;
 
 import cn.etsoft.smarthome.Domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
+import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.GroupSet_Data;
 import cn.etsoft.smarthome.Domain.RcuInfo;
@@ -164,6 +165,10 @@ public class UDPServer implements Runnable {
                 if ("".equals(GlobalVars.getDevid())) {
                     return;
                 }
+                if (GlobalVars.isIsLAN()) {
+                    UdpSendMsg(msg);
+                    return;
+                }
                 String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
                 Log.i("发送WebSocket", "板子和客户端不在同一网络----WEB" + jsonToServer);
                 MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
@@ -177,6 +182,19 @@ public class UDPServer implements Runnable {
                 }
             }
         }
+    }
+
+    //搜索联网模块
+    public void sendSeekNet() {
+        MyApplication.mApplication.setSeekNet(true);
+        String SeekNet = "{" +
+                "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
+                "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
+                "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfoNoPwd.getValue() + "," +
+                "\"uuid\":\"" + "\"," +
+                "\"subType1\":0," +
+                "\"subType2\":0}";
+        UdpSendMsg(SeekNet);
     }
 
     private void UdpSendMsg(final String msg) {

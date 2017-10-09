@@ -29,7 +29,6 @@ import java.util.Map;
 
 import cn.etsoft.smarthome.Activity.HomeActivity;
 import cn.etsoft.smarthome.Adapter.ListView.NetWork_Adapter;
-import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.Http_Result;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.SearchNet;
@@ -38,8 +37,8 @@ import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.HTTPRequest_BackCode;
 import cn.etsoft.smarthome.UiHelper.LogoutHelper;
 import cn.etsoft.smarthome.UiHelper.Net_AddorDel_Helper;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
-import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 import static android.content.ContentValues.TAG;
 
@@ -62,7 +61,7 @@ public class NewWorkSetActivity extends BaseActivity {
     public void initView() {
 
         setTitleViewVisible(true, R.color.color_4489CA);
-        setTitleImageBtn(true, R.drawable.back_image_select, true, R.mipmap.ic_launcher);
+        setTitleImageBtn(true, R.drawable.back_image_select, true, R.drawable.refrush_1);
         setLayout(R.layout.activity_set_network);
         mNetmoduleListview = getViewById(R.id.NewWork_set_netmodule_listview);
         mNetmoduleAdd = getViewById(R.id.NewWork_set_netmodule_add);
@@ -75,6 +74,15 @@ public class NewWorkSetActivity extends BaseActivity {
                 LogoutHelper.logout(NewWorkSetActivity.this);
             }
         });
+        NewWork_set_netmodule_logout.setVisibility(View.GONE);
+        if (MyApplication.mApplication.isVisitor()) {
+            getRightImage().setVisibility(View.GONE);
+            mNetmoduleAdd.setVisibility(View.GONE);
+            return;
+        }
+        if ("".equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""))) {
+            NewWork_set_netmodule_logout.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initLIstview() {
@@ -120,10 +128,6 @@ public class NewWorkSetActivity extends BaseActivity {
         mNetmoduleAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (MyApplication.mApplication.isVisitor()) {
-                    ToastUtil.showText("游客登录不能进行此操作");
-                    return;
-                }
                 Dialog dialog = new Dialog(NewWorkSetActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
                 dialog.setContentView(R.layout.dialog_addnetmodule);
                 dialog.setTitle("添加联网模块");

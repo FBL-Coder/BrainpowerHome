@@ -126,7 +126,7 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
                 AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0);
                 AppSharePreferenceMgr.put(GlobalVars.USERPASSWORD_SHAREPREFERENCE, "");
                 AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
-                Intent intent = new Intent(this, cn.etsoft.smarthome.Activity.SettingActivity.class);
+                Intent intent = new Intent(this, cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity.class);
                 startActivity(intent);
                 break;
             case R.id.login_btn:

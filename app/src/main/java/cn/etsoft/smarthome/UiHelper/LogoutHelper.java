@@ -40,7 +40,7 @@ import cn.semtec.community2.tool.Constants;
 public class LogoutHelper {
 
 
-    public static void logout(final Activity activity){
+    public static void logout(final Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle("提示");
         builder.setMessage("您是否要退出登录？");
@@ -74,6 +74,7 @@ public class LogoutHelper {
                                 ToastUtil.showText(result.getMsg());
                         }
                     }
+
                     @Override
                     public void onFailure(int code, String message) {
                         super.onFailure(code, message);
@@ -110,7 +111,7 @@ public class LogoutHelper {
 
                     @Override
                     public void onFailure(HttpException error, String msg) {
-                        LogUtils.i("网络异常"+error+"------"+msg);
+                        LogUtils.i("网络异常" + error + "------" + msg);
                     }
                 });
         httpUtil.send();
@@ -127,7 +128,10 @@ public class LogoutHelper {
         AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0);
         AppSharePreferenceMgr.put(GlobalVars.USERPASSWORD_SHAREPREFERENCE, "");
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
-        MyApplication.mApplication.getmHomeActivity().finish();
+        try {
+            MyApplication.mApplication.getmHomeActivity().finish();
+        } catch (Exception e) {
+        }
         MyApplication.mApplication.dismissLoadDialog();
         context.startActivity(new Intent(context, cn.semtec.community2.activity.LoginActivity.class));
         context.finish();

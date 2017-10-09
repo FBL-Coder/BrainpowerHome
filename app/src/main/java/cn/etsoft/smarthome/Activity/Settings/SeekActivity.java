@@ -12,6 +12,7 @@ import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import cn.etsoft.smarthome.Adapter.ListView.SeekListAdapter;
+import cn.etsoft.smarthome.NetMessage.UDPServer;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
@@ -54,7 +55,7 @@ public class SeekActivity extends BaseActivity {
                 }
             }
         });
-        SendDataUtil.SeekNet();
+        MyApplication.mApplication.getUdpServer().sendSeekNet();
         MyApplication.mApplication.showLoadDialog(this);
         mSeekNetBack.setOnClickListener(new View.OnClickListener() {
             @Override

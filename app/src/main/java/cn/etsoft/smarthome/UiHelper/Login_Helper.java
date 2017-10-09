@@ -106,12 +106,12 @@ public class Login_Helper {
             rcuInfos.add(rcuInfo);
         }
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, gson.toJson(rcuInfos));
-        if (rcuInfos.size() != 1)
-            mContext.startActivity(new Intent(mContext, NewWorkSetActivity.class));
-        else {
+        if (rcuInfos.size() > 0)
+//            mContext.startActivity(new Intent(mContext, NewWorkSetActivity.class));
+//        else {
             AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, rcuInfos.get(0).getDevUnitID());
-            mContext.startActivity(new Intent(mContext, HomeActivity.class));
-        }
+        mContext.startActivity(new Intent(mContext, HomeActivity.class));
+//        }
         mContext.finish();
     }
 }
