@@ -14,11 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
+import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import cn.etsoft.smarthome.Domain.City;
+import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.Weather_All_Bean;
 import cn.etsoft.smarthome.MyApplication;
@@ -26,6 +29,7 @@ import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.HomeWeatherAnim;
 import cn.etsoft.smarthome.UiHelper.Home_Weather;
 import cn.etsoft.smarthome.UiHelper.LogoutHelper;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.PermissionsUtli;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout;
@@ -46,8 +50,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     private TextView mHomeLoactionText;
     private LinearLayout mHomeLoaction;
-    private ImageView mHomeRefBtn,mHomeLogoutBtn;
-    private TextView mHomeWeatherTemp, mHomeWeatherType, mHomeWeatherShidu, mHomeWeatherFengli, mHomeWeatherZhiliang;
+    private ImageView mHomeRefBtn, mHomeLogoutBtn;
+    private TextView mHomeWeatherTemp, mHomeWeatherType, mHomeWeatherShidu,
+            mHomeWeatherFengli, mHomeWeatherZhiliang, mNetWork_Ok;
     private MarqueeTextView mHomeWeatherTishi;
     private RelativeLayout mHome_weather, mHome_weather_relativelayout;
     private Home_Weather weather_helper;
@@ -61,7 +66,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        MyApplication.mApplication.showLoadDialog(this,false);
+        MyApplication.mApplication.showLoadDialog(this, false);
         //添加Activity在ActivityList中
         SendDataUtil.getNetWorkInfo();
         PermissionsUtli.verifyStoragePermissions(HomeActivity.this);
@@ -90,6 +95,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mHomeWeatherShidu = (TextView) findViewById(R.id.home_weather_shidu);
         mHomeWeatherFengli = (TextView) findViewById(R.id.home_weather_fengli);
         mHomeWeatherZhiliang = (TextView) findViewById(R.id.home_weather_zhiliang);
+        mNetWork_Ok = (TextView) findViewById(R.id.NetWork_Ok);
         mHomeWeatherTishi = (MarqueeTextView) findViewById(R.id.home_weather_tishi);
         mHome_weather = (RelativeLayout) findViewById(R.id.home_weather);
         mHomeRefBtn.setOnClickListener(this);
@@ -114,6 +120,16 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //        mHome_Health.setOnClickListener(this);
         mHome_Setting = (BamLinearLayout) findViewById(R.id.Home_Setting);
         mHome_Setting.setOnClickListener(this);
+
+        if (!"".equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""))) {
+            List<RcuInfo> list = MyApplication.mApplication.getRcuInfoList();
+            for (int i = 0; i < list.size(); i++) {
+                if (AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")
+                        .equals(list.get(i).getDevUnitID())) {
+                    mNetWork_Ok.setText("使用中的模块\n"+list.get(i).getCanCpuName());
+                }
+            }
+        }
     }
 
     /**

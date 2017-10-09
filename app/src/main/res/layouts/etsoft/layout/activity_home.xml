@@ -217,8 +217,8 @@
                         android:id="@+id/m10"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentStart="true" />
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true" />
                 </RelativeLayout>
 
             </RelativeLayout>
@@ -227,17 +227,17 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentRight="true">
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal">
 
                 <!--退出-->
                 <ImageView
                     android:id="@+id/home_logout_btn"
                     android:layout_width="@dimen/dp_50"
                     android:layout_height="@dimen/dp_50"
+                    android:layout_marginRight="@dimen/dp_20"
                     android:layout_marginTop="@dimen/dp_10"
                     android:padding="@dimen/dp_10"
-                    android:layout_marginRight="@dimen/dp_20"
                     android:src="@drawable/logout_icon" />
                 <!--刷新-->
                 <ImageView
@@ -250,6 +250,16 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/NetWork_Ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/dp_80"
+                android:layout_marginRight="@dimen/dp_20"
+                android:textColor="@color/white1"
+                android:gravity="center"
+                android:textSize="@dimen/sp_16" />
 
 
             <!--天气数据-->
@@ -258,9 +268,9 @@
                 android:layout_width="@dimen/dp_600"
                 android:layout_height="@dimen/dp_280"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/home_ref_btn"
                 android:layout_marginLeft="@dimen/dp_50"
                 android:layout_marginStart="48dp"
+                android:layout_marginTop="@dimen/dp_40"
                 android:visibility="gone">
 
                 <TextView
@@ -387,13 +397,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:paddingLeft="@dimen/dp_50"
-            android:paddingRight="@dimen/dp_50"
-            android:paddingBottom="@dimen/dp_20"
             android:layout_marginLeft="@dimen/dp_100"
             android:layout_marginRight="@dimen/dp_100"
             android:background="@drawable/menu_bottom"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/dp_20"
+            android:paddingLeft="@dimen/dp_50"
+            android:paddingRight="@dimen/dp_50">
 
             <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
                 android:id="@+id/Home_YunVideo"
@@ -407,10 +417,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/dp_30"
+                    android:paddingBottom="@dimen/dp_10"
                     android:paddingLeft="@dimen/dp_30"
                     android:paddingRight="@dimen/dp_30"
-                    android:paddingBottom="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_30"
                     android:src="@drawable/home_duijiang" />
 
                 <TextView
@@ -435,10 +445,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/dp_30"
+                    android:paddingBottom="@dimen/dp_10"
                     android:paddingLeft="@dimen/dp_30"
                     android:paddingRight="@dimen/dp_30"
-                    android:paddingBottom="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_30"
                     android:src="@drawable/home_safety" />
 
                 <TextView
@@ -463,10 +473,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/dp_30"
+                    android:paddingBottom="@dimen/dp_10"
                     android:paddingLeft="@dimen/dp_30"
                     android:paddingRight="@dimen/dp_30"
-                    android:paddingBottom="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_30"
                     android:src="@drawable/home_jiadian" />
 
                 <TextView
@@ -480,31 +490,31 @@
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
             <!--<cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout-->
-                <!--android:id="@+id/Home_State"-->
-                <!--android:layout_width="@dimen/dp_0"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:layout_weight="1"-->
-                <!--android:orientation="vertical"-->
-                <!--android:scaleType="fitXY">-->
+            <!--android:id="@+id/Home_State"-->
+            <!--android:layout_width="@dimen/dp_0"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_weight="1"-->
+            <!--android:orientation="vertical"-->
+            <!--android:scaleType="fitXY">-->
 
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingTop="@dimen/dp_30"-->
-                    <!--android:paddingLeft="@dimen/dp_30"-->
-                    <!--android:paddingRight="@dimen/dp_30"-->
-                    <!--android:paddingBottom="@dimen/dp_10"-->
-                    <!--android:src="@drawable/home_state" />-->
+            <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingTop="@dimen/dp_30"-->
+            <!--android:paddingLeft="@dimen/dp_30"-->
+            <!--android:paddingRight="@dimen/dp_30"-->
+            <!--android:paddingBottom="@dimen/dp_10"-->
+            <!--android:src="@drawable/home_state" />-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="状态"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textSize="@dimen/dp_20"-->
-                    <!--android:textStyle="bold" />-->
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:text="状态"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="@dimen/dp_20"-->
+            <!--android:textStyle="bold" />-->
             <!--</cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>-->
 
             <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
@@ -519,10 +529,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/dp_30"
+                    android:paddingBottom="@dimen/dp_10"
                     android:paddingLeft="@dimen/dp_30"
                     android:paddingRight="@dimen/dp_30"
-                    android:paddingBottom="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_30"
                     android:src="@drawable/home_scene" />
 
                 <TextView
@@ -536,59 +546,59 @@
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
             <!--<cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout-->
-                <!--android:id="@+id/Home_Timer"-->
-                <!--android:layout_width="@dimen/dp_0"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:layout_weight="1"-->
-                <!--android:orientation="vertical"-->
-                <!--android:scaleType="fitXY">-->
+            <!--android:id="@+id/Home_Timer"-->
+            <!--android:layout_width="@dimen/dp_0"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_weight="1"-->
+            <!--android:orientation="vertical"-->
+            <!--android:scaleType="fitXY">-->
 
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingTop="@dimen/dp_30"-->
-                    <!--android:paddingLeft="@dimen/dp_30"-->
-                    <!--android:paddingRight="@dimen/dp_30"-->
-                    <!--android:paddingBottom="@dimen/dp_10"-->
-                    <!--android:src="@drawable/home_timer" />-->
+            <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingTop="@dimen/dp_30"-->
+            <!--android:paddingLeft="@dimen/dp_30"-->
+            <!--android:paddingRight="@dimen/dp_30"-->
+            <!--android:paddingBottom="@dimen/dp_10"-->
+            <!--android:src="@drawable/home_timer" />-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="定时"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textSize="@dimen/dp_20"-->
-                    <!--android:textStyle="bold" />-->
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:text="定时"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="@dimen/dp_20"-->
+            <!--android:textStyle="bold" />-->
             <!--</cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>-->
 
             <!--<cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout-->
-                <!--android:id="@+id/Home_Health"-->
-                <!--android:layout_width="@dimen/dp_0"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_horizontal"-->
-                <!--android:layout_weight="1"-->
-                <!--android:orientation="vertical"-->
-                <!--android:scaleType="fitXY">-->
+            <!--android:id="@+id/Home_Health"-->
+            <!--android:layout_width="@dimen/dp_0"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_weight="1"-->
+            <!--android:orientation="vertical"-->
+            <!--android:scaleType="fitXY">-->
 
-                <!--<ImageView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingTop="@dimen/dp_30"-->
-                    <!--android:paddingLeft="@dimen/dp_30"-->
-                    <!--android:paddingRight="@dimen/dp_30"-->
-                    <!--android:paddingBottom="@dimen/dp_10"-->
-                    <!--android:src="@drawable/home_jiankang" />-->
+            <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingTop="@dimen/dp_30"-->
+            <!--android:paddingLeft="@dimen/dp_30"-->
+            <!--android:paddingRight="@dimen/dp_30"-->
+            <!--android:paddingBottom="@dimen/dp_10"-->
+            <!--android:src="@drawable/home_jiankang" />-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="健康"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textSize="@dimen/dp_20"-->
-                    <!--android:textStyle="bold" />-->
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:text="健康"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="@dimen/dp_20"-->
+            <!--android:textStyle="bold" />-->
             <!--</cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>-->
 
             <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
@@ -603,10 +613,10 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/dp_30"
+                    android:paddingBottom="@dimen/dp_10"
                     android:paddingLeft="@dimen/dp_30"
                     android:paddingRight="@dimen/dp_30"
-                    android:paddingBottom="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_30"
                     android:src="@drawable/home_setting" />
 
                 <TextView
