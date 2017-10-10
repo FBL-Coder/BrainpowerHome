@@ -35,7 +35,7 @@ public class GroupSetHelper {
 
     public static MultiChoicePopWindow mMultiChoicePopWindow;
 
-    public static List<CircleDataEvent> initSceneCircleOUterData(boolean IsClick, int position) {
+    public static List<CircleDataEvent> initSceneCircleOUterData(int position) {
 
         if (WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows()
                 .size() == 0)
@@ -48,7 +48,7 @@ public class GroupSetHelper {
                     .get(i % WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows()
                             .size()).getTriggerName());
             event.setImage(R.drawable.group_icon);
-            if (IsClick && i == position)
+            if (i == position)
                 event.setSelect(true);
             list.add(event);
         }

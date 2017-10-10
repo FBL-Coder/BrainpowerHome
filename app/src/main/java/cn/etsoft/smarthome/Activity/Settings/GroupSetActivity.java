@@ -42,9 +42,8 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
     private GroupSet_DevAdapter mAdapter;
     private GroupSet_Data.SecsTriggerRowsBean mBean;
     private boolean IsNoData = true;
-    private boolean IsCanClick = false;
     private boolean IsOpenShiNeng = false, IsyncSever = false;
-    private int mGroupSetPosition = -1;
+    private int mGroupSetPosition = 0;
     private int CirclePosition = 0;
     private boolean[] IsSelect;
 
@@ -90,13 +89,10 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
         } else {
             initGroupSet();
         }
-        if (mGroupSetPosition == -1){
-            mNull_tv.setText("请先选择组合触发器");
-        }
     }
 
     private void initGroupSet() {
-        Data_OuterCircleList = GroupSetHelper.initSceneCircleOUterData(IsCanClick, CirclePosition);
+        Data_OuterCircleList = GroupSetHelper.initSceneCircleOUterData(CirclePosition);
         layout.Init(200, 0);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 
@@ -107,63 +103,9 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                     ToastUtil.showText("获取数据异常，请稍后在试");
                     return;
                 }
-                mNull_tv.setText("没有设备，可以添加设备");
-                IsCanClick = true;
                 CirclePosition = position;
                 mGroupSetPosition = position % WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows().size();
-                mBean = WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows()
-                        .get(mGroupSetPosition);
-                mAdapter = new GroupSet_DevAdapter(mBean.getRun_dev_item(), GroupSetActivity.this);
-                mGroupSetGirdView.setAdapter(mAdapter);
-
-                mGroupSetName.setText("");
-                mGroupSetName.setHint(mBean.getTriggerName());
-                IsSelect = new boolean[MyApplication.getWareData().getResult_safety().getSec_info_rows().size()];
-                if (mBean.getRun_dev_item() == null
-                        || mBean.getRun_dev_item().size() == 0) {
-                    mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
-                    mSyncSever.setImageResource(R.drawable.checkbox1_unselect);
-                    if (mBean.getTriggerSecs() == 0)
-                        mGroupSetSafetys.setText("点击选择防区");
-                    else {
-                        int weekSelect_10 = (int) mBean.getTriggerSecs();
-                        String weekSelect_2 = reverseString(Integer.toBinaryString(weekSelect_10));
-                        String weekSelect_2_data = "";
-                        for (int i = 0; i < weekSelect_2.toCharArray().length; i++) {
-                            if (weekSelect_2.toCharArray()[i] == '1') {
-                                weekSelect_2_data += " " + (i + 1);
-                                IsSelect[i] = true;
-                            }
-                        }
-                        mGroupSetSafetys.setText(weekSelect_2_data);
-                    }
-                } else {
-                    if (mBean.getValid() == 1) {
-                        IsOpenShiNeng = true;
-                        mShiNeng.setImageResource(R.drawable.checkbox1_selected);
-                    } else {
-                        IsOpenShiNeng = false;
-                        mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
-                    }
-                    int weekSelect_10 = (int) mBean.getTriggerSecs();
-                    String weekSelect_2 = reverseString(Integer.toBinaryString(weekSelect_10));
-                    String weekSelect_2_data = "";
-                    for (int i = 0; i < weekSelect_2.toCharArray().length; i++) {
-                        if (weekSelect_2.toCharArray()[i] == '1') {
-                            weekSelect_2_data += " " + (i + 1);
-                            IsSelect[i] = true;
-                        }
-                    }
-                    mGroupSetSafetys.setText(weekSelect_2_data);
-
-                    if (mBean.getReportServ() == 1) {
-                        mSyncSever.setImageResource(R.drawable.checkbox1_selected);
-                        IsyncSever = true;
-                    } else {
-                        mSyncSever.setImageResource(R.drawable.checkbox1_unselect);
-                        IsyncSever = false;
-                    }
-                }
+                InitDataView();
             }
         });
         mGroupSetGirdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -184,6 +126,66 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                 return true;
             }
         });
+        InitDataView();
+    }
+
+    /**
+     * 默认数据，点击刷新数据
+     */
+    private void InitDataView() {
+        mBean = WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows()
+                .get(mGroupSetPosition);
+        mAdapter = new GroupSet_DevAdapter(mBean.getRun_dev_item(), GroupSetActivity.this);
+        mGroupSetGirdView.setAdapter(mAdapter);
+        mNull_tv.setText(mBean.getTriggerName() + " 没有设备，请添加设备");
+        mGroupSetName.setText("");
+        mGroupSetName.setHint(mBean.getTriggerName());
+        IsSelect = new boolean[MyApplication.getWareData().getResult_safety().getSec_info_rows().size()];
+        if (mBean.getRun_dev_item() == null
+                || mBean.getRun_dev_item().size() == 0) {
+            mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+            mSyncSever.setImageResource(R.drawable.checkbox1_unselect);
+            if (mBean.getTriggerSecs() == 0)
+                mGroupSetSafetys.setText("点击选择防区");
+            else {
+                int weekSelect_10 = (int) mBean.getTriggerSecs();
+                String weekSelect_2 = reverseString(Integer.toBinaryString(weekSelect_10));
+                String weekSelect_2_data = "";
+                for (int i = 0; i < weekSelect_2.toCharArray().length; i++) {
+                    if (weekSelect_2.toCharArray()[i] == '1') {
+                        weekSelect_2_data += " " + (i + 1);
+                        IsSelect[i] = true;
+                    }
+                }
+                mGroupSetSafetys.setText(weekSelect_2_data);
+            }
+        } else {
+            if (mBean.getValid() == 1) {
+                IsOpenShiNeng = true;
+                mShiNeng.setImageResource(R.drawable.checkbox1_selected);
+            } else {
+                IsOpenShiNeng = false;
+                mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+            }
+            int weekSelect_10 = (int) mBean.getTriggerSecs();
+            String weekSelect_2 = reverseString(Integer.toBinaryString(weekSelect_10));
+            String weekSelect_2_data = "";
+            for (int i = 0; i < weekSelect_2.toCharArray().length; i++) {
+                if (weekSelect_2.toCharArray()[i] == '1') {
+                    weekSelect_2_data += " " + (i + 1);
+                    IsSelect[i] = true;
+                }
+            }
+            mGroupSetSafetys.setText(weekSelect_2_data);
+
+            if (mBean.getReportServ() == 1) {
+                mSyncSever.setImageResource(R.drawable.checkbox1_selected);
+                IsyncSever = true;
+            } else {
+                mSyncSever.setImageResource(R.drawable.checkbox1_unselect);
+                IsyncSever = false;
+            }
+        }
     }
 
     @SuppressLint("WrongConstant")
@@ -191,10 +193,6 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         if (IsNoData && WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows().size() == 0) {
             ToastUtil.showText("获取数据异常，请稍后在试");
-            return;
-        }
-        if (!IsCanClick) {
-            ToastUtil.showText("请先选择触发器！");
             return;
         }
         switch (v.getId()) {

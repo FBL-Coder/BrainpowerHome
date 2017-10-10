@@ -34,7 +34,7 @@ public class TimerSetHelper {
     public static MultiChoicePopWindow mMultiChoicePopWindow;
 
 
-    public static List<CircleDataEvent> initSceneCircleOUterData(boolean IsClick, int position) {
+    public static List<CircleDataEvent> initSceneCircleOUterData(int position) {
 
         if (MyApplication.getWareData().getTimer_data().getTimerEvent_rows()
                 .size() == 0)
@@ -47,7 +47,7 @@ public class TimerSetHelper {
                     .get(i % MyApplication.getWareData().getTimer_data().getTimerEvent_rows()
                             .size()).getTimerName());
             event.setImage(R.drawable.timer_icon);
-            if (IsClick && i == position)
+            if (i == position)
                 event.setSelect(true);
             list.add(event);
         }

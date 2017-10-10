@@ -6,22 +6,67 @@
     android:background="@drawable/background">
 
     <RelativeLayout
+        android:id="@+id/room_dev"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:gravity="center_vertical"
+        android:background="@drawable/menuup_bg">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_150">
+
+            <ImageView
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:padding="@dimen/dp_5"
+                android:src="@drawable/logo"/>
+            <TextView
+                android:id="@+id/DevType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="情景控制"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_300">
+
+            <ImageView
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:padding="@dimen/dp_5"
+                android:src="@drawable/logo"/>
+            <TextView
+                android:id="@+id/RoomName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="情景控制"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/SceneSet_Info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/room_dev"
         android:layout_marginLeft="@dimen/dp_250"
         android:background="@null" />
-    <TextView
-        android:id="@+id/null_tv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/dp_250"
-        android:gravity="right|bottom"
-        android:padding="@dimen/dp_20"
-        android:text="请先选择房间和设备类型"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_26"
-        android:textStyle="italic" />
 
     <RelativeLayout
         android:layout_width="@dimen/dp_250"

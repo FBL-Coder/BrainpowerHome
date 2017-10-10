@@ -31,7 +31,7 @@ public class ControlSceneActivity extends BaseActivity {
 
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
-    private TextView mNull_tv, mRun,SceneName;
+    private TextView mNull_tv, mRun, SceneName;
     private GridView mControlSceneGirdView;
     private Control_Scene_DevAdapter mAdapter;
     private int mScenePosition = 0;
@@ -87,7 +87,7 @@ public class ControlSceneActivity extends BaseActivity {
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-                mNull_tv.setText("没有设备，通过情景设置添加设备");
+                mNull_tv.setText(mSceneDatas.get(mScenePosition).getSceneName() + "  没有设备，通过情景设置添加设备");
                 CirclePosition = position;
                 mScenePosition = position % mSceneDatas.size();
                 SceneName.setText(mSceneDatas.get(mScenePosition).getSceneName());
@@ -128,7 +128,7 @@ public class ControlSceneActivity extends BaseActivity {
         else mAdapter.notifyDataSetChanged(mSceneDatas.get(mScenePosition).getItemAry());
         mAdapter = new Control_Scene_DevAdapter(mSceneDatas.get(mScenePosition).getItemAry(), ControlSceneActivity.this);
         mControlSceneGirdView.setAdapter(mAdapter);
-        if (mScenePosition == 0){
+        if (mScenePosition == 0) {
             SceneName.setText(mSceneDatas.get(mScenePosition).getSceneName());
         }
     }

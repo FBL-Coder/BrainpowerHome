@@ -122,29 +122,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
             public void onClickOuterCircle(int position, View view) {
                 CirclePosition = position;
                 mConditionPosition = position % WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().size();
-                mBean = WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().get(mConditionPosition);
-                mNull_tv.setText("没有设备，可以添加设备");
-                mConditionName.setText("");
-                mConditionName.setHint(mBean.getEventName());
-                if (mBean == null || mBean.getRun_dev_item().size() == 0) {
-                    mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
-                    mConditionChuFaZhi.setHint("输入触发值");
-                    mConditionWay.setText("选择触发方式");
-                    mConditionType.setText("选择触发类别");
-                } else {
-                    mConditionName.setHint(mBean.getEventName());
-                    mConditionChuFaZhi.setText(mBean.getValTh() + "");
-                    if (mBean.getValid() == 1)
-                        mShiNeng.setImageResource(R.drawable.checkbox1_selected);
-                    else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
-                    mConditionWay.setText(Event_Way.get(mBean.getThType()));
-                    mConditionType.setText(Event_type.get(mBean.getEnvType()));
-                }
-
-                if (mAdapter == null)
-                    mAdapter = new ConditionSet_DevAdapter(mBean.getRun_dev_item(), ConditionSetActivity.this);
-                else mAdapter.notifyDataSetChanged(mBean.getRun_dev_item());
-                mConditionGirdView.setAdapter(mAdapter);
+                InitDataView();
             }
         });
 
@@ -166,8 +144,15 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
             }
         });
 
+        InitDataView();
+    }
+
+    /**
+     * 默认数据，点击刷新数据
+     */
+    private void InitDataView() {
         mBean = WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().get(mConditionPosition);
-        mNull_tv.setText("没有设备，可以添加设备");
+        mNull_tv.setText(mBean.getEventName() + " 没有设备，请添加设备");
         mConditionName.setText("");
         mConditionName.setHint(mBean.getEventName());
         if (mBean == null || mBean.getRun_dev_item().size() == 0) {
@@ -276,7 +261,6 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
                 initRadioPopupWindow(mConditionWay, Event_Way);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
-
         }
     }
 

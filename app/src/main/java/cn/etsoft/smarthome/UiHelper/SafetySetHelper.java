@@ -30,7 +30,7 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 public class SafetySetHelper {
 
 
-    public static List<CircleDataEvent> initSceneCircleOUterData(boolean isClick, int position) {
+    public static List<CircleDataEvent> initSceneCircleOUterData(int position) {
 
         if (WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows()
                 .size() == 0)
@@ -43,7 +43,7 @@ public class SafetySetHelper {
                     .get(i % WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows()
                             .size()).getSecName());
             event.setImage(R.drawable.fangqu_icon);
-            if (isClick && i == position)
+            if (i == position)
                 event.setSelect(true);
             list.add(event);
         }

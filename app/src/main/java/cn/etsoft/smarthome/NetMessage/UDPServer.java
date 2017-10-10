@@ -124,7 +124,7 @@ public class UDPServer implements Runnable {
                     mhandler.sendMessage(message);
                 }
             }
-        }, 20000, 100000);
+        }, 40000, 80000);
     }
 
 
@@ -161,14 +161,14 @@ public class UDPServer implements Runnable {
 //            } else {
 //                UdpSendMsg(msg);
 //            }
+            if ("".equals(GlobalVars.getDevid())) {
+                return;
+            }
             if (GlobalVars.isIPisEqual() == GlobalVars.IPDIFFERENT) {
-                if ("".equals(GlobalVars.getDevid())) {
-                    return;
-                }
-                if (GlobalVars.isIsLAN()) {
-                    UdpSendMsg(msg);
-                    return;
-                }
+//                if (GlobalVars.isIsLAN()) {
+//                    UdpSendMsg(msg);
+//                    return;
+//                }
                 String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
                 Log.i("发送WebSocket", "板子和客户端不在同一网络----WEB" + jsonToServer);
                 MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);

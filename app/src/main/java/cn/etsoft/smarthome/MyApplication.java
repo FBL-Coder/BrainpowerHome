@@ -182,12 +182,16 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         } else {
             IPAddress = GetIPAddress.getWifiIP(MyApplication.mContext);
         }
-        if ("".equals(IPAddress))
+        if ("".equals(IPAddress)) {
             GlobalVars.setIPisEqual(GlobalVars.NOCOMPARE);
+            Log.i("IPAddress", "IP Now***" + IPAddress);
+        }
         else {
             String rcuInfo_Use_ip = rcuInfo_Use.getIpAddr();
+            Log.i("IPAddress", "  IP Use--- " + rcuInfo_Use_ip + "IP Now***" + IPAddress);
             if ("".equals(rcuInfo_Use_ip) || rcuInfo_Use_ip == null) {
                 GlobalVars.setIPisEqual(GlobalVars.IPDIFFERENT);
+                GlobalVars.setIsLAN(true);
                 return;
             }
             rcuInfo_Use_ip = rcuInfo_Use_ip.substring(0, rcuInfo_Use_ip.lastIndexOf("."));
@@ -195,9 +199,10 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             IPAddress = IPAddress.substring(0, IPAddress.lastIndexOf("."));
             if (rcuInfo_Use_ip.equals(IPAddress)) {//ip前三位一样，即局域网内的；
                 GlobalVars.setIPisEqual(GlobalVars.IPEQUAL);
-                SendDataUtil.getNetWorkInfo();
+                GlobalVars.setIsLAN(true);
             } else {//网段不一样，公网；
                 GlobalVars.setIPisEqual(GlobalVars.IPDIFFERENT);
+                GlobalVars.setIsLAN(false);
             }
         }
     }

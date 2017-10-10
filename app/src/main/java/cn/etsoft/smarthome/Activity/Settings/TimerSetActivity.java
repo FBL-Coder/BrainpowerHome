@@ -43,11 +43,10 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
     private GridView mTimerGirdView;
     private Timer_DevAdapter mAdapter;
     private boolean IsNoData = true;
-    private boolean IsCanClick = false;
     private boolean IsOpenShiNeng = false, IsOpenWeekAgain = false, IsOPenQuanWang = false;
     private Timer_Data.TimerEventRowsBean mBean;
-    private int mTimerPosition = -1;
-    private int CirclePosition = -1;
+    private int mTimerPosition = 0;
+    private int CirclePosition = 0;
 
 
     @Override
@@ -102,73 +101,19 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
         } else {
             initTimer();
         }
-        if (mTimerPosition == -1) {
-            mNull_tv.setText("请先选择定时器");
-        }
     }
 
     private void initTimer() {
-        Data_OuterCircleList = TimerSetHelper.initSceneCircleOUterData(IsCanClick, CirclePosition);
+        Data_OuterCircleList = TimerSetHelper.initSceneCircleOUterData(CirclePosition);
         layout.Init(200, 0);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-                IsCanClick = true;
-                mNull_tv.setText("没有设备，可以添加设备");
                 CirclePosition = position;
                 mTimerPosition = position % WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows().size();
-                mBean = WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows()
-                        .get(mTimerPosition);
-                mAdapter = new Timer_DevAdapter(mBean.getRun_dev_item(), TimerSetActivity.this);
-                mTimerGirdView.setAdapter(mAdapter);
-
-                mTimerName.setText("");
-                mTimerName.setHint(mBean.getTimerName());
-
-                if (mBean.getRun_dev_item() == null
-                        || mBean.getRun_dev_item().size() == 0) {
-                    mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
-                    mWeekAgain.setImageResource(R.drawable.checkbox1_unselect);
-                    mQuanWang.setImageResource(R.drawable.checkbox1_unselect);
-                    mTimerStartTime.setText("点击选择时间");
-                    mTimerEndTime.setText("点击选择时间");
-                    mTimerWeeks.setText("点击选择星期");
-                } else {
-                    if (mBean.getValid() == 1) {
-                        IsOpenShiNeng = true;
-                        mShiNeng.setImageResource(R.drawable.checkbox1_selected);
-                    } else {
-                        IsOpenShiNeng = false;
-                        mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
-                    }
-
-                    List<Integer> data_start = mBean.getTimSta();
-                    String startTime = data_start.get(0) + " : " + data_start.get(1);
-                    mTimerStartTime.setText(startTime);
-
-                    int weekSelect_10 = data_start.get(3);
-                    String weekSelect_2 = reverseString(Integer.toBinaryString(weekSelect_10));
-                    String weekSelect_2_data = "";
-                    for (int i = 0; i < weekSelect_2.toCharArray().length; i++) {
-                        if (weekSelect_2.toCharArray()[i] == '1')
-                            weekSelect_2_data += " " + (i + 1);
-                    }
-                    mTimerWeeks.setText(weekSelect_2_data + "");
-
-                    List<Integer> data_end = mBean.getTimEnd();
-                    String endtime = data_end.get(0) + " : " + data_end.get(1);
-                    mTimerEndTime.setText(endtime);
-
-                    if (data_end.get(3) == 1) {
-                        mWeekAgain.setImageResource(R.drawable.checkbox1_selected);
-                        IsOpenWeekAgain = true;
-                    } else {
-                        mWeekAgain.setImageResource(R.drawable.checkbox1_unselect);
-                        IsOpenWeekAgain = false;
-                    }
-                }
+                InitDataView();
             }
         });
         mTimerGirdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -189,7 +134,63 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                 return true;
             }
         });
+        InitDataView();
+    }
 
+    /**
+     * 默认设备数据以及点击刷新数据
+     */
+    private void InitDataView() {
+        mBean = WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows()
+                .get(mTimerPosition);
+        mAdapter = new Timer_DevAdapter(mBean.getRun_dev_item(), TimerSetActivity.this);
+        mTimerGirdView.setAdapter(mAdapter);
+
+        mTimerName.setText("");
+        mTimerName.setHint(mBean.getTimerName());
+        mNull_tv.setText(mBean.getTimerName() + " 没有可用设备，请添加设备");
+        if (mBean.getRun_dev_item() == null
+                || mBean.getRun_dev_item().size() == 0) {
+            mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+            mWeekAgain.setImageResource(R.drawable.checkbox1_unselect);
+            mQuanWang.setImageResource(R.drawable.checkbox1_unselect);
+            mTimerStartTime.setText("点击选择时间");
+            mTimerEndTime.setText("点击选择时间");
+            mTimerWeeks.setText("点击选择星期");
+        } else {
+            if (mBean.getValid() == 1) {
+                IsOpenShiNeng = true;
+                mShiNeng.setImageResource(R.drawable.checkbox1_selected);
+            } else {
+                IsOpenShiNeng = false;
+                mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+            }
+
+            List<Integer> data_start = mBean.getTimSta();
+            String startTime = data_start.get(0) + " : " + data_start.get(1);
+            mTimerStartTime.setText(startTime);
+
+            int weekSelect_10 = data_start.get(3);
+            String weekSelect_2 = reverseString(Integer.toBinaryString(weekSelect_10));
+            String weekSelect_2_data = "";
+            for (int i = 0; i < weekSelect_2.toCharArray().length; i++) {
+                if (weekSelect_2.toCharArray()[i] == '1')
+                    weekSelect_2_data += " " + (i + 1);
+            }
+            mTimerWeeks.setText(weekSelect_2_data + "");
+
+            List<Integer> data_end = mBean.getTimEnd();
+            String endtime = data_end.get(0) + " : " + data_end.get(1);
+            mTimerEndTime.setText(endtime);
+
+            if (data_end.get(3) == 1) {
+                mWeekAgain.setImageResource(R.drawable.checkbox1_selected);
+                IsOpenWeekAgain = true;
+            } else {
+                mWeekAgain.setImageResource(R.drawable.checkbox1_unselect);
+                IsOpenWeekAgain = false;
+            }
+        }
     }
 
     @SuppressLint("WrongConstant")
@@ -197,10 +198,6 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         if (IsNoData && WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows().size() == 0) {
             ToastUtil.showText("获取数据异常，请稍后在试");
-            return;
-        }
-        if (!IsCanClick) {
-            ToastUtil.showText("请先选择定时器！");
             return;
         }
         switch (v.getId()) {

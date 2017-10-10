@@ -39,6 +39,7 @@ import cn.etsoft.smarthome.UiHelper.LogoutHelper;
 import cn.etsoft.smarthome.UiHelper.Net_AddorDel_Helper;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 import static android.content.ContentValues.TAG;
 
@@ -158,6 +159,8 @@ public class NewWorkSetActivity extends BaseActivity {
                                     MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID());
                             MyApplication.setNewWareData();
                             mAdapter.notifyDataSetChanged();
+                            MyApplication.queryIP();
+                            SendDataUtil.getNetWorkInfo();
                             dialog.dismiss();
                             startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
                             finish();

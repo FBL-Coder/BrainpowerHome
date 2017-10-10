@@ -40,9 +40,9 @@ public class ControlActivity extends BaseActivity {
     private Fragment mLightFragment, mAirFragment,
             mTVFragment, mTvUpFragment, mCurFragment,
             mFreshAirFragment, mFloorHeatFragment;
-    private int DevType = 0, OutCircleposition = -1;
+    private int DevType = 3, OutCircleposition = 0;
     private String RoomName = "";
-    private TextView mNull_tv;
+    private TextView DevType_TV, RoomName_TV;
 
     @Override
     public void initView() {
@@ -57,15 +57,13 @@ public class ControlActivity extends BaseActivity {
             return;
         }
         layout = getViewById(R.id.SceneSet_CircleMenu);
-        mNull_tv = getViewById(R.id.null_tv);
+        DevType_TV = getViewById(R.id.DevType);
+        RoomName_TV = getViewById(R.id.RoomName);
         Data_OuterCircleList = ControlHelper.initSceneCircleOUterData();
         Data_InnerCircleList = ControlHelper.initSceneCircleInnerData();
         layout.Init(200, 100);
         layout.setInnerCircleMenuData(Data_InnerCircleList);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
-        if ("".equals(RoomName) || OutCircleposition == -1) {
-            mNull_tv.setVisibility(View.VISIBLE);
-        }
         initEvent();
     }
 
@@ -73,21 +71,34 @@ public class ControlActivity extends BaseActivity {
         layout.setOnInnerCircleLayoutClickListener(new CircleMenuLayout.OnInnerCircleLayoutClickListener() {
             @Override
             public void onClickInnerCircle(int position, View view) {
-                mNull_tv.setVisibility(View.GONE);
                 if (mControlDevClickListener != null)
                     mControlDevClickListener.ControlClickPosition(DevType, Data_InnerCircleList.get(position).getTitle());
                 RoomName = Data_InnerCircleList.get(position).getTitle();
                 ControlHelper.setRoomName(RoomName);
+                RoomName_TV.setText(RoomName);
             }
         });
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-                mNull_tv.setVisibility(View.GONE);
                 DevType = position % 10;
                 OuterCircleClick(ControlActivity.this, position, RoomName);
                 if (mControlDevClickListener != null)
                     mControlDevClickListener.ControlClickPosition(position % 8, RoomName);
+                if (DevType == 0)
+                    DevType_TV.setText("空调");
+                if (DevType == 1)
+                    DevType_TV.setText("电视");
+                if (DevType == 2)
+                    DevType_TV.setText("机顶盒");
+                if (DevType == 3)
+                    DevType_TV.setText("灯光");
+                if (DevType == 4)
+                    DevType_TV.setText("窗帘");
+                if (DevType == 7)
+                    DevType_TV.setText("新风");
+                if (DevType == 9)
+                    DevType_TV.setText("地暖");
             }
         });
 
@@ -103,6 +114,8 @@ public class ControlActivity extends BaseActivity {
         transaction.show(mLightFragment);
         transaction.commit();
         DevType = 3;
+        DevType_TV.setText("灯光");
+        RoomName_TV.setText(MyApplication.getWareData().getRooms().get(0));
     }
 
     /**

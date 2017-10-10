@@ -48,11 +48,10 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
     private GridView mSafetyGirdView;
     private SafetySet_DevAdapter mAdapter;
     private boolean IsNoData = true;
-    private boolean IsCanClick = false;
     private boolean IsShiNeng;
     private SetSafetyResult.SecInfoRowsBean mBean;
     private List<String> mSafety_State_List, mSafety_Scene_Name;
-    private int mSafetyPosition = -1;
+    private int mSafetyPosition = 0;
     private int CirclePosition = 0;
     private PopupWindow popupWindow;
     private List<WareSceneEvent> wareSceneEvent;
@@ -115,9 +114,6 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
         } else {
             initSafety();
         }
-        if (mSafetyPosition == -1) {
-            mNull_tv.setText("请先选择防区");
-        }
     }
 
     private void initSafety() {
@@ -143,74 +139,16 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
                 mSafety_Scene_Name.add(wareSceneEvent.get(i).getSceneName());
             }
         mSafety_Scene_Name.add("无");
-        Data_OuterCircleList = SafetySetHelper.initSceneCircleOUterData(IsCanClick, CirclePosition);
+        Data_OuterCircleList = SafetySetHelper.initSceneCircleOUterData( CirclePosition);
         layout.Init(200, 0);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-                IsCanClick = true;
-                mNull_tv.setText("没有设备，可以添加设备");
                 CirclePosition = position;
                 mSafetyPosition = position % WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().size();
-                mBean = WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().get(mSafetyPosition);
-
-                mAdapter = new SafetySet_DevAdapter(mBean.getRun_dev_item(), SafetySetActivity.this);
-                mSafetyGirdView.setAdapter(mAdapter);
-
-                mSafetyName.setText("");
-                mSafetyName.setHint(mBean.getSecName());
-
-                //某一安防里的设备为空或长度为0时
-                if (mBean.getRun_dev_item().size() == 0) {
-                    mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
-                    mSafetyScene.setText("点击选择关联情景");
-                    mSafetyType.setText("点击选择安防状态");
-                }
-
-                if (mBean.getValid() == 1) {
-                    mShiNeng.setImageResource(R.drawable.checkbox1_selected);
-                    IsShiNeng = true;
-                } else {
-                    mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
-                    IsShiNeng = false;
-                }
-
-                // 全局布撤状态
-                int type = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
-                if (type == 255)
-                    mSafetyNow.setText(mSafety_State_List.get(3));
-                else {//布防类型是"24小时布防"、"在家布防"、"外出布防"
-                    try {
-                        mSafetyNow.setText(mSafety_State_List.get(mBean.getSecType()));
-                    } catch (Exception e) {
-                        mSafetyNow.setText(mSafety_State_List.get(3));
-                    }
-                }
-                //布防类型是"撤防状态"
-                if (mBean.getSecType() == 255)
-                    mSafetyType.setText(mSafety_State_List.get(3));
-                else {//布防类型是"24小时布防"、"在家布防"、"外出布防"
-                    try {
-                        mSafetyType.setText(mSafety_State_List.get(mBean.getSecType()));
-                    } catch (Exception e) {
-                        mSafetyType.setText(mSafety_State_List.get(3));
-                    }
-                }
-                //情景
-                if (wareSceneEvent != null)
-                    for (int i = 0; i < wareSceneEvent.size(); i++) {
-                        if (wareSceneEvent.get(i).getEventId()
-                                == mBean.getSceneId()) {
-                            mSafetyScene.setText(wareSceneEvent.get(i).getSceneName());
-                            ScenePosition = i;
-                            if (i == wareSceneEvent.size() - 1)
-                                ScenePosition = 255;
-                        }
-                    }
-                else
-                    mSafetyScene.setText("暂无情景数据");
+                InitDataView();
             }
         });
         mSafetyGirdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -234,6 +172,70 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
                 return true;
             }
         });
+        InitDataView();
+    }
+
+    /**
+     * 默认数据，点击刷新数据
+     */
+    private void InitDataView() {
+        mBean = WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().get(mSafetyPosition);
+        mNull_tv.setText(mBean.getSecName()+"  没有可用设备，请添加设备");
+        mAdapter = new SafetySet_DevAdapter(mBean.getRun_dev_item(), SafetySetActivity.this);
+        mSafetyGirdView.setAdapter(mAdapter);
+
+        mSafetyName.setText("");
+        mSafetyName.setHint(mBean.getSecName());
+
+        //某一安防里的设备为空或长度为0时
+        if (mBean.getRun_dev_item().size() == 0) {
+            mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+            mSafetyScene.setText("点击选择关联情景");
+            mSafetyType.setText("点击选择安防状态");
+        }
+
+        if (mBean.getValid() == 1) {
+            mShiNeng.setImageResource(R.drawable.checkbox1_selected);
+            IsShiNeng = true;
+        } else {
+            mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+            IsShiNeng = false;
+        }
+
+        // 全局布撤状态
+        int type = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
+        if (type == 255)
+            mSafetyNow.setText(mSafety_State_List.get(3));
+        else {//布防类型是"24小时布防"、"在家布防"、"外出布防"
+            try {
+                mSafetyNow.setText(mSafety_State_List.get(mBean.getSecType()));
+            } catch (Exception e) {
+                mSafetyNow.setText(mSafety_State_List.get(3));
+            }
+        }
+        //布防类型是"撤防状态"
+        if (mBean.getSecType() == 255)
+            mSafetyType.setText(mSafety_State_List.get(3));
+        else {//布防类型是"24小时布防"、"在家布防"、"外出布防"
+            try {
+                mSafetyType.setText(mSafety_State_List.get(mBean.getSecType()));
+            } catch (Exception e) {
+                mSafetyType.setText(mSafety_State_List.get(3));
+            }
+        }
+        //情景
+        if (wareSceneEvent != null)
+            for (int i = 0; i < wareSceneEvent.size(); i++) {
+                if (wareSceneEvent.get(i).getEventId()
+                        == mBean.getSceneId()) {
+                    mSafetyScene.setText(wareSceneEvent.get(i).getSceneName());
+                    ScenePosition = i;
+                    if (i == wareSceneEvent.size() - 1)
+                        ScenePosition = 255;
+                }
+            }
+        else
+            mSafetyScene.setText("暂无情景数据");
     }
 
     @SuppressLint("WrongConstant")
@@ -241,10 +243,6 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         if (IsNoData && WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().size() == 0) {
             ToastUtil.showText("获取数据异常，请稍后在试");
-            return;
-        }
-        if (!IsCanClick) {
-            ToastUtil.showText("请先选择防区！");
             return;
         }
         switch (v.getId()) {
