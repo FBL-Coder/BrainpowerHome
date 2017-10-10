@@ -138,37 +138,10 @@ public class UDPServer implements Runnable {
             message.what = MyApplication.mApplication.NONET;
             mhandler.sendMessage(message);
         } else {
-//            MyApplication.setOnUdpgetDataNoBackListener(new MyApplication.OnUdpgetDataNoBackListener() {
-//                @Override
-//                public void WSSendDatd(String msg) {
-//                    String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
-//                    if ("".equals(GlobalVars.getDevid())) {
-//                        return;
-//                    }
-//                    Log.i("Udp发送无返回，改WebSocket发送", "WEB" + jsonToServer);
-//                    MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
-//
-//                    UdpSendMsg(msg);
-//                }
-//            });
-//            if (!GlobalVars.isIsLAN()) {
-//                if ("".equals(GlobalVars.getDevid())) {
-//                    return;
-//                }
-//                String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
-//                Log.i("发送WebSocket", "WEB" + jsonToServer);
-//                MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
-//            } else {
-//                UdpSendMsg(msg);
-//            }
             if ("".equals(GlobalVars.getDevid())) {
                 return;
             }
             if (GlobalVars.isIPisEqual() == GlobalVars.IPDIFFERENT) {
-//                if (GlobalVars.isIsLAN()) {
-//                    UdpSendMsg(msg);
-//                    return;
-//                }
                 String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
                 Log.i("发送WebSocket", "板子和客户端不在同一网络----WEB" + jsonToServer);
                 MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
@@ -287,8 +260,8 @@ public class UDPServer implements Runnable {
             case 2:// e_udpPro_getRcuinfo
                 if (subType1 == 0 && subType2 == 0) {
                     MyApplication.mApplication.setIsheartting(true);
-                    GlobalVars.setIsLAN(true);
-                }
+                GlobalVars.setIsLAN(true);
+        }
                 break;
             case 3: // getDevsInfo
                 if (subType1 == 1) {
