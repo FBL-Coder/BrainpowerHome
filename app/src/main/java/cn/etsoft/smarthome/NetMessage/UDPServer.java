@@ -113,6 +113,7 @@ public class UDPServer implements Runnable {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                Log.i(TAG, "heartBeat: " + MyApplication.mApplication.isIsheartting());
                 if (MyApplication.mApplication.isIsheartting()) {
                     MyApplication.mApplication.setIsheartting(false);
                     Message message = mhandler.obtainMessage();
@@ -124,9 +125,8 @@ public class UDPServer implements Runnable {
                     mhandler.sendMessage(message);
                 }
             }
-        }, 40000, 80000);
+        }, 20000, 20000);
     }
-
 
     public void send(final String msg) {
         MyApplication.queryIP();
@@ -168,6 +168,13 @@ public class UDPServer implements Runnable {
                 "\"subType1\":0," +
                 "\"subType2\":0}";
         UdpSendMsg(SeekNet);
+    }
+
+    public void udpGetNetWorkInfo() {
+        String GETNETWORKINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() +
+                "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue() +
+                "," + "\"subType1\": 0," + "\"subType2\": 0" + "}";
+        UdpSendMsg(GETNETWORKINFO);
     }
 
     private void UdpSendMsg(final String msg) {
