@@ -159,7 +159,6 @@ public class NewWorkSetActivity extends BaseActivity {
                                     MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID());
                             MyApplication.setNewWareData();
                             mAdapter.notifyDataSetChanged();
-                            MyApplication.queryIP();
                             SendDataUtil.getNetWorkInfo();
                             dialog.dismiss();
                             startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
@@ -285,7 +284,10 @@ public class NewWorkSetActivity extends BaseActivity {
                             + net.getRcu_rows().get(0).getCanCpuID() + "--" + net.getRcu_rows().get(0).getDevUnitPass());
                     Net_AddorDel_Helper.addNew(mNewModuleHandler, NewWorkSetActivity.this,
                             net.getRcu_rows().get(0).getName(), net.getRcu_rows().get(0).getCanCpuID(),
-                            net.getRcu_rows().get(0).getDevUnitPass());
+                            net.getRcu_rows().get(0).getDevUnitPass() == null?
+                                    net.getRcu_rows().get(0).getCanCpuID().substring(
+                                            net.getRcu_rows().get(0).getCanCpuID().length()-8,
+                                            net.getRcu_rows().get(0).getCanCpuID().length()):net.getRcu_rows().get(0).getDevUnitPass());
                 }
             }
         }

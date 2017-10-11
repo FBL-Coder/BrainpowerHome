@@ -1,9 +1,11 @@
 package cn.etsoft.smarthome.Utils;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.WareDev;
+import cn.etsoft.smarthome.Domain.WareKeyOpItem;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.MyApplication;
 
@@ -167,6 +169,7 @@ public class SendDataUtil {
     }
 
     public static void getKeyItemInfo(int inputKey_position, String CancupID) {
+        MyApplication.getWareData().setKeyOpItems(new ArrayList<WareKeyOpItem>());
         //uid  按键所在的输入板id
         final String str = "{" +
                 "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +

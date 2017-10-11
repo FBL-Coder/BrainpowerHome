@@ -129,14 +129,14 @@ public class UDPServer implements Runnable {
 
 
     public void send(final String msg) {
-
+        MyApplication.queryIP();
         int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
         if (NETWORK == 0) {
             ToastUtil.showText("请检查网络连接");
         } else if (NETWORK != 0 && NETWORK < 10) {
-            Message message = mhandler.obtainMessage();
-            message.what = MyApplication.mApplication.NONET;
-            mhandler.sendMessage(message);
+            String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
+            MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
+            Log.i("发送WebSocket", "数据流量--WEB" + jsonToServer);
         } else {
             if ("".equals(GlobalVars.getDevid())) {
                 return;
@@ -260,8 +260,8 @@ public class UDPServer implements Runnable {
             case 2:// e_udpPro_getRcuinfo
                 if (subType1 == 0 && subType2 == 0) {
                     MyApplication.mApplication.setIsheartting(true);
-                GlobalVars.setIsLAN(true);
-        }
+                    GlobalVars.setIsLAN(true);
+                }
                 break;
             case 3: // getDevsInfo
                 if (subType1 == 1) {
@@ -1725,7 +1725,6 @@ public class UDPServer implements Runnable {
      * 获取输入板设备详情
      */
     public void getKeyOpItem(String info) {
-        MyApplication.getWareData().setKeyOpItems(new ArrayList<WareKeyOpItem>());
 //        返回数据类型；
 //       {
 //        "devUnitID":	"39ffd505484d303408650743",

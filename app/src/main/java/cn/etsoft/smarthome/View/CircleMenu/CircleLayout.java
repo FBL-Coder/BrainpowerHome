@@ -168,7 +168,7 @@ public class CircleLayout extends ViewGroup implements GestureDetector.OnGesture
             if (child.getVisibility() == GONE) {
                 continue;
             }
-            corner = 360 / childCount * i;
+            corner = 360 / childCount * i + 120;
 
             childWidth = child.getMeasuredWidth();
             childHeight = child.getMeasuredHeight();
@@ -198,9 +198,8 @@ public class CircleLayout extends ViewGroup implements GestureDetector.OnGesture
         switch (action) {
 
             case MotionEvent.ACTION_DOWN:
-                lastX = ev.getX()-mTranslationX;
+                lastX = ev.getX() - mTranslationX;
                 lastY = ev.getY();
-
                 mStart = null;
                 if (mFlingRunnable != null) {
                     mFlingRunnable.endFling();
@@ -214,7 +213,7 @@ public class CircleLayout extends ViewGroup implements GestureDetector.OnGesture
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                float x = ev.getX()-mTranslationX;
+                float x = ev.getX() - mTranslationX;
                 float y = ev.getY();
                 isDragging = Math.sqrt(Math.pow((x - lastX), 2) + Math.pow((y - lastY), 2)) > mTouchSlop;
                 return isDragging;
@@ -284,7 +283,7 @@ public class CircleLayout extends ViewGroup implements GestureDetector.OnGesture
             mStart = new Pair<>(e2.getX() - mTranslationX - mCenterX, e2.getY() - mCenterY);
         }
 
-        Pair<Float, Float> end = new Pair<>(e2.getX() -mTranslationX - mCenterX, e2.getY() - mCenterY);//结束向量
+        Pair<Float, Float> end = new Pair<>(e2.getX() - mTranslationX - mCenterX, e2.getY() - mCenterY);//结束向量
         //角度
         Double changeCorner = Math.toDegrees(Math.acos((mStart.first * end.first + mStart.second * end.second) / (Math.sqrt(mStart.first * mStart.first +
                 mStart.second * mStart.second) * Math.sqrt(end.first * end.first + end.second * end.second))));

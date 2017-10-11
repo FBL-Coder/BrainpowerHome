@@ -161,7 +161,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
         sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
         music = sp.load(this, R.raw.key_sound, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
-        queryIP();
     }
 
     public static void queryIP() {
@@ -190,7 +189,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             String rcuInfo_Use_ip = rcuInfo_Use.getIpAddr();
             Log.i("IPAddress", "  IP Use--- " + rcuInfo_Use_ip + "IP Now***" + IPAddress);
             if ("".equals(rcuInfo_Use_ip) || rcuInfo_Use_ip == null) {
-                GlobalVars.setIPisEqual(GlobalVars.IPDIFFERENT);
+                GlobalVars.setIPisEqual(GlobalVars.NOCOMPARE);
                 GlobalVars.setIsLAN(true);
                 return;
             }

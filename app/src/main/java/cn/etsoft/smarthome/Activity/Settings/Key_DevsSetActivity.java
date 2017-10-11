@@ -21,6 +21,7 @@ import cn.etsoft.smarthome.Adapter.GridView.Key_DevsSetAdapter;
 import cn.etsoft.smarthome.Adapter.PopupWindow.PopupWindowAdapter2;
 import cn.etsoft.smarthome.Adapter.RecyclerView.Key_Devs_KeysAdapter;
 import cn.etsoft.smarthome.Domain.WareDev;
+import cn.etsoft.smarthome.Domain.WareKeyOpItem;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.Key_DevsSetHelper;
@@ -48,8 +49,8 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
     //按键适配器
     private Key_Devs_KeysAdapter KeysAdapter;
     private PopupWindow popupWindow;
-    private int DevType = -1;
-    private String RoomName = "";
+    private int DevType = 3;
+    private String RoomName = "全部";
     private boolean IsNoData = true;
     private boolean OuterCircleClick = false;
 
@@ -202,7 +203,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                     if (mRoomDevs.get(i).getType() == DevType)
                         devs.add(mRoomDevs.get(i));
                 }
-                Key_DevsSetHelper.Save(this, CanCupID,KeyPosition, devs);
+                Key_DevsSetHelper.Save(this, CanCupID, KeyPosition, devs);
                 break;
         }
     }
@@ -248,6 +249,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                 if ("".equals(RoomName)) {
                     return;
                 }
+                mRoomDevs = Key_DevsSetHelper.getRoomDev(RoomName);
                 List<WareDev> devs = new ArrayList<>();
                 for (int i = 0; i < mRoomDevs.size(); i++) {
                     if (mRoomDevs.get(i).getType() == DevType)
@@ -260,6 +262,23 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                 mKeyDevs_Devs.setAdapter(mKeyDevsKeysAdapter);
             }
         });
+
+        if ("".equals(RoomName)) {
+            return;
+        }
+        mRoomDevs = Key_DevsSetHelper.getRoomDev(RoomName);
+        if (mRoomDevs == null || mRoomDevs.size() == 0)
+            return;
+        List<WareDev> devs = new ArrayList<>();
+        for (int i = 0; i < mRoomDevs.size(); i++) {
+            if (mRoomDevs.get(i).getType() == DevType)
+                devs.add(mRoomDevs.get(i));
+        }
+        if (mKeyDevsKeysAdapter == null)
+            mKeyDevsKeysAdapter = new Key_DevsSetAdapter(DevType, position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
+        else
+            mKeyDevsKeysAdapter.notifyDataSetChanged(DevType, position_keyinput, KeyPosition, Key_DevsSetActivity.this, devs, false);
+        mKeyDevs_Devs.setAdapter(mKeyDevsKeysAdapter);
     }
 
     private void RecyclerViewClick() {

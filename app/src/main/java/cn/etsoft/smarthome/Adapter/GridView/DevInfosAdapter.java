@@ -56,16 +56,12 @@ public class DevInfosAdapter extends BaseAdapter {
     private List<String> RoomNames;
     private MultiChoicePopWindow mMultiChoicePopWindow;
     private AlertDialog.Builder builder;
-    private List<String> mDevTypes;
     private List<String> mBoards;
+    private String DEVS_ALL_ROOM = "全部";
 
     public DevInfosAdapter(List<WareDev> list, Activity context) {
         RoomNames = MyApplication.getWareData().getRooms();
         Devs = list;
-        mDevTypes = new ArrayList<>();
-        mDevTypes.add("空调");
-        mDevTypes.add("灯光");
-        mDevTypes.add("窗帘");
         mBoards = new ArrayList<>();
         for (int i = 0; i < MyApplication.getWareData().getBoardChnouts().size(); i++) {
             mBoards.add(MyApplication.getWareData().getBoardChnouts().get(i).getBoardName());

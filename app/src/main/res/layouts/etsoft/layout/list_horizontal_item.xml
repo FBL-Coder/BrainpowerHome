@@ -20,7 +20,7 @@
         android:layout_width="@dimen/dp_100"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:maxLength="5"
+        android:maxLength="8"
         android:minLines="5"
         android:textColor="@color/color_fff"
         android:textSize="@dimen/sp_16" />

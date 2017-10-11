@@ -23,7 +23,7 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 
 /**
  * Author：FBL  Time： 2017/6/22.
- * 设置情景页面
+ * 设备信息
  */
 
 public class DevInfoActivity extends BaseActivity {

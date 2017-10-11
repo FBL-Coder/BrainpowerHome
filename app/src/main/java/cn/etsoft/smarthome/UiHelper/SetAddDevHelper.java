@@ -121,10 +121,10 @@ public class SetAddDevHelper {
         List<CircleDataEvent> Data_InnerCircleList = new ArrayList<>();
         switch (MyApplication.getWareData().getRooms().size()) {
             case 1:
-                Data_InnerCircleList = initRoom(4, Data_InnerCircleList);
+                Data_InnerCircleList = initRoom(3, Data_InnerCircleList);
                 break;
             case 2:
-                Data_InnerCircleList = initRoom(8, Data_InnerCircleList);
+                Data_InnerCircleList = initRoom(6, Data_InnerCircleList);
                 break;
             case 3:
                 Data_InnerCircleList = initRoom(8, Data_InnerCircleList);
@@ -147,9 +147,12 @@ public class SetAddDevHelper {
      */
     public static List<CircleDataEvent> initRoom(int maxsize, List<CircleDataEvent> Data_InnerCircleList) {
         Data_InnerCircleList.clear();
+        CircleDataEvent event_1 = new CircleDataEvent();
+        event_1.setImage(R.drawable.quanbu);
+        event_1.setTitle("全部");
+        Data_InnerCircleList.add(event_1);
         for (int i = 0; i < maxsize; i++) {
             CircleDataEvent event = new CircleDataEvent();
-
             event.setTitle(MyApplication.getWareData().getRooms().get(i % MyApplication.getWareData().getRooms().size()));
             if (event.getTitle().contains("卧"))
                 event.setImage(R.drawable.woshi);

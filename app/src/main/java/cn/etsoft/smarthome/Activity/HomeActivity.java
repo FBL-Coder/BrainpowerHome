@@ -52,7 +52,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private LinearLayout mHomeLoaction;
     private ImageView mHomeRefBtn, mHomeLogoutBtn;
     private TextView mHomeWeatherTemp, mHomeWeatherType, mHomeWeatherShidu,
-            mHomeWeatherFengli, mHomeWeatherZhiliang, mNetWork_Ok;
+            mHomeWeatherFengli, mHomeWeatherZhiliang, mNetWork_Ok,weather_no;
     private MarqueeTextView mHomeWeatherTishi;
     private RelativeLayout mHome_weather, mHome_weather_relativelayout;
     private Home_Weather weather_helper;
@@ -96,6 +96,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mHomeWeatherFengli = (TextView) findViewById(R.id.home_weather_fengli);
         mHomeWeatherZhiliang = (TextView) findViewById(R.id.home_weather_zhiliang);
         mNetWork_Ok = (TextView) findViewById(R.id.NetWork_Ok);
+        weather_no = (TextView) findViewById(R.id.weather_no);
         mHomeWeatherTishi = (MarqueeTextView) findViewById(R.id.home_weather_tishi);
         mHome_weather = (RelativeLayout) findViewById(R.id.home_weather);
         mHomeRefBtn.setOnClickListener(this);
@@ -120,7 +121,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //        mHome_Health.setOnClickListener(this);
         mHome_Setting = (BamLinearLayout) findViewById(R.id.Home_Setting);
         mHome_Setting.setOnClickListener(this);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (!"".equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""))) {
             List<RcuInfo> list = MyApplication.mApplication.getRcuInfoList();
             for (int i = 0; i < list.size(); i++) {
@@ -208,6 +213,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 }
                 if (msg.what == weakReference.get().WRATHER_FAILING) {//天气数据失败
                     ToastUtil.showText("获取天气数据失败");
+                    weakReference.get().weather_no.setVisibility(View.VISIBLE);
                 }
                 if (msg.what == weakReference.get().DB_INITOK) {//获取CityDB数据完成
                     //开始定位，获取时间，获取天气

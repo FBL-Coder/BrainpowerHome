@@ -51,8 +51,8 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
     //按键适配器
     private Dev_Keys_KeysAdapter devsAdapter;
     private PopupWindow popupWindow;
-    private int DevType = -1;
-    private String RoomName = "";
+    private int DevType = 3;
+    private String RoomName = "全部";
     private boolean IsNoData = true;
     private boolean OuterCircleClick = false;
 
@@ -68,7 +68,6 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void initView() {
         setLayout(R.layout.activity_dev_keys_set);
-        IsNoData = false;
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
@@ -95,7 +94,7 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
         mDevKeys_Keys = getViewById(R.id.Dev_KeysSet_Keys);
         mDevNullTv = getViewById(R.id.dev_null_tv);
         mKeynull = getViewById(R.id.key_null);
-        mKeynull.setText("请选择设备");
+        mKeynull.setText("没有数据");
         mDevKeys_Keys.setEmptyView(mKeynull);
         mDevKeys_KeyBoards.setOnClickListener(this);
         mDevKeys_TestBtn.setOnClickListener(this);
@@ -189,7 +188,6 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                         mDevNullTv.setVisibility(View.VISIBLE);
                     } else mDevNullTv.setVisibility(View.GONE);
                     mDevKeys_Keys.setAdapter(null);
-                    RecyclerViewClick();
                 }
             }
         });
@@ -200,9 +198,10 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                     ToastUtil.showText("数据未加载成功，不可操作！");
                     return;
                 }
+                mRoomDevs = Dev_KeysSetHelper.getRoomDev(RoomName);
                 mDevNullTv.setText("没有数据");
                 OuterCircleClick = true;
-                DevType = position % 10;
+                DevType = position;
                 if ("".equals(RoomName)) {
                     return;
                 }
@@ -220,9 +219,32 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                     mDevNullTv.setVisibility(View.VISIBLE);
                 } else mDevNullTv.setVisibility(View.GONE);
                 mDevKeys_Keys.setAdapter(null);
-                RecyclerViewClick();
             }
         });
+
+        if ("".equals(RoomName)) {
+            return;
+        }
+        mRoomDevs = Dev_KeysSetHelper.getRoomDev(RoomName);
+        List<WareDev> RecyclerViewDev = new ArrayList<>();
+        if (mRoomDevs == null || mRoomDevs.size() == 0)
+            return;
+        for (int i = 0; i < mRoomDevs.size(); i++) {
+            if (mRoomDevs.get(i).getType() == DevType)
+                RecyclerViewDev.add(mRoomDevs.get(i));
+        }
+        if (mDevKeysDevsAdapter == null)
+            mDevKeysDevsAdapter = new Dev_KeysSet_DevsAdapter(RecyclerViewDev);
+        else mDevKeysDevsAdapter.upData(RecyclerViewDev);
+        mDevKeys_Devs.setAdapter(mDevKeysDevsAdapter);
+
+        if (mDevKeysDevsAdapter.getItemCount() == 0) {
+            mDevNullTv.setVisibility(View.VISIBLE);
+        } else mDevNullTv.setVisibility(View.GONE);
+        mDevKeys_Keys.setAdapter(null);
+        MyApplication.mApplication.showLoadDialog(Dev_KeysSetActivity.this);
+        SendDataUtil.getChnItemInfo(RecyclerViewDev.get(0));
+        RecyclerViewClick();
     }
 
     private void RecyclerViewClick() {

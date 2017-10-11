@@ -36,6 +36,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
     private RecyclerView mSceneKeys_Boards;
     private GridView mSceneKeys_Keys;
     private TextView mSceneKeys_TestBtn, mSceneKeys_SaveBtn;
+    private boolean IsNoData = true;
     //设备适配器
     private Scene_KeysSet_BoardAdapter mBoardAdapter;
     //按键适配器
@@ -57,6 +58,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 MyApplication.mApplication.dismissLoadDialog();
                 if (datType == 58 && MyApplication.getWareData().getChnOpItem_scene().getSubType1() == 1) {
+                    IsNoData =  false;
                     WareDataHliper.initCopyWareData().startCopyScene_KeysData();
                     initKeyAdapter();
                 }
@@ -150,8 +152,8 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (Scene_ID == -1) {
-            ToastUtil.showText("请选择情景");
+        if (IsNoData) {
+            ToastUtil.showText("数据未加载成功");
             return;
         }
         switch (v.getId()) {
