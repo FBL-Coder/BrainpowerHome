@@ -11,36 +11,6 @@
         android:layout_gravity="right">
 
         <TextView
-            android:id="@+id/NewWork_set_netmodule_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_marginBottom="@dimen/dp_10"
-            android:layout_marginTop="@dimen/dp_10"
-            android:background="@color/blue"
-            android:padding="@dimen/dp_5"
-            android:text="退出登录"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_20" />
-        <View
-            android:layout_width="@dimen/dp_0"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
-
-        <TextView
-            android:id="@+id/NewWork_set_netmodule_Sousuo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_30"
-            android:layout_marginTop="@dimen/dp_10"
-            android:background="@color/blue"
-            android:padding="@dimen/dp_5"
-            android:text="搜索模块"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_20" />
-
-        <TextView
             android:id="@+id/NewWork_set_netmodule_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,18 +22,64 @@
             android:text="添加模块"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_20" />
-
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_3"
-        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_5"
         android:background="@color/blue" />
 
-    <ListView
-        android:id="@+id/NewWork_set_netmodule_listview"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dp_10" />
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <cn.etsoft.smarthome.View.Listview.MyListView
+                android:id="@+id/NewWork_set_netmodule_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:scrollbars="none" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right">
+
+                <TextView
+                    android:id="@+id/NewWork_set_netmodule_Sousuo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/blue"
+                    android:padding="@dimen/dp_5"
+                    android:text="搜索模块"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_20" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_3"
+                android:layout_marginBottom="@dimen/dp_5"
+                android:background="@color/blue" />
+
+            <cn.etsoft.smarthome.View.Listview.MyListView
+                android:id="@+id/NewWork_set_sousuo_listview"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_weight="1"
+                android:scrollbars="none" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

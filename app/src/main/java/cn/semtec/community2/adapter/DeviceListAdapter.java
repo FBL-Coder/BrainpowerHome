@@ -71,7 +71,7 @@ public class DeviceListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
-        // General ListView optimization code.
+        // General MyListView optimization code.
         if (view == null) {
             view = mInflator.inflate(R.layout.device_list_item, null);
             viewHolder = new ViewHolder();

@@ -112,7 +112,7 @@ public class Net_AddorDel_Helper {
      *
      * @param name
      */
-    public static void editNew(final NetWork_Adapter adapter, final List<RcuInfo> list, final int position, Activity activity, EditText name, String devUnitID, String devPass) {
+    public static void editNew(final Handler handler,final List<RcuInfo> list, final int position, Activity activity, EditText name, String devUnitID, String devPass) {
         final String name_input = name.getText().toString();
 
         if (name_input.isEmpty() || name_input.length() > 7) {
@@ -142,7 +142,7 @@ public class Net_AddorDel_Helper {
                     //修改成功
                     list.get(position).setCanCpuName(name_input);
                     MyApplication.mApplication.setRcuInfoList(list);
-                    adapter.notifyDataSetChanged();
+                    handler.sendMessage(handler.obtainMessage());
                     ToastUtil.showText("联网模块修改成功");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR) {
                     // 修改失败

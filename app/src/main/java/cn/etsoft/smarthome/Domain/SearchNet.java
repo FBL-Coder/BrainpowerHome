@@ -3,8 +3,6 @@ package cn.etsoft.smarthome.Domain;
 import java.io.Serializable;
 import java.util.List;
 
-import cn.etsoft.smarthome.Utils.CommonUtils;
-
 /**
  * Created by Say GoBay on 2017/6/13.
  */
@@ -15,28 +13,13 @@ public class SearchNet implements Serializable {
      * datType : 0
      * subType1 : 0
      * subType2 : 1
-     * rcu_rows : [{"canCpuID":"39ffd505484d303408650743","devUnitPass":"08650743���з�","name":"���з�","IpAddr":"192.168.0.252","SubMask":"255.255.0.0","Gateway":"192.168.0.1","centerServ":"192.168.0.100","roomNum":"0000","macAddr":"00502a040506","SoftVersion":"0000","HwVersion":"0000","bDhcp":0}]
+     * rcu_rows : [{"uid":"39ffd505484d303408650743","pass":"08650743","name":"52435530373433","IpAddr":"192.168.0.103","SubMask":"255.255.255.0","Gateway":"192.168.0.1","centerServ":"123.206.104.89","roomNum":"","macAddr":"00502a040506","SoftVersion":"","HwVersion":"","bDhcp":0}]
      */
 
     private String devUnitID;
     private int datType;
     private int subType1;
     private int subType2;
-    /**
-     * canCpuID : 39ffd505484d303408650743
-     * devUnitPass : 08650743���з�
-     * name : ���з�
-     * IpAddr : 192.168.0.252
-     * SubMask : 255.255.0.0
-     * Gateway : 192.168.0.1
-     * centerServ : 192.168.0.100
-     * roomNum : 0000
-     * macAddr : 00502a040506
-     * SoftVersion : 0000
-     * HwVersion : 0000
-     * bDhcp : 0
-     */
-
     private List<RcuRowsBean> rcu_rows;
 
     public String getDevUnitID() {
@@ -79,9 +62,24 @@ public class SearchNet implements Serializable {
         this.rcu_rows = rcu_rows;
     }
 
-    public static class RcuRowsBean implements Serializable {
+    public static class RcuRowsBean {
+        /**
+         * uid : 39ffd505484d303408650743
+         * pass : 08650743
+         * name : 52435530373433
+         * IpAddr : 192.168.0.103
+         * SubMask : 255.255.255.0
+         * Gateway : 192.168.0.1
+         * centerServ : 123.206.104.89
+         * roomNum :
+         * macAddr : 00502a040506
+         * SoftVersion :
+         * HwVersion :
+         * bDhcp : 0
+         */
+
         private String uid;
-        private String devUnitPass;
+        private String pass;
         private String name;
         private String IpAddr;
         private String SubMask;
@@ -97,20 +95,20 @@ public class SearchNet implements Serializable {
             return uid;
         }
 
-        public void setCanCpuID(String uid) {
+        public void setUid(String uid) {
             this.uid = uid;
         }
 
-        public String getDevUnitPass() {
-            return devUnitPass;
+        public String getPass() {
+            return pass;
         }
 
-        public void setDevUnitPass(String devUnitPass) {
-            this.devUnitPass = devUnitPass;
+        public void setPass(String pass) {
+            this.pass = pass;
         }
 
         public String getName() {
-            return CommonUtils.getGBstr(CommonUtils.hexStringToBytes(name));
+            return name;
         }
 
         public void setName(String name) {

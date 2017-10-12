@@ -23,7 +23,7 @@
             android:paddingLeft="@dimen/dp_20"
             android:text="模块名称 ："
             android:textColor="@color/color_000"
-            android:textSize="@dimen/sp_22" />
+            android:textSize="@dimen/sp_18" />
 
         <TextView
             android:id="@+id/NetWork_title"
@@ -32,7 +32,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/dp_20"
             android:textColor="@color/color_000"
-            android:textSize="@dimen/sp_22" />
+            android:textSize="@dimen/sp_18" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
             android:paddingLeft="@dimen/dp_20"
             android:text="模块ID ："
             android:textColor="@color/color_000"
-            android:textSize="@dimen/sp_22" />
+            android:textSize="@dimen/sp_18" />
 
         <TextView
             android:id="@+id/NetWork_title_id"
@@ -51,218 +51,13 @@
             android:lines="1"
             android:paddingLeft="@dimen/dp_20"
             android:textColor="@color/color_000"
-            android:textSize="@dimen/sp_20" />
+            android:textSize="@dimen/sp_18" />
 
         <ImageView
             android:id="@+id/NetWork_ShowInfo"
             android:layout_width="@dimen/dp_30"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dp_3"
             android:src="@drawable/down_back" />
-
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_1"
-        android:layout_marginTop="@dimen/dp_1"
-        android:background="@color/color_CDCDCD" />
-
-    <LinearLayout
-        android:id="@+id/NetWork_Info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_5"
-        android:orientation="vertical">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:gravity="center"
-                android:text="模块名称"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-            <TextView
-                android:id="@+id/NetWork_Name"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="@dimen/dp_40"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-            <ImageView
-                android:id="@+id/NetWork_EditName"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/edit_net_name"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="模块ID"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-            <TextView
-                android:id="@+id/NetWork_ID"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="@dimen/dp_40"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="模块密码"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-            <TextView
-                android:id="@+id/NetWork_Pass"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="@dimen/dp_40"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="IP地址"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-            <TextView
-                android:id="@+id/NetWork_Ip"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="@dimen/dp_40"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="子网掩码"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-            <TextView
-                android:id="@+id/NetWork_Ip_Mask"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="@dimen/dp_40"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="默认网关"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-            <TextView
-                android:id="@+id/NetWork_GetWay"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="@dimen/dp_40"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="服务器地址"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-            <TextView
-                android:id="@+id/NetWork_Server"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="@dimen/dp_40"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_18" />
-
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

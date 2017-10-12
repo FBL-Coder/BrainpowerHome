@@ -2,6 +2,8 @@ package cn.etsoft.smarthome.Adapter.ListView;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 
 import java.util.List;
 
+import cn.etsoft.smarthome.Activity.Settings.NetInfoActivity;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
@@ -30,17 +33,19 @@ public class NetWork_Adapter extends BaseAdapter {
     private List<RcuInfo> list;
     private Activity mContext;
     private NetWork_Adapter adapter;
+    public static int SEEK = 1, LOGIN = 2;
+    private int FLAG = 0;
 
-    public NetWork_Adapter(Activity context) {
+    public NetWork_Adapter(Activity context, List<RcuInfo> list, int flag) {
         mContext = context;
-        list = MyApplication.mApplication.getRcuInfoList();
+        this.list = list;
         adapter = this;
+        FLAG = flag;
     }
 
-    @Override
-    public void notifyDataSetChanged() {
-        list = MyApplication.mApplication.getRcuInfoList();
+    public void notifyDataSetChanged(List<RcuInfo> list) {
         super.notifyDataSetChanged();
+        this.list = list;
     }
 
     @Override
@@ -68,28 +73,16 @@ public class NetWork_Adapter extends BaseAdapter {
             viewHoler.title = (TextView) convertView.findViewById(R.id.NetWork_title);
             viewHoler.title_ID = (TextView) convertView.findViewById(R.id.NetWork_title_id);
             viewHoler.Select = (ImageView) convertView.findViewById(R.id.NetWork_Checked);
-            viewHoler.net_ID = (TextView) convertView.findViewById(R.id.NetWork_ID);
-            viewHoler.net_Pass = (TextView) convertView.findViewById(R.id.NetWork_Pass);
-            viewHoler.name = (TextView) convertView.findViewById(R.id.NetWork_Name);
-            viewHoler.IP = (TextView) convertView.findViewById(R.id.NetWork_Ip);
-            viewHoler.Ip_mask = (TextView) convertView.findViewById(R.id.NetWork_Ip_Mask);
-            viewHoler.GetWay = (TextView) convertView.findViewById(R.id.NetWork_GetWay);
-            viewHoler.Server = (TextView) convertView.findViewById(R.id.NetWork_Server);
             viewHoler.ShowInfo = (ImageView) convertView.findViewById(R.id.NetWork_ShowInfo);
-            viewHoler.NetWork_Info = (LinearLayout) convertView.findViewById(R.id.NetWork_Info);
-            viewHoler.NetWork_EditName = (ImageView) convertView.findViewById(R.id.NetWork_EditName);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
 
-        viewHoler.title.setText(list.get(position).getCanCpuName());
+
+        if (FLAG == SEEK)
+            viewHoler.title.setText(list.get(position).getName());
+        else
+            viewHoler.title.setText(list.get(position).getCanCpuName());
         viewHoler.title_ID.setText(list.get(position).getDevUnitID());
-        viewHoler.name.setHint(list.get(position).getCanCpuName());
-        viewHoler.net_ID.setText(list.get(position).getDevUnitID());
-        viewHoler.net_Pass.setText(list.get(position).getDevUnitPass());
-        viewHoler.IP.setHint(list.get(position).getIpAddr());
-        viewHoler.Ip_mask.setHint(list.get(position).getMacAddr());
-        viewHoler.GetWay.setHint(list.get(position).getGateWay());
-        viewHoler.Server.setHint(list.get(position).getCenterServ());
 
         if (list.get(position).getDevUnitID().equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")))
             viewHoler.Select.setImageResource(R.drawable.selected);
@@ -99,56 +92,23 @@ public class NetWork_Adapter extends BaseAdapter {
         viewHoler.ShowInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (finalViewHoler.NetWork_Info.getVisibility() == View.VISIBLE)
-                    finalViewHoler.NetWork_Info.setVisibility(View.GONE);
-                else finalViewHoler.NetWork_Info.setVisibility(View.VISIBLE);
-            }
-        });
-        viewHoler.NetWork_EditName.setOnClickListener(new View.OnClickListener() {
-            private TextView mDialogAddSceneOk;
-            private TextView mDialogAddSceneCancle;
-            private EditText mDialogAddSceneName;
-            private TextView mTitleName;
-            private TextView mTitle;
-
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(mContext, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
-                dialog.setContentView(R.layout.dialog_addscene);
-                dialog.show();
-                mDialogAddSceneName = (EditText) dialog.findViewById(R.id.dialog_addScene_name);
-                mDialogAddSceneCancle = (TextView) dialog.findViewById(R.id.dialog_addScene_cancle);
-                mDialogAddSceneOk = (TextView) dialog.findViewById(R.id.dialog_addScene_ok);
-                mTitleName = (TextView) dialog.findViewById(R.id.title_name);
-                mTitle = (TextView) dialog.findViewById(R.id.title);
-                mTitle.setText("修改模块名称");
-                mTitleName.setText("模块名称 :");
-                mDialogAddSceneOk.setText("确定");
-                mDialogAddSceneCancle.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                mDialogAddSceneOk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                        Net_AddorDel_Helper.editNew(adapter,list,position,mContext, mDialogAddSceneName,
-                                list.get(position).getDevUnitID(), list.get(position).getDevUnitPass());
-                    }
-                });
+                Intent intent = new Intent(mContext, NetInfoActivity.class);
+                Bundle bundle = new Bundle();
+                if (FLAG == SEEK)
+                    bundle.putInt("FLAG", SEEK);
+                else
+                    bundle.putInt("FLAG", LOGIN);
+                bundle.putInt("POSITION", position);
+                intent.putExtra("BUNDLE",bundle);
+                mContext.startActivity(intent);
             }
         });
 
-        viewHoler.NetWork_Info.setVisibility(View.GONE);
         return convertView;
     }
 
     class ViewHoler {
-        TextView title, title_ID, net_ID, net_Pass;
-        TextView name, IP, Ip_mask, GetWay, Server;
-        ImageView Select, ShowInfo, NetWork_EditName;
-        LinearLayout NetWork_Info;
+        TextView title, title_ID;
+        ImageView Select, ShowInfo;
     }
 }

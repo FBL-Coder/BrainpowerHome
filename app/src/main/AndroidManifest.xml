@@ -197,7 +197,7 @@
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!-- 搜索联网模块-->
         <activity
-            android:name=".Activity.Settings.SeekActivity"
+            android:name=".Activity.Settings.NetInfoActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
 

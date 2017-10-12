@@ -95,6 +95,9 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     //上次使用的联网模快ID;
     private static RcuInfo rcuInfo_Use;
 
+    //搜索联网模块数据
+    private List<RcuInfo> SeekRcuInfos;
+
     public List<Weather_Bean> mWeathers_list;//天气图标集合
     public CityDB mCityDB;
 
@@ -450,6 +453,16 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     public void setmHomeActivity(Activity mHomeActivity) {
         this.mHomeActivity = mHomeActivity;
+    }
+
+    public List<RcuInfo> getSeekRcuInfos() {
+        if (SeekRcuInfos == null)
+            SeekRcuInfos = new ArrayList<>();
+        return SeekRcuInfos;
+    }
+
+    public void setSeekRcuInfos(List<RcuInfo> seekRcuInfos) {
+        SeekRcuInfos = seekRcuInfos;
     }
 
     /**
