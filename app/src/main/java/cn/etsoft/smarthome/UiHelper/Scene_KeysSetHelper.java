@@ -136,7 +136,7 @@ public class Scene_KeysSetHelper {
                 scene_Save.setDevUnitID(GlobalVars.getDevid());
                 scene_Save.setItemCnt(scene_Save.getKey2scene_item().size());
                 Gson gson = new Gson();
-                MyApplication.mApplication.getUdpServer().send(gson.toJson(scene_Save));
+                MyApplication.mApplication.getUdpServer().send(gson.toJson(scene_Save),59);
                 MyApplication.mApplication.showLoadDialog(activity);
             }
         });

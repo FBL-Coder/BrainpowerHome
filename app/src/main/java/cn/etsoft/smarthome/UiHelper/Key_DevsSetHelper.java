@@ -250,7 +250,7 @@ public class Key_DevsSetHelper {
                     save_quipment.setKey_opitem_rows(list_kor);
                     Gson gson = new Gson();
                     System.out.println(gson.toJson(save_quipment));
-                    MyApplication.mApplication.getUdpServer().send(gson.toJson(save_quipment).toString());
+                    MyApplication.mApplication.getUdpServer().send(gson.toJson(save_quipment).toString(),12);
                 } catch (Exception e) {
                     Log.e("Exception", e + "");
                 }

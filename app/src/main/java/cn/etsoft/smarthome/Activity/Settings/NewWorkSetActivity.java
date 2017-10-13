@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -54,8 +55,9 @@ import static android.content.ContentValues.TAG;
 
 public class NewWorkSetActivity extends BaseActivity {
     private TextView mNetmoduleAdd;
-    private MyListView mNetmoduleListview, mNewWorksousuolistview;
+    private ListView mNetmoduleListview, mNewWorksousuolistview;
     private TextView mDialogCancle, mDialogOk, mSousuo;
+    private LinearLayout add_ref_LL;
     private EditText mDialogName, mDialogID, mDialogPass;
     private NewModuleHandler mNewModuleHandler = new NewModuleHandler(this);
     private Gson gson = new Gson();
@@ -71,10 +73,11 @@ public class NewWorkSetActivity extends BaseActivity {
         mNetmoduleListview = getViewById(R.id.NewWork_set_netmodule_listview);
         mNewWorksousuolistview = getViewById(R.id.NewWork_set_sousuo_listview);
         mNetmoduleAdd = getViewById(R.id.NewWork_set_netmodule_add);
+        add_ref_LL = getViewById(R.id.add_ref_LL);
         mSousuo = getViewById(R.id.NewWork_set_netmodule_Sousuo);
         if (MyApplication.mApplication.isVisitor()) {
             getRightImage().setVisibility(View.GONE);
-            mNetmoduleAdd.setVisibility(View.GONE);
+            add_ref_LL.setVisibility(View.GONE);
             return;
         }
     }
@@ -162,9 +165,9 @@ public class NewWorkSetActivity extends BaseActivity {
                             AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
                                     MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID());
                             MyApplication.setNewWareData();
-                            MyApplication.mApplication.getUdpServer().udpGetNetWorkInfo();
-                            mAdapter.notifyDataSetChanged();
+                            GlobalVars.setIsLAN(true);
                             SendDataUtil.getNetWorkInfo();
+                            mAdapter.notifyDataSetChanged();
                             dialog.dismiss();
                             startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
                             finish();
@@ -275,9 +278,8 @@ public class NewWorkSetActivity extends BaseActivity {
                             AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
                                     MyApplication.mApplication.getSeekRcuInfos().get(position).getDevUnitID());
                             MyApplication.setNewWareData();
-                            MyApplication.mApplication.getUdpServer().udpGetNetWorkInfo();
-                            mAdapter.notifyDataSetChanged();
                             SendDataUtil.getNetWorkInfo();
+                            mAdapter.notifyDataSetChanged();
                             dialog.dismiss();
                             startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
                             finish();

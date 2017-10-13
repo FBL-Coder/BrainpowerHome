@@ -150,7 +150,7 @@ public class TimerSetHelper {
                     Gson gson = new Gson();
                     Log.e("0000", gson.toJson(time_data));
                     MyApplication.mApplication.showLoadDialog(activity);
-                    MyApplication.mApplication.getUdpServer().send(gson.toJson(time_data));
+                    MyApplication.mApplication.getUdpServer().send(gson.toJson(time_data),19);
                 } catch (Exception e) {
                     MyApplication.mApplication.dismissLoadDialog();
                     Log.e("保存定时器数据", "保存数据异常" + e);

@@ -52,7 +52,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private LinearLayout mHomeLoaction;
     private ImageView mHomeRefBtn, mHomeLogoutBtn;
     private TextView mHomeWeatherTemp, mHomeWeatherType, mHomeWeatherShidu,
-            mHomeWeatherFengli, mHomeWeatherZhiliang, mNetWork_Ok,weather_no;
+            mHomeWeatherFengli, mHomeWeatherZhiliang, mNetWork_Ok, weather_no;
     private MarqueeTextView mHomeWeatherTishi;
     private RelativeLayout mHome_weather, mHome_weather_relativelayout;
     private Home_Weather weather_helper;
@@ -78,7 +78,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         BaseActivity.setGetNetChangeListener(new BaseActivity.getNetChangeListener() {
             @Override
             public void NetChange() {
-                MyApplication.mApplication.queryIP();
+                GlobalVars.setIsLAN(true);
             }
         });
     }
@@ -131,7 +131,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             for (int i = 0; i < list.size(); i++) {
                 if (AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")
                         .equals(list.get(i).getDevUnitID())) {
-                    mNetWork_Ok.setText("使用中的模块\n"+list.get(i).getCanCpuName());
+                    mNetWork_Ok.setText("使用中的模块\n" + list.get(i).getCanCpuName());
                 }
             }
         }

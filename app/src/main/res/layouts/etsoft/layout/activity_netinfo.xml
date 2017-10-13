@@ -243,6 +243,7 @@
             android:layout_marginTop="@dimen/dp_60"
             android:padding="@dimen/dp_10"
             android:text="返回"
+            android:textColor="@color/black1"
             android:textSize="@dimen/sp_20" />
     </RelativeLayout>
 </RelativeLayout>

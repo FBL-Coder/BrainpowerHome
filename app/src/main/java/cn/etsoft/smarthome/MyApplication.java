@@ -70,17 +70,19 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     private APPHandler handler = new APPHandler(this);
     //websocket数据回调WHAT
     public int WS_OPEN_OK = 100;
+    //WebSocket 接受到数据
     public int WS_DATA_OK = 101;
+    //是否是远程数据
     public int WS_CLOSE = 102;
     public int WS_Error = 103;
     //UDP数据回调成功WHAT
     public int UDP_DATA_OK = 1000;
+    //UDP数据有返回
+    public int UDP_HANR_DATA = 1010;
     //UDP数据发送失败
     public int UDP_NOSEND = 1003;
     //UDP接收数据失败
     public int UDP_NORECEIVE = 1004;
-    //数据发送返回超时
-    public int UDP_NOBACK = 5000;
     //心跳包监听返回码-局域网断开
     public int HEARTBEAT_STOP = 8000;
     //心跳包监听返回码-局域网运行
@@ -164,51 +166,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
         sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
         music = sp.load(this, R.raw.key_sound, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
-        MyApplication.mApplication.getUdpServer().udpGetNetWorkInfo();
     }
-
-    public static void queryIP() {
-        //设置上次使用的联网模块ID；
-        GlobalVars.setDevid((String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""));
-        List<RcuInfo> rcuInfos = MyApplication.mApplication.getRcuInfoList();
-        for (int i = 0; i < rcuInfos.size(); i++) {
-            if (GlobalVars.getDevid().equals(rcuInfos.get(i).getDevUnitID())) {
-                rcuInfo_Use = rcuInfos.get(i);
-            }
-        }
-        int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
-        String IPAddress = "";
-        if (NETWORK == 0) {
-            ToastUtil.showText("请检查网络连接");
-        } else if (NETWORK != 0 && NETWORK < 10) {//数据流量
-            IPAddress = GetIPAddress.getLocalIpAddress();
-        } else {
-            IPAddress = GetIPAddress.getWifiIP(MyApplication.mContext);
-        }
-        if ("".equals(IPAddress)) {
-            GlobalVars.setIPisEqual(GlobalVars.NOCOMPARE);
-            Log.i("IPAddress", "IP Now***" + IPAddress);
-        }
-        else {
-            String rcuInfo_Use_ip = rcuInfo_Use.getIpAddr();
-            Log.i("IPAddress", "  IP Use--- " + rcuInfo_Use_ip + "IP Now***" + IPAddress);
-            if ("".equals(rcuInfo_Use_ip) || rcuInfo_Use_ip == null) {
-                GlobalVars.setIPisEqual(GlobalVars.NOCOMPARE);
-                return;
-            }
-            rcuInfo_Use_ip = rcuInfo_Use_ip.substring(0, rcuInfo_Use_ip.lastIndexOf("."));
-
-            IPAddress = IPAddress.substring(0, IPAddress.lastIndexOf("."));
-            if (rcuInfo_Use_ip.equals(IPAddress)) {//ip前三位一样，即局域网内的；
-                GlobalVars.setIPisEqual(GlobalVars.IPEQUAL);
-                GlobalVars.setIsLAN(true);
-            } else {//网段不一样，公网；
-                GlobalVars.setIPisEqual(GlobalVars.IPDIFFERENT);
-                GlobalVars.setIsLAN(false);
-            }
-        }
-    }
-
 
     public SoundPool getSp() {
         if (sp == null) {
@@ -506,7 +464,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 }
             }
             if (msg.what == application.WS_DATA_OK) {//WebSocket 数据
-//                Log.i(TAG, "handleMessage: " + msg.obj);
+                GlobalVars.setIsLAN(false);
                 MyApplication.mApplication.getUdpServer().webSocketData((String) msg.obj);
             }
             if (msg.what == application.WS_Error) {
@@ -532,6 +490,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             //UDP
             if (msg.what == application.UDP_NOSEND)
                 Log.e("UDPException", "UDP发送消息失败");
+            if (msg.what == application.UDP_HANR_DATA)//UDP有数据返回
+                GlobalVars.setIsLAN(true);
             //UDP接收数据异常
             if (msg.what == application.UDP_NORECEIVE)
                 Log.e("UDPException", "UDP数据接收失败");
@@ -547,24 +507,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             if (msg.what == application.NONET) {
                 ToastUtil.showText("没有可用网络，请检查", 5000);
             }
-            //udp发送数据后的回调
-            if (msg.what == application.UDP_NOBACK) {
-
-                final String data = (String) msg.obj;
-                final Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        if (!UdpIsHaveBackData && WSIsOpen) {
-                            if (onUdpgetDataNoBackListener != null) {
-                                onUdpgetDataNoBackListener.WSSendDatd(data);
-                            }
-                            timer.cancel();
-                        }
-                    }
-                }, 3000, 3000);
-            }
-
             //load 超时后自动消失
             if (msg.what == application.DIALOG_DISMISS) {
                 if (application.progressDialog != null && application.progressDialog.isShowing()) {

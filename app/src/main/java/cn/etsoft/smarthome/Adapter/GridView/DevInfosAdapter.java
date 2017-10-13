@@ -494,7 +494,7 @@ public class DevInfosAdapter extends BaseAdapter {
                                         "\"powChn\":" + Save_DevWay + "," +
                                         "\"cmd\":" + 1 + "}";
 //                            Log.i(TAG, "onClick: " + chn_str);
-                            MyApplication.mApplication.getUdpServer().send(chn_str);
+                            MyApplication.mApplication.getUdpServer().send(chn_str,6);
                             MyApplication.mApplication.showLoadDialog(mContext);
                             finalViewHolder.mDevInfoDelete.setImageResource(R.drawable.delete_edit_dev);
                         }

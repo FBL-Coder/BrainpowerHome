@@ -113,7 +113,7 @@ public class SafetySetHelper {
                     safetyResult.setSec_info_rows(timerEvent_rows);
                     Gson gson = new Gson();
                     Log.e("保存安防数据", gson.toJson(safetyResult));
-                    MyApplication.mApplication.getUdpServer().send(gson.toJson(safetyResult));
+                    MyApplication.mApplication.getUdpServer().send(gson.toJson(safetyResult),32);
                     MyApplication.mApplication.showLoadDialog(activity);
 
                 } catch (Exception e) {
@@ -176,7 +176,7 @@ public class SafetySetHelper {
             safetyResult.setSec_info_rows(timerEvent_rows);
             Gson gson = new Gson();
             Log.e("对码数据", gson.toJson(safetyResult));
-            MyApplication.mApplication.getUdpServer().send(gson.toJson(safetyResult));
+            MyApplication.mApplication.getUdpServer().send(gson.toJson(safetyResult),32);
         } catch (Exception e) {
             MyApplication.mApplication.dismissLoadDialog();
             Log.e("对码数据", "对码数据异常" + e);

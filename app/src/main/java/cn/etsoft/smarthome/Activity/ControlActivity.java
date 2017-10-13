@@ -15,11 +15,13 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Fragment.Control.AirControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.CurtarnControlFragment;
+import cn.etsoft.smarthome.Fragment.Control.DoorControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.FloorHeatFragment;
 import cn.etsoft.smarthome.Fragment.Control.FreshAirFragment;
 import cn.etsoft.smarthome.Fragment.Control.LightControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.TVControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.TvUpControlFragment;
+import cn.etsoft.smarthome.Fragment.Control.VideoControlFragment;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.ControlHelper;
@@ -38,7 +40,7 @@ public class ControlActivity extends BaseActivity {
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
     private Fragment mLightFragment, mAirFragment,
-            mTVFragment, mTvUpFragment, mCurFragment,
+            mTVFragment, mTvUpFragment, mCurFragment,mVideoFragment,mDoorFragment,
             mFreshAirFragment, mFloorHeatFragment;
     private int DevType = 3, OutCircleposition = 0;
     private String RoomName = "";
@@ -131,42 +133,51 @@ public class ControlActivity extends BaseActivity {
         bundle.putString("RoomName", RoomName);
         switch (position) {
             case 0:
-                    mAirFragment = new AirControlFragment();
-                    mAirFragment.setArguments(bundle);
-                    transaction.replace(R.id.SceneSet_Info, mAirFragment);
+                mAirFragment = new AirControlFragment();
+                mAirFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mAirFragment);
                 break;
             case 1:
-                    mTVFragment = new TVControlFragment();
-                    mTVFragment.setArguments(bundle);
-                    transaction.replace(R.id.SceneSet_Info, mTVFragment);
+                mTVFragment = new TVControlFragment();
+                mTVFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mTVFragment);
                 break;
             case 2:
-            case 5:
-            case 6:
-                    mTvUpFragment = new TvUpControlFragment();
-                    mTvUpFragment.setArguments(bundle);
-                    transaction.replace(R.id.SceneSet_Info, mTvUpFragment);
-                break;
-            case 7:
-                    mFreshAirFragment = new FreshAirFragment();
-                    mFreshAirFragment.setArguments(bundle);
-                    transaction.replace(R.id.SceneSet_Info, mFreshAirFragment);
-                break;
-            case 9:
-                    mFloorHeatFragment = new FloorHeatFragment();
-                    mFloorHeatFragment.setArguments(bundle);
-                    transaction.replace(R.id.SceneSet_Info, mFloorHeatFragment);
+                mTvUpFragment = new TvUpControlFragment();
+                mTvUpFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mTvUpFragment);
                 break;
             case 3:
-                    mLightFragment = new LightControlFragment();
-                    mLightFragment.setArguments(bundle);
-                    transaction.replace(R.id.SceneSet_Info, mLightFragment);
+                mLightFragment = new LightControlFragment();
+                mLightFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mLightFragment);
                 break;
             case 4:
-                    mCurFragment = new CurtarnControlFragment();
-                    mCurFragment.setArguments(bundle);
-                    transaction.replace(R.id.SceneSet_Info, mCurFragment);
+                mCurFragment = new CurtarnControlFragment();
+                mCurFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mCurFragment);
                 break;
+            case 5:
+                mVideoFragment = new VideoControlFragment();
+                mVideoFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mVideoFragment);
+                break;
+            case 6:
+                mDoorFragment = new DoorControlFragment();
+                mDoorFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mDoorFragment);
+                break;
+            case 7:
+                mFreshAirFragment = new FreshAirFragment();
+                mFreshAirFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mFreshAirFragment);
+                break;
+            case 9:
+                mFloorHeatFragment = new FloorHeatFragment();
+                mFloorHeatFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mFloorHeatFragment);
+                break;
+
         }
         transaction.commit();
     }

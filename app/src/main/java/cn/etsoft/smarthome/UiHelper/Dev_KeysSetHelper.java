@@ -347,7 +347,7 @@ public class Dev_KeysSetHelper {
 
                     Gson gson = new Gson();
                     System.out.println(gson.toJson(data));
-                    MyApplication.mApplication.getUdpServer().send(gson.toJson(data).toString());
+                    MyApplication.mApplication.getUdpServer().send(gson.toJson(data).toString(),15);
                 } catch (Exception e) {
                     MyApplication.mApplication.dismissLoadDialog();
                     Log.e("Exception", e + "");

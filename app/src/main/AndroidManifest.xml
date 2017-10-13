@@ -195,10 +195,11 @@
             android:screenOrientation="landscape"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
-        <!-- 搜索联网模块-->
+        <!-- 联网模块详情-->
         <activity
             android:name=".Activity.Settings.NetInfoActivity"
             android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
 
         //高德地图定位

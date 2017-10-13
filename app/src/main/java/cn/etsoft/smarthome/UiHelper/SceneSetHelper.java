@@ -286,7 +286,7 @@ public class SceneSetHelper {
                             "\"devCnt\":" + Sceneevent.getItemAry().size() + "," +
                             "\"itemAry\":[" + more_data + "]}";
                     Log.e("情景模式测试:", data_hoad);
-                    MyApplication.mApplication.getUdpServer().send(data_hoad);
+                    MyApplication.mApplication.getUdpServer().send(data_hoad,24);
                 } catch (Exception e) {
                     MyApplication.mApplication.dismissLoadDialog();
                     Log.e("Exception", e + "");

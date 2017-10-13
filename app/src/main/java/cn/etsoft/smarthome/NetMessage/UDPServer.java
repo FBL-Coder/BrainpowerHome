@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -67,8 +68,9 @@ public class UDPServer implements Runnable {
     private byte[] msg = new byte[1024 * 10];
     private boolean life = true;
     private Handler mhandler;
-    private WareData wareData;
     private DatagramSocket dSocket;
+    private Timer Messagetimer;
+    private int DATTYPE = 0;
 
     //是否刷新数据
     private boolean isFreshData = false;
@@ -92,13 +94,12 @@ public class UDPServer implements Runnable {
 
     @Override
     public void run() {
-        wareData = MyApplication.getWareData();
         DatagramPacket dPacket = new DatagramPacket(msg, msg.length);
         try {
             dSocket = new DatagramSocket(PORT);
             while (life) {
                 dSocket.receive(dPacket);
-                extractData(new String(dPacket.getData(), 0, dPacket.getLength()));
+                IsUdpData(new String(dPacket.getData(), 0, dPacket.getLength()));
             }
         } catch (Exception e) {
             Message message = mhandler.obtainMessage();
@@ -128,8 +129,8 @@ public class UDPServer implements Runnable {
         }, 20000, 20000);
     }
 
-    public void send(final String msg) {
-        MyApplication.queryIP();
+    public void send(final String msg, int dattype) {
+
         int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
         if (NETWORK == 0) {
             ToastUtil.showText("请检查网络连接");
@@ -141,18 +142,32 @@ public class UDPServer implements Runnable {
             if ("".equals(GlobalVars.getDevid())) {
                 return;
             }
-            if (GlobalVars.isIPisEqual() == GlobalVars.IPDIFFERENT) {
-                String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
-                Log.i("发送WebSocket", "板子和客户端不在同一网络----WEB" + jsonToServer);
-                MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
+            if (MyApplication.mApplication.isVisitor()){
+                UdpSendMsg(msg);
+            }
+            if (GlobalVars.isIsLAN()) {
+                DATTYPE = dattype;
+                UdpSendMsg(msg);
+                Messagetimer = new Timer();
+                Messagetimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
+                        Log.i("发送WebSocket", "局域网没有200的心跳包----WEB" + jsonToServer);
+                        MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
+                        GlobalVars.setIsLAN(false);
+                    }
+                }, 8000);
+                UDPServer.setMessageBackListener(new MessageBackListener() {
+                    @Override
+                    public void messageForBack(int dattype) {
+                            Messagetimer.cancel();
+                    }
+                });
             } else {
-                if (GlobalVars.isIsLAN())
-                    UdpSendMsg(msg);
-                else {
-                    String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
-                    Log.i("发送WebSocket", "局域网没有200的心跳包----WEB" + jsonToServer);
-                    MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
-                }
+                String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
+                Log.i("发送WebSocket", "局域网没有200的心跳包----WEB" + jsonToServer);
+                MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
             }
         }
     }
@@ -170,13 +185,6 @@ public class UDPServer implements Runnable {
         UdpSendMsg(SeekNet);
     }
 
-    public void udpGetNetWorkInfo() {
-        String GETNETWORKINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() +
-                "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue() +
-                "," + "\"subType1\": 0," + "\"subType2\": 0" + "}";
-        UdpSendMsg(GETNETWORKINFO);
-    }
-
     private void UdpSendMsg(final String msg) {
         new Thread(new Runnable() {
             @Override
@@ -184,10 +192,6 @@ public class UDPServer implements Runnable {
                 try {
                     local = InetAddress.getByName("localhost"); // 本机地址
                     int msg_len = msg == null ? 0 : msg.getBytes().length;
-                    Message message = mhandler.obtainMessage();
-                    message.obj = msg;
-                    message.what = MyApplication.mApplication.UDP_NOBACK;
-                    mhandler.sendMessage(message);
                     DatagramPacket dPacket = new DatagramPacket(msg.getBytes(), msg_len,
                             local, SEND_PORT);
                     Log.i("发送UDP", "UDP" + msg);
@@ -225,11 +229,8 @@ public class UDPServer implements Runnable {
         }
     }
 
-    //警报时间间隔
-    long time = 0;
 
-    public void extractData(String info) {
-        show(info);
+    public void IsUdpData(String info) {
         String devUnitID = "";
         int datType = 0;
         int subType2 = 0;
@@ -237,21 +238,42 @@ public class UDPServer implements Runnable {
         try {
             JSONObject jsonObject = new JSONObject(info);
             devUnitID = jsonObject.getString("devUnitID");
-            if (!MyApplication.mApplication.isVisitor())
-                if (!devUnitID.equals(GlobalVars.getDevid()))
-                    if (!MyApplication.mApplication.isSeekNet()) {
-                        Log.i(TAG, "extractData: devUnitID判断不一致，退出方法 ");
-                        Log.i(TAG, "extractData: GlobalVars" + GlobalVars.getDevid() + "-----devUnitID " + devUnitID);
-                        return;
-                    }
+            datType = jsonObject.getInt("datType");
+            subType1 = jsonObject.getInt("subType1");
+            subType2 = jsonObject.getInt("subType2");
+            if (!devUnitID.equals(GlobalVars.getDevid()))
+                if (!MyApplication.mApplication.isSeekNet()) {
+                    Log.i(TAG, "devUnitID不一致:" + "本地ID" + GlobalVars.getDevid() + "--数据ID" + devUnitID + ";包类型：" + datType + "-" + subType1 + "-" + subType2);
+                    return;
+                }
+
+        } catch (JSONException e) {
+            System.out.println(this.getClass().getName() + "--extractData--" + e.toString());
+        }
+        Message message = mhandler.obtainMessage();
+        message.what = MyApplication.mApplication.UDP_HANR_DATA;
+        mhandler.sendMessage(message);
+        extractData(info);
+    }
+
+    //警报时间间隔
+    long time = 0;
+
+    public void extractData(String info) {
+        show(info);
+        int datType = 0;
+        int subType2 = 0;
+        int subType1 = 0;
+        try {
+            JSONObject jsonObject = new JSONObject(info);
             datType = jsonObject.getInt("datType");
             subType1 = jsonObject.getInt("subType1");
             subType2 = jsonObject.getInt("subType2");
         } catch (JSONException e) {
             System.out.println(this.getClass().getName() + "--extractData--" + e.toString());
         }
-//        if (datType != 35)
-
+        if (datType != 35 && datType != 2)
+            messageBackListener.messageForBack(datType);
         switch (datType) {
             case 0:// e_udpPro_getRcuinfo
                 if (subType2 == 1) {
@@ -530,6 +552,17 @@ public class UDPServer implements Runnable {
         }
     }
 
+    private static MessageBackListener messageBackListener;
+
+    public static void setMessageBackListener(MessageBackListener messageBackListener) {
+        UDPServer.messageBackListener = messageBackListener;
+    }
+
+    interface MessageBackListener {
+        void messageForBack(int dattype);
+    }
+
+
     int netword_count = 0;
     long TimeExit;
     int sleep = 1;
@@ -772,7 +805,7 @@ public class UDPServer implements Runnable {
                 }
             }
             if (subType2 == 1) {
-                devnum_tv = jsonObject.getInt("tv");
+                devnum_tv = jsonObject.getInt("tvDev");
                 if (devnum_tv > 0) {
 
                     JSONArray jsonArray = jsonObject.getJSONArray("dev_rows");
@@ -805,7 +838,7 @@ public class UDPServer implements Runnable {
                 }
             }
             if (subType2 == 2) {
-                devnum_box = jsonObject.getInt("tvUP");
+                devnum_box = jsonObject.getInt("tvDev");
                 if (devnum_box > 0) {
                     JSONArray jsonArray = jsonObject.getJSONArray("dev_rows");
                     for (int i = 0; i < devnum_box; i++) {

@@ -124,7 +124,7 @@ public class Control_FloorHeat_Adapter extends BaseAdapter {
                         "\"autoRun\":" + 0 + "," +
                         "\"cmd\":" + 1 + "," +
                         "\"powChn\":" + mFloorHeat.get(position).getDev().getPowChn() + "}";
-                MyApplication.mApplication.getUdpServer().send(chn_str);
+                MyApplication.mApplication.getUdpServer().send(chn_str,6);
                 MyApplication.mApplication.showLoadDialog(mActivity);
 
             }
@@ -166,7 +166,7 @@ public class Control_FloorHeat_Adapter extends BaseAdapter {
                         "\"autoRun\":" + mFloorHeat.get(position).getAutoRun() + "," +
                         "\"cmd\":" + 1 + "," +
                         "\"powChn\":" + mFloorHeat.get(position).getDev().getPowChn() + "}";
-                MyApplication.mApplication.getUdpServer().send(chn_str);
+                MyApplication.mApplication.getUdpServer().send(chn_str,6);
                 MyApplication.mApplication.showLoadDialog(mActivity);
             }
         });
