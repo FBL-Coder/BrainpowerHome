@@ -172,7 +172,6 @@ public class NewWorkSetActivity extends BaseActivity {
                                     MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID());
                             MyApplication.setNewWareData();
                             GlobalVars.setIsLAN(true);
-                            SendDataUtil.getNetWorkInfo();
                             MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
                                 @Override
                                 public void upDataWareData(int datType, int subtype1, int subtype2) {
@@ -195,6 +194,7 @@ public class NewWorkSetActivity extends BaseActivity {
                                     }
                                 }
                             });
+                            SendDataUtil.getNetWorkInfo();
                         }
                     });
                     dialog.create().show();
@@ -307,7 +307,6 @@ public class NewWorkSetActivity extends BaseActivity {
                                     MyApplication.mApplication.getSeekRcuInfos().get(position).getDevUnitID());
                             MyApplication.setNewWareData();
                             GlobalVars.setIsLAN(true);
-                            SendDataUtil.getNetWorkInfo();
                             MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this, false);
                             MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
                                 @Override
@@ -331,6 +330,7 @@ public class NewWorkSetActivity extends BaseActivity {
                                     }
                                 }
                             });
+                            SendDataUtil.getNetWorkInfo();
                         }
                     });
                     dialog.create().show();
