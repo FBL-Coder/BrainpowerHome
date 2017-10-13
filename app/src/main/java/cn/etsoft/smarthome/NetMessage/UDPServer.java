@@ -89,7 +89,7 @@ public class UDPServer implements Runnable {
 
     public void webSocketData(String info) {
         Log.i(TAG, "webSocket接收数据");
-        extractData(info);
+        IsWebData(info);
     }
 
     @Override
@@ -235,6 +235,29 @@ public class UDPServer implements Runnable {
         mhandler.sendMessage(message);
         extractData(info);
     }
+
+    public void IsWebData(String info) {
+        String devUnitID = "";
+        int datType = 0;
+        int subType2 = 0;
+        int subType1 = 0;
+        try {
+            JSONObject jsonObject = new JSONObject(info);
+            devUnitID = jsonObject.getString("devUnitID");
+            datType = jsonObject.getInt("datType");
+            subType1 = jsonObject.getInt("subType1");
+            subType2 = jsonObject.getInt("subType2");
+            if (!devUnitID.equals(GlobalVars.getDevid()))
+                if (!MyApplication.mApplication.isSeekNet()) {
+                    Log.i(TAG, "WebSocket数据--过滤:" + "本地ID" + GlobalVars.getDevid() + "--数据ID" + devUnitID + ";包类型：" + datType + "-" + subType1 + "-" + subType2);
+                    return;
+                }
+        } catch (JSONException e) {
+            System.out.println(this.getClass().getName() + "--extractData--" + e.toString());
+        }
+        extractData(info);
+    }
+
 
     //警报时间间隔
     long time = 0;
