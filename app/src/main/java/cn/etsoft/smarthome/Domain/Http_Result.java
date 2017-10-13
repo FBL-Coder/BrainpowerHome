@@ -75,6 +75,7 @@ public class Http_Result {
         private String canCpuName;
         private String devUnitID;
         private String devPass;
+        private boolean isOnline;
 
         public String getCanCpuName() {
             return canCpuName;
@@ -98,6 +99,14 @@ public class Http_Result {
 
         public void setDevPass(String devPass) {
             this.devPass = devPass;
+        }
+
+        public boolean isOnline() {
+            return isOnline;
+        }
+
+        public void setOnline(boolean online) {
+            isOnline = online;
         }
     }
 }

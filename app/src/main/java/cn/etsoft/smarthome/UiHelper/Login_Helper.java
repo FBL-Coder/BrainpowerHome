@@ -103,6 +103,7 @@ public class Login_Helper {
             rcuInfo.setCanCpuName(result.getData().get(i).getCanCpuName());
             rcuInfo.setDevUnitID(result.getData().get(i).getDevUnitID());
             rcuInfo.setDevUnitPass(result.getData().get(i).getDevPass());
+            rcuInfo.setOnLine(result.getData().get(i).isOnline());
             rcuInfos.add(rcuInfo);
         }
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, gson.toJson(rcuInfos));
@@ -110,6 +111,7 @@ public class Login_Helper {
 //            mContext.startActivity(new Intent(mContext, NewWorkSetActivity.class));
 //        else {
             AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, rcuInfos.get(0).getDevUnitID());
+        AppSharePreferenceMgr.put(GlobalVars.LOGIN_SHAREPREFERENCE, true);
         mContext.startActivity(new Intent(mContext, HomeActivity.class));
 //        }
         mContext.finish();

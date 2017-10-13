@@ -102,6 +102,8 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
         btn_tourist = (TextView) findViewById(R.id.login_ourist);
         et_account = (EditText) findViewById(R.id.login_id);
         et_password = (EditText) findViewById(R.id.login_pass);
+        et_account.setText((String)AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE,""));
+        et_password.setText((String)AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE,""));
     }
 
 
@@ -122,9 +124,7 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
                 GlobalVars.setDevpass("");
                 GlobalVars.setUserid("");
                 AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
-                AppSharePreferenceMgr.put(GlobalVars.USERID_SHAREPREFERENCE, "");
                 AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0);
-                AppSharePreferenceMgr.put(GlobalVars.USERPASSWORD_SHAREPREFERENCE, "");
                 AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
                 Intent intent = new Intent(this, cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity.class);
                 startActivity(intent);

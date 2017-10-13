@@ -83,10 +83,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public int UDP_NOSEND = 1003;
     //UDP接收数据失败
     public int UDP_NORECEIVE = 1004;
-    //心跳包监听返回码-局域网断开
-    public int HEARTBEAT_STOP = 8000;
-    //心跳包监听返回码-局域网运行
-    public int HEARTBEAT_RUN = 8080;
     //loading Dialog
     public int DIALOG_DISMISS = 2222;
     //网络判断
@@ -114,7 +110,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      * 局域网内连接状态
      */
     private boolean Isheartting = false;
-
     /**
      * 情景控制页面是否可见；
      */
@@ -125,6 +120,9 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     //游客登录标记
     private boolean IsVisitor = false;
+
+    //是否可以切换联网模块
+    private boolean CanChangeNet = false;
 
     //主页对象
     private Activity mHomeActivity;
@@ -161,8 +159,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         ExecutorService exec = Executors.newCachedThreadPool();
         udpServer = new UDPServer(handler);
         exec.execute(udpServer);
-        //启动心跳包定时监听
-        udpServer.heartBeat();
 
         sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
         music = sp.load(this, R.raw.key_sound, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
@@ -335,33 +331,39 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      * 加载框显示
      */
     public void showLoadDialog(Activity activity, boolean isCancelable) {
-        getProgressDialog(activity, isCancelable);
-        progressDialog.show();
-        //加载数据进度条，5秒数据没加载出来自动消失
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(10000);
-                    if (progressDialog != null && progressDialog.isShowing()) {
-                        Message message = handler.obtainMessage();
-                        message.what = DIALOG_DISMISS;
-                        handler.sendMessage(message);
+        try {
+            getProgressDialog(activity, isCancelable);
+            progressDialog.show();
+            //加载数据进度条，5秒数据没加载出来自动消失
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(10000);
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            Message message = handler.obtainMessage();
+                            message.what = DIALOG_DISMISS;
+                            handler.sendMessage(message);
+                        }
+                    } catch (Exception e) {
+                        System.out.println(this.getClass().getName() + "---" + e);
                     }
-                } catch (Exception e) {
-                    System.out.println(this.getClass().getName() + "---" + e);
                 }
-            }
-        }).start();
+            }).start();
+        } catch (Exception e) {
+        }
     }
 
     /**
      * 隐藏加载动画框
      */
     public void dismissLoadDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-            progressDialog = null;
+        try {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+                progressDialog = null;
+            }
+        } catch (Exception e) {
         }
     }
 
@@ -403,6 +405,26 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     public void setVisitor(boolean visitor) {
         IsVisitor = visitor;
+    }
+
+    public boolean isCanChangeNet() {
+        return CanChangeNet;
+    }
+
+    public void setCanChangeNet(boolean canChangeNet) {
+        CanChangeNet = canChangeNet;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(30000);
+                    CanChangeNet = true;
+                } catch (InterruptedException e) {
+                    CanChangeNet = false;
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public Activity getmHomeActivity() {
@@ -495,14 +517,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             //UDP接收数据异常
             if (msg.what == application.UDP_NORECEIVE)
                 Log.e("UDPException", "UDP数据接收失败");
-            //心跳广播停止
-            if (msg.what == application.HEARTBEAT_STOP) {
-                GlobalVars.setIsLAN(false);
-            }
-            //心跳广播运行
-            if (msg.what == application.HEARTBEAT_RUN) {
-                GlobalVars.setIsLAN(true);
-            }
             //网络监听吐司
             if (msg.what == application.NONET) {
                 ToastUtil.showText("没有可用网络，请检查", 5000);

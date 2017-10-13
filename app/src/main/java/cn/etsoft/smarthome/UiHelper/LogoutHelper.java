@@ -124,10 +124,9 @@ public class LogoutHelper {
         GlobalVars.setDevpass("");
         GlobalVars.setUserid("");
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
-        AppSharePreferenceMgr.put(GlobalVars.USERID_SHAREPREFERENCE, "");
         AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0);
-        AppSharePreferenceMgr.put(GlobalVars.USERPASSWORD_SHAREPREFERENCE, "");
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
+        AppSharePreferenceMgr.put(GlobalVars.LOGIN_SHAREPREFERENCE, false);
         try {
             MyApplication.mApplication.getmHomeActivity().finish();
         } catch (Exception e) {

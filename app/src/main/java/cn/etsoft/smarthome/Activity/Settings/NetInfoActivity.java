@@ -27,7 +27,7 @@ public class NetInfoActivity extends BaseActivity {
 
     private TextView mSeekNetBack;
     private TextView net_ID, net_Pass;
-    private TextView name, IP, Ip_mask, GetWay, Server;
+    private TextView name, IP, Ip_mask, GetWay, Server,IsOnLine;
     private ImageView NetWork_EditName;
     private int FLAG = 0;
     private int position = 0;
@@ -45,6 +45,7 @@ public class NetInfoActivity extends BaseActivity {
         Ip_mask = (TextView) findViewById(R.id.NetWork_Ip_Mask);
         GetWay = (TextView) findViewById(R.id.NetWork_GetWay);
         Server = (TextView) findViewById(R.id.NetWork_Server);
+        IsOnLine = (TextView) findViewById(R.id.NetWork_IsOnLine);
         NetWork_EditName = (ImageView) findViewById(R.id.NetWork_EditName);
 
     }
@@ -73,7 +74,10 @@ public class NetInfoActivity extends BaseActivity {
         Ip_mask.setText(info.getSubMask());
         GetWay.setText(info.getGateWay());
         Server.setText(info.getCenterServ());
-        if (FLAG == NetWork_Adapter.LOGIN)
+        if (FLAG == NetWork_Adapter.LOGIN) {
+            if (info.isOnLine()) {
+                IsOnLine.setText("在线");
+            } else IsOnLine.setText("不在线");
             NetWork_EditName.setVisibility(View.VISIBLE);
             NetWork_EditName.setOnClickListener(new View.OnClickListener() {
                 private TextView mDialogAddSceneOk;
@@ -82,6 +86,7 @@ public class NetInfoActivity extends BaseActivity {
                 private TextView mTitleName;
                 private TextView mTitle;
                 MyHandler handler = new MyHandler();
+
                 @Override
                 public void onClick(View v) {
                     final Dialog dialog = new Dialog(NetInfoActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
@@ -105,7 +110,7 @@ public class NetInfoActivity extends BaseActivity {
                         @Override
                         public void onClick(View v) {
                             dialog.dismiss();
-                            Net_AddorDel_Helper.editNew(handler,MyApplication.mApplication.getRcuInfoList(),
+                            Net_AddorDel_Helper.editNew(handler, MyApplication.mApplication.getRcuInfoList(),
                                     position, NetInfoActivity.this, mDialogAddSceneName,
                                     MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID(),
                                     MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitPass());
@@ -113,6 +118,7 @@ public class NetInfoActivity extends BaseActivity {
                     });
                 }
             });
+        }else IsOnLine.setText("不在线");
     }
    class MyHandler extends Handler{
         @Override

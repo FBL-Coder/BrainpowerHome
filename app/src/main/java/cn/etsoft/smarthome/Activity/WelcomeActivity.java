@@ -80,17 +80,17 @@ public class WelcomeActivity extends Activity {
             if (weakReference != null) {
                 String json_RcuInfolist = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
                 String json_RcuinfoID = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
-                String UserID = (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, "");
-                if ("".equals(UserID)) {
+                boolean IsLogin = (boolean)AppSharePreferenceMgr.get(GlobalVars.LOGIN_SHAREPREFERENCE,false);
+                if (!IsLogin) {
                     weakReference.get().startActivity(new Intent(weakReference.get(), cn.semtec.community2.activity.LoginActivity.class));
                     weakReference.get().finish();
                 }
-                if (!"".equals(UserID) && "".equals(json_RcuinfoID)) {
+                if (IsLogin && "".equals(json_RcuinfoID)) {
                     weakReference.get().startActivity(new Intent(weakReference.get(), NewWorkSetActivity.class));
                     ToastUtil.showText("请选择联网模块");
                     weakReference.get().finish();
                 }
-                if (!"".equals(UserID) && !"".equals(json_RcuinfoID)) {
+                if (IsLogin && !"".equals(json_RcuinfoID)) {
                     weakReference.get().startActivity(new Intent(weakReference.get(), HomeActivity.class));
                     weakReference.get().finish();
                 }

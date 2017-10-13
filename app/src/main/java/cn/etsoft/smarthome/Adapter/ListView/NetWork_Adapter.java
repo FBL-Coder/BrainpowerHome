@@ -78,10 +78,17 @@ public class NetWork_Adapter extends BaseAdapter {
         } else viewHoler = (ViewHoler) convertView.getTag();
 
 
-        if (FLAG == SEEK)
+        if (FLAG == SEEK) {
             viewHoler.title.setText(list.get(position).getName());
-        else
-            viewHoler.title.setText(list.get(position).getCanCpuName());
+            viewHoler.ShowInfo.setImageResource(R.drawable.noonline);
+        } else {
+            if ("".equals(list.get(position).getCanCpuName())) {
+                viewHoler.title.setText(list.get(position).getName());
+            } else viewHoler.title.setText(list.get(position).getCanCpuName());
+            if (list.get(position).isOnLine())
+                viewHoler.ShowInfo.setImageResource(R.drawable.online);
+            else viewHoler.ShowInfo.setImageResource(R.drawable.noonline);
+        }
         viewHoler.title_ID.setText(list.get(position).getDevUnitID());
 
         if (list.get(position).getDevUnitID().equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")))
@@ -99,7 +106,7 @@ public class NetWork_Adapter extends BaseAdapter {
                 else
                     bundle.putInt("FLAG", LOGIN);
                 bundle.putInt("POSITION", position);
-                intent.putExtra("BUNDLE",bundle);
+                intent.putExtra("BUNDLE", bundle);
                 mContext.startActivity(intent);
             }
         });

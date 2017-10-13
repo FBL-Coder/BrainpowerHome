@@ -43,6 +43,8 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
     }
 
     public void SelectDev(int sceneposition) {
+        if (WareDataHliper.initCopyWareData().getCopyScenes().size() <= sceneposition)
+            return;
         mSceneDev = WareDataHliper.initCopyWareData().getCopyScenes().get(sceneposition).getItemAry();
         if (mSceneDev == null) {
             mSceneDev = new ArrayList<>();
@@ -117,6 +119,7 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
             viewHoler.mIV = (ImageView) convertView.findViewById(R.id.SceneSet_GridView_Item_IV);
             viewHoler.mSelect = (ImageView) convertView.findViewById(R.id.SceneSet_GridView_Item_Select);
             viewHoler.mSeekBar = (RangeSeekBar) convertView.findViewById(R.id.SceneSet_GridView_Item_Slide);
+            viewHoler.mSeekBar.setVisibility(View.GONE);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
 
@@ -188,7 +191,7 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
                         }
                     }
                     notifyDataSetChanged(mLights);
-                }else {
+                } else {
                     ToastUtil.showText("未选中，不可操作");
                 }
 

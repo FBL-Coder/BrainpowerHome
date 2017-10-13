@@ -19,6 +19,7 @@ import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.RecyclerView.SceneSet_ScenesAdapter;
+import cn.etsoft.smarthome.Fragment.Control.LightControlFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.AirSceneFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.CurtarnSceneFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.FloorHeatFragment;
@@ -28,6 +29,7 @@ import cn.etsoft.smarthome.Fragment.SceneSet.TVSceneFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.TvUpSceneFragment;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.UiHelper.ControlHelper;
 import cn.etsoft.smarthome.UiHelper.SceneSetHelper;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
@@ -116,9 +118,6 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
 
         mScenesAdapter = new SceneSet_ScenesAdapter(WareDataHliper.initCopyWareData().getCopyScenes());
         mSceneSetScenes.setAdapter(mScenesAdapter);
-        if ("".equals(RoomName) || DevType == -1) {
-            mNull_tv.setVisibility(View.VISIBLE);
-        }
         initEvent();
     }
 
@@ -204,6 +203,19 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 builder.create().show();
             }
         });
+
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        Bundle bundle = new Bundle();
+        RoomName = "全部";
+        ControlHelper.setRoomName(RoomName);
+        bundle.putString("RoomName", "全部");
+        bundle.putInt("ScenePosition", ScenePosition);
+        mLightFragment = new LightSceneFragment();
+        mLightFragment.setArguments(bundle);
+        transaction.replace(R.id.SceneSet_Info, mLightFragment);
+        transaction.commit();
+        DevType = 3;
     }
 
     /**

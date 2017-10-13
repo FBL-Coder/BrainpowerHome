@@ -29,6 +29,7 @@ public class RcuInfo implements Serializable {
     private String canCpuName;
     private String SoftVersion;
     private String HwVversion;
+    private boolean IsOnLine;
     private int bDhcp;
     private int rev1;
     private int rev2;
@@ -137,5 +138,13 @@ public class RcuInfo implements Serializable {
 
     public void setCanCpuName(String canCpuName) {
         this.canCpuName = canCpuName;
+    }
+
+    public boolean isOnLine() {
+        return IsOnLine;
+    }
+
+    public void setOnLine(boolean onLine) {
+        IsOnLine = onLine;
     }
 }

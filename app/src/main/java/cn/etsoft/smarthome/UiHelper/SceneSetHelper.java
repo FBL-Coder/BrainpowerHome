@@ -55,6 +55,7 @@ public class SceneSetHelper {
             if (i == 0) {
                 event.setTitle("空调");
                 event.setImage(R.drawable.air_icon);
+
             }
             if (i == 1) {
                 event.setTitle("电视");
@@ -67,6 +68,7 @@ public class SceneSetHelper {
             if (i == 3) {
                 event.setTitle("灯光");
                 event.setImage(R.drawable.light_icon);
+                event.setSelect(true);
             }
             if (i == 4) {
                 event.setTitle("窗帘");
@@ -133,6 +135,7 @@ public class SceneSetHelper {
         CircleDataEvent event_1 = new CircleDataEvent();
         event_1.setImage(R.drawable.quanbu);
         event_1.setTitle("全部");
+        event_1.setSelect(true);
         Data_InnerCircleList.add(event_1);
         for (int i = 0; i < maxsize; i++) {
             CircleDataEvent event = new CircleDataEvent();

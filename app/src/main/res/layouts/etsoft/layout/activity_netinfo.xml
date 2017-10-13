@@ -226,6 +226,31 @@
                     android:textSize="@dimen/sp_18" />
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="是否在线"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_18" />
+
+                <TextView
+                    android:id="@+id/NetWork_IsOnLine"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_18" />
+
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

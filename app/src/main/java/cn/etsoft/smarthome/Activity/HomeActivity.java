@@ -192,6 +192,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     static class HomeHandler extends Handler {
         WeakReference<HomeActivity> weakReference;
 
+        int cunt = 0;
+
         public HomeHandler(HomeActivity activity) {
             weakReference = new WeakReference<HomeActivity>(activity);
         }
@@ -222,32 +224,39 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 if (msg.what == weakReference.get().WRATHER_SUCCEED) {//天气数据成功返回
 
                     weakReference.get().mHome_weather_relativelayout.setVisibility(View.VISIBLE);
-                    Weather_All_Bean results = (Weather_All_Bean) msg.obj;
-                    Message weathermsg = new Message();
-                    Bundle b = new Bundle();
-                    //天气动画消息
-                    weathermsg.what = Integer.parseInt(results.getResult().getImg());
+                    try {
+                        Weather_All_Bean results = (Weather_All_Bean) msg.obj;
+                        Message weathermsg = new Message();
+                        Bundle b = new Bundle();
+                        //天气动画消息
+                        weathermsg.what = Integer.parseInt(results.getResult().getImg());
 //                    weathermsg.what = 0;
-                    weathermsg.setData(b);
-                    HomeWeatherAnim.forecastHandler.sendMessage(weathermsg);
-                    String text = results.getResult().getWeather();
-                    String temp = results.getResult().getTemp();
-                    String shidu = "";
-                    if (results.getResult().getHumidity().contains("%"))
-                        shidu = results.getResult().getHumidity();
-                    else shidu = results.getResult().getHumidity() + "%";
-                    String pm = results.getResult().getAqi().getPm2_5();
-                    String zhiliang = results.getResult().getAqi().getQuality();
-                    String kongqi = results.getResult().getAqi().getAqiinfo().getAffect();
-                    String kongtiao = results.getResult().getIndex().get(0).getDetail();
-                    String yundong = results.getResult().getIndex().get(1).getDetail();
-                    String fengli = results.getResult().getWindpower();
-                    weakReference.get().mHomeWeatherShidu.setText("湿度：" + shidu);
-                    weakReference.get().mHomeWeatherZhiliang.setText(pm + "     " + zhiliang);
-                    weakReference.get().mHomeWeatherTemp.setText(temp + " ℃");
-                    weakReference.get().mHomeWeatherType.setText(text);
-                    weakReference.get().mHomeWeatherFengli.setText("风力：" + fengli);
-                    weakReference.get().mHomeWeatherTishi.setText("空气：" + kongqi + "     空调：" + kongtiao + "      运动：" + yundong);
+                        weathermsg.setData(b);
+                        HomeWeatherAnim.forecastHandler.sendMessage(weathermsg);
+                        String text = results.getResult().getWeather();
+                        String temp = results.getResult().getTemp();
+                        String shidu = "";
+                        if (results.getResult().getHumidity().contains("%"))
+                            shidu = results.getResult().getHumidity();
+                        else shidu = results.getResult().getHumidity() + "%";
+                        String pm = results.getResult().getAqi().getPm2_5();
+                        String zhiliang = results.getResult().getAqi().getQuality();
+                        String kongqi = results.getResult().getAqi().getAqiinfo().getAffect();
+                        String kongtiao = results.getResult().getIndex().get(0).getDetail();
+                        String yundong = results.getResult().getIndex().get(1).getDetail();
+                        String fengli = results.getResult().getWindpower();
+                        weakReference.get().mHomeWeatherShidu.setText("湿度：" + shidu);
+                        weakReference.get().mHomeWeatherZhiliang.setText(pm + "     " + zhiliang);
+                        weakReference.get().mHomeWeatherTemp.setText(temp + " ℃");
+                        weakReference.get().mHomeWeatherType.setText(text);
+                        weakReference.get().mHomeWeatherFengli.setText("风力：" + fengli);
+                        weakReference.get().mHomeWeatherTishi.setText("空气：" + kongqi + "     空调：" + kongtiao + "      运动：" + yundong);
+                    } catch (Exception e) {
+                        if (cunt > 1)
+                            return;
+                        weakReference.get().weather_helper = new Home_Weather(weakReference.get().mHandler, MyApplication.getContext());
+                        cunt++;
+                    }
                 }
             }
         }
