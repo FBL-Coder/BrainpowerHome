@@ -54,34 +54,35 @@ public class LogoutHelper {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                Map<String, String> params = new HashMap<>();
-                params.put("uid", GlobalVars.getUserid());
-                OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.LOGOUT, params, new HttpCallback() {
-                    @Override
-                    public void onSuccess(ResultDesc resultDesc) {
-                        super.onSuccess(resultDesc);
-                        Log.i("LOGOUT", "智能家居成功: " + resultDesc.getResult());
-                        Gson gson = new Gson();
-                        Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
-                        if (result.getCode() == 0) {
-//                                    logout_yun();
-                            logout_event(activity);
-                        } else {
-                            Log.i("LOGOUT", "智能家具失败: " + resultDesc.getResult());
-                            if ("".equals(result.getMsg()))
-                                ToastUtil.showText("退出失败");
-                            else
-                                ToastUtil.showText(result.getMsg());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int code, String message) {
-                        super.onFailure(code, message);
-                        Log.i("LOGOUT", "智能家具onFailure: " + code + message);
-                        ToastUtil.showText("退出失败");
-                    }
-                });
+                logout_event(activity);
+//                Map<String, String> params = new HashMap<>();
+//                params.put("uid", GlobalVars.getUserid());
+//                OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.LOGOUT, params, new HttpCallback() {
+//                    @Override
+//                    public void onSuccess(ResultDesc resultDesc) {
+//                        super.onSuccess(resultDesc);
+//                        Log.i("LOGOUT", "智能家居成功: " + resultDesc.getResult());
+//                        Gson gson = new Gson();
+//                        Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
+//                        if (result.getCode() == 0) {
+////                                    logout_yun();
+//                            logout_event(activity);
+//                        } else {
+//                            Log.i("LOGOUT", "智能家具失败: " + resultDesc.getResult());
+//                            if ("".equals(result.getMsg()))
+//                                ToastUtil.showText("退出失败");
+//                            else
+//                                ToastUtil.showText(result.getMsg());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int code, String message) {
+//                        super.onFailure(code, message);
+//                        Log.i("LOGOUT", "智能家具onFailure: " + code + message);
+//                        ToastUtil.showText("退出失败");
+//                    }
+//                });
             }
         });
         builder.create().show();

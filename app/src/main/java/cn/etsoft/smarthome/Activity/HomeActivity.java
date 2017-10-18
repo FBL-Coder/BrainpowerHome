@@ -20,6 +20,7 @@ import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
 import cn.etsoft.smarthome.Domain.City;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.UdpProPkt;
@@ -121,6 +122,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //        mHome_Health.setOnClickListener(this);
         mHome_Setting = (BamLinearLayout) findViewById(R.id.Home_Setting);
         mHome_Setting.setOnClickListener(this);
+        mNetWork_Ok.setOnClickListener(this);
+
     }
 
     @Override
@@ -182,6 +185,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //                break;
             case R.id.Home_Setting:
                 startActivity(new Intent(HomeActivity.this, SettingActivity.class));
+                break;
+            case R.id.NetWork_Ok:
+                startActivity(new Intent(HomeActivity.this, NewWorkSetActivity.class));
                 break;
         }
     }

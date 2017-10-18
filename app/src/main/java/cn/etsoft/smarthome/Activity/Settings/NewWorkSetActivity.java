@@ -35,12 +35,14 @@ import cn.etsoft.smarthome.Adapter.ListView.SeekListAdapter;
 import cn.etsoft.smarthome.Domain.Http_Result;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.SearchNet;
+import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.HTTPRequest_BackCode;
 import cn.etsoft.smarthome.UiHelper.LogoutHelper;
 import cn.etsoft.smarthome.UiHelper.Net_AddorDel_Helper;
 import cn.etsoft.smarthome.Utils.CommonUtils;
+import cn.etsoft.smarthome.Utils.Data_Cache;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
@@ -147,7 +149,7 @@ public class NewWorkSetActivity extends BaseActivity {
         mNetmoduleListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                if (!MyApplication.mApplication.isCanChangeNet()){
+                if (!MyApplication.mApplication.isCanChangeNet()) {
                     ToastUtil.showText("正在加载数据，请稍后再试...");
                     return;
                 }
@@ -170,31 +172,41 @@ public class NewWorkSetActivity extends BaseActivity {
                             MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this, false);
                             AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
                                     MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID());
-                            MyApplication.setNewWareData();
-                            GlobalVars.setIsLAN(true);
-                            MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
-                                @Override
-                                public void upDataWareData(int datType, int subtype1, int subtype2) {
-                                    if (datType == 0) {
-                                        new Thread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                try {
-                                                    Thread.sleep(2000);
-                                                    MyApplication.mApplication.dismissLoadDialog();
-                                                    startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
-                                                    finish();
-                                                } catch (InterruptedException e) {
-                                                    MyApplication.mApplication.dismissLoadDialog();
-                                                    startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
-                                                    finish();
+
+                            WareData wareData = (WareData) Data_Cache.readFile((String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""));
+                            if (wareData == null) {
+                                MyApplication.setNewWareData();
+                                GlobalVars.setIsLAN(true);
+                                MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
+                                    @Override
+                                    public void upDataWareData(int datType, int subtype1, int subtype2) {
+                                        if (datType == 0) {
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    try {
+                                                        Thread.sleep(2000);
+                                                        MyApplication.mApplication.dismissLoadDialog();
+                                                        startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+                                                        finish();
+                                                    } catch (InterruptedException e) {
+                                                        MyApplication.mApplication.dismissLoadDialog();
+                                                        startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+                                                        finish();
+                                                    }
                                                 }
-                                            }
-                                        }).start();
+                                            }).start();
+                                        }
                                     }
-                                }
-                            });
-                            SendDataUtil.getNetWorkInfo();
+                                });
+                                SendDataUtil.getNetWorkInfo();
+                            }else {
+                                SendDataUtil.getNetWorkInfo();
+                                MyApplication.mApplication.dismissLoadDialog();
+                                MyApplication.mWareData = wareData;
+                                startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+                                finish();
+                            }
                         }
                     });
                     dialog.create().show();
@@ -263,18 +275,18 @@ public class NewWorkSetActivity extends BaseActivity {
         List<RcuInfo> SeekListData = new ArrayList<>();
         for (int i = 0; i < rcuInfo_SeekNet.size(); i++) {
             RcuInfo info = new RcuInfo();
-            info.setName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(rcuInfo_SeekNet.get(0).getRcu_rows().get(i).getName())));
-            info.setCenterServ(rcuInfo_SeekNet.get(0).getRcu_rows().get(i).getCenterServ());
-            info.setbDhcp(rcuInfo_SeekNet.get(0).getRcu_rows().get(i).getBDhcp());
-            info.setDevUnitID(rcuInfo_SeekNet.get(0).getRcu_rows().get(i).getCanCpuID());
-            info.setDevUnitPass(rcuInfo_SeekNet.get(0).getRcu_rows().get(i).getPass());
-            info.setGateWay(rcuInfo_SeekNet.get(0).getRcu_rows().get(i).getGateway());
-            info.setHwVversion(rcuInfo_SeekNet.get(0).getRcu_rows().get(i).getHwVersion());
-            info.setSubMask(rcuInfo_SeekNet.get(0).getRcu_rows().get(i).getSubMask());
-            info.setIpAddr(rcuInfo_SeekNet.get(0).getRcu_rows().get(i).getIpAddr());
-            info.setMacAddr(rcuInfo_SeekNet.get(0).getRcu_rows().get(i).getMacAddr());
-            info.setRoomNum(rcuInfo_SeekNet.get(0).getRcu_rows().get(i).getRoomNum());
-            info.setSoftVersion(rcuInfo_SeekNet.get(0).getRcu_rows().get(i).getSoftVersion());
+            info.setName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(rcuInfo_SeekNet.get(i).getRcu_rows().get(0).getName())));
+            info.setCenterServ(rcuInfo_SeekNet.get(i).getRcu_rows().get(0).getCenterServ());
+            info.setbDhcp(rcuInfo_SeekNet.get(i).getRcu_rows().get(0).getBDhcp());
+            info.setDevUnitID(rcuInfo_SeekNet.get(i).getRcu_rows().get(0).getCanCpuID());
+            info.setDevUnitPass(rcuInfo_SeekNet.get(i).getRcu_rows().get(0).getPass());
+            info.setGateWay(rcuInfo_SeekNet.get(i).getRcu_rows().get(0).getGateway());
+            info.setHwVversion(rcuInfo_SeekNet.get(i).getRcu_rows().get(0).getHwVersion());
+            info.setSubMask(rcuInfo_SeekNet.get(i).getRcu_rows().get(0).getSubMask());
+            info.setIpAddr(rcuInfo_SeekNet.get(i).getRcu_rows().get(0).getIpAddr());
+            info.setMacAddr(rcuInfo_SeekNet.get(i).getRcu_rows().get(0).getMacAddr());
+            info.setRoomNum(rcuInfo_SeekNet.get(i).getRcu_rows().get(0).getRoomNum());
+            info.setSoftVersion(rcuInfo_SeekNet.get(i).getRcu_rows().get(0).getSoftVersion());
             SeekListData.add(info);
         }
         MyApplication.mApplication.setSeekRcuInfos(SeekListData);
@@ -283,7 +295,7 @@ public class NewWorkSetActivity extends BaseActivity {
         mNewWorksousuolistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                if (!MyApplication.mApplication.isCanChangeNet()){
+                if (!MyApplication.mApplication.isCanChangeNet()) {
                     ToastUtil.showText("正在加载数据，请稍后再试...");
                     return;
                 }

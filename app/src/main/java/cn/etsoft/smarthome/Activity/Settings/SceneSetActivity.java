@@ -62,21 +62,25 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                MyApplication.mApplication.dismissLoadDialog();
+
                 if (datType == 22) {
+                    MyApplication.mApplication.dismissLoadDialog();
                     IsNoData = false;
                     WareDataHliper.initCopyWareData().startCopySceneData();
                     initData();
                 }
                 if (datType == 23) {
+                    MyApplication.mApplication.dismissLoadDialog();
                     ToastUtil.showText("添加成功");
                     WareDataHliper.initCopyWareData().startCopySceneData();
                     initData();
                 }
                 if (datType == 24) {
+                    MyApplication.mApplication.dismissLoadDialog();
                     ToastUtil.showText("保存成功");
                 }
                 if (datType == 25) {
+                    MyApplication.mApplication.dismissLoadDialog();
                     WareDataHliper.initCopyWareData().startCopySceneData();
                     initData();
                     ToastUtil.showText("删除成功");
@@ -129,6 +133,10 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         }
         switch (v.getId()) {
             case R.id.SceneSet_Add_Btn:
+                if (MyApplication.getWareData().getSceneEvents().size() == 6){
+                    ToastUtil.showText("自定义情景最多6个！");
+                    return;
+                }
                 SceneSetHelper.AddScene(this);
                 break;
             case R.id.SceneSet_Test_Btn:

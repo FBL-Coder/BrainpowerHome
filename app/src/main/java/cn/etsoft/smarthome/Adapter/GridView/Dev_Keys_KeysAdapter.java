@@ -81,12 +81,16 @@ public class Dev_Keys_KeysAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        int keycnt = MyApplication.getWareData().getKeyInputs().get(position_keyinput).getKeyCnt();
-        for (int i = 0; i < listData.size(); i++) {
-            if (i >= keycnt)
-                listData.remove(i);
+        try {
+            int keycnt = MyApplication.getWareData().getKeyInputs().get(position_keyinput).getKeyCnt();
+            for (int i = 0; i < listData.size(); i++) {
+                if (i >= keycnt)
+                    listData.remove(i);
+            }
+            return listData.size();
+        } catch (Exception e) {
+            return 0;
         }
-        return listData.size();
     }
 
     @Override

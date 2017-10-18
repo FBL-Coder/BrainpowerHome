@@ -79,12 +79,14 @@
 
     <FrameLayout
         android:layout_width="@dimen/dp_250"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/Control_Scene_CircleMenu"
+            android:layout_gravity="center_vertical"
             android:layout_width="@dimen/dp_250"
-            android:layout_height="match_parent"
+            android:layout_height="550dp"
             android:background="@drawable/circlebg" />
     </FrameLayout>
 </RelativeLayout>

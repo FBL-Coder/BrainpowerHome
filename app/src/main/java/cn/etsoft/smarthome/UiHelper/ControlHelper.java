@@ -88,13 +88,13 @@ public class ControlHelper {
         List<CircleDataEvent> Data_InnerCircleList = new ArrayList<>();
         switch (MyApplication.getWareData().getRooms().size()) {
             case 1:
-                Data_InnerCircleList = initRoom(3, Data_InnerCircleList);
+                Data_InnerCircleList = initRoom(2, Data_InnerCircleList);
                 break;
             case 2:
-                Data_InnerCircleList = initRoom(5, Data_InnerCircleList);
+                Data_InnerCircleList = initRoom(4, Data_InnerCircleList);
                 break;
             case 3:
-                Data_InnerCircleList = initRoom(7, Data_InnerCircleList);
+                Data_InnerCircleList = initRoom(6, Data_InnerCircleList);
                 break;
             case 4:
                 Data_InnerCircleList = initRoom(7, Data_InnerCircleList);

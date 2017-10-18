@@ -126,8 +126,10 @@ public class UDPServer implements Runnable {
                 UdpSendMsg(msg);
             }
             if (GlobalVars.isIsLAN()) {
-                DATTYPE = dattype;
                 UdpSendMsg(msg);
+                if (dattype == 26) {
+                    return;
+                }
                 Messagetimer = new Timer();
                 Messagetimer.schedule(new TimerTask() {
                     @Override

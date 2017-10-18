@@ -13,7 +13,6 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Window;
 
-import com.example.abc.mybaseactivity.NetWorkListener.AppNetworkMgr;
 import com.example.abc.mybaseactivity.Notifications.NotificationUtils;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
@@ -26,13 +25,10 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import cn.etsoft.smarthome.Activity.SafetyHomeActivity;
-import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.Safety_Data;
 import cn.etsoft.smarthome.Domain.WareData;
@@ -41,8 +37,7 @@ import cn.etsoft.smarthome.NetMessage.UDPServer;
 import cn.etsoft.smarthome.NetMessage.WebSocket_Client;
 import cn.etsoft.smarthome.Utils.CityDB;
 import cn.etsoft.smarthome.Utils.Data_Cache;
-import cn.etsoft.smarthome.Utils.GetIPAddress;
-import cn.etsoft.smarthome.Utils.SendDataUtil;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.WratherUtil;
 
 /**
@@ -88,10 +83,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     //网络判断
     public int NONET = 5555;
     //全局数据
-    private static WareData mWareData;
-
-    //上次使用的联网模快ID;
-    private static RcuInfo rcuInfo_Use;
+    public static WareData mWareData;
 
     //搜索联网模块数据
     private List<RcuInfo> SeekRcuInfos;
@@ -417,7 +409,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             @Override
             public void run() {
                 try {
-                    Thread.sleep(30000);
+                    Thread.sleep(15000);
                     CanChangeNet = true;
                 } catch (InterruptedException e) {
                     CanChangeNet = false;
@@ -453,10 +445,9 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     static class APPHandler extends Handler {
         private WeakReference<MyApplication> weakReference;
         private MyApplication application;
-        private boolean UdpIsHaveBackData = false;
         private boolean WSIsOpen = false;
+        private boolean WSIsAgainConnectRun;
         private int NotificationID = 10;
-        private long time_WebSocket = 0;
 
         APPHandler(MyApplication application) {
             this.weakReference = new WeakReference<>(application);
@@ -473,17 +464,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 Log.e("WebSiocket", "链接成功");
             }
             if (msg.what == application.WS_CLOSE) {
-//                if (System.currentTimeMillis() - time_WebSocket < 2000)
-//                    return;
-//                time_WebSocket = System.currentTimeMillis();
                 Log.e("WSException", "链接关闭" + msg.obj);
-                application.wsClient = new WebSocket_Client();
-                try {
-                    application.wsClient.initSocketClient(application.handler);
-                    application.wsClient.connect();
-                } catch (URISyntaxException e) {
-                    Log.e("WSException", "WebSocket链接重启失败" + e);
-                }
+                WS_againConnect();
             }
             if (msg.what == application.WS_DATA_OK) {//WebSocket 数据
                 GlobalVars.setIsLAN(false);
@@ -491,11 +473,11 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             }
             if (msg.what == application.WS_Error) {
                 Log.e("WSException", "数据异常" + msg.obj);
+                WS_againConnect();
 //                ToastUtil.showText("数据发送失败，与服务器连接已断开，请稍后再试！");
             }
             //UDP数据报
             if (msg.what == application.UDP_DATA_OK) {
-                UdpIsHaveBackData = true;
                 if ((int) msg.obj == 32 && msg.arg1 == 2) {
                     String contont = Safety_Baojing();
                     if ("".equals(contont)) {
@@ -529,6 +511,47 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                     application.progressDialog = null;
                 }
             }
+        }
+
+        /**
+         * WebSocket 重连
+         */
+        private void WS_againConnect() {
+            if (WSIsAgainConnectRun) {
+                return;
+            }
+            WSIsAgainConnectRun = true;
+            final Handler handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    Log.e("WSException", "WS尝试连接中...");
+                    application.wsClient = new WebSocket_Client();
+                    try {
+                        application.wsClient.initSocketClient(application.handler);
+                        application.wsClient.connect();
+                    } catch (URISyntaxException e) {
+                        Log.e("WSException", "WebSocket链接重启失败" + e);
+                    }
+                }
+            };
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (; ; ) {
+                        if (WSIsOpen) {
+                            WSIsAgainConnectRun = false;
+                            return;
+                        }
+                        try {
+                            Thread.sleep(5000);
+                            handler.sendMessage(handler.obtainMessage());
+                        } catch (InterruptedException e) {
+                            Log.e("WSException", "WebSocket链接重启失败" + e);
+                        }
+                    }
+                }
+            }).start();
         }
 
         /**

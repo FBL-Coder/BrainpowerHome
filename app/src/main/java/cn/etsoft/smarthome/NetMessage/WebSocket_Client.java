@@ -3,6 +3,8 @@ package cn.etsoft.smarthome.NetMessage;
 import android.os.Handler;
 import android.os.Message;
 
+import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
+
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -10,6 +12,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import cn.etsoft.smarthome.MyApplication;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 
 /**
  * Author：FBL  Time： 2017/6/9.
@@ -31,11 +34,13 @@ public class WebSocket_Client {
                 @Override
                 public void onOpen(ServerHandshake serverHandshake) {
                     //连接成功
+                    mWebSocketClient.send("{\"uid\":\""
+                            + AppSharePreferenceMgr.get( GlobalVars.USERID_SHAREPREFERENCE,
+                            "") + "\"}");
                     Message message = handler.obtainMessage();
                     message.what = MyApplication.mApplication.WS_OPEN_OK;
                     handler.sendMessage(message);
                 }
-
 
                 @Override
                 public void onMessage(String s) {
