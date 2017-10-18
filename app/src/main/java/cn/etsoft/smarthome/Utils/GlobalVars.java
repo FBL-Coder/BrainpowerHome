@@ -29,12 +29,13 @@ public class GlobalVars {
      */
     public static final String SAFETY_TYPE_SHAREPREFERENCE = "SAFETY_TYPE";
     /**
-     *登陆标记
+     * 登陆标记
      */
     public static final String LOGIN_SHAREPREFERENCE = "LOGIN_FLAG";
 
 
     public static String LOCAL_IP = "127.0.0.1";
+    public static String WIFI_IP = "0.0.0.0";
     private static Context context;
     private static int sn;
     private static String userid, devid, devpass;

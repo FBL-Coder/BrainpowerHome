@@ -93,6 +93,7 @@ public class Login_Helper {
 
         AppSharePreferenceMgr.put(GlobalVars.USERID_SHAREPREFERENCE, input_id);
         AppSharePreferenceMgr.put(GlobalVars.USERPASSWORD_SHAREPREFERENCE, input_pass);
+        AppSharePreferenceMgr.put(GlobalVars.LOGIN_SHAREPREFERENCE,true);
 
         if (result == null)
             return;

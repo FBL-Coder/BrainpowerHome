@@ -1,7 +1,10 @@
 package cn.etsoft.smarthome.Activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
+import com.example.abc.mybaseactivity.NetWorkListener.AppNetworkMgr;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
@@ -78,6 +82,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             @Override
             public void NetChange() {
                 GlobalVars.setIsLAN(true);
+                getIp();
             }
         });
     }
@@ -188,6 +193,32 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(new Intent(HomeActivity.this, NewWorkSetActivity.class));
                 break;
         }
+    }
+
+
+   public void getIp(){
+       int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
+       if (NETWORK >= 10) {
+           //获取wifi服务
+           WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+           //判断wifi是否开启
+           if (!wifiManager.isWifiEnabled()) {
+               wifiManager.setWifiEnabled(true);
+           }
+           WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+           int ipAddress = wifiInfo.getIpAddress();
+           String ip = intToIp(ipAddress);
+           if (!ip.equals(GlobalVars.WIFI_IP)){
+               GlobalVars.WIFI_IP = ip;
+           }
+       }
+    }
+    private String intToIp(int i) {
+
+        return (i & 0xFF) + "." +
+                ((i >> 8) & 0xFF) + "." +
+                ((i >> 16) & 0xFF) + "." +
+                (i >> 24 & 0xFF);
     }
 
     /**
