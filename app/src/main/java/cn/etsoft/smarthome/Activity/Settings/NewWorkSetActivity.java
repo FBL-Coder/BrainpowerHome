@@ -80,11 +80,10 @@ public class NewWorkSetActivity extends BaseActivity {
         if (MyApplication.mApplication.isVisitor()) {
             getRightImage().setVisibility(View.GONE);
             add_ref_LL.setVisibility(View.GONE);
-            return;
         }
     }
 
-    private void initLIstview() {
+    private void initListview() {
         if (mAdapter == null)
             mAdapter = new NetWork_Adapter(this, MyApplication.mApplication.getRcuInfoList(), NetWork_Adapter.LOGIN);
         else mAdapter.notifyDataSetChanged();
@@ -98,13 +97,15 @@ public class NewWorkSetActivity extends BaseActivity {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 if (MyApplication.mApplication.isSeekNet() && datType == 0) {
+                    MyApplication.mApplication.setSeekNet(false);
                     MyApplication.mApplication.dismissLoadDialog();
                     initSeekListView();
                 }
             }
         });
+        initSeekList();
 
-        initLIstview();
+        initListview();
         getLiftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -252,21 +253,17 @@ public class NewWorkSetActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 MyApplication.mApplication.getUdpServer().sendSeekNet();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(8000);
-                            MyApplication.mApplication.setSeekNet(false);
-                        } catch (InterruptedException e) {
-                        }
-                    }
-                }).start();
                 MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this);
             }
         });
     }
 
+    private void initSeekList() {
+        List<RcuInfo> SeekData = MyApplication.mApplication.getSeekRcuInfos();
+        if (SeekData.size() == 0)
+            return;
+        SeekNetClick(SeekData);
+    }
     /**
      * 初始化搜索联网模块
      */
@@ -290,7 +287,44 @@ public class NewWorkSetActivity extends BaseActivity {
             SeekListData.add(info);
         }
         MyApplication.mApplication.setSeekRcuInfos(SeekListData);
-        mSeekAdapter = new NetWork_Adapter(this, SeekListData, NetWork_Adapter.SEEK);
+        if (SeekListData.size() == 1) {
+            mSeekAdapter = new NetWork_Adapter(this, SeekListData, NetWork_Adapter.SEEK);
+            mNewWorksousuolistview.setAdapter(mSeekAdapter);
+            MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this, false);
+            AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
+                    MyApplication.mApplication.getSeekRcuInfos().get(0).getDevUnitID());
+            MyApplication.setNewWareData();
+            GlobalVars.setIsLAN(true);
+            MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
+                @Override
+                public void upDataWareData(int datType, int subtype1, int subtype2) {
+                    if (datType == 0 || datType == 3) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                    MyApplication.mApplication.dismissLoadDialog();
+                                    startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+                                    finish();
+                                } catch (InterruptedException e) {
+                                    MyApplication.mApplication.dismissLoadDialog();
+                                    startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+                                    finish();
+                                }
+                            }
+                        }).start();
+                    }
+                }
+            });
+            SendDataUtil.getNetWorkInfo();
+        } else {
+            SeekNetClick(SeekListData);
+        }
+    }
+
+    private void SeekNetClick(List<RcuInfo> seekListData) {
+        mSeekAdapter = new NetWork_Adapter(this, seekListData, NetWork_Adapter.SEEK);
         mNewWorksousuolistview.setAdapter(mSeekAdapter);
         mNewWorksousuolistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -315,11 +349,11 @@ public class NewWorkSetActivity extends BaseActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this, false);
                             AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
                                     MyApplication.mApplication.getSeekRcuInfos().get(position).getDevUnitID());
                             MyApplication.setNewWareData();
                             GlobalVars.setIsLAN(true);
-                            MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this, false);
                             MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
                                 @Override
                                 public void upDataWareData(int datType, int subtype1, int subtype2) {
@@ -350,6 +384,7 @@ public class NewWorkSetActivity extends BaseActivity {
             }
         });
     }
+
 
     private void refNetLists() {
         MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this);
@@ -405,30 +440,6 @@ public class NewWorkSetActivity extends BaseActivity {
         }
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, gson.toJson(rcuInfos));
     }
-
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (data != null) {
-//            int position = data.getIntExtra("yes", -1);
-//            if (position != -1) {
-//                if (position == -5) {
-//                    mAdapter.notifyDataSetChanged();
-//                } else {
-//                    SearchNet net = MyApplication.getWareData().getSeekNets().get(position);
-//                    Log.i("SeekNet", "onActivityResult: " + net.getRcu_rows().get(0).getName() + "--"
-//                            + net.getRcu_rows().get(0).getCanCpuID() + "--" + net.getRcu_rows().get(0).getDevUnitPass());
-//                    Net_AddorDel_Helper.addNew(mNewModuleHandler, NewWorkSetActivity.this,
-//                            net.getRcu_rows().get(0).getName(), net.getRcu_rows().get(0).getCanCpuID(),
-//                            net.getRcu_rows().get(0).getDevUnitPass() == null?
-//                                    net.getRcu_rows().get(0).getCanCpuID().substring(
-//                                            net.getRcu_rows().get(0).getCanCpuID().length()-8,
-//                                            net.getRcu_rows().get(0).getCanCpuID().length()):net.getRcu_rows().get(0).getDevUnitPass());
-//                }
-//            }
-//        }
-//    }
 
     private void initAddNetModuleDialog(final Dialog dialog) {
         mDialogName = (EditText) dialog.findViewById(R.id.dialog_addnetmodule_name);

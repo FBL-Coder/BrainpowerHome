@@ -91,6 +91,7 @@ public class WelcomeActivity extends Activity {
                     weakReference.get().finish();
                 }
                 if (IsLogin && !"".equals(json_RcuinfoID)) {
+                    SendDataUtil.getNetWorkInfo();
                     weakReference.get().startActivity(new Intent(weakReference.get(), HomeActivity.class));
                     weakReference.get().finish();
                 }
