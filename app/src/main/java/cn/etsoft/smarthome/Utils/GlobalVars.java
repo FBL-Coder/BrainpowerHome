@@ -32,6 +32,10 @@ public class GlobalVars {
      * 登陆标记
      */
     public static final String LOGIN_SHAREPREFERENCE = "LOGIN_FLAG";
+    /**
+     * 用户配置密码
+     */
+    public static final String CONFIG_PASS_SHAREPREFERENCE = "CONFIG_PASS";
 
 
     public static String LOCAL_IP = "127.0.0.1";

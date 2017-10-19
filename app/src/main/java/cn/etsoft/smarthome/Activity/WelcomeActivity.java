@@ -34,8 +34,9 @@ public class WelcomeActivity extends Activity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.e(TAG, "onCreate: //*****************************************************" );
+        Log.e(TAG, "onCreate: //*****************************************************");
         super.onCreate(savedInstanceState);
+        AppSharePreferenceMgr.put(GlobalVars.CONFIG_PASS_SHAREPREFERENCE, "888888");
         initView();
         initData();
     }
@@ -67,6 +68,7 @@ public class WelcomeActivity extends Activity {
             }
         }).start();
     }
+
     static class WelcomeHandler extends Handler {
         WeakReference<WelcomeActivity> weakReference;
 
@@ -80,7 +82,7 @@ public class WelcomeActivity extends Activity {
             if (weakReference != null) {
                 String json_RcuInfolist = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
                 String json_RcuinfoID = (String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
-                boolean IsLogin = (boolean)AppSharePreferenceMgr.get(GlobalVars.LOGIN_SHAREPREFERENCE,false);
+                boolean IsLogin = (boolean) AppSharePreferenceMgr.get(GlobalVars.LOGIN_SHAREPREFERENCE, false);
                 if (!IsLogin) {
                     weakReference.get().startActivity(new Intent(weakReference.get(), cn.semtec.community2.activity.LoginActivity.class));
                     weakReference.get().finish();

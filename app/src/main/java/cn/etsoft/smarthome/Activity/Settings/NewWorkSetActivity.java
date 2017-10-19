@@ -58,7 +58,7 @@ public class NewWorkSetActivity extends BaseActivity {
     private ListView mNetmoduleListview, mNewWorksousuolistview;
     private TextView mDialogCancle, mDialogOk, mSousuo;
     private LinearLayout add_ref_LL;
-    private EditText mDialogName, mDialogID, mDialogPass;
+    private EditText mDialogName, mDialogID;
     private NewModuleHandler mNewModuleHandler = new NewModuleHandler(this);
     private Gson gson = new Gson();
     private NetWork_Adapter mAdapter, mSeekAdapter;
@@ -75,11 +75,6 @@ public class NewWorkSetActivity extends BaseActivity {
         mNetmoduleAdd = getViewById(R.id.NewWork_set_netmodule_add);
         add_ref_LL = getViewById(R.id.add_ref_LL);
         mSousuo = getViewById(R.id.NewWork_set_netmodule_Sousuo);
-        mTitle = (TextView) findViewById(R.id.title);
-        mTitleName = (TextView) findViewById(R.id.title_name);
-        mDialogAddSceneName = (EditText) findViewById(R.id.dialog_addScene_name);
-        mDialogAddSceneCancle = (TextView) findViewById(R.id.dialog_addScene_cancle);
-        mDialogAddSceneOk = (TextView) findViewById(R.id.dialog_addScene_ok);
         if (MyApplication.mApplication.isVisitor()) {
             getRightImage().setVisibility(View.GONE);
             add_ref_LL.setVisibility(View.GONE);
@@ -373,17 +368,12 @@ public class NewWorkSetActivity extends BaseActivity {
             SeekListData.add(info);
         }
         MyApplication.mApplication.setSeekRcuInfos(SeekListData);
-        if (SeekListData.size() == 1) {
-            mSeekAdapter = new NetWork_Adapter(this, SeekListData, NetWork_Adapter.SEEK);
-            mNewWorksousuolistview.setAdapter(mSeekAdapter);
-            showPassDialog(SeekListData, 0);
-        } else {
-            SeekNetClick(SeekListData);
-        }
+        SeekNetClick(SeekListData);
     }
 
     /**
      * 点击搜索列表
+     *
      * @param seekListData
      */
     private void SeekNetClick(final List<RcuInfo> seekListData) {
@@ -466,6 +456,7 @@ public class NewWorkSetActivity extends BaseActivity {
 
     /**
      * 刷新后更改界面数据
+     *
      * @param result
      */
     public void setRcuInfoList(Http_Result result) {
@@ -486,12 +477,12 @@ public class NewWorkSetActivity extends BaseActivity {
 
     /**
      * 初始化添加联网模快
+     *
      * @param dialog
      */
     private void initAddNetModuleDialog(final Dialog dialog) {
         mDialogName = (EditText) dialog.findViewById(R.id.dialog_addnetmodule_name);
         mDialogID = (EditText) dialog.findViewById(R.id.dialog_addnetmodule_id);
-        mDialogPass = (EditText) dialog.findViewById(R.id.dialog_addnetmodule_pass);
         mDialogCancle = (TextView) dialog.findViewById(R.id.dialog_addnetmodule_cancle);
         mDialogOk = (TextView) dialog.findViewById(R.id.dialog_addnetmodule_ok);
         mDialogCancle.setOnClickListener(new View.OnClickListener() {
@@ -506,7 +497,7 @@ public class NewWorkSetActivity extends BaseActivity {
                 dialog.dismiss();
                 Net_AddorDel_Helper.addNew(mNewModuleHandler,
                         NewWorkSetActivity.this, mDialogName.getText().toString(),
-                        mDialogID.getText().toString(), mDialogPass.getText().toString());
+                        mDialogID.getText().toString(), "");
             }
         });
     }

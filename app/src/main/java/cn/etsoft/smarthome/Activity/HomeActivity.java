@@ -1,6 +1,7 @@
 package cn.etsoft.smarthome.Activity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
@@ -10,7 +11,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.InputType;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -24,6 +27,7 @@ import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import cn.etsoft.smarthome.Activity.Settings.ConfigPassActivity;
 import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
 import cn.etsoft.smarthome.Domain.City;
 import cn.etsoft.smarthome.Domain.RcuInfo;
@@ -53,7 +57,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private int WRATHER_FAILING = 2200;
     private int DB_INITOK = 200;
 
-    private TextView mHomeLoactionText;
+    private TextView mHomeLoactionText, mTitleName, mDialogName,
+            mDialogCancle, mDialogOk, mTitle, mDialoghelp;
     private LinearLayout mHomeLoaction;
     private ImageView mHomeRefBtn, mHomeLogoutBtn;
     private TextView mHomeWeatherTemp, mHomeWeatherType, mHomeWeatherShidu,
@@ -187,7 +192,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //            case R.id.Home_Health:
 //                break;
             case R.id.Home_Setting:
-                startActivity(new Intent(HomeActivity.this, SettingActivity.class));
+//                if (Condition()) return;
+                InputPass(new Intent(HomeActivity.this, SettingActivity.class));
                 break;
             case R.id.NetWork_Ok:
                 startActivity(new Intent(HomeActivity.this, NewWorkSetActivity.class));
@@ -195,24 +201,24 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
-
-   public void getIp(){
-       int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
-       if (NETWORK >= 10) {
-           //获取wifi服务
-           WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-           //判断wifi是否开启
-           if (!wifiManager.isWifiEnabled()) {
-               wifiManager.setWifiEnabled(true);
-           }
-           WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-           int ipAddress = wifiInfo.getIpAddress();
-           String ip = intToIp(ipAddress);
-           if (!ip.equals(GlobalVars.WIFI_IP)){
-               GlobalVars.WIFI_IP = ip;
-           }
-       }
+    public void getIp() {
+        int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
+        if (NETWORK >= 10) {
+            //获取wifi服务
+            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            //判断wifi是否开启
+            if (!wifiManager.isWifiEnabled()) {
+                wifiManager.setWifiEnabled(true);
+            }
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            int ipAddress = wifiInfo.getIpAddress();
+            String ip = intToIp(ipAddress);
+            if (!ip.equals(GlobalVars.WIFI_IP)) {
+                GlobalVars.WIFI_IP = ip;
+            }
+        }
     }
+
     private String intToIp(int i) {
 
         return (i & 0xFF) + "." +
@@ -295,6 +301,67 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 }
             }
         }
+    }
+
+    /**
+     * 判断是否处于局域网
+     *
+     * @return
+     */
+    private boolean Condition() {
+        if (!GlobalVars.isIsLAN()) {
+            ToastUtil.showText("请先切换到该局域网下的联网模快");
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 配置密码认证
+     *
+     * @param intent
+     */
+    public void InputPass(final Intent intent) {
+        final Dialog dialog = new Dialog(HomeActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+        dialog.setContentView(R.layout.dialog_addscene);
+        dialog.show();
+        mDialogName = (EditText) dialog.findViewById(R.id.dialog_addScene_name);
+        mDialogCancle = (TextView) dialog.findViewById(R.id.dialog_addScene_cancle);
+        mDialogOk = (TextView) dialog.findViewById(R.id.dialog_addScene_ok);
+        mTitleName = (TextView) dialog.findViewById(R.id.title_name);
+        mTitle = (TextView) dialog.findViewById(R.id.title);
+        mDialoghelp = (TextView) dialog.findViewById(R.id.dialog_help);
+        mDialoghelp.setVisibility(View.VISIBLE);
+        mDialogName.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        mTitle.setText("配置密码");
+        mDialogName.setHint("请输入当前配置密码");
+        mDialogName.setTextSize(14);
+        mTitleName.setText("模块密码 :");
+        mDialogOk.setText("确定");
+        mDialogCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        mDialogOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                if (mDialogName.getText().toString().equals(
+                        AppSharePreferenceMgr.get(GlobalVars.CONFIG_PASS_SHAREPREFERENCE, ""))) {
+                    startActivity(intent);
+                } else {
+                    ToastUtil.showText("对不起，密码输入不匹配哦");
+                }
+            }
+        });
+        mDialoghelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, ConfigPassActivity.class));
+            }
+        });
     }
 
     @Override

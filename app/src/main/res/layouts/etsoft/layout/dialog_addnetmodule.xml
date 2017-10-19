@@ -58,7 +58,7 @@
             android:layout_weight="3"
             android:gravity="center"
             android:lines="1"
-            android:text="模块ID:"
+            android:text="模  块  I D:"
             android:textColor="@color/color_000"
             android:textSize="@dimen/sp_18" />
 
@@ -71,31 +71,6 @@
             android:layout_weight="7"
             android:text="39ffd805484d303416600643"
             android:hint="清输入模块ID"
-            android:textSize="@dimen/sp_18" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:lines="1"
-            android:text="模块密码 :"
-            android:textColor="@color/color_000"
-            android:textSize="@dimen/sp_18" />
-
-        <EditText
-            android:id="@+id/dialog_addnetmodule_pass"
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:text="08650743"
-            android:hint="清输入模块密码"
             android:textSize="@dimen/sp_18" />
     </LinearLayout>
 

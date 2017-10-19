@@ -1,9 +1,15 @@
 package cn.etsoft.smarthome.Activity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
+import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import cn.etsoft.smarthome.Activity.Settings.ConditionSetActivity;
 import cn.etsoft.smarthome.Activity.Settings.DevInfoActivity;
@@ -18,6 +24,7 @@ import cn.etsoft.smarthome.Activity.Settings.TimerSetActivity;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.LogoutHelper;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout;
 
@@ -126,4 +133,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
 
     }
+
+
 }

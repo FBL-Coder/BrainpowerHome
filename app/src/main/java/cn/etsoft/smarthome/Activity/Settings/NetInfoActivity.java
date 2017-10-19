@@ -24,6 +24,7 @@ import cn.etsoft.smarthome.Adapter.ListView.NetWork_Adapter;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.UiHelper.Net_AddorDel_Helper;
 import cn.etsoft.smarthome.Utils.CommonUtils;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
@@ -86,7 +87,7 @@ public class NetInfoActivity extends Activity {
 
         if (FLAG == NetWork_Adapter.LOGIN) {
             info = MyApplication.mApplication.getRcuInfoList().get(position);
-            name.setText(info.getName());
+            name.setText(info.getCanCpuName());
             if (info.isOnLine()) IsOnLine.setText("在线");
             else IsOnLine.setText("不在线");
         } else {
@@ -150,7 +151,7 @@ public class NetInfoActivity extends Activity {
                     ToastUtil.showText("修改联网模块信息必须是局域网操作");
                     return;
                 }
-                String name_str = name.getText().toString();
+                String name_str = info.getName();
                 String IP_str = IP.getText().toString();
                 String Ip_mask_str = Ip_mask.getText().toString();
                 String GetWay_str = GetWay.getText().toString();
