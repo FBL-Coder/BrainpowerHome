@@ -3,78 +3,105 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#66000000">
+
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginLeft="@dimen/dp_200"
-        android:layout_marginTop="@dimen/dp_100"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="@dimen/sp_10">
+        android:background="@color/white1"
+        android:orientation="vertical">
         <!--用户直接可视界面-->
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_5"
-            android:layout_marginLeft="@dimen/sp_20"
-            android:layout_marginTop="@dimen/dp_5"
-            android:text="模块详情"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/sp_24" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="模块详情"
+                android:textColor="@color/main_blue1"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:textSize="@dimen/sp_20"
+                />
+            <TextView
+                android:id="@+id/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="保存"
+                android:background="@color/main_blue1"
+                android:padding="@dimen/dp_5"
+                android:textColor="@color/white1"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_60"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:textSize="@dimen/sp_14"
+                />
+
+            <ImageView
+                android:id="@+id/SeekNet_Back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="-17dp"
+                android:layout_marginTop="-17dp"
+                android:padding="@dimen/dp_10"
+                android:src="@drawable/close"
+                />
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
-            android:background="@color/blue" />
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@color/main_blue1" />
 
         <LinearLayout
             android:id="@+id/NetWork_Info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_5"
             android:orientation="vertical">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="模块名称"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_18" />
+                    android:text="模 块 名 称"
+                    android:textColor="@color/main_black1"
+                    android:textSize="@dimen/sp_14" />
 
-                <TextView
+                <EditText
                     android:id="@+id/NetWork_Name"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="@dimen/dp_40"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:textColor="@color/black"
+                    android:background="@null"
+                    android:textColor="@color/color_FF3B30"
                     android:textSize="@dimen/sp_18" />
 
-                <ImageView
-                    android:id="@+id/NetWork_EditName"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="invisible"
-                    android:src="@drawable/edit_net_name"/>
-
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@color/main_gray1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
                 android:orientation="horizontal">
 
                 <TextView
@@ -82,9 +109,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="模块ID"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_18" />
+                    android:text="模  块  I D"
+                    android:textColor="@color/main_black1"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:id="@+id/NetWork_ID"
@@ -92,15 +119,22 @@
                     android:layout_height="@dimen/dp_40"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_18" />
+                    android:textColor="@color/black1"
+                    android:textSize="@dimen/sp_14" />
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@color/main_gray1" />
+
             <LinearLayout
+                android:id="@+id/Net_Pass_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
                 android:orientation="horizontal">
 
                 <TextView
@@ -108,25 +142,33 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="模块密码"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_18" />
+                    android:text="模 块 密 码"
+                    android:textColor="@color/main_black1"
+                    android:textSize="@dimen/sp_14" />
 
-                <TextView
+                <EditText
                     android:id="@+id/NetWork_Pass"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="@dimen/dp_40"
                     android:layout_weight="2"
+                    android:editable="false"
                     android:gravity="center"
-                    android:textColor="@color/black"
+                    android:background="@null"
+                    android:textColor="@color/color_FF3B30"
                     android:textSize="@dimen/sp_18" />
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@color/main_gray1" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
                 android:orientation="horizontal">
 
                 <TextView
@@ -134,25 +176,32 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="IP地址"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_18" />
+                    android:text="I P  地  址"
+                    android:textColor="@color/main_black1"
+                    android:textSize="@dimen/sp_14" />
 
-                <TextView
+                <EditText
                     android:id="@+id/NetWork_Ip"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="@dimen/dp_40"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:textColor="@color/black"
+                    android:background="@null"
+                    android:textColor="@color/color_FF3B30"
                     android:textSize="@dimen/sp_18" />
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@color/main_gray1" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
                 android:orientation="horizontal">
 
                 <TextView
@@ -160,25 +209,32 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="子网掩码"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_18" />
+                    android:text="子 网 掩 码"
+                    android:textColor="@color/main_black1"
+                    android:textSize="@dimen/sp_14" />
 
-                <TextView
+                <EditText
                     android:id="@+id/NetWork_Ip_Mask"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="@dimen/dp_40"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:textColor="@color/black"
+                    android:background="@null"
+                    android:textColor="@color/color_FF3B30"
                     android:textSize="@dimen/sp_18" />
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@color/main_gray1" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
                 android:orientation="horizontal">
 
                 <TextView
@@ -186,25 +242,32 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="默认网关"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_18" />
+                    android:text="默 认 网 关"
+                    android:textColor="@color/main_black1"
+                    android:textSize="@dimen/sp_14" />
 
-                <TextView
+                <EditText
                     android:id="@+id/NetWork_GetWay"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="@dimen/dp_40"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:textColor="@color/black"
+                    android:background="@null"
+                    android:textColor="@color/color_FF3B30"
                     android:textSize="@dimen/sp_18" />
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@color/main_gray1" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
                 android:orientation="horizontal">
 
                 <TextView
@@ -213,23 +276,85 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="服务器地址"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_18" />
+                    android:textColor="@color/main_black1"
+                    android:textSize="@dimen/sp_14" />
 
-                <TextView
+                <EditText
                     android:id="@+id/NetWork_Server"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="@dimen/dp_40"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:textColor="@color/black"
+                    android:background="@null"
+                    android:textColor="@color/color_FF3B30"
                     android:textSize="@dimen/sp_18" />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@color/main_gray1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="动态获取IP"
+                    android:textColor="@color/main_black1"
+                    android:textSize="@dimen/sp_14" />
+
+                <RadioGroup
+                    android:id="@+id/stateIP"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingRight="@dimen/dp_20"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RadioButton
+                        android:id="@+id/stateIP_yes"
+                        android:paddingTop="@dimen/dp_2"
+                        android:paddingBottom="@dimen/dp_2"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/black1"
+                        android:text="是" />
+
+                    <RadioButton
+                        android:id="@+id/stateIP_no"
+                        android:layout_width="@dimen/dp_0"
+                        android:paddingTop="@dimen/dp_2"
+                        android:paddingBottom="@dimen/dp_2"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/black1"
+                        android:text="否" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@color/main_gray1" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
                 android:orientation="horizontal">
 
                 <TextView
@@ -237,9 +362,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="是否在线"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_18" />
+                    android:text="是 否 在 线"
+                    android:textColor="@color/main_black1"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:id="@+id/NetWork_IsOnLine"
@@ -247,28 +372,20 @@
                     android:layout_height="@dimen/dp_40"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black1"
                     android:textSize="@dimen/sp_18" />
 
             </LinearLayout>
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@color/main_gray1" />
+
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/SeekNet_Back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_120"
-            android:layout_marginTop="@dimen/dp_60"
-            android:padding="@dimen/dp_10"
-            android:text="返回"
-            android:textColor="@color/black1"
-            android:textSize="@dimen/sp_20" />
-    </RelativeLayout>
 </RelativeLayout>

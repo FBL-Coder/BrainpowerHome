@@ -292,12 +292,6 @@ public class UDPServer implements Runnable {
                     }
                 }
                 break;
-            case 2:// e_udpPro_getRcuinfo
-                if (subType1 == 0 && subType2 == 0) {
-                    MyApplication.mApplication.setIsheartting(true);
-                    GlobalVars.setIsLAN(true);
-                }
-                break;
             case 3: // getDevsInfo
                 if (subType1 == 1) {
 //                    MyApplication.getWareData().getDevs().clear();
@@ -614,7 +608,7 @@ public class UDPServer implements Runnable {
             }
             info1.setDevUnitID(jsonObject1.getString("uid"));
             info1.setDevUnitPass(jsonObject1.getString("pass"));
-            info1.setName(jsonObject1.getString("name"));
+            info1.setName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonObject1.getString("name"))));
             info1.setIpAddr(jsonObject1.getString("IpAddr"));
             info1.setSubMask(jsonObject1.getString("SubMask"));
             info1.setGateWay(jsonObject1.getString("Gateway"));
@@ -632,7 +626,7 @@ public class UDPServer implements Runnable {
                     if (jsonObject.getString("devUnitID").equals(json_list.get(i).getDevUnitID())) {
 //                        本地001数据包  过来后，根据id判断数据为同一个，所以会将服务器发送的数据覆盖，从而将canCpuname重置！
 //                        处理则根据值来赋值；
-//                        json_list.get(i).setCanCpuName(info1.getCanCpuName());
+                        json_list.get(i).setName(info1.getName());
                         json_list.get(i).setbDhcp(info1.getbDhcp());
                         json_list.get(i).setCenterServ(info1.getCenterServ());
                         json_list.get(i).setDevUnitID(info1.getDevUnitID());

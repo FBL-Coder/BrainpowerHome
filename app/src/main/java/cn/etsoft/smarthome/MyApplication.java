@@ -102,10 +102,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     private int music;//定义一个整型用load（）；来设置suondID
 
     /**
-     * 局域网内连接状态
-     */
-    private boolean Isheartting = false;
-    /**
      * 情景控制页面是否可见；
      */
     private boolean SceneIsShow = false;
@@ -192,20 +188,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             music = sp.load(this, R.raw.key_sound, 1);
         }
         return music;
-    }
-
-    /**
-     * 获取心跳状态
-     */
-    public boolean isIsheartting() {
-        return Isheartting;
-    }
-
-    /**
-     * 设置心跳状态
-     */
-    public void setIsheartting(boolean isheartting) {
-        Isheartting = isheartting;
     }
 
     /**
@@ -489,6 +471,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             }
             if (msg.what == application.WS_CLOSE) {
                 Log.e("WSException", "链接关闭" + msg.obj);
+                WSIsOpen = false;
                 WS_againConnect();
             }
             if (msg.what == application.WS_DATA_OK) {//WebSocket 数据
@@ -497,6 +480,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             }
             if (msg.what == application.WS_Error) {
                 Log.e("WSException", "数据异常" + msg.obj);
+                WSIsOpen = false;
                 WS_againConnect();
 //                ToastUtil.showText("数据发送失败，与服务器连接已断开，请稍后再试！");
             }

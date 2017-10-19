@@ -1,5 +1,7 @@
 package cn.etsoft.smarthome.Utils;
 
+import android.util.Log;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
@@ -85,6 +87,27 @@ public class SendDataUtil {
         MyApplication.mApplication.getUdpServer().send(GETNETWORKINFO, 0);
 
         MyApplication.mApplication.setCanChangeNet(false);
+    }
+
+
+    public static void changeNetInfo(String name, String pass,String ip, String Ip_mask,
+                                     String GetWay, String Server, String macAddr, int IsState) {
+        String ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_setRcuInfo.getValue() +
+                ",\"subType1\":0" +
+                ",\"subType2\":0" +
+                ",\"name\":\"" + name + "\"" +
+                ",\"devPass\":\"" + pass + "\"" +
+                ",\"IpAddr\":\"" + ip + "\"" +
+                ",\"SubMask\":\"" + Ip_mask + "\"" +
+                ",\"Gateway\":\"" + GetWay + "\"" +
+                ",\"centerServ\":\"" + Server + "\"" +
+                ",\"roomNum\":\"\"" +
+                ",\"macAddr\":\"" + macAddr + "\"" +
+                ",\"bDhcp\":" + IsState +
+                "}";
+        Log.i("changeNetInfo", ctlStr);
+//        MyApplication.mApplication.getUdpServer().send(ctlStr, 1);
     }
 
     public static void controlDev(WareDev dev, int cmd) {
