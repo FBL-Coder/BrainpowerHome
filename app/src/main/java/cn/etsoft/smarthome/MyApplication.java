@@ -447,7 +447,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      * 静态Handler WebSocket以及Udp连接，数据监听
      */
 
-
     static class APPHandler extends Handler {
         private WeakReference<MyApplication> weakReference;
         private MyApplication application;

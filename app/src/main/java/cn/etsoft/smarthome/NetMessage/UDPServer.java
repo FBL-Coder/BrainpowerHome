@@ -115,6 +115,7 @@ public class UDPServer implements Runnable {
         if (NETWORK == 0) {
             ToastUtil.showText("请检查网络连接");
         } else if (NETWORK != 0 && NETWORK < 10) {
+            GlobalVars.setIsLAN(false);
             String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
             MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
             Log.i("发送WebSocket", "数据流量--WEB" + jsonToServer);

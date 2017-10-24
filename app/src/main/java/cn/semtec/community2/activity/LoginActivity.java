@@ -102,8 +102,8 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
         btn_tourist = (TextView) findViewById(R.id.login_ourist);
         et_account = (EditText) findViewById(R.id.login_id);
         et_password = (EditText) findViewById(R.id.login_pass);
-        et_account.setText((String)AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE,""));
-        et_password.setText((String)AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE,""));
+        et_account.setText((String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));
+        et_password.setText((String) AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
     }
 
 
@@ -134,8 +134,7 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
                 password = et_password.getText().toString();
 
                 Pattern p = Pattern.compile("^1\\d{10}$");
-                Pattern w = Pattern.compile("\\w{6,12}");
-                if (!(p.matcher(cellphone).matches() && w.matcher(password).matches())) {
+                if (!(p.matcher(cellphone).matches() && password.length() < 6)) {
                     ToastUtil.showText(getString(R.string.login_error1));
                     break;
                 }

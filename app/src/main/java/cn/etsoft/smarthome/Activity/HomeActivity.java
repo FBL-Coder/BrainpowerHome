@@ -31,7 +31,6 @@ import cn.etsoft.smarthome.Activity.Settings.ConfigPassActivity;
 import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
 import cn.etsoft.smarthome.Domain.City;
 import cn.etsoft.smarthome.Domain.RcuInfo;
-import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.Weather_All_Bean;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
@@ -166,12 +165,17 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.home_ref_btn:
+                GlobalVars.setIsLAN(true);
                 SendDataUtil.getNetWorkInfo();
                 break;
             case R.id.home_logout_btn:
                 LogoutHelper.logout(HomeActivity.this);
                 break;
             case R.id.Home_YunVideo:
+                if (MyApplication.mApplication.isVisitor()) {
+                    ToastUtil.showText("这里您不可以操作哦~");
+                    return;
+                }
                 startActivity(new Intent(HomeActivity.this, cn.semtec.community2.WelcomeActivity.class));
                 break;
             case R.id.Home_Safety:
@@ -192,7 +196,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //            case R.id.Home_Health:
 //                break;
             case R.id.Home_Setting:
-//                if (Condition()) return;
+                if (MyApplication.mApplication.isVisitor()) {
+                    ToastUtil.showText("这里您不可以操作哦~");
+                    return;
+                }
+                if (Condition()) return;
                 InputPass(new Intent(HomeActivity.this, SettingActivity.class));
                 break;
             case R.id.NetWork_Ok:

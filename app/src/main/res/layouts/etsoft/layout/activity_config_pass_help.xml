@@ -9,51 +9,73 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginLeft="@dimen/dp_300"
-        android:padding="@dimen/dp_10"
         android:background="@color/white1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/dp_5">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="提示"
-            android:textSize="@dimen/sp_18"
-            android:textColor="@color/blue"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_marginBottom="@dimen/dp_5"/>
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_5"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_weight="9"
+                android:text="提示"
+                android:textStyle="bold"
+                android:textColor="@color/main_blue1"
+                android:textSize="@dimen/sp_18" />
+
+            <ImageView
+                android:id="@+id/Cancle"
+                android:layout_width="@dimen/dp_35"
+                android:layout_height="wrap_content"
+                android:background="@color/main_blue1"
+                android:src="@drawable/xiaocha" />
+
+
+        </LinearLayout>
+
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_5"
-            android:background="@color/blue"
-            android:layout_marginBottom="@dimen/dp_10"/>
+            android:layout_marginBottom="@dimen/dp_10"
+            android:background="@color/main_blue1" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="1、配置密码是用户进入功能配置界面需要输入的密码。\n2、配置密码的初始密码：888888\n3、配置密码不等同于用户登录密码。" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/dp_10">
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/ChangePass"
                 android:layout_width="@dimen/dp_0"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="修改密码"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="@dimen/sp_18"
-                android:textColor="@color/blue"/>
+                android:text="修改密码"
+                android:textColor="@color/main_blue1"
+                android:textSize="@dimen/sp_16" />
+
             <TextView
                 android:id="@+id/ResetPass"
                 android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_height="wrap_content"
                 android:text="重置密码"
-                android:textSize="@dimen/sp_18"
-                android:textColor="@color/blue"/>
+                android:textColor="@color/main_blue1"
+                android:textSize="@dimen/sp_16" />
 
         </LinearLayout>
 
@@ -64,6 +86,7 @@
             android:layout_marginTop="@dimen/dp_15"
             android:orientation="vertical"
             android:visibility="gone">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,19 +98,21 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="@dimen/sp_16"
+                    android:text="旧密码："
                     android:textColor="@color/black1"
-                    android:text="旧密码："/>
+                    android:textSize="@dimen/sp_16" />
+
                 <EditText
                     android:id="@+id/Config_Help_et_oldpass"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:textSize="@dimen/sp_18"
-                    android:textColor="@color/black"
-                    android:hint="请输入旧密码"/>
+                    android:hint="请输入旧密码"
+                    android:textColor="@color/black1"
+                    android:textSize="@dimen/sp_18" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -98,28 +123,35 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="@dimen/sp_16"
+                    android:text="新密码："
                     android:textColor="@color/black1"
-                    android:text="新密码："/>
+                    android:textSize="@dimen/sp_16" />
+
                 <EditText
-                    android:id="@+id/Config_Help_oldpass"
+                    android:id="@+id/Config_Help_newpass"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:textSize="@dimen/sp_18"
-                    android:textColor="@color/black"
-                    android:hint="请输入新密码"/>
+                    android:inputType="number"
+                    android:hint="请输入新密码"
+                    android:textColor="@color/black1"
+                    android:textSize="@dimen/sp_18" />
 
             </LinearLayout>
+
             <TextView
                 android:id="@+id/Config_Help_ok"
-                android:layout_marginTop="@dimen/dp_15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="保  存"
+                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginRight="@dimen/dp_20"
                 android:gravity="center"
-                android:textSize="@dimen/sp_22"
-                android:textColor="@color/blue"/>
+                android:padding="@dimen/dp_5"
+                android:background="@drawable/selector_color_blue_btn_bg"
+                android:text="保  存"
+                android:textColor="@color/white1"
+                android:textSize="@dimen/sp_20" />
         </LinearLayout>
 
     </LinearLayout>

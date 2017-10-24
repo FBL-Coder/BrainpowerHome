@@ -201,7 +201,7 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
-        <!-- 联网模块详情-->
+        <!-- 配置密码帮助页面-->
         <activity
             android:name=".Activity.Settings.ConfigPassActivity"
             android:screenOrientation="landscape"

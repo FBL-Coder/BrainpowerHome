@@ -382,6 +382,7 @@ public class NewWorkSetActivity extends BaseActivity {
         mNewWorksousuolistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                MyApplication.mApplication.setSeekNet(false);
                 if (!MyApplication.mApplication.isCanChangeNet()) {
                     ToastUtil.showText("正在加载数据，请稍后再试...");
                     return;

@@ -108,9 +108,8 @@ public class RegistActivity extends MyBaseActivity implements View.OnClickListen
             ToastUtil.showText(getString(R.string.repickpassword_verify_error));
             return false;
         }
-        Pattern w = Pattern.compile("\\w{6,12}");
-        if (!w.matcher(password).matches()) {
-            ToastUtil.showText(getString(R.string.changePassword_pwtips));
+        if (password.length() < 6) {
+            ToastUtil.showText("密码最少6位");
             return false;
         }
         return true;
