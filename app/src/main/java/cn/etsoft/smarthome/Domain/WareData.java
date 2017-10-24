@@ -88,6 +88,8 @@ public class WareData implements Serializable {
     private String DeleteDevid;
 
     public UserBean getUserBeen() {
+        if (userBeen == null)
+            userBeen = new UserBean();
         return userBeen;
     }
 

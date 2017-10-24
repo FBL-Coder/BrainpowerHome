@@ -1,51 +1,20 @@
 package cn.etsoft.smarthome.Domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by fbl on 16-11-23.
  */
 public class UserBean implements Serializable {
-
     /**
-     * userName : 17089111219
-     * passwd : 123456
-     * devUnitID : 39ffd905484d303429620443
-     * datType : 66
-     * subType1 : 0
-     * subType2 : 0
-     * dev_rows : [{"canCpuID":"36ffda054842373525871943","devType":3,"devID":4}]
+     * devUnitID : 39ffd805484d303408580143
+     * user_bean : [{"canCpuID":"36ffd7054842373507781843","isDev":true,"devType":9,"devID":1,"eventId":0},{"canCpuID":"36ffd7054842373507781843","isDev":true,"devType":3,"devID":2,"eventId":0},{"canCpuID":"","isDev":false,"eventId":9,"devType":0,"devID":0},{"canCpuID":"","isDev":false,"eventId":9,"devType":0,"devID":0}]
      */
-    private String userName;
-    private String passwd;
+
     private String devUnitID;
-    private int datType;
-    private int subType1;
-    private int subType2;
-    /**
-     * canCpuID : 36ffda054842373525871943
-     * devType : 3
-     * devID : 4
-     */
-
-    private List<DevRowsBean> dev_rows;
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPasswd() {
-        return passwd;
-    }
-
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
-    }
+    private List<UserBeanBean> user_bean;
 
     public String getDevUnitID() {
         return devUnitID;
@@ -55,42 +24,30 @@ public class UserBean implements Serializable {
         this.devUnitID = devUnitID;
     }
 
-    public int getDatType() {
-        return datType;
+    public List<UserBeanBean> getUser_bean() {
+        if (user_bean == null)
+            user_bean = new ArrayList<>();
+        return user_bean;
     }
 
-    public void setDatType(int datType) {
-        this.datType = datType;
+    public void setUser_bean(List<UserBeanBean> user_bean) {
+        this.user_bean = user_bean;
     }
 
-    public int getSubType1() {
-        return subType1;
-    }
+    public static class UserBeanBean {
+        /**
+         * canCpuID : 36ffd7054842373507781843
+         * isDev : true
+         * devType : 9
+         * devID : 1
+         * eventId : 0
+         */
 
-    public void setSubType1(int subType1) {
-        this.subType1 = subType1;
-    }
-
-    public int getSubType2() {
-        return subType2;
-    }
-
-    public void setSubType2(int subType2) {
-        this.subType2 = subType2;
-    }
-
-    public List<DevRowsBean> getDev_rows() {
-        return dev_rows;
-    }
-
-    public void setDev_rows(List<DevRowsBean> dev_rows) {
-        this.dev_rows = dev_rows;
-    }
-
-    public static class DevRowsBean implements Serializable {
         private String canCpuID;
+        private int isDev;
         private int devType;
         private int devID;
+        private int eventId;
 
         public String getCanCpuID() {
             return canCpuID;
@@ -98,6 +55,14 @@ public class UserBean implements Serializable {
 
         public void setCanCpuID(String canCpuID) {
             this.canCpuID = canCpuID;
+        }
+
+        public int isIsDev() {
+            return isDev;
+        }
+
+        public void setIsDev(int isDev) {
+            this.isDev = isDev;
         }
 
         public int getDevType() {
@@ -114,6 +79,14 @@ public class UserBean implements Serializable {
 
         public void setDevID(int devID) {
             this.devID = devID;
+        }
+
+        public int getEventId() {
+            return eventId;
+        }
+
+        public void setEventId(int eventId) {
+            this.eventId = eventId;
         }
     }
 }

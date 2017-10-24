@@ -20,10 +20,7 @@
         android:id="@+id/Control_GridView_Item_IV"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_160"
-        android:layout_below="@id/Control_GridView_Item_Name"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:layout_marginRight="@dimen/dp_20"
-         />
+        android:layout_below="@+id/Control_GridView_Item_Name"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

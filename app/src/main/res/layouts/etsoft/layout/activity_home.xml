@@ -445,6 +445,34 @@
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
             <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
+                android:id="@+id/Home_User"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:scaleType="fitXY">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:paddingLeft="@dimen/dp_30"
+                    android:paddingRight="@dimen/dp_30"
+                    android:paddingTop="@dimen/dp_30"
+                    android:src="@drawable/user_icon" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="用户"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_20"
+                    android:textStyle="bold" />
+            </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
+
+            <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
                 android:id="@+id/Home_Safety"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"

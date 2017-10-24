@@ -67,7 +67,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private Home_Weather weather_helper;
     private HomeHandler mHandler = new HomeHandler(HomeActivity.this);
     private HomeWeatherAnim mHomeWeatherAnim;
-    private BamLinearLayout mHome_YunVideo, mHome_Safety, mHome_JiaDian, mHome_State, mHome_Scene,
+    private BamLinearLayout mHome_YunVideo, mHome_User, mHome_Safety, mHome_JiaDian, mHome_State, mHome_Scene,
             mHome_Timer, mHome_Health, mHome_Setting;
 
 
@@ -85,8 +85,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         BaseActivity.setGetNetChangeListener(new BaseActivity.getNetChangeListener() {
             @Override
             public void NetChange() {
-                GlobalVars.setIsLAN(true);
                 getIp();
+                GlobalVars.setIsLAN(true);
+                SendDataUtil.getNetWorkInfo();
             }
         });
     }
@@ -115,6 +116,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
         mHome_YunVideo = (BamLinearLayout) findViewById(R.id.Home_YunVideo);
         mHome_YunVideo.setOnClickListener(this);
+        mHome_User = (BamLinearLayout) findViewById(R.id.Home_User);
+        mHome_User.setOnClickListener(this);
         mHome_Safety = (BamLinearLayout) findViewById(R.id.Home_Safety);
         mHome_Safety.setOnClickListener(this);
         mHome_JiaDian = (BamLinearLayout) findViewById(R.id.Home_JiaDian);
@@ -177,6 +180,13 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     return;
                 }
                 startActivity(new Intent(HomeActivity.this, cn.semtec.community2.WelcomeActivity.class));
+                break;
+            case R.id.Home_User:
+                if (MyApplication.mApplication.isVisitor()) {
+                    ToastUtil.showText("这里您不可以操作哦~");
+                    return;
+                }
+                startActivity(new Intent(HomeActivity.this, UserInterface.class));
                 break;
             case R.id.Home_Safety:
                 startActivity(new Intent(HomeActivity.this, SafetyHomeActivity.class));

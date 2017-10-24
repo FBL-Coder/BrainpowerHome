@@ -189,6 +189,16 @@
             android:name=".Activity.TimerInfoActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
+        <!-- 用户界面-->
+        <activity
+            android:name=".Activity.UserInterface"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
+        <!-- 用户界面添加设备界面-->
+        <activity
+            android:name=".Activity.Settings.UserAddDevsActivty"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!-- 安防首页进入详情-->
         <activity
             android:name=".Activity.SafetyHomeActivity"
