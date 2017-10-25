@@ -75,11 +75,11 @@ public class AirControlFragment extends BaseFragment {
             }
         }
         if (mAirAdapter == null) {
-            mAirAdapter = new Control_Air_Adapter( mActivity, mAir_Room);
+            mAirAdapter = new Control_Air_Adapter(mActivity, mAir_Room);
             mAir_Girdview.setAdapter(mAirAdapter);
         } else
             mAirAdapter.notifyDataSetChanged(mAir_Room);
-        TextView nulltv= findViewById(R.id.null_tv);
+        TextView nulltv = findViewById(R.id.null_tv);
         mAir_Girdview.setEmptyView(nulltv);
     }
 

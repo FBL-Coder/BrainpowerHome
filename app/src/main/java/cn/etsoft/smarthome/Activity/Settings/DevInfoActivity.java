@@ -32,9 +32,9 @@ public class DevInfoActivity extends BaseActivity {
     private GridView DevInfoGridView;
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
-    private int DevType = -1;
+    private int DevType = 3 ;
     private int roomSize = -1;
-    private String RoomName = "";
+    private String RoomName = "全部";
     private DevInfosAdapter adapter;
     private boolean OuterCircleClick = false;
     private List<WareDev> mRoomDevs;
@@ -55,33 +55,11 @@ public class DevInfoActivity extends BaseActivity {
                         return;
                     }
                     ToastUtil.showText("操作成功");
-                    mRoomDevs = getRoomDev(RoomName);
-                    if (mRoomDevs == null) return;
-                    List<WareDev> gridviewDev = new ArrayList<>();
-                    for (int i = 0; i < mRoomDevs.size(); i++) {
-                        if (mRoomDevs.get(i).getType() == DevType)
-                            gridviewDev.add(mRoomDevs.get(i));
-                    }
-                    if (adapter == null) {
-                        adapter = new DevInfosAdapter(gridviewDev, DevInfoActivity.this);
-                        DevInfoGridView.setAdapter(adapter);
-                    } else
-                        adapter.notifyDataSetChanged(gridviewDev);
+                    InitCircleData();
                 }
                 if (datType == 3 || datType == 4 || datType == 35
-                        || (datType == 7 || subtype2 == 1)||(datType == 9 && subtype2 == 1)){
-                    mRoomDevs = getRoomDev(RoomName);
-                    if (mRoomDevs == null) return;
-                    List<WareDev> gridviewDev = new ArrayList<>();
-                    for (int i = 0; i < mRoomDevs.size(); i++) {
-                        if (mRoomDevs.get(i).getType() == DevType)
-                            gridviewDev.add(mRoomDevs.get(i));
-                    }
-                    if (adapter == null) {
-                        adapter = new DevInfosAdapter(gridviewDev, DevInfoActivity.this);
-                        DevInfoGridView.setAdapter(adapter);
-                    } else
-                        adapter.notifyDataSetChanged(gridviewDev);
+                        || (datType == 7 || subtype2 == 1) || (datType == 9 && subtype2 == 1)) {
+                    InitCircleData();
                 }
             }
         });
@@ -105,21 +83,25 @@ public class DevInfoActivity extends BaseActivity {
                         return;
                     }
                     ToastUtil.showText("操作成功");
-                    mRoomDevs = getRoomDev(RoomName);
-                    if (mRoomDevs == null) return;
-                    List<WareDev> gridviewDev = new ArrayList<>();
-                    for (int i = 0; i < mRoomDevs.size(); i++) {
-                        if (mRoomDevs.get(i).getType() == DevType)
-                            gridviewDev.add(mRoomDevs.get(i));
-                    }
-                    if (adapter == null) {
-                        adapter = new DevInfosAdapter(gridviewDev, DevInfoActivity.this);
-                        DevInfoGridView.setAdapter(adapter);
-                    } else
-                        adapter.notifyDataSetChanged(gridviewDev);
+                    InitCircleData();
                 }
             }
         });
+    }
+
+    private void InitCircleData() {
+        List<WareDev> gridviewDev = new ArrayList<>();
+        mRoomDevs = getRoomDev(RoomName);
+        if (mRoomDevs == null) return;
+        for (int i = 0; i < mRoomDevs.size(); i++) {
+            if (mRoomDevs.get(i).getType() == DevType)
+                gridviewDev.add(mRoomDevs.get(i));
+        }
+        if (adapter == null) {
+            adapter = new DevInfosAdapter(gridviewDev, DevInfoActivity.this);
+            DevInfoGridView.setAdapter(adapter);
+        } else
+            adapter.notifyDataSetChanged(gridviewDev);
     }
 
     @Override
@@ -179,20 +161,10 @@ public class DevInfoActivity extends BaseActivity {
                     return;
                 }
                 mDevInfoNullData.setText("没有数据");
-                mRoomDevs = getRoomDev(RoomName);
-                if (mRoomDevs == null) return;
-                List<WareDev> gridviewDev = new ArrayList<>();
-                for (int i = 0; i < mRoomDevs.size(); i++) {
-                    if (mRoomDevs.get(i).getType() == DevType)
-                        gridviewDev.add(mRoomDevs.get(i));
-                }
-                if (adapter == null) {
-                    adapter = new DevInfosAdapter(gridviewDev, DevInfoActivity.this);
-                    DevInfoGridView.setAdapter(adapter);
-                } else
-                    adapter.notifyDataSetChanged(gridviewDev);
+                InitCircleData();
             }
         });
+        InitCircleData();
     }
 
     public List<WareDev> getRoomDev(String roomname) {
@@ -228,18 +200,7 @@ public class DevInfoActivity extends BaseActivity {
                 return;
             }
             mDevInfoNullData.setText("没有数据");
-            mRoomDevs = getRoomDev(RoomName);
-            if (mRoomDevs == null) return;
-            List<WareDev> gridviewDev = new ArrayList<>();
-            for (int i = 0; i < mRoomDevs.size(); i++) {
-                if (mRoomDevs.get(i).getType() == DevType)
-                    gridviewDev.add(mRoomDevs.get(i));
-            }
-            if (adapter == null) {
-                adapter = new DevInfosAdapter(gridviewDev, DevInfoActivity.this);
-                DevInfoGridView.setAdapter(adapter);
-            } else
-                adapter.notifyDataSetChanged(gridviewDev);
+            InitCircleData();
         }
     }
 }

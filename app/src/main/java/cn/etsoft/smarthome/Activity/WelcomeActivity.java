@@ -19,6 +19,7 @@ import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
+import cn.semtec.community2.fragment.VideoFragment;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
@@ -54,7 +55,6 @@ public class WelcomeActivity extends Activity {
         } catch (Exception e1) {
         }
     }
-
     public void initData() {
         new Thread(new Runnable() {
             @Override

@@ -108,7 +108,7 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
      */
     private void initGridView(boolean isNew) {
         bean = MyApplication.getWareData().getUserBeen();
-        if (isNew) {
+        if (isNew || adapter_user == null) {
             adapter_user = new GridViewAdapter_User(MyApplication.getWareData().getUserBeen(), this);
             gridView.setAdapter(adapter_user);
         } else adapter_user.notifyDataSetChanged(MyApplication.getWareData().getUserBeen());

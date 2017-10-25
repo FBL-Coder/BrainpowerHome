@@ -2279,6 +2279,7 @@ public class UDPServer implements Runnable {
                                         item.getDevType() == item_exist.getDevType()) {
                                     //情景ID相同，并且设备属性页相同
                                     IsDevIdExist = true;
+                                    event_exist.getItemAry().get(a).setbOnOff(item.getbOnOff());
                                 } else {
                                     //情景ID相同，但设备不同
                                     IsDevIdExist = false;

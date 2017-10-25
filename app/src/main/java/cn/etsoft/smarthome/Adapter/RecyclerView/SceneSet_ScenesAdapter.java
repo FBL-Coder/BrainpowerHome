@@ -58,7 +58,7 @@ public class SceneSet_ScenesAdapter extends RecyclerView.Adapter<SceneSet_Scenes
             holder.iv.setImageResource(R.drawable.xizao);
         else if (list.get(position).getSceneName().contains("餐"))
             holder.iv.setImageResource(R.drawable.yongcan);
-        else holder.iv.setImageResource(image[position]);
+        else holder.iv.setImageResource(image[position % 6]);
 
         holder.tv.setText(list.get(position).getSceneName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {

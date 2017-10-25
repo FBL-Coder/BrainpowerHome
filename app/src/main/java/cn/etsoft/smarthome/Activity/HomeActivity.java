@@ -144,7 +144,11 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             for (int i = 0; i < list.size(); i++) {
                 if (AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")
                         .equals(list.get(i).getDevUnitID())) {
-                    mNetWork_Ok.setText("使用中的模块\n" + list.get(i).getCanCpuName());
+                    if ("".equals(list.get(i).getCanCpuName())) {
+                        mNetWork_Ok.setText(list.get(i).getName());
+                    } else {
+                        mNetWork_Ok.setText(list.get(i).getCanCpuName());
+                    }
                 }
             }
         }

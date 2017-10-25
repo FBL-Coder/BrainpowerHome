@@ -474,7 +474,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 WS_againConnect();
             }
             if (msg.what == application.WS_DATA_OK) {//WebSocket 数据
-                GlobalVars.setIsLAN(false);
+//                GlobalVars.setIsLAN(false);
                 MyApplication.mApplication.getUdpServer().webSocketData((String) msg.obj);
             }
             if (msg.what == application.WS_Error) {

@@ -114,6 +114,8 @@ public class Control_Air_Adapter extends BaseAdapter {
                 SendDataUtil.controlDev(mAirs.get(position).getDev(), getAirCmdTempstr(Integer.parseInt(temp_texts.get(i))));
             }
         });
+
+        viewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd() - 2);
         viewHoler.mHorizontalSelectSpead.setItems(spead_texts);
         viewHoler.mHorizontalSelectSpead.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
             @Override

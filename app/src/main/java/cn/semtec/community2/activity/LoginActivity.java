@@ -134,7 +134,7 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
                 password = et_password.getText().toString();
 
                 Pattern p = Pattern.compile("^1\\d{10}$");
-                if (!(p.matcher(cellphone).matches() && password.length() < 6)) {
+                if (!(p.matcher(cellphone).matches() || password.length() < 6)) {
                     ToastUtil.showText(getString(R.string.login_error1));
                     break;
                 }

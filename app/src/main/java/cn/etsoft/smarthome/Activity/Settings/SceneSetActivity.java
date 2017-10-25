@@ -133,8 +133,8 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         }
         switch (v.getId()) {
             case R.id.SceneSet_Add_Btn:
-                if (MyApplication.getWareData().getSceneEvents().size() == 6){
-                    ToastUtil.showText("自定义情景最多6个！");
+                if (MyApplication.getWareData().getSceneEvents().size() == 10){
+                    ToastUtil.showText("自定义情景最多10个！");
                     return;
                 }
                 SceneSetHelper.AddScene(this);

@@ -90,6 +90,7 @@ public class Control_FloorHeat_Adapter extends BaseAdapter {
         viewHoler.mFloorheatTempAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 ++floorHeatTemp;
                 if (floorHeatTemp > 30) {
                     ToastUtil.showText("地暖最高30度");
@@ -170,8 +171,6 @@ public class Control_FloorHeat_Adapter extends BaseAdapter {
                 MyApplication.mApplication.showLoadDialog(mActivity);
             }
         });
-
-
         return convertView;
     }
 

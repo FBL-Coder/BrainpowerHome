@@ -382,7 +382,6 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                         }
                     } else if (dev.getType() == 7) {
                         for (int i = 0; i < MyApplication.getWareData().getFreshAirs().size(); i++) {
-
                             if (list_board.get(board_position).getDevUnitID().equals(
                                     MyApplication.getWareData().getFreshAirs().get(i).getDev().getCanCpuId())) {
                                 list_voard_cancpuid.add(MyApplication.getWareData().getFreshAirs().get(i).getOnOffChn() + 1);
