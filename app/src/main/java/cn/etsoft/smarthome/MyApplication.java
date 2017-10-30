@@ -123,12 +123,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         super.onCreate();
 
         mApplication = MyApplication.this;
-        /**
-         * 腾讯 bugly
-         */
-        CrashReport.initCrashReport(MyApplication.getContext(), "c8a123eb0c", false);
-        //初始化天气数据
-        new WratherUtil();
 
         //初始化SoServer
         new Thread(new Runnable() {
@@ -137,6 +131,13 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 jniUtils.udpServer();
             }
         }).start();
+
+        /**
+         * 腾讯 bugly
+         */
+        CrashReport.initCrashReport(MyApplication.getContext(), "c8a123eb0c", false);
+        //初始化天气数据
+        new WratherUtil();
 
         //初始化WebSocket
         wsClient = new WebSocket_Client();
@@ -150,6 +151,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         ExecutorService exec = Executors.newCachedThreadPool();
         udpServer = new UDPServer(handler);
         exec.execute(udpServer);
+        udpServer.UdpHeard();
 
         sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
         music = sp.load(this, R.raw.key_sound, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
@@ -238,6 +240,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             // 开启UDP数据接收服务器
             ExecutorService exec = Executors.newCachedThreadPool();
             udpServer = new UDPServer(handler);
+            udpServer.UdpHeard();
             exec.execute(udpServer);
         }
         return udpServer;
@@ -451,7 +454,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         private WeakReference<MyApplication> weakReference;
         private MyApplication application;
         private boolean WSIsOpen = false;
-        private boolean WSIsAgainConnectRun;
+        private boolean WSIsAgainConnectRun = false;
         private int NotificationID = 10;
 
         APPHandler(MyApplication application) {
@@ -467,6 +470,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             if (msg.what == application.WS_OPEN_OK) {
                 WSIsOpen = true;
                 Log.e("WebSiocket", "链接成功");
+                String wbstr = "{\"uid\":\"" + AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, "") + "\",\"type\":\"bind\"}";
+                weakReference.get().wsClient.sendMsg(wbstr);
             }
             if (msg.what == application.WS_CLOSE) {
                 Log.e("WSException", "链接关闭" + msg.obj);
@@ -533,7 +538,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
                     Log.e("WSException", "WS尝试连接中...");
-                    application.wsClient = new WebSocket_Client();
+//                    application.wsClient = new WebSocket_Client();
                     try {
                         application.wsClient.initSocketClient(application.handler);
                         application.wsClient.connect();
@@ -551,8 +556,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                             return;
                         }
                         try {
-                            Thread.sleep(5000);
                             handler.sendMessage(handler.obtainMessage());
+                            Thread.sleep(2000);
                         } catch (InterruptedException e) {
                             Log.e("WSException", "WebSocket链接重启失败" + e);
                         }

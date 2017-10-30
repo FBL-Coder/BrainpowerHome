@@ -69,11 +69,12 @@ public class UDPServer implements Runnable {
     private boolean life = true;
     private Handler mhandler;
     private DatagramSocket dSocket;
-    private Timer Messagetimer;
     private int DATTYPE = 0;
 
     //是否刷新数据
     private boolean isFreshData = false;
+
+    private  Timer Messagetimer;
 
     public UDPServer(Handler handler) {
         mhandler = handler;
@@ -109,8 +110,23 @@ public class UDPServer implements Runnable {
         }
     }
 
-    public void send(final String msg, int dattype) {
+    public void UdpHeard() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (; ; ) {
+                    try {
+                        Thread.sleep(15000);
+                        SendDataUtil.getHeart();
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, "UdpHeard: " + e);
+                    }
+                }
+            }
+        }).start();
+    }
 
+    public void send(final String msg, int dattype) {
         int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
         if (NETWORK == 0) {
             ToastUtil.showText("请检查网络连接");
@@ -129,25 +145,26 @@ public class UDPServer implements Runnable {
             }
             if (GlobalVars.isIsLAN()) {
                 UdpSendMsg(msg);
-                if (dattype == 26) {
-                    return;
+
+                if (dattype == 80) {
+                    Messagetimer = new Timer();
+                    Messagetimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
+                            Log.i("发送WebSocket", "局域网超时转发WEB  ：" + jsonToServer);
+                            MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
+                            GlobalVars.setIsLAN(false);
+                        }
+                    }, 5000);
+                    UDPServer.setMessageBackListener(new UDPServer.MessageBackListener() {
+                        @Override
+                        public void messageForBack(int dattype) {
+                            Messagetimer.cancel();
+                            Log.i("TIMER --CANCEL", Messagetimer.toString());
+                        }
+                    });
                 }
-                Messagetimer = new Timer();
-                Messagetimer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
-                        Log.i("发送WebSocket", "局域网超时转发WEB  ：" + jsonToServer);
-                        MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
-                        GlobalVars.setIsLAN(false);
-                    }
-                }, 5000);
-                UDPServer.setMessageBackListener(new MessageBackListener() {
-                    @Override
-                    public void messageForBack(int dattype) {
-                        Messagetimer.cancel();
-                    }
-                });
             } else {
                 String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
                 Log.i("发送WebSocket", "判断本地ISLAN=false  ：" + jsonToServer);
@@ -157,8 +174,9 @@ public class UDPServer implements Runnable {
     }
 
     //搜索联网模块
-    public void sendSeekNet() {
-        MyApplication.mApplication.setSeekNet(true);
+    public void sendSeekNet(boolean isSeekNet) {
+        if (isSeekNet)
+            MyApplication.mApplication.setSeekNet(true);
         String SeekNet = "{" +
                 "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
                 "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
@@ -169,7 +187,7 @@ public class UDPServer implements Runnable {
         UdpSendMsg(SeekNet);
     }
 
-    private void UdpSendMsg(final String msg) {
+    public void UdpSendMsg(final String msg) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -191,30 +209,23 @@ public class UDPServer implements Runnable {
         }).start();
     }
 
-    public static void show(String str) {
 
-        try {
-            str = str.trim();
-            int index = 0;
-            int maxLength = 4000;
-            String sub;
-            while (index < str.length()) {
-                // java的字符不允许指定超过总的长度end
-                if (str.length() <= index + maxLength) {
-                    sub = str.substring(index);
-                } else {
-                    sub = str.substring(index, maxLength);
-                }
-                index += maxLength;
-                Log.i("接收信息", sub.trim());
-            }
-        } catch (Exception e) {
-            Log.e("Exception", e.toString());
-        }
-    }
-
+    Timer UDPtimer;
 
     public void IsUdpData(String info) {
+        if (UDPtimer != null) {
+            UDPtimer.cancel();
+            Log.i(TAG, "UDP数据，取消定时等待");
+            GlobalVars.setIsLAN(true);
+        }
+        UDPtimer = new Timer();
+        UDPtimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Log.i(TAG, "UDP数据，无返回，等待20秒后执行");
+                GlobalVars.setIsLAN(false);
+            }
+        }, 30000);
         String devUnitID = "";
         int datType = 0;
         int subType2 = 0;
@@ -226,7 +237,7 @@ public class UDPServer implements Runnable {
             subType1 = jsonObject.getInt("subType1");
             subType2 = jsonObject.getInt("subType2");
             if (!devUnitID.equals(GlobalVars.getDevid()))
-                if (datType != 0) {
+                if (MyApplication.mApplication.isSeekNet()) {
                     Log.i(TAG, "devUnitID不一致:" + "本地ID" + GlobalVars.getDevid() + "--数据ID" + devUnitID + ";包类型：" + datType + "-" + subType1 + "-" + subType2);
                     return;
                 }
@@ -278,7 +289,7 @@ public class UDPServer implements Runnable {
         } catch (JSONException e) {
             System.out.println(this.getClass().getName() + "--extractData--" + e.toString());
         }
-        if (datType != 35 && datType != 2)
+        if (datType == 3 || datType == 8)
             if (messageBackListener != null)
                 messageBackListener.messageForBack(datType);
         switch (datType) {
@@ -286,7 +297,6 @@ public class UDPServer implements Runnable {
                 if (subType2 == 1) {
                     if (MyApplication.mApplication.isSeekNet() == false) {
                         //设置联网模块信息
-                        MyApplication.setNewWareData();
                         setRcuInfo(info);
                     } else if (MyApplication.mApplication.isSeekNet() == true) {
                         setRcuInfo_search(info);
@@ -655,28 +665,28 @@ public class UDPServer implements Runnable {
         MyApplication.getWareData().setRcuInfos(json_list);
         isFreshData = true;
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(10000);
-                    SendDataUtil.getSceneInfo();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(10000);
-                                SendDataUtil.getSafetyInfo();
-                            } catch (InterruptedException e) {
-                                SendDataUtil.getSafetyInfo();
-                            }
-                        }
-                    }).start();
-                } catch (InterruptedException e) {
-                    SendDataUtil.getSceneInfo();
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(10000);
+//                    SendDataUtil.getSceneInfo();
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            try {
+//                                Thread.sleep(10000);
+//                                SendDataUtil.getSafetyInfo();
+//                            } catch (InterruptedException e) {
+//                                SendDataUtil.getSafetyInfo();
+//                            }
+//                        }
+//                    }).start();
+//                } catch (InterruptedException e) {
+//                    SendDataUtil.getSceneInfo();
+//                }
+//            }
+//        }).start();
     }
 
     /**
@@ -2607,5 +2617,27 @@ public class UDPServer implements Runnable {
             }
         }
         return names;
+    }
+
+
+    public static void show(String str) {
+        try {
+            str = str.trim();
+            int index = 0;
+            int maxLength = 4000;
+            String sub;
+            while (index < str.length()) {
+                // java的字符不允许指定超过总的长度end
+                if (str.length() <= index + maxLength) {
+                    sub = str.substring(index);
+                } else {
+                    sub = str.substring(index, maxLength);
+                }
+                index += maxLength;
+                Log.i("接收信息", sub.trim());
+            }
+        } catch (Exception e) {
+            Log.e("Exception", e.toString());
+        }
     }
 }

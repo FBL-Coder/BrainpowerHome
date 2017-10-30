@@ -44,6 +44,7 @@ public class GlobalVars {
     private static int sn;
     private static String userid, devid, devpass;
     private static String dstip;
+    private static boolean isHeart = false;
     private static boolean isLAN = true;
 
     public static void setContext(Context context) {
@@ -111,6 +112,14 @@ public class GlobalVars {
 
     public static void setDevpass(String devpass) {
         GlobalVars.devpass = devpass;
+    }
+
+    public static boolean isIsHeart() {
+        return isHeart;
+    }
+
+    public static void setIsHeart(boolean isHeart) {
+        GlobalVars.isHeart = isHeart;
     }
 
     public static boolean isIsLAN() {

@@ -4,12 +4,17 @@ import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.WareDev;
 import cn.etsoft.smarthome.Domain.WareKeyOpItem;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.MyApplication;
+import cn.etsoft.smarthome.NetMessage.UDPServer;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Author：FBL  Time： 2017/6/9.
@@ -81,16 +86,25 @@ public class SendDataUtil {
     }
 
     public static void getNetWorkInfo() {
+        MyApplication.mApplication.getUdpServer().sendSeekNet(false);
         String GETNETWORKINFO = "{\"devUnitID\": \"" + GlobalVars.getDevid() +
                 "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfo.getValue() +
                 "," + "\"subType1\": 0," + "\"subType2\": 0," + "\"localIP\":\"" + GlobalVars.WIFI_IP + "\"}";
-        MyApplication.mApplication.getUdpServer().send(GETNETWORKINFO, 0);
-
+        MyApplication.mApplication.getUdpServer().send(GETNETWORKINFO, 80);
         MyApplication.mApplication.setCanChangeNet(false);
     }
 
 
-    public static void changeNetInfo(String name, String pass,String ip, String Ip_mask,
+    public static void getHeart() {
+        String GETHEART = "{\"devUnitID\": \"" + GlobalVars.getDevid() +
+                "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getHeart.getValue() +
+                "," + "\"subType1\": 0," + "\"subType2\": 0," + "\"localIP\":\"" + GlobalVars.WIFI_IP + "\"}";
+        Log.i(TAG, "UdpHeard: 心跳包请求 \n" + GETHEART);
+        MyApplication.mApplication.getUdpServer().UdpSendMsg(GETHEART);
+    }
+
+
+    public static void changeNetInfo(String name, String pass, String ip, String Ip_mask,
                                      String GetWay, String Server, String macAddr, int IsState) {
         String ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
                 ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_setRcuInfo.getValue() +

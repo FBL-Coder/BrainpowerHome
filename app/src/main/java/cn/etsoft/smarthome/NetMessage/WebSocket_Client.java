@@ -2,6 +2,7 @@ package cn.etsoft.smarthome.NetMessage;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 
@@ -34,9 +35,6 @@ public class WebSocket_Client {
                 @Override
                 public void onOpen(ServerHandshake serverHandshake) {
                     //连接成功
-                    mWebSocketClient.send("{\"uid\":\""
-                            + AppSharePreferenceMgr.get( GlobalVars.USERID_SHAREPREFERENCE,
-                            "") + "\"}");
                     Message message = handler.obtainMessage();
                     message.what = MyApplication.mApplication.WS_OPEN_OK;
                     handler.sendMessage(message);
@@ -72,6 +70,7 @@ public class WebSocket_Client {
             };
         }
     }
+
     //连接
     public void connect() {
         new Thread() {

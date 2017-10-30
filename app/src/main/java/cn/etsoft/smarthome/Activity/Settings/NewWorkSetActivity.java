@@ -98,7 +98,6 @@ public class NewWorkSetActivity extends BaseActivity {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 if (MyApplication.mApplication.isSeekNet() && datType == 0) {
-                    MyApplication.mApplication.setSeekNet(false);
                     MyApplication.mApplication.dismissLoadDialog();
                     initSeekListView();
                 }
@@ -110,6 +109,7 @@ public class NewWorkSetActivity extends BaseActivity {
         getLiftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MyApplication.mApplication.setSeekNet(false);
                 finish();
             }
         });
@@ -171,6 +171,7 @@ public class NewWorkSetActivity extends BaseActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            MyApplication.mApplication.setSeekNet(false);
                             MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this, false);
                             AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
                                     MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID());
@@ -253,7 +254,7 @@ public class NewWorkSetActivity extends BaseActivity {
         mSousuo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyApplication.mApplication.getUdpServer().sendSeekNet();
+                MyApplication.mApplication.getUdpServer().sendSeekNet(true);
                 MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this);
             }
         });
