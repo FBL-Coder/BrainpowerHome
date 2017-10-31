@@ -155,6 +155,8 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
             public void onClickOuterCircle(int position, View view) {
                 CirclePosition = position;
                 mSafetyPosition = position % WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().size();
+                Data_OuterCircleList = SafetySetHelper.initSceneCircleOUterData(CirclePosition);
+                layout.setOuterCircleMenuData(Data_OuterCircleList);
                 InitDataView();
             }
         });

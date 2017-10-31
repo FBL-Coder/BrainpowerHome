@@ -47,9 +47,11 @@ public class GroupSetHelper {
             event.setTitle(WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows()
                     .get(i % WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows()
                             .size()).getTriggerName());
-            event.setImage(R.drawable.group_icon);
-            if (i == position)
+            event.setImage(R.drawable.group_icon_false);
+            if (i == position) {
                 event.setSelect(true);
+                event.setImage(R.drawable.group_icon_true);
+            }
             list.add(event);
         }
         return list;

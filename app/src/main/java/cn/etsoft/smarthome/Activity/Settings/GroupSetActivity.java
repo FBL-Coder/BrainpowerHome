@@ -114,6 +114,8 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                 }
                 CirclePosition = position;
                 mGroupSetPosition = position % WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows().size();
+                Data_OuterCircleList = GroupSetHelper.initSceneCircleOUterData(CirclePosition);
+                layout.setOuterCircleMenuData(Data_OuterCircleList);
                 InitDataView();
             }
         });

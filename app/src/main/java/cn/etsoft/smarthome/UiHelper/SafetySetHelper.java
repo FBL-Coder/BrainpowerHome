@@ -42,9 +42,11 @@ public class SafetySetHelper {
             event.setTitle(WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows()
                     .get(i % WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows()
                             .size()).getSecName());
-            event.setImage(R.drawable.fangqu_icon);
-            if (i == position)
+            event.setImage(R.drawable.fangqu_icon_false);
+            if (i == position) {
                 event.setSelect(true);
+                event.setImage(R.drawable.fangqu_icon_true);
+            }
             list.add(event);
         }
         return list;

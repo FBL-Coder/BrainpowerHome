@@ -131,6 +131,8 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
             public void onClickOuterCircle(int position, View view) {
                 CirclePosition = position;
                 mConditionPosition = position % WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().size();
+                Data_OuterCircleList = ConditionSetHelper.initSceneCircleOUterData(CirclePosition);
+                layout.setOuterCircleMenuData(Data_OuterCircleList);
                 InitDataView();
             }
         });

@@ -124,6 +124,9 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
             public void onClickOuterCircle(int position, View view) {
                 CirclePosition = position;
                 mTimerPosition = position % WareDataHliper.initCopyWareData().getCopyTimers().getTimerEvent_rows().size();
+                Data_OuterCircleList = TimerSetHelper.initSceneCircleOUterData(CirclePosition);
+                layout.setOuterCircleMenuData(Data_OuterCircleList);
+
                 InitDataView();
             }
         });

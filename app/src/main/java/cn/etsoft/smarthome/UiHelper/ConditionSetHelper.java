@@ -29,7 +29,7 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 
 public class ConditionSetHelper {
 
-    public static List<CircleDataEvent> initSceneCircleOUterData( int position) {
+    public static List<CircleDataEvent> initSceneCircleOUterData(int position) {
 
         List<CircleDataEvent> list = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
@@ -37,9 +37,11 @@ public class ConditionSetHelper {
             event.setTitle(WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows()
                     .get(i % WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows()
                             .size()).getEventName());
-            event.setImage(R.drawable.chufaqi_icon);
-            if (i == position)
+            event.setImage(R.drawable.chufaqi_icon_false);
+            if (i == position) {
                 event.setSelect(true);
+                event.setImage(R.drawable.chufaqi_icon_true);
+            }
             list.add(event);
         }
         return list;
@@ -144,7 +146,7 @@ public class ConditionSetHelper {
                     Gson gson = new Gson();
                     Log.i("保存触发器数据", gson.toJson(time_data));
                     MyApplication.mApplication.showLoadDialog(activity);
-                    MyApplication.mApplication.getUdpServer().send(gson.toJson(time_data),29);
+                    MyApplication.mApplication.getUdpServer().send(gson.toJson(time_data), 29);
                 } catch (Exception e) {
                     MyApplication.mApplication.dismissLoadDialog();
                     Log.e("保存触发器数据", "保存数据异常" + e);

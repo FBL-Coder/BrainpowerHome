@@ -129,7 +129,7 @@ public class CircleMenuLayout extends RelativeLayout {
             final TextView t = new TextView(context);
             t.setTextColor(Color.WHITE);
             if (Data_OuterCircleList.get(i).isSelect) {
-                t.setTextColor(Color.BLUE);
+                t.setTextColor(getResources().getColor(R.color.font));
             } else {
                 t.setTextColor(Color.WHITE);
             }

@@ -104,7 +104,7 @@ public class ControlSceneActivity extends BaseActivity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ControlSceneActivity.this);
                 builder.setTitle("提示");
-                builder.setMessage("您是否启用此情景？");
+                builder.setMessage("您是否启用   "+mSceneDatas.get(mScenePosition).getSceneName()+"？");
                 builder.setPositiveButton("启用", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
