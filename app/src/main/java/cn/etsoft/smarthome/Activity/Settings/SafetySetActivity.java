@@ -42,9 +42,9 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
 
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
-    private TextView mSafetyType, mSafetyScene, mSafetyNow, mSafetySaveBtn, mSafety_AddDev, mSafetyDuiMa, mNull_tv;
+    private TextView mSafetyType, mSafetyScene, mSafetySaveBtn, mSafetyDuiMa, mNull_tv;
     private EditText mSafetyName;
-    private ImageView mShiNeng;
+    private ImageView mShiNeng, Safety_Back, mSafety_AddDev;
     private GridView mSafetyGirdView;
     private SafetySet_DevAdapter mAdapter;
     private boolean IsNoData = true;
@@ -66,12 +66,19 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
         mShiNeng = getViewById(R.id.SafetySet_ShiNeng);
         mSafetyType = getViewById(R.id.SafetySet_Type);
         mSafetyScene = getViewById(R.id.SafetySet_Scene);
-        mSafetyNow = getViewById(R.id.SafetySet_Now);
+        Safety_Back = getViewById(R.id.Safety_Back);
         mSafety_AddDev = getViewById(R.id.SafetySet_AddDev);
         mSafetyDuiMa = getViewById(R.id.SafetySet_DuiMa);
         mSafetyName = getViewById(R.id.SafetySet_Name);
         mSafetyGirdView = getViewById(R.id.SafetySet_GirdView);
         mNull_tv = getViewById(R.id.null_tv);
+
+        Safety_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         mSafetyGirdView.setEmptyView(mNull_tv);
         mShiNeng.setOnClickListener(this);
@@ -139,7 +146,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
                 mSafety_Scene_Name.add(wareSceneEvent.get(i).getSceneName());
             }
         mSafety_Scene_Name.add("无");
-        Data_OuterCircleList = SafetySetHelper.initSceneCircleOUterData( CirclePosition);
+        Data_OuterCircleList = SafetySetHelper.initSceneCircleOUterData(CirclePosition);
         layout.Init(200, 0);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
 
@@ -180,7 +187,7 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
      */
     private void InitDataView() {
         mBean = WareDataHliper.initCopyWareData().getSetSafetyResult().getSec_info_rows().get(mSafetyPosition);
-        mNull_tv.setText(mBean.getSecName()+"  没有可用设备，请添加设备");
+        mNull_tv.setText(mBean.getSecName() + "  没有可用设备，请添加设备");
         mAdapter = new SafetySet_DevAdapter(mBean.getRun_dev_item(), SafetySetActivity.this);
         mSafetyGirdView.setAdapter(mAdapter);
 
@@ -189,30 +196,19 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
 
         //某一安防里的设备为空或长度为0时
         if (mBean.getRun_dev_item().size() == 0) {
-            mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+            mShiNeng.setImageResource(R.drawable.show_off);
             mSafetyScene.setText("点击选择关联情景");
             mSafetyType.setText("点击选择安防状态");
         }
 
         if (mBean.getValid() == 1) {
-            mShiNeng.setImageResource(R.drawable.checkbox1_selected);
+            mShiNeng.setImageResource(R.drawable.show_on);
             IsShiNeng = true;
         } else {
-            mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+            mShiNeng.setImageResource(R.drawable.show_off);
             IsShiNeng = false;
         }
 
-        // 全局布撤状态
-        int type = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
-        if (type == 255)
-            mSafetyNow.setText(mSafety_State_List.get(3));
-        else {//布防类型是"24小时布防"、"在家布防"、"外出布防"
-            try {
-                mSafetyNow.setText(mSafety_State_List.get(mBean.getSecType()));
-            } catch (Exception e) {
-                mSafetyNow.setText(mSafety_State_List.get(3));
-            }
-        }
         //布防类型是"撤防状态"
         if (mBean.getSecType() == 255)
             mSafetyType.setText(mSafety_State_List.get(3));
@@ -253,8 +249,8 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.SafetySet_ShiNeng: //使能开关
                 IsShiNeng = !IsShiNeng;
-                if (IsShiNeng) mShiNeng.setImageResource(R.drawable.checkbox1_selected);
-                else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+                if (IsShiNeng) mShiNeng.setImageResource(R.drawable.show_on);
+                else mShiNeng.setImageResource(R.drawable.show_off);
                 break;
             case R.id.SafetySet_DuiMa: //对码
                 SafetySetHelper.safetySetDuiMa(this, mSafetyName, IsShiNeng, mSafetyScene, mSafetyType,

@@ -15,42 +15,184 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/menuup_bg"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:background="@color/set"
+                android:paddingLeft="@dimen/dp_150">
+
+
+                <ImageView
+                    android:id="@+id/condition_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/back_image_select" />
+
+                <TextView
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="环境设置"
+                    android:textColor="@color/white1"
+                    android:textSize="@dimen/dp_20"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ConditionSet_Save_Btn"
+                    android:layout_width="@dimen/dp_70"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="保存"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_18"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_150">
+                android:paddingLeft="@dimen/dp_250">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp_5"
+                        android:background="@drawable/set_button_bg"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="名称："
+                            android:textColor="@color/main_white3"
+                            android:textSize="@dimen/sp_16" />
+
+                        <EditText
+                            android:id="@+id/ConditionSet_Name"
+                            android:layout_width="@dimen/dp_150"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:hint="无"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white"
+                            android:textSize="@dimen/sp_16"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp_5"
+                        android:background="@drawable/set_button_bg"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="触发值"
+                            android:textColor="@color/main_white3"
+                            android:textSize="@dimen/sp_16" />
+
+                        <EditText
+                            android:id="@+id/ConditionSet_ChuFaZhi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:minWidth="@dimen/dp_50"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white1"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp_5"
+                        android:background="@drawable/set_button_bg"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:text="触发方式"
+                            android:textColor="@color/main_white3"
+                            android:textSize="@dimen/sp_16" />
+
+                        <TextView
+                            android:id="@+id/ConditionSet_Way"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="@dimen/dp_10"
+                            android:text="大于阀值"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp_18"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp_5"
+                        android:background="@drawable/set_button_bg"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="触发类别"
+                            android:textColor="@color/main_white3"
+                            android:textSize="@dimen/sp_16" />
+
+                        <TextView
+                            android:id="@+id/ConditionSet_Type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="@dimen/dp_10"
+                            android:layout_marginRight="@dimen/dp_20"
+                            android:text="温度触发"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp_18"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_250">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="触发器名称："
-                        android:textColor="@color/main_white3"
-                        android:textSize="@dimen/sp_16" />
-
-                    <EditText
-                        android:id="@+id/ConditionSet_Name"
-                        android:layout_width="@dimen/dp_150"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:hint="无"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textColorHint="@color/white"
-                        android:textSize="@dimen/sp_18" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/dp_10"
+                        android:gravity="center"
                         android:text="使能"
                         android:textColor="@color/main_white3"
                         android:textSize="@dimen/sp_16" />
@@ -59,104 +201,10 @@
                         android:id="@+id/ConditionSet_ShiNeng"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/dp_10"
-                        android:src="@drawable/checkbox1_unselect" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_30"
-                        android:text="触发值"
-                        android:textColor="@color/main_white3"
-                        android:textSize="@dimen/sp_16" />
-
-                    <EditText
-                        android:id="@+id/ConditionSet_ChuFaZhi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textColorHint="@color/white1"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:minWidth="@dimen/dp_50" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:text="触发方式"
-                        android:textColor="@color/main_white3"
-                        android:textSize="@dimen/sp_16" />
-
-                    <TextView
-                        android:id="@+id/ConditionSet_Way"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_margin="@dimen/dp_10"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:text="大于阀值"
-                        android:textSize="@dimen/sp_18" />
-
-                </LinearLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_150">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:orientation="horizontal">
+                        android:padding="@dimen/dp_10"
+                        android:src="@drawable/show_off" />
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="触发类别"
-                        android:textColor="@color/main_white3"
-                        android:textSize="@dimen/sp_16" />
-
-                    <TextView
-                        android:id="@+id/ConditionSet_Type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_margin="@dimen/dp_10"
-                        android:layout_marginRight="@dimen/dp_20"
-                        android:text="温度触发"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/sp_18" />
-
-                    <TextView
-                        android:id="@+id/ConditionSet_AddDev"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="@dimen/dp_20"
-                        android:textStyle="bold"
-                        android:layout_marginLeft="@dimen/dp_50"
-                        android:textColor="@color/white"
-                        android:gravity="center"
-                        android:text="添加设备"
-                        android:textSize="@dimen/sp_18" />
-
-                    <TextView
-                        android:id="@+id/ConditionSet_Save_Btn"
-                        android:layout_width="@dimen/dp_70"
-                        android:layout_height="match_parent"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:gravity="center"
-                        android:text="保存"
-                        android:textSize="@dimen/dp_22" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
@@ -170,7 +218,7 @@
                 android:id="@+id/null_tv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="right|bottom"
+                android:gravity="center"
                 android:padding="@dimen/dp_20"
                 android:text="没有数据"
                 android:textColor="@color/white"
@@ -187,6 +235,16 @@
                 android:padding="@dimen/dp_10"
                 android:verticalSpacing="@dimen/dp_10" />
 
+            <ImageView
+                android:id="@+id/ConditionSet_AddDev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_30"
+                android:src="@drawable/add_white" />
+
         </RelativeLayout>
     </LinearLayout>
 
@@ -199,6 +257,6 @@
             android:layout_width="@dimen/dp_250"
             android:layout_height="550dp"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/circlebg"/>
+            android:background="@drawable/circlebg" />
     </FrameLayout>
 </RelativeLayout>

@@ -39,9 +39,9 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
 
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
-    private TextView mConditionSaveBtn, mConditionType, mConditionWay, mConditionSet_AddDev, mNull_tv;
+    private TextView mConditionSaveBtn, mConditionType, mConditionWay, mNull_tv;
     private EditText mConditionName, mConditionChuFaZhi;
-    private ImageView mShiNeng;
+    private ImageView mShiNeng, mBack, mConditionSet_AddDev;
     private GridView mConditionGirdView;
     private ConditionSet_DevAdapter mAdapter;
     private Condition_Event_Bean.EnvEventRowsBean mBean;
@@ -60,6 +60,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
         layout = getViewById(R.id.ConditionSet_CircleMenu);
         mConditionSaveBtn = getViewById(R.id.ConditionSet_Save_Btn);
         mShiNeng = getViewById(R.id.ConditionSet_ShiNeng);
+        mBack = getViewById(R.id.condition_back);
         mConditionName = getViewById(R.id.ConditionSet_Name);
         mConditionChuFaZhi = getViewById(R.id.ConditionSet_ChuFaZhi);
         mConditionType = getViewById(R.id.ConditionSet_Type);
@@ -75,6 +76,14 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
         mConditionType.setOnClickListener(this);
         mConditionSet_AddDev.setOnClickListener(this);
         mConditionWay.setOnClickListener(this);
+
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
@@ -156,16 +165,16 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
         mConditionName.setText("");
         mConditionName.setHint(mBean.getEventName());
         if (mBean == null || mBean.getRun_dev_item().size() == 0) {
-            mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
-            mConditionChuFaZhi.setHint("输入触发值");
-            mConditionWay.setText("选择触发方式");
-            mConditionType.setText("选择触发类别");
+            mShiNeng.setImageResource(R.drawable.show_off);
+            mConditionChuFaZhi.setHint("触发值");
+            mConditionWay.setText("触发方式");
+            mConditionType.setText("触发类别");
         } else {
             mConditionName.setHint(mBean.getEventName());
             mConditionChuFaZhi.setText(mBean.getValTh() + "");
             if (mBean.getValid() == 1)
-                mShiNeng.setImageResource(R.drawable.checkbox1_selected);
-            else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+                mShiNeng.setImageResource(R.drawable.show_on);
+            else mShiNeng.setImageResource(R.drawable.show_off);
             mConditionWay.setText(Event_Way.get(mBean.getThType()));
             mConditionType.setText(Event_type.get(mBean.getEnvType()));
         }
@@ -243,8 +252,8 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.ConditionSet_ShiNeng: //使能开关
                 IsOpenShiNeng = !IsOpenShiNeng;
-                if (IsOpenShiNeng) mShiNeng.setImageResource(R.drawable.checkbox1_selected);
-                else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+                if (IsOpenShiNeng) mShiNeng.setImageResource(R.drawable.show_on);
+                else mShiNeng.setImageResource(R.drawable.show_off);
                 break;
             case R.id.ConditionSet_Type: //触发器类型
                 initRadioPopupWindow(mConditionType, Event_type);

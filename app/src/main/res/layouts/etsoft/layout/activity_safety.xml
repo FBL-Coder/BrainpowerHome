@@ -15,12 +15,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/menuup_bg"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
+                android:background="@color/set"
                 android:paddingLeft="@dimen/dp_150">
 
                 <LinearLayout
@@ -29,81 +29,34 @@
                     android:gravity="right"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="防区名称："
-                        android:textColor="@color/main_white3"
-                        android:textSize="@dimen/sp_16" />
-
-                    <EditText
-                        android:id="@+id/SafetySet_Name"
-                        android:layout_width="@dimen/dp_120"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:hint="无"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textColorHint="@color/white"
-                        android:textSize="@dimen/sp_18" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="使能"
-                        android:textColor="@color/main_white3"
-                        android:textSize="@dimen/sp_16" />
-
                     <ImageView
-                        android:id="@+id/SafetySet_ShiNeng"
+                        android:id="@+id/Safety_Back"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/dp_10"
-                        android:src="@drawable/checkbox1_unselect" />
-
+                        android:src="@drawable/back_image_select" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_20"
-                        android:text="全局布防状态"
-                        android:textColor="@color/main_white3"
-                        android:textSize="@dimen/sp_16" />
-
-                    <TextView
-                        android:id="@+id/SafetySet_Now"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/dp_0"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:textColor="@color/white"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:minWidth="@dimen/dp_80"
-                        android:src="@mipmap/ic_launcher_round"
-                        android:text="当前布放状态"
-                        android:textSize="@dimen/sp_18" />
+                        android:text="安防设置"
+                        android:textColor="@color/white1"
+                        android:textSize="@dimen/dp_20"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/SafetySet_Save_Btn"
                         android:layout_width="@dimen/dp_70"
                         android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
                         android:layout_marginLeft="@dimen/dp_50"
                         android:layout_marginRight="@dimen/dp_20"
-                        android:text="保存"
-                        android:textSize="@dimen/dp_22" />
-
-                    <TextView
-                        android:id="@+id/SafetySet_DuiMa"
-                        android:layout_width="@dimen/dp_70"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="@dimen/dp_30"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
                         android:gravity="center"
-                        android:text="对码"
-                        android:textSize="@dimen/dp_22" />
+                        android:text="保存"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_18" />
+
+
                 </LinearLayout>
             </RelativeLayout>
 
@@ -118,61 +71,133 @@
                     android:gravity="right"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="类型 "
-                        android:textColor="@color/main_white3"
-                        android:textSize="@dimen/sp_16" />
-
-                    <TextView
-                        android:id="@+id/SafetySet_Type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="@dimen/dp_30"
-                        android:gravity="center"
-                        android:minWidth="@dimen/dp_80"
-                        android:text="点击选择安防类型"
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/sp_18" />
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="关联情景"
-                        android:layout_marginLeft="@dimen/dp_20"
-                        android:textColor="@color/main_white3"
-                        android:textSize="@dimen/sp_16" />
+                        android:layout_margin="@dimen/dp_8"
+                        android:background="@drawable/set_button_bg"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/SafetySet_Scene"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="名称："
+                            android:paddingLeft="@dimen/dp_10"
+                            android:textColor="@color/main_white3"
+                            android:textSize="@dimen/sp_16" />
+
+                        <EditText
+                            android:id="@+id/SafetySet_Name"
+                            android:layout_width="@dimen/dp_100"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:hint="无"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white"
+                            android:textSize="@dimen/sp_16"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:minWidth="@dimen/dp_80"
-                        android:src="@mipmap/ic_launcher_round"
-                        android:text="点击选择关联情景"
-                        android:textSize="@dimen/sp_18" />
+                        android:layout_margin="@dimen/dp_8"
+                        android:background="@drawable/set_button_bg"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/dp_15"
+                            android:text="类型 "
+                            android:textColor="@color/main_white3"
+                            android:textSize="@dimen/sp_16" />
+
+                        <TextView
+                            android:id="@+id/SafetySet_Type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:minWidth="@dimen/dp_80"
+                            android:text="安防类型"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp_16"
+                            android:textStyle="bold" />
 
 
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp_8"
+                        android:background="@drawable/set_button_bg"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:text="关联情景"
+                            android:textColor="@color/main_white3"
+                            android:textSize="@dimen/sp_16" />
+
+                        <TextView
+                            android:id="@+id/SafetySet_Scene"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:gravity="center"
+                            android:minWidth="@dimen/dp_80"
+                            android:src="@mipmap/ic_launcher_round"
+                            android:text="关联情景"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp_16"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/SafetySet_AddDev"
-                        android:layout_width="@dimen/dp_100"
+                        android:id="@+id/SafetySet_DuiMa"
+                        android:layout_width="@dimen/dp_70"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/dp_50"
-                        android:layout_marginRight="@dimen/dp_30"
+                        android:layout_marginBottom="@dimen/dp_8"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:background="@drawable/set_button_bg"
                         android:gravity="center"
-                        android:textStyle="bold"
+                        android:text="对码"
                         android:textColor="@color/white"
-                        android:text="添加设备"
-                        android:textSize="@dimen/dp_22" />
+                        android:textSize="@dimen/dp_16"
+                        android:textStyle="bold" />
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/dp_30"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="启用"
+                            android:textColor="@color/main_white3"
+                            android:textSize="@dimen/sp_16" />
+
+                        <ImageView
+                            android:id="@+id/SafetySet_ShiNeng"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/show_off" />
+                    </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
@@ -186,7 +211,7 @@
                 android:id="@+id/null_tv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="right|bottom"
+                android:gravity="center"
                 android:padding="@dimen/dp_20"
                 android:text="没有数据"
                 android:textColor="@color/white"
@@ -214,8 +239,19 @@
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/SafetySet_CircleMenu"
             android:layout_width="@dimen/dp_250"
-            android:layout_gravity="center_vertical"
             android:layout_height="550dp"
+            android:layout_gravity="center_vertical"
             android:background="@drawable/circlebg" />
     </FrameLayout>
+
+    <ImageView
+        android:id="@+id/SafetySet_AddDev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:padding="@dimen/dp_5"
+        android:src="@drawable/add_white" />
 </RelativeLayout>

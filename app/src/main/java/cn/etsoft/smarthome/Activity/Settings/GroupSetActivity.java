@@ -35,9 +35,9 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
 
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
-    private TextView mGroupSetSafetys, mGroupSetSaveBtn, mGroupSet_AddDev, mNull_tv;
+    private TextView mGroupSetSafetys, mGroupSetSaveBtn, mNull_tv;
     private EditText mGroupSetName;
-    private ImageView mShiNeng, mSyncSever;
+    private ImageView mShiNeng, mSyncSever, mBack, mGroupSet_AddDev;
     private GridView mGroupSetGirdView;
     private GroupSet_DevAdapter mAdapter;
     private GroupSet_Data.SecsTriggerRowsBean mBean;
@@ -53,6 +53,7 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
         layout = getViewById(R.id.GroupSet_CircleMenu);
         mGroupSetSaveBtn = getViewById(R.id.GroupSet_Save_Btn);
         mShiNeng = getViewById(R.id.GroupSet_ShiNeng);
+        mBack = getViewById(R.id.group_back);
         mGroupSetSafetys = getViewById(R.id.GroupSet_Safetys);
         mSyncSever = getViewById(R.id.GroupSet_SyncSever);
         mGroupSetName = getViewById(R.id.GroupSet_Name);
@@ -66,6 +67,14 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
         mGroupSetSafetys.setOnClickListener(this);
         mGroupSetSaveBtn.setOnClickListener(this);
         mGroupSet_AddDev.setOnClickListener(this);
+
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
@@ -143,8 +152,8 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
         IsSelect = new boolean[MyApplication.getWareData().getResult_safety().getSec_info_rows().size()];
         if (mBean.getRun_dev_item() == null
                 || mBean.getRun_dev_item().size() == 0) {
-            mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
-            mSyncSever.setImageResource(R.drawable.checkbox1_unselect);
+            mShiNeng.setImageResource(R.drawable.show_off);
+            mSyncSever.setImageResource(R.drawable.show_off);
             if (mBean.getTriggerSecs() == 0)
                 mGroupSetSafetys.setText("点击选择防区");
             else {
@@ -162,10 +171,10 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
         } else {
             if (mBean.getValid() == 1) {
                 IsOpenShiNeng = true;
-                mShiNeng.setImageResource(R.drawable.checkbox1_selected);
+                mShiNeng.setImageResource(R.drawable.show_on);
             } else {
                 IsOpenShiNeng = false;
-                mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+                mShiNeng.setImageResource(R.drawable.show_off);
             }
             int weekSelect_10 = (int) mBean.getTriggerSecs();
             String weekSelect_2 = reverseString(Integer.toBinaryString(weekSelect_10));
@@ -179,10 +188,10 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
             mGroupSetSafetys.setText(weekSelect_2_data);
 
             if (mBean.getReportServ() == 1) {
-                mSyncSever.setImageResource(R.drawable.checkbox1_selected);
+                mSyncSever.setImageResource(R.drawable.show_on);
                 IsyncSever = true;
             } else {
-                mSyncSever.setImageResource(R.drawable.checkbox1_unselect);
+                mSyncSever.setImageResource(R.drawable.show_off);
                 IsyncSever = false;
             }
         }
@@ -203,8 +212,8 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.GroupSet_ShiNeng: //使能开关
                 IsOpenShiNeng = !IsOpenShiNeng;
-                if (IsOpenShiNeng) mShiNeng.setImageResource(R.drawable.checkbox1_selected);
-                else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+                if (IsOpenShiNeng) mShiNeng.setImageResource(R.drawable.show_on);
+                else mShiNeng.setImageResource(R.drawable.show_off);
                 break;
             case R.id.GroupSet_AddDevs: //添加设备
                 Intent intent = new Intent(GroupSetActivity.this, SetAddDevActivity.class);
@@ -223,8 +232,8 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.GroupSet_SyncSever://同步服务器
                 IsyncSever = !IsyncSever;
-                if (IsyncSever) mSyncSever.setImageResource(R.drawable.checkbox1_selected);
-                else mSyncSever.setImageResource(R.drawable.checkbox1_unselect);
+                if (IsyncSever) mSyncSever.setImageResource(R.drawable.show_on);
+                else mSyncSever.setImageResource(R.drawable.show_off);
                 break;
         }
     }

@@ -14,6 +14,7 @@ import com.android.datetimepicker.time.TimePickerDialog;
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -37,9 +38,9 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
 
     private CircleMenuLayout layout;
     private List<CircleDataEvent> Data_OuterCircleList;
-    private TextView mTimerWeeks, mTimerStartTime, mTimerEndTime, mTimerSaveBtn, mTimer_AddDev, mNull_tv;
+    private TextView mTimerWeeks, mTimerStartTime, mTimerEndTime, mTimerSaveBtn, mNull_tv;
     private EditText mTimerName;
-    private ImageView mShiNeng, mWeekAgain, mQuanWang;
+    private ImageView mShiNeng, mWeekAgain, mQuanWang, mTimer_AddDev, mTime_Back;
     private GridView mTimerGirdView;
     private Timer_DevAdapter mAdapter;
     private boolean IsNoData = true;
@@ -54,6 +55,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
         setLayout(R.layout.activity_timer);
         layout = getViewById(R.id.Timer_CircleMenu);
         mTimerSaveBtn = getViewById(R.id.Timer_Save_Btn);
+        mTime_Back = getViewById(R.id.time_back);
         mShiNeng = getViewById(R.id.Timer_ShiNeng);
         mTimerWeeks = getViewById(R.id.Timer_Weeks);
         mTimerStartTime = getViewById(R.id.Timer_TImer_StartTime);
@@ -67,6 +69,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
         mTimerGirdView.setEmptyView(mNull_tv);
 
         mShiNeng.setOnClickListener(this);
+        mTime_Back.setOnClickListener(this);
         mWeekAgain.setOnClickListener(this);
         mQuanWang.setOnClickListener(this);
         mTimerWeeks.setOnClickListener(this);
@@ -74,6 +77,14 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
         mTimerEndTime.setOnClickListener(this);
         mTimerSaveBtn.setOnClickListener(this);
         mTimer_AddDev.setOnClickListener(this);
+
+        mTime_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
@@ -151,19 +162,19 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
         mNull_tv.setText(mBean.getTimerName() + " 没有可用设备，请添加设备");
         if (mBean.getRun_dev_item() == null
                 || mBean.getRun_dev_item().size() == 0) {
-            mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
-            mWeekAgain.setImageResource(R.drawable.checkbox1_unselect);
-            mQuanWang.setImageResource(R.drawable.checkbox1_unselect);
-            mTimerStartTime.setText("点击选择时间");
-            mTimerEndTime.setText("点击选择时间");
+            mShiNeng.setImageResource(R.drawable.show_off);
+            mWeekAgain.setImageResource(R.drawable.show_off);
+            mQuanWang.setImageResource(R.drawable.show_off);
+            mTimerStartTime.setText("开始时间");
+            mTimerEndTime.setText("结束时间");
             mTimerWeeks.setText("点击选择星期");
         } else {
             if (mBean.getValid() == 1) {
                 IsOpenShiNeng = true;
-                mShiNeng.setImageResource(R.drawable.checkbox1_selected);
+                mShiNeng.setImageResource(R.drawable.show_on);
             } else {
                 IsOpenShiNeng = false;
-                mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+                mShiNeng.setImageResource(R.drawable.show_off);
             }
 
             List<Integer> data_start = mBean.getTimSta();
@@ -184,10 +195,10 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
             mTimerEndTime.setText(endtime);
 
             if (data_end.get(3) == 1) {
-                mWeekAgain.setImageResource(R.drawable.checkbox1_selected);
+                mWeekAgain.setImageResource(R.drawable.show_on);
                 IsOpenWeekAgain = true;
             } else {
-                mWeekAgain.setImageResource(R.drawable.checkbox1_unselect);
+                mWeekAgain.setImageResource(R.drawable.show_off);
                 IsOpenWeekAgain = false;
             }
         }
@@ -231,8 +242,8 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.Timer_ShiNeng: //使能开关
                 IsOpenShiNeng = !IsOpenShiNeng;
-                if (IsOpenShiNeng) mShiNeng.setImageResource(R.drawable.checkbox1_selected);
-                else mShiNeng.setImageResource(R.drawable.checkbox1_unselect);
+                if (IsOpenShiNeng) mShiNeng.setImageResource(R.drawable.show_on);
+                else mShiNeng.setImageResource(R.drawable.show_off);
                 break;
             case R.id.Timer_Weeks: //星期时间
                 TimerSetHelper.initWeekDialog(this, mTimerWeeks, new boolean[7]);
@@ -264,13 +275,13 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.Timer_WeekAgain://是否周重复
                 IsOpenWeekAgain = !IsOpenWeekAgain;
-                if (IsOpenWeekAgain) mWeekAgain.setImageResource(R.drawable.checkbox1_selected);
-                else mWeekAgain.setImageResource(R.drawable.checkbox1_unselect);
+                if (IsOpenWeekAgain) mWeekAgain.setImageResource(R.drawable.show_on);
+                else mWeekAgain.setImageResource(R.drawable.show_off);
                 break;
             case R.id.Timer_QuanWang://是否开开全网
                 IsOPenQuanWang = !IsOPenQuanWang;
-                if (IsOPenQuanWang) mQuanWang.setImageResource(R.drawable.checkbox1_selected);
-                else mQuanWang.setImageResource(R.drawable.checkbox1_unselect);
+                if (IsOPenQuanWang) mQuanWang.setImageResource(R.drawable.show_on);
+                else mQuanWang.setImageResource(R.drawable.show_off);
                 break;
         }
     }

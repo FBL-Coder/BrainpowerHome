@@ -98,7 +98,6 @@ public class NewWorkSetActivity extends BaseActivity {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 if (MyApplication.mApplication.isSeekNet() && datType == 0) {
-                    MyApplication.mApplication.setSeekNet(false);
                     MyApplication.mApplication.dismissLoadDialog();
                     initSeekListView();
                 }
@@ -155,6 +154,7 @@ public class NewWorkSetActivity extends BaseActivity {
                     ToastUtil.showText("正在加载数据，请稍后再试...");
                     return;
                 }
+                MyApplication.mApplication.setSeekNet(false);
                 if (GlobalVars.getDevid().equals(MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID()))
                     ToastUtil.showText("联网模块正在使用中！");
                 else {

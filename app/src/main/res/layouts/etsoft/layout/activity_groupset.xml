@@ -12,40 +12,117 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:background="@color/set"
+            android:paddingLeft="@dimen/dp_150">
+
+
+            <ImageView
+                android:id="@+id/group_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/back_image_select" />
+
+            <TextView
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="组合设置"
+                android:textColor="@color/white1"
+                android:textSize="@dimen/dp_20"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/GroupSet_Save_Btn"
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:gravity="center"
+                android:text="保存"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/menuup_bg"
-            android:paddingLeft="@dimen/dp_120">
+            android:paddingLeft="@dimen/dp_250">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_margin="@dimen/dp_5"
+                    android:background="@drawable/set_button_bg">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="名称："
+                        android:textColor="@color/white1"
+                        android:textSize="@dimen/sp_16" />
+
+                    <EditText
+                        android:id="@+id/GroupSet_Name"
+                        android:layout_width="@dimen/dp_120"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:hint="无"
+                        android:lines="1"
+                        android:textColor="@color/white1"
+                        android:textColorHint="@color/white1"
+                        android:textSize="@dimen/sp_16" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/dp_5"
+                    android:background="@drawable/set_button_bg"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="防区集: "
+                        android:textColor="@color/white1"
+                        android:textSize="@dimen/sp_16" />
+
+                    <TextView
+                        android:id="@+id/GroupSet_Safetys"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:maxWidth="@dimen/dp_180"
+                        android:minWidth="@dimen/dp_120"
+                        android:text="点击选择防区"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_16" />
+
+
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="名称："
-                    android:textColor="@color/gray_pressed"
-                    android:textSize="@dimen/sp_16" />
-
-                <EditText
-                    android:id="@+id/GroupSet_Name"
-                    android:layout_width="@dimen/dp_120"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="启用"
+                    android:layout_marginLeft="@dimen/dp_20"
                     android:gravity="center"
-                    android:hint="无"
-                    android:lines="1"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="@dimen/sp_16" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="使能"
-                    android:textColor="@color/gray_pressed"
+                    android:textColor="@color/white1"
                     android:textSize="@dimen/sp_16" />
 
                 <ImageView
@@ -53,13 +130,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/dp_10"
-                    android:src="@drawable/checkbox1_unselect" />
+                    android:src="@drawable/show_off" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/dp_10"
                     android:text="同步服务器"
-                    android:textColor="@color/gray_pressed"
+                    android:textColor="@color/white1"
                     android:textSize="@dimen/sp_16" />
 
                 <ImageView
@@ -67,51 +146,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/dp_10"
-                    android:src="@drawable/checkbox1_unselect" />
+                    android:src="@drawable/show_off" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="防区集: "
-                    android:textColor="@color/gray_pressed"
-                    android:textSize="@dimen/sp_16" />
 
-                <TextView
-                    android:id="@+id/GroupSet_Safetys"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:lines="1"
-                    android:maxWidth="@dimen/dp_180"
-                    android:minWidth="@dimen/dp_120"
-                    android:text="点击选择防区"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_16" />
-
-                <TextView
-                    android:id="@+id/GroupSet_AddDevs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_20"
-                    android:gravity="center"
-                    android:minWidth="@dimen/dp_80"
-                    android:text="添加设备"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_18"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/GroupSet_Save_Btn"
-                    android:layout_width="@dimen/dp_70"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:gravity="center"
-                    android:text="保存"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_18"
-                    android:textStyle="bold" />
             </LinearLayout>
+
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -123,7 +163,7 @@
                 android:id="@+id/null_tv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="right|bottom"
+                android:gravity="center"
                 android:padding="@dimen/dp_20"
                 android:text="没有数据"
                 android:textColor="@color/white"
@@ -139,6 +179,19 @@
                 android:numColumns="2"
                 android:padding="@dimen/dp_10"
                 android:verticalSpacing="@dimen/dp_10" />
+
+
+            <ImageView
+                android:id="@+id/GroupSet_AddDevs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="@dimen/dp_30"
+                android:layout_marginBottom="@dimen/dp_30"
+                android:src="@drawable/add_white"
+                />
 
         </RelativeLayout>
     </LinearLayout>
