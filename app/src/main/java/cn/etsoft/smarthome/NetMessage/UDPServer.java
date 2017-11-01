@@ -226,7 +226,7 @@ public class UDPServer implements Runnable {
             subType1 = jsonObject.getInt("subType1");
             subType2 = jsonObject.getInt("subType2");
             if (!devUnitID.equals(GlobalVars.getDevid()))
-                if (MyApplication.mApplication.isSeekNet()) {
+                if (!MyApplication.mApplication.isSeekNet()) {
                     Log.i(TAG, "devUnitID不一致:" + "本地ID" + GlobalVars.getDevid() + "--数据ID" + devUnitID + ";包类型：" + datType + "-" + subType1 + "-" + subType2);
                     return;
                 }
