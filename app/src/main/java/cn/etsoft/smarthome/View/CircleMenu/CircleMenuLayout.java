@@ -59,30 +59,7 @@ public class CircleMenuLayout extends RelativeLayout {
     }
 
     public void Init(int Radius_outer, int Radius_inner) {
-
-        int W = cn.semtec.community2.MyApplication.display_width;
-        int h = cn.semtec.community2.MyApplication.display_height;
-        int SW = W < h ? W : h;
-        int dp_SW = CircleMenuLayout.px2dip(SW);
-
-        if (dp_SW > 200 && dp_SW <= 320) {
-            Adaptive_coefficient = 1.8;
-            Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
-            Radius_inner = (int) (Radius_inner / (Adaptive_coefficient + 0.4));
-        } else if (dp_SW > 320 && dp_SW <= 480) {
-            Adaptive_coefficient = 1.8;
-            Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
-            Radius_inner = (int) (Radius_inner / (Adaptive_coefficient + 0.4));
-        } else if (dp_SW > 480 && dp_SW <= 600) {
-            Adaptive_coefficient = 1.5;
-            Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
-            Radius_inner = (int) (Radius_inner / (Adaptive_coefficient + 0.2));
-        } else if (dp_SW > 600 && dp_SW <= 720) {
-            Adaptive_coefficient = 1;
-        } else if (dp_SW > 720) {
-            Adaptive_coefficient = 0.7;
-        }
-        initView(Radius_outer,Radius_inner);
+        initView(Radius_outer, Radius_inner);
         UIEvent_Circle_Outer();
         UIEvent_Circle_Inner();
     }
@@ -187,13 +164,37 @@ public class CircleMenuLayout extends RelativeLayout {
      * 初始化转盘组件
      */
     private void initView(int Radius_outer, int Radius_inner) {
+
+        int W = cn.semtec.community2.MyApplication.display_width;
+        int h = cn.semtec.community2.MyApplication.display_height;
+        int SW = W < h ? W : h;
+        int dp_SW = CircleMenuLayout.px2dip(SW);
+
+        if (dp_SW > 200 && dp_SW <= 320) {
+            Adaptive_coefficient = 1.8;
+            Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
+            Radius_inner = (int) (Radius_inner / (Adaptive_coefficient));
+        } else if (dp_SW > 320 && dp_SW <= 480) {
+            Adaptive_coefficient = 1.8;
+            Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
+            Radius_inner = (int) (Radius_inner / (Adaptive_coefficient));
+        } else if (dp_SW > 480 && dp_SW <= 600) {
+            Adaptive_coefficient = 1.5;
+            Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
+            Radius_inner = (int) (Radius_inner / (Adaptive_coefficient));
+        } else if (dp_SW > 600 && dp_SW <= 720) {
+            Adaptive_coefficient = 1;
+        } else if (dp_SW > 720) {
+            Adaptive_coefficient = 0.7;
+        }
+
         View view = LayoutInflater.from(context).inflate(R.layout.circle_menu, this);
         btn_view = (ImageView) view.findViewById(R.id.btn_view);
         ll_btn_view = (RelativeLayout) view.findViewById(R.id.ll_btn_view);
         circle_1 = (CircleLayout) view.findViewById(R.id.circle_1);
         circle_2 = (CircleLayout) view.findViewById(R.id.circle_2);
-        circle_1.setMaxWidth(dip2px(Radius_outer + 50));
-        circle_2.setMaxWidth(dip2px(Radius_inner + 50));
+        circle_1.setMaxWidth(dip2px(Radius_outer + (int) (50 / Adaptive_coefficient)));
+        circle_2.setMaxWidth(dip2px(Radius_inner + (int) (50 / Adaptive_coefficient)));
         circle_1.setmTranslationX(-(dip2px(2 * Radius_outer / 3)));
         circle_2.setmTranslationX(-(dip2px(4 * Radius_inner / 5)));
         circle_1.setCanScroll(true);

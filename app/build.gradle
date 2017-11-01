@@ -4,7 +4,7 @@ android {
     buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "cn.etsoft.smarthome"
-        minSdkVersion 18
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -56,8 +56,6 @@ dependencies {
     compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.7'
     //时间选择器
     compile 'com.github.citux:datetimepicker:0.2.0'
-    //横向选择器
-    compile 'com.lantouzi.wheelview:library:1.1.2'
     //高德定位
     compile files('libs/AMap_Location_V3.4.1_20170629.jar')
     //视频对讲

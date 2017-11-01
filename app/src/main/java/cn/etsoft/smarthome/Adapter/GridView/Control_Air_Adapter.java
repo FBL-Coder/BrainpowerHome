@@ -14,7 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
-import com.lantouzi.wheelview.WheelView;
+import cn.etsoft.smarthome.View.Wheel.WheelView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +115,7 @@ public class Control_Air_Adapter extends BaseAdapter {
             }
         });
 
+        viewHoler.mHorizontalSelectSpead.setScrollBarSize(10);
         viewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd() - 2);
         viewHoler.mHorizontalSelectSpead.setItems(spead_texts);
         viewHoler.mHorizontalSelectSpead.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {

@@ -10,6 +10,8 @@ import android.widget.TextView;
  * 滚动textView
  */
 
+
+
 public class MarqueeTextView extends TextView {
     public MarqueeTextView(Context context) {
         super(context);

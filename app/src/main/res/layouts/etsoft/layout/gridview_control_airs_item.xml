@@ -117,7 +117,7 @@
                 android:gravity="center"
                 android:text="开关"
                 android:textColor="@color/white"
-                android:textSize="22dp" />
+                android:textSize="@dimen/sp_22" />
         </LinearLayout>
     </LinearLayout>
 
@@ -141,7 +141,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/temp_down" />
 
-            <com.lantouzi.wheelview.WheelView
+            <cn.etsoft.smarthome.View.Wheel.WheelView
                 android:id="@+id/HorizontalSelect_temp"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
@@ -177,7 +177,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/tospead_sam" />
 
-            <com.lantouzi.wheelview.WheelView
+            <cn.etsoft.smarthome.View.Wheel.WheelView
                 android:id="@+id/HorizontalSelect_spead"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import cn.etsoft.smarthome.R;
+import cn.semtec.community2.MyApplication;
 
 /**
  * Author：FBL  Time： 2017/6/7.

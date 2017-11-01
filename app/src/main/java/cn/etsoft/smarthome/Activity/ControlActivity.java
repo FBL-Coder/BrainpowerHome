@@ -5,9 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -198,6 +196,5 @@ public class ControlActivity extends BaseActivity {
 
     public interface ControlDevClickListener {
         void ControlClickPosition(int DevType, String RoomName);
-
     }
 }

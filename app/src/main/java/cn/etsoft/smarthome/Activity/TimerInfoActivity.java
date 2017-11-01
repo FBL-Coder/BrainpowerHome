@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.GridView.TimerInfo_DevAdapter;
-import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.Timer_Data;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 
@@ -118,7 +118,6 @@ public class TimerInfoActivity extends BaseActivity implements View.OnClickListe
                     mAdapter.notifyDataSetChanged(mBean.getRun_dev_item());
                 mTimerInfoGirdView.setAdapter(mAdapter);
                 setData();
-
             }
         });
 
