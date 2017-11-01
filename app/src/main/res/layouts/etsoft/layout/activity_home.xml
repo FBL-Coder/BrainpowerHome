@@ -408,13 +408,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/dp_100"
-            android:layout_marginRight="@dimen/dp_100"
+            android:layout_marginLeft="@dimen/dp_80"
+            android:layout_marginRight="@dimen/dp_80"
             android:background="@drawable/menu_bottom"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/dp_20"
-            android:paddingLeft="@dimen/dp_50"
-            android:paddingRight="@dimen/dp_50">
+            android:paddingLeft="@dimen/dp_30"
+            android:paddingRight="@dimen/dp_30">
 
             <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
                 android:id="@+id/Home_YunVideo"

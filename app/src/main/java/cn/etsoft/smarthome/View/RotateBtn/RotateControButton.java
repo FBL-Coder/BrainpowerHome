@@ -18,6 +18,7 @@ import android.view.View;
 import java.util.List;
 
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 
 import static android.content.ContentValues.TAG;
 
@@ -83,6 +84,9 @@ public class RotateControButton extends View {
 
     private String Title_Left = "", Title_right = "";
 
+    //屏幕适配系数
+    private double Adaptive_coefficient = 1;
+
     public RotateControButton(Context context) {
         this(context, null);
     }
@@ -111,26 +115,43 @@ public class RotateControButton extends View {
     }
 
     private void init() {
+
+        int W = cn.semtec.community2.MyApplication.display_width;
+        int h = cn.semtec.community2.MyApplication.display_height;
+        int SW = W < h ? W : h;
+        int dp_SW = CircleMenuLayout.px2dip(SW);
+
+        if (dp_SW > 200 && dp_SW <= 320) {
+            Adaptive_coefficient = 1.8;
+        } else if (dp_SW > 320 && dp_SW <= 480) {
+            Adaptive_coefficient = 1.8;
+        } else if (dp_SW > 480 && dp_SW <= 600) {
+            Adaptive_coefficient = 1.5;
+        } else if (dp_SW > 600 && dp_SW <= 720) {
+            Adaptive_coefficient = 1;
+        } else if (dp_SW > 720) {
+            Adaptive_coefficient = 0.7;
+        }
         dialPaint = new Paint();
         dialPaint.setAntiAlias(true);
-        dialPaint.setStrokeWidth(dp2px(2));
+        dialPaint.setStrokeWidth(dp2px((int)(2/Adaptive_coefficient)));
         dialPaint.setStyle(Paint.Style.STROKE);
 
         arcPaint = new Paint();
         arcPaint.setAntiAlias(true);
         arcPaint.setColor(Color.parseColor("#3CB7EA"));
-        arcPaint.setStrokeWidth(dp2px(2));
+        arcPaint.setStrokeWidth(dp2px((int)(2/Adaptive_coefficient)));
         arcPaint.setStyle(Paint.Style.STROKE);
 
         titlePaint = new Paint();
         titlePaint.setAntiAlias(true);
-        titlePaint.setTextSize(sp2px(15));
+        titlePaint.setTextSize(sp2px((int)(15/Adaptive_coefficient)));
         titlePaint.setColor(Color.parseColor("#3CB7EA"));
         titlePaint.setStyle(Paint.Style.STROKE);
 
         valueFlagPaint = new Paint();
         valueFlagPaint.setAntiAlias(true);
-        valueFlagPaint.setTextSize(sp2px(18));
+        valueFlagPaint.setTextSize(sp2px((int)(18/Adaptive_coefficient)));
         valueFlagPaint.setColor(Color.parseColor("#E4A07E"));
         valueFlagPaint.setStyle(Paint.Style.STROKE);
 
@@ -141,7 +162,7 @@ public class RotateControButton extends View {
 
         valuePaint = new Paint();
         valuePaint.setAntiAlias(true);
-        valuePaint.setTextSize(sp2px(18));
+        valuePaint.setTextSize(sp2px((int)(18/Adaptive_coefficient)));
         valuePaint.setColor(Color.parseColor("#E27A3F"));
         valuePaint.setStyle(Paint.Style.STROKE);
     }
@@ -152,9 +173,9 @@ public class RotateControButton extends View {
         // 控件宽、高
         width = height = Math.min(h, w);
         // 刻度盘半径
-        dialRadius = width / 2 - dp2px(18);
+        dialRadius = width / 2 - dp2px((int)(15/Adaptive_coefficient));
         // 圆弧半径
-        arcRadius = dialRadius - dp2px(15);
+        arcRadius = dialRadius - dp2px((int)(15/Adaptive_coefficient));
     }
 
     @Override

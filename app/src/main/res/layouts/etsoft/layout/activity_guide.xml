@@ -12,13 +12,13 @@
     <Button
         android:id="@+id/btn_go"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="@dimen/dp_40"
         android:text="立即体验"
         android:gravity="center"
         android:textColor="#FFF"
         android:visibility="gone"
         android:background="@drawable/sel_guide_go"
         android:layout_alignParentBottom="true"
-        android:textSize="17sp" />
+        android:textSize="@dimen/sp_16" />
 
 </RelativeLayout>

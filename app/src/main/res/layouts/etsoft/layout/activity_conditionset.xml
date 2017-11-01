@@ -54,7 +54,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/dp_50"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_250">
 
@@ -72,7 +72,8 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
                             android:layout_gravity="center_vertical"
                             android:text="名称："
                             android:textColor="@color/main_white3"
@@ -81,9 +82,10 @@
                         <EditText
                             android:id="@+id/ConditionSet_Name"
                             android:layout_width="@dimen/dp_150"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
                             android:hint="无"
+                            android:background="@null"
                             android:textColor="@color/white"
                             android:textColorHint="@color/white"
                             android:textSize="@dimen/sp_16"
@@ -100,7 +102,8 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
                             android:text="触发值"
                             android:textColor="@color/main_white3"
                             android:textSize="@dimen/sp_16" />
@@ -108,9 +111,11 @@
                         <EditText
                             android:id="@+id/ConditionSet_ChuFaZhi"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
                             android:minWidth="@dimen/dp_50"
+                            android:background="@null"
+                            android:textSize="@dimen/sp_16"
                             android:textColor="@color/white"
                             android:textColorHint="@color/white1"
                             android:textStyle="bold" />
@@ -127,7 +132,8 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="@dimen/dp_10"
                             android:text="触发方式"
@@ -137,12 +143,13 @@
                         <TextView
                             android:id="@+id/ConditionSet_Way"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
                             android:layout_gravity="center_vertical"
                             android:layout_margin="@dimen/dp_10"
                             android:text="大于阀值"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/sp_18"
+                            android:textSize="@dimen/sp_16"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -155,7 +162,8 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
                             android:layout_gravity="center_vertical"
                             android:text="触发类别"
                             android:textColor="@color/main_white3"
@@ -164,13 +172,14 @@
                         <TextView
                             android:id="@+id/ConditionSet_Type"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
                             android:layout_gravity="center_vertical"
                             android:layout_margin="@dimen/dp_10"
                             android:layout_marginRight="@dimen/dp_20"
                             android:text="温度触发"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/sp_18"
+                            android:textSize="@dimen/sp_16"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
@@ -178,7 +187,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/dp_50"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_250">
 
@@ -193,7 +202,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/dp_10"
                         android:gravity="center"
-                        android:text="使能"
+                        android:text="启用"
                         android:textColor="@color/main_white3"
                         android:textSize="@dimen/sp_16" />
 
@@ -237,8 +246,8 @@
 
             <ImageView
                 android:id="@+id/ConditionSet_AddDev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="@dimen/dp_30"
@@ -254,8 +263,8 @@
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/ConditionSet_CircleMenu"
-            android:layout_width="@dimen/dp_250"
-            android:layout_height="550dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:background="@drawable/circlebg" />
     </FrameLayout>

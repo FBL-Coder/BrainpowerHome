@@ -286,7 +286,7 @@ public class UDPServer implements Runnable {
                 if (subType2 == 1) {
                     if (MyApplication.mApplication.isSeekNet() == false) {
                         //设置联网模块信息
-                        MyApplication.setNewWareData();
+//                        MyApplication.setNewWareData();
                         setRcuInfo(info);
                     } else if (MyApplication.mApplication.isSeekNet() == true) {
                         setRcuInfo_search(info);

@@ -98,7 +98,7 @@ public class DevInfosAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.girdview_devinfoitem, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.girdview_devinfoitem, null, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else viewHolder = (ViewHolder) convertView.getTag();
@@ -494,7 +494,7 @@ public class DevInfosAdapter extends BaseAdapter {
                                         "\"powChn\":" + Save_DevWay + "," +
                                         "\"cmd\":" + 1 + "}";
 //                            Log.i(TAG, "onClick: " + chn_str);
-                            MyApplication.mApplication.getUdpServer().send(chn_str,6);
+                            MyApplication.mApplication.getUdpServer().send(chn_str, 6);
                             MyApplication.mApplication.showLoadDialog(mContext);
                             finalViewHolder.mDevInfoDelete.setImageResource(R.drawable.delete_edit_dev);
                         }

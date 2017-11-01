@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_10"
-            android:layout_marginLeft="260dp"
+            android:layout_marginLeft="@dimen/dp_250"
             android:layout_marginRight="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_10"
             android:background="@color/color_item_bg"
@@ -224,7 +224,7 @@
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/TimerInfo_CircleMenu"
-            android:layout_width="@dimen/dp_250"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/circlebg" />
     </FrameLayout>

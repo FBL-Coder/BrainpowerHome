@@ -316,7 +316,7 @@
                 <RadioGroup
                     android:id="@+id/stateIP"
                     android:layout_width="@dimen/dp_0"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:paddingLeft="@dimen/dp_20"
                     android:paddingRight="@dimen/dp_20"
@@ -328,6 +328,7 @@
                         android:paddingTop="@dimen/dp_2"
                         android:paddingBottom="@dimen/dp_2"
                         android:layout_width="@dimen/dp_0"
+                        android:textSize="@dimen/sp_18"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textColor="@color/black1"
@@ -340,6 +341,7 @@
                         android:paddingBottom="@dimen/dp_2"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:textSize="@dimen/sp_18"
                         android:textColor="@color/black1"
                         android:text="否" />
                 </RadioGroup>

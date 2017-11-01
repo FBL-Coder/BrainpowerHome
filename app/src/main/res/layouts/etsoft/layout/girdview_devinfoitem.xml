@@ -245,12 +245,12 @@
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/btn_blue_selector"
+                android:background="@drawable/selector_color_blue_btn_bg"
                 android:gravity="center"
                 android:padding="@dimen/dp_10"
-                android:text="测 试"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_22" />
+                android:text="测试"
+                android:textColor="@color/white1"
+                android:textSize="@dimen/sp_18" />
         </LinearLayout>
 
         <LinearLayout

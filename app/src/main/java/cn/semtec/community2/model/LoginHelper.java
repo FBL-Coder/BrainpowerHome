@@ -100,18 +100,27 @@ public class LoginHelper {
                             }
                             //轮询房产数据
                             squirrelCallImpl instan = (squirrelCallImpl) squirrelCallImpl.instance;
-                            for (int i = 0; i < MyApplication.houseList.size(); i++) {
-                                HouseProperty houseproperty = MyApplication.houseList.get(i);
-                                if (i == 0) {
-                                    instan.squirrelAccountLogin(houseproperty.sipaddr, squirrelCallImpl.serverport, 1,
-                                            null, houseproperty.sipnum, houseproperty.sippassword, null, 1);
-                                    MyApplication.houseProperty = houseproperty;
-                                    // 获取登录用户有权限的门禁数据
-                                    MyActAdapter.getPublicClock();
-                                } else {
-                                    instan.squirrelAccountLogin(houseproperty.sipaddr, squirrelCallImpl.serverport, 1,
-                                            null, houseproperty.sipnum, houseproperty.sippassword, null, 0);
+                            try {
+                                for (int i = 0; i < MyApplication.houseList.size(); i++) {
+                                    HouseProperty houseproperty = MyApplication.houseList.get(i);
+                                    if (i == 0) {
+                                        instan.squirrelAccountLogin(houseproperty.sipaddr, squirrelCallImpl.serverport, 1,
+                                                null, houseproperty.sipnum, houseproperty.sippassword, null, 1);
+                                        MyApplication.houseProperty = houseproperty;
+                                        // 获取登录用户有权限的门禁数据
+                                        MyActAdapter.getPublicClock();
+                                    } else {
+                                        instan.squirrelAccountLogin(houseproperty.sipaddr, squirrelCallImpl.serverport, 1,
+                                                null, houseproperty.sipnum, houseproperty.sippassword, null, 0);
+                                    }
+
                                 }
+                            } catch (Exception e) {
+                                LoginHandler.sendEmptyMessage(MyHttpUtil.SUCCESSELSE);
+                                return;
+                            }catch (Error error){
+                                LoginHandler.sendEmptyMessage(MyHttpUtil.SUCCESSELSE);
+                                return;
                             }
                         } else {
                             LoginHandler.sendEmptyMessage(MyHttpUtil.SUCCESSELSE);

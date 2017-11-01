@@ -11,7 +11,7 @@
         android:layout_marginLeft="@dimen/dp_200"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="@dimen/sp_20">
+        android:padding="@dimen/dp_20">
         <!--用户直接可视界面-->
 
         <TextView

@@ -25,26 +25,25 @@
     </declare-styleable>
     <declare-styleable name="wheelview">
         <attr name="gravity">
-            <enum name="center" value="17"/>
-            <enum name="left" value="3"/>
-            <enum name="right" value="5"/>
+            <enum name="center" value="17" />
+            <enum name="left" value="3" />
+            <enum name="right" value="5" />
         </attr>
-        <attr name="textSize" format="dimension"/>
-        <attr name="textColorOut" format="color"/>
-        <attr name="textColorCenter" format="color"/>
-        <attr name="dividerColor" format="color"/>
+        <attr name="textSize" format="dimension" />
+        <attr name="textColorOut" format="color" />
+        <attr name="textColorCenter" format="color" />
+        <attr name="dividerColor" format="color" />
     </declare-styleable>
 
 
-
-        //自定义ViewPage下面的点
+    //自定义ViewPage下面的点
     <declare-styleable name="BezierRoundView">
-        <attr name="color_bez" format="color"/>
-        <attr name="color_touch" format="color"/>
-        <attr name="color_stroke" format="color"/>
-        <attr name="time_animator" format="integer"/>
-        <attr name="round_count" format="integer"/>
-        <attr name="radius" format="dimension"/>
+        <attr name="color_bez" format="color" />
+        <attr name="color_touch" format="color" />
+        <attr name="color_stroke" format="color" />
+        <attr name="time_animator" format="integer" />
+        <attr name="round_count" format="integer" />
+        <attr name="radius" format="dimension" />
 
     </declare-styleable>
 
@@ -52,11 +51,10 @@
     //dialog
     <declare-styleable name="AnimatedLoadingIndicatorView">
         <attr name="minWidth" format="dimension" />
-        <attr name="maxWidth" format="dimension"/>
+        <attr name="maxWidth" format="dimension" />
         <attr name="minHeight" format="dimension" />
-        <attr name="maxHeight" format="dimension"/>
-        <attr name="indicatorName" format="string"/>
-        <attr name="indicatorColor" format="color"/>
+        <attr name="maxHeight" format="dimension" />
+        <attr name="indicatorName" format="string" />
+        <attr name="indicatorColor" format="color" />
     </declare-styleable>
-
 </resources>

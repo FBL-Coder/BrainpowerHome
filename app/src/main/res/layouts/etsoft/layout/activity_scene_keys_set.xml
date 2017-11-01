@@ -14,7 +14,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="@dimen/dp_70"
             android:background="@drawable/menuup_bg" />
 
         <GridView
@@ -36,14 +36,14 @@
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/Scene_KeysSet_CircleMenu"
-            android:layout_width="@dimen/dp_250"
-            android:layout_height="550dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/circlebg" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="@dimen/dp_70"
         android:layout_marginLeft="@dimen/dp_150"
         android:background="@null"
         android:gravity="right"

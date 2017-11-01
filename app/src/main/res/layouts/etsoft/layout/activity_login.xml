@@ -23,14 +23,15 @@
             android:layout_height="wrap_content"
             android:background="@drawable/login_edittext_bg"
             android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/dp_20">
+            android:layout_marginBottom="@dimen/dp_20"
+            >
 
             <ImageView
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="match_parent"
                 android:padding="@dimen/dp_5"
-                android:layout_marginLeft="@dimen/sp_40"
-                android:layout_marginRight="@dimen/sp_20"
+                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginRight="@dimen/dp_20"
                 android:src="@drawable/login_id" />
 
             <EditText
@@ -40,9 +41,12 @@
                 android:textSize="@dimen/sp_20"
                 android:paddingLeft="@dimen/dp_20"
                 android:inputType="phone"
-                android:textColor="@color/white"
-                android:textColorHint="@color/gray_pressed"
+                android:background="@null"
+                android:textColor="@color/white1"
+                android:textColorHint="@color/regist_gray1"
                 android:hint="请输入账号" />
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -56,8 +60,8 @@
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="match_parent"
                 android:padding="@dimen/dp_5"
-                android:layout_marginLeft="@dimen/sp_40"
-                android:layout_marginRight="@dimen/sp_20"
+                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginRight="@dimen/dp_20"
                 android:src="@drawable/login_pass" />
 
             <EditText
@@ -67,8 +71,8 @@
                 android:paddingLeft="@dimen/dp_20"
                 android:textSize="@dimen/sp_20"
                 android:background="@null"
-                android:textColor="@color/white"
-                android:textColorHint="@color/gray_pressed"
+                android:textColor="@color/white1"
+                android:textColorHint="@color/regist_gray1"
                 android:hint="请输入密码" />
         </LinearLayout>
 
@@ -99,7 +103,7 @@
                 android:gravity="center"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/white1"
                 android:text="忘记密码"/>
             <View
                 android:layout_width="@dimen/dp_2"
@@ -114,7 +118,7 @@
                 android:gravity="center"
                 android:textStyle="bold"
                 android:text="注册账号"
-                android:textColor="@color/white"
+                android:textColor="@color/white1"
                 />
         </LinearLayout>
         <TextView
@@ -123,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="@dimen/dp_20"
-            android:textColor="@color/white"
+            android:textColor="@color/white1"
             android:text="游客登录"/>
 
     </LinearLayout>

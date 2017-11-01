@@ -67,7 +67,6 @@
     <color name="color_item_bg">#33333333</color>
 
 
-
     <color name="colorPrimary">#3F51B5</color>
 
     <color name="colorPrimaryDark">#303F9F</color>
@@ -222,7 +221,6 @@
     <color name="home_text">#fff</color>
 
 
-
     //天气动画
     <color name="Myblue">#848284</color>
     <color name="Myblack">#000000</color>
@@ -230,5 +228,32 @@
     <color name="TitleWhite">#000000</color>
     <color name="MyGreen">#64B7AD</color>
 
+
+    <color name="theme_bg">#f6f6f6</color>
+    <color name="theme_title">#63aade</color>
+    <color name="prompt_bg">#eaecec</color>
+    <color name="sliding_left_head">#99ccff</color>
+    <color name="sliding_left_press">#50597b</color>
+    <color name="sliding_left_normal">#394264</color>
+    <color name="sliding_right_normal">#669999</color>
+    <color name="line_color">#e0e0e0</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#ea5450</color>
+    <color name="red_pressed">#fb6e6e</color>
+    <color name="gray_white">#eeeeee</color>
+    <color name="gray_pressed">#a8a8a8</color>
+    <color name="blue">#63aade</color>
+    <color name="blue_pressed">#99ccee</color>
+    <color name="black">#333333</color>
+    <color name="set">#007aff</color>
+    <color name="font">#43c0ee</color>
+
+
+    <color name="triangle">#aa72d572</color>
+    <color name="circle">#aa738ffe</color>
+    <color name="rect">#aae84e40</color>
+    <color name="view_bg">#00000000</color>
+    <color name="shadow">#25808080</color>
+    <color name="dialog_bg">#e4e4e4</color>
 
 </resources>

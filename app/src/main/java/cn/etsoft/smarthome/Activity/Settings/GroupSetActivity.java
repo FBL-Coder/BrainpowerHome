@@ -16,7 +16,6 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.GridView.GroupSet_DevAdapter;
 import cn.etsoft.smarthome.Domain.GroupSet_Data;
-import cn.etsoft.smarthome.Domain.WareDev;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.GroupSetHelper;

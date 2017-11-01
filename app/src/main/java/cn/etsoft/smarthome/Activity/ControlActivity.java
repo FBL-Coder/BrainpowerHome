@@ -5,7 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
@@ -37,10 +40,11 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 public class ControlActivity extends BaseActivity {
 
     private CircleMenuLayout layout;
+    private RelativeLayout CircleMenuLayout_RL, SceneSet_Info;
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
     private Fragment mLightFragment, mAirFragment,
-            mTVFragment, mTvUpFragment, mCurFragment,mVideoFragment,mDoorFragment,
+            mTVFragment, mTvUpFragment, mCurFragment, mVideoFragment, mDoorFragment,
             mFreshAirFragment, mFloorHeatFragment;
     private int DevType = 3, OutCircleposition = 0;
     private String RoomName = "";
@@ -59,10 +63,13 @@ public class ControlActivity extends BaseActivity {
             return;
         }
         layout = getViewById(R.id.SceneSet_CircleMenu);
+        CircleMenuLayout_RL = getViewById(R.id.CircleMenuLayout_RL);
+        SceneSet_Info = getViewById(R.id.SceneSet_Info);
         DevType_TV = getViewById(R.id.DevType);
         RoomName_TV = getViewById(R.id.RoomName);
         Data_OuterCircleList = ControlHelper.initSceneCircleOUterData();
         Data_InnerCircleList = ControlHelper.initSceneCircleInnerData();
+
         layout.Init(200, 100);
         layout.setInnerCircleMenuData(Data_InnerCircleList);
         layout.setOuterCircleMenuData(Data_OuterCircleList);

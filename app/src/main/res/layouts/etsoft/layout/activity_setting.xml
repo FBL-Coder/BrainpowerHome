@@ -29,7 +29,7 @@
                     android:layout_weight="1.5"
                     android:paddingLeft="@dimen/dp_40"
                     android:paddingRight="@dimen/dp_40"
-                    android:paddingTop="@dimen/sp_40"
+                    android:paddingTop="@dimen/dp_40"
                     android:src="@drawable/set_newwork" />
 
                 <TextView
@@ -39,7 +39,7 @@
                     android:gravity="center"
                     android:text="联网模块"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dp_30" />
+                    android:textSize="@dimen/sp_30" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
             <View
@@ -61,7 +61,7 @@
                     android:layout_weight="1.5"
                     android:paddingLeft="@dimen/dp_40"
                     android:paddingRight="@dimen/dp_40"
-                    android:paddingTop="@dimen/sp_40"
+                    android:paddingTop="@dimen/dp_40"
                     android:src="@drawable/set_control" />
 
                 <TextView
@@ -71,7 +71,7 @@
                     android:gravity="center"
                     android:text="组合设置"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dp_30" />
+                    android:textSize="@dimen/sp_30" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
             <View
@@ -93,7 +93,7 @@
                     android:layout_weight="1.5"
                     android:paddingLeft="@dimen/dp_40"
                     android:paddingRight="@dimen/dp_40"
-                    android:paddingTop="@dimen/sp_40"
+                    android:paddingTop="@dimen/dp_40"
                     android:src="@drawable/set_devinfo" />
 
                 <TextView
@@ -103,7 +103,7 @@
                     android:gravity="center"
                     android:text="设备信息"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dp_30" />
+                    android:textSize="@dimen/sp_30" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
             <View
@@ -125,7 +125,7 @@
                     android:layout_weight="1.5"
                     android:paddingLeft="@dimen/dp_40"
                     android:paddingRight="@dimen/dp_40"
-                    android:paddingTop="@dimen/sp_40"
+                    android:paddingTop="@dimen/dp_40"
                     android:src="@drawable/anjian_icon" />
 
                 <TextView
@@ -135,12 +135,12 @@
                     android:gravity="center"
                     android:text="情景设置"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dp_30" />
+                    android:textSize="@dimen/sp_30" />
 
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
             <View
-                android:layout_width="10dp"
+                android:layout_width="@dimen/dp_10"
                 android:layout_height="match_parent" />
 
             <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
@@ -158,7 +158,7 @@
                     android:layout_weight="1.5"
                     android:paddingLeft="@dimen/dp_40"
                     android:paddingRight="@dimen/dp_40"
-                    android:paddingTop="@dimen/sp_40"
+                    android:paddingTop="@dimen/dp_40"
                     android:src="@drawable/set_safety" />
 
                 <TextView
@@ -168,7 +168,7 @@
                     android:gravity="center"
                     android:text="安防设置"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dp_30" />
+                    android:textSize="@dimen/sp_30" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
         </LinearLayout>
 
@@ -197,7 +197,7 @@
                     android:layout_weight="1.5"
                     android:paddingLeft="@dimen/dp_40"
                     android:paddingRight="@dimen/dp_40"
-                    android:paddingTop="@dimen/sp_40"
+                    android:paddingTop="@dimen/dp_40"
                     android:src="@drawable/set_timer" />
 
                 <TextView
@@ -207,7 +207,7 @@
                     android:gravity="center"
                     android:text="定时设置"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dp_30" />
+                    android:textSize="@dimen/sp_30" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
             <View
@@ -229,7 +229,7 @@
                     android:layout_weight="1.5"
                     android:paddingLeft="@dimen/dp_40"
                     android:paddingRight="@dimen/dp_40"
-                    android:paddingTop="@dimen/sp_40"
+                    android:paddingTop="@dimen/dp_40"
                     android:src="@drawable/set_condition" />
 
                 <TextView
@@ -239,7 +239,7 @@
                     android:gravity="center"
                     android:text="环境事件"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dp_30" />
+                    android:textSize="@dimen/sp_30" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
             <View
@@ -261,7 +261,7 @@
                     android:layout_weight="1.5"
                     android:paddingLeft="@dimen/dp_40"
                     android:paddingRight="@dimen/dp_40"
-                    android:paddingTop="@dimen/sp_40"
+                    android:paddingTop="@dimen/dp_40"
                     android:src="@drawable/anjian_dev" />
 
                 <TextView
@@ -271,7 +271,7 @@
                     android:gravity="center"
                     android:text="设备-按键"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dp_30" />
+                    android:textSize="@dimen/sp_30" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
             <View
@@ -293,7 +293,7 @@
                     android:layout_weight="1.5"
                     android:paddingLeft="@dimen/dp_40"
                     android:paddingRight="@dimen/dp_40"
-                    android:paddingTop="@dimen/sp_40"
+                    android:paddingTop="@dimen/dp_40"
                     android:src="@drawable/anjian_qingjing" />
 
                 <TextView
@@ -303,7 +303,7 @@
                     android:gravity="center"
                     android:text="情景-按键"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dp_30" />
+                    android:textSize="@dimen/sp_30" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
             <View
@@ -325,7 +325,7 @@
                     android:layout_weight="1.5"
                     android:paddingLeft="@dimen/dp_40"
                     android:paddingRight="@dimen/dp_40"
-                    android:paddingTop="@dimen/sp_40"
+                    android:paddingTop="@dimen/dp_40"
                     android:src="@drawable/dev_anjain" />
 
                 <TextView
@@ -335,7 +335,7 @@
                     android:gravity="center"
                     android:text="按键-设备"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/dp_30" />
+                    android:textSize="@dimen/sp_30" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
         </LinearLayout>
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/Circle_Item_ll"
-    android:layout_width="100dp"
-    android:layout_height="80dp"
+    android:layout_width="@dimen/dp_100"
+    android:layout_height="@dimen/dp_80"
     android:orientation="vertical"
     >
 

@@ -3,7 +3,6 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-
     <color name="theme_bg">#f6f6f6</color>
     <color name="theme_title">#63aade</color>
     <color name="prompt_bg">#eaecec</color>
@@ -24,7 +23,6 @@
     <color name="transparent">#00000000</color>
     <color name="set">#007aff</color>
     <color name="font">#43c0ee</color>
-
 
 
     <color name="triangle">#aa72d572</color>

@@ -12,12 +12,12 @@
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
         android:layout_alignParentRight="true"
-        android:padding="@dimen/dp_20" />
+        android:padding="@dimen/dp_15" />
 
     <cn.etsoft.smarthome.View.RotateBtn.RotateControButton
         android:id="@+id/RotateControButton"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="@dimen/dp_150"
         android:layout_centerInParent="true" />
 
     <LinearLayout

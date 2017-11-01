@@ -50,7 +50,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dp_50"
             android:paddingLeft="@dimen/dp_250">
 
             <LinearLayout
@@ -67,7 +67,8 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
                         android:text="名称："
                         android:textColor="@color/white1"
                         android:textSize="@dimen/sp_16" />
@@ -75,10 +76,11 @@
                     <EditText
                         android:id="@+id/GroupSet_Name"
                         android:layout_width="@dimen/dp_120"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:gravity="center"
                         android:hint="无"
                         android:lines="1"
+                        android:background="@null"
                         android:textColor="@color/white1"
                         android:textColorHint="@color/white1"
                         android:textSize="@dimen/sp_16" />
@@ -183,8 +185,8 @@
 
             <ImageView
                 android:id="@+id/GroupSet_AddDevs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
                 android:layout_marginLeft="@dimen/dp_20"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
@@ -202,8 +204,8 @@
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/GroupSet_CircleMenu"
-            android:layout_width="@dimen/dp_250"
-            android:layout_height="550dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:background="@drawable/circlebg" />
     </FrameLayout>

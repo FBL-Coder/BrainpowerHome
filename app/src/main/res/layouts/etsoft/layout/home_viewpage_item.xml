@@ -4,7 +4,7 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="@dimen/dp_10"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true">
     <!--cardUseCompatPadding 设置阴影之后自动缩小布局大小-->

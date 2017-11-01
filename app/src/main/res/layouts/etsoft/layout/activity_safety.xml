@@ -19,7 +19,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/dp_48"
                 android:background="@color/set"
                 android:paddingLeft="@dimen/dp_150">
 
@@ -62,7 +62,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/dp_50"
                 android:paddingLeft="@dimen/dp_200">
 
                 <LinearLayout
@@ -73,7 +73,7 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_margin="@dimen/dp_8"
                         android:background="@drawable/set_button_bg"
                         android:gravity="center_vertical"
@@ -81,7 +81,8 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
                             android:text="名称："
                             android:paddingLeft="@dimen/dp_10"
                             android:textColor="@color/main_white3"
@@ -90,8 +91,9 @@
                         <EditText
                             android:id="@+id/SafetySet_Name"
                             android:layout_width="@dimen/dp_100"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
+                            android:background="@null"
                             android:hint="无"
                             android:textColor="@color/white"
                             android:textColorHint="@color/white"
@@ -143,8 +145,9 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/dp_15"
+                            android:gravity="center"
                             android:text="关联情景"
                             android:textColor="@color/main_white3"
                             android:textSize="@dimen/sp_16" />
@@ -194,7 +197,7 @@
 
                         <ImageView
                             android:id="@+id/SafetySet_ShiNeng"
-                            android:layout_width="wrap_content"
+                            android:layout_width="@dimen/dp_60"
                             android:layout_height="match_parent"
                             android:src="@drawable/show_off" />
                     </LinearLayout>
@@ -238,16 +241,16 @@
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/SafetySet_CircleMenu"
-            android:layout_width="@dimen/dp_250"
-            android:layout_height="550dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:background="@drawable/circlebg" />
     </FrameLayout>
 
     <ImageView
         android:id="@+id/SafetySet_AddDev"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_60"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/dp_30"

@@ -172,34 +172,42 @@ public class BaseActivity extends MyBaseActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_commounity_base);
-        instance = this;
-        preference = MyApplication.getSharedPreferenceUtil();
-        squirrelCall = (squirrelCallImpl) getApplication();
-        squirrelCall.squirrelSetGlobalVideo(0, 1); // 不发送本地视频，接收远程视频
-        if (savedInstanceState != null) {
-            loadState(savedInstanceState);
-        }
-        getDisplay();
-        setView();
-        setListener();
-        re = getResources();
-
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-
-        mHandler = new Handler(Looper.getMainLooper());
-
-        initDevices();
-        //开启蓝牙service
-        startBleService();
-        //5分钟登录一次sip账号
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.sendEmptyMessage(3);
+        try {
+            setContentView(R.layout.activity_commounity_base);
+            instance = this;
+            preference = MyApplication.getSharedPreferenceUtil();
+            squirrelCall = (squirrelCallImpl) getApplication();
+            squirrelCall.squirrelSetGlobalVideo(0, 1); // 不发送本地视频，接收远程视频
+            if (savedInstanceState != null) {
+                loadState(savedInstanceState);
             }
-        }, 1000, 5 * 60 * 1000);
+            getDisplay();
+            setView();
+            setListener();
+            re = getResources();
+
+            sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+            vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
+            mHandler = new Handler(Looper.getMainLooper());
+
+            initDevices();
+            //开启蓝牙service
+            startBleService();
+            //5分钟登录一次sip账号
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    handler.sendEmptyMessage(3);
+                }
+            }, 1000, 5 * 60 * 1000);
+        }catch (Exception e){
+            ToastUtil.s(this,"发生错误");
+            finish();
+        }catch (Error error){
+            ToastUtil.s(this,"发生错误");
+            finish();
+        }
     }
 
     protected void startBleService() {

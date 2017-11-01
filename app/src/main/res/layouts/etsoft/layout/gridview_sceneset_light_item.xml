@@ -43,8 +43,8 @@
 
     <ImageView
         android:id="@+id/SceneSet_GridView_Item_Select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/dp_10"
         android:src="@drawable/select_no" />
@@ -52,20 +52,20 @@
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/SceneSet_GridView_Item_Slide"
         android:layout_width="@dimen/dp_200"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/dp_60"
         android:layout_below="@id/SceneSet_GridView_Item_IV"
         android:layout_centerHorizontal="true"
         app:cellMode="other"
         app:cells="4"
         app:hideProgressHint="true"
-        app:hintBGHeight="28dp"
+        app:hintBGHeight="@dimen/dp_28"
         app:lineColorEdge="@color/colorAccent"
         app:lineColorSelected="@color/color_10AEFF"
         app:markTextArray="@array/wordsArray"
-        app:seekBarHeight="8dp"
+        app:seekBarHeight="@dimen/dp_8"
         app:seekBarMode="single"
-        app:textPadding="17dp"
-        app:textSize="12sp"
-        app:thumbSize="26dp" />
+        app:textPadding="@dimen/sp_16"
+        app:textSize="@dimen/sp_12"
+        app:thumbSize="@dimen/sp_26" />
 
 </RelativeLayout>

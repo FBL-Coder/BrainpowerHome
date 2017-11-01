@@ -55,9 +55,11 @@
     <!--全局对话框的权限-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <supports-screens
+        android:anyDensity="true"
         android:largeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
+        android:smallScreens="true"
         android:xlargeScreens="true" />
 
     <application
@@ -71,9 +73,9 @@
 
         <!--&lt;!&ndash;网络监听&ndash;&gt;-->
         <!--<receiver android:name="Utils.NetBroadcastReceiver">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-            <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
 
         /* 智能家居页面 */
@@ -97,7 +99,7 @@
         <activity
             android:name=".Activity.WelcomeActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/welcome"/>
+            android:theme="@style/welcome" />
         <!--设置页面-->
         <activity
             android:name=".Activity.SettingActivity"
@@ -202,8 +204,8 @@
         <!-- 安防首页进入详情-->
         <activity
             android:name=".Activity.SafetyHomeActivity"
-            android:screenOrientation="landscape"
             android:launchMode="singleTop"
+            android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
         <!-- 联网模块详情-->
         <activity

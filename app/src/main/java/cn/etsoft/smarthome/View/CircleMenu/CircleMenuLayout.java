@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 
 /**
@@ -29,6 +30,8 @@ public class CircleMenuLayout extends RelativeLayout {
     private List<CircleDataEvent> Data_InnerCircleList;
     private ImageView btn_view;
     private RelativeLayout ll_btn_view;
+    //屏幕适配系数
+    private double Adaptive_coefficient = 1;
 
     public CircleMenuLayout(Context context) {
         super(context);
@@ -56,7 +59,30 @@ public class CircleMenuLayout extends RelativeLayout {
     }
 
     public void Init(int Radius_outer, int Radius_inner) {
-        initView(Radius_outer, Radius_inner);
+
+        int W = cn.semtec.community2.MyApplication.display_width;
+        int h = cn.semtec.community2.MyApplication.display_height;
+        int SW = W < h ? W : h;
+        int dp_SW = CircleMenuLayout.px2dip(SW);
+
+        if (dp_SW > 200 && dp_SW <= 320) {
+            Adaptive_coefficient = 1.8;
+            Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
+            Radius_inner = (int) (Radius_inner / (Adaptive_coefficient + 0.4));
+        } else if (dp_SW > 320 && dp_SW <= 480) {
+            Adaptive_coefficient = 1.8;
+            Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
+            Radius_inner = (int) (Radius_inner / (Adaptive_coefficient + 0.4));
+        } else if (dp_SW > 480 && dp_SW <= 600) {
+            Adaptive_coefficient = 1.5;
+            Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
+            Radius_inner = (int) (Radius_inner / (Adaptive_coefficient + 0.2));
+        } else if (dp_SW > 600 && dp_SW <= 720) {
+            Adaptive_coefficient = 1;
+        } else if (dp_SW > 720) {
+            Adaptive_coefficient = 0.7;
+        }
+        initView(Radius_outer,Radius_inner);
         UIEvent_Circle_Outer();
         UIEvent_Circle_Inner();
     }
@@ -84,6 +110,7 @@ public class CircleMenuLayout extends RelativeLayout {
             LinearLayout l = new LinearLayout(context);
             l.setOrientation(LinearLayout.VERTICAL);
             ImageView iv = new ImageView(context);
+            iv.setLayoutParams(new LinearLayout.LayoutParams((int) (70 / Adaptive_coefficient), (int) (70 / Adaptive_coefficient)));
             iv.setImageResource(Data_InnerCircleList.get(i).getImage());
             l.addView(iv);
             final TextView t = new TextView(context);
@@ -93,6 +120,7 @@ public class CircleMenuLayout extends RelativeLayout {
                 t.setTextColor(Color.BLACK);
             }
             t.setGravity(Gravity.CENTER);
+            t.setTextSize((int) (16 / Adaptive_coefficient));
             t.setText(Data_InnerCircleList.get(i).getTitle());
             l.addView(t);
             final int Position = i;
@@ -121,9 +149,10 @@ public class CircleMenuLayout extends RelativeLayout {
         circle_1.removeAllViews();
         for (int i = 0; i < Data_OuterCircleList.size(); i++) {
             LinearLayout l = new LinearLayout(context);
-            l.setPadding(0,0,20,0);
+            l.setPadding(0, 0, 20, 0);
             l.setOrientation(LinearLayout.VERTICAL);
             ImageView iv = new ImageView(context);
+            iv.setLayoutParams(new LinearLayout.LayoutParams((int) (70 / Adaptive_coefficient), (int) (70 / Adaptive_coefficient)));
             iv.setImageResource(Data_OuterCircleList.get(i).getImage());
             l.addView(iv);
             final TextView t = new TextView(context);
@@ -134,6 +163,7 @@ public class CircleMenuLayout extends RelativeLayout {
                 t.setTextColor(Color.WHITE);
             }
             t.setGravity(Gravity.CENTER);
+            t.setTextSize((int) (16 / Adaptive_coefficient));
             t.setText(Data_OuterCircleList.get(i).getTitle());
             l.addView(t);
             final int Position = i;
@@ -162,14 +192,14 @@ public class CircleMenuLayout extends RelativeLayout {
         ll_btn_view = (RelativeLayout) view.findViewById(R.id.ll_btn_view);
         circle_1 = (CircleLayout) view.findViewById(R.id.circle_1);
         circle_2 = (CircleLayout) view.findViewById(R.id.circle_2);
-        circle_1.setMaxWidth(dip2px(context, Radius_outer + 50));
-        circle_2.setMaxWidth(dip2px(context, Radius_inner + 50));
-        circle_1.setmTranslationX(-(dip2px(context, 2 * Radius_outer / 3)));
-        circle_2.setmTranslationX(-(dip2px(context, 4 * Radius_inner / 5)));
+        circle_1.setMaxWidth(dip2px(Radius_outer + 50));
+        circle_2.setMaxWidth(dip2px(Radius_inner + 50));
+        circle_1.setmTranslationX(-(dip2px(2 * Radius_outer / 3)));
+        circle_2.setmTranslationX(-(dip2px(4 * Radius_inner / 5)));
         circle_1.setCanScroll(true);
         circle_2.setCanScroll(true);
-        circle_1.setRadius(dip2px(context, Radius_outer));
-        circle_2.setRadius(dip2px(context, Radius_inner));
+        circle_1.setRadius(dip2px(Radius_outer));
+        circle_2.setRadius(dip2px(Radius_inner));
         btn_view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,9 +207,14 @@ public class CircleMenuLayout extends RelativeLayout {
         });
     }
 
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
+    static final float scale = MyApplication.mApplication.getResources().getDisplayMetrics().density;
+
+    public static int dip2px(float dpValue) {
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    public static int px2dip(float pxValue) {
+        return (int) (pxValue / scale + 0.5f);
     }
 
 

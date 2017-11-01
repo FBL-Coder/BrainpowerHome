@@ -9,19 +9,19 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="34sp"
+        android:textSize="@dimen/sp_36"
         android:textColor="#ff5000"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="@dimen/dp_50" />
 
     <TextView
         android:id="@+id/tv_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:layout_marginTop="10dp"
+        android:textSize="@dimen/sp_18"
+        android:layout_marginTop="@dimen/dp_10"
         android:gravity="center_horizontal"
         android:textColor="#999999"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="@dimen/dp_5" />
 
     <ImageView
         android:id="@+id/tv_pic"
@@ -29,8 +29,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginRight="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:layout_marginBottom="@dimen/dp_5" />
 
 </LinearLayout>

@@ -35,7 +35,9 @@
                 android:layout_height="@dimen/dp_50"
                 android:hint="输入手机号"
                 android:paddingLeft="@dimen/dp_20"
+                android:layout_gravity="center_vertical"
                 android:inputType="phone"
+                android:background="@null"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_pressed"
                 android:textSize="@dimen/sp_20" />
@@ -60,8 +62,10 @@
                 android:id="@+id/register_pass"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_50"
+                android:layout_gravity="center_vertical"
                 android:hint="输入密码"
                 android:paddingLeft="@dimen/dp_20"
+                android:background="@null"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_pressed"
                 android:textSize="@dimen/sp_20" />
@@ -87,6 +91,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_50"
                 android:hint="确认密码"
+                android:background="@null"
+                android:layout_gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_20"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_pressed"
@@ -110,6 +116,7 @@
                 android:gravity="center"
                 android:hint="输入验证码"
                 android:paddingLeft="@dimen/dp_20"
+                android:background="@null"
                 android:textColor="@color/black"
                 android:textColorHint="@color/gray_pressed"
                 android:textSize="@dimen/sp_20" />

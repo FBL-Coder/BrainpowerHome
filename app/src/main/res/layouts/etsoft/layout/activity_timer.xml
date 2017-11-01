@@ -55,7 +55,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/dp_50"
                 android:paddingLeft="@dimen/dp_250">
 
                 <LinearLayout
@@ -66,14 +66,15 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_margin="@dimen/dp_5"
                         android:background="@drawable/set_button_bg"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
                             android:text="名称："
                             android:textColor="@color/main_white3"
                             android:textSize="@dimen/sp_16" />
@@ -81,9 +82,10 @@
                         <EditText
                             android:id="@+id/Timer_Name"
                             android:layout_width="@dimen/dp_120"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
                             android:hint="无"
+                            android:background="@null"
                             android:textColor="@color/white"
                             android:textColorHint="@color/white"
                             android:textSize="@dimen/sp_16"
@@ -124,7 +126,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/dp_50"
                 android:paddingLeft="@dimen/dp_250">
 
                 <LinearLayout
@@ -275,8 +277,8 @@
 
             <ImageView
                 android:id="@+id/Timer_AddDev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
                 android:src="@drawable/add_white"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
@@ -293,8 +295,8 @@
 
         <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
             android:id="@+id/Timer_CircleMenu"
-            android:layout_width="@dimen/dp_250"
-            android:layout_height="550dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:background="@drawable/circlebg" />
     </FrameLayout>

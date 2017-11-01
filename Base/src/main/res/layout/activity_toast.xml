@@ -13,11 +13,11 @@
         android:background="@drawable/toast_bg"
         android:gravity="center"
         android:maxLines="2"
-        android:paddingBottom="@dimen/padding_tiny"
-        android:paddingLeft="@dimen/padding_small"
-        android:paddingRight="@dimen/padding_small"
-        android:paddingTop="@dimen/padding_tiny"
+        android:paddingBottom="@dimen/dp_5"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_5"
         android:textColor="@color/white"
-        android:textSize="@dimen/font_normal" />
+        android:textSize="@dimen/sp_16" />
 
 </LinearLayout>
