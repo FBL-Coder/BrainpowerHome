@@ -142,7 +142,8 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
 
     private void initKeyAdapter() {
         //按键适配器
-        if (WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size() != 0) {
+        if (WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size() != 0  ||
+                MyApplication.getWareData().getKeyInputs().size() != 0) {
             if (mKeysAdapter == null)
                 mKeysAdapter = new Scene_KeysSet_KeysAdapter(Scene_ID, position_keyinput, this, false);
             else mKeysAdapter.notifyDataSetChanged(Scene_ID, position_keyinput, this, false);

@@ -64,9 +64,12 @@ public class WratherUtil {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
-                MyApplication.mApplication.mCityDB = openCityDB();// 这个必须最先复制完,所以我放在单线程中处理
-                prepareCityList();
+                try {
+                    MyApplication.mApplication.mCityDB = openCityDB();// 这个必须最先复制完,所以我放在单线程中处理
+                    prepareCityList();
+                }catch (Exception e){
+                }catch (Error error){
+                }
 
             }
         }).start();

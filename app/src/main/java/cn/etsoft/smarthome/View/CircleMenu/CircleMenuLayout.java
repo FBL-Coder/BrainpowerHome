@@ -175,17 +175,21 @@ public class CircleMenuLayout extends RelativeLayout {
             Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
             Radius_inner = (int) (Radius_inner / (Adaptive_coefficient));
         } else if (dp_SW > 320 && dp_SW <= 480) {
-            Adaptive_coefficient = 1.8;
-            Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
+            Adaptive_coefficient = 1.2;
+            Radius_outer = (int) (Radius_outer / (Adaptive_coefficient));
             Radius_inner = (int) (Radius_inner / (Adaptive_coefficient));
         } else if (dp_SW > 480 && dp_SW <= 600) {
             Adaptive_coefficient = 1.5;
             Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
-            Radius_inner = (int) (Radius_inner / (Adaptive_coefficient));
+            Radius_inner = (int) (Radius_inner / Adaptive_coefficient);
         } else if (dp_SW > 600 && dp_SW <= 720) {
             Adaptive_coefficient = 1;
+            Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
+            Radius_inner = (int) (Radius_inner / Adaptive_coefficient);
         } else if (dp_SW > 720) {
-            Adaptive_coefficient = 0.7;
+            Adaptive_coefficient = 0.9;
+            Radius_outer = (int) (Radius_outer / 0.6);
+            Radius_inner = (int) (Radius_inner / 0.6);
         }
 
         View view = LayoutInflater.from(context).inflate(R.layout.circle_menu, this);

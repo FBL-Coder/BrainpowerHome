@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:text="设置温度："
                 android:textColor="@color/red"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:textSize="@dimen/dp_12" />
 
             <LinearLayout

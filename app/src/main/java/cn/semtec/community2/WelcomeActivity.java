@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 import cn.jpush.android.api.JPushInterface;
 import cn.semtec.community2.activity.BaseActivity;
 import cn.semtec.community2.activity.MyBaseActivity;
@@ -39,13 +40,6 @@ public class WelcomeActivity extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 判断 是以何种方式启动 activity的 点击 通知栏的安装完成 会另启动一个acivity 关闭就行了
-        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
-            finish();
-            return;
-        }
-        setContentView(R.layout.activity_welcome);
-        showProgress();
 
         try {
             // 获得版本号
@@ -59,9 +53,19 @@ public class WelcomeActivity extends MyBaseActivity {
             MyApplication.display_width = metric.widthPixels; // 屏幕宽度（像素）
             MyApplication.display_height = metric.heightPixels;
             MyApplication.density = metric.density;
+
+
+
         } catch (NameNotFoundException e1) {
             CatchUtil.catchM(e1);
         }
+        // 判断 是以何种方式启动 activity的 点击 通知栏的安装完成 会另启动一个acivity 关闭就行了
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            finish();
+            return;
+        }
+        setContentView(R.layout.activity_welcome);
+        showProgress();
 //        getUpdateData();
         startNext();
     }

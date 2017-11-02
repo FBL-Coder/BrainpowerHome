@@ -19,6 +19,7 @@ import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
+import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 import cn.semtec.community2.fragment.VideoFragment;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
@@ -52,6 +53,7 @@ public class WelcomeActivity extends Activity {
             // 屏幕高度（像素）
             cn.semtec.community2.MyApplication.display_height = metric.heightPixels;
             cn.semtec.community2.MyApplication.density = metric.density;
+
         } catch (Exception e1) {
         }
     }
