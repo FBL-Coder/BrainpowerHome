@@ -453,6 +453,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         private boolean WSIsOpen = false;
         private boolean WSIsAgainConnectRun;
         private int NotificationID = 10;
+        private int ConnectCount = 0;
 
         APPHandler(MyApplication application) {
             this.weakReference = new WeakReference<>(application);
@@ -471,6 +472,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             if (msg.what == application.WS_CLOSE) {
                 Log.e("WSException", "链接关闭" + msg.obj);
                 WSIsOpen = false;
+
                 WS_againConnect();
             }
             if (msg.what == application.WS_DATA_OK) {//WebSocket 数据
@@ -523,20 +525,29 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         /**
          * WebSocket 重连
          */
+
+        long time = 5000;
         private void WS_againConnect() {
             if (WSIsAgainConnectRun) {
                 return;
             }
+            ConnectCount = 0;
             WSIsAgainConnectRun = true;
             final Handler handler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
+                    if (ConnectCount > 10) {
+                        ToastUtil.showText("远程连接异常，请检查网络设置！");
+                        time = 10000;
+                        return;
+                    }
                     Log.e("WSException", "WS尝试连接中...");
                     application.wsClient = new WebSocket_Client();
                     try {
                         application.wsClient.initSocketClient(application.handler);
                         application.wsClient.connect();
+                        ConnectCount++;
                     } catch (URISyntaxException e) {
                         Log.e("WSException", "WebSocket链接重启失败" + e);
                     }
@@ -551,7 +562,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                             return;
                         }
                         try {
-                            Thread.sleep(5000);
+                            Thread.sleep(time);
                             handler.sendMessage(handler.obtainMessage());
                         } catch (InterruptedException e) {
                             Log.e("WSException", "WebSocket链接重启失败" + e);

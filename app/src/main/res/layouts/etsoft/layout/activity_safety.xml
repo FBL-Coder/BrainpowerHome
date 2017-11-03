@@ -68,7 +68,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="right"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -167,6 +166,8 @@
 
                     </LinearLayout>
 
+
+
                     <TextView
                         android:id="@+id/SafetySet_DuiMa"
                         android:layout_width="@dimen/dp_70"
@@ -177,6 +178,7 @@
                         android:background="@drawable/set_button_bg"
                         android:gravity="center"
                         android:text="对码"
+                        android:visibility="gone"
                         android:textColor="@color/white"
                         android:textSize="@dimen/dp_16"
                         android:textStyle="bold" />
