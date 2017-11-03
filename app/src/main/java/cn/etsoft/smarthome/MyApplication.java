@@ -538,7 +538,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
                     if (ConnectCount > 10) {
-                        ToastUtil.showText("远程连接异常，请检查网络设置！");
                         time = 10000;
                         return;
                     }

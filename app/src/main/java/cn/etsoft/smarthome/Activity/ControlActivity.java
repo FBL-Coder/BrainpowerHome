@@ -57,11 +57,7 @@ public class ControlActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        WareDataHliper.initCopyWareData().startCopySceneData();
-        if (MyApplication.getWareData().getRooms().size() == 0) {
-            ToastUtil.showText("没有房间数据");
-            return;
-        }
+
         layout = getViewById(R.id.SceneSet_CircleMenu);
         CircleMenuLayout_RL = getViewById(R.id.CircleMenuLayout_RL);
         SceneSet_Info = getViewById(R.id.SceneSet_Info);
@@ -77,7 +73,11 @@ public class ControlActivity extends BaseActivity {
                 finish();
             }
         });
-
+        WareDataHliper.initCopyWareData().startCopySceneData();
+        if (MyApplication.getWareData().getRooms().size() == 0) {
+            ToastUtil.showText("没有房间数据");
+            return;
+        }
         layout.Init(200, 100);
         layout.setInnerCircleMenuData(Data_InnerCircleList);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
