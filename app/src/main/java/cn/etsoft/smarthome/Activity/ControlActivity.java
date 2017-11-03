@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,6 +48,7 @@ public class ControlActivity extends BaseActivity {
     private int DevType = 3, OutCircleposition = 0;
     private String RoomName = "";
     private TextView DevType_TV, RoomName_TV;
+    private ImageView Control_Back;
 
     @Override
     public void initView() {
@@ -63,15 +65,25 @@ public class ControlActivity extends BaseActivity {
         layout = getViewById(R.id.SceneSet_CircleMenu);
         CircleMenuLayout_RL = getViewById(R.id.CircleMenuLayout_RL);
         SceneSet_Info = getViewById(R.id.SceneSet_Info);
+        Control_Back = getViewById(R.id.Control_Back);
         DevType_TV = getViewById(R.id.DevType);
         RoomName_TV = getViewById(R.id.RoomName);
         Data_OuterCircleList = ControlHelper.initSceneCircleOUterData();
         Data_InnerCircleList = ControlHelper.initSceneCircleInnerData();
 
+        Control_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         layout.Init(200, 100);
         layout.setInnerCircleMenuData(Data_InnerCircleList);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
         initEvent();
+
+
     }
 
     private void initEvent() {

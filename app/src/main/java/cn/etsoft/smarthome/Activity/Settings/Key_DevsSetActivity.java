@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
     private List<CircleDataEvent> Data_InnerCircleList;
     private RecyclerView mKeyDevs_Keys;
     private SlideGridView mKeyDevs_Devs;
+    private ImageView Control_Back;
     private TextView mKeyDevs_KeyBoards, mKeyDevs_TestBtn, mKeyDevs_SaveBtn, mKey_null;
     //设备适配器
     private Key_DevsSetAdapter mKeyDevsKeysAdapter;
@@ -100,6 +102,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
         mKeyDevs_KeyBoards = getViewById(R.id.Key_DevsSet_KeyBoards);
         mKeyDevs_TestBtn = getViewById(R.id.Key_DevsSet_Test_Btn);
         mKeyDevs_SaveBtn = getViewById(R.id.Key_DevsSet_Save_Btn);
+        Control_Back = getViewById(R.id.Control_Back);
         mKeyDevs_Devs = getViewById(R.id.Key_DevsSet_Keys);
         mKey_null = getViewById(R.id.key_null);
         mKeyDevs_Devs.setEmptyView(mKey_null);
@@ -108,6 +111,13 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
         mKeyDevs_KeyBoards.setOnClickListener(this);
         mKeyDevs_TestBtn.setOnClickListener(this);
         mKeyDevs_SaveBtn.setOnClickListener(this);
+
+        Control_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         mKeyDevs_Keys = getViewById(R.id.Key_DevsSet_Devs);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

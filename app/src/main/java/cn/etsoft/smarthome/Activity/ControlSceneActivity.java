@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
@@ -33,6 +34,7 @@ public class ControlSceneActivity extends BaseActivity {
     private List<CircleDataEvent> Data_OuterCircleList;
     private TextView mNull_tv, mRun, SceneName;
     private GridView mControlSceneGirdView;
+    private ImageView Control_Back;
     private Control_Scene_DevAdapter mAdapter;
     private int mScenePosition = 0;
     private int CirclePosition = 0;
@@ -55,6 +57,7 @@ public class ControlSceneActivity extends BaseActivity {
         mNull_tv = getViewById(R.id.null_tv);
         mRun = getViewById(R.id.Control_Scene_Run);
         SceneName = getViewById(R.id.SceneName);
+        Control_Back = getViewById(R.id.Control_Back);
         mControlSceneGirdView = getViewById(R.id.Control_Scene_GirdView);
         mControlSceneGirdView.setEmptyView(mNull_tv);
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
@@ -69,6 +72,12 @@ public class ControlSceneActivity extends BaseActivity {
                         mAdapter.notifyDataSetChanged(mSceneDatas.get(mScenePosition).getItemAry());
                     mControlSceneGirdView.setAdapter(mAdapter);
                 }
+            }
+        });
+        Control_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
         mSceneDatas = WareDataHliper.initCopyWareData().getSceneControlData();
@@ -104,7 +113,7 @@ public class ControlSceneActivity extends BaseActivity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ControlSceneActivity.this);
                 builder.setTitle("提示");
-                builder.setMessage("您是否启用   "+mSceneDatas.get(mScenePosition).getSceneName()+"？");
+                builder.setMessage("您是否启用   " + mSceneDatas.get(mScenePosition).getSceneName() + "？");
                 builder.setPositiveButton("启用", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

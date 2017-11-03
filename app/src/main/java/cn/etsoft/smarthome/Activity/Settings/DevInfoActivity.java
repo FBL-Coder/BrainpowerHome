@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
@@ -32,7 +33,7 @@ public class DevInfoActivity extends BaseActivity {
     private GridView DevInfoGridView;
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
-    private int DevType = 3 ;
+    private int DevType = 3;
     private int roomSize = -1;
     private String RoomName = "全部";
     private DevInfosAdapter adapter;
@@ -40,6 +41,7 @@ public class DevInfoActivity extends BaseActivity {
     private List<WareDev> mRoomDevs;
     private String DEVS_ALL_ROOM = "全部";
     private TextView mDevInfoAddDevs, mDevInfoNullData;
+    private ImageView Control_Back;
 
     @Override
     protected void onResume() {
@@ -70,6 +72,7 @@ public class DevInfoActivity extends BaseActivity {
         setLayout(R.layout.activity_devinfo);
         DevInfoGridView = getViewById(R.id.DevInfo_Info);
         mDevInfoAddDevs = getViewById(R.id.Dev_Info_AddDevs);
+        Control_Back = getViewById(R.id.Control_Back);
         mDevInfoNullData = getViewById(R.id.Dev_Info_NullData);
         DevInfoGridView.setEmptyView(mDevInfoNullData);
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
@@ -85,6 +88,13 @@ public class DevInfoActivity extends BaseActivity {
                     ToastUtil.showText("操作成功");
                     InitCircleData();
                 }
+            }
+        });
+
+        Control_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }

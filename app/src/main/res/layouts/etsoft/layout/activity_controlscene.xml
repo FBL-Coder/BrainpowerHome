@@ -16,12 +16,20 @@
             android:layout_height="@dimen/dp_70"
             android:background="@drawable/menuup_bg">
 
+
+            <ImageView
+                android:id="@+id/Control_Back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_150"
+                android:src="@drawable/back_image_select" />
+
             <TextView
                 android:id="@+id/SceneName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp_150"
+                android:layout_marginLeft="@dimen/dp_240"
                 android:text="情景控制"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_22"

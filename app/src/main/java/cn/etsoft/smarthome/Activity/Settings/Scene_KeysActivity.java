@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
@@ -35,6 +36,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
     private List<CircleDataEvent> Data_OuterCircleList;
     private RecyclerView mSceneKeys_Boards;
     private GridView mSceneKeys_Keys;
+    private ImageView Control_Back;
     private TextView mSceneKeys_TestBtn, mSceneKeys_SaveBtn;
     private boolean IsNoData = true;
     //设备适配器
@@ -58,7 +60,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 MyApplication.mApplication.dismissLoadDialog();
                 if (datType == 58 && MyApplication.getWareData().getChnOpItem_scene().getSubType1() == 1) {
-                    IsNoData =  false;
+                    IsNoData = false;
                     WareDataHliper.initCopyWareData().startCopyScene_KeysData();
                     initKeyAdapter();
                 }
@@ -69,11 +71,19 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
         });
 
         mSceneKeys_TestBtn = getViewById(R.id.Scene_KeysSet_Test_Btn);
+        Control_Back = getViewById(R.id.Control_Back);
         mSceneKeys_SaveBtn = getViewById(R.id.Scene_KeysSet_Save_Btn);
         mSceneKeys_Keys = getViewById(R.id.Scene_KeysSet_Keys);
 
         mSceneKeys_TestBtn.setOnClickListener(this);
         mSceneKeys_SaveBtn.setOnClickListener(this);
+
+        Control_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         mSceneKeys_Boards = getViewById(R.id.Scene_KeysSet_Devs);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -142,7 +152,7 @@ public class Scene_KeysActivity extends BaseActivity implements View.OnClickList
 
     private void initKeyAdapter() {
         //按键适配器
-        if (WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size() != 0  ||
+        if (WareDataHliper.initCopyWareData().getScenekeysResult().getKey2scene_item().size() != 0 ||
                 MyApplication.getWareData().getKeyInputs().size() != 0) {
             if (mKeysAdapter == null)
                 mKeysAdapter = new Scene_KeysSet_KeysAdapter(Scene_ID, position_keyinput, this, false);

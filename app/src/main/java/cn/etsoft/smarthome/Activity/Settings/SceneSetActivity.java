@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
@@ -47,6 +48,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
     private RecyclerView mSceneSetScenes;
+    private ImageView Control_Back;
     private TextView mSceneSet_Add_Btn, mSceneSetTestBtn, mSceneSetSaveBtn, mNull_tv;
     private SceneSet_ScenesAdapter mScenesAdapter;
     private Fragment mLightFragment, mAirFragment, mTVFragment,
@@ -94,11 +96,19 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         mSceneSet_Add_Btn = getViewById(R.id.SceneSet_Add_Btn);
         mSceneSetTestBtn = getViewById(R.id.SceneSet_Test_Btn);
         mSceneSetSaveBtn = getViewById(R.id.SceneSet_Save_Btn);
+        Control_Back = getViewById(R.id.Control_Back);
         mNull_tv = getViewById(R.id.null_tv);
 
         mSceneSet_Add_Btn.setOnClickListener(this);
         mSceneSetTestBtn.setOnClickListener(this);
         mSceneSetSaveBtn.setOnClickListener(this);
+
+        Control_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         mSceneSetScenes = getViewById(R.id.SceneSet_Scenes);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -133,7 +143,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         }
         switch (v.getId()) {
             case R.id.SceneSet_Add_Btn:
-                if (MyApplication.getWareData().getSceneEvents().size() == 10){
+                if (MyApplication.getWareData().getSceneEvents().size() == 10) {
                     ToastUtil.showText("自定义情景最多10个！");
                     return;
                 }
