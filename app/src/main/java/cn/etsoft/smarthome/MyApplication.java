@@ -527,6 +527,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
          */
 
         long time = 5000;
+
         private void WS_againConnect() {
             if (WSIsAgainConnectRun) {
                 return;

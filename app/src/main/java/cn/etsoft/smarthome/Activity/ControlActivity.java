@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
+import java.net.Socket;
 import java.util.List;
 
 import cn.etsoft.smarthome.Fragment.Control.AirControlFragment;
@@ -21,6 +22,7 @@ import cn.etsoft.smarthome.Fragment.Control.DoorControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.FloorHeatFragment;
 import cn.etsoft.smarthome.Fragment.Control.FreshAirFragment;
 import cn.etsoft.smarthome.Fragment.Control.LightControlFragment;
+import cn.etsoft.smarthome.Fragment.Control.SocketFragment;
 import cn.etsoft.smarthome.Fragment.Control.TVControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.TvUpControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.VideoControlFragment;
@@ -44,7 +46,7 @@ public class ControlActivity extends BaseActivity {
     private List<CircleDataEvent> Data_InnerCircleList;
     private Fragment mLightFragment, mAirFragment,
             mTVFragment, mTvUpFragment, mCurFragment, mVideoFragment, mDoorFragment,
-            mFreshAirFragment, mFloorHeatFragment;
+            mFreshAirFragment, mSocketFragment, mFloorHeatFragment;
     private int DevType = 3, OutCircleposition = 0;
     private String RoomName = "";
     private TextView DevType_TV, RoomName_TV;
@@ -116,6 +118,8 @@ public class ControlActivity extends BaseActivity {
                     DevType_TV.setText("窗帘");
                 if (DevType == 7)
                     DevType_TV.setText("新风");
+                if (DevType == 8)
+                    DevType_TV.setText("插座");
                 if (DevType == 9)
                     DevType_TV.setText("地暖");
             }
@@ -188,6 +192,11 @@ public class ControlActivity extends BaseActivity {
                 mFreshAirFragment = new FreshAirFragment();
                 mFreshAirFragment.setArguments(bundle);
                 transaction.replace(R.id.SceneSet_Info, mFreshAirFragment);
+                break;
+            case 8:
+                mSocketFragment = new SocketFragment();
+                mSocketFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mSocketFragment);
                 break;
             case 9:
                 mFloorHeatFragment = new FloorHeatFragment();

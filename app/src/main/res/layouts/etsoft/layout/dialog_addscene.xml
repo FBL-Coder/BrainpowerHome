@@ -63,8 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="7"
             android:hint="清输入模块名称"
-
-            android:textSize="@dimen/sp_18" />
+            android:textSize="@dimen/sp_20" />
     </LinearLayout>
 
     <LinearLayout

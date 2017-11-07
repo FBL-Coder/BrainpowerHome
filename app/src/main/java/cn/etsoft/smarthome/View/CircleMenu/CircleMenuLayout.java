@@ -3,6 +3,7 @@ package cn.etsoft.smarthome.View.CircleMenu;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,9 @@ import java.util.List;
 
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.semtec.community2.util.ToastUtil;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * Author：FBL  Time： 2017/6/8.
@@ -180,16 +184,16 @@ public class CircleMenuLayout extends RelativeLayout {
             Radius_inner = (int) (Radius_inner / (Adaptive_coefficient));
         } else if (dp_SW > 480 && dp_SW <= 600) {
             Adaptive_coefficient = 1.5;
-            Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
-            Radius_inner = (int) (Radius_inner / Adaptive_coefficient);
+            Radius_outer = (int) (Radius_outer / (Adaptive_coefficient - 0.55));
+            Radius_inner = (int) (Radius_inner / (Adaptive_coefficient - 0.55));
         } else if (dp_SW > 600 && dp_SW <= 720) {
             Adaptive_coefficient = 1;
             Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
             Radius_inner = (int) (Radius_inner / Adaptive_coefficient);
         } else if (dp_SW > 720) {
-            Adaptive_coefficient = 0.9;
-            Radius_outer = (int) (Radius_outer / 0.6);
-            Radius_inner = (int) (Radius_inner / 0.6);
+            Adaptive_coefficient = 1.1;
+            Radius_outer = (int) (Radius_outer / 0.7);
+            Radius_inner = (int) (Radius_inner / 0.7);
         }
 
         View view = LayoutInflater.from(context).inflate(R.layout.circle_menu, this);

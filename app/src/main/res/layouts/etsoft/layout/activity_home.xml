@@ -278,7 +278,6 @@
                 android:id="@+id/home_weather_relativelayout"
                 android:layout_width="@dimen/dp_600"
                 android:layout_height="@dimen/dp_280"
-                android:layout_alignParentStart="true"
                 android:layout_marginLeft="@dimen/dp_50"
                 android:layout_marginStart="48dp"
                 android:layout_marginTop="@dimen/dp_40"
@@ -288,7 +287,6 @@
                     android:id="@+id/home_weather_temp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:gravity="center"
                     android:text="25°C"
@@ -390,11 +388,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/dp_20"
                     android:ellipsize="marquee"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
-
                     android:text="温馨提示：因为天气较冷。所以需要有女朋友暖床哦~~"
                     android:textColor="@color/home_text"
                     android:textSize="@dimen/sp_20" />
