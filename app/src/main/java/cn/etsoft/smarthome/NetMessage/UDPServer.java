@@ -335,6 +335,7 @@ public class UDPServer implements Runnable {
             case 1:// e_udpPro_getRcuinfo
                 if (subType2 == 1)
                     setRcuInfo(info);
+                else isFreshData = true;
                 break;
             case 3: // getDevsInfo
                 if (subType1 == 1) {

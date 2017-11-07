@@ -136,7 +136,6 @@ public class Net_AddorDel_Helper {
                     list.get(position).setCanCpuName(name_input);
                     MyApplication.mApplication.setRcuInfoList(list);
                     handler.sendMessage(handler.obtainMessage());
-                    ToastUtil.showText("联网模块修改成功");
                 } else if (result.getCode() == HTTPRequest_BackCode.RCUINFO_ERROR) {
                     // 修改失败
                     ToastUtil.showText("联网模块修改失败，模块ID不存在");

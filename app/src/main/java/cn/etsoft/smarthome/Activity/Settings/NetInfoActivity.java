@@ -57,11 +57,14 @@ public class NetInfoActivity extends Activity {
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                if (datType == 1 && subtype1 == 0 && subtype2 == 1) {
-                    ToastUtil.showText("修改成功");
+                if (datType == 1 && subtype1 == 1) {
+                    if (subtype2 == 1)
+                        ToastUtil.showText("修改成功");
+                    else ToastUtil.showText("修改失败");
                 }
             }
         });
+
         initView();
         initData();
 
