@@ -172,7 +172,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.home_ref_btn:
-                GlobalVars.setIsLAN(true);
                 SendDataUtil.getNetWorkInfo();
                 MyApplication.mApplication.showLoadDialog(this);
                 break;

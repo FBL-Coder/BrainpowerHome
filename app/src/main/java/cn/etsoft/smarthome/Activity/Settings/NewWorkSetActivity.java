@@ -257,7 +257,7 @@ public class NewWorkSetActivity extends BaseActivity {
         mSousuo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyApplication.mApplication.getUdpServer().sendSeekNet();
+                MyApplication.mApplication.getUdpServer().sendSeekNet(true);
                 MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this);
             }
         });
@@ -474,7 +474,6 @@ public class NewWorkSetActivity extends BaseActivity {
             RcuInfo rcuInfo = new RcuInfo();
             rcuInfo.setCanCpuName(result.getData().get(i).getCanCpuName());
             rcuInfo.setDevUnitID(result.getData().get(i).getDevUnitID());
-            rcuInfo.setDevUnitPass(result.getData().get(i).getDevPass());
             rcuInfo.setOnLine(result.getData().get(i).isOnline());
             rcuInfos.add(rcuInfo);
         }

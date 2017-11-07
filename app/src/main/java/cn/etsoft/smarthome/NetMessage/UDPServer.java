@@ -14,7 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.ref.WeakReference;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -40,7 +39,6 @@ import cn.etsoft.smarthome.Domain.WareBoardChnout;
 import cn.etsoft.smarthome.Domain.WareBoardKeyInput;
 import cn.etsoft.smarthome.Domain.WareChnOpItem;
 import cn.etsoft.smarthome.Domain.WareCurtain;
-import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.Domain.WareDev;
 import cn.etsoft.smarthome.Domain.WareFloorHeat;
 import cn.etsoft.smarthome.Domain.WareFreshAir;
@@ -109,8 +107,24 @@ public class UDPServer implements Runnable {
         }
     }
 
-    public void send(final String msg, int dattype) {
 
+    public void UdpHeard() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (; ; ) {
+                    try {
+                        Thread.sleep(15000);
+                        SendDataUtil.getHeart();
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, "UdpHeard: " + e);
+                    }
+                }
+            }
+        }).start();
+    }
+
+    public void send(final String msg, int dattype) {
         int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
         if (NETWORK == 0) {
             ToastUtil.showText("请检查网络连接");
@@ -129,25 +143,25 @@ public class UDPServer implements Runnable {
             }
             if (GlobalVars.isIsLAN()) {
                 UdpSendMsg(msg);
-                if (dattype == 26) {
-                    return;
+                if (dattype == 80) {
+                    Messagetimer = new Timer();
+                    Messagetimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
+                            Log.i("发送WebSocket", "局域网超时转发WEB  ：" + jsonToServer);
+                            MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
+                            GlobalVars.setIsLAN(false);
+                        }
+                    }, 5000);
+                    UDPServer.setMessageBackListener(new UDPServer.MessageBackListener() {
+                        @Override
+                        public void messageForBack(int dattype) {
+                            Messagetimer.cancel();
+                            Log.i("TIMER --CANCEL", Messagetimer.toString());
+                        }
+                    });
                 }
-                Messagetimer = new Timer();
-                Messagetimer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
-                        Log.i("发送WebSocket", "局域网超时转发WEB  ：" + jsonToServer);
-                        MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);
-                        GlobalVars.setIsLAN(false);
-                    }
-                }, 5000);
-                UDPServer.setMessageBackListener(new MessageBackListener() {
-                    @Override
-                    public void messageForBack(int dattype) {
-                        Messagetimer.cancel();
-                    }
-                });
             } else {
                 String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
                 Log.i("发送WebSocket", "判断本地ISLAN=false  ：" + jsonToServer);
@@ -156,20 +170,23 @@ public class UDPServer implements Runnable {
         }
     }
 
+
     //搜索联网模块
-    public void sendSeekNet() {
-        MyApplication.mApplication.setSeekNet(true);
+    public void sendSeekNet(boolean isSeekNet) {
+        if (isSeekNet)
+            MyApplication.mApplication.setSeekNet(true);
         String SeekNet = "{" +
                 "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
                 "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
                 "\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getRcuInfoNoPwd.getValue() + "," +
                 "\"uuid\":\"" + "\"," +
                 "\"subType1\":0," +
-                "\"subType2\":0}";
+                "\"subType2\":0," +
+                "\"localIP\":\"" + GlobalVars.WIFI_IP + "\"}";
         UdpSendMsg(SeekNet);
     }
 
-    private void UdpSendMsg(final String msg) {
+    public void UdpSendMsg(final String msg) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -180,7 +197,6 @@ public class UDPServer implements Runnable {
                             local, SEND_PORT);
                     Log.i("发送UDP", "UDP" + msg);
                     dSocket.send(dPacket);
-
                 } catch (Exception e) {
                     Log.e("Exception", "UDP发送消息失败" + e + "");
                     Message message = mhandler.obtainMessage();
@@ -214,6 +230,8 @@ public class UDPServer implements Runnable {
     }
 
 
+    Timer UDPtimer;
+
     public void IsUdpData(String info) {
         String devUnitID = "";
         int datType = 0;
@@ -233,7 +251,29 @@ public class UDPServer implements Runnable {
         } catch (JSONException e) {
             System.out.println(this.getClass().getName() + "--extractData--" + e.toString());
         }
-        if (datType != 35 && datType != 2)
+
+        if (UDPtimer != null) {
+            UDPtimer.cancel();
+            Log.i(TAG, "UDP数据，取消定时等待");
+            if (!GlobalVars.isIsLAN()) {
+                Message message = mhandler.obtainMessage();
+                message.what = MyApplication.mApplication.NETCHANGE_LAN;
+                mhandler.sendMessage(message);
+            }
+        }
+        UDPtimer = new Timer();
+        UDPtimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+//                Message message = mhandler.obtainMessage();
+//                message.what = MyApplication.mApplication.NETCHANGE_LONG;
+//                mhandler.sendMessage(message);
+                GlobalVars.setIsLAN(false);
+                Log.i(TAG, "UDP数据，无返回，等待20秒后执行");
+            }
+        }, 30000);
+
+        if (datType == 3 || datType == 8)
             if (messageBackListener != null)
                 messageBackListener.messageForBack(datType);
         Message message = mhandler.obtainMessage();
@@ -286,20 +326,21 @@ public class UDPServer implements Runnable {
             case 0:// e_udpPro_getRcuinfo
                 if (subType2 == 1) {
                     if (MyApplication.mApplication.isSeekNet() == false) {
-                        //设置联网模块信息
-//                        MyApplication.setNewWareData();
                         setRcuInfo(info);
                     } else if (MyApplication.mApplication.isSeekNet() == true) {
                         setRcuInfo_search(info);
                     }
                 }
                 break;
+            case 1:// e_udpPro_getRcuinfo
+                if (subType2 == 1)
+                    setRcuInfo(info);
+                break;
             case 3: // getDevsInfo
                 if (subType1 == 1) {
 //                    MyApplication.getWareData().getDevs().clear();
                     isFreshData = true;
                     getDevsInfo(info);
-
                     //删除重复的设备
 //                    List<WareDev> devs = removeDuplicateDevs(wareData.getDevs());
 //                    MyApplication.getWareData().setDevs(devs);
@@ -629,6 +670,7 @@ public class UDPServer implements Runnable {
 //                        本地001数据包  过来后，根据id判断数据为同一个，所以会将服务器发送的数据覆盖，从而将canCpuname重置！
 //                        处理则根据值来赋值；
                         json_list.get(i).setName(info1.getName());
+                        json_list.get(i).setDevUnitPass(info1.getDevUnitPass());
                         json_list.get(i).setbDhcp(info1.getbDhcp());
                         json_list.get(i).setCenterServ(info1.getCenterServ());
                         json_list.get(i).setDevUnitID(info1.getDevUnitID());
@@ -655,29 +697,6 @@ public class UDPServer implements Runnable {
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, str);
         MyApplication.getWareData().setRcuInfos(json_list);
         isFreshData = true;
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(10000);
-                    SendDataUtil.getSceneInfo();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(10000);
-                                SendDataUtil.getSafetyInfo();
-                            } catch (InterruptedException e) {
-                                SendDataUtil.getSafetyInfo();
-                            }
-                        }
-                    }).start();
-                } catch (InterruptedException e) {
-                    SendDataUtil.getSceneInfo();
-                }
-            }
-        }).start();
     }
 
     /**

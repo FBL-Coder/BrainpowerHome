@@ -34,7 +34,7 @@ public class UdpProPkt {
 
     // UDPPROPKT
     public static enum E_UDP_RPO_DAT {
-        e_udpPro_getRcuInfo(0), e_udpPro_setRcuInfo(1), e_udpPro_handShake(2), e_udpPro_getDevsInfo(
+        e_udpPro_getHeart(0), e_udpPro_setRcuInfo(1), e_udpPro_handShake(2), e_udpPro_getDevsInfo(
                 3), e_udpPro_ctrlDev(4), e_udpPro_addDev(5), e_udpPro_editDev(6), e_udpPro_delDev(7), e_udpPro_getBoards(
                 8), e_udpPro_editBoards(9), e_udpPro_delBoards(10), e_udpPro_getKeyOpItems(11), e_udpPro_setKeyOpItems(
                 12), e_udpPro_delKeyOpItems(13), e_udpPro_getChnOpItems(14), e_udpPro_setChnOpItems(
@@ -53,7 +53,7 @@ public class UdpProPkt {
         e_udpPro_confirm_signal(54), e_udpPro_set_86key_bkLgt(55), e_udpPro_set_IR_bkDat(56), e_udpPro_set_IR_param(57),
         e_udpPro_get_key2scene(58), e_udpPro_set_key2scene(59), e_udpPro_get_keyNameCtrls(60), e_udpPro_set_keyNameCtrls(61),
         e_udpPro_keyName_alarm(62), e_udpPro_test_dat(63), e_udpPro_report_io_info(64), e_udpPro_group_operation(65),
-        e_udpPro_getGroupInfo(66), e_udpPro_getBroadCast(80), e_udpPro_regeditUser(81),
+        e_udpPro_getGroupInfo(66), e_udpPro_getRcuInfo(80), e_udpPro_regeditUser(81),
         e_udpPro_loginUser(82), e_udpPro_regeditRcu(83), e_udpPro_delRcu(84),
         e_udpPro_setRemoteAddr(85), e_udpPro_getShortcutKey(86), e_udpPro_setShortcutKey(87)
         , e_udpPro_State(100);

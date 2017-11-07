@@ -103,7 +103,6 @@ public class Login_Helper {
             RcuInfo rcuInfo = new RcuInfo();
             rcuInfo.setCanCpuName(result.getData().get(i).getCanCpuName());
             rcuInfo.setDevUnitID(result.getData().get(i).getDevUnitID());
-            rcuInfo.setDevUnitPass(result.getData().get(i).getDevPass());
             rcuInfo.setOnLine(result.getData().get(i).isOnline());
             rcuInfos.add(rcuInfo);
         }

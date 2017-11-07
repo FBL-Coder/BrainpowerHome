@@ -2,8 +2,10 @@ package cn.etsoft.smarthome;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
@@ -14,6 +16,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.abc.mybaseactivity.NetWorkListener.AppNetworkMgr;
 import com.example.abc.mybaseactivity.Notifications.NotificationUtils;
@@ -40,6 +43,7 @@ import cn.etsoft.smarthome.NetMessage.UDPServer;
 import cn.etsoft.smarthome.NetMessage.WebSocket_Client;
 import cn.etsoft.smarthome.Utils.CityDB;
 import cn.etsoft.smarthome.Utils.Data_Cache;
+import cn.etsoft.smarthome.Utils.GetIPAddress;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.WratherUtil;
 
@@ -85,6 +89,10 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public int DIALOG_DISMISS = 2222;
     //网络判断
     public int NONET = 5555;
+    //网络变化   远程-->局域网
+    public int NETCHANGE_LAN = 5050;
+    //网络变化   局域网-->远程
+    public int NETCHANGE_LONG = 0505;
     //全局数据
     public static WareData mWareData;
 
@@ -118,10 +126,10 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     //主页对象
     private Activity mHomeActivity;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
-
         mApplication = MyApplication.this;
         /**
          * 腾讯 bugly
@@ -150,6 +158,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         ExecutorService exec = Executors.newCachedThreadPool();
         udpServer = new UDPServer(handler);
         exec.execute(udpServer);
+        udpServer.UdpHeard();
 
         sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
         music = sp.load(this, R.raw.key_sound, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
@@ -166,6 +175,42 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
             int ipAddress = wifiInfo.getIpAddress();
             GlobalVars.WIFI_IP = intToIp(ipAddress);
+        }
+        queryIP();
+    }
+
+    static RcuInfo rcuInfo_Use;
+
+    public static void queryIP() {
+        //设置上次使用的联网模块ID；
+        GlobalVars.setDevid((String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""));
+        List<RcuInfo> rcuInfos = MyApplication.mApplication.getRcuInfoList();
+        for (int i = 0; i < rcuInfos.size(); i++) {
+            if (GlobalVars.getDevid().equals(rcuInfos.get(i).getDevUnitID())) {
+                rcuInfo_Use = rcuInfos.get(i);
+            }
+        }
+        int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
+        String IPAddress = "";
+        if (NETWORK == 0) {
+            ToastUtil.showText("请检查网络连接");
+        } else if (NETWORK != 0 && NETWORK < 10) {//数据流量
+            IPAddress = GetIPAddress.getLocalIpAddress();
+        } else {
+            IPAddress = GetIPAddress.getWifiIP(MyApplication.mContext);
+        }
+        if ("".equals(IPAddress))
+            GlobalVars.setIPisEqual(GlobalVars.NOCOMPARE);
+        else {
+            String rcuInfo_Use_ip = rcuInfo_Use.getIpAddr();
+            rcuInfo_Use_ip = rcuInfo_Use_ip.substring(0, rcuInfo_Use_ip.lastIndexOf("."));
+
+            IPAddress = IPAddress.substring(0, IPAddress.lastIndexOf("."));
+            if (rcuInfo_Use_ip.equals(IPAddress)) {//ip前三位一样，即局域网内的；
+                GlobalVars.setIPisEqual(GlobalVars.IPEQUAL);
+            } else {//网段不一样，公网；
+                GlobalVars.setIPisEqual(GlobalVars.IPDIFFERENT);
+            }
         }
     }
 
@@ -239,6 +284,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             ExecutorService exec = Executors.newCachedThreadPool();
             udpServer = new UDPServer(handler);
             exec.execute(udpServer);
+            udpServer.UdpHeard();
         }
         return udpServer;
     }
@@ -421,7 +467,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             @Override
             public void run() {
                 try {
-                    Thread.sleep(15000);
+                    Thread.sleep(10000);
                     CanChangeNet = true;
                 } catch (InterruptedException e) {
                     CanChangeNet = false;
@@ -459,6 +505,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         private boolean WSIsOpen = false;
         private boolean WSIsAgainConnectRun;
         private int NotificationID = 10;
+
+        private AlertDialog dialog;
 
         APPHandler(MyApplication application) {
             this.weakReference = new WeakReference<>(application);
@@ -516,6 +564,12 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             if (msg.what == application.NONET) {
                 ToastUtil.showText("没有可用网络，请检查", 5000);
             }
+            if (msg.what == application.NETCHANGE_LONG) {//网络变化  局域网--》远程
+                Dialog();
+            }
+            if (msg.what == application.NETCHANGE_LAN) {//网络变化  远程 --》 局域网
+                Dialog();
+            }
             //load 超时后自动消失
             if (msg.what == application.DIALOG_DISMISS) {
                 if (application.progressDialog != null && application.progressDialog.isShowing()) {
@@ -523,6 +577,31 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                     ToastUtil.showText("发送超时");
                     application.progressDialog = null;
                 }
+            }
+
+        }
+
+        public void Dialog() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(application);
+            dialog = builder.setTitle("提示")
+                    .setMessage("检测到网络改变，是否自动切换数据来源？")
+                    .setNegativeButton("否", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+
+                        }
+                    })
+                    .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).create();
+            dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+            dialog.setCanceledOnTouchOutside(false);//点击屏幕不消失
+            if (!dialog.isShowing()) {//此时提示框未显示
+                dialog.show();
             }
         }
 
@@ -667,6 +746,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     @Override
     public void onTerminate() {
+        wsClient.closeConnect();
         // 程序终止的时候执行
         Data_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
         super.onTerminate();
@@ -676,6 +756,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     @Override
     public void onLowMemory() {
         // 低内存的时候执行
+        wsClient.closeConnect();
         Data_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
         super.onLowMemory();
     }
@@ -683,6 +764,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     @Override
     public void onTrimMemory(int level) {
         // 程序在内存清理的时候执行
+        wsClient.closeConnect();
         Data_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
         super.onTrimMemory(level);
     }

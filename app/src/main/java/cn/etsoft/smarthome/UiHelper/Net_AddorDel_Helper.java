@@ -52,21 +52,14 @@ public class Net_AddorDel_Helper {
             ToastUtil.showText("模块ID不能为空");
             return;
         }
-        try {
-            if (pass.isEmpty()) {
-                ToastUtil.showText("模块密码不能为空");
-                return;
-            }
-        } catch (Exception e) {
-            pass = "";
-        }
+        pass = "";
         MyApplication.mApplication.showLoadDialog(activity);
         Map<String, String> param = new HashMap<>();
         param.put("userName", (String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));
         param.put("passwd", (String) AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
         param.put("devUnitID", id);
         param.put("canCpuName", name);
-        param.put("devPass", pass);
+        param.put("devPass", "00000000");
         OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.ADDNETMODULE, param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
@@ -112,14 +105,14 @@ public class Net_AddorDel_Helper {
      *
      * @param name
      */
-    public static void editNew(final Handler handler,final List<RcuInfo> list, final int position, Activity activity, EditText name, String devUnitID, String devPass) {
+    public static void editNew(final Handler handler, final List<RcuInfo> list, final int position, Activity activity, EditText name, String devUnitID, String devPass) {
         final String name_input = name.getText().toString();
 
         if (name_input.isEmpty() || name_input.length() > 7) {
             ToastUtil.showText("模块名称不合适");
             return;
         }
-        if (devUnitID.isEmpty() || devPass.isEmpty()) {
+        if ("".equals(devUnitID) || "".equals(devPass)) {
             ToastUtil.showText("模块ID和模块密码不能为空");
             return;
         }

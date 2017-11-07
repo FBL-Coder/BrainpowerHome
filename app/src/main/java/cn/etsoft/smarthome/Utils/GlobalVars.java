@@ -44,7 +44,11 @@ public class GlobalVars {
     private static int sn;
     private static String userid, devid, devpass;
     private static String dstip;
+    private static boolean isHeart = false;
     private static boolean isLAN = true;
+
+    public static int IPDIFFERENT = 1,IPEQUAL = 2,NOCOMPARE = 0;
+    private static int IPisEqual = NOCOMPARE;
 
     public static void setContext(Context context) {
         GlobalVars.context = context;
@@ -113,6 +117,14 @@ public class GlobalVars {
         GlobalVars.devpass = devpass;
     }
 
+    public static boolean isIsHeart() {
+        return isHeart;
+    }
+
+    public static void setIsHeart(boolean isHeart) {
+        GlobalVars.isHeart = isHeart;
+    }
+
     public static boolean isIsLAN() {
         return isLAN;
     }
@@ -121,4 +133,11 @@ public class GlobalVars {
         GlobalVars.isLAN = isLAN;
     }
 
+    public static int getIPisEqual() {
+        return IPisEqual;
+    }
+
+    public static void setIPisEqual(int IPisEqual) {
+        GlobalVars.IPisEqual = IPisEqual;
+    }
 }
