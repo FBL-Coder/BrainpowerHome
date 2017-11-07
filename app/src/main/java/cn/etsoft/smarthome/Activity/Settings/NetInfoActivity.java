@@ -119,17 +119,17 @@ public class NetInfoActivity extends Activity {
             } else if (info.getbDhcp() == 0) {
                 stateIP_no.setChecked(true);
             }
-            if (FLAG == NetWork_Adapter.SEEK) {
-                save.setVisibility(View.GONE);
-                Net_Pass_LL.setVisibility(View.GONE);
-                name.setEnabled(false);
-                IP.setEnabled(false);
-                Ip_mask.setEnabled(false);
-                GetWay.setEnabled(false);
-                Server.setEnabled(false);
-                stateIP_yes.setClickable(false);
-                stateIP_no.setClickable(false);
-            }
+//            if (FLAG == NetWork_Adapter.SEEK) {
+//                save.setVisibility(View.GONE);
+//                Net_Pass_LL.setVisibility(View.GONE);
+//                name.setEnabled(false);
+//                IP.setEnabled(false);
+//                Ip_mask.setEnabled(false);
+//                GetWay.setEnabled(false);
+//                Server.setEnabled(false);
+//                stateIP_yes.setClickable(false);
+//                stateIP_no.setClickable(false);
+//            }
 
             stateIP.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
@@ -186,11 +186,13 @@ public class NetInfoActivity extends Activity {
                         String name_str_gb = CommonUtils.bytesToHexString(data);
                         SendDataUtil.changeNetInfo(name_str_gb, info.getDevUnitPass(), IP_str, Ip_mask_str
                                 , GetWay_str, Server_str, info.getMacAddr(), IpState);
-                        MyHandler handler = new MyHandler();
-                        Net_AddorDel_Helper.editNew(handler, MyApplication.mApplication.getRcuInfoList(),
-                                position, NetInfoActivity.this, name,
-                                MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID(),
-                                MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitPass());
+                        if (FLAG == NetWork_Adapter.LOGIN) {
+                            MyHandler handler = new MyHandler();
+                            Net_AddorDel_Helper.editNew(handler, MyApplication.mApplication.getRcuInfoList(),
+                                    position, NetInfoActivity.this, name,
+                                    MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID(),
+                                    MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitPass());
+                        }
                     }
                 }
             });

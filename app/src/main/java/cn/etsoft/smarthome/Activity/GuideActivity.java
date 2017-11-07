@@ -52,6 +52,7 @@ public class GuideActivity extends Activity {
         ((ImageView) view1.findViewById(R.id.tv_pic)).setImageResource(R.drawable.one_1);
         ((ImageView) view2.findViewById(R.id.tv_pic)).setImageResource(R.drawable.two_2);
         ((ImageView) view3.findViewById(R.id.tv_pic)).setImageResource(R.drawable.three_3);
+        ((ImageView) view3.findViewById(R.id.left)).setVisibility(View.GONE);
 
         mBtnGo.setOnClickListener(new View.OnClickListener() {
             @Override

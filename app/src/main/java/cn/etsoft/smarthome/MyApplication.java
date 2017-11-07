@@ -173,10 +173,10 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 wifiManager.setWifiEnabled(true);
             }
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            int ipAddress = wifiInfo.getIpAddress();
-            GlobalVars.WIFI_IP = intToIp(ipAddress);
+            int IPAddress_now = wifiInfo.getIpAddress();
+            GlobalVars.WIFI_IP = intToIp(IPAddress_now);
         }
-        queryIP();
+//        queryIP();
     }
 
     static RcuInfo rcuInfo_Use;
@@ -191,25 +191,31 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             }
         }
         int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
-        String IPAddress = "";
+        String IPAddress_now = "";
+        String netmask_now = "";
         if (NETWORK == 0) {
             ToastUtil.showText("请检查网络连接");
         } else if (NETWORK != 0 && NETWORK < 10) {//数据流量
-            IPAddress = GetIPAddress.getLocalIpAddress();
+            GlobalVars.setIPisEqual(GlobalVars.IPDIFFERENT);
         } else {
-            IPAddress = GetIPAddress.getWifiIP(MyApplication.mContext);
-        }
-        if ("".equals(IPAddress))
-            GlobalVars.setIPisEqual(GlobalVars.NOCOMPARE);
-        else {
-            String rcuInfo_Use_ip = rcuInfo_Use.getIpAddr();
-            rcuInfo_Use_ip = rcuInfo_Use_ip.substring(0, rcuInfo_Use_ip.lastIndexOf("."));
+            String wifi_info = GetIPAddress.getWifiIP(MyApplication.mContext);
+            IPAddress_now = wifi_info.substring(0, wifi_info.indexOf("#"));
+            netmask_now = wifi_info.substring(wifi_info.indexOf("#"), 0);
 
-            IPAddress = IPAddress.substring(0, IPAddress.lastIndexOf("."));
-            if (rcuInfo_Use_ip.equals(IPAddress)) {//ip前三位一样，即局域网内的；
-                GlobalVars.setIPisEqual(GlobalVars.IPEQUAL);
-            } else {//网段不一样，公网；
-                GlobalVars.setIPisEqual(GlobalVars.IPDIFFERENT);
+//            String ip_bin = Integer.toBinaryString();
+
+            if ("".equals(IPAddress_now))
+                GlobalVars.setIPisEqual(GlobalVars.NOCOMPARE);
+            else {
+                String rcuInfo_Use_ip = rcuInfo_Use.getIpAddr();
+                rcuInfo_Use_ip = rcuInfo_Use_ip.substring(0, rcuInfo_Use_ip.lastIndexOf("."));
+
+                IPAddress_now = IPAddress_now.substring(0, IPAddress_now.lastIndexOf("."));
+                if (rcuInfo_Use_ip.equals(IPAddress_now)) {//ip前三位一样，即局域网内的；
+                    GlobalVars.setIPisEqual(GlobalVars.IPEQUAL);
+                } else {//网段不一样，公网；
+                    GlobalVars.setIPisEqual(GlobalVars.IPDIFFERENT);
+                }
             }
         }
     }

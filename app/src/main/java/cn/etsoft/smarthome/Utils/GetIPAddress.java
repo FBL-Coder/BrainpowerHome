@@ -1,6 +1,7 @@
 package cn.etsoft.smarthome.Utils;
 
 import android.content.Context;
+import android.net.DhcpInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
@@ -41,8 +42,6 @@ public class GetIPAddress {
         return null;
     }
 
-
-
     public static String getWifiIP(Context context){
         //获取wifi服务
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -51,9 +50,11 @@ public class GetIPAddress {
             wifiManager.setWifiEnabled(true);
         }
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        DhcpInfo dhcpInfo =  wifiManager.getDhcpInfo();
         int ipAddress = wifiInfo.getIpAddress();
         String ip = intToIp(ipAddress);
-        return ip;
+        String netmask = intToIp(dhcpInfo.netmask);
+        return ip+"#"+netmask;
     }
     private static String intToIp(int i) {
 
