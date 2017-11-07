@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.etsoft.smarthome.Activity.HomeActivity;
 import cn.etsoft.smarthome.Adapter.ListView.NetWork_Adapter;
@@ -85,10 +87,10 @@ public class NewWorkSetActivity extends BaseActivity {
      * 初始化账号下的两网模块列表
      */
     private void initListview() {
-        if (mAdapter == null)
+        if (mAdapter == null) {
             mAdapter = new NetWork_Adapter(this, MyApplication.mApplication.getRcuInfoList(), NetWork_Adapter.LOGIN);
-        else mAdapter.notifyDataSetChanged();
-        mNetmoduleListview.setAdapter(mAdapter);
+            mNetmoduleListview.setAdapter(mAdapter);
+        } else mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -106,6 +108,7 @@ public class NewWorkSetActivity extends BaseActivity {
         initSeekList();
 
         initListview();
+
         getLiftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,7 +154,7 @@ public class NewWorkSetActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 if (!MyApplication.mApplication.isCanChangeNet()) {
-                    ToastUtil.showText("正在加载数据，请稍后再试...");
+                    ToastUtil.showText("正在加载数据，请等待几秒...");
                     return;
                 }
                 MyApplication.mApplication.setSeekNet(false);
@@ -174,7 +177,7 @@ public class NewWorkSetActivity extends BaseActivity {
                             MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this, false);
                             AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
                                     MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID());
-
+                            initListview();
                             WareData wareData = (WareData) Data_Cache.readFile((String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""));
                             if (wareData == null) {
                                 MyApplication.setNewWareData();
@@ -203,6 +206,7 @@ public class NewWorkSetActivity extends BaseActivity {
                                 });
                                 SendDataUtil.getNetWorkInfo();
                             } else {
+                                GlobalVars.setIsLAN(true);
                                 SendDataUtil.getNetWorkInfo();
                                 MyApplication.mApplication.dismissLoadDialog();
                                 MyApplication.mWareData = wareData;
@@ -307,6 +311,7 @@ public class NewWorkSetActivity extends BaseActivity {
         MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this, false);
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
                 MyApplication.mApplication.getSeekRcuInfos().get(position).getDevUnitID());
+        initListview();
         MyApplication.setNewWareData();
         GlobalVars.setIsLAN(true);
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
@@ -384,7 +389,7 @@ public class NewWorkSetActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 MyApplication.mApplication.setSeekNet(false);
                 if (!MyApplication.mApplication.isCanChangeNet()) {
-                    ToastUtil.showText("正在加载数据，请稍后再试...");
+                    ToastUtil.showText("正在加载数据，请等待几秒...");
                     return;
                 }
                 if (GlobalVars.getDevid().equals(MyApplication.mApplication.getSeekRcuInfos().get(position).getDevUnitID()))

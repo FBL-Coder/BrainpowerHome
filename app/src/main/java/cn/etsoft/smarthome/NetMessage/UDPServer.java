@@ -233,6 +233,9 @@ public class UDPServer implements Runnable {
         } catch (JSONException e) {
             System.out.println(this.getClass().getName() + "--extractData--" + e.toString());
         }
+        if (datType != 35 && datType != 2)
+            if (messageBackListener != null)
+                messageBackListener.messageForBack(datType);
         Message message = mhandler.obtainMessage();
         message.what = MyApplication.mApplication.UDP_HANR_DATA;
         mhandler.sendMessage(message);
@@ -258,6 +261,7 @@ public class UDPServer implements Runnable {
         } catch (JSONException e) {
             System.out.println(this.getClass().getName() + "--extractData--" + e.toString());
         }
+
         extractData(info);
     }
 
@@ -278,9 +282,6 @@ public class UDPServer implements Runnable {
         } catch (JSONException e) {
             System.out.println(this.getClass().getName() + "--extractData--" + e.toString());
         }
-        if (datType != 35 && datType != 2)
-            if (messageBackListener != null)
-                messageBackListener.messageForBack(datType);
         switch (datType) {
             case 0:// e_udpPro_getRcuinfo
                 if (subType2 == 1) {

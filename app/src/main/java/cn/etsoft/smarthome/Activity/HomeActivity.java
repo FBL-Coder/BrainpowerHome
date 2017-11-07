@@ -162,7 +162,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
-                if (datType == 3)
+                if (datType == 3 || datType == 8)
                     MyApplication.mApplication.dismissLoadDialog();
             }
         });
@@ -174,6 +174,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             case R.id.home_ref_btn:
                 GlobalVars.setIsLAN(true);
                 SendDataUtil.getNetWorkInfo();
+                MyApplication.mApplication.showLoadDialog(this);
                 break;
             case R.id.home_logout_btn:
                 LogoutHelper.logout(HomeActivity.this);

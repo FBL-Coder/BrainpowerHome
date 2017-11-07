@@ -133,7 +133,7 @@ public class CircleMenuLayout extends RelativeLayout {
             l.setPadding(0, 0, 20, 0);
             l.setOrientation(LinearLayout.VERTICAL);
             ImageView iv = new ImageView(context);
-            iv.setLayoutParams(new LinearLayout.LayoutParams((int) (70 / Adaptive_coefficient), (int) (70 / Adaptive_coefficient)));
+            iv.setLayoutParams(new LinearLayout.LayoutParams((int) (65 / Adaptive_coefficient), (int) (70 / Adaptive_coefficient)));
             iv.setImageResource(Data_OuterCircleList.get(i).getImage());
             l.addView(iv);
             final TextView t = new TextView(context);

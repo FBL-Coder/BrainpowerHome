@@ -303,26 +303,32 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      * 加载框显示
      */
     public void showLoadDialog(Activity activity) {
-        if (progressDialog == null)
-            getProgressDialog(activity, true);
-        if (!activity.isFinishing() && !progressDialog.isShowing())
-            progressDialog.show();
-        //加载数据进度条，5秒数据没加载出来自动消失
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(5000);
-                    if (progressDialog != null && progressDialog.isShowing()) {
-                        Message message = handler.obtainMessage();
-                        message.what = DIALOG_DISMISS;
-                        handler.sendMessage(message);
+        try {
+            if (progressDialog == null)
+                getProgressDialog(activity, true);
+            if (!activity.isFinishing() && !progressDialog.isShowing())
+                progressDialog.show();
+            //加载数据进度条，5秒数据没加载出来自动消失
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(5000);
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            Message message = handler.obtainMessage();
+                            message.what = DIALOG_DISMISS;
+                            handler.sendMessage(message);
+                        }
+                    } catch (Exception e) {
+                        System.out.println(this.getClass().getName() + "---" + e);
                     }
-                } catch (Exception e) {
-                    System.out.println(this.getClass().getName() + "---" + e);
                 }
-            }
-        }).start();
+            }).start();
+        } catch (Error e) {
+
+        } catch (Exception ex) {
+
+        }
     }
 
     /**
@@ -453,7 +459,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         private boolean WSIsOpen = false;
         private boolean WSIsAgainConnectRun;
         private int NotificationID = 10;
-        private int ConnectCount = 0;
 
         APPHandler(MyApplication application) {
             this.weakReference = new WeakReference<>(application);
@@ -472,7 +477,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             if (msg.what == application.WS_CLOSE) {
                 Log.e("WSException", "链接关闭" + msg.obj);
                 WSIsOpen = false;
-
                 WS_againConnect();
             }
             if (msg.what == application.WS_DATA_OK) {//WebSocket 数据
@@ -525,29 +529,20 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         /**
          * WebSocket 重连
          */
-
-        long time = 5000;
-
         private void WS_againConnect() {
             if (WSIsAgainConnectRun) {
                 return;
             }
-            ConnectCount = 0;
             WSIsAgainConnectRun = true;
             final Handler handler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
-                    if (ConnectCount > 10) {
-                        time = 10000;
-                        return;
-                    }
                     Log.e("WSException", "WS尝试连接中...");
                     application.wsClient = new WebSocket_Client();
                     try {
                         application.wsClient.initSocketClient(application.handler);
                         application.wsClient.connect();
-                        ConnectCount++;
                     } catch (URISyntaxException e) {
                         Log.e("WSException", "WebSocket链接重启失败" + e);
                     }
@@ -562,7 +557,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                             return;
                         }
                         try {
-                            Thread.sleep(time);
+                            Thread.sleep(5000);
                             handler.sendMessage(handler.obtainMessage());
                         } catch (InterruptedException e) {
                             Log.e("WSException", "WebSocket链接重启失败" + e);
