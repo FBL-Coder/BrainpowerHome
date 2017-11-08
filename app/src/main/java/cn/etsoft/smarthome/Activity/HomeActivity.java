@@ -149,7 +149,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     } else {
                         mNetWork_Ok.setText(list.get(i).getCanCpuName());
                     }
-                    if ("".equals(mNetWork_Ok.getText().toString())){
+                    if ("".equals(mNetWork_Ok.getText().toString())) {
                         mNetWork_Ok.setText("点击设置模块");
                     }
                 }
@@ -175,6 +175,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.home_ref_btn:
+                GlobalVars.IsclearCache = 0;
                 SendDataUtil.getNetWorkInfo();
                 MyApplication.mApplication.showLoadDialog(this);
                 break;

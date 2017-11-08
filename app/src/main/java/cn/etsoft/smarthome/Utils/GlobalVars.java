@@ -7,7 +7,7 @@ import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 
 public class GlobalVars {
 
-
+    public static long IsclearCache = 0;
     /**
      * 存储联网模块列表
      */
@@ -140,4 +140,5 @@ public class GlobalVars {
     public static void setIPisEqual(int IPisEqual) {
         GlobalVars.IPisEqual = IPisEqual;
     }
+
 }
