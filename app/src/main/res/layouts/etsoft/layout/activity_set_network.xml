@@ -9,8 +9,8 @@
         android:id="@+id/add_ref_LL"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -42,8 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0"
             android:layout_marginTop="@dimen/dp_10"
-            android:layout_weight="1"
-            android:scrollbars="none" />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,5 +77,5 @@
         android:layout_height="@dimen/dp_0"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_weight="1"
-        android:scrollbars="none" />
+        android:visibility="gone" />
 </LinearLayout>

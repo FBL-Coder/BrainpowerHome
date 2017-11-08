@@ -25,7 +25,7 @@
                 android:layout_marginLeft="@dimen/dp_250"
                 android:text="情景控制"
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp_22"
+                android:textSize="@dimen/sp_20"
                 android:textStyle="bold" />
 
 
@@ -35,10 +35,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/dp_20"
+                android:padding="@dimen/dp_5"
+                android:layout_marginRight="@dimen/dp_100"
                 android:text="启用情景"
+                android:background="@drawable/set_button_bg"
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp_26"
+                android:textSize="@dimen/sp_22"
                 android:textStyle="bold"
 
                 />
@@ -89,10 +91,13 @@
             android:background="@drawable/circlebg" />
     </FrameLayout>
 
+
     <ImageView
         android:id="@+id/Control_Back"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp_40"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_20"
+        android:padding="@dimen/dp_10"
         android:layout_height="@dimen/dp_50"
-        android:layout_marginLeft="@dimen/dp_150"
-        android:src="@drawable/back_image_select" />
+        android:src="@drawable/select_back_system" />
 </RelativeLayout>

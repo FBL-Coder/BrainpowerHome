@@ -14,6 +14,8 @@
         <!--用户直接可视界面-->
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginBottom="@dimen/dp_5"
             android:layout_height="wrap_content">
 
             <TextView
@@ -27,10 +29,11 @@
                 />
             <TextView
                 android:id="@+id/save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_35"
                 android:text="保存"
-                android:background="@color/main_blue1"
+                android:gravity="center"
+                android:background="@color/color_60A7D5"
                 android:padding="@dimen/dp_5"
                 android:textColor="@color/white1"
                 android:layout_alignParentRight="true"
@@ -43,13 +46,16 @@
             <ImageView
                 android:id="@+id/SeekNet_Back"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="-17dp"
-                android:layout_marginTop="-17dp"
-                android:padding="@dimen/dp_10"
+                android:layout_height="@dimen/dp_35"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5"
+                android:layout_marginRight="14dp"
+                android:background="@color/color_60A7D5"
                 android:src="@drawable/close"
-                />
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="14dp" />
         </RelativeLayout>
 
         <View

@@ -511,7 +511,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         private boolean WSIsOpen = false;
         private boolean WSIsAgainConnectRun;
         private int NotificationID = 10;
-
+        private AlertDialog.Builder builder;
         private AlertDialog dialog;
 
         APPHandler(MyApplication application) {
@@ -588,24 +588,28 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         }
 
         public void Dialog() {
-            AlertDialog.Builder builder = new AlertDialog.Builder(application);
-            dialog = builder.setTitle("提示")
-                    .setMessage("检测到网络改变，是否自动切换数据来源？")
-                    .setNegativeButton("否", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
+            if (builder == null)
+                builder = new AlertDialog.Builder(weakReference.get());
+            if (dialog == null) {
+                dialog = builder.setTitle("提示")
+                        .setMessage("检测到网络改变，是否自动切换数据来源？")
+                        .setNegativeButton("否", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
 
-                        }
-                    })
-                    .setPositiveButton("是", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    }).create();
-            dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-            dialog.setCanceledOnTouchOutside(false);//点击屏幕不消失
+                            }
+                        })
+                        .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                GlobalVars.setIsLAN(true);
+                            }
+                        }).create();
+                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                dialog.setCanceledOnTouchOutside(false);//点击屏幕不消失
+            }
             if (!dialog.isShowing()) {//此时提示框未显示
                 dialog.show();
             }

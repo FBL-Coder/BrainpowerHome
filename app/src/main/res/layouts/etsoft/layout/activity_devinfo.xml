@@ -37,20 +37,26 @@
 
         <ImageView
             android:id="@+id/Control_Back"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/back_image_select" />
+            android:layout_width="@dimen/dp_40"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:padding="@dimen/dp_10"
+            android:layout_height="@dimen/dp_50"
+            android:src="@drawable/select_back_system" />
 
         <TextView
             android:id="@+id/Dev_Info_AddDevs"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_20"
+            android:padding="@dimen/dp_8"
+            android:layout_centerVertical="true"
+            android:background="@drawable/set_button_bg"
+            android:layout_marginRight="@dimen/dp_150"
             android:gravity="center"
             android:text="添加新设备"
             android:textColor="@color/white"
-            android:textSize="@dimen/sp_22"
+            android:textSize="@dimen/sp_20"
             android:textStyle="bold" />
 
     </RelativeLayout>

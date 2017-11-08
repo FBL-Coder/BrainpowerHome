@@ -436,7 +436,7 @@
                     android:gravity="center"
                     android:text="云对讲"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dp_20"
+                    android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
@@ -464,7 +464,7 @@
                     android:gravity="center"
                     android:text="用户"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dp_20"
+                    android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
@@ -492,7 +492,7 @@
                     android:gravity="center"
                     android:text="安防"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dp_20"
+                    android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
@@ -520,7 +520,7 @@
                     android:gravity="center"
                     android:text="家电"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dp_20"
+                    android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
@@ -548,7 +548,7 @@
             <!--android:gravity="center"-->
             <!--android:text="状态"-->
             <!--android:textColor="@color/black"-->
-            <!--android:textSize="@dimen/dp_20"-->
+            <!--android:textSize="@dimen/sp_20"-->
             <!--android:textStyle="bold" />-->
             <!--</cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>-->
 
@@ -576,7 +576,7 @@
                     android:gravity="center"
                     android:text="场景"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dp_20"
+                    android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
@@ -632,7 +632,7 @@
             <!--android:gravity="center"-->
             <!--android:text="健康"-->
             <!--android:textColor="@color/black"-->
-            <!--android:textSize="@dimen/dp_20"-->
+            <!--android:textSize="@dimen/sp_20"-->
             <!--android:textStyle="bold" />-->
             <!--</cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>-->
 
@@ -660,7 +660,7 @@
                     android:gravity="center"
                     android:text="设置"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/dp_20"
+                    android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 

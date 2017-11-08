@@ -29,11 +29,6 @@
                     android:gravity="right"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/Safety_Back"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/back_image_select" />
 
                     <TextView
                         android:layout_width="@dimen/dp_0"
@@ -55,6 +50,15 @@
                         android:text="保存"
                         android:textColor="@color/white"
                         android:textSize="@dimen/sp_18" />
+
+                    <ImageView
+                        android:id="@+id/Safety_Back"
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:padding="@dimen/dp_10"
+                        android:layout_height="@dimen/dp_50"
+                        android:src="@drawable/select_back_system" />
 
 
                 </LinearLayout>

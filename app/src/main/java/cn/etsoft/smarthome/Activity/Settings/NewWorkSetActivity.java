@@ -257,6 +257,7 @@ public class NewWorkSetActivity extends BaseActivity {
         mSousuo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mNewWorksousuolistview.setVisibility(View.VISIBLE);
                 MyApplication.mApplication.getUdpServer().sendSeekNet(true);
                 MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this);
             }

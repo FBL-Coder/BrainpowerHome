@@ -58,6 +58,7 @@ public class NetInfoActivity extends Activity {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 if (datType == 1 && subtype1 == 1) {
+                    MyApplication.mApplication.dismissLoadDialog();
                     if (subtype2 == 1)
                         ToastUtil.showText("修改成功");
                     else ToastUtil.showText("修改失败");
@@ -183,6 +184,7 @@ public class NetInfoActivity extends Activity {
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
+                        MyApplication.mApplication.showLoadDialog(NetInfoActivity.this);
                         String name_str_gb = CommonUtils.bytesToHexString(data);
                         SendDataUtil.changeNetInfo(name_str_gb, info.getDevUnitPass(), IP_str, Ip_mask_str
                                 , GetWay_str, Server_str, info.getMacAddr(), IpState);
