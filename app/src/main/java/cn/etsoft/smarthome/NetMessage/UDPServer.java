@@ -235,7 +235,6 @@ public class UDPServer implements Runnable {
         }
     }
 
-
     Timer UDPtimer;
 
     public void IsUdpData(String info) {
@@ -262,6 +261,15 @@ public class UDPServer implements Runnable {
             UDPtimer.cancel();
             Log.i(TAG, "UDP数据，取消定时等待");
             if (!GlobalVars.isIsLAN()) {
+                if (!GlobalVars.isIsLAN()) {
+                    if (MyApplication.mApplication.isSeekNet())
+                        return;
+                    if (devUnitID.equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""))) {
+                        Message message = mhandler.obtainMessage();
+                        message.what = MyApplication.mApplication.NETCHANGE_LAN;
+                        mhandler.sendMessage(message);
+                    }
+                }
                 Message message = mhandler.obtainMessage();
                 message.what = MyApplication.mApplication.NETCHANGE_LAN;
                 mhandler.sendMessage(message);
