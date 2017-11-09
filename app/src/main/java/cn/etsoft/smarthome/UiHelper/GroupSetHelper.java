@@ -41,7 +41,7 @@ public class GroupSetHelper {
                 .size() == 0)
             return new ArrayList<>();
         List<CircleDataEvent> list = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows().size(); i++) {
             CircleDataEvent event = new CircleDataEvent();
 
             event.setTitle(WareDataHliper.initCopyWareData().getGroupSetResult().getSecs_trigger_rows()

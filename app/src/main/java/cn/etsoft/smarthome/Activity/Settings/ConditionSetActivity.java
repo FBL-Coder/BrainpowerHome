@@ -96,7 +96,7 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
                 if (datType == UdpProPkt.E_UDP_RPO_DAT.e_udpPro_editEnvEvents.getValue())/*29*/ {
                     ToastUtil.showText("保存成功");
                     WareDataHliper.initCopyWareData().startCopyConditionData();
-                    initCondition();
+//                    initCondition();
                 }
             }
         });
@@ -105,7 +105,6 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void initData() {
-
         if (WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().size() == 0) {
             ToastUtil.showText("没有定时器数据");
             return;
@@ -168,9 +167,9 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
         mConditionName.setHint(mBean.getEventName());
         if (mBean == null || mBean.getRun_dev_item().size() == 0) {
             mShiNeng.setImageResource(R.drawable.show_off);
-            mConditionChuFaZhi.setHint("触发值");
-            mConditionWay.setText("触发方式");
-            mConditionType.setText("触发类别");
+            mConditionChuFaZhi.setText(mBean.getValTh() + "");
+            mConditionWay.setText(Event_Way.get(mBean.getThType()));
+            mConditionType.setText(Event_type.get(mBean.getEnvType()));
         } else {
             mConditionName.setHint(mBean.getEventName());
             mConditionChuFaZhi.setText(mBean.getValTh() + "");

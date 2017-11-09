@@ -145,6 +145,8 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
                 }
             }
         }
+
+
         final ViewHoler finalViewHoler = viewHoler;
         viewHoler.mSelect.setOnClickListener(new View.OnClickListener() {
             @Override

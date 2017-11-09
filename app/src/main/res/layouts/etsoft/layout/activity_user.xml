@@ -37,7 +37,7 @@
         android:layout_marginTop="@dimen/dp_5"
         android:clipToPadding="true"
         android:horizontalSpacing="@dimen/dp_10"
-        android:numColumns="3"
+        android:numColumns="4"
         android:scrollbars="none"
         android:verticalSpacing="@dimen/dp_10" />
 

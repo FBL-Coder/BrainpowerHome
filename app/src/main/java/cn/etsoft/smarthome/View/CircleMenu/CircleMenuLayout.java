@@ -101,7 +101,7 @@ public class CircleMenuLayout extends RelativeLayout {
                 t.setTextColor(Color.BLACK);
             }
             t.setGravity(Gravity.CENTER);
-            t.setTextSize((int) (16 / Adaptive_coefficient));
+            t.setTextSize((int) (14 / Adaptive_coefficient));
             t.setText(Data_InnerCircleList.get(i).getTitle());
             l.addView(t);
             final int Position = i;
@@ -130,10 +130,9 @@ public class CircleMenuLayout extends RelativeLayout {
         circle_1.removeAllViews();
         for (int i = 0; i < Data_OuterCircleList.size(); i++) {
             LinearLayout l = new LinearLayout(context);
-            l.setPadding(0, 0, 20, 0);
             l.setOrientation(LinearLayout.VERTICAL);
             ImageView iv = new ImageView(context);
-            iv.setLayoutParams(new LinearLayout.LayoutParams((int) (65 / Adaptive_coefficient), (int) (70 / Adaptive_coefficient)));
+            iv.setLayoutParams(new LinearLayout.LayoutParams((int) (80 / Adaptive_coefficient), (int) (70 / Adaptive_coefficient)));
             iv.setImageResource(Data_OuterCircleList.get(i).getImage());
             l.addView(iv);
             final TextView t = new TextView(context);
@@ -144,7 +143,7 @@ public class CircleMenuLayout extends RelativeLayout {
                 t.setTextColor(Color.WHITE);
             }
             t.setGravity(Gravity.CENTER);
-            t.setTextSize((int) (16 / Adaptive_coefficient));
+            t.setTextSize((int) (14 / Adaptive_coefficient));
             t.setText(Data_OuterCircleList.get(i).getTitle());
             l.addView(t);
             final int Position = i;

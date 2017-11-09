@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -340,7 +341,7 @@ public class SafetyHomeActivity extends BaseActivity implements View.OnClickList
         });
         // 创建PopupWindow实例
         if (popupWindow == null)
-            popupWindow = new PopupWindow(customView, 800, 400);
+            popupWindow = new PopupWindow(customView, 800, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setContentView(customView);
         mSafetyHomeStartTime = (TextView) customView.findViewById(R.id.Safety_Home_StartTime);
         mSafetyHomeEndTime = (TextView) customView.findViewById(R.id.Safety_Home_EndTime);
@@ -389,7 +390,7 @@ public class SafetyHomeActivity extends BaseActivity implements View.OnClickList
         mSafetyHomeBuChesCheFang.setOnClickListener(this);
         // 创建PopupWindow实例
         if (popupWindow_Buche == null)
-            popupWindow_Buche = new PopupWindow(customView, 800, 300);
+            popupWindow_Buche = new PopupWindow(customView, 800, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow_Buche.setContentView(customView);
         if (!popupWindow_Buche.isShowing())
             popupWindow_Buche.showAtLocation(view_parent, Gravity.CENTER, 0, 0);

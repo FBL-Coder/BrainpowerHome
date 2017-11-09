@@ -97,7 +97,7 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                 if (datType == 19) {
                     ToastUtil.showText("操作成功");
                     WareDataHliper.initCopyWareData().startCopyTimerData();
-                    initTimer();
+//                    initTimer();
                 }
             }
         });
@@ -225,12 +225,12 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                     return;
                 }
                 String starttime = mTimerStartTime.getText().toString();
-                if ("点击选择时间".equals(starttime)) {
+                if ("开始时间".equals(starttime)) {
                     ToastUtil.showText("请选择时间");
                     return;
                 }
                 String endtime = mTimerEndTime.getText().toString();
-                if ("点击选择时间".equals(endtime)) {
+                if ("结束时间".equals(endtime)) {
                     ToastUtil.showText("请选择时间");
                     return;
                 }

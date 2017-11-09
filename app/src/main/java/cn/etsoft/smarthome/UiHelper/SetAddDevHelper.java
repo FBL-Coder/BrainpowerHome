@@ -66,7 +66,7 @@ public class SetAddDevHelper {
      */
     public static List<CircleDataEvent> initSceneCircleOUterData() {
         List<CircleDataEvent> Data_OuterCircleList = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 10; i++) {
             CircleDataEvent event = new CircleDataEvent();
 
             if (i == 0 || i == 10) {

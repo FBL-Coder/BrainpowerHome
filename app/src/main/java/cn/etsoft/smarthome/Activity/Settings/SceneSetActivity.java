@@ -72,6 +72,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                     initData();
                 }
                 if (datType == 23) {
+                    SendDataUtil.getSceneInfo();
                     MyApplication.mApplication.dismissLoadDialog();
                     ToastUtil.showText("添加成功");
                     WareDataHliper.initCopyWareData().startCopySceneData();
@@ -137,10 +138,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if (IsNoData) {
-            ToastUtil.showText("数据未加载成功，不可操作！");
-            return;
-        }
+
         switch (v.getId()) {
             case R.id.SceneSet_Add_Btn:
                 if (MyApplication.getWareData().getSceneEvents().size() == 10) {
@@ -152,6 +150,10 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             case R.id.SceneSet_Test_Btn:
                 break;
             case R.id.SceneSet_Save_Btn:
+                if (IsNoData) {
+                    ToastUtil.showText("数据未加载成功，不可操作！");
+                    return;
+                }
                 SceneSetHelper.saveScene(this, ScenePosition);
                 break;
         }

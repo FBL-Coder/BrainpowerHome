@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import cn.etsoft.smarthome.Adapter.ListView.NetWork_Adapter;
@@ -54,21 +56,27 @@ public class NetInfoActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_netinfo);
+        initView();
+        initData();
+    }
+
+    @Override
+    protected void onResume() {
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 if (datType == 1 && subtype1 == 1) {
                     MyApplication.mApplication.dismissLoadDialog();
-                    if (subtype2 == 1)
+                    if (subtype2 == 1) {
                         ToastUtil.showText("修改成功");
+                        initData();
+                    }
                     else ToastUtil.showText("修改失败");
+
                 }
             }
         });
-
-        initView();
-        initData();
-
+        super.onResume();
     }
 
     public void initView() {
@@ -120,7 +128,8 @@ public class NetInfoActivity extends Activity {
             } else if (info.getbDhcp() == 0) {
                 stateIP_no.setChecked(true);
             }
-//            if (FLAG == NetWork_Adapter.SEEK) {
+            if (FLAG == NetWork_Adapter.SEEK) {
+                net_Pass.setInputType(InputType.TYPE_CLASS_NUMBER| InputType.TYPE_NUMBER_VARIATION_PASSWORD);
 //                save.setVisibility(View.GONE);
 //                Net_Pass_LL.setVisibility(View.GONE);
 //                name.setEnabled(false);
@@ -130,7 +139,7 @@ public class NetInfoActivity extends Activity {
 //                Server.setEnabled(false);
 //                stateIP_yes.setClickable(false);
 //                stateIP_no.setClickable(false);
-//            }
+            }
 
             stateIP.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
@@ -156,6 +165,17 @@ public class NetInfoActivity extends Activity {
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    List<RcuInfo> list = MyApplication.mApplication.getRcuInfoList();
+
+                    if (FLAG == NetWork_Adapter.SEEK) {
+                        for (int i = 0; i < list.size(); i++) {
+                            if (info.getDevUnitID().equals(list.get(i).getDevUnitID())) {
+                                ToastUtil.showText("请在已有联网模块列表中修改模块信息", 5000);
+                                return;
+                            }
+                        }
+                    }
                     if (!info.getDevUnitID().
                             equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""))) {
                         ToastUtil.showText("这个联网模块没被使用，不可修改信息");

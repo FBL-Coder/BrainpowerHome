@@ -17,24 +17,23 @@
         android:padding="@dimen/dp_10"
         android:text="筛选条件"
         android:textColor="@color/color_000"
-        android:textSize="@dimen/sp_22" />
+        android:textSize="@dimen/sp_18" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/sp_15"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp_100"
-        android:paddingRight="@dimen/dp_100">
+        >
 
         <TextView
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="起始时间 "
             android:textColor="@color/color_000"
-            android:textSize="@dimen/sp_20" />
+            android:textSize="@dimen/sp_18" />
 
         <TextView
             android:id="@+id/Safety_Home_StartTime"
@@ -44,8 +43,9 @@
             android:gravity="center"
             android:hint="选择开始时间"
             android:padding="@dimen/dp_5"
+            android:lines="1"
             android:textColor="@color/color_000"
-            android:textSize="@dimen/sp_20" />
+            android:textSize="@dimen/sp_18" />
 
     </LinearLayout>
 
@@ -55,17 +55,16 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/sp_15"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp_100"
-        android:paddingRight="@dimen/dp_100">
+        >
 
         <TextView
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="结束时间 "
             android:textColor="@color/color_000"
-            android:textSize="@dimen/sp_20" />
+            android:textSize="@dimen/sp_18" />
 
         <TextView
             android:id="@+id/Safety_Home_EndTime"
@@ -74,9 +73,10 @@
             android:layout_weight="1"
             android:gravity="center"
             android:hint="选择截止时间"
+            android:lines="1"
             android:padding="@dimen/dp_5"
             android:textColor="@color/color_000"
-            android:textSize="@dimen/sp_20" />
+            android:textSize="@dimen/sp_18" />
 
     </LinearLayout>
 
@@ -86,17 +86,16 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/sp_15"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp_100"
-        android:paddingRight="@dimen/dp_100">
+        >
 
         <TextView
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="安防类型 "
             android:textColor="@color/color_000"
-            android:textSize="@dimen/sp_20" />
+            android:textSize="@dimen/sp_18" />
 
         <TextView
             android:id="@+id/Safety_Home_Select"
@@ -106,8 +105,9 @@
             android:gravity="center"
             android:hint="选择安防类型"
             android:padding="@dimen/dp_5"
+            android:lines="1"
             android:textColor="@color/color_000"
-            android:textSize="@dimen/sp_20" />
+            android:textSize="@dimen/sp_18" />
 
     </LinearLayout>
 
@@ -122,11 +122,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="@dimen/dp_10"
+            android:padding="@dimen/dp_8"
             android:text="确 定"
             android:background="@color/colorCC"
             android:textColor="@color/blue"
-            android:textSize="@dimen/sp_26"
+            android:textSize="@dimen/sp_20"
             android:layout_marginRight="@dimen/dp_10"
             android:textStyle="bold" />
 
@@ -136,12 +136,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="@dimen/dp_10"
+            android:padding="@dimen/dp_8"
             android:text="取 消"
             android:layout_marginLeft="@dimen/dp_10"
             android:background="@color/colorCC"
             android:textColor="@color/blue"
-            android:textSize="@dimen/sp_26"
+            android:textSize="@dimen/sp_20"
             android:textStyle="bold" />
     </LinearLayout>
 

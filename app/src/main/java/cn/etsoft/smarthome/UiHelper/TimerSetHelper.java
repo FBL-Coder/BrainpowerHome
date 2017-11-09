@@ -40,7 +40,7 @@ public class TimerSetHelper {
                 .size() == 0)
             return new ArrayList<>();
         List<CircleDataEvent> list = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < MyApplication.getWareData().getTimer_data().getTimerEvent_rows().size(); i++) {
             CircleDataEvent event = new CircleDataEvent();
 
             event.setTitle(MyApplication.getWareData().getTimer_data().getTimerEvent_rows()

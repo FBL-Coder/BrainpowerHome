@@ -170,11 +170,17 @@ public class UDPServer implements Runnable {
         }
     }
 
-
     //搜索联网模块
     public void sendSeekNet(boolean isSeekNet) {
-        if (isSeekNet)
+        if (isSeekNet) {
             MyApplication.mApplication.setSeekNet(true);
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    MyApplication.mApplication.setSeekNet(false);
+                }
+            }, 3000);
+        }
         String SeekNet = "{" +
                 "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
                 "\"devPass\":\"" + GlobalVars.getDevpass() + "\"," +
@@ -293,15 +299,15 @@ public class UDPServer implements Runnable {
             datType = jsonObject.getInt("datType");
             subType1 = jsonObject.getInt("subType1");
             subType2 = jsonObject.getInt("subType2");
-            if (!devUnitID.equals(GlobalVars.getDevid()))
-                if (!MyApplication.mApplication.isSeekNet()) {
-                    Log.i(TAG, "WebSocket数据--过滤:" + "本地ID" + GlobalVars.getDevid() + "--数据ID" + devUnitID + ";包类型：" + datType + "-" + subType1 + "-" + subType2);
-                    return;
-                }
+            if (!devUnitID.equals(GlobalVars.getDevid())) {
+                Log.i(TAG, "WebSocket数据--过滤:" + "本地ID" + GlobalVars.getDevid() + "--数据ID" + devUnitID + ";包类型：" + datType + "-" + subType1 + "-" + subType2);
+                return;
+            }
+            if (MyApplication.mApplication.isSeekNet() && datType == 0)
+                return;
         } catch (JSONException e) {
             System.out.println(this.getClass().getName() + "--extractData--" + e.toString());
         }
-
         extractData(info);
     }
 
@@ -331,7 +337,7 @@ public class UDPServer implements Runnable {
                                 MyApplication.setNewWareData();
                             }
                             GlobalVars.IsclearCache++;
-                        }else {
+                        } else {
                             MyApplication.setNewWareData();
                         }
                         setRcuInfo(info);
@@ -576,6 +582,10 @@ public class UDPServer implements Runnable {
                     setGroupSetData(info);
                     isFreshData = true;
                 }
+                break;
+
+            case 68:
+                setRoomTemp(info);
                 break;
             case 86: // e_udpPro_getShortcutKey
                 if (subType2 == 0) {
@@ -2131,6 +2141,27 @@ public class UDPServer implements Runnable {
         } catch (Exception e) {
             Log.e("Exception", "数据异常" + e);
         }
+    }
+
+
+    /**
+     * 室内温度，湿度等参数
+     */
+    private void setRoomTemp(String info) {
+//        {
+//            "devUnitID":	"39ffd805484d303408580143",
+//                "datType":	68,
+//                "subType1":	0,
+//                "subType2":	0,
+//                "rcu_rows":	[{
+//            "uId":	"56ff74067285495632462167",
+//                    "roomName":	"ceb4b6a8d2e5",
+//                    "tempVal":	0,
+//                    "humidity":	0,
+//                    "pm25":	3,
+//                    "pm10":	3
+//        }]
+//        }
     }
 
     /**

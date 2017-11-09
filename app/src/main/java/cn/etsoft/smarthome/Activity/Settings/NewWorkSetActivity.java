@@ -87,15 +87,12 @@ public class NewWorkSetActivity extends BaseActivity {
      * 初始化账号下的两网模块列表
      */
     private void initListview() {
-        if (mAdapter == null) {
-            mAdapter = new NetWork_Adapter(this, MyApplication.mApplication.getRcuInfoList(), NetWork_Adapter.LOGIN);
-            mNetmoduleListview.setAdapter(mAdapter);
-        } else mAdapter.notifyDataSetChanged();
+        mAdapter = new NetWork_Adapter(this, MyApplication.mApplication.getRcuInfoList(), NetWork_Adapter.LOGIN);
+        mNetmoduleListview.setAdapter(mAdapter);
     }
 
     @Override
-    public void initData() {
-
+    protected void onResume() {
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
@@ -105,10 +102,13 @@ public class NewWorkSetActivity extends BaseActivity {
                 }
             }
         });
-        initSeekList();
+        super.onResume();
+    }
+
+    @Override
+    public void initData() {
 
         initListview();
-
         getLiftImage().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,41 +178,41 @@ public class NewWorkSetActivity extends BaseActivity {
                             AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
                                     MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID());
                             initListview();
-                            WareData wareData = (WareData) Data_Cache.readFile((String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""));
-                            if (wareData == null) {
-                                MyApplication.setNewWareData();
-                                GlobalVars.setIsLAN(true);
-                                MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
-                                    @Override
-                                    public void upDataWareData(int datType, int subtype1, int subtype2) {
-                                        if (datType == 0) {
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    try {
-                                                        Thread.sleep(2000);
-                                                        MyApplication.mApplication.dismissLoadDialog();
-                                                        startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
-                                                        finish();
-                                                    } catch (InterruptedException e) {
-                                                        MyApplication.mApplication.dismissLoadDialog();
-                                                        startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
-                                                        finish();
-                                                    }
+//                            WareData wareData = (WareData) Data_Cache.readFile((String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""));
+//                            if (wareData == null) {
+                            MyApplication.setNewWareData();
+                            GlobalVars.setIsLAN(true);
+                            MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
+                                @Override
+                                public void upDataWareData(int datType, int subtype1, int subtype2) {
+                                    if (datType == 0) {
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    Thread.sleep(2000);
+                                                    MyApplication.mApplication.dismissLoadDialog();
+                                                    startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+                                                    finish();
+                                                } catch (InterruptedException e) {
+                                                    MyApplication.mApplication.dismissLoadDialog();
+                                                    startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+                                                    finish();
                                                 }
-                                            }).start();
-                                        }
+                                            }
+                                        }).start();
                                     }
-                                });
-                                SendDataUtil.getNetWorkInfo();
-                            } else {
-                                GlobalVars.setIsLAN(true);
-                                SendDataUtil.getNetWorkInfo();
-                                MyApplication.mApplication.dismissLoadDialog();
-                                MyApplication.mWareData = wareData;
-                                startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
-                                finish();
-                            }
+                                }
+                            });
+                            SendDataUtil.getNetWorkInfo();
+//                            } else {
+//                                GlobalVars.setIsLAN(true);
+//                                SendDataUtil.getNetWorkInfo();
+//                                MyApplication.mApplication.dismissLoadDialog();
+//                                MyApplication.mWareData = wareData;
+//                                startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+//                                finish();
+//                            }
                         }
                     });
                     dialog.create().show();
@@ -222,6 +222,7 @@ public class NewWorkSetActivity extends BaseActivity {
         mNetmoduleListview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(NewWorkSetActivity.this);
                 builder.setTitle("删除");
@@ -236,6 +237,18 @@ public class NewWorkSetActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        if (GlobalVars.getDevid().equals(
+                                MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID())) {
+                            if (MyApplication.mApplication.getRcuInfoList().size() > 0) {
+                                AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
+                                        MyApplication.mApplication.getRcuInfoList().get(0).getDevUnitID());
+                                MyApplication.setNewWareData();
+                                GlobalVars.setIsLAN(true);
+                                SendDataUtil.getNetWorkInfo();
+                            } else {
+                                MyApplication.setNewWareData();
+                            }
+                        }
                         mDeleteNet_Position = position;
                         MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this);
                         Net_AddorDel_Helper.deleteNew(mNewModuleHandler,
@@ -257,6 +270,7 @@ public class NewWorkSetActivity extends BaseActivity {
         mSousuo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MyApplication.mApplication.getSeekRcuInfos().clear();
                 mNewWorksousuolistview.setVisibility(View.VISIBLE);
                 MyApplication.mApplication.getUdpServer().sendSeekNet(true);
                 MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this);
@@ -313,6 +327,20 @@ public class NewWorkSetActivity extends BaseActivity {
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
                 MyApplication.mApplication.getSeekRcuInfos().get(position).getDevUnitID());
         initListview();
+        List<RcuInfo> list = MyApplication.mApplication.getRcuInfoList();
+        boolean isExist = false;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getDevUnitID().equals(MyApplication.mApplication.getSeekRcuInfos().get(position).getDevUnitID())) {
+                isExist = true;
+            }
+        }
+        if (!isExist) {
+            Net_AddorDel_Helper.addNew(mNewModuleHandler, NewWorkSetActivity.this
+                    , MyApplication.mApplication.getSeekRcuInfos().get(position).getName()
+                    , MyApplication.mApplication.getSeekRcuInfos().get(position).getDevUnitID()
+                    , "");
+            Log.i(TAG, "upDataWareData 搜索 使用  添加到服务器");
+        }
         MyApplication.setNewWareData();
         GlobalVars.setIsLAN(true);
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
@@ -338,17 +366,6 @@ public class NewWorkSetActivity extends BaseActivity {
             }
         });
         SendDataUtil.getNetWorkInfo();
-    }
-
-
-    /**
-     * 初始化搜索到的联网模快列表--之前搜索过，就直接显示
-     */
-    private void initSeekList() {
-        List<RcuInfo> SeekData = MyApplication.mApplication.getSeekRcuInfos();
-        if (SeekData.size() == 0)
-            return;
-        SeekNetClick(SeekData);
     }
 
     /**
@@ -420,7 +437,7 @@ public class NewWorkSetActivity extends BaseActivity {
 
 
     /**
-     * 刷新联网模快列表
+     * 刷新账号下的联网模快列表
      */
     private void refNetLists() {
         MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this);
@@ -431,9 +448,8 @@ public class NewWorkSetActivity extends BaseActivity {
         OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.NETLISTS, param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
-                Log.i("LOGIN", resultDesc.getResult());
-                MyApplication.mApplication.dismissLoadDialog();
                 super.onSuccess(resultDesc);
+                MyApplication.mApplication.dismissLoadDialog();
                 Log.i(TAG, "onSuccess: " + resultDesc.getResult());
                 gson = new Gson();
                 Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
@@ -442,7 +458,7 @@ public class NewWorkSetActivity extends BaseActivity {
                     // 刷新成功
                     setRcuInfoList(result);
                     ToastUtil.showText("操作成功");
-                    initData();
+                    initListview();
                 } else {
                     // 刷新失败
                     ToastUtil.showText("操作失败，请稍后再试");

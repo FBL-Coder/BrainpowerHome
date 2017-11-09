@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.HttpGetDataUtils.HttpCallback;
@@ -51,6 +52,7 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
     private UserBean bean;
     private Handler handler;
     private ImageView back;
+    private int count;
 
     @Override
     public void onResume() {
@@ -117,7 +119,7 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        TextView state = (TextView) view.findViewById(R.id.equip_style);
         if (position < bean.getUser_bean().size()) {
             //给点击按钮添加点击音效
             MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic(), 1, 1, 0, 0, 1);
@@ -172,9 +174,14 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
                         WareCurtain Curtain = MyApplication.getWareData().getCurtains().get(j);
                         if (beanBean.getCanCpuID().equals(Curtain.getDev().getCanCpuId())
                                 && beanBean.getDevID() == Curtain.getDev().getDevId()) {
-                            if (Curtain.getbOnOff() == 0) {
+                            if (count % 2 == 0) {
+                                state.setText("点击关闭");
+                                SendDataUtil.controlDev(Curtain.getDev(), UdpProPkt.E_CURT_CMD.e_curt_offOn.getValue());
                             } else {
+                                state.setText("点击打开");
+                                SendDataUtil.controlDev(Curtain.getDev(), UdpProPkt.E_CURT_CMD.e_curt_offOff.getValue());
                             }
+                            count++;
                         }
                     }
                 } else if (type_dev == 7) {

@@ -7,8 +7,8 @@
     android:clickable="true"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/dp_8"
-    android:paddingTop="@dimen/dp_8">
+    android:padding="@dimen/dp_5"
+    >
 
     <ImageView
         android:id="@+id/img_list_item"
@@ -22,6 +22,6 @@
         android:gravity="center"
         android:maxLength="8"
         android:textColor="@color/color_fff"
-        android:textSize="@dimen/sp_16" />
+        android:textSize="@dimen/sp_14" />
 
 </LinearLayout>

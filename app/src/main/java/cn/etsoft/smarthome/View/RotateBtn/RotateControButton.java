@@ -145,13 +145,13 @@ public class RotateControButton extends View {
 
         titlePaint = new Paint();
         titlePaint.setAntiAlias(true);
-        titlePaint.setTextSize(sp2px((int)(15/Adaptive_coefficient)));
+        titlePaint.setTextSize(sp2px((int)(14/Adaptive_coefficient)));
         titlePaint.setColor(Color.parseColor("#3CB7EA"));
         titlePaint.setStyle(Paint.Style.STROKE);
 
         valueFlagPaint = new Paint();
         valueFlagPaint.setAntiAlias(true);
-        valueFlagPaint.setTextSize(sp2px((int)(18/Adaptive_coefficient)));
+        valueFlagPaint.setTextSize(sp2px((int)(16/Adaptive_coefficient)));
         valueFlagPaint.setColor(Color.parseColor("#E4A07E"));
         valueFlagPaint.setStyle(Paint.Style.STROKE);
 
@@ -162,7 +162,7 @@ public class RotateControButton extends View {
 
         valuePaint = new Paint();
         valuePaint.setAntiAlias(true);
-        valuePaint.setTextSize(sp2px((int)(18/Adaptive_coefficient)));
+        valuePaint.setTextSize(sp2px((int)(16/Adaptive_coefficient)));
         valuePaint.setColor(Color.parseColor("#E27A3F"));
         valuePaint.setStyle(Paint.Style.STROKE);
     }

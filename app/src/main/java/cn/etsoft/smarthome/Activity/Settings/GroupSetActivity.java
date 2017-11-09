@@ -83,7 +83,7 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
                     if (subtype1 == 2 && subtype2 == 1)
                         ToastUtil.showText("保存成功");
                     WareDataHliper.initCopyWareData().startCopyGroupSetData();
-                    initGroupSet();
+//                    initGroupSet();
                 }
             }
         });

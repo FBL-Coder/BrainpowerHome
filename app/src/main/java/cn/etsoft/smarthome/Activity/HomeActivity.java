@@ -138,6 +138,13 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     protected void onResume() {
+        MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
+            @Override
+            public void upDataWareData(int datType, int subtype1, int subtype2) {
+                if (datType == 3 || datType == 8)
+                    MyApplication.mApplication.dismissLoadDialog();
+            }
+        });
         super.onResume();
         if (!"".equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""))) {
             List<RcuInfo> list = MyApplication.mApplication.getRcuInfoList();
@@ -162,13 +169,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
      */
     private void initData() {
         weather_helper = new Home_Weather(mHandler, getApplicationContext());
-        MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
-            @Override
-            public void upDataWareData(int datType, int subtype1, int subtype2) {
-                if (datType == 3 || datType == 8)
-                    MyApplication.mApplication.dismissLoadDialog();
-            }
-        });
+
     }
 
     @Override
@@ -219,7 +220,10 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     return;
                 }
                 if (Condition()) return;
-                InputPass(new Intent(HomeActivity.this, SettingActivity.class));
+                Intent intent = new Intent(HomeActivity.this, SettingActivity.class);
+                if (MyApplication.mApplication.isInputPass) {
+                    startActivity(intent);
+                }else InputPass(intent);
                 break;
             case R.id.NetWork_Ok:
                 startActivity(new Intent(HomeActivity.this, NewWorkSetActivity.class));
@@ -376,6 +380,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 dialog.dismiss();
                 if (mDialogName.getText().toString().equals(
                         AppSharePreferenceMgr.get(GlobalVars.CONFIG_PASS_SHAREPREFERENCE, ""))) {
+                    MyApplication.mApplication.isInputPass = true;
                     startActivity(intent);
                 } else {
                     ToastUtil.showText("对不起，密码输入不匹配哦");

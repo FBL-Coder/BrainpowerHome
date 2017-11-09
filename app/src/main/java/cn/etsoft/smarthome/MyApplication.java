@@ -126,6 +126,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     //主页对象
     private Activity mHomeActivity;
 
+    //设置界面密码装填
+    public boolean isInputPass = false;
 
     @Override
     public void onCreate() {

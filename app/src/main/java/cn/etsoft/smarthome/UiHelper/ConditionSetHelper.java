@@ -32,7 +32,7 @@ public class ConditionSetHelper {
     public static List<CircleDataEvent> initSceneCircleOUterData(int position) {
 
         List<CircleDataEvent> list = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows().size(); i++) {
             CircleDataEvent event = new CircleDataEvent();
             event.setTitle(WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows()
                     .get(i % WareDataHliper.initCopyWareData().getConditionEvent().getenvEvent_rows()
