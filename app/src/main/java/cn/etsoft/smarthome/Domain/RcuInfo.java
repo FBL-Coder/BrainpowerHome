@@ -26,7 +26,7 @@ public class RcuInfo implements Serializable {
     private String centerServ;
     private String roomNum;
     private String macAddr;
-    private String canCpuName;
+    private String canCpuName = "";
     private String SoftVersion;
     private String HwVversion;
     private boolean IsOnLine;

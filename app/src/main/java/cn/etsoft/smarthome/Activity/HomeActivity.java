@@ -152,7 +152,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             for (int i = 0; i < list.size(); i++) {
                 if (AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")
                         .equals(list.get(i).getDevUnitID())) {
-                    if ("".equals(list.get(i).getCanCpuName())) {
+                    if ("null".equals(list.get(i).getCanCpuName()) || "".equals(list.get(i).getCanCpuName())) {
                         mNetWork_Ok.setText(list.get(i).getName());
                     } else {
                         mNetWork_Ok.setText(list.get(i).getCanCpuName());
@@ -412,7 +412,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         super.onDestroy();
         MyApplication.finishActivity(this);
         MyApplication.mApplication.isInputPass = false;
-        if (!isLogout) {
+        if (!isLogout && !MyApplication.mApplication.isVisitor()) {
             System.exit(0);
         }
     }

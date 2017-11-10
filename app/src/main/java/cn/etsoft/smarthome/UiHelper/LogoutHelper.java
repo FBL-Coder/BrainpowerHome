@@ -125,13 +125,13 @@ public class LogoutHelper {
         GlobalVars.setDevpass("");
         GlobalVars.setUserid("");
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
-        AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0);
+        AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
         AppSharePreferenceMgr.put(GlobalVars.LOGIN_SHAREPREFERENCE, false);
-        try {
-            MyApplication.mApplication.getmHomeActivity().finish();
-        } catch (Exception e) {
-        }
+//        try {
+//            MyApplication.mApplication.getmHomeActivity().finish();
+//        } catch (Exception e) {
+//        }
         MyApplication.mApplication.dismissLoadDialog();
         context.startActivity(new Intent(context, cn.semtec.community2.activity.LoginActivity.class));
         context.finish();

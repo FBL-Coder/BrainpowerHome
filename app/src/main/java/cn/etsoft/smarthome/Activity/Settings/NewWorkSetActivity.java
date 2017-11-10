@@ -58,7 +58,7 @@ import static android.content.ContentValues.TAG;
 
 public class NewWorkSetActivity extends BaseActivity {
     private TextView mNetmoduleAdd, mTitleName, mDialogAddSceneName,
-            mDialogAddSceneCancle, mDialogAddSceneOk, mTitle,NewWork_set_netmodule_logout;
+            mDialogAddSceneCancle, mDialogAddSceneOk, mTitle, NewWork_set_netmodule_logout;
     private ListView mNetmoduleListview, mNewWorksousuolistview;
     private TextView mDialogCancle, mDialogOk, mSousuo;
     private LinearLayout add_ref_LL;
@@ -84,7 +84,7 @@ public class NewWorkSetActivity extends BaseActivity {
             getRightImage().setVisibility(View.GONE);
             add_ref_LL.setVisibility(View.GONE);
         }
-        if (MyApplication.mApplication.getRcuInfoList().size() == 0){
+        if (MyApplication.mApplication.getRcuInfoList().size() == 0) {
             NewWork_set_netmodule_logout.setVisibility(View.VISIBLE);
             NewWork_set_netmodule_logout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -357,6 +357,7 @@ public class NewWorkSetActivity extends BaseActivity {
                 Log.i(TAG, "upDataWareData 搜索 使用  添加到服务器");
             }
         }
+        MyApplication.mApplication.showLoadDialog(NewWorkSetActivity.this);
         MyApplication.setNewWareData();
         GlobalVars.setIsLAN(true);
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
@@ -367,9 +368,10 @@ public class NewWorkSetActivity extends BaseActivity {
                         @Override
                         public void run() {
                             try {
-                                Thread.sleep(2000);
+                                Thread.sleep(1000);
                                 MyApplication.mApplication.dismissLoadDialog();
                                 startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+                                Thread.sleep(1000);
                                 finish();
                             } catch (InterruptedException e) {
                                 MyApplication.mApplication.dismissLoadDialog();
@@ -480,6 +482,7 @@ public class NewWorkSetActivity extends BaseActivity {
                     ToastUtil.showText("操作失败，请稍后再试");
                 }
             }
+
             @Override
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
@@ -500,15 +503,42 @@ public class NewWorkSetActivity extends BaseActivity {
         if (result == null)
             return;
 
-        List<RcuInfo> rcuInfos = new ArrayList<>();
-        for (int i = 0; i < result.getData().size(); i++) {
-            RcuInfo rcuInfo = new RcuInfo();
-            rcuInfo.setCanCpuName(result.getData().get(i).getCanCpuName());
-            rcuInfo.setDevUnitID(result.getData().get(i).getDevUnitID());
-            rcuInfo.setOnLine(result.getData().get(i).isOnline());
-            rcuInfos.add(rcuInfo);
+        List<RcuInfo> rcuInfos = MyApplication.mApplication.getRcuInfoList();
+        if (rcuInfos.size() <= result.getData().size()) {
+            for (int i = 0; i < result.getData().size(); i++) {
+                boolean isExist = false;
+                for (int j = 0; j < rcuInfos.size(); j++) {
+                    if (rcuInfos.get(j).getDevUnitID().equals(result.getData().get(i).getDevUnitID())) {
+                        isExist = true;
+                        rcuInfos.get(j).setCanCpuName(result.getData().get(i).getCanCpuName());
+                        rcuInfos.get(j).setDevUnitID(result.getData().get(i).getDevUnitID());
+                        rcuInfos.get(j).setOnLine(result.getData().get(i).isOnline());
+                    }
+                }
+                if (!isExist) {
+                    RcuInfo info = new RcuInfo();
+                    info.setCanCpuName(result.getData().get(i).getCanCpuName());
+                    info.setDevUnitID(result.getData().get(i).getDevUnitID());
+                    info.setOnLine(result.getData().get(i).isOnline());
+                    rcuInfos.add(info);
+                }
+            }
+        } else {
+            for (int j = 0; j < rcuInfos.size(); j++) {
+                boolean isExist = false;
+                for (int i = 0; i < result.getData().size(); i++) {
+                    if (rcuInfos.get(j).getDevUnitID().equals(result.getData().get(i).getDevUnitID())) {
+                        isExist = true;
+                        rcuInfos.get(j).setCanCpuName(result.getData().get(i).getCanCpuName());
+                        rcuInfos.get(j).setDevUnitID(result.getData().get(i).getDevUnitID());
+                        rcuInfos.get(j).setOnLine(result.getData().get(i).isOnline());
+                    }
+                }
+                if (!isExist) {
+                    rcuInfos.remove(j);
+                }
+            }
         }
-
         if (rcuInfos.size() == 0) {
             ToastUtil.showText("对不起。没有可用联网模块");
             AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");

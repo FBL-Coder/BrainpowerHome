@@ -90,7 +90,6 @@ public class DevInfoActivity extends BaseActivity {
                 }
             }
         });
-
         Control_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,7 +147,6 @@ public class DevInfoActivity extends BaseActivity {
                 mRoomDevs = getRoomDev(RoomName);
                 if (mRoomDevs == null) return;
                 mDevInfoNullData.setText("没有数据");
-                if (OuterCircleClick) {
                     List<WareDev> gridviewDev = new ArrayList<>();
                     for (int i = 0; i < mRoomDevs.size(); i++) {
                         if (mRoomDevs.get(i).getType() == DevType)
@@ -160,7 +158,6 @@ public class DevInfoActivity extends BaseActivity {
                     } else
                         adapter.notifyDataSetChanged(gridviewDev);
                 }
-            }
         });
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override

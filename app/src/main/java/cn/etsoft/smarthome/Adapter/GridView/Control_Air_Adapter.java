@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+
 import cn.etsoft.smarthome.View.Wheel.WheelView;
 
 import java.util.ArrayList;
@@ -99,6 +100,7 @@ public class Control_Air_Adapter extends BaseAdapter {
         spead_texts.add("自动");
         if (mAirs.get(position).getSelTemp() < 16 || mAirs.get(position).getSelTemp() > 30)
             mAirs.get(position).setSelTemp(16);
+
         viewHoler.mHorizontalSelectTemp.selectIndex(mAirs.get(position).getSelTemp() - 16);
         viewHoler.mHorizontalSelectTemp.setItems(temp_texts);
 
@@ -118,6 +120,12 @@ public class Control_Air_Adapter extends BaseAdapter {
         viewHoler.mHorizontalSelectSpead.setScrollBarSize(10);
         viewHoler.mHorizontalSelectSpead.selectIndex(mAirs.get(position).getSelSpd() - 2);
         viewHoler.mHorizontalSelectSpead.setItems(spead_texts);
+        if (mAirs.get(position).getSelSpd() - 2 == 0)
+            viewHoler.mAirNowSpead.setImageResource(R.drawable.spead_sam);
+        if (mAirs.get(position).getSelSpd() - 2 == 1)
+            viewHoler.mAirNowSpead.setImageResource(R.drawable.spead_min);
+        if (mAirs.get(position).getSelSpd() - 2 == 2)
+            viewHoler.mAirNowSpead.setImageResource(R.drawable.spead_big);
         viewHoler.mHorizontalSelectSpead.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
             @Override
             public void onWheelItemChanged(WheelView wheelView, int i) {

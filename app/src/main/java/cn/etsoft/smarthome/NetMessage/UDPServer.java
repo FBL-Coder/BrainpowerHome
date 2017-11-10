@@ -250,11 +250,11 @@ public class UDPServer implements Runnable {
             subType2 = jsonObject.getInt("subType2");
             if (!devUnitID.equals(GlobalVars.getDevid()))
                 if (!MyApplication.mApplication.isSeekNet()) {
-                    Log.i(TAG, "devUnitID不一致:" + "本地ID" + GlobalVars.getDevid() + "--数据ID" + devUnitID + ";包类型：" + datType + "-" + subType1 + "-" + subType2);
+                    Log.i(TAG, "UDP--devUnitID不一致:" + "本地ID" + GlobalVars.getDevid() + "--数据ID" + devUnitID + ";包类型：" + datType + "-" + subType1 + "-" + subType2);
                     return;
                 }
         } catch (JSONException e) {
-            System.out.println(this.getClass().getName() + "--extractData--" + e.toString());
+            System.out.println(this.getClass().getName() + "--UDp数据解析异常--" + e.toString());
         }
 
         if (UDPtimer != null) {
@@ -308,13 +308,12 @@ public class UDPServer implements Runnable {
             subType1 = jsonObject.getInt("subType1");
             subType2 = jsonObject.getInt("subType2");
             if (!devUnitID.equals(GlobalVars.getDevid())) {
-                Log.i(TAG, "WebSocket数据--过滤:" + "本地ID" + GlobalVars.getDevid() + "--数据ID" + devUnitID + ";包类型：" + datType + "-" + subType1 + "-" + subType2);
                 return;
             }
             if (MyApplication.mApplication.isSeekNet() && datType == 0)
                 return;
         } catch (JSONException e) {
-            System.out.println(this.getClass().getName() + "--extractData--" + e.toString());
+            return;
         }
         extractData(info);
     }

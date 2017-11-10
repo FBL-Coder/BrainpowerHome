@@ -92,11 +92,16 @@ public class SendDataUtil {
     }
 
 
+
     public static void getHeart() {
+        if ("".equals(GlobalVars.getDevid())) {
+            Log.i(TAG, "UdpHeard: 心跳包  没有ID");
+            return;
+        }
         String GETHEART = "{\"devUnitID\": \"" + GlobalVars.getDevid() +
                 "\"," + "\"datType\": " + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_getHeart.getValue() +
                 "," + "\"subType1\": 0," + "\"subType2\": 0," + "\"localIP\":\"" + GlobalVars.WIFI_IP + "\"}";
-        Log.i(TAG, "UdpHeard: 心跳包请求 \n" + GETHEART);
+        Log.i(TAG, "UdpHeard: 心跳包请求 " + GETHEART);
         MyApplication.mApplication.getUdpServer().UdpSendMsg(GETHEART);
     }
 
