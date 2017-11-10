@@ -107,7 +107,7 @@ public class NetWork_Adapter extends BaseAdapter {
                     bundle.putInt("FLAG", LOGIN);
                 bundle.putInt("POSITION", position);
                 intent.putExtra("BUNDLE", bundle);
-                mContext.startActivity(intent);
+                mContext.startActivityForResult(intent,0);
             }
         });
 

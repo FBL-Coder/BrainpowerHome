@@ -1151,6 +1151,13 @@ public class UDPServer implements Runnable {
                         MyApplication.getWareData().getCurtains().set(i, curtain);
                     }
                 }
+                for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
+                    if (dev.getDevId() == MyApplication.getWareData().getDevs().get(i).getDevId()
+                            &&dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
+                            &&dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()){
+                        MyApplication.getWareData().getDevs().set(i,dev);
+                    }
+                }
             } else if (devType == 0) {
 
                 WareAirCondDev airCondDev = new WareAirCondDev();
@@ -1184,6 +1191,13 @@ public class UDPServer implements Runnable {
                         MyApplication.getWareData().getAirConds().set(i, airCondDev);
                     }
                 }
+                for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
+                    if (dev.getDevId() == MyApplication.getWareData().getDevs().get(i).getDevId()
+                            &&dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
+                            &&dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()){
+                        MyApplication.getWareData().getDevs().set(i,dev);
+                    }
+                }
             } else if (devType == 3) {
                 WareLight wareLight = new WareLight();
                 JSONObject jsonobj = array.getJSONObject(0);
@@ -1211,6 +1225,13 @@ public class UDPServer implements Runnable {
                         MyApplication.getWareData().getLights().set(i, wareLight);
                         Log.i("Light", wareLight.getDev().getDevId() + "");
                         break;
+                    }
+                }
+                for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
+                    if (dev.getDevId() == MyApplication.getWareData().getDevs().get(i).getDevId()
+                            &&dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
+                            &&dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()){
+                        MyApplication.getWareData().getDevs().set(i,dev);
                     }
                 }
             } else if (devType == 7) {
@@ -1247,6 +1268,13 @@ public class UDPServer implements Runnable {
                         break;
                     }
                 }
+                for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
+                    if (dev.getDevId() == MyApplication.getWareData().getDevs().get(i).getDevId()
+                            &&dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
+                            &&dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()){
+                        MyApplication.getWareData().getDevs().set(i,dev);
+                    }
+                }
             } else if (devType == 9) {
                 WareFloorHeat floorHeat = new WareFloorHeat();
                 JSONObject jsonobj = array.getJSONObject(0);
@@ -1275,6 +1303,13 @@ public class UDPServer implements Runnable {
                         MyApplication.getWareData().getFloorHeat().set(i, floorHeat);
                         Log.i("FloorHeat", floorHeat.getDev().getDevId() + "");
                         break;
+                    }
+                }
+                for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
+                    if (dev.getDevId() == MyApplication.getWareData().getDevs().get(i).getDevId()
+                            &&dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
+                            &&dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()){
+                        MyApplication.getWareData().getDevs().set(i,dev);
                     }
                 }
             }

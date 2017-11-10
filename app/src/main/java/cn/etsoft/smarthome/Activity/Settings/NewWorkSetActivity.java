@@ -565,4 +565,13 @@ public class NewWorkSetActivity extends BaseActivity {
             }
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 5){
+            refNetLists();
+            SendDataUtil.getHeart();
+        }
+    }
 }

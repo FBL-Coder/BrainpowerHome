@@ -731,7 +731,11 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoTypeIVTest.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            SendDataUtil.controlDev(chuanglian_fin.getDev(), UdpProPkt.E_CURT_CMD.e_curt_offOn.getValue());
+                            int num = (int) Math.random();
+                            if (num == 0)
+                                SendDataUtil.controlDev(chuanglian_fin.getDev(), UdpProPkt.E_CURT_CMD.e_curt_offOn.getValue());
+                            else
+                                SendDataUtil.controlDev(chuanglian_fin.getDev(), UdpProPkt.E_CURT_CMD.e_curt_offOff.getValue());
                         }
                     });
 

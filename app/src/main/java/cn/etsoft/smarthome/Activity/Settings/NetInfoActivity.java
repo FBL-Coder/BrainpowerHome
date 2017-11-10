@@ -69,7 +69,7 @@ public class NetInfoActivity extends Activity {
                     MyApplication.mApplication.dismissLoadDialog();
                     if (subtype2 == 1) {
                         ToastUtil.showText("修改成功");
-                        initData();
+                        setResult(5);
                     }
                     else ToastUtil.showText("修改失败");
 
