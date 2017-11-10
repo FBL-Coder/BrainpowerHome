@@ -41,11 +41,13 @@ import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.HTTPRequest_BackCode;
 import cn.etsoft.smarthome.UiHelper.Net_AddorDel_Helper;
+import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.Utils.CommonUtils;
 import cn.etsoft.smarthome.Utils.Data_Cache;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
+import cn.semtec.community2.activity.LoginActivity;
 
 import static android.content.ContentValues.TAG;
 
@@ -56,7 +58,7 @@ import static android.content.ContentValues.TAG;
 
 public class NewWorkSetActivity extends BaseActivity {
     private TextView mNetmoduleAdd, mTitleName, mDialogAddSceneName,
-            mDialogAddSceneCancle, mDialogAddSceneOk, mTitle;
+            mDialogAddSceneCancle, mDialogAddSceneOk, mTitle,NewWork_set_netmodule_logout;
     private ListView mNetmoduleListview, mNewWorksousuolistview;
     private TextView mDialogCancle, mDialogOk, mSousuo;
     private LinearLayout add_ref_LL;
@@ -74,12 +76,24 @@ public class NewWorkSetActivity extends BaseActivity {
         setLayout(R.layout.activity_set_network);
         mNetmoduleListview = getViewById(R.id.NewWork_set_netmodule_listview);
         mNewWorksousuolistview = getViewById(R.id.NewWork_set_sousuo_listview);
+        NewWork_set_netmodule_logout = getViewById(R.id.NewWork_set_netmodule_logout);
         mNetmoduleAdd = getViewById(R.id.NewWork_set_netmodule_add);
         add_ref_LL = getViewById(R.id.add_ref_LL);
         mSousuo = getViewById(R.id.NewWork_set_netmodule_Sousuo);
         if (MyApplication.mApplication.isVisitor()) {
             getRightImage().setVisibility(View.GONE);
             add_ref_LL.setVisibility(View.GONE);
+        }
+        if (MyApplication.mApplication.getRcuInfoList().size() == 0){
+            NewWork_set_netmodule_logout.setVisibility(View.VISIBLE);
+            NewWork_set_netmodule_logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(NewWorkSetActivity.this, LoginActivity.class));
+                    AppSharePreferenceMgr.put(GlobalVars.LOGIN_SHAREPREFERENCE, false);
+                    finish();
+                }
+            });
         }
     }
 
@@ -327,19 +341,21 @@ public class NewWorkSetActivity extends BaseActivity {
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
                 MyApplication.mApplication.getSeekRcuInfos().get(position).getDevUnitID());
         initListview();
-        List<RcuInfo> list = MyApplication.mApplication.getRcuInfoList();
-        boolean isExist = false;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getDevUnitID().equals(MyApplication.mApplication.getSeekRcuInfos().get(position).getDevUnitID())) {
-                isExist = true;
+        if (!MyApplication.mApplication.isVisitor()) {
+            List<RcuInfo> list = MyApplication.mApplication.getRcuInfoList();
+            boolean isExist = false;
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getDevUnitID().equals(MyApplication.mApplication.getSeekRcuInfos().get(position).getDevUnitID())) {
+                    isExist = true;
+                }
             }
-        }
-        if (!isExist) {
-            Net_AddorDel_Helper.addNew(mNewModuleHandler, NewWorkSetActivity.this
-                    , MyApplication.mApplication.getSeekRcuInfos().get(position).getName()
-                    , MyApplication.mApplication.getSeekRcuInfos().get(position).getDevUnitID()
-                    , "");
-            Log.i(TAG, "upDataWareData 搜索 使用  添加到服务器");
+            if (!isExist) {
+                Net_AddorDel_Helper.addNew(mNewModuleHandler, NewWorkSetActivity.this
+                        , MyApplication.mApplication.getSeekRcuInfos().get(position).getName()
+                        , MyApplication.mApplication.getSeekRcuInfos().get(position).getDevUnitID()
+                        , "");
+                Log.i(TAG, "upDataWareData 搜索 使用  添加到服务器");
+            }
         }
         MyApplication.setNewWareData();
         GlobalVars.setIsLAN(true);
@@ -464,7 +480,6 @@ public class NewWorkSetActivity extends BaseActivity {
                     ToastUtil.showText("操作失败，请稍后再试");
                 }
             }
-
             @Override
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
@@ -475,7 +490,6 @@ public class NewWorkSetActivity extends BaseActivity {
             }
         });
     }
-
 
     /**
      * 刷新后更改界面数据
@@ -493,6 +507,13 @@ public class NewWorkSetActivity extends BaseActivity {
             rcuInfo.setDevUnitID(result.getData().get(i).getDevUnitID());
             rcuInfo.setOnLine(result.getData().get(i).isOnline());
             rcuInfos.add(rcuInfo);
+        }
+
+        if (rcuInfos.size() == 0) {
+            ToastUtil.showText("对不起。没有可用联网模块");
+            AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
+            MyApplication.setNewWareData();
+            WareDataHliper.wareDataHliper = new WareDataHliper();
         }
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, gson.toJson(rcuInfos));
     }
@@ -528,7 +549,6 @@ public class NewWorkSetActivity extends BaseActivity {
     public void onBackPressed() {
         backEvent();
         super.onBackPressed();
-
     }
 
     private void backEvent() {
@@ -569,9 +589,8 @@ public class NewWorkSetActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 5){
+        if (resultCode == 5) {
             refNetLists();
-            SendDataUtil.getHeart();
         }
     }
 }

@@ -70,6 +70,7 @@
                 android:layout_height="@dimen/dp_50"
                 android:paddingLeft="@dimen/dp_20"
                 android:textSize="@dimen/sp_20"
+                android:inputType="textPassword"
                 android:background="@null"
                 android:textColor="@color/white1"
                 android:textColorHint="@color/regist_gray1"

@@ -29,6 +29,19 @@
                 android:text="添加模块"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_20" />
+            <TextView
+                android:id="@+id/NewWork_set_netmodule_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white1"
+                android:padding="@dimen/dp_5"
+                android:text="退出登录"
+                android:visibility="gone"
+                android:textColor="@color/black1"
+                android:textSize="@dimen/sp_20" />
         </LinearLayout>
 
         <View

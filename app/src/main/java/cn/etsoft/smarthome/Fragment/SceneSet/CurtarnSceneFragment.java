@@ -88,6 +88,8 @@ public class CurtarnSceneFragment extends BaseFragment {
         mSceneSet_IsSelectDev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (MyApplication.getWareData().getSceneEvents().size() == 0)
+                    return;
                 IsShowSelect = !IsShowSelect;
                 if (IsShowSelect)
                     mSceneSet_IsSelectDev.setImageResource(R.drawable.show_on);

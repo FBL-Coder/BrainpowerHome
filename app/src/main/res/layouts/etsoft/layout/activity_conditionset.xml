@@ -83,7 +83,7 @@
 
                         <EditText
                             android:id="@+id/ConditionSet_Name"
-                            android:layout_width="@dimen/dp_150"
+                            android:layout_width="@dimen/dp_120"
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:hint="无"
@@ -138,13 +138,13 @@
                             android:gravity="center"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="@dimen/dp_10"
-                            android:text="触发方式"
+                            android:text="方式"
                             android:textColor="@color/main_white3"
                             android:textSize="@dimen/sp_16" />
 
                         <TextView
                             android:id="@+id/ConditionSet_Way"
-                            android:layout_width="wrap_content"
+                            android:layout_width="@dimen/dp_100"
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:layout_gravity="center_vertical"
@@ -167,13 +167,13 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:layout_gravity="center_vertical"
-                            android:text="触发类别"
+                            android:text="类别"
                             android:textColor="@color/main_white3"
                             android:textSize="@dimen/sp_16" />
 
                         <TextView
                             android:id="@+id/ConditionSet_Type"
-                            android:layout_width="wrap_content"
+                            android:layout_width="@dimen/dp_100"
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:layout_gravity="center_vertical"

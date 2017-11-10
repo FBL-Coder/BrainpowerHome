@@ -23,6 +23,7 @@ import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.Net_AddorDel_Helper;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 /**
  * Author：FBL  Time： 2017/6/22.
@@ -103,8 +104,10 @@ public class NetWork_Adapter extends BaseAdapter {
                 Bundle bundle = new Bundle();
                 if (FLAG == SEEK)
                     bundle.putInt("FLAG", SEEK);
-                else
+                else {
+                    SendDataUtil.getHeart();
                     bundle.putInt("FLAG", LOGIN);
+                }
                 bundle.putInt("POSITION", position);
                 intent.putExtra("BUNDLE", bundle);
                 mContext.startActivityForResult(intent,0);

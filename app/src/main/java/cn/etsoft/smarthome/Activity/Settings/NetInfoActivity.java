@@ -185,7 +185,7 @@ public class NetInfoActivity extends Activity {
                         ToastUtil.showText("修改联网模块信息必须是局域网操作");
                         return;
                     }
-                    String name_str = info.getName();
+                    String name_str = name.getText().toString();
                     String IP_str = IP.getText().toString();
                     String Ip_mask_str = Ip_mask.getText().toString();
                     String GetWay_str = GetWay.getText().toString();

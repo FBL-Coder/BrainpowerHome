@@ -151,50 +151,34 @@ public class GroupSetActivity extends BaseActivity implements View.OnClickListen
         mGroupSetName.setText("");
         mGroupSetName.setHint(mBean.getTriggerName());
         IsSelect = new boolean[MyApplication.getWareData().getResult_safety().getSec_info_rows().size()];
-        if (mBean.getRun_dev_item() == null
-                || mBean.getRun_dev_item().size() == 0) {
-            mShiNeng.setImageResource(R.drawable.show_off);
-            mSyncSever.setImageResource(R.drawable.show_off);
-            if (mBean.getTriggerSecs() == 0)
-                mGroupSetSafetys.setText("点击选择防区");
-            else {
-                int weekSelect_10 = (int) mBean.getTriggerSecs();
-                String weekSelect_2 = reverseString(Integer.toBinaryString(weekSelect_10));
-                String weekSelect_2_data = "";
-                for (int i = 0; i < weekSelect_2.toCharArray().length; i++) {
-                    if (weekSelect_2.toCharArray()[i] == '1') {
-                        weekSelect_2_data += " " + (i + 1);
-                        IsSelect[i] = true;
-                    }
-                }
-                mGroupSetSafetys.setText(weekSelect_2_data);
-            }
+
+        if (mBean.getValid() == 1) {
+            IsOpenShiNeng = true;
+            mShiNeng.setImageResource(R.drawable.show_on);
         } else {
-            if (mBean.getValid() == 1) {
-                IsOpenShiNeng = true;
-                mShiNeng.setImageResource(R.drawable.show_on);
-            } else {
-                IsOpenShiNeng = false;
-                mShiNeng.setImageResource(R.drawable.show_off);
-            }
-            int weekSelect_10 = (int) mBean.getTriggerSecs();
+            IsOpenShiNeng = false;
+            mShiNeng.setImageResource(R.drawable.show_off);
+        }
+        int weekSelect_10 = (int) mBean.getTriggerSecs();
+        if (weekSelect_10 == 0) {
+            mGroupSetSafetys.setText("点击选择防区");
+        } else {
             String weekSelect_2 = reverseString(Integer.toBinaryString(weekSelect_10));
             String weekSelect_2_data = "";
             for (int i = 0; i < weekSelect_2.toCharArray().length; i++) {
                 if (weekSelect_2.toCharArray()[i] == '1') {
-                    weekSelect_2_data += " " + (i + 1);
+                    weekSelect_2_data += " " + (i);
                     IsSelect[i] = true;
                 }
             }
             mGroupSetSafetys.setText(weekSelect_2_data);
-
-            if (mBean.getReportServ() == 1) {
-                mSyncSever.setImageResource(R.drawable.show_on);
-                IsyncSever = true;
-            } else {
-                mSyncSever.setImageResource(R.drawable.show_off);
-                IsyncSever = false;
-            }
+        }
+        if (mBean.getReportServ() == 1) {
+            mSyncSever.setImageResource(R.drawable.show_on);
+            IsyncSever = true;
+        } else {
+            mSyncSever.setImageResource(R.drawable.show_off);
+            IsyncSever = false;
         }
     }
 

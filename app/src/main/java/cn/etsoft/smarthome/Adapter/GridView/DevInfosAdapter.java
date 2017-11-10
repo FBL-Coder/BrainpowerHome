@@ -58,6 +58,8 @@ public class DevInfosAdapter extends BaseAdapter {
     private AlertDialog.Builder builder;
     private List<String> mBoards;
     private String DEVS_ALL_ROOM = "全部";
+    //设备编辑状态标记
+    private List<Boolean> isEdited;
 
     public DevInfosAdapter(List<WareDev> list, Activity context) {
         RoomNames = MyApplication.getWareData().getRooms();
@@ -65,6 +67,10 @@ public class DevInfosAdapter extends BaseAdapter {
         mBoards = new ArrayList<>();
         for (int i = 0; i < MyApplication.getWareData().getBoardChnouts().size(); i++) {
             mBoards.add(MyApplication.getWareData().getBoardChnouts().get(i).getBoardName());
+        }
+        isEdited = new ArrayList<>();
+        for (int i = 0; i < Devs.size(); i++) {
+            isEdited.add(false);
         }
         mContext = context;
     }
@@ -148,6 +154,7 @@ public class DevInfosAdapter extends BaseAdapter {
                     });
                     builder.create().show();
                 } else {
+                    isEdited.set(position,false);
                     finalViewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
                     finalViewHolder.mDevInfoEditLook.setVisibility(View.GONE);
                     finalViewHolder.mDevInfoDelete.setImageResource(R.drawable.delete_edit_dev);
@@ -283,7 +290,9 @@ public class DevInfosAdapter extends BaseAdapter {
         viewHolder.mDevInfoEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (finalViewHolder.mDevInfoLook.getVisibility() == View.VISIBLE) {
+                    isEdited.set(position,true);
                     finalViewHolder.mDevInfoLook.setVisibility(View.GONE);
                     finalViewHolder.mDevInfoEditLook.setVisibility(View.VISIBLE);
                     finalViewHolder.mDevInfoEdit.setImageResource(R.drawable.save_edit_dev);
@@ -503,6 +512,7 @@ public class DevInfosAdapter extends BaseAdapter {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            isEdited.set(position,false);
                             finalViewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
                             finalViewHolder.mDevInfoEditLook.setVisibility(View.GONE);
                             finalViewHolder.mDevInfoEdit.setImageResource(R.drawable.edit_dev);
@@ -519,10 +529,19 @@ public class DevInfosAdapter extends BaseAdapter {
      * item显示
      */
     private void ShowView(int position, final ViewHolder viewHolder) {
-        viewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
-        viewHolder.mDevInfoEditLook.setVisibility(View.GONE);
-        viewHolder.mDevInfoEdit.setImageResource(R.drawable.edit_dev);
-        viewHolder.mDevInfoDelete.setImageResource(R.drawable.delete_edit_dev);
+
+        if (isEdited.get(position)){
+            viewHolder.mDevInfoLook.setVisibility(View.GONE);
+            viewHolder.mDevInfoEditLook.setVisibility(View.VISIBLE);
+            viewHolder.mDevInfoEdit.setImageResource(R.drawable.save_edit_dev);
+            viewHolder.mDevInfoDelete.setImageResource(R.drawable.back_edit_dev);
+        }else {
+            viewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
+            viewHolder.mDevInfoEditLook.setVisibility(View.GONE);
+            viewHolder.mDevInfoEdit.setImageResource(R.drawable.edit_dev);
+            viewHolder.mDevInfoDelete.setImageResource(R.drawable.delete_edit_dev);
+        }
+
         if (Devs.get(position).getType() == 0) {
             List<WareAirCondDev> Airs = MyApplication.getWareData().getAirConds();
             for (int i = 0; i < Airs.size(); i++) {

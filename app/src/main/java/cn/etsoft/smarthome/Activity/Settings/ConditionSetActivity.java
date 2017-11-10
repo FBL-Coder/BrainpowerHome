@@ -165,21 +165,13 @@ public class ConditionSetActivity extends BaseActivity implements View.OnClickLi
         mNull_tv.setText(mBean.getEventName() + " 没有设备，请添加设备");
         mConditionName.setText("");
         mConditionName.setHint(mBean.getEventName());
-        if (mBean == null || mBean.getRun_dev_item().size() == 0) {
-            mShiNeng.setImageResource(R.drawable.show_off);
-            mConditionChuFaZhi.setText(mBean.getValTh() + "");
-            mConditionWay.setText(Event_Way.get(mBean.getThType()));
-            mConditionType.setText(Event_type.get(mBean.getEnvType()));
-        } else {
-            mConditionName.setHint(mBean.getEventName());
-            mConditionChuFaZhi.setText(mBean.getValTh() + "");
-            if (mBean.getValid() == 1)
-                mShiNeng.setImageResource(R.drawable.show_on);
-            else mShiNeng.setImageResource(R.drawable.show_off);
-            mConditionWay.setText(Event_Way.get(mBean.getThType()));
-            mConditionType.setText(Event_type.get(mBean.getEnvType()));
-        }
-
+        mConditionName.setHint(mBean.getEventName());
+        mConditionChuFaZhi.setText(mBean.getValTh() + "");
+        if (mBean.getValid() == 1)
+            mShiNeng.setImageResource(R.drawable.show_on);
+        else mShiNeng.setImageResource(R.drawable.show_off);
+        mConditionWay.setText(Event_Way.get(mBean.getThType()));
+        mConditionType.setText(Event_type.get(mBean.getEnvType()));
         if (mAdapter == null)
             mAdapter = new ConditionSet_DevAdapter(mBean.getRun_dev_item(), ConditionSetActivity.this);
         else mAdapter.notifyDataSetChanged(mBean.getRun_dev_item());

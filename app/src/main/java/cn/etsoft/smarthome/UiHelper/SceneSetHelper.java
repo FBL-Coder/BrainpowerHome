@@ -222,8 +222,8 @@ public class SceneSetHelper {
      * 保存情景设置；
      */
     public static void saveScene(final Activity activity, int ScenePosition) {
-
-
+        if (WareDataHliper.wareDataHliper.getCopyScenes().size() == 0)
+            return;
         final int sceneid = WareDataHliper.wareDataHliper.getCopyScenes().get(ScenePosition).getEventId();
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle("提示 :");
@@ -289,7 +289,7 @@ public class SceneSetHelper {
                             "\"devCnt\":" + Sceneevent.getItemAry().size() + "," +
                             "\"itemAry\":[" + more_data + "]}";
                     Log.e("情景模式测试:", data_hoad);
-                    MyApplication.mApplication.getUdpServer().send(data_hoad,24);
+                    MyApplication.mApplication.getUdpServer().send(data_hoad, 24);
                 } catch (Exception e) {
                     MyApplication.mApplication.dismissLoadDialog();
                     Log.e("Exception", e + "");

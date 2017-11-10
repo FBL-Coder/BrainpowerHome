@@ -55,6 +55,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private int WRATHER_SUCCEED = 2000;
     private int WRATHER_FAILING = 2200;
     private int DB_INITOK = 200;
+    private boolean isLogout;
 
     private TextView mHomeLoactionText, mTitleName, mDialogName,
             mDialogCancle, mDialogOk, mTitle, mDialoghelp;
@@ -161,6 +162,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     }
                 }
             }
+        } else {
+            mNetWork_Ok.setText("点击设置模块");
         }
     }
 
@@ -182,6 +185,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case R.id.home_logout_btn:
                 LogoutHelper.logout(HomeActivity.this);
+                isLogout = true;
                 break;
             case R.id.Home_YunVideo:
                 if (MyApplication.mApplication.isVisitor()) {
@@ -206,6 +210,10 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
 //            case R.id.Home_State:
 //                break;
             case R.id.Home_Scene:
+                if ("".equals(GlobalVars.getDevid())) {
+                    ToastUtil.showText("没有联网模块");
+                    return;
+                }
                 startActivity(new Intent(HomeActivity.this, ControlSceneActivity.class));
                 break;
 //            case R.id.Home_Timer:
@@ -219,11 +227,15 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
                     ToastUtil.showText("这里您不可以操作哦~");
                     return;
                 }
+                if ("".equals(GlobalVars.getDevid())) {
+                    ToastUtil.showText("没有联网模块");
+                    return;
+                }
                 if (Condition()) return;
                 Intent intent = new Intent(HomeActivity.this, SettingActivity.class);
                 if (MyApplication.mApplication.isInputPass) {
                     startActivity(intent);
-                }else InputPass(intent);
+                } else InputPass(intent);
                 break;
             case R.id.NetWork_Ok:
                 startActivity(new Intent(HomeActivity.this, NewWorkSetActivity.class));
@@ -399,5 +411,9 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     protected void onDestroy() {
         super.onDestroy();
         MyApplication.finishActivity(this);
+        MyApplication.mApplication.isInputPass = false;
+        if (!isLogout) {
+            System.exit(0);
+        }
     }
 }

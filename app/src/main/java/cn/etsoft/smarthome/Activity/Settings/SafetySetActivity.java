@@ -197,12 +197,6 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
         mSafetyName.setHint(mBean.getSecName());
 
         //某一安防里的设备为空或长度为0时
-        if (mBean.getRun_dev_item().size() == 0) {
-            mShiNeng.setImageResource(R.drawable.show_off);
-            mSafetyScene.setText("点击选择关联情景");
-            mSafetyType.setText("点击选择安防状态");
-        }
-
         if (mBean.getValid() == 1) {
             mShiNeng.setImageResource(R.drawable.show_on);
             IsShiNeng = true;
@@ -222,18 +216,21 @@ public class SafetySetActivity extends BaseActivity implements View.OnClickListe
             }
         }
         //情景
-        if (wareSceneEvent != null)
-            for (int i = 0; i < wareSceneEvent.size(); i++) {
-                if (wareSceneEvent.get(i).getEventId()
-                        == mBean.getSceneId()) {
-                    mSafetyScene.setText(wareSceneEvent.get(i).getSceneName());
-                    ScenePosition = i;
-                    if (i == wareSceneEvent.size() - 1)
-                        ScenePosition = 255;
+        if (mBean.getSceneId() == 255) {
+            ScenePosition = 255;
+            mSafetyScene.setText("无关联情景");
+        } else {
+            if (wareSceneEvent != null)
+                for (int i = 0; i < wareSceneEvent.size(); i++) {
+                    if (wareSceneEvent.get(i).getEventId()
+                            == mBean.getSceneId()) {
+                        ScenePosition = i;
+                        mSafetyScene.setText(wareSceneEvent.get(i).getSceneName());
+                    }
                 }
-            }
-        else
-            mSafetyScene.setText("暂无情景数据");
+            else
+                mSafetyScene.setText("暂无情景数据");
+        }
     }
 
     @SuppressLint("WrongConstant")

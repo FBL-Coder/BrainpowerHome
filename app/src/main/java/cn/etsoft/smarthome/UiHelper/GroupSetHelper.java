@@ -143,7 +143,7 @@ public class GroupSetHelper {
                     groupSet_data.setSecs_trigger_rows(envEvent_rows);
                     Gson gson = new Gson();
                     Log.i("保存触发器数据", gson.toJson(groupSet_data));
-                    MyApplication.mApplication.getUdpServer().send(gson.toJson(groupSet_data),66);
+                    MyApplication.mApplication.getUdpServer().send(gson.toJson(groupSet_data), 66);
                 } catch (Exception e) {
                     MyApplication.mApplication.dismissLoadDialog();
                     Log.e("保存触发器数据", "保存数据异常" + e);
@@ -211,7 +211,7 @@ public class GroupSetHelper {
                 StringBuffer stringBuffer = new StringBuffer();
                 for (int i = 0; i < size; i++) {
                     if (selItems[i]) {
-                        stringBuffer.append(i + 1 + " ");
+                        stringBuffer.append(i + " ");
                     }
                 }
                 if (stringBuffer.toString().length() == 0)

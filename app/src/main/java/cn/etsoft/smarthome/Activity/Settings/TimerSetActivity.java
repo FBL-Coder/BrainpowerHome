@@ -163,28 +163,22 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
         mTimerName.setText("");
         mTimerName.setHint(mBean.getTimerName());
         mNull_tv.setText(mBean.getTimerName() + " 没有可用设备，请添加设备");
-        if (mBean.getRun_dev_item() == null
-                || mBean.getRun_dev_item().size() == 0) {
-            mShiNeng.setImageResource(R.drawable.show_off);
-            mWeekAgain.setImageResource(R.drawable.show_off);
-            mQuanWang.setImageResource(R.drawable.show_off);
-            mTimerStartTime.setText("开始时间");
-            mTimerEndTime.setText("结束时间");
-            mTimerWeeks.setText("点击选择星期");
+        if (mBean.getValid() == 1) {
+            IsOpenShiNeng = true;
+            mShiNeng.setImageResource(R.drawable.show_on);
         } else {
-            if (mBean.getValid() == 1) {
-                IsOpenShiNeng = true;
-                mShiNeng.setImageResource(R.drawable.show_on);
-            } else {
-                IsOpenShiNeng = false;
-                mShiNeng.setImageResource(R.drawable.show_off);
-            }
+            IsOpenShiNeng = false;
+            mShiNeng.setImageResource(R.drawable.show_off);
+        }
 
-            List<Integer> data_start = mBean.getTimSta();
-            String startTime = data_start.get(0) + " : " + data_start.get(1);
-            mTimerStartTime.setText(startTime);
+        List<Integer> data_start = mBean.getTimSta();
+        String startTime = data_start.get(0) + " : " + data_start.get(1);
+        mTimerStartTime.setText(startTime);
 
-            int weekSelect_10 = data_start.get(3);
+        int weekSelect_10 = data_start.get(3);
+        if (weekSelect_10 == 0){
+            mTimerWeeks.setText("请选择星期");
+        }else {
             String weekSelect_2 = reverseString(Integer.toBinaryString(weekSelect_10));
             String weekSelect_2_data = "";
             for (int i = 0; i < weekSelect_2.toCharArray().length; i++) {
@@ -192,18 +186,18 @@ public class TimerSetActivity extends BaseActivity implements View.OnClickListen
                     weekSelect_2_data += " " + (i + 1);
             }
             mTimerWeeks.setText(weekSelect_2_data + "");
+        }
 
-            List<Integer> data_end = mBean.getTimEnd();
-            String endtime = data_end.get(0) + " : " + data_end.get(1);
-            mTimerEndTime.setText(endtime);
+        List<Integer> data_end = mBean.getTimEnd();
+        String endtime = data_end.get(0) + " : " + data_end.get(1);
+        mTimerEndTime.setText(endtime);
 
-            if (data_end.get(3) == 1) {
-                mWeekAgain.setImageResource(R.drawable.show_on);
-                IsOpenWeekAgain = true;
-            } else {
-                mWeekAgain.setImageResource(R.drawable.show_off);
-                IsOpenWeekAgain = false;
-            }
+        if (data_end.get(3) == 1) {
+            mWeekAgain.setImageResource(R.drawable.show_on);
+            IsOpenWeekAgain = true;
+        } else {
+            mWeekAgain.setImageResource(R.drawable.show_off);
+            IsOpenWeekAgain = false;
         }
     }
 

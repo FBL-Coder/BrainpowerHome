@@ -146,11 +146,12 @@ public class SceneSet_Light_Adapter extends BaseAdapter {
             }
         }
 
-
         final ViewHoler finalViewHoler = viewHoler;
         viewHoler.mSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mSceneDev == null)
+                    return;
                 if (mLights.get(position).getDev().isSelect()) {
                     for (int i = 0; i < mSceneDev.size(); i++) {
                         if (mLights.get(position).getDev().getDevId() == mSceneDev.get(i).getDevID()
