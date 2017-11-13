@@ -84,8 +84,6 @@ public class ControlActivity extends BaseActivity {
         layout.setInnerCircleMenuData(Data_InnerCircleList);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
         initEvent();
-
-
     }
 
     private void initEvent() {

@@ -21,13 +21,16 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.RecyclerView.SceneSet_ScenesAdapter;
 import cn.etsoft.smarthome.Fragment.Control.LightControlFragment;
+import cn.etsoft.smarthome.Fragment.Control.SocketFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.AirSceneFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.CurtarnSceneFragment;
+import cn.etsoft.smarthome.Fragment.SceneSet.DoorSceneFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.FloorHeatFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.FreshAirFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.LightSceneFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.TVSceneFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.TvUpSceneFragment;
+import cn.etsoft.smarthome.Fragment.SceneSet.VideoSceneFragment;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.ControlHelper;
@@ -52,7 +55,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
     private TextView mSceneSet_Add_Btn, mSceneSetTestBtn, mSceneSetSaveBtn, mNull_tv;
     private SceneSet_ScenesAdapter mScenesAdapter;
     private Fragment mLightFragment, mAirFragment, mTVFragment,
-            mTvUpFragment, mCurFragment, mFreshAirFragment, mFloorHeatFragment;
+            mTvUpFragment, mCurFragment, mVideoFragment, mSocketFragment, mDoorFragemnt, mFreshAirFragment, mFloorHeatFragment;
     private int ScenePosition = 0, DevType = -1;
     private String RoomName = "";
     private boolean IsNoData = true;
@@ -249,81 +252,59 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         FragmentManager manager = activity.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
 
-        if (mTVFragment != null)
-            transaction.hide(mTVFragment);
-        if (mTvUpFragment != null)
-            transaction.hide(mTvUpFragment);
-        if (mCurFragment != null)
-            transaction.hide(mCurFragment);
-        if (mAirFragment != null)
-            transaction.hide(mAirFragment);
-        if (mLightFragment != null)
-            transaction.hide(mLightFragment);
-        if (mFreshAirFragment != null)
-            transaction.hide(mFreshAirFragment);
-        if (mFloorHeatFragment != null)
-            transaction.hide(mFloorHeatFragment);
         Bundle bundle = new Bundle();
         bundle.putString("RoomName", RoomName);
         bundle.putInt("ScenePosition", ScenePosition);
         switch (position) {
             case 0:
-            case 10:
-                if (mAirFragment == null) {
-                    mAirFragment = new AirSceneFragment();
-                    mAirFragment.setArguments(bundle);
-                    transaction.add(R.id.SceneSet_Info, mAirFragment);
-                } else transaction.show(mAirFragment);
+                mAirFragment = new AirSceneFragment();
+                mAirFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mAirFragment);
                 break;
             case 1:
-            case 11:
-                if (mTVFragment == null) {
-                    mTVFragment = new TVSceneFragment();
-                    mTVFragment.setArguments(bundle);
-                    transaction.add(R.id.SceneSet_Info, mTVFragment);
-                } else transaction.show(mTVFragment);
+                mTVFragment = new TVSceneFragment();
+                mTVFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mTVFragment);
                 break;
             case 2:
-            case 12:
-                if (mTvUpFragment == null) {
-                    mTvUpFragment = new TvUpSceneFragment();
-                    mTvUpFragment.setArguments(bundle);
-                    transaction.add(R.id.SceneSet_Info, mTvUpFragment);
-                } else transaction.show(mTvUpFragment);
+                mTvUpFragment = new TvUpSceneFragment();
+                mTvUpFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mTvUpFragment);
                 break;
             case 3:
-            case 13:
-                if (mLightFragment == null) {
-                    mLightFragment = new LightSceneFragment();
-                    mLightFragment.setArguments(bundle);
-                    transaction.add(R.id.SceneSet_Info, mLightFragment);
-                } else transaction.show(mLightFragment);
+                mLightFragment = new LightSceneFragment();
+                mLightFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mLightFragment);
                 break;
             case 4:
-            case 14:
-                if (mCurFragment == null) {
-                    mCurFragment = new CurtarnSceneFragment();
-                    mCurFragment.setArguments(bundle);
-                    transaction.add(R.id.SceneSet_Info, mCurFragment);
-                } else transaction.show(mCurFragment);
+                mCurFragment = new CurtarnSceneFragment();
+                mCurFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mCurFragment);
                 break;
             case 5:
+                mVideoFragment = new VideoSceneFragment();
+                mVideoFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mVideoFragment);
                 break;
             case 6:
+                mSocketFragment = new SocketFragment();
+                mSocketFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mSocketFragment);
                 break;
             case 7:
-                if (mFreshAirFragment == null) {
-                    mFreshAirFragment = new FreshAirFragment();
-                    mFreshAirFragment.setArguments(bundle);
-                    transaction.add(R.id.SceneSet_Info, mFreshAirFragment);
-                } else transaction.show(mFreshAirFragment);
+                mFreshAirFragment = new FreshAirFragment();
+                mFreshAirFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mFreshAirFragment);
+                break;
+            case 8:
+                mDoorFragemnt = new DoorSceneFragment();
+                mDoorFragemnt.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mDoorFragemnt);
                 break;
             case 9:
-                if (mFloorHeatFragment == null) {
-                    mFloorHeatFragment = new FloorHeatFragment();
-                    mFloorHeatFragment.setArguments(bundle);
-                    transaction.add(R.id.SceneSet_Info, mFloorHeatFragment);
-                } else transaction.show(mFloorHeatFragment);
+                mFloorHeatFragment = new FloorHeatFragment();
+                mFloorHeatFragment.setArguments(bundle);
+                transaction.replace(R.id.SceneSet_Info, mFloorHeatFragment);
                 break;
         }
         transaction.commit();
