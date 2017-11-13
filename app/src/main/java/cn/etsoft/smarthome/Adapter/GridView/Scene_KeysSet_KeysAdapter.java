@@ -57,7 +57,7 @@ public class Scene_KeysSet_KeysAdapter extends BaseAdapter {
         KeyNames = new ArrayList<>();
         for (int i = 0; i < MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyCnt(); i++) {
             if (MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyCnt()
-                    < MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyName().length)
+                    <= MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyName().length)
                 KeyNames.add(MyApplication.getWareData().getKeyInputs().get(keyinpur_position).getKeyName()[i]);
             else KeyNames.add("按键" + i);
         }

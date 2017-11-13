@@ -125,15 +125,16 @@ public class GroupSetHelper {
                     }
                     SafetyData = SafetyData.replaceAll(" ", "");
                     StringBuffer Safety_sb = new StringBuffer(SafetyData);
+                    StringBuffer Safetr_bin = new StringBuffer("");
                     for (int i = 0; i < MyApplication.getWareData().getResult_safety().getSec_info_rows().size(); i++) {
-                        if (Safety_sb.length() <= i)
-                            Safety_sb.append("0");
+                        Safetr_bin.append("0");
                     }
                     for (int i = 0; i < Safety_sb.length(); i++) {
-                        if (Safety_sb.charAt(i) != '0')
-                            Safety_sb.setCharAt(i, '1');
+                        Safetr_bin.setCharAt(Integer.parseInt(Safety_sb.charAt(i) + ""), '1');
                     }
-                    bean.setTriggerSecs(Integer.parseInt(Safety_sb.reverse().toString(), 2));
+
+                    Safetr_bin.reverse();
+                    bean.setTriggerSecs(Integer.parseInt(Safetr_bin.toString(), 2));
                     envEvent_rows.add(bean);
                     groupSet_data.setDatType(66);
                     groupSet_data.setDevUnitID(GlobalVars.getDevid());

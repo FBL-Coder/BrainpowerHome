@@ -80,7 +80,6 @@ public class ControlHelper {
         }
         return Data_OuterCircleList;
     }
-
     /**
      * 初始化内部转盘数据
      */
@@ -94,10 +93,10 @@ public class ControlHelper {
                 Data_InnerCircleList = initRoom(4, Data_InnerCircleList);
                 break;
             case 3:
-                Data_InnerCircleList = initRoom(6, Data_InnerCircleList);
+                Data_InnerCircleList = initRoom(3, Data_InnerCircleList);
                 break;
             case 4:
-                Data_InnerCircleList = initRoom(7, Data_InnerCircleList);
+                Data_InnerCircleList = initRoom(4, Data_InnerCircleList);
                 break;
             case 5:
             case 6:

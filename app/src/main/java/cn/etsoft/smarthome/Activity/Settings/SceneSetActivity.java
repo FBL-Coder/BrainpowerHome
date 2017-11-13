@@ -310,7 +310,6 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             case 5:
                 break;
             case 6:
-
                 break;
             case 7:
                 if (mFreshAirFragment == null) {
@@ -318,7 +317,6 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                     mFreshAirFragment.setArguments(bundle);
                     transaction.add(R.id.SceneSet_Info, mFreshAirFragment);
                 } else transaction.show(mFreshAirFragment);
-
                 break;
             case 9:
                 if (mFloorHeatFragment == null) {
@@ -326,7 +324,6 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                     mFloorHeatFragment.setArguments(bundle);
                     transaction.add(R.id.SceneSet_Info, mFloorHeatFragment);
                 } else transaction.show(mFloorHeatFragment);
-
                 break;
         }
         transaction.commit();

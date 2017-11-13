@@ -530,13 +530,15 @@ public class UDPServer implements Runnable {
                 break;
             case 27: // 获取触发事件数据
                 if (subType2 == 1) {
-                    getConditiondata(info);
                     isFreshData = true;
+                    getConditiondata(info);
+
                 }
                 break;
             case 29: // 保存触发事件数据
                 if (subType2 == 1) {
                     isFreshData = true;
+                    editConditiondata(info);
                 }
                 break;
             case 32://e_udpPro_security_info
@@ -2057,6 +2059,20 @@ public class UDPServer implements Runnable {
         }
     }
 
+    //获取触发器数据
+    public void editConditiondata(String info) {
+        MyApplication.getWareData().setTimer_data(null);
+        Gson gson = new Gson();
+        Condition_Event_Bean result = gson.fromJson(info, Condition_Event_Bean.class);
+
+        List<Condition_Event_Bean.EnvEventRowsBean> rowsBeans = MyApplication.getWareData().getCondition_event_bean().getenvEvent_rows();
+        for (int i = 0; i < rowsBeans.size(); i++) {
+            if (result.getenvEvent_rows().get(0).getEventId() == rowsBeans.get(i).getEventId()) {
+               rowsBeans.set(i,result.getenvEvent_rows().get(0));
+            }
+        }
+    }
+
     //撤防、布防
     public void safety(String info) {
         MyApplication.getWareData().getChnOpItems().clear();
@@ -2164,6 +2180,7 @@ public class UDPServer implements Runnable {
                 if (MyApplication.getWareData().getmGroupSet_Data().getSecs_trigger_rows().get(i).getTriggerId()
                         == jsonArray.getJSONObject(0).getInt("triggerId")) {
                     bean.setTriggerName(jsonArray.getJSONObject(0).getString("triggerName"));
+                    bean.setTriggerSecs(jsonArray.getJSONObject(0).getInt("triggerSecs"));
                     bean.setReportServ(jsonArray.getJSONObject(0).getInt("reportServ"));
                     bean.setTriggerId(jsonArray.getJSONObject(0).getInt("triggerId"));
                     bean.setDevCnt(jsonArray.getJSONObject(0).getInt("devCnt"));

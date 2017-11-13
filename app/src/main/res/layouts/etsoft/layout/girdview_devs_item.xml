@@ -41,8 +41,9 @@
         <TextView
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_5"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="right"
             android:text="设备名称:"
             android:textColor="@color/colorCC"
             android:textSize="@dimen/sp_16" />
@@ -51,8 +52,9 @@
             android:id="@+id/text_list_item"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_5"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="left"
             android:textColor="@color/color_fff"
             android:textSize="@dimen/sp_18"
             android:textStyle="bold" />
