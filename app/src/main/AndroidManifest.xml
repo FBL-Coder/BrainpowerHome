@@ -218,6 +218,28 @@
             android:name=".Activity.Settings.UserAddDevsActivty"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan|adjustUnspecified|stateHidden" />
+
+        <!--用户界面-空调-->
+        <activity
+            android:name=".Activity.UserInterFace.Air_Control"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--用户界面-窗帘-->
+        <activity
+            android:name=".Activity.UserInterFace.Cur_Control"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--用户界面-新风-->
+        <activity
+            android:name=".Activity.UserInterFace.Fre_Control"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--用户界面-地暖-->
+        <activity
+            android:name=".Activity.UserInterFace.Flo_Control"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <!-- 安防首页进入详情-->
         <activity
             android:name=".Activity.SafetyHomeActivity"
