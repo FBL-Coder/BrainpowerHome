@@ -90,7 +90,7 @@ public class ControlHelper {
                 Data_InnerCircleList = initRoom(2, Data_InnerCircleList);
                 break;
             case 2:
-                Data_InnerCircleList = initRoom(4, Data_InnerCircleList);
+                Data_InnerCircleList = initRoom(2, Data_InnerCircleList);
                 break;
             case 3:
                 Data_InnerCircleList = initRoom(3, Data_InnerCircleList);
@@ -99,8 +99,14 @@ public class ControlHelper {
                 Data_InnerCircleList = initRoom(4, Data_InnerCircleList);
                 break;
             case 5:
+                Data_InnerCircleList = initRoom(5, Data_InnerCircleList);
+                break;
             case 6:
+                Data_InnerCircleList = initRoom(6, Data_InnerCircleList);
+                break;
             case 7:
+                Data_InnerCircleList = initRoom(7, Data_InnerCircleList);
+                break;
             case 8:
                 Data_InnerCircleList = initRoom(8, Data_InnerCircleList);
                 break;
