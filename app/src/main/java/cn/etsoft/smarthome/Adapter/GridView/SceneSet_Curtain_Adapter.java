@@ -39,7 +39,11 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
         mIsShowSelect = isShowSelect;
         mCurtains = Curtains;
         mContext = context;
-        SelectDev(sceneposition);
+        try {
+            SelectDev(sceneposition);
+        }catch (Exception e){
+            mCurtains = new ArrayList<>();
+        }
     }
 
     public void SelectDev(int sceneposition) {

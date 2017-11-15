@@ -79,7 +79,7 @@ public class WebSocket_Client {
             public void run() {
                 try {
                     mWebSocketClient.connectBlocking();
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     Message message = mHandler.obtainMessage();
                     message.what = MyApplication.mApplication.WS_Error;
                     message.obj = e;

@@ -222,8 +222,9 @@ public class SceneSetHelper {
             if (ID.size() == 0) {
                 ToastUtil.showText("自定义情景最多10个");
                 return;
+            } else {
+                SendDataUtil.addscene(ID.get(0), data);
             }
-            SendDataUtil.addscene(ID.get(0), data);
         } else {
             ToastUtil.showText("请填写情景名称");
         }
