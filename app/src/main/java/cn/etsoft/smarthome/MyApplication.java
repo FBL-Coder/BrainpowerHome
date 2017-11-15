@@ -36,6 +36,7 @@ import java.util.concurrent.Executors;
 
 import cn.etsoft.smarthome.Activity.SafetyHomeActivity;
 import cn.etsoft.smarthome.Domain.RcuInfo;
+import cn.etsoft.smarthome.Domain.RoomTempBean;
 import cn.etsoft.smarthome.Domain.Safety_Data;
 import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.Domain.Weather_Bean;
@@ -129,6 +130,9 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     //设置界面密码装填
     public boolean isInputPass = false;
 
+    //首页房间温度湿度
+    private RoomTempBean mRoomTempBean;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -164,6 +168,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
         sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
         music = sp.load(this, R.raw.key_sound, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
+
+        mRoomTempBean = new RoomTempBean();
 
 
         int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
@@ -498,6 +504,12 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             SeekRcuInfos = new ArrayList<>();
         return SeekRcuInfos;
     }
+
+    public RoomTempBean getRoomTempBean(){
+        return mRoomTempBean;
+    }
+
+
 
     public void setSeekRcuInfos(List<RcuInfo> seekRcuInfos) {
         SeekRcuInfos = seekRcuInfos;

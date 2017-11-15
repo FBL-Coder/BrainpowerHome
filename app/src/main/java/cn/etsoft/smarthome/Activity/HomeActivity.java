@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Activity.Settings.ConfigPassActivity;
 import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
+import cn.etsoft.smarthome.Adapter.ListView.HomeRoomTempAdapter;
 import cn.etsoft.smarthome.Domain.City;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.Weather_All_Bean;
@@ -61,6 +63,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             mDialogCancle, mDialogOk, mTitle, mDialoghelp;
     private LinearLayout mHomeLoaction;
     private ImageView mHomeRefBtn, mHomeLogoutBtn;
+    private ListView home_room_temp;
     private TextView mHomeWeatherTemp, mHomeWeatherType, mHomeWeatherShidu,
             mHomeWeatherFengli, mHomeWeatherZhiliang, mNetWork_Ok, weather_no;
     private MarqueeTextView mHomeWeatherTishi;
@@ -70,6 +73,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private HomeWeatherAnim mHomeWeatherAnim;
     private BamLinearLayout mHome_YunVideo, mHome_User, mHome_Safety, mHome_JiaDian, mHome_State, mHome_Scene,
             mHome_Timer, mHome_Health, mHome_Setting;
+    private HomeRoomTempAdapter mHomeRoomTempAdapter;
 
 
     @Override
@@ -105,6 +109,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mHomeWeatherShidu = (TextView) findViewById(R.id.home_weather_shidu);
         mHomeWeatherFengli = (TextView) findViewById(R.id.home_weather_fengli);
         mHomeWeatherZhiliang = (TextView) findViewById(R.id.home_weather_zhiliang);
+        home_room_temp = (ListView) findViewById(R.id.home_room_temp);
         mNetWork_Ok = (TextView) findViewById(R.id.NetWork_Ok);
         weather_no = (TextView) findViewById(R.id.weather_no);
         mHomeWeatherTishi = (MarqueeTextView) findViewById(R.id.home_weather_tishi);
@@ -144,8 +149,12 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 if (datType == 3 || datType == 8)
                     MyApplication.mApplication.dismissLoadDialog();
+                if (datType == 68){
+                    initRoomTemp();
+                }
             }
         });
+        initRoomTemp();
         super.onResume();
         if (!"".equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""))) {
             List<RcuInfo> list = MyApplication.mApplication.getRcuInfoList();
@@ -172,7 +181,16 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
      */
     private void initData() {
         weather_helper = new Home_Weather(mHandler, getApplicationContext());
+    }
 
+    /**
+     * 初始化主页房间温度湿度数据
+     */
+    public void initRoomTemp(){
+        if (mHomeRoomTempAdapter ==null) {
+            mHomeRoomTempAdapter = new HomeRoomTempAdapter(this);
+            home_room_temp.setAdapter(mHomeRoomTempAdapter);
+        }else mHomeRoomTempAdapter.notifyDataSetChanged();
     }
 
     @Override

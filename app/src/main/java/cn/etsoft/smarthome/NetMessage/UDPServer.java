@@ -24,6 +24,7 @@ import java.util.TimerTask;
 
 import cn.etsoft.smarthome.Domain.ChnOpItem_scene;
 import cn.etsoft.smarthome.Domain.Condition_Event_Bean;
+import cn.etsoft.smarthome.Domain.RoomTempBean;
 import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.GroupSet_Data;
@@ -1154,9 +1155,9 @@ public class UDPServer implements Runnable {
                 }
                 for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                     if (dev.getDevId() == MyApplication.getWareData().getDevs().get(i).getDevId()
-                            &&dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
-                            &&dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()){
-                        MyApplication.getWareData().getDevs().set(i,dev);
+                            && dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
+                            && dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()) {
+                        MyApplication.getWareData().getDevs().set(i, dev);
                     }
                 }
             } else if (devType == 0) {
@@ -1194,9 +1195,9 @@ public class UDPServer implements Runnable {
                 }
                 for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                     if (dev.getDevId() == MyApplication.getWareData().getDevs().get(i).getDevId()
-                            &&dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
-                            &&dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()){
-                        MyApplication.getWareData().getDevs().set(i,dev);
+                            && dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
+                            && dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()) {
+                        MyApplication.getWareData().getDevs().set(i, dev);
                     }
                 }
             } else if (devType == 3) {
@@ -1230,9 +1231,9 @@ public class UDPServer implements Runnable {
                 }
                 for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                     if (dev.getDevId() == MyApplication.getWareData().getDevs().get(i).getDevId()
-                            &&dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
-                            &&dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()){
-                        MyApplication.getWareData().getDevs().set(i,dev);
+                            && dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
+                            && dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()) {
+                        MyApplication.getWareData().getDevs().set(i, dev);
                     }
                 }
             } else if (devType == 7) {
@@ -1271,9 +1272,9 @@ public class UDPServer implements Runnable {
                 }
                 for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                     if (dev.getDevId() == MyApplication.getWareData().getDevs().get(i).getDevId()
-                            &&dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
-                            &&dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()){
-                        MyApplication.getWareData().getDevs().set(i,dev);
+                            && dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
+                            && dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()) {
+                        MyApplication.getWareData().getDevs().set(i, dev);
                     }
                 }
             } else if (devType == 9) {
@@ -1308,9 +1309,9 @@ public class UDPServer implements Runnable {
                 }
                 for (int i = 0; i < MyApplication.getWareData().getDevs().size(); i++) {
                     if (dev.getDevId() == MyApplication.getWareData().getDevs().get(i).getDevId()
-                            &&dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
-                            &&dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()){
-                        MyApplication.getWareData().getDevs().set(i,dev);
+                            && dev.getCanCpuId().equals(MyApplication.getWareData().getDevs().get(i).getCanCpuId())
+                            && dev.getType() == MyApplication.getWareData().getDevs().get(i).getType()) {
+                        MyApplication.getWareData().getDevs().set(i, dev);
                     }
                 }
             }
@@ -2068,7 +2069,7 @@ public class UDPServer implements Runnable {
         List<Condition_Event_Bean.EnvEventRowsBean> rowsBeans = MyApplication.getWareData().getCondition_event_bean().getenvEvent_rows();
         for (int i = 0; i < rowsBeans.size(); i++) {
             if (result.getenvEvent_rows().get(0).getEventId() == rowsBeans.get(i).getEventId()) {
-               rowsBeans.set(i,result.getenvEvent_rows().get(0));
+                rowsBeans.set(i, result.getenvEvent_rows().get(0));
             }
         }
     }
@@ -2221,6 +2222,51 @@ public class UDPServer implements Runnable {
 //                    "pm10":	3
 //        }]
 //        }
+
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(info);
+            JSONArray jsonArray = jsonObject.getJSONArray("rcu_rows");
+            JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+
+            RoomTempBean.RcuRowsBean bean = new RoomTempBean.RcuRowsBean();
+            bean.setRoomName(CommonUtils.getGBstr(CommonUtils.hexStringToBytes(jsonObject1.getString("roomName"))));
+            bean.setTempVal(jsonObject1.getInt("tempVal"));
+            bean.setHumidity(jsonObject1.getInt("humidity"));
+            bean.setPm25(jsonObject1.getInt("pm25"));
+            bean.setPm10(jsonObject1.getInt("pm10"));
+
+            RoomTempBean roomTempBean = MyApplication.mApplication.getRoomTempBean();
+
+            if (roomTempBean.getRcu_rows().size() == 0) {
+                roomTempBean.getRcu_rows().add(bean);
+            }else {
+                boolean isExistRoom = false;
+                for (int i = 0; i < MyApplication.getWareData().getRooms().size(); i++) {
+                    if (bean.getRoomName().equals(MyApplication.getWareData().getRooms().get(i))){
+                        isExistRoom = true;
+                    }
+                }
+                if (!isExistRoom){
+                    isFreshData = false;
+                    return;
+                }
+                boolean isExistTemp = false;
+                for (int i = 0; i < roomTempBean.getRcu_rows().size() ; i++) {
+                    if (bean.getRoomName().equals(roomTempBean.getRcu_rows().get(i).getRoomName())){
+                        roomTempBean.getRcu_rows().set(i,bean);
+                        isExistTemp = true;
+                    }
+                }
+                if (!isExistTemp){
+                    roomTempBean.getRcu_rows().add(bean);
+                }
+            }
+            isFreshData = true;
+        } catch (Exception e) {
+            isFreshData = false;
+            Log.e("Exception", "数据异常" + e);
+        }
     }
 
     /**

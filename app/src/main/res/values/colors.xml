@@ -65,6 +65,7 @@
     <!--覆盖颜色-->
     <color name="bgColor_overlay">#60000000</color>
     <color name="color_item_bg">#33333333</color>
+    <color name="color_home_temp">#88aaaaaa</color>
 
 
     <color name="colorPrimary">#3F51B5</color>
