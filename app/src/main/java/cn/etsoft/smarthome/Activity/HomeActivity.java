@@ -362,7 +362,6 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
             }
         }
     }
-
     /**
      * 判断是否处于局域网
      *

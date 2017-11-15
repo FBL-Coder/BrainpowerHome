@@ -53,7 +53,7 @@ public class HouseBindingOneActivity extends MyBaseActivity implements View.OnCl
     private String blocknum;
     private String buildnum;
     private String house_id;
-    private int communityid;
+    private String communityid;
     // dialog 数据
     // 单元内所有 楼栋的数据集合
     private ArrayList<HashMap<String, Object>> blocks_obj = new ArrayList<HashMap<String, Object>>();
@@ -82,7 +82,6 @@ public class HouseBindingOneActivity extends MyBaseActivity implements View.OnCl
         tab_3 = findViewById(R.id.tab_3);
         tab_4 = findViewById(R.id.tab_4);
         tab_5 = findViewById(R.id.tab_5);
-
     }
 
     private void setListener() {
@@ -188,7 +187,7 @@ public class HouseBindingOneActivity extends MyBaseActivity implements View.OnCl
                     Bundle b1 = data.getExtras();
                     HashMap<String, String> c1 = (HashMap<String, String>) b1.getSerializable("community");
                     tv_community.setText(c1.get("name"));
-                    communityid = Integer.valueOf(c1.get("id"));
+                    communityid = c1.get("id");
                     communitynum = c1.get("num");
 
                     tv_block.setText("");
@@ -229,7 +228,7 @@ public class HouseBindingOneActivity extends MyBaseActivity implements View.OnCl
                                 HashMap<String, Object> map = new HashMap<String, Object>();
                                 JSONObject obj = (JSONObject) object.get(i);
                                 LogUtils.i(obj.toString());
-                                map.put("id", obj.getInt("id"));
+                                map.put("id", obj.getString("id"));
                                 map.put("num", obj.getString("num"));
                                 map.put("name", obj.getString("name"));
                                 blocks_obj.add(map);
@@ -256,7 +255,7 @@ public class HouseBindingOneActivity extends MyBaseActivity implements View.OnCl
         showProgress();
     }
 
-    private void getBuild(int blockid) {
+    private void getBuild(String blockid) {
         String url = Constants.CONTENT_BLOCKID + blockid + Constants.CONTENT_BUILDINGS;
         LogUtils.i("getBuild");
         MyHttpUtil http = new MyHttpUtil(HttpRequest.HttpMethod.GET, url,
@@ -281,7 +280,7 @@ public class HouseBindingOneActivity extends MyBaseActivity implements View.OnCl
                                         HashMap<String, Object> map = new HashMap<String, Object>();
                                         JSONObject obj = (JSONObject) object.get(i);
                                         LogUtils.i(obj.toString());
-                                        map.put("id", obj.getInt("id"));
+                                        map.put("id", obj.getString("id"));
                                         map.put("num", obj.getString("num"));
                                         map.put("name", obj.getString("name"));
                                         LogUtils.i((String) map.get("name"));
@@ -309,7 +308,7 @@ public class HouseBindingOneActivity extends MyBaseActivity implements View.OnCl
         showProgress();
     }
 
-    protected void getHouse(int buildid) {
+    protected void getHouse(String buildid) {
         String url = Constants.CONTENT_BUILDID + buildid + Constants.CONTENT_HOUSES;
         LogUtils.i("getHouse");
         MyHttpUtil http = new MyHttpUtil(HttpRequest.HttpMethod.GET, url,
@@ -332,7 +331,7 @@ public class HouseBindingOneActivity extends MyBaseActivity implements View.OnCl
                                         HashMap<String, Object> map = new HashMap<String, Object>();
                                         JSONObject obj = (JSONObject) object.get(i);
                                         LogUtils.i(obj.toString());
-                                        map.put("id", obj.getInt("id"));
+                                        map.put("id", obj.getString("id"));
                                         map.put("floor", obj.getString("floor"));
                                         map.put("room", obj.getString("room"));
                                         map.put("name", obj.getString("name"));
@@ -449,13 +448,13 @@ public class HouseBindingOneActivity extends MyBaseActivity implements View.OnCl
                                     buildnum = null;
                                     house_id = null;
                                     //网络取单元的数据
-                                    getBuild((int) select.get("id"));
+                                    getBuild((String) select.get("id"));
                                 } else if (view == tv_build) {
                                     buildnum = (String) select.get("num");
                                     tv_house.setText("");
                                     house_id = null;
                                     //网络取房号的数据
-                                    getHouse((int) select.get("id"));
+                                    getHouse((String) select.get("id"));
                                 } else if (view == tv_house) {
                                     house_id = "" + select.get("id");
                                 }

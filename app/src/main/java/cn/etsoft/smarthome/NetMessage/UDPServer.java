@@ -2235,30 +2235,34 @@ public class UDPServer implements Runnable {
             bean.setHumidity(jsonObject1.getInt("humidity"));
             bean.setPm25(jsonObject1.getInt("pm25"));
             bean.setPm10(jsonObject1.getInt("pm10"));
+            if ("".equals(bean.getRoomName())) {
+                isFreshData = false;
+                return;
+            }
 
             RoomTempBean roomTempBean = MyApplication.mApplication.getRoomTempBean();
 
             if (roomTempBean.getRcu_rows().size() == 0) {
                 roomTempBean.getRcu_rows().add(bean);
-            }else {
+            } else {
                 boolean isExistRoom = false;
                 for (int i = 0; i < MyApplication.getWareData().getRooms().size(); i++) {
-                    if (bean.getRoomName().equals(MyApplication.getWareData().getRooms().get(i))){
+                    if (bean.getRoomName().equals(MyApplication.getWareData().getRooms().get(i))) {
                         isExistRoom = true;
                     }
                 }
-                if (!isExistRoom){
+                if (!isExistRoom) {
                     isFreshData = false;
                     return;
                 }
                 boolean isExistTemp = false;
-                for (int i = 0; i < roomTempBean.getRcu_rows().size() ; i++) {
-                    if (bean.getRoomName().equals(roomTempBean.getRcu_rows().get(i).getRoomName())){
-                        roomTempBean.getRcu_rows().set(i,bean);
+                for (int i = 0; i < roomTempBean.getRcu_rows().size(); i++) {
+                    if (bean.getRoomName().equals(roomTempBean.getRcu_rows().get(i).getRoomName())) {
+                        roomTempBean.getRcu_rows().set(i, bean);
                         isExistTemp = true;
                     }
                 }
-                if (!isExistTemp){
+                if (!isExistTemp) {
                     roomTempBean.getRcu_rows().add(bean);
                 }
             }
