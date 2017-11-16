@@ -60,6 +60,8 @@ public class DevInfosAdapter extends BaseAdapter {
     private String DEVS_ALL_ROOM = "全部";
     //设备编辑状态标记
     private List<Boolean> isEdited;
+    //是否刷新编辑框
+    private boolean mIsRefEditText = true;
 
     public DevInfosAdapter(List<WareDev> list, Activity context) {
         RoomNames = MyApplication.getWareData().getRooms();
@@ -75,9 +77,10 @@ public class DevInfosAdapter extends BaseAdapter {
         mContext = context;
     }
 
-    public void notifyDataSetChanged(List<WareDev> list) {
+    public void notifyDataSetChanged(List<WareDev> list, boolean isRefEditText) {
         RoomNames = MyApplication.getWareData().getRooms();
         Devs = list;
+        mIsRefEditText = isRefEditText;
         super.notifyDataSetChanged();
     }
 
@@ -154,7 +157,7 @@ public class DevInfosAdapter extends BaseAdapter {
                     });
                     builder.create().show();
                 } else {
-                    isEdited.set(position,false);
+                    isEdited.set(position, false);
                     finalViewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
                     finalViewHolder.mDevInfoEditLook.setVisibility(View.GONE);
                     finalViewHolder.mDevInfoDelete.setImageResource(R.drawable.delete_edit_dev);
@@ -173,8 +176,13 @@ public class DevInfosAdapter extends BaseAdapter {
             public void onClick(View v) {
                 List<Integer> list_voard_cancpuid = new ArrayList<>();
 
+                List<WareDev> boardDev = new ArrayList<>();
                 for (int z = 0; z < MyApplication.getWareData().getDevs().size(); z++) {
-                    WareDev dev = MyApplication.getWareData().getDevs().get(z);
+                    if (Devs.get(position).getCanCpuId().equals(MyApplication.getWareData().getDevs().get(z).getCanCpuId()))
+                        boardDev.add(MyApplication.getWareData().getDevs().get(z));
+                }
+                for (int z = 0; z < boardDev.size(); z++) {
+                    WareDev dev = boardDev.get(z);
                     if (!(dev.getType() == Devs.get(position).getType()
                             && dev.getDevId() == Devs.get(position).getDevId()
                             && dev.getCanCpuId().equals(Devs.get(position).getCanCpuId()))) {
@@ -292,7 +300,7 @@ public class DevInfosAdapter extends BaseAdapter {
             public void onClick(View v) {
 
                 if (finalViewHolder.mDevInfoLook.getVisibility() == View.VISIBLE) {
-                    isEdited.set(position,true);
+                    isEdited.set(position, true);
                     finalViewHolder.mDevInfoLook.setVisibility(View.GONE);
                     finalViewHolder.mDevInfoEditLook.setVisibility(View.VISIBLE);
                     finalViewHolder.mDevInfoEdit.setImageResource(R.drawable.save_edit_dev);
@@ -512,7 +520,7 @@ public class DevInfosAdapter extends BaseAdapter {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            isEdited.set(position,false);
+                            isEdited.set(position, false);
                             finalViewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
                             finalViewHolder.mDevInfoEditLook.setVisibility(View.GONE);
                             finalViewHolder.mDevInfoEdit.setImageResource(R.drawable.edit_dev);
@@ -530,12 +538,12 @@ public class DevInfosAdapter extends BaseAdapter {
      */
     private void ShowView(int position, final ViewHolder viewHolder) {
 
-        if (isEdited.get(position)){
+        if (isEdited.get(position)) {
             viewHolder.mDevInfoLook.setVisibility(View.GONE);
             viewHolder.mDevInfoEditLook.setVisibility(View.VISIBLE);
             viewHolder.mDevInfoEdit.setImageResource(R.drawable.save_edit_dev);
             viewHolder.mDevInfoDelete.setImageResource(R.drawable.back_edit_dev);
-        }else {
+        } else {
             viewHolder.mDevInfoLook.setVisibility(View.VISIBLE);
             viewHolder.mDevInfoEditLook.setVisibility(View.GONE);
             viewHolder.mDevInfoEdit.setImageResource(R.drawable.edit_dev);
@@ -595,10 +603,20 @@ public class DevInfosAdapter extends BaseAdapter {
                     if ("".equals(BoardName))
                         viewHolder.mDevInfoOutBoard.setText("数据解析出错");
                     viewHolder.mDevInfoOutBoard.setText(BoardName);
-
                     viewHolder.mDevInfoEditRoom.setText(Air.getDev().getRoomName());
-                    viewHolder.mDevInfoEditName.setHint(Air.getDev().getDevName());
+                    if (isEdited.get(position)) {
+                        viewHolder.mDevInfoEditName.setFocusable(true);
+                        viewHolder.mDevInfoEditName.setFocusableInTouchMode(true);
+                        viewHolder.mDevInfoEditName.requestFocus();
+                        viewHolder.mDevInfoEditName.findFocus();
+                        if (mIsRefEditText) {
+                            viewHolder.mDevInfoEditName.setText(Air.getDev().getDevName());
+                        }
+                    } else {
+                        viewHolder.mDevInfoEditName.setText(Air.getDev().getDevName());
+                    }
                     viewHolder.mDevInfoEditWay.setText(Way_ok);
+
                 }
             }
         }
@@ -709,8 +727,17 @@ public class DevInfosAdapter extends BaseAdapter {
 
                     //不可视布局数据
                     viewHolder.mDevInfoEditRoom.setText(light.getDev().getRoomName());
-                    viewHolder.mDevInfoEditName.setText("");
-                    viewHolder.mDevInfoEditName.setHint(light.getDev().getDevName());
+                    if (isEdited.get(position)) {
+                        viewHolder.mDevInfoEditName.setFocusable(true);
+                        viewHolder.mDevInfoEditName.setFocusableInTouchMode(true);
+                        viewHolder.mDevInfoEditName.requestFocus();
+                        viewHolder.mDevInfoEditName.findFocus();
+                        if (mIsRefEditText) {
+                            viewHolder.mDevInfoEditName.setText(light.getDev().getDevName());
+                        }
+                    } else {
+                        viewHolder.mDevInfoEditName.setText(light.getDev().getDevName());
+                    }
                     viewHolder.mDevInfoEditWay.setText(light.getPowChn() + 1 + "");
                 }
             }
@@ -764,7 +791,17 @@ public class DevInfosAdapter extends BaseAdapter {
 
                     //不可视布局数据
                     viewHolder.mDevInfoEditRoom.setText(curtain.getDev().getRoomName());
-                    viewHolder.mDevInfoEditName.setHint(curtain.getDev().getDevName());
+                    if (isEdited.get(position)) {
+                        viewHolder.mDevInfoEditName.setFocusable(true);
+                        viewHolder.mDevInfoEditName.setFocusableInTouchMode(true);
+                        viewHolder.mDevInfoEditName.requestFocus();
+                        viewHolder.mDevInfoEditName.findFocus();
+                        if (mIsRefEditText) {
+                            viewHolder.mDevInfoEditName.setText(curtain.getDev().getDevName());
+                        }
+                    } else {
+                        viewHolder.mDevInfoEditName.setText(curtain.getDev().getDevName());
+                    }
                     viewHolder.mDevInfoEditWay.setText(Way_ok);
                 }
             }
@@ -814,7 +851,17 @@ public class DevInfosAdapter extends BaseAdapter {
 
                     //不可视布局数据
                     viewHolder.mDevInfoEditRoom.setText(freshAir.getDev().getRoomName());
-                    viewHolder.mDevInfoEditName.setHint(freshAir.getDev().getDevName());
+                    if (isEdited.get(position)) {
+                        viewHolder.mDevInfoEditName.setFocusable(true);
+                        viewHolder.mDevInfoEditName.setFocusableInTouchMode(true);
+                        viewHolder.mDevInfoEditName.requestFocus();
+                        viewHolder.mDevInfoEditName.findFocus();
+                        if (mIsRefEditText) {
+                            viewHolder.mDevInfoEditName.setText(freshAir.getDev().getDevName());
+                        }
+                    } else {
+                        viewHolder.mDevInfoEditName.setText(freshAir.getDev().getDevName());
+                    }
                     viewHolder.mDevInfoEditWay.setText((freshAir.getOnOffChn() + 1) + "、"
                             + (freshAir.getSpdLowChn() + 1) + "、" + (freshAir.getSpdMidChn() + 1)
                             + "、" + (freshAir.getSpdHighChn() + 1));
@@ -863,7 +910,17 @@ public class DevInfosAdapter extends BaseAdapter {
 
                     //不可视布局数据
                     viewHolder.mDevInfoEditRoom.setText(floorHeat.getDev().getRoomName());
-                    viewHolder.mDevInfoEditName.setHint(floorHeat.getDev().getDevName());
+                    if (isEdited.get(position)) {
+                        viewHolder.mDevInfoEditName.setFocusable(true);
+                        viewHolder.mDevInfoEditName.setFocusableInTouchMode(true);
+                        viewHolder.mDevInfoEditName.requestFocus();
+                        viewHolder.mDevInfoEditName.findFocus();
+                        if (mIsRefEditText) {
+                            viewHolder.mDevInfoEditName.setText(floorHeat.getDev().getDevName());
+                        }
+                    } else {
+                        viewHolder.mDevInfoEditName.setText(floorHeat.getDev().getDevName());
+                    }
                     viewHolder.mDevInfoEditWay.setText((floorHeat.getPowChn() + 1) + "");
                 }
             }

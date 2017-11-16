@@ -246,7 +246,7 @@ public class CallingActivity extends MyBaseActivity implements OnClickListener {
         // mic恢复声音 1静音 0不静音
         myCallImpl.squirrelSetMicMuted(0);
         if (BaseActivity.instance != null){
-            BaseActivity.instance.startBleService();
+//            BaseActivity.instance.startBleService();
         }
 
         super.onDestroy();

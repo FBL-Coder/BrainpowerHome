@@ -33,7 +33,7 @@ import cn.semtec.community2.util.SharedPreferenceUtil;
 public class LoginActivity extends MyBaseActivity implements OnClickListener {
 
     private Button btn_login;
-    private TextView btn_regist;
+    private TextView btn_regist, exit;
     private EditText et_account;
     private EditText et_password;
     private TextView btn_forget, btn_tourist;
@@ -100,6 +100,7 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
         btn_regist = (TextView) findViewById(R.id.login_register_btn);
         btn_forget = (TextView) findViewById(R.id.login_forgetpass);
         btn_tourist = (TextView) findViewById(R.id.login_ourist);
+        exit = (TextView) findViewById(R.id.exit);
         et_account = (EditText) findViewById(R.id.login_id);
         et_password = (EditText) findViewById(R.id.login_pass);
         et_account.setText((String) AppSharePreferenceMgr.get(GlobalVars.USERID_SHAREPREFERENCE, ""));
@@ -112,6 +113,7 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
         btn_regist.setOnClickListener(this);
         btn_forget.setOnClickListener(this);
         btn_tourist.setOnClickListener(this);
+        exit.setOnClickListener(this);
     }
 
     public void onClick(View v) {
@@ -148,6 +150,10 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
                 break;
             case R.id.login_register_btn:
                 startActivityForResult(new Intent(LoginActivity.this, cn.semtec.community2.activity.RegistActivity.class), 0);
+                break;
+            case R.id.exit:
+               finish();
+               System.exit(0);
                 break;
         }
     }

@@ -386,7 +386,6 @@ public class BluetoothLeService extends Service {
    						try {
    							Thread.sleep(5000);
    						} catch (InterruptedException e) {
-
    							e.printStackTrace();
    						}
    					if(BaseActivity.instance != null && isEnd){

@@ -57,11 +57,11 @@ public class DevInfoActivity extends BaseActivity {
                         return;
                     }
                     ToastUtil.showText("操作成功");
-                    InitCircleData();
+                    InitCircleData(true);
                 }
                 if (datType == 3 || datType == 4 || datType == 35
                         || (datType == 7 || subtype2 == 1) || (datType == 9 && subtype2 == 1)) {
-                    InitCircleData();
+                    InitCircleData(false);
                 }
             }
         });
@@ -86,7 +86,7 @@ public class DevInfoActivity extends BaseActivity {
                         return;
                     }
                     ToastUtil.showText("操作成功");
-                    InitCircleData();
+                    InitCircleData(true);
                 }
             }
         });
@@ -98,7 +98,7 @@ public class DevInfoActivity extends BaseActivity {
         });
     }
 
-    private void InitCircleData() {
+    private void InitCircleData( boolean isRef) {
         List<WareDev> gridviewDev = new ArrayList<>();
         mRoomDevs = getRoomDev(RoomName);
         if (mRoomDevs == null) return;
@@ -110,7 +110,7 @@ public class DevInfoActivity extends BaseActivity {
             adapter = new DevInfosAdapter(gridviewDev, DevInfoActivity.this);
             DevInfoGridView.setAdapter(adapter);
         } else
-            adapter.notifyDataSetChanged(gridviewDev);
+            adapter.notifyDataSetChanged(gridviewDev,isRef);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class DevInfoActivity extends BaseActivity {
                         adapter = new DevInfosAdapter(gridviewDev, DevInfoActivity.this);
                         DevInfoGridView.setAdapter(adapter);
                     } else
-                        adapter.notifyDataSetChanged(gridviewDev);
+                        adapter.notifyDataSetChanged(gridviewDev,true);
                 }
         });
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
@@ -168,10 +168,10 @@ public class DevInfoActivity extends BaseActivity {
                     return;
                 }
                 mDevInfoNullData.setText("没有数据");
-                InitCircleData();
+                InitCircleData(true);
             }
         });
-        InitCircleData();
+        InitCircleData(true);
     }
 
     public List<WareDev> getRoomDev(String roomname) {
@@ -207,7 +207,7 @@ public class DevInfoActivity extends BaseActivity {
                 return;
             }
             mDevInfoNullData.setText("没有数据");
-            InitCircleData();
+            InitCircleData(true);
         }
     }
 }

@@ -61,8 +61,6 @@ public class LoginHelper {
                         // 0为成功 <0为系统异常 其他待定
                         if (jo.getInt("returnCode") == 0) {
                             cn.etsoft.smarthome.MyApplication.mApplication.setVisitor(false);
-                            // 保存账号密码
-                            if (prefernceUtil == null)
                                 prefernceUtil = new SharedPreferenceUtil(MyApplication.getContext());
                             prefernceUtil.putString("cellphone", cellphone);
                             prefernceUtil.putString("password", password);
