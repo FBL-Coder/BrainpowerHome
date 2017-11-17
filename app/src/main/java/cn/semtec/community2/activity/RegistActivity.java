@@ -42,13 +42,14 @@ public class RegistActivity extends MyBaseActivity implements View.OnClickListen
 
     private EditText et_phone;
     private EditText et_password, et_password_again;
-    private EditText et_verify;
-    private TextView btn_verify;
+//    private EditText et_verify;
+//    private TextView btn_verify;
     private TextView btn_commit;
+    private TextView register_back;
     //    private CheckBox check_clause;
 //    private View tv_clause;
     private String cellphone;
-    private String verify;
+    private String verify = "";
     private String password;
     private Intent intent;
     private int ADDOK = 0;
@@ -64,30 +65,35 @@ public class RegistActivity extends MyBaseActivity implements View.OnClickListen
 
     private void setView() {
         et_phone = (EditText) findViewById(R.id.register_id);
-        et_verify = (EditText) findViewById(R.id.register_verify);
-        btn_verify = (TextView) findViewById(R.id.register_verify_btn);
+//        et_verify = (EditText) findViewById(R.id.register_verify);
+//        btn_verify = (TextView) findViewById(R.id.register_verify_btn);
         et_password = (EditText) findViewById(R.id.register_pass);
         et_password_again = (EditText) findViewById(R.id.register_againpass);
         btn_commit = (TextView) findViewById(R.id.register_btn);
+        register_back = (TextView) findViewById(R.id.register_back);
 
     }
 
     private void setListener() {
-        btn_verify.setOnClickListener(this);
+//        btn_verify.setOnClickListener(this);
         btn_commit.setOnClickListener(this);
+        register_back.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.register_verify_btn:
-                getVerifycode();
-                break;
+//            case R.id.register_verify_btn:
+//                getVerifycode();
+//                break;
             case R.id.register_btn:
                 if (!CheckInput()) {
                     break;
                 }
                 sendToNET();
+                break;
+            case R.id.register_back:
+                finish();
                 break;
         }
 
@@ -95,7 +101,7 @@ public class RegistActivity extends MyBaseActivity implements View.OnClickListen
 
     private boolean CheckInput() {
         cellphone = et_phone.getText().toString();
-        verify = et_verify.getText().toString();
+//        verify = et_verify.getText().toString();
         password = et_password.getText().toString();
 
         Pattern p = Pattern.compile("^1\\d{10}$");
@@ -104,10 +110,10 @@ public class RegistActivity extends MyBaseActivity implements View.OnClickListen
             ToastUtil.showText(getString(R.string.regist_error));
             return false;
         }
-        if (verify.length() < 4) {
-            ToastUtil.showText(getString(R.string.repickpassword_verify_error));
-            return false;
-        }
+//        if (verify.length() < 4) {
+//            ToastUtil.showText(getString(R.string.repickpassword_verify_error));
+//            return false;
+//        }
         if (password.length() < 6) {
             ToastUtil.showText("密码最少6位");
             return false;
@@ -177,55 +183,55 @@ public class RegistActivity extends MyBaseActivity implements View.OnClickListen
     }
 
     // 获取验证码
-    private void getVerifycode() {
-        cellphone = et_phone.getText().toString();
-        Pattern p = Pattern.compile("^1\\d{10}$");
-        Matcher m = p.matcher(cellphone);
-        if (!m.matches()) {
-            ToastUtil.showText(getString(R.string.regist_error));
-            return;
-        }
-        //倒计时
-        TimeCountUtil timeCountUtil = new TimeCountUtil(this, 60000, 1000, btn_verify);
-        timeCountUtil.start();
-        String url = Constants.CONTENT_CELLPHONE + cellphone + Constants.CONTENT_VERIFYCODE;
-        MyHttpUtil http = new MyHttpUtil(HttpRequest.HttpMethod.GET, url,
-                new RequestCallBack<String>() {
-                    @Override
-                    public void onSuccess(ResponseInfo<String> responseInfo) {
-                        cancelProgress();
-                        if (responseInfo.statusCode == 200) {
-                            String mResult = responseInfo.result.toString();
-                            Log.i(TAG, "onSuccess: " + mResult);
-                            //获得回传的 json字符串
-                            JSONObject jo;
-                            try {
-                                jo = new JSONObject(mResult);
-                                //0为成功  <0为系统异常  其他待定
-                                if (jo.getInt("returnCode") == 0) {
-                                    JSONObject args = (JSONObject) jo.get("args");
-                                    if (!args.isNull("smscode")) {
-                                        String smscode = args.getString("smscode");
-                                        ToastUtil.showText(smscode);
-                                        et_verify.setText(smscode);
-                                    }
-                                } else {
-                                    ToastUtil.showText(jo.getString("msg"));
-                                }
-                            } catch (JSONException e) {
-                                CatchUtil.catchM(e);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(HttpException error, String msg) {
-                        cancelProgress();
-                        ToastUtil.showText(getString(R.string.net_abnormal));
-                        LogUtils.i(getString(R.string.net_abnormal) + msg);
-                    }
-                });
-        http.send();
-        showProgress();
-    }
+//    private void getVerifycode() {
+//        cellphone = et_phone.getText().toString();
+//        Pattern p = Pattern.compile("^1\\d{10}$");
+//        Matcher m = p.matcher(cellphone);
+//        if (!m.matches()) {
+//            ToastUtil.showText(getString(R.string.regist_error));
+//            return;
+//        }
+//        //倒计时
+//        TimeCountUtil timeCountUtil = new TimeCountUtil(this, 60000, 1000, btn_verify);
+//        timeCountUtil.start();
+//        String url = Constants.CONTENT_CELLPHONE + cellphone + Constants.CONTENT_VERIFYCODE;
+//        MyHttpUtil http = new MyHttpUtil(HttpRequest.HttpMethod.GET, url,
+//                new RequestCallBack<String>() {
+//                    @Override
+//                    public void onSuccess(ResponseInfo<String> responseInfo) {
+//                        cancelProgress();
+//                        if (responseInfo.statusCode == 200) {
+//                            String mResult = responseInfo.result.toString();
+//                            Log.i(TAG, "onSuccess: " + mResult);
+//                            //获得回传的 json字符串
+//                            JSONObject jo;
+//                            try {
+//                                jo = new JSONObject(mResult);
+//                                //0为成功  <0为系统异常  其他待定
+//                                if (jo.getInt("returnCode") == 0) {
+//                                    JSONObject args = (JSONObject) jo.get("args");
+//                                    if (!args.isNull("smscode")) {
+//                                        String smscode = args.getString("smscode");
+//                                        ToastUtil.showText(smscode);
+//                                        et_verify.setText(smscode);
+//                                    }
+//                                } else {
+//                                    ToastUtil.showText(jo.getString("msg"));
+//                                }
+//                            } catch (JSONException e) {
+//                                CatchUtil.catchM(e);
+//                            }
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(HttpException error, String msg) {
+//                        cancelProgress();
+//                        ToastUtil.showText(getString(R.string.net_abnormal));
+//                        LogUtils.i(getString(R.string.net_abnormal) + msg);
+//                    }
+//                });
+//        http.send();
+//        showProgress();
+//    }
 }

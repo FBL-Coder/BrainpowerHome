@@ -90,7 +90,6 @@ public class LoginActivity extends MyBaseActivity implements OnClickListener {
 
     @Override
     protected void onResume() {
-        initEvent();
         super.onResume();
     }
 

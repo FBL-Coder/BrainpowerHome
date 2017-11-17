@@ -100,46 +100,63 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_20"
-            android:background="@drawable/register_edittext_bg"
-            android:gravity="right"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="@dimen/dp_20"-->
+            <!--android:background="@drawable/register_edittext_bg"-->
+            <!--android:gravity="right"-->
+            <!--android:orientation="horizontal">-->
 
-            <EditText
-                android:id="@+id/register_verify"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="@dimen/dp_50"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:hint="输入验证码"
-                android:paddingLeft="@dimen/dp_20"
-                android:background="@null"
-                android:textColor="@color/black"
-                android:textColorHint="@color/gray_pressed"
-                android:textSize="@dimen/sp_20" />
+            <!--<EditText-->
+                <!--android:id="@+id/register_verify"-->
+                <!--android:layout_width="@dimen/dp_0"-->
+                <!--android:layout_height="@dimen/dp_50"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:hint="输入验证码"-->
+                <!--android:paddingLeft="@dimen/dp_20"-->
+                <!--android:background="@null"-->
+                <!--android:textColor="@color/black"-->
+                <!--android:textColorHint="@color/gray_pressed"-->
+                <!--android:textSize="@dimen/sp_20" />-->
 
-            <TextView
-                android:id="@+id/register_verify_btn"
-                android:layout_width="@dimen/dp_150"
-                android:layout_height="match_parent"
-                android:background="@drawable/register_yanzheng"
-                android:gravity="center"
-                android:text="获取验证码"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_22" />
-        </LinearLayout>
+            <!--<TextView-->
+                <!--android:id="@+id/register_verify_btn"-->
+                <!--android:layout_width="@dimen/dp_150"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@drawable/register_yanzheng"-->
+                <!--android:gravity="center"-->
+                <!--android:text="获取验证码"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="@dimen/sp_22" />-->
+        <!--</LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/register_back"
+            android:layout_width="@dimen/dp_0"
+            android:layout_weight="1"
+            android:layout_height="@dimen/dp_60"
+            android:gravity="center"
+            android:text="返 回"
+            android:textColor="@color/circle"
+            android:textSize="@dimen/dp_20" />
 
         <Button
             android:id="@+id/register_btn"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/dp_0"
+            android:layout_weight="2"
             android:layout_height="@dimen/dp_60"
             android:background="@drawable/register_btn_bg"
             android:text="注 册"
             android:textColor="@color/white"
             android:textSize="@dimen/dp_30" />
 
+    </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

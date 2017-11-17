@@ -37,7 +37,7 @@ public class Constants {
     // 房间号
     public static final String CONTENT_HOUSES = "/houses";
     // 注册
-    public static final String CONTENT_NEW = CONTENT_USER + "/new";
+    public static final String CONTENT_NEW = CONTENT_USER + "/register";
     //通过选择房屋信息绑定房产接口
     public static final String BINDHOUSEBYHOUSE = CONTENT_USER + "/bindhouseByHouse";
     //通过业主手机号绑定房产
