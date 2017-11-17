@@ -14,7 +14,6 @@
             android:id="@+id/home_weather"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true">
             <!-- 背景 -->
             <RelativeLayout
@@ -217,7 +216,6 @@
                         android:id="@+id/m10"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true" />
                 </RelativeLayout>
 
@@ -255,11 +253,48 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/dp_80"
                 android:layout_marginRight="@dimen/dp_20"
-                android:textColor="@color/main_gray4"
+                android:layout_marginTop="@dimen/dp_80"
                 android:gravity="center"
+                android:textColor="@color/main_gray4"
                 android:textSize="@dimen/sp_16" />
+
+
+            <LinearLayout
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="@dimen/dp_120"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_25"
+                android:layout_marginTop="@dimen/dp_160"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/elevator_up"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0"
+                    android:layout_weight="1"
+                    android:background="@drawable/select_elevator"
+                    android:src="@drawable/shang" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/viewfinder_mask"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:text="呼叫电梯"
+                    android:textColor="@color/white1"
+                    android:textSize="@dimen/sp_12" />
+
+                <ImageView
+                    android:id="@+id/elevator_down"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0"
+                    android:layout_weight="1"
+                    android:background="@drawable/select_elevator"
+                    android:src="@drawable/xia" />
+
+            </LinearLayout>
 
 
             <!--天气数据-->
@@ -268,12 +303,13 @@
                 android:id="@+id/weather_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="获取天气数据失败"
-                android:textSize="@dimen/dp_20"
-                android:layout_marginTop="@dimen/dp_20"
                 android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="获取天气数据失败"
                 android:textColor="@color/main_gray1"
-                android:visibility="gone"/>
+                android:textSize="@dimen/dp_20"
+                android:visibility="gone" />
+
             <RelativeLayout
                 android:id="@+id/home_weather_relativelayout"
                 android:layout_width="@dimen/dp_500"
@@ -300,6 +336,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="@dimen/dp_50"
                     android:layout_toEndOf="@+id/home_weather_temp"
+                    android:layout_toRightOf="@+id/home_weather_temp"
                     android:gravity="center"
                     android:text="晴转多云"
                     android:textColor="@color/home_text"
@@ -403,8 +440,8 @@
                 android:layout_height="@dimen/dp_300"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_40"
-                android:clickable="false"
-                android:layout_toRightOf="@id/home_weather_relativelayout">
+                android:layout_toRightOf="@id/home_weather_relativelayout"
+                android:clickable="false">
 
             </ListView>
 

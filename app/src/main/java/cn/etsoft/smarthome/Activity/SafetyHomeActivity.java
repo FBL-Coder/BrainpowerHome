@@ -83,7 +83,6 @@ public class SafetyHomeActivity extends BaseActivity implements View.OnClickList
                 }
                 if (datType == 32 && subtype1 == 1) {
                     MyApplication.mApplication.dismissLoadDialog();
-                    AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, subtype2);
                     ToastUtil.showText("操作成功");
                     if (0 == (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0))
                         mSafetySetNow.setText("当前布撤状态 : 24小时布防");

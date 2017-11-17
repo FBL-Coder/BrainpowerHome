@@ -62,7 +62,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
     private TextView mHomeLoactionText, mTitleName, mDialogName,
             mDialogCancle, mDialogOk, mTitle, mDialoghelp;
     private LinearLayout mHomeLoaction;
-    private ImageView mHomeRefBtn, mHomeLogoutBtn;
+    private ImageView mHomeRefBtn, mHomeLogoutBtn,elevator_up,elevator_down;
     private ListView home_room_temp;
     private TextView mHomeWeatherTemp, mHomeWeatherType, mHomeWeatherShidu,
             mHomeWeatherFengli, mHomeWeatherZhiliang, mNetWork_Ok, weather_no;
@@ -109,6 +109,8 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mHomeWeatherShidu = (TextView) findViewById(R.id.home_weather_shidu);
         mHomeWeatherFengli = (TextView) findViewById(R.id.home_weather_fengli);
         mHomeWeatherZhiliang = (TextView) findViewById(R.id.home_weather_zhiliang);
+        elevator_up = (ImageView) findViewById(R.id.elevator_up);
+        elevator_down = (ImageView) findViewById(R.id.elevator_down);
         home_room_temp = (ListView) findViewById(R.id.home_room_temp);
         mNetWork_Ok = (TextView) findViewById(R.id.NetWork_Ok);
         weather_no = (TextView) findViewById(R.id.weather_no);
@@ -139,6 +141,19 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
         mHome_Setting = (BamLinearLayout) findViewById(R.id.Home_Setting);
         mHome_Setting.setOnClickListener(this);
         mNetWork_Ok.setOnClickListener(this);
+
+        elevator_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtil.showText("对不起，电梯未连接！");
+            }
+        });
+        elevator_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtil.showText("对不起，电梯未连接！");
+            }
+        });
 
     }
 

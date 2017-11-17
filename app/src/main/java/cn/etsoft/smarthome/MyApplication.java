@@ -570,6 +570,9 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                             "警报", contont, new Intent(MyApplication.mApplication, SafetyHomeActivity.class), NotificationID, 0);
                     NotificationID++;
                 }
+                if ((int) msg.obj  == 32 && msg.arg1 == 1) {
+                    AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, msg.arg2);
+                }
                 if (onGetWareDataListener != null)
                     onGetWareDataListener.upDataWareData((int) msg.obj, msg.arg1, msg.arg2);
             }

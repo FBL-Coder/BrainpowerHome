@@ -319,7 +319,6 @@ public class UDPServer implements Runnable {
         extractData(info);
     }
 
-
     //警报时间间隔
     long time = 0;
 
@@ -2258,7 +2257,26 @@ public class UDPServer implements Runnable {
                 boolean isExistTemp = false;
                 for (int i = 0; i < roomTempBean.getRcu_rows().size(); i++) {
                     if (bean.getRoomName().equals(roomTempBean.getRcu_rows().get(i).getRoomName())) {
-                        roomTempBean.getRcu_rows().set(i, bean);
+                        if (roomTempBean.getRcu_rows().get(i).getHumidity() == 0 && bean.getHumidity() != 0) {
+                            roomTempBean.getRcu_rows().get(i).setHumidity(bean.getHumidity());
+                        } else if (roomTempBean.getRcu_rows().get(i).getHumidity() != 0 && bean.getHumidity() != 0) {
+                            roomTempBean.getRcu_rows().get(i).setHumidity(bean.getHumidity());
+                        }
+                        if (roomTempBean.getRcu_rows().get(i).getPm10() == 0 && bean.getPm10() != 0) {
+                            roomTempBean.getRcu_rows().get(i).setPm10(bean.getPm10());
+                        } else if (roomTempBean.getRcu_rows().get(i).getPm10() != 0 && bean.getPm10() != 0) {
+                            roomTempBean.getRcu_rows().get(i).setPm10(bean.getPm10());
+                        }
+                        if (roomTempBean.getRcu_rows().get(i).getPm25() == 0 && bean.getPm25() != 0) {
+                            roomTempBean.getRcu_rows().get(i).setPm25(bean.getPm25());
+                        } else if (roomTempBean.getRcu_rows().get(i).getPm25() != 0 && bean.getPm25() != 0) {
+                            roomTempBean.getRcu_rows().get(i).setPm25(bean.getPm25());
+                        }
+                        if (roomTempBean.getRcu_rows().get(i).getTempVal() == 0 && bean.getTempVal() != 0) {
+                            roomTempBean.getRcu_rows().get(i).setTempVal(bean.getTempVal());
+                        } else if (roomTempBean.getRcu_rows().get(i).getTempVal() != 0 && bean.getTempVal() != 0) {
+                            roomTempBean.getRcu_rows().get(i).setTempVal(bean.getTempVal());
+                        }
                         isExistTemp = true;
                     }
                 }
