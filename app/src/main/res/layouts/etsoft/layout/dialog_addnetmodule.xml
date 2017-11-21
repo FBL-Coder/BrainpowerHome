@@ -42,7 +42,7 @@
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:hint="清输入模块名称"
+            android:hint="请输入模块名称"
 
             android:textSize="@dimen/sp_18" />
     </LinearLayout>

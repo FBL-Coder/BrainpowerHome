@@ -49,6 +49,8 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
     }
 
     public void SelectDev(int sceneposition) {
+        if(WareDataHliper.initCopyWareData().getCopyScenes().size() == 0)
+            return;
         mSceneDev = WareDataHliper.initCopyWareData().getCopyScenes().get(sceneposition).getItemAry();
         if (mSceneDev == null) {
             mSceneDev = new ArrayList<>();
