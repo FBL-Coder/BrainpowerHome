@@ -80,6 +80,10 @@ public class DevInfosAdapter extends BaseAdapter {
     public void notifyDataSetChanged(List<WareDev> list, boolean isRefEditText) {
         RoomNames = MyApplication.getWareData().getRooms();
         Devs = list;
+        isEdited = new ArrayList<>();
+        for (int i = 0; i < Devs.size(); i++) {
+            isEdited.add(false);
+        }
         mIsRefEditText = isRefEditText;
         super.notifyDataSetChanged();
     }
