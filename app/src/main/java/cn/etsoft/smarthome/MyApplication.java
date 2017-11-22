@@ -820,7 +820,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     @Override
     public void onLowMemory() {
         // 低内存的时候执行
-        wsClient.closeConnect();
         Data_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
         super.onLowMemory();
     }
@@ -828,7 +827,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     @Override
     public void onTrimMemory(int level) {
         // 程序在内存清理的时候执行
-        wsClient.closeConnect();
         Data_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
         super.onTrimMemory(level);
     }
