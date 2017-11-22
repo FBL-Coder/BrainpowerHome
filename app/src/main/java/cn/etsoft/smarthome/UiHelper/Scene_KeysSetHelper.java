@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Domain.ChnOpItem_scene;
+import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.Out_List_printcmd;
 import cn.etsoft.smarthome.MyApplication;
@@ -53,13 +54,23 @@ public class Scene_KeysSetHelper {
      */
     public static List<CircleDataEvent> initSceneCircleOUterData(boolean IsClick, int position) {
 
-        int SceneSize = MyApplication.getWareData().getSceneEvents().size();
-        if (SceneSize == 0)
-            return new ArrayList<>();
+
+        List<WareSceneEvent> SceneData = MyApplication.getWareData().getSceneEvents();
+        int SceneSize = SceneData.size();
+        if (SceneSize == 0) {
+            WareSceneEvent event = new WareSceneEvent();
+            event.setSceneName("全开模式");
+            event.setEventId(0);
+            SceneData.add(event);
+            WareSceneEvent event1 = new WareSceneEvent();
+            event1.setSceneName("全关模式");
+            event1.setEventId(1);
+            SceneData.add(event1);
+        }
         int num = 0;
         if (SceneSize <= 2) num = 4;
-        else if (SceneSize > 2 && SceneSize < 5) num = 6;
-        else num = 8;
+        else if (SceneSize > 2 && SceneSize < 5) num = SceneSize;
+        else num = SceneSize;
         List<CircleDataEvent> list = new ArrayList<>();
         for (int i = 0; i < num; i++) {
             CircleDataEvent event = new CircleDataEvent();
@@ -73,7 +84,6 @@ public class Scene_KeysSetHelper {
         }
         return list;
     }
-
     /**
      * 初始化内部转盘数据
      */
@@ -136,7 +146,7 @@ public class Scene_KeysSetHelper {
                 scene_Save.setDevUnitID(GlobalVars.getDevid());
                 scene_Save.setItemCnt(scene_Save.getKey2scene_item().size());
                 Gson gson = new Gson();
-                MyApplication.mApplication.getUdpServer().send(gson.toJson(scene_Save),59);
+                MyApplication.mApplication.getUdpServer().send(gson.toJson(scene_Save), 59);
                 MyApplication.mApplication.showLoadDialog(activity);
             }
         });

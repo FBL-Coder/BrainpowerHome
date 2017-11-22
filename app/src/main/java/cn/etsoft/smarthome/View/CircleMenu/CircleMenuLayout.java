@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -91,7 +92,10 @@ public class CircleMenuLayout extends RelativeLayout {
             LinearLayout l = new LinearLayout(context);
             l.setOrientation(LinearLayout.VERTICAL);
             ImageView iv = new ImageView(context);
-            iv.setLayoutParams(new LinearLayout.LayoutParams((int) (50 / Adaptive_coefficient), (int) (70 / Adaptive_coefficient)));
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (50 / Adaptive_coefficient), (int) (70 / Adaptive_coefficient));
+            layoutParams.setMargins(10, 0, 10, 0);
+            iv.setLayoutParams(layoutParams);
             iv.setImageResource(Data_InnerCircleList.get(i).getImage());
             l.addView(iv);
             final TextView t = new TextView(context);
@@ -101,7 +105,7 @@ public class CircleMenuLayout extends RelativeLayout {
                 t.setTextColor(Color.BLACK);
             }
             t.setGravity(Gravity.CENTER);
-            t.setTextSize((int) (14 / Adaptive_coefficient));
+            t.setTextSize((int) (12 / Adaptive_coefficient));
             t.setText(Data_InnerCircleList.get(i).getTitle());
             l.addView(t);
             final int Position = i;
@@ -132,7 +136,8 @@ public class CircleMenuLayout extends RelativeLayout {
             LinearLayout l = new LinearLayout(context);
             l.setOrientation(LinearLayout.VERTICAL);
             ImageView iv = new ImageView(context);
-            iv.setLayoutParams(new LinearLayout.LayoutParams((int) (60 / Adaptive_coefficient), (int) (70 / Adaptive_coefficient)));
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (60 / Adaptive_coefficient), (int) (70 / Adaptive_coefficient));
+            layoutParams.setMargins(10, 0, 10, 0);
             iv.setImageResource(Data_OuterCircleList.get(i).getImage());
             l.addView(iv);
             final TextView t = new TextView(context);
@@ -143,7 +148,7 @@ public class CircleMenuLayout extends RelativeLayout {
                 t.setTextColor(Color.WHITE);
             }
             t.setGravity(Gravity.CENTER);
-            t.setTextSize((int) (14 / Adaptive_coefficient));
+            t.setTextSize((int) (12 / Adaptive_coefficient));
             t.setText(Data_OuterCircleList.get(i).getTitle());
             l.addView(t);
             final int Position = i;

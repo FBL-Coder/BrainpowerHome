@@ -96,9 +96,9 @@ public class ControlSceneActivity extends BaseActivity {
         layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
             @Override
             public void onClickOuterCircle(int position, View view) {
-                mNull_tv.setText(mSceneDatas.get(mScenePosition).getSceneName() + "  没有设备，通过情景设置添加设备");
                 CirclePosition = position;
                 mScenePosition = position % mSceneDatas.size();
+                mNull_tv.setText(mSceneDatas.get(mScenePosition).getSceneName() + "  没有设备，通过情景设置添加设备");
                 SceneName.setText(mSceneDatas.get(mScenePosition).getSceneName());
                 if (mAdapter == null)
                     mAdapter = new Control_Scene_DevAdapter(mSceneDatas.get(mScenePosition).getItemAry(), ControlSceneActivity.this);
