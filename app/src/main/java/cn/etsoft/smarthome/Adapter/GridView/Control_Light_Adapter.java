@@ -59,6 +59,10 @@ public class Control_Light_Adapter extends BaseAdapter {
             viewHoler.mIV = (ImageView) convertView.findViewById(R.id.Control_GridView_Item_IV);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
+
+        if (mLights.size() == 0 || position > mLights.size() - 1)
+            return convertView;
+
         if (mLights.get(position).getbOnOff() == 0)
             viewHoler.mIV.setImageResource(R.drawable.light_close);
         else viewHoler.mIV.setImageResource(R.drawable.light_open);
@@ -66,6 +70,7 @@ public class Control_Light_Adapter extends BaseAdapter {
         viewHoler.mName.setText(mLights.get(position).getDev().getDevName());
         return convertView;
     }
+
     class ViewHoler {
         ImageView mIV;
         TextView mName;

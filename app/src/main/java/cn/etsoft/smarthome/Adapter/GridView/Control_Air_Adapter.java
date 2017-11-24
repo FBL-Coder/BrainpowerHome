@@ -77,6 +77,9 @@ public class Control_Air_Adapter extends BaseAdapter {
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHolder) convertView.getTag();
 
+        if (mAirs.size() == 0 || position > mAirs.size() - 1) {
+            return convertView;
+        }
         //初始化开关
         if (mAirs.get(position).getbOnOff() == 0) {
             viewHoler.mAirSwitch.setImageResource(R.drawable.switch_icon);

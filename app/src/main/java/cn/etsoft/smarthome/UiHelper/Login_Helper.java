@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.etsoft.smarthome.Activity.HomeActivity;
+import cn.etsoft.smarthome.Activity.HomeActivity_Play2;
 import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.Http_Result;
@@ -113,7 +114,8 @@ public class Login_Helper {
         else {
             AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, result.getData().get(0).getDevUnitID());
             GlobalVars.setDevpass(result.getData().get(0).getDevPass());
-            mContext.startActivity(new Intent(mContext, HomeActivity.class));
+//            mContext.startActivity(new Intent(mContext, HomeActivity.class));
+            mContext.startActivity(new Intent(mContext, HomeActivity_Play2.class));
             SendDataUtil.getNetWorkInfo();
         }
         mContext.finish();

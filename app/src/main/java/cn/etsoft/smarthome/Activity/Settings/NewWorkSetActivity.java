@@ -3,7 +3,6 @@ package cn.etsoft.smarthome.Activity.Settings;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -28,22 +27,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import cn.etsoft.smarthome.Activity.HomeActivity;
+import cn.etsoft.smarthome.Activity.HomeActivity_Play2;
 import cn.etsoft.smarthome.Adapter.ListView.NetWork_Adapter;
 import cn.etsoft.smarthome.Domain.Http_Result;
 import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.SearchNet;
-import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.HTTPRequest_BackCode;
 import cn.etsoft.smarthome.UiHelper.Net_AddorDel_Helper;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.Utils.CommonUtils;
-import cn.etsoft.smarthome.Utils.Data_Cache;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
@@ -206,11 +201,11 @@ public class NewWorkSetActivity extends BaseActivity {
                                                 try {
                                                     Thread.sleep(2000);
                                                     MyApplication.mApplication.dismissLoadDialog();
-                                                    startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+                                                    startActivity(new Intent(NewWorkSetActivity.this, HomeActivity_Play2.class));
                                                     finish();
                                                 } catch (InterruptedException e) {
                                                     MyApplication.mApplication.dismissLoadDialog();
-                                                    startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+                                                    startActivity(new Intent(NewWorkSetActivity.this, HomeActivity_Play2.class));
                                                     finish();
                                                 }
                                             }
@@ -224,7 +219,7 @@ public class NewWorkSetActivity extends BaseActivity {
 //                                SendDataUtil.getNetWorkInfo();
 //                                MyApplication.mApplication.dismissLoadDialog();
 //                                MyApplication.mWareData = wareData;
-//                                startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+//                                startActivity(new Intent(NewWorkSetActivity.this, HomeActivity_Play2.class));
 //                                finish();
 //                            }
                         }
@@ -370,12 +365,12 @@ public class NewWorkSetActivity extends BaseActivity {
                             try {
                                 Thread.sleep(1000);
                                 MyApplication.mApplication.dismissLoadDialog();
-                                startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+                                startActivity(new Intent(NewWorkSetActivity.this, HomeActivity_Play2.class));
                                 Thread.sleep(1000);
                                 finish();
                             } catch (InterruptedException e) {
                                 MyApplication.mApplication.dismissLoadDialog();
-                                startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+                                startActivity(new Intent(NewWorkSetActivity.this, HomeActivity_Play2.class));
                                 finish();
                             }
                         }
@@ -583,7 +578,7 @@ public class NewWorkSetActivity extends BaseActivity {
 
     private void backEvent() {
         if (!"".equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, "")))
-            startActivity(new Intent(NewWorkSetActivity.this, HomeActivity.class));
+            startActivity(new Intent(NewWorkSetActivity.this, HomeActivity_Play2.class));
         finish();
     }
 

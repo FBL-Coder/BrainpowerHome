@@ -61,6 +61,9 @@ public class Control_Curtain_Adapter extends BaseAdapter {
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHolder) convertView.getTag();
 
+        if (mCurtains.size() == 0 || position > mCurtains.size() -1) {
+            return convertView;
+        }
         mCurtains.get(position).setbOnOff(0);
         viewHoler.mIV.setImageResource(R.drawable.chuanglian_heng);
         viewHoler.mName.setText(mCurtains.get(position).getDev().getDevName());
@@ -68,21 +71,21 @@ public class Control_Curtain_Adapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic(), 1, 1, 0, 0, 1);
-                SendDataUtil.controlDev(mCurtains.get(position).getDev(),UdpProPkt.E_CURT_CMD.e_curt_offOn.getValue());
+                SendDataUtil.controlDev(mCurtains.get(position).getDev(), UdpProPkt.E_CURT_CMD.e_curt_offOn.getValue());
             }
         });
         viewHoler.mStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic(), 1, 1, 0, 0, 1);
-                SendDataUtil.controlDev(mCurtains.get(position).getDev(),UdpProPkt.E_CURT_CMD.e_curt_stop.getValue());
+                SendDataUtil.controlDev(mCurtains.get(position).getDev(), UdpProPkt.E_CURT_CMD.e_curt_stop.getValue());
             }
         });
         viewHoler.mClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic(), 1, 1, 0, 0, 1);
-                SendDataUtil.controlDev(mCurtains.get(position).getDev(),UdpProPkt.E_CURT_CMD.e_curt_offOff.getValue());
+                SendDataUtil.controlDev(mCurtains.get(position).getDev(), UdpProPkt.E_CURT_CMD.e_curt_offOff.getValue());
             }
         });
         return convertView;

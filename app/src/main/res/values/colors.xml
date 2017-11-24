@@ -257,4 +257,10 @@
     <color name="shadow">#25808080</color>
     <color name="dialog_bg">#e4e4e4</color>
 
+
+
+    //home_play2-color
+
+    <color name="home_time">#85f3f7f9</color>
+
 </resources>

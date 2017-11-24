@@ -67,6 +67,10 @@ public class Control_FloorHeat_Adapter extends BaseAdapter {
             viewHoler = new ViewHolder(convertView);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHolder) convertView.getTag();
+
+        if (mFloorHeat.size() == 0 || position > mFloorHeat.size() - 1)
+            return convertView;
+
         if (mFloorHeat.get(position).getbOnOff() == 0)
             viewHoler.mControlGridViewItemIV.setImageResource(R.drawable.floorheat_close);
         else viewHoler.mControlGridViewItemIV.setImageResource(R.drawable.floorheat_open);
@@ -125,7 +129,7 @@ public class Control_FloorHeat_Adapter extends BaseAdapter {
                         "\"autoRun\":" + 0 + "," +
                         "\"cmd\":" + 1 + "," +
                         "\"powChn\":" + mFloorHeat.get(position).getDev().getPowChn() + "}";
-                MyApplication.mApplication.getUdpServer().send(chn_str,6);
+                MyApplication.mApplication.getUdpServer().send(chn_str, 6);
                 MyApplication.mApplication.showLoadDialog(mActivity);
 
             }
@@ -167,7 +171,7 @@ public class Control_FloorHeat_Adapter extends BaseAdapter {
                         "\"autoRun\":" + mFloorHeat.get(position).getAutoRun() + "," +
                         "\"cmd\":" + 1 + "," +
                         "\"powChn\":" + mFloorHeat.get(position).getDev().getPowChn() + "}";
-                MyApplication.mApplication.getUdpServer().send(chn_str,6);
+                MyApplication.mApplication.getUdpServer().send(chn_str, 6);
                 MyApplication.mApplication.showLoadDialog(mActivity);
             }
         });

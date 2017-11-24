@@ -68,6 +68,10 @@ public class Control_FreshAir_Adapter extends BaseAdapter {
             viewHoler.mHig = (ImageView) convertView.findViewById(R.id.Control_GridView_Item_hig);
             convertView.setTag(viewHoler);
         } else viewHoler = (ViewHoler) convertView.getTag();
+
+        if (mFreshAir.size() == 0|| position>mFreshAir.size()-1)
+            return convertView;
+
         if (mFreshAir.get(position).getbOnOff() == 0)
             viewHoler.mIV.setImageResource(R.drawable.freshair_close);
         else viewHoler.mIV.setImageResource(R.drawable.freshair_open);

@@ -112,6 +112,12 @@
             android:name=".Activity.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="landscape" />
+
+        <!--主页面-->
+        <activity
+            android:name=".Activity.HomeActivity_Play2"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape" />
         <!--欢迎页面-->
         <activity
             android:name=".Activity.WelcomeActivity"
