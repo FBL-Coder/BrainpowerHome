@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+
 import cn.etsoft.smarthome.View.Wheel.WheelView;
 
 import java.util.ArrayList;
@@ -49,9 +50,9 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
     }
 
     public void SelectDev(int sceneposition) {
-        if(WareDataHliper.initCopyWareData().getCopyScenes().size() == 0)
-            return;
-        mSceneDev = WareDataHliper.initCopyWareData().getCopyScenes().get(sceneposition).getItemAry();
+        if (WareDataHliper.initCopyWareData().getCopyScenes().size() != 0) {
+            mSceneDev = WareDataHliper.initCopyWareData().getCopyScenes().get(sceneposition).getItemAry();
+        }
         if (mSceneDev == null) {
             mSceneDev = new ArrayList<>();
             for (int i = 0; i < WareDataHliper.initCopyWareData().getCopyScenes().size(); i++) {
@@ -298,7 +299,7 @@ public class SceneSet_Air_Adapter extends BaseAdapter {
                         }
                     }
                     notifyDataSetChanged();
-                }else {
+                } else {
                     ToastUtil.showText("未选中，不可操作");
                 }
             }

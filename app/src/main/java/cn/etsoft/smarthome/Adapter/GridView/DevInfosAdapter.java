@@ -62,6 +62,7 @@ public class DevInfosAdapter extends BaseAdapter {
     private List<Boolean> isEdited;
     //是否刷新编辑框
     private boolean mIsRefEditText = true;
+    private int num = 0;
 
     public DevInfosAdapter(List<WareDev> list, Activity context) {
         RoomNames = MyApplication.getWareData().getRooms();
@@ -80,11 +81,8 @@ public class DevInfosAdapter extends BaseAdapter {
     public void notifyDataSetChanged(List<WareDev> list, boolean isRefEditText) {
         RoomNames = MyApplication.getWareData().getRooms();
         Devs = list;
-        isEdited = new ArrayList<>();
-        for (int i = 0; i < Devs.size(); i++) {
-            isEdited.add(false);
-        }
         mIsRefEditText = isRefEditText;
+        num = 0;
         super.notifyDataSetChanged();
     }
 
@@ -781,11 +779,12 @@ public class DevInfosAdapter extends BaseAdapter {
                     viewHolder.mDevInfoTypeIVTest.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            int num = (int) Math.random();
-                            if (num == 0)
+                            if (num % 2 == 0)
                                 SendDataUtil.controlDev(chuanglian_fin.getDev(), UdpProPkt.E_CURT_CMD.e_curt_offOn.getValue());
                             else
                                 SendDataUtil.controlDev(chuanglian_fin.getDev(), UdpProPkt.E_CURT_CMD.e_curt_offOff.getValue());
+                            num++;
+
                         }
                     });
 

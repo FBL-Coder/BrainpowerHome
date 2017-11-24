@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Domain.Http_Result;
 import cn.etsoft.smarthome.Domain.WareData;
@@ -43,7 +44,7 @@ public class LogoutHelper {
     public static void logout(final Activity activity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle("提示");
-        builder.setMessage("您是否要退出登录？");
+        builder.setMessage("退出后设置界面密码将重置为初始密码；\n您是否要退出登录？");
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -124,6 +125,7 @@ public class LogoutHelper {
         GlobalVars.setDevid("");
         GlobalVars.setDevpass("");
         GlobalVars.setUserid("");
+        AppSharePreferenceMgr.put(GlobalVars.CONFIG_PASS_SHAREPREFERENCE,"888888");
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
         AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");

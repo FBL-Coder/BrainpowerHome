@@ -133,6 +133,9 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     //首页房间温度湿度
     private RoomTempBean mRoomTempBean;
 
+    //软件启动时间是否足够
+    public boolean isStartTimeOk =false;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -184,6 +187,17 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             int IPAddress_now = wifiInfo.getIpAddress();
             GlobalVars.WIFI_IP = intToIp(IPAddress_now);
         }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(8000);
+                    isStartTimeOk = true;
+                } catch (InterruptedException e) {
+
+                }
+            }
+        }).start();
 //        queryIP();
     }
 

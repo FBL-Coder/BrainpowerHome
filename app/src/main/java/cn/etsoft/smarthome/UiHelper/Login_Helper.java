@@ -65,6 +65,7 @@ public class Login_Helper {
                 if (result.getCode() == HTTPRequest_BackCode.LOGIN_OK) {
                     // 登陆成功
                     ToastUtil.showText("登陆成功");
+                    AppSharePreferenceMgr.put(GlobalVars.CONFIG_PASS_SHAREPREFERENCE,"888888");
                     setRcuInfoList(result);
                 } else if (result.getCode() == HTTPRequest_BackCode.LOGIN_ERROR) {
                     // 登陆失败

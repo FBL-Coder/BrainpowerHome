@@ -44,7 +44,9 @@ public class SceneSet_floorHeat_Adapter extends BaseAdapter {
     }
 
     public void SelectDev(int sceneposition) {
-        mSceneDev = WareDataHliper.initCopyWareData().getCopyScenes().get(sceneposition).getItemAry();
+        if (WareDataHliper.initCopyWareData().getCopyScenes().size() != 0){
+            mSceneDev = WareDataHliper.initCopyWareData().getCopyScenes().get(sceneposition).getItemAry();
+        }
         if (mSceneDev == null) {
             mSceneDev = new ArrayList<>();
             for (int i = 0; i < WareDataHliper.initCopyWareData().getCopyScenes().size(); i++) {

@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
@@ -54,6 +55,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
     private ImageView Control_Back;
     private TextView mSceneSet_Add_Btn, mSceneSetTestBtn, mSceneSetSaveBtn, mNull_tv;
     private SceneSet_ScenesAdapter mScenesAdapter;
+    private RelativeLayout SceneSet_Info;
     private Fragment mLightFragment, mAirFragment, mTVFragment,
             mTvUpFragment, mCurFragment, mVideoFragment, mSocketFragment, mDoorFragemnt, mFreshAirFragment, mFloorHeatFragment;
     private int ScenePosition = 0, DevType = -1;
@@ -88,20 +90,21 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 if (datType == 25) {
                     MyApplication.mApplication.dismissLoadDialog();
                     WareDataHliper.initCopyWareData().startCopySceneData();
+                    if (MyApplication.getWareData().getSceneEvents().size() != 0)
+                        ScenePosition -= 1;
+                    else ScenePosition = 0;
                     initData();
                     ToastUtil.showText("删除成功");
                 }
             }
         });
 
-        if (MyApplication.getWareData().getSceneEvents() != null && MyApplication.getWareData().getSceneEvents().size() > 0)
-            IsNoData = false;
-
         mSceneSet_Add_Btn = getViewById(R.id.SceneSet_Add_Btn);
         mSceneSetTestBtn = getViewById(R.id.SceneSet_Test_Btn);
         mSceneSetSaveBtn = getViewById(R.id.SceneSet_Save_Btn);
         Control_Back = getViewById(R.id.Control_Back);
         mNull_tv = getViewById(R.id.null_tv);
+        SceneSet_Info = getViewById(R.id.SceneSet_Info);
 
         mSceneSet_Add_Btn.setOnClickListener(this);
         mSceneSetTestBtn.setOnClickListener(this);
@@ -127,15 +130,22 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             ToastUtil.showText("没有房间数据");
             return;
         }
+
         layout = getViewById(R.id.SceneSet_CircleMenu);
         Data_OuterCircleList = SceneSetHelper.initSceneCircleOUterData();
         Data_InnerCircleList = SceneSetHelper.initSceneCircleInnerData();
         layout.Init(200, 100);
         layout.setInnerCircleMenuData(Data_InnerCircleList);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
-
         mScenesAdapter = new SceneSet_ScenesAdapter(WareDataHliper.initCopyWareData().getCopyScenes());
         mSceneSetScenes.setAdapter(mScenesAdapter);
+//        if (WareDataHliper.initCopyWareData().getCopyScenes().size() == 0){
+//            IsNoData =true;
+//            SceneSet_Info.setVisibility(View.GONE);
+//        }else {
+//            IsNoData = false;
+//            SceneSet_Info.setVisibility(View.VISIBLE);
+//        }
         initEvent();
     }
 
@@ -163,11 +173,12 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initEvent() {
+
         layout.setOnInnerCircleLayoutClickListener(new CircleMenuLayout.OnInnerCircleLayoutClickListener() {
             @Override
             public void onClickInnerCircle(int position, View view) {
                 if (IsNoData) {
-                    ToastUtil.showText("数据未加载成功，不可操作！");
+                    ToastUtil.showText("数据获取不成功或者没有数据，不可操作！");
                     return;
                 }
                 mNull_tv.setVisibility(View.GONE);
@@ -181,7 +192,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClickOuterCircle(int position, View view) {
                 if (IsNoData) {
-                    ToastUtil.showText("数据未加载成功，不可操作！");
+                    ToastUtil.showText("数据获取不成功或者没有数据，不可操作！");
                     return;
                 }
                 mNull_tv.setVisibility(View.GONE);

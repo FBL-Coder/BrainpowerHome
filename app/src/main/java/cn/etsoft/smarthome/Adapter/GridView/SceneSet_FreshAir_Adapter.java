@@ -44,6 +44,7 @@ public class SceneSet_FreshAir_Adapter extends BaseAdapter {
     }
 
     public void SelectDev(int sceneposition) {
+        if (WareDataHliper.initCopyWareData().getCopyScenes().size() != 0)
         mSceneDev = WareDataHliper.initCopyWareData().getCopyScenes().get(sceneposition).getItemAry();
         if (mSceneDev == null) {
             mSceneDev = new ArrayList<>();

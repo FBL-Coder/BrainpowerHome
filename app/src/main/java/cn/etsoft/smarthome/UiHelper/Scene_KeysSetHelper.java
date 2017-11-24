@@ -54,8 +54,8 @@ public class Scene_KeysSetHelper {
      */
     public static List<CircleDataEvent> initSceneCircleOUterData(boolean IsClick, int position) {
 
-
-        List<WareSceneEvent> SceneData = MyApplication.getWareData().getSceneEvents();
+        WareDataHliper.initCopyWareData().getCopyScenes();
+        List<WareSceneEvent> SceneData = WareDataHliper.initCopyWareData().getCopyScenes();
         int SceneSize = SceneData.size();
         if (SceneSize == 0) {
             WareSceneEvent event = new WareSceneEvent();

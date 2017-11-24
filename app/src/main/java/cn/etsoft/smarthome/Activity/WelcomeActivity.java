@@ -37,7 +37,6 @@ public class WelcomeActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.e(TAG, "onCreate: //*****************************************************");
         super.onCreate(savedInstanceState);
-        AppSharePreferenceMgr.put(GlobalVars.CONFIG_PASS_SHAREPREFERENCE, "888888");
         initView();
         initData();
     }

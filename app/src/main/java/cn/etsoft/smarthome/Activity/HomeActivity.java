@@ -383,7 +383,7 @@ public class HomeActivity extends FragmentActivity implements View.OnClickListen
      * @return
      */
     private boolean Condition() {
-        if (!GlobalVars.isIsLAN()) {
+        if (!GlobalVars.isIsLAN() || !MyApplication.mApplication.isStartTimeOk) {
             ToastUtil.showText("请先切换到该局域网下的联网模快");
             return true;
         }

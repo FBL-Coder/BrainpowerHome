@@ -41,13 +41,14 @@ public class SceneSet_Curtain_Adapter extends BaseAdapter {
         mContext = context;
         try {
             SelectDev(sceneposition);
-        }catch (Exception e){
+        } catch (Exception e) {
             mCurtains = new ArrayList<>();
         }
     }
 
     public void SelectDev(int sceneposition) {
-        mSceneDev = WareDataHliper.initCopyWareData().getCopyScenes().get(sceneposition).getItemAry();
+        if (WareDataHliper.initCopyWareData().getCopyScenes().size() != 0)
+            mSceneDev = WareDataHliper.initCopyWareData().getCopyScenes().get(sceneposition).getItemAry();
         if (mSceneDev == null) {
             mSceneDev = new ArrayList<>();
             for (int i = 0; i < WareDataHliper.initCopyWareData().getCopyScenes().size(); i++) {
