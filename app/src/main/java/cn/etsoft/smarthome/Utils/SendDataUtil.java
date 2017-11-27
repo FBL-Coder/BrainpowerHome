@@ -89,6 +89,8 @@ public class SendDataUtil {
                 "," + "\"subType1\": 0," + "\"subType2\": 0," + "\"localIP\":\"" + GlobalVars.WIFI_IP + "\"}";
         MyApplication.mApplication.getUdpServer().send(GETNETWORKINFO, 80);
         MyApplication.mApplication.setCanChangeNet(false);
+
+        getSafetyInfo();
     }
 
 

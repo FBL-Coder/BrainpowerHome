@@ -844,4 +844,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         Data_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
         super.onTrimMemory(level);
     }
+
+
 }

@@ -179,22 +179,27 @@ public class CircleMenuLayout extends RelativeLayout {
         int dp_SW = CircleMenuLayout.px2dip(SW);
 
         if (dp_SW > 200 && dp_SW <= 320) {
+//            ToastUtil.s(context,"200-320");
             Adaptive_coefficient = 1.8;
             Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
             Radius_inner = (int) (Radius_inner / (Adaptive_coefficient));
         } else if (dp_SW > 320 && dp_SW <= 480) {
-            Adaptive_coefficient = 1.2;
+//            ToastUtil.s(context,"320-480");
+            Adaptive_coefficient = 1.4;
             Radius_outer = (int) (Radius_outer / (Adaptive_coefficient));
             Radius_inner = (int) (Radius_inner / (Adaptive_coefficient));
         } else if (dp_SW > 480 && dp_SW <= 600) {
-            Adaptive_coefficient = 1.5;
-            Radius_outer = (int) (Radius_outer / (Adaptive_coefficient - 0.55));
-            Radius_inner = (int) (Radius_inner / (Adaptive_coefficient - 0.55));
+//            ToastUtil.s(context,"480-600");
+            Adaptive_coefficient = 1.2;
+            Radius_outer = (int) (Radius_outer / (Adaptive_coefficient));
+            Radius_inner = (int) (Radius_inner / (Adaptive_coefficient));
         } else if (dp_SW > 600 && dp_SW <= 720) {
+//            ToastUtil.s(context,"600-720");
             Adaptive_coefficient = 1;
             Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
             Radius_inner = (int) (Radius_inner / Adaptive_coefficient);
-        } else if (dp_SW > 720) {
+        } else if (dp_SW > 720) {  //黑色10寸 分辨率720+
+//            ToastUtil.s(context,"720");
             Adaptive_coefficient = 0.9;
             Radius_outer = (int) (Radius_outer / 0.8);
             Radius_inner = (int) (Radius_inner / 0.8);

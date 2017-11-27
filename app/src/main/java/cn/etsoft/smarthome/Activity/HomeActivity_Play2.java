@@ -177,7 +177,7 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
         }).start();
 
 
-        mHomeData.setText(time.year + "年" + time.month + "月" + time.monthDay + "日");
+        mHomeData.setText(time.year + "年" + (time.month + 1) + "月" + time.monthDay + "日");
 
         if (time.weekDay == 0)
             mHomeWeek.setText("星期日");

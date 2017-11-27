@@ -1,10 +1,12 @@
 package com.example.abc.mybaseactivity.BaseActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,14 +45,24 @@ public abstract class BaseActivity extends FragmentActivity {
         //去掉系统的TitleBar
         this.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_base);
-        //添加Activity在ActivityList中
-        MyApplication.addActivity(this);
-        //初始化BaseActivity
-        initBaseActivity();
-        //加载布局以及控件
-        initView();
-        //数据处理
-        initData();
+        try {
+            //添加Activity在ActivityList中
+            MyApplication.addActivity(this);
+            //初始化BaseActivity
+            initBaseActivity();
+            //加载布局以及控件
+            initView();
+            //数据处理
+            initData();
+        } catch (Exception e) {
+            Log.e("Base_Exception", e + "");
+
+            //异常后自动重启
+            Intent i = getBaseContext().getPackageManager()
+                    .getLaunchIntentForPackage(getBaseContext().getPackageName());
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+        }
     }
 
     /**
@@ -273,7 +285,7 @@ public abstract class BaseActivity extends FragmentActivity {
         BaseActivity.getNetChangeListener = getNetChangeListener;
     }
 
-    public interface getNetChangeListener{
+    public interface getNetChangeListener {
         void NetChange();
     }
 }
