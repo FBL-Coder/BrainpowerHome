@@ -140,7 +140,12 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
     private void initData() {
         time = new Time();
         time.setToNow();
-        mHomeTime.setText(time.hour + ":" + time.minute);
+        int min = time.minute;
+        String mins = "";
+        if (min < 10)
+            mins = "0" + min;
+        else mins = min + "";
+        mHomeTime.setText(time.hour + ":" + mins);
 
         final Handler handler = new Handler() {
             @Override
@@ -153,11 +158,17 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (;;) {
+                for (; ; ) {
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(5000);
                         Message message = handler.obtainMessage();
-                        message.obj = time.hour + "：" + time.minute;
+                        time.setToNow();
+                        int min = time.minute;
+                        String mins = "";
+                        if (min < 10)
+                            mins = "0" + min;
+                        else mins = min + "";
+                        message.obj = time.hour + "：" + mins;
                         handler.sendMessage(message);
                     } catch (InterruptedException e) {
                     }
