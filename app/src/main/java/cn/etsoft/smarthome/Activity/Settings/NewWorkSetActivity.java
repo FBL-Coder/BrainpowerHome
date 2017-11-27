@@ -187,41 +187,19 @@ public class NewWorkSetActivity extends BaseActivity {
                             AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE,
                                     MyApplication.mApplication.getRcuInfoList().get(position).getDevUnitID());
                             initListview();
-//                            WareData wareData = (WareData) Data_Cache.readFile((String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""));
-//                            if (wareData == null) {
                             MyApplication.setNewWareData();
                             GlobalVars.setIsLAN(true);
                             MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
                                 @Override
                                 public void upDataWareData(int datType, int subtype1, int subtype2) {
                                     if (datType == 0) {
-                                        new Thread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                try {
-                                                    Thread.sleep(2000);
-                                                    MyApplication.mApplication.dismissLoadDialog();
-                                                    startActivity(new Intent(NewWorkSetActivity.this, HomeActivity_Play2.class));
-                                                    finish();
-                                                } catch (InterruptedException e) {
-                                                    MyApplication.mApplication.dismissLoadDialog();
-                                                    startActivity(new Intent(NewWorkSetActivity.this, HomeActivity_Play2.class));
-                                                    finish();
-                                                }
-                                            }
-                                        }).start();
+                                        MyApplication.mApplication.dismissLoadDialog();
+                                        startActivity(new Intent(NewWorkSetActivity.this, HomeActivity_Play2.class));
+                                        finish();
                                     }
                                 }
                             });
                             SendDataUtil.getNetWorkInfo();
-//                            } else {
-//                                GlobalVars.setIsLAN(true);
-//                                SendDataUtil.getNetWorkInfo();
-//                                MyApplication.mApplication.dismissLoadDialog();
-//                                MyApplication.mWareData = wareData;
-//                                startActivity(new Intent(NewWorkSetActivity.this, HomeActivity_Play2.class));
-//                                finish();
-//                            }
                         }
                     });
                     dialog.create().show();
@@ -359,22 +337,9 @@ public class NewWorkSetActivity extends BaseActivity {
             @Override
             public void upDataWareData(int datType, int subtype1, int subtype2) {
                 if (datType == 0) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(1000);
-                                MyApplication.mApplication.dismissLoadDialog();
-                                startActivity(new Intent(NewWorkSetActivity.this, HomeActivity_Play2.class));
-                                Thread.sleep(1000);
-                                finish();
-                            } catch (InterruptedException e) {
-                                MyApplication.mApplication.dismissLoadDialog();
-                                startActivity(new Intent(NewWorkSetActivity.this, HomeActivity_Play2.class));
-                                finish();
-                            }
-                        }
-                    }).start();
+                    MyApplication.mApplication.dismissLoadDialog();
+                    startActivity(new Intent(NewWorkSetActivity.this, HomeActivity_Play2.class));
+                    finish();
                 }
             }
         });
