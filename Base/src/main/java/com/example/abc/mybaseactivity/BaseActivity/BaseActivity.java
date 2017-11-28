@@ -89,7 +89,6 @@ public abstract class BaseActivity extends FragmentActivity {
                 ViewCompat.setFitsSystemWindows(mChildView, true);
             }
         } else {
-
             Window window = this.getWindow();
             ViewGroup mContentView = (ViewGroup) this.findViewById(Window.ID_ANDROID_CONTENT);
 
@@ -150,7 +149,6 @@ public abstract class BaseActivity extends FragmentActivity {
         leftBack = (ImageView) findViewById(R.id.left_back);
         rightMore = (ImageView) findViewById(R.id.right_more);
         llcontent_other = (FrameLayout) findViewById(R.id.llcontent_other);
-
 
         //判断网络是否可用
         if (NetUtil.getNetWorkState(BaseActivity.this) == NetUtil.NETWORK_NONE)

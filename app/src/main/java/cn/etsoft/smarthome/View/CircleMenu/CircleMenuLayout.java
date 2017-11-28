@@ -93,6 +93,7 @@ public class CircleMenuLayout extends RelativeLayout {
             l.setOrientation(LinearLayout.VERTICAL);
             ImageView iv = new ImageView(context);
 
+
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (50 / Adaptive_coefficient), (int) (70 / Adaptive_coefficient));
             layoutParams.setMargins(10, 0, 10, 0);
             iv.setLayoutParams(layoutParams);
@@ -136,7 +137,7 @@ public class CircleMenuLayout extends RelativeLayout {
             LinearLayout l = new LinearLayout(context);
             l.setOrientation(LinearLayout.VERTICAL);
             ImageView iv = new ImageView(context);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (60 / Adaptive_coefficient), (int) (70 / Adaptive_coefficient));
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (55 / Adaptive_coefficient), (int) (70 / Adaptive_coefficient));
             layoutParams.setMargins(10, 0, 10, 0);
             iv.setImageResource(Data_OuterCircleList.get(i).getImage());
             l.addView(iv);
@@ -183,14 +184,14 @@ public class CircleMenuLayout extends RelativeLayout {
             Adaptive_coefficient = 1.8;
             Radius_outer = (int) (Radius_outer / Adaptive_coefficient);
             Radius_inner = (int) (Radius_inner / (Adaptive_coefficient));
-        } else if (dp_SW > 320 && dp_SW <= 480) {
+        } else if (dp_SW > 320 && dp_SW <= 480) {//5寸平板分辨率
 //            ToastUtil.s(context,"320-480");
-            Adaptive_coefficient = 1.4;
+            Adaptive_coefficient = 1.8;
             Radius_outer = (int) (Radius_outer / (Adaptive_coefficient));
             Radius_inner = (int) (Radius_inner / (Adaptive_coefficient));
-        } else if (dp_SW > 480 && dp_SW <= 600) {
+        } else if (dp_SW > 480 && dp_SW <= 600) {//金色10寸平板分辨率
 //            ToastUtil.s(context,"480-600");
-            Adaptive_coefficient = 1.2;
+            Adaptive_coefficient = 1.1;
             Radius_outer = (int) (Radius_outer / (Adaptive_coefficient));
             Radius_inner = (int) (Radius_inner / (Adaptive_coefficient));
         } else if (dp_SW > 600 && dp_SW <= 720) {

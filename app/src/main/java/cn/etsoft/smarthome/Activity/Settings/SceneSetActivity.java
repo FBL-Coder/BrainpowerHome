@@ -90,9 +90,10 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 if (datType == 25) {
                     MyApplication.mApplication.dismissLoadDialog();
                     WareDataHliper.initCopyWareData().startCopySceneData();
-                    if (MyApplication.getWareData().getSceneEvents().size() != 0)
-                        ScenePosition -= 1;
-                    else ScenePosition = 0;
+                    if (MyApplication.getWareData().getSceneEvents().size() != 0) {
+                        if (ScenePosition != 0)
+                            ScenePosition -= 1;
+                    } else ScenePosition = 0;
                     initData();
                     ToastUtil.showText("删除成功");
                 }
