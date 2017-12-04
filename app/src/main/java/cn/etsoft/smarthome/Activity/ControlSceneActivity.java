@@ -1,27 +1,20 @@
 package cn.etsoft.smarthome.Activity;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
-import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.GridView.Control_Scene_DevAdapter;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
-import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
-import cn.etsoft.smarthome.Utils.SendDataUtil;
-import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
-import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 
 /**
  * Author：FBL  Time： 2017/6/22.
@@ -30,50 +23,16 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 
 public class ControlSceneActivity extends BaseActivity {
 
-    private CircleMenuLayout layout;
-    private List<CircleDataEvent> Data_OuterCircleList;
-    private TextView mNull_tv, mRun, SceneName;
     private GridView mControlSceneGirdView;
     private ImageView Control_Back;
     private Control_Scene_DevAdapter mAdapter;
-    private int mScenePosition = 0;
-    private int CirclePosition = 0;
     private List<WareSceneEvent> mSceneDatas;
-    private static int[] images = new int[]{R.drawable.scene_baitian, R.drawable.scene_yejian,
-            R.drawable.scene_quankai, R.drawable.scene_quanguan, R.drawable.scene_yongcan,
-            R.drawable.scene_xiuxian};
-
-
-    @Override
-    protected void onResume() {
-        MyApplication.mApplication.setSceneIsShow(true);
-        super.onResume();
-    }
 
     @Override
     public void initView() {
         setLayout(R.layout.activity_controlscene);
-        layout = getViewById(R.id.Control_Scene_CircleMenu);
-        mNull_tv = getViewById(R.id.null_tv);
-        mRun = getViewById(R.id.Control_Scene_Run);
-        SceneName = getViewById(R.id.SceneName);
         Control_Back = getViewById(R.id.Control_Back);
         mControlSceneGirdView = getViewById(R.id.Control_Scene_GirdView);
-        mControlSceneGirdView.setEmptyView(mNull_tv);
-        MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
-            @Override
-            public void upDataWareData(int datType, int subtype1, int subtype2) {
-                MyApplication.mApplication.dismissLoadDialog();
-                if (datType == 35) {
-                    if (mScenePosition == -1) return;
-                    if (mAdapter == null)
-                        mAdapter = new Control_Scene_DevAdapter(mSceneDatas.get(mScenePosition).getItemAry(), ControlSceneActivity.this);
-                    else
-                        mAdapter.notifyDataSetChanged(mSceneDatas.get(mScenePosition).getItemAry());
-                    mControlSceneGirdView.setAdapter(mAdapter);
-                }
-            }
-        });
         Control_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,99 +48,32 @@ public class ControlSceneActivity extends BaseActivity {
     }
 
     private void initScene() {
-        Data_OuterCircleList = initSceneCircleOUterData(mSceneDatas, CirclePosition);
-        layout.Init(200, 0);
-        layout.setOuterCircleMenuData(Data_OuterCircleList);
+        if (mAdapter == null)
+            mAdapter = new Control_Scene_DevAdapter(ControlSceneActivity.this);
+        else mAdapter.notifyDataSetChanged();
+        mAdapter = new Control_Scene_DevAdapter(ControlSceneActivity.this);
+        mControlSceneGirdView.setAdapter(mAdapter);
 
-        layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
+        mControlSceneGirdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClickOuterCircle(int position, View view) {
-                CirclePosition = position;
-                mScenePosition = position % mSceneDatas.size();
-                mNull_tv.setText(mSceneDatas.get(mScenePosition).getSceneName() + "  没有设备，通过情景设置添加设备");
-                SceneName.setText(mSceneDatas.get(mScenePosition).getSceneName());
-                if (mAdapter == null)
-                    mAdapter = new Control_Scene_DevAdapter(mSceneDatas.get(mScenePosition).getItemAry(), ControlSceneActivity.this);
-                else mAdapter.notifyDataSetChanged(mSceneDatas.get(mScenePosition).getItemAry());
-                mAdapter = new Control_Scene_DevAdapter(mSceneDatas.get(mScenePosition).getItemAry(), ControlSceneActivity.this);
-                mControlSceneGirdView.setAdapter(mAdapter);
-            }
-        });
-
-        mRun.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ControlSceneActivity.this);
                 builder.setTitle("提示");
-                builder.setMessage("您是否启用   " + mSceneDatas.get(mScenePosition).getSceneName() + "？");
-                builder.setPositiveButton("启用", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        SendDataUtil.executelScene(mSceneDatas.get(mScenePosition).getEventId());
-                    }
-                });
+                builder.setMessage("您是否启用\"" + WareDataHliper.initCopyWareData().getCopyScenes().get(i).getSceneName() + "\"情景？");
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                     }
                 });
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
                 builder.create().show();
-
             }
         });
-
-        if (mAdapter == null)
-            mAdapter = new Control_Scene_DevAdapter(mSceneDatas.get(mScenePosition).getItemAry(), ControlSceneActivity.this);
-        else mAdapter.notifyDataSetChanged(mSceneDatas.get(mScenePosition).getItemAry());
-        mAdapter = new Control_Scene_DevAdapter(mSceneDatas.get(mScenePosition).getItemAry(), ControlSceneActivity.this);
-        mControlSceneGirdView.setAdapter(mAdapter);
-        if (mScenePosition == 0) {
-            SceneName.setText(mSceneDatas.get(mScenePosition).getSceneName());
-        }
-    }
-
-    public List<CircleDataEvent> initSceneCircleOUterData(List<WareSceneEvent> mlist, int position) {
-        List<CircleDataEvent> list = new ArrayList<>();
-        int num = 0;
-        if (mlist.size() <= 2) num = 4;
-        else if (mlist.size() > 2 && mlist.size() < 5) num = 6;
-        else num = 10;
-        for (int i = 0; i < num; i++) {
-            CircleDataEvent event = new CircleDataEvent();
-            event.setTitle(mlist.get(i % mlist.size()).getSceneName());
-            if (event.getTitle().contains("白"))
-                event.setImage(R.drawable.scene_baitian);
-            else if (event.getTitle().contains("夜"))
-                event.setImage(R.drawable.scene_yejian);
-            else if (event.getTitle().contains("客"))
-                event.setImage(R.drawable.scene_huike);
-            else if (event.getTitle().contains("休"))
-                event.setImage(R.drawable.scene_xiuxian);
-            else if (event.getTitle().contains("全开"))
-                event.setImage(R.drawable.scene_quankai);
-            else if (event.getTitle().contains("全关"))
-                event.setImage(R.drawable.scene_quanguan);
-            else if (event.getTitle().contains("用餐"))
-                event.setImage(R.drawable.scene_yongcan);
-            else {
-                try {
-                    event.setImage(images[i % mlist.size()]);
-                } catch (Exception e) {
-                    event.setImage(images[0]);
-                }
-            }
-            if (i == position)
-                event.setSelect(true);
-            list.add(event);
-        }
-        return list;
-    }
-
-    @Override
-    protected void onStop() {
-        MyApplication.mApplication.setSceneIsShow(false);
-        super.onStop();
     }
 }

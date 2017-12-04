@@ -32,7 +32,7 @@ import static cn.etsoft.smarthome.UiHelper.TimerSetHelper.reverseString;
  * 定时器详情页面（主页进入的定时）
  */
 
-public class TimerInfoActivity extends BaseActivity implements View.OnClickListener {
+public class TimerInfoActivity extends BaseActivity {
 
     private CircleMenuLayout layout;
     private List<CircleDataEvent> mTimerInfoCircleMenu;
@@ -139,7 +139,7 @@ public class TimerInfoActivity extends BaseActivity implements View.OnClickListe
                         Gson gson = new Gson();
                         Log.e("0000", gson.toJson(time_data));
                         MyApplication.mApplication.showLoadDialog(TimerInfoActivity.this);
-                        MyApplication.mApplication.getUdpServer().send(gson.toJson(time_data),19);
+                        MyApplication.mApplication.getUdpServer().send(gson.toJson(time_data), 19);
                     } catch (Exception e) {
                         MyApplication.mApplication.dismissLoadDialog();
                         Log.e("保存定时器数据", "保存数据异常" + e);
@@ -158,7 +158,7 @@ public class TimerInfoActivity extends BaseActivity implements View.OnClickListe
                         Gson gson = new Gson();
                         Log.e("0000", gson.toJson(time_data));
                         MyApplication.mApplication.showLoadDialog(TimerInfoActivity.this);
-                        MyApplication.mApplication.getUdpServer().send(gson.toJson(time_data),19);
+                        MyApplication.mApplication.getUdpServer().send(gson.toJson(time_data), 19);
                     } catch (Exception e) {
                         MyApplication.mApplication.dismissLoadDialog();
                         Log.e("保存定时器数据", "保存数据异常" + e);
@@ -206,18 +206,6 @@ public class TimerInfoActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    @SuppressLint("WrongConstant")
-    @Override
-    public void onClick(View v) {
-        if (!IsCanClick) {
-            ToastUtil.showText("请先选择情景");
-            return;
-        }
-        switch (v.getId()) {
-            case R.id.Control_Scene_Run://执行情景
-                break;
-        }
-    }
 
     public static List<CircleDataEvent> initSceneCircleOUterData(int position) {
 

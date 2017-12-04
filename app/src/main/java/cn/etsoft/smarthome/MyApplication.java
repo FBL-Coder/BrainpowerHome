@@ -46,6 +46,7 @@ import cn.etsoft.smarthome.Utils.CityDB;
 import cn.etsoft.smarthome.Utils.Data_Cache;
 import cn.etsoft.smarthome.Utils.GetIPAddress;
 import cn.etsoft.smarthome.Utils.GlobalVars;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.Utils.WratherUtil;
 
 /**
@@ -109,11 +110,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     private SoundPool sp;//声明一个SoundPool
     private int music;//定义一个整型用load（）；来设置suondID
-
-    /**
-     * 情景控制页面是否可见；
-     */
-    private boolean SceneIsShow = false;
 
     //区分发82返回的0 0 1包还是发33返回的 0 0 1包，做标记
     private boolean isSeekNet = false;
@@ -461,14 +457,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         AddOrEditRoomName = addOrEditRoomName;
     }
 
-    public boolean isSceneIsShow() {
-        return SceneIsShow;
-    }
-
-    public void setSceneIsShow(boolean sceneIsShow) {
-        SceneIsShow = sceneIsShow;
-    }
-
     public boolean isSeekNet() {
         return isSeekNet;
     }
@@ -603,10 +591,13 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 ToastUtil.showText("没有可用网络，请检查", 5000);
             }
             if (msg.what == application.NETCHANGE_LONG) {//网络变化  局域网--》远程
-                Dialog();
+//                Dialog();
+                GlobalVars.setIsLAN(false);
             }
             if (msg.what == application.NETCHANGE_LAN) {//网络变化  远程 --》 局域网
-                Dialog();
+//                Dialog();
+                GlobalVars.setIsLAN(true);
+                MyApplication.mApplication.getUdpServer().sendSeekNet(false);
             }
             //load 超时后自动消失
             if (msg.what == application.DIALOG_DISMISS) {

@@ -10,16 +10,23 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import cn.etsoft.smarthome.Adapter.PopupWindow.PopupWindowAdapter2;
 import cn.etsoft.smarthome.Adapter.RecyclerView.SceneSet_ScenesAdapter;
 import cn.etsoft.smarthome.Fragment.Control.LightControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.SocketFragment;
@@ -53,7 +60,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
     private List<CircleDataEvent> Data_InnerCircleList;
     private RecyclerView mSceneSetScenes;
     private ImageView Control_Back;
-    private TextView mSceneSet_Add_Btn, mSceneSetTestBtn, mSceneSetSaveBtn, mNull_tv;
+    private TextView mSceneSet_Add_Btn, mSceneSetTestBtn, mSceneSetSaveBtn, mNull_tv, scene_safetytype;
     private SceneSet_ScenesAdapter mScenesAdapter;
     private RelativeLayout SceneSet_Info;
     private Fragment mLightFragment, mAirFragment, mTVFragment,
@@ -61,6 +68,8 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
     private int ScenePosition = 0, DevType = -1;
     private String RoomName = "";
     private boolean IsNoData = true;
+    private PopupWindow popupWindow;
+    private List<String> safetytypes;
 
     @Override
     public void initView() {
@@ -106,10 +115,12 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         Control_Back = getViewById(R.id.Control_Back);
         mNull_tv = getViewById(R.id.null_tv);
         SceneSet_Info = getViewById(R.id.SceneSet_Info);
+        scene_safetytype = getViewById(R.id.scene_safetytype);
 
         mSceneSet_Add_Btn.setOnClickListener(this);
         mSceneSetTestBtn.setOnClickListener(this);
         mSceneSetSaveBtn.setOnClickListener(this);
+        scene_safetytype.setOnClickListener(this);
 
         Control_Back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +142,11 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             ToastUtil.showText("没有房间数据");
             return;
         }
+        safetytypes = new ArrayList<>();
+        safetytypes.add("24小时布防");
+        safetytypes.add("在家布防");
+        safetytypes.add("外出布防");
+        safetytypes.add("全部撤防");
 
         layout = getViewById(R.id.SceneSet_CircleMenu);
         Data_OuterCircleList = SceneSetHelper.initSceneCircleOUterData();
@@ -140,13 +156,14 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         layout.setOuterCircleMenuData(Data_OuterCircleList);
         mScenesAdapter = new SceneSet_ScenesAdapter(WareDataHliper.initCopyWareData().getCopyScenes());
         mSceneSetScenes.setAdapter(mScenesAdapter);
-//        if (WareDataHliper.initCopyWareData().getCopyScenes().size() == 0){
-//            IsNoData =true;
-//            SceneSet_Info.setVisibility(View.GONE);
-//        }else {
-//            IsNoData = false;
-//            SceneSet_Info.setVisibility(View.VISIBLE);
-//        }
+        if (WareDataHliper.initCopyWareData().getCopyScenes().size() == 0) {
+            IsNoData = true;
+            SendDataUtil.getSceneInfo();
+            SceneSet_Info.setVisibility(View.GONE);
+        } else {
+            IsNoData = false;
+            SceneSet_Info.setVisibility(View.VISIBLE);
+        }
         initEvent();
     }
 
@@ -162,6 +179,10 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 SceneSetHelper.AddScene(this);
                 break;
             case R.id.SceneSet_Test_Btn:
+                break;
+            case R.id.scene_safetytype:
+                initRadioPopupWindow(v, safetytypes);
+                popupWindow.showAsDropDown(v, 0, 0);
                 break;
             case R.id.SceneSet_Save_Btn:
                 if (IsNoData) {
@@ -210,6 +231,14 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 if (mSceneSetSceneClickListener != null)
                     mSceneSetSceneClickListener.SceneClickPosition(position, DevType, RoomName);
                 ScenePosition = position;
+                if (0 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+                    scene_safetytype.setText("24小时布防");
+                if (1 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+                    scene_safetytype.setText("在家布防");
+                if (2 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+                    scene_safetytype.setText("外出布防");
+                if (255 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+                    scene_safetytype.setText("撤防状态");
             }
 
             @Override
@@ -238,6 +267,14 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 builder.create().show();
             }
         });
+        if (0 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+            scene_safetytype.setText("24小时布防");
+        if (1 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+            scene_safetytype.setText("在家布防");
+        if (2 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+            scene_safetytype.setText("外出布防");
+        if (255 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+            scene_safetytype.setText("撤防状态");
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -332,4 +369,58 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
     public interface SceneSetSceneClickListener {
         void SceneClickPosition(int ScenePosition, int DevType, String RoomName);
     }
+
+    /**
+     * 初始化自定义设备的状态以及设备PopupWindow
+     */
+    private void initRadioPopupWindow(final View view_parent, final List<String> text) {
+
+        //获取自定义布局文件pop.xml的视图
+        final View customView = view_parent.inflate(this, R.layout.listview_popupwindow_equipment, null);
+        customView.setBackgroundResource(R.drawable.selectbg);
+        customView.setFocusable(true);
+        customView.setFocusableInTouchMode(true);
+        customView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (popupWindow != null) {
+                        popupWindow.dismiss();
+                    }
+                }
+                return false;
+            }
+        });
+        // 创建PopupWindow实例
+        popupWindow = new PopupWindow(customView, view_parent.getWidth(), 200);
+        popupWindow.setContentView(customView);
+        ListView list_pop = (ListView) customView.findViewById(R.id.popupWindow_equipment_lv);
+        PopupWindowAdapter2 adapter = new PopupWindowAdapter2(text, this);
+        list_pop.setAdapter(adapter);
+        list_pop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView tv = (TextView) view_parent;
+                tv.setText(text.get(position));
+                WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).setRev3(position == 3 ? 255 : position);
+                popupWindow.dismiss();
+            }
+        });
+        //popupwindow页面之外可点
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.update();
+        // 自定义view添加触摸事件
+        customView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (popupWindow != null && popupWindow.isShowing()) {
+                    popupWindow.dismiss();
+                    popupWindow = null;
+                }
+                return false;
+            }
+        });
+    }
+
 }

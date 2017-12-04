@@ -16,53 +16,22 @@
             android:layout_height="@dimen/dp_50"
             android:background="@drawable/menuup_bg">
 
-
             <TextView
                 android:id="@+id/SceneName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp_250"
+                android:layout_centerInParent="true"
                 android:text="情景控制"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_20"
                 android:textStyle="bold" />
 
-
-            <TextView
-                android:id="@+id/Control_Scene_Run"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:padding="@dimen/dp_5"
-                android:layout_marginRight="@dimen/dp_100"
-                android:text="启用情景"
-                android:background="@drawable/set_button_bg"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_22"
-                android:textStyle="bold"
-
-                />
-
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dp_250">
-
-            <TextView
-                android:id="@+id/null_tv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="right|bottom"
-                android:padding="@dimen/dp_20"
-                android:text="没有数据"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_20"
-                android:textStyle="italic" />
-
+            android:layout_height="match_parent">
             <GridView
                 android:id="@+id/Control_Scene_GirdView"
                 android:layout_width="match_parent"
@@ -77,20 +46,6 @@
         </RelativeLayout>
 
     </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="@dimen/dp_250"
-        android:layout_height="match_parent"
-        >
-
-        <cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout
-            android:id="@+id/Control_Scene_CircleMenu"
-            android:layout_gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/circlebg" />
-    </FrameLayout>
-
 
     <ImageView
         android:id="@+id/Control_Back"

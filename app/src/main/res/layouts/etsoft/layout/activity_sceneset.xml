@@ -20,16 +20,53 @@
         android:text="没有设备信息"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_20"
-        android:visibility="gone"
-        android:textStyle="italic"/>
+        android:textStyle="italic"
+        android:visibility="gone" />
+
 
     <RelativeLayout
-        android:id="@+id/SceneSet_Info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/dp_250"
         android:layout_marginTop="@dimen/dp_70"
-        android:background="@null" />
+        android:background="@null"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginRight="@dimen/dp_20"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="请选择关联安防类型："
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/scene_safetytype"
+                android:layout_width="@dimen/dp_150"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:text="24小时布防"
+                android:padding="@dimen/dp_5"
+                android:background="@drawable/set_button_bg"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/SceneSet_Info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null" />
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="@dimen/dp_250"
@@ -55,25 +92,24 @@
             android:id="@+id/SceneSet_Scenes"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/dp_40"
             android:layout_weight="1"
             android:background="@null"
-            android:layout_marginRight="@dimen/dp_40"
             android:scrollbars="none" />
 
         <TextView
             android:id="@+id/SceneSet_Add_Btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_gravity="center_vertical"
-            android:padding="@dimen/dp_5"
-            android:text="新增"
             android:layout_marginRight="@dimen/dp_20"
             android:background="@drawable/set_button_bg"
+            android:gravity="center"
+            android:padding="@dimen/dp_5"
+            android:text="新增"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_18"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/SceneSet_Test_Btn"
@@ -84,18 +120,18 @@
             android:textColor="@color/white"
             android:textSize="@dimen/sp_18"
             android:textStyle="bold"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/SceneSet_Save_Btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dp_5"
-            android:gravity="center"
-            android:text="保存"
-            android:layout_marginRight="@dimen/dp_30"
             android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/dp_30"
             android:background="@drawable/set_button_bg"
+            android:gravity="center"
+            android:padding="@dimen/dp_5"
+            android:text="保存"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_18"
             android:textStyle="bold" />
@@ -103,10 +139,10 @@
         <ImageView
             android:id="@+id/Control_Back"
             android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_70"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/dp_10"
             android:padding="@dimen/dp_10"
-            android:layout_height="@dimen/dp_70"
             android:src="@drawable/select_back_system" />
     </LinearLayout>
 </RelativeLayout>

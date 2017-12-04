@@ -93,8 +93,6 @@ public class SendDataUtil {
         getSafetyInfo();
     }
 
-
-
     public static void getHeart() {
         if ("".equals(GlobalVars.getDevid())) {
             Log.i(TAG, "UdpHeard: 心跳包  没有ID");

@@ -17,6 +17,7 @@ import android.text.format.Time;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -67,7 +68,7 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
     private ListView mHomePlay2Roomtemp;
     private ImageView mHomePlay2Ref;
     private ImageView mHomePlay2Logout;
-    private BamLinearLayout mHomePlay2Netset;
+    private LinearLayout mHomePlay2Netset;
     private ImageView mElevatorUp;
     private ImageView mElevatorDown;
     private BamLinearLayout mHomePlay2Video;
@@ -207,7 +208,7 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
         mHomePlay2Ref.setOnClickListener(this);
         mHomePlay2Logout = (ImageView) findViewById(R.id.home_play2_logout);
         mHomePlay2Logout.setOnClickListener(this);
-        mHomePlay2Netset = (BamLinearLayout) findViewById(R.id.home_play2_netset);
+        mHomePlay2Netset = (LinearLayout) findViewById(R.id.home_play2_netset);
         mHomePlay2Netset.setOnClickListener(this);
         mElevatorUp = (ImageView) findViewById(R.id.elevator_up);
         mElevatorUp.setOnClickListener(this);

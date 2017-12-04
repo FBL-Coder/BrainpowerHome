@@ -44,7 +44,7 @@ public class SceneSet_ScenesAdapter extends RecyclerView.Adapter<SceneSet_Scenes
         if (mPosition == position) {
             holder.itemView.setBackgroundResource(R.color.color_334eade6);  //选中项背景
         } else {
-            holder.itemView.setBackgroundResource(R.color.color_08143F);  //其他项背景
+            holder.itemView.setBackgroundResource(R.color.color_00000000);  //其他项背景
         }
         if (list.get(position).getSceneName().contains("离"))
             holder.iv.setImageResource(R.drawable.lijia);

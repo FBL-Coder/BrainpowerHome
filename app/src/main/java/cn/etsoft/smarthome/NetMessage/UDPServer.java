@@ -87,7 +87,7 @@ public class UDPServer implements Runnable {
     }
 
     public void webSocketData(String info) {
-        Log.i(TAG, "webSocket接收数据");
+//        Log.i(TAG, "webSocket接收数据");
         IsWebData(info);
     }
 
@@ -159,7 +159,7 @@ public class UDPServer implements Runnable {
                         @Override
                         public void messageForBack(int dattype) {
                             Messagetimer.cancel();
-                            Log.i("TIMER --CANCEL", Messagetimer.toString());
+//                            Log.i("TIMER --CANCEL", Messagetimer.toString());
                         }
                     });
                 }
@@ -191,6 +191,9 @@ public class UDPServer implements Runnable {
                 "\"subType2\":0," +
                 "\"localIP\":\"" + GlobalVars.WIFI_IP + "\"}";
         UdpSendMsg(SeekNet);
+//        if (!MyApplication.mApplication.isSeekNet()) {
+//            SendDataUtil.getSafetyInfo();
+//        }
     }
 
     public void UdpSendMsg(final String msg) {
@@ -261,10 +264,10 @@ public class UDPServer implements Runnable {
 
         if (UDPtimer != null) {
             UDPtimer.cancel();
-            Log.i(TAG, "UDP数据，取消定时等待");
+//            Log.i(TAG, "UDP数据，取消定时等待");
             if (!GlobalVars.isIsLAN()) {
                 if (!GlobalVars.isIsLAN()) {
-                    if (!MyApplication.mApplication.isSeekNet()&&devUnitID.equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""))) {
+                    if (!MyApplication.mApplication.isSeekNet() && devUnitID.equals(AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""))) {
                         Message message = mhandler.obtainMessage();
                         message.what = MyApplication.mApplication.NETCHANGE_LAN;
                         mhandler.sendMessage(message);
@@ -285,7 +288,7 @@ public class UDPServer implements Runnable {
 //                message.what = MyApplication.mApplication.NETCHANGE_LONG;
 //                mhandler.sendMessage(message);
                 GlobalVars.setIsLAN(false);
-                Log.i(TAG, "UDP数据，无返回，等待20秒后执行");
+//                Log.i(TAG, "UDP数据，无返回，等待20秒后执行");
             }
         }, 30000);
 
@@ -310,6 +313,7 @@ public class UDPServer implements Runnable {
             subType1 = jsonObject.getInt("subType1");
             subType2 = jsonObject.getInt("subType2");
             if (!devUnitID.equals(GlobalVars.getDevid())) {
+                Log.i(TAG, "WEB--devUnitID不一致:" + "本地ID" + GlobalVars.getDevid() + "--数据ID" + devUnitID + ";包类型：" + datType + "-" + subType1 + "-" + subType2);
                 return;
             }
             if (MyApplication.mApplication.isSeekNet() && datType == 0)
@@ -2405,6 +2409,7 @@ public class UDPServer implements Runnable {
 //            "sceneName":	"6868",
 //                    "devCnt":	2,
 //                    "eventId":	2,
+//                    "rev3":	0,
 //                    "itemAry":	[{
 //                "canCpuID":	"36ffd4054842373532790843",
 //                        "devID":	2,
@@ -2440,6 +2445,7 @@ public class UDPServer implements Runnable {
             boolean IsSceneIdExist = false;
             boolean IsDevIdExist = false;
             event.setEventId(object.getInt("eventId"));
+            event.setRev3(object.getInt("rev3"));
 
             List<WareSceneEvent> events_exist = MyApplication.getWareData().getSceneEvents();
             WareSceneEvent event_exist = null;

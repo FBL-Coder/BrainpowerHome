@@ -10,12 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import cn.etsoft.smarthome.Domain.WareAirCondDev;
-import cn.etsoft.smarthome.Domain.WareCurtain;
-import cn.etsoft.smarthome.Domain.WareFloorHeat;
-import cn.etsoft.smarthome.Domain.WareFreshAir;
-import cn.etsoft.smarthome.Domain.WareLight;
-import cn.etsoft.smarthome.Domain.WareSceneDevItem;
+import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 
@@ -26,31 +21,34 @@ import cn.etsoft.smarthome.R;
 
 public class Control_Scene_DevAdapter extends BaseAdapter {
 
-    private List<WareSceneDevItem> sceneDevs;
+    private List<WareSceneEvent> scenes;
     private Context mContext;
+    private static int[] images = new int[]{R.drawable.scene_baitian, R.drawable.scene_yejian,
+            R.drawable.scene_quankai, R.drawable.scene_quanguan, R.drawable.scene_yongcan,
+            R.drawable.scene_xiuxian};
 
-    public Control_Scene_DevAdapter(List<WareSceneDevItem> list, Context context) {
-        sceneDevs = list;
+    public Control_Scene_DevAdapter(Context context) {
+        scenes = MyApplication.getWareData().getSceneEvents();
         mContext = context;
     }
 
-    public void notifyDataSetChanged(List<WareSceneDevItem> list) {
-        sceneDevs = list;
+    public void notifyDataSetChanged() {
+        scenes = MyApplication.getWareData().getSceneEvents();
         super.notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        if (sceneDevs == null)
+        if (scenes == null)
             return 0;
-        return sceneDevs.size();
+        return scenes.size();
     }
 
     @Override
     public Object getItem(int position) {
-        if (sceneDevs == null)
+        if (scenes == null)
             return null;
-        return sceneDevs.get(position);
+        return scenes.get(position);
     }
 
     @Override
@@ -62,99 +60,43 @@ public class Control_Scene_DevAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.girdview_devsitem, null);
-            viewHolder = new ViewHolder();
-            viewHolder.name = (TextView) convertView.findViewById(R.id.GirdView_devName);
-            viewHolder.type = (ImageView) convertView.findViewById(R.id.GirdView_devTypeIV);
-            viewHolder.state = (TextView) convertView.findViewById(R.id.GirdView_devState);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.girdview_controlscene, null, false);
+            viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        int type_dev = sceneDevs.get(position).getDevType();
-        if (type_dev == 0) {
-            for (int j = 0; j < MyApplication.getWareData().getAirConds().size(); j++) {
-                WareAirCondDev AirCondDev = MyApplication.getWareData().getAirConds().get(j);
-                if (sceneDevs.get(position).getDevID() == AirCondDev.getDev().getDevId() &&
-                        sceneDevs.get(position).getCanCpuID().endsWith(AirCondDev.getDev().getCanCpuId())) {
-                    viewHolder.name.setText(AirCondDev.getDev().getDevName());
-                    if (AirCondDev.getbOnOff() == 0) {
-                        viewHolder.type.setImageResource(R.drawable.kt_dev_item_close);
-                        viewHolder.state.setText("关闭");
-                    } else {
-                        viewHolder.type.setImageResource(R.drawable.kt_dev_item_open);
-                        viewHolder.state.setText("打开");
-                    }
-                }
-            }
-        }else if (type_dev == 3) {
-            for (int j = 0; j < MyApplication.getWareData().getLights().size(); j++) {
-                WareLight Light = MyApplication.getWareData().getLights().get(j);
-                if (sceneDevs.get(position).getDevID() == Light.getDev().getDevId() &&
-                        sceneDevs.get(position).getCanCpuID().endsWith(Light.getDev().getCanCpuId())) {
-                    viewHolder.name.setText(Light.getDev().getDevName());
-                    if (Light.getbOnOff() == 0) {
-                        viewHolder.type.setImageResource(R.drawable.dg_dev_item_close);
-                        viewHolder.state.setText("关闭");
-                    } else {
-                        viewHolder.type.setImageResource(R.drawable.dg_dev_item_open);
-                        viewHolder.state.setText("打开");
-                    }
-                }
-            }
-        } else if (type_dev == 4) {
-            for (int j = 0; j < MyApplication.getWareData().getCurtains().size(); j++) {
-                WareCurtain Curtain = MyApplication.getWareData().getCurtains().get(j);
-                if (sceneDevs.get(position).getDevID() == Curtain.getDev().getDevId() &&
-                        sceneDevs.get(position).getCanCpuID().endsWith(Curtain.getDev().getCanCpuId())) {
-                    viewHolder.name.setText(Curtain.getDev().getDevName());
-                    if (Curtain.getbOnOff() == 0) {
-                        viewHolder.type.setImageResource(R.drawable.cl_dev_item_close);
-                        viewHolder.state.setText("关闭");
-                    } else {
-                        viewHolder.type.setImageResource(R.drawable.cl_dev_item_open);
-                        viewHolder.state.setText("打开");
-                    }
-                }
-            }
-        }else if (type_dev == 7) {
-            for (int j = 0; j < MyApplication.getWareData().getFreshAirs().size(); j++) {
-                WareFreshAir freshAir = MyApplication.getWareData().getFreshAirs().get(j);
-                if (sceneDevs.get(position).getDevID() == freshAir.getDev().getDevId() &&
-                        sceneDevs.get(position).getCanCpuID().endsWith(freshAir.getDev().getCanCpuId())) {
-                    viewHolder.name.setText(freshAir.getDev().getDevName());
-                    if (freshAir.getbOnOff() == 0) {
-                        viewHolder.type.setImageResource(R.drawable.freshair_close);
-                        viewHolder.state.setText("关闭");
-                    } else {
-                        viewHolder.type.setImageResource(R.drawable.freshair_open);
-                        viewHolder.state.setText("打开");
-                    }
-                }
-            }
-        } else if (type_dev == 9) {
-            for (int j = 0; j < MyApplication.getWareData().getFloorHeat().size(); j++) {
-                WareFloorHeat floorHeat = MyApplication.getWareData().getFloorHeat().get(j);
-                if (sceneDevs.get(position).getDevID() == floorHeat.getDev().getDevId() &&
-                        sceneDevs.get(position).getCanCpuID().endsWith(floorHeat.getDev().getCanCpuId())) {
-                    viewHolder.name.setText(floorHeat.getDev().getDevName());
-                    if (floorHeat.getbOnOff() == 0) {
-                        viewHolder.type.setImageResource(R.drawable.floorheat_close);
-                        viewHolder.state.setText("关闭");
-                    } else {
-                        viewHolder.type.setImageResource(R.drawable.floorheat_open);
-                        viewHolder.state.setText("打开");
-                    }
-                }
-            }
-        }
-
+        if (scenes.get(position).getSceneName().contains("白"))
+            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_baitian);
+        else if (scenes.get(position).getSceneName().contains("夜"))
+            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_yejian);
+        else if (scenes.get(position).getSceneName().contains("客"))
+            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_huike);
+        else if (scenes.get(position).getSceneName().contains("休"))
+            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_xiuxian);
+        else if (scenes.get(position).getSceneName().contains("全开"))
+            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_quankai);
+        else if (scenes.get(position).getSceneName().contains("全关"))
+            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_quanguan);
+        else if (scenes.get(position).getSceneName().contains("用餐"))
+            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_yongcan);
+        else
+            viewHolder.mGirdviewIv.setImageResource(images[0]);
+        viewHolder.mGirdviewTv.setText(scenes.get(position).getSceneName());
         return convertView;
     }
 
-    private class ViewHolder {
-        private TextView name, state;
-        private ImageView type;
+
+    static class ViewHolder {
+        View view;
+        ImageView mGirdviewIv;
+        TextView mGirdviewTv;
+
+        ViewHolder(View view) {
+            this.view = view;
+            this.mGirdviewIv = (ImageView) view.findViewById(R.id.girdview_iv);
+            this.mGirdviewTv = (TextView) view.findViewById(R.id.girdview_tv);
+        }
     }
 }

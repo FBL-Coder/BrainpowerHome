@@ -8,6 +8,7 @@ import cn.etsoft.smarthome.Activity.WelcomeActivity;
 
 /**
  * Author：FBL  Time： 2017/11/9.
+ * 开机自启
  */
 
 public class BootCompletedReceiver extends BroadcastReceiver {

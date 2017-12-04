@@ -126,33 +126,89 @@
 
 
                     <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
-                        android:id="@+id/home_play2_netset"
+
                         android:layout_width="@dimen/dp_0"
-                        android:layout_margin="@dimen/dp_5"
                         android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp_5"
                         android:layout_weight="1"
-                        android:background="@color/home_time"
-                        android:orientation="vertical"
-                        android:padding="@dimen/dp_10">
+                        android:orientation="vertical">
 
 
-                        <ImageView
+                        <LinearLayout
+                            android:id="@+id/home_play2_netset"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_0"
-                            android:layout_weight="2"
-                            android:padding="@dimen/dp_10"
-                            android:src="@drawable/home_net" />
-
-                        <TextView
-                            android:id="@+id/home_play2_net_ok"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_0"
-                            android:layout_marginTop="-30dp"
+                            android:layout_marginBottom="@dimen/dp_10"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="联网模块"
-                            android:textColor="@color/black1"
-                            android:textSize="@dimen/sp_16" />
+                            android:background="@color/home_time"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_0"
+                                android:layout_weight="1"
+                                android:src="@drawable/home_net" />
+
+                            <TextView
+                                android:id="@+id/home_play2_net_ok"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_0"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="联网模块"
+                                android:textColor="@color/black1"
+                                android:textSize="@dimen/sp_16" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/home_scene_out"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_0"
+                            android:layout_weight="1"
+                            android:background="@color/home_time"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/dp_5">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_0"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:src="@drawable/scene_home_out" />
+
+                            <TextView
+                                android:layout_width="@dimen/dp_0"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="外出"
+                                android:textColor="@color/black1"
+                                android:textSize="@dimen/sp_16" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/home_scene_in"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_0"
+                            android:layout_weight="1"
+                            android:background="@color/home_time"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/dp_5">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_0"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:src="@drawable/scene_home_in" />
+
+                            <TextView
+                                android:layout_width="@dimen/dp_0"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="回家"
+                                android:textColor="@color/black1"
+                                android:textSize="@dimen/sp_16" />
+                        </LinearLayout>
 
 
                     </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
@@ -160,8 +216,8 @@
                     <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
                         android:layout_width="@dimen/dp_0"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:layout_margin="@dimen/dp_5"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
                         <ImageView
@@ -174,13 +230,14 @@
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/dp_0"
+                            android:layout_weight="0.5"
                             android:background="@color/viewfinder_mask"
                             android:gravity="center"
                             android:lines="1"
-                            android:text="呼叫电梯"
+                            android:text="呼梯"
                             android:textColor="@color/white1"
-                            android:textSize="@dimen/sp_12" />
+                            android:textSize="@dimen/sp_18" />
 
                         <ImageView
                             android:id="@+id/elevator_down"
@@ -270,35 +327,6 @@
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
 
 
-            <!--安放-->
-            <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
-                android:id="@+id/home_play2_safety"
-                android:layout_width="@dimen/dp_0"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/dp_5"
-                android:layout_weight="1"
-                android:background="@color/home_time"
-                android:orientation="vertical"
-                android:padding="@dimen/dp_20">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_weight="2"
-                    android:src="@drawable/home_safety" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="安防"
-                    android:textColor="@color/black1"
-                    android:textSize="@dimen/sp_30"
-                    android:textStyle="bold" />
-
-            </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
-
             <!--家电控制-->
             <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
                 android:id="@+id/home_play2_appliances"
@@ -358,6 +386,37 @@
 
 
             </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
+
+
+            <!--安放-->
+            <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
+                android:id="@+id/home_play2_safety"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/dp_5"
+                android:layout_weight="1"
+                android:background="@color/home_time"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_20">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0"
+                    android:layout_weight="2"
+                    android:src="@drawable/home_safety" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="安防"
+                    android:textColor="@color/black1"
+                    android:textSize="@dimen/sp_30"
+                    android:textStyle="bold" />
+
+            </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
+
 
             <!--设置-->
             <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
