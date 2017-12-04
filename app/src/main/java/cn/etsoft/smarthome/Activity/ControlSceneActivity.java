@@ -8,6 +8,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import cn.etsoft.smarthome.Adapter.GridView.Control_Scene_DevAdapter;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
+import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 /**
  * Author：FBL  Time： 2017/6/22.
@@ -70,6 +72,9 @@ public class ControlSceneActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
+                        dialogInterface.dismiss();
+                        SendDataUtil.executelScene(mSceneDatas.get(i).getEventId());
+                        ToastUtil.showText("正在执行情景");
                     }
                 });
                 builder.create().show();

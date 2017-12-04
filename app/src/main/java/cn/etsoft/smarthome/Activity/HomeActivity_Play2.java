@@ -68,7 +68,7 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
     private ListView mHomePlay2Roomtemp;
     private ImageView mHomePlay2Ref;
     private ImageView mHomePlay2Logout;
-    private LinearLayout mHomePlay2Netset;
+    private LinearLayout mHomePlay2Netset, home_scene_out, home_scene_in;
     private ImageView mElevatorUp;
     private ImageView mElevatorDown;
     private BamLinearLayout mHomePlay2Video;
@@ -194,8 +194,6 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
             mHomeWeek.setText("星期五");
         else if (time.weekDay == 6)
             mHomeWeek.setText("星期六");
-
-
     }
 
     private void initView() {
@@ -226,6 +224,10 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
         mHomePlay2Scene.setOnClickListener(this);
         mHomePlay2Setting = (BamLinearLayout) findViewById(R.id.home_play2_setting);
         mHomePlay2Setting.setOnClickListener(this);
+        home_scene_out = (LinearLayout) findViewById(R.id.home_scene_out);
+        home_scene_out.setOnClickListener(this);
+        home_scene_in = (LinearLayout) findViewById(R.id.home_scene_in);
+        home_scene_in.setOnClickListener(this);
     }
 
     @Override
@@ -244,6 +246,14 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
                 break;
             case R.id.home_play2_netset:
                 startActivity(new Intent(HomeActivity_Play2.this, NewWorkSetActivity.class));
+                break;
+            case R.id.home_scene_in:
+                SendDataUtil.executelScene(10);
+                ToastUtil.showText("正在启用情景");
+                break;
+            case R.id.home_scene_out:
+                SendDataUtil.executelScene(11);
+                ToastUtil.showText("正在启用情景");
                 break;
             case R.id.elevator_up:
                 ToastUtil.showText("找不到以关联电梯");
