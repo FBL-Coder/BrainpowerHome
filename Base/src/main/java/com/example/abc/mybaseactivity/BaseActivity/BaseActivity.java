@@ -55,13 +55,16 @@ public abstract class BaseActivity extends FragmentActivity {
             //数据处理
             initData();
         } catch (Exception e) {
-            Log.e("Base_Exception", e + "");
 
-            //异常后自动重启
-            Intent i = getBaseContext().getPackageManager()
-                    .getLaunchIntentForPackage(getBaseContext().getPackageName());
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(i);
+            e.printStackTrace();
+
+//            Log.e("Base_Exception", e + "");
+//
+//            //异常后自动重启
+//            Intent i = getBaseContext().getPackageManager()
+//                    .getLaunchIntentForPackage(getBaseContext().getPackageName());
+//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            startActivity(i);
         }
     }
 

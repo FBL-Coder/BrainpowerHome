@@ -183,7 +183,7 @@
                                 android:gravity="center"
                                 android:text="外出"
                                 android:textColor="@color/black1"
-                                android:textSize="@dimen/sp_16" />
+                                android:textSize="@dimen/sp_18" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -208,7 +208,7 @@
                                 android:gravity="center"
                                 android:text="回家"
                                 android:textColor="@color/black1"
-                                android:textSize="@dimen/sp_16" />
+                                android:textSize="@dimen/sp_18" />
                         </LinearLayout>
 
 
@@ -233,12 +233,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_0"
                             android:layout_weight="0.5"
-                            android:background="@color/viewfinder_mask"
+                            android:background="@color/color_00000000"
                             android:gravity="center"
                             android:lines="1"
                             android:text="呼梯"
                             android:textColor="@color/white1"
-                            android:textSize="@dimen/sp_18" />
+                            android:textSize="@dimen/sp_20" />
 
                         <ImageView
                             android:id="@+id/elevator_down"

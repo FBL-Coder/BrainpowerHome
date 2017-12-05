@@ -13,6 +13,7 @@ import java.util.List;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 
 /**
  * Author：FBL  Time： 2017/6/29.
@@ -28,12 +29,12 @@ public class Control_Scene_DevAdapter extends BaseAdapter {
             R.drawable.scene_xiuxian};
 
     public Control_Scene_DevAdapter(Context context) {
-        scenes = MyApplication.getWareData().getSceneEvents();
+        scenes = WareDataHliper.initCopyWareData().getSceneControlData();
         mContext = context;
     }
 
     public void notifyDataSetChanged() {
-        scenes = MyApplication.getWareData().getSceneEvents();
+        scenes = WareDataHliper.initCopyWareData().getSceneControlData();
         super.notifyDataSetChanged();
     }
 

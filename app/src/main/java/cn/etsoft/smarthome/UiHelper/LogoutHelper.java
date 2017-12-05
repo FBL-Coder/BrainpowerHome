@@ -31,6 +31,7 @@ import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.Utils.Data_Cache;
 import cn.etsoft.smarthome.Utils.NewHttpPort;
+import cn.semtec.community2.fragment.VideoFragment;
 import cn.semtec.community2.model.MyHttpUtil;
 import cn.semtec.community2.tool.Constants;
 
@@ -56,34 +57,6 @@ public class LogoutHelper {
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
                 logout_event(activity);
-//                Map<String, String> params = new HashMap<>();
-//                params.put("uid", GlobalVars.getUserid());
-//                OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.LOGOUT, params, new HttpCallback() {
-//                    @Override
-//                    public void onSuccess(ResultDesc resultDesc) {
-//                        super.onSuccess(resultDesc);
-//                        Log.i("LOGOUT", "智能家居成功: " + resultDesc.getResult());
-//                        Gson gson = new Gson();
-//                        Http_Result result = gson.fromJson(resultDesc.getResult(), Http_Result.class);
-//                        if (result.getCode() == 0) {
-////                                    logout_yun();
-//                            logout_event(activity);
-//                        } else {
-//                            Log.i("LOGOUT", "智能家具失败: " + resultDesc.getResult());
-//                            if ("".equals(result.getMsg()))
-//                                ToastUtil.showText("退出失败");
-//                            else
-//                                ToastUtil.showText(result.getMsg());
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int code, String message) {
-//                        super.onFailure(code, message);
-//                        Log.i("LOGOUT", "智能家具onFailure: " + code + message);
-//                        ToastUtil.showText("退出失败");
-//                    }
-//                });
             }
         });
         builder.create().show();
@@ -125,7 +98,7 @@ public class LogoutHelper {
         GlobalVars.setDevid("");
         GlobalVars.setDevpass("");
         GlobalVars.setUserid("");
-        AppSharePreferenceMgr.put(GlobalVars.CONFIG_PASS_SHAREPREFERENCE,"888888");
+        AppSharePreferenceMgr.put(GlobalVars.CONFIG_PASS_SHAREPREFERENCE, "888888");
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOID_SHAREPREFERENCE, "");
         AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
         AppSharePreferenceMgr.put(GlobalVars.RCUINFOLIST_SHAREPREFERENCE, "");
@@ -134,6 +107,15 @@ public class LogoutHelper {
 //            MyApplication.mApplication.getmHomeActivity().finish();
 //        } catch (Exception e) {
 //        }
+
+
+        //
+        cn.semtec.community2.MyApplication.logined = false;
+        cn.semtec.community2.MyApplication.houseList.clear();
+        cn.semtec.community2.MyApplication.houseProperty = null;
+        cn.semtec.community2.MyApplication.cellphone = null;
+        VideoFragment.mlist.clear();
+
         MyApplication.mApplication.dismissLoadDialog();
         context.startActivity(new Intent(context, cn.semtec.community2.activity.LoginActivity.class));
         context.finish();

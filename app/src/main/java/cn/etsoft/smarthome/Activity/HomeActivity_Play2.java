@@ -15,6 +15,8 @@ import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.text.format.Time;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -85,6 +87,10 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_play2_activity);
+
+        Window win = getWindow();
+        win.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+
         PermissionsUtli.verifyStoragePermissions(HomeActivity_Play2.this);
         MyApplication.addActivity(this);
         MyApplication.mApplication.setmHomeActivity(this);
