@@ -54,20 +54,10 @@ public class Scene_KeysSetHelper {
      */
     public static List<CircleDataEvent> initSceneCircleOUterData(boolean IsClick, int position) {
 
-        WareDataHliper.initCopyWareData().getCopyScenes();
-        List<WareSceneEvent> SceneData = WareDataHliper.initCopyWareData().getCopyScenes();
-        int SceneSize = SceneData.size();
-        if (SceneSize == 0) {
-            WareSceneEvent event = new WareSceneEvent();
-            event.setSceneName("全开模式");
-            event.setEventId(0);
-            SceneData.add(event);
-            WareSceneEvent event1 = new WareSceneEvent();
-            event1.setSceneName("全关模式");
-            event1.setEventId(1);
-            SceneData.add(event1);
-        }
+        WareDataHliper.initCopyWareData().getSceneControlData();
+        List<WareSceneEvent> SceneData = WareDataHliper.initCopyWareData().getSceneControlData();
         int num = 0;
+        int SceneSize =  SceneData.size();
         if (SceneSize <= 2) num = 4;
         else if (SceneSize > 2 && SceneSize < 5) num = SceneSize;
         else num = SceneSize;

@@ -196,7 +196,10 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
                     mDevKeys_Devs.setAdapter(mDevKeysDevsAdapter);
                     if (mDevKeysDevsAdapter.getItemCount() == 0) {
                         mDevNullTv.setVisibility(View.VISIBLE);
-                    } else mDevNullTv.setVisibility(View.GONE);
+                    } else {
+                        mDevNullTv.setVisibility(View.GONE);
+                        SendDataUtil.getChnItemInfo(RecyclerViewDev.get(0));
+                    }
                     mDevKeys_Keys.setAdapter(null);
                 }
             }
@@ -227,7 +230,10 @@ public class Dev_KeysSetActivity extends BaseActivity implements View.OnClickLis
 
                 if (mDevKeysDevsAdapter.getItemCount() == 0) {
                     mDevNullTv.setVisibility(View.VISIBLE);
-                } else mDevNullTv.setVisibility(View.GONE);
+                } else {
+                    mDevNullTv.setVisibility(View.GONE);
+                    SendDataUtil.getChnItemInfo(RecyclerViewDev.get(0));
+                }
                 mDevKeys_Keys.setAdapter(null);
             }
         });

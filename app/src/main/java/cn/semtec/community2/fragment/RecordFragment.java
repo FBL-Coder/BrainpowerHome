@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
@@ -31,10 +33,13 @@ import cn.etsoft.smarthome.R;
 import cn.semtec.community2.MyApplication;
 import cn.semtec.community2.activity.BaseActivity;
 import cn.semtec.community2.activity.RecordPicActivity;
+import cn.semtec.community2.entity.RecordEntity;
 import cn.semtec.community2.model.MyHttpUtil;
 import cn.semtec.community2.tool.Constants;
 import cn.semtec.community2.util.CatchUtil;
 import cn.semtec.community2.util.ToastUtil;
+
+import static cn.semtec.community2.service.CloudCallServiceManager.TAG;
 
 public class RecordFragment extends Fragment {
     private View layout;
@@ -102,39 +107,43 @@ public class RecordFragment extends Fragment {
     public void getData() {
         if (MyApplication.houseProperty == null)
             return;
-        String url = Constants.CONTENT_LOG + "?houseId=" + MyApplication.houseProperty.houseId + "&pageNum=" + listSize +
+//        String url = Constants.CONTENT_LOG + "?houseId=" + MyApplication.houseProperty.houseId + "&pageNum=" + listSize +
+        String url = Constants.CONTENT_LOG + "?houseId=002100010100010100001&pageNum=" + listSize +
                 "&userPage=" + num;
         MyHttpUtil http = new MyHttpUtil(HttpRequest.HttpMethod.GET, url, new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 String mResult = responseInfo.result;
-                try {
-                    // 获得回传的 json字符串
-                    JSONObject jo = new JSONObject(mResult);
-                    // 0为成功 <0为系统异常 其他待定
-                    if (jo.getInt("returnCode") == 0) {
-                        JSONArray ja = jo.getJSONArray("object");
-                        url_path = jo.getJSONObject("args").getString("photoSerAdr");
-                        mlist.clear();
-                        for (int i = 0; i < ja.length(); i++) {
-                            JSONObject o = ja.getJSONObject(i);
-                            HashMap<String, String> map = new HashMap<>();
-                            map.put("time", o.getString("time"));
-                            map.put("userName", o.getString("userName"));
-                            map.put("lockName", o.getString("lockName"));
-                            map.put("photoUrl", o.getString("photoUrl"));
-                            mlist.add(map);
-                        }
-                        cancelProgress();
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        cancelProgress();
-                        LogUtils.i(jo.getString("msg"));
-                    }
-                } catch (JSONException e) {
-                    cancelProgress();
-                    CatchUtil.catchM(e);
-                }
+                Log.i(TAG, "onSuccess: " + mResult);
+                Gson gson = new Gson();
+                MyApplication.entity = gson.fromJson(mResult, RecordEntity.class);
+//                try {
+//                    // 获得回传的 json字符串
+//                    JSONObject jo = new JSONObject(mResult);
+//                    // 0为成功 <0为系统异常 其他待定
+//                    if (jo.getInt("returnCode") == 0) {
+//                        JSONArray ja = jo.getJSONArray("object");
+//                        url_path = jo.getJSONObject("args").getString("photoSerAdr");
+//                        mlist.clear();
+//                        for (int i = 0; i < ja.length(); i++) {
+//                            JSONObject o = ja.getJSONObject(i);
+//                            HashMap<String, String> map = new HashMap<>();
+//                            map.put("time", o.getString("time"));
+//                            map.put("userName", o.getString("userName"));
+//                            map.put("lockName", o.getString("lockName"));
+//                            map.put("photoUrl", o.getString("photoUrl"));
+//                            mlist.add(map);
+//                        }
+//                        cancelProgress();
+//                        adapter.notifyDataSetChanged();
+//                    } else {
+//                        cancelProgress();
+//                        LogUtils.i(jo.getString("msg"));
+//                    }
+//                } catch (JSONException e) {
+//                    cancelProgress();
+//                    CatchUtil.catchM(e);
+//                }
             }
 
             @Override
@@ -178,12 +187,15 @@ public class RecordFragment extends Fragment {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            HashMap<String, String> map = mlist.get(position);
-            String d = map.get("time").trim();
-            holder.tv_type.setText(map.get("userName"));
+//            HashMap<String, String> map = mlist.get(position);
+//            String d = map.get("time").trim();
+//            holder.tv_type.setText(map.get("userName"));
+//            holder.tv_date.setText(d.substring(0, 10));
+//            holder.tv_time.setText(d.substring(10, d.length()));
+            String d = MyApplication.entity.getObject().get(position).getTime();
+            holder.tv_type.setText(MyApplication.entity.getObject().get(position).getUserName());
             holder.tv_date.setText(d.substring(0, 10));
             holder.tv_time.setText(d.substring(10, d.length()));
-
             return convertView;
         }
 

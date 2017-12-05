@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import cn.jpush.android.api.JPushInterface;
 import cn.semtec.community2.database.DBhelper;
 import cn.semtec.community2.entity.HouseProperty;
+import cn.semtec.community2.entity.RecordEntity;
 import cn.semtec.community2.util.SharedPreferenceUtil;
 import cn.semtec.community2.util.Util;
 
@@ -34,6 +35,7 @@ public class MyApplication extends cn.etsoft.smarthome.MyApplication {
     public static float density;
     public static ArrayList<HouseProperty> houseList;
     public static HouseProperty houseProperty;
+    public static RecordEntity entity;
 
     @Override
     public void onCreate() {
