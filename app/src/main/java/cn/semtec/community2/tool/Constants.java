@@ -71,7 +71,7 @@ public class Constants {
     // 问题反馈
     public static final String PROPERTY_CREATE = CONTENT_NAME + "/channel/propertycreate";
     // APP端获取开门记录接口
-    public static final String CONTENT_LOG = CONTENT_NAME + "/facility/log/get";
+    public static final String CONTENT_LOG = CONTENT_NAME + "/facility/unlocklog/get";
     // APP端通过业主手机号绑定房产——-获取业主名下房产
     public static final String CONTENT_GETHOUSE = CONTENT_USER + "/bindHouse/getHouse";
 }

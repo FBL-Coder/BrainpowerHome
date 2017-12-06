@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import cn.etsoft.smarthome.R;
 import cn.semtec.community2.MyApplication;
@@ -45,7 +48,7 @@ public class RecordFragment extends Fragment {
     private View layout;
     private Dialog buffer;
     private ListView listView;
-    private ArrayList<HashMap<String, String>> mlist;
+    private List<RecordEntity.ObjectBean> mlist;
     private View left, right;
     private TextView tv_num;
     private int num = 1;
@@ -61,12 +64,30 @@ public class RecordFragment extends Fragment {
         right = layout.findViewById(R.id.right);
         tv_num = (TextView) layout.findViewById(R.id.tv_num);
         mlist = new ArrayList<>();
-        adapter = new MyAdapter();
-        listView.setAdapter(adapter);
+
         getData();
         setListener();
         return layout;
     }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            cancelProgress();
+            if (msg.what == 1) {
+                com.example.abc.mybaseactivity.OtherUtils.ToastUtil.showText("网络异常");
+                return;
+            }
+            mlist = MyApplication.entity.getObject();
+            if (mlist == null || mlist.size() == 0){
+                com.example.abc.mybaseactivity.OtherUtils.ToastUtil.showText("没有数据");
+            }
+            url_path = MyApplication.entity.getArgs();
+            adapter = new MyAdapter();
+            listView.setAdapter(adapter);
+        }
+    };
 
     private void setListener() {
         left.setOnClickListener(new View.OnClickListener() {
@@ -94,11 +115,10 @@ public class RecordFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), RecordPicActivity.class);
-                HashMap<String, String> map = mlist.get(position);
-                intent.putExtra("date", map.get("time"));
-                intent.putExtra("device", map.get("lockName"));
-                intent.putExtra("name", map.get("userName"));
-                intent.putExtra("photoUrl", url_path + map.get("photoUrl"));
+                intent.putExtra("date", mlist.get(position).getTime());
+                intent.putExtra("device", mlist.get(position).getLockName());
+                intent.putExtra("name", mlist.get(position).getUserName());
+                intent.putExtra("photoUrl", url_path + mlist.get(position).getPhotoUrl());
                 startActivity(intent);
             }
         });
@@ -107,16 +127,19 @@ public class RecordFragment extends Fragment {
     public void getData() {
         if (MyApplication.houseProperty == null)
             return;
-//        String url = Constants.CONTENT_LOG + "?houseId=" + MyApplication.houseProperty.houseId + "&pageNum=" + listSize +
-        String url = Constants.CONTENT_LOG + "?houseId=002100010100010100001&pageNum=" + listSize +
-                "&userPage=" + num;
-        MyHttpUtil http = new MyHttpUtil(HttpRequest.HttpMethod.GET, url, new RequestCallBack<String>() {
+//        String url = "http://yitong-ss1.weedoor.com:8080/smartcommunity/facility/unlocklog/get?houseId=002100010100010100001&pageNum=12&userPage=1";
+
+        String url = Constants.CONTENT_LOG + "?houseId=" + MyApplication.houseProperty.houseId + "&pageNum=" + listSize + "&userPage=" + num;
+        final MyHttpUtil http = new MyHttpUtil(HttpRequest.HttpMethod.GET, url, new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 String mResult = responseInfo.result;
                 Log.i(TAG, "onSuccess: " + mResult);
                 Gson gson = new Gson();
                 MyApplication.entity = gson.fromJson(mResult, RecordEntity.class);
+                Message message = handler.obtainMessage();
+                message.what = 0;
+                handler.sendMessage(message);
 //                try {
 //                    // 获得回传的 json字符串
 //                    JSONObject jo = new JSONObject(mResult);
@@ -150,7 +173,9 @@ public class RecordFragment extends Fragment {
             public void onFailure(HttpException error, String msg) {
                 cancelProgress();
                 LogUtils.i("网络异常" + msg);
-                ToastUtil.s(BaseActivity.instance, "网络异常");
+                Message message = handler.obtainMessage();
+                message.what = 1;
+                handler.sendMessage(message);
             }
         });
         http.send();
@@ -192,8 +217,8 @@ public class RecordFragment extends Fragment {
 //            holder.tv_type.setText(map.get("userName"));
 //            holder.tv_date.setText(d.substring(0, 10));
 //            holder.tv_time.setText(d.substring(10, d.length()));
-            String d = MyApplication.entity.getObject().get(position).getTime();
-            holder.tv_type.setText(MyApplication.entity.getObject().get(position).getUserName());
+            String d = mlist.get(position).getTime();
+            holder.tv_type.setText(mlist.get(position).getUserName());
             holder.tv_date.setText(d.substring(0, 10));
             holder.tv_time.setText(d.substring(10, d.length()));
             return convertView;
