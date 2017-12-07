@@ -12,6 +12,7 @@ public class WareSceneEvent implements Serializable {
     private String sceneName;
     private int devCnt;
     private int eventId;
+    private int exeSecu;
     private int rev2;
     private int rev3;
     private boolean isSelect;
@@ -48,6 +49,14 @@ public class WareSceneEvent implements Serializable {
 
     public void setEventId(int eventld) {
         this.eventId = eventld;
+    }
+
+    public int getExeSecu() {
+        return exeSecu;
+    }
+
+    public void setExeSecu(int exeSecu) {
+        this.exeSecu = exeSecu;
     }
 
     public int getRev2() {

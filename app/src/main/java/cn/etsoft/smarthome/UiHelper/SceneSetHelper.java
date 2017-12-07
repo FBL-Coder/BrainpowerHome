@@ -300,7 +300,7 @@ public class SceneSetHelper {
                             "\"subType2\":0" + "," +
                             "\"eventId\":" + Sceneevent.getEventId() + "," +
                             "\"devCnt\":" + Sceneevent.getItemAry().size() + "," +
-                            "\"rev3\":" + Sceneevent.getRev3() + "," +
+                            "\"exeSecu\":" + Sceneevent.getExeSecu() + "," +
                             "\"itemAry\":[" + more_data + "]}";
                     Log.e("情景模式测试:", data_hoad);
                     MyApplication.mApplication.getUdpServer().send(data_hoad, 24);

@@ -80,7 +80,7 @@ public class RecordFragment extends Fragment {
                 return;
             }
             mlist = MyApplication.entity.getObject();
-            if (mlist == null || mlist.size() == 0){
+            if (mlist == null || mlist.size() == 0) {
                 com.example.abc.mybaseactivity.OtherUtils.ToastUtil.showText("没有数据");
             }
             url_path = MyApplication.entity.getArgs();

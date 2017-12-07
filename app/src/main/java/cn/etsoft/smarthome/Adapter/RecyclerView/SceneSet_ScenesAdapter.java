@@ -11,6 +11,7 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.R;
+import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 
 /**
  * Created by Say GoBay on 2017/3/29.
@@ -23,13 +24,15 @@ public class SceneSet_ScenesAdapter extends RecyclerView.Adapter<SceneSet_Scenes
             R.drawable.yejian, R.drawable.lijia};
     private SceneViewHolder.OnItemClick onItemClick;
 
-    public SceneSet_ScenesAdapter(List<WareSceneEvent> list) {
-        this.list = list;
+    public SceneSet_ScenesAdapter() {
+        this.list = WareDataHliper.initCopyWareData().getCopyScenes();
     }
 
     public void setOnItemClick(SceneViewHolder.OnItemClick onItemClick) {
         this.onItemClick = onItemClick;
     }
+
+
 
     @Override
     public SceneViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -37,6 +40,7 @@ public class SceneSet_ScenesAdapter extends RecyclerView.Adapter<SceneSet_Scenes
         SceneViewHolder holder = new SceneViewHolder(view);
         return holder;
     }
+
 
     @Override
     public void onBindViewHolder(final SceneViewHolder holder, final int position) {
@@ -88,6 +92,10 @@ public class SceneSet_ScenesAdapter extends RecyclerView.Adapter<SceneSet_Scenes
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void setselect(int scenePosition) {
+        mPosition = scenePosition;
     }
 
     public static class SceneViewHolder extends RecyclerView.ViewHolder {

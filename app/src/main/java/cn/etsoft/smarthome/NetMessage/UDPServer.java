@@ -2445,7 +2445,7 @@ public class UDPServer implements Runnable {
             boolean IsSceneIdExist = false;
             boolean IsDevIdExist = false;
             event.setEventId(object.getInt("eventId"));
-            event.setRev3(object.getInt("rev3"));
+            event.setExeSecu(object.getInt("exeSecu"));
 
             List<WareSceneEvent> events_exist = MyApplication.getWareData().getSceneEvents();
             WareSceneEvent event_exist = null;

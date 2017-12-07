@@ -28,6 +28,7 @@ import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.PopupWindow.PopupWindowAdapter2;
 import cn.etsoft.smarthome.Adapter.RecyclerView.SceneSet_ScenesAdapter;
+import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.Fragment.Control.LightControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.SocketFragment;
 import cn.etsoft.smarthome.Fragment.SceneSet.AirSceneFragment;
@@ -65,7 +66,8 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
     private RelativeLayout SceneSet_Info;
     private Fragment mLightFragment, mAirFragment, mTVFragment,
             mTvUpFragment, mCurFragment, mVideoFragment, mSocketFragment, mDoorFragemnt, mFreshAirFragment, mFloorHeatFragment;
-    private int ScenePosition = 0, DevType = -1;
+    private int ScenePosition = 0, DevType = -1, longClickPsotion;
+    private WareSceneEvent sceneEvent;
     private String RoomName = "";
     private boolean IsNoData = true;
     private PopupWindow popupWindow;
@@ -86,7 +88,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                     initData();
                 }
                 if (datType == 23) {
-                    SendDataUtil.getSceneInfo();
+//                    SendDataUtil.getSceneInfo();
                     MyApplication.mApplication.dismissLoadDialog();
                     ToastUtil.showText("添加成功");
                     WareDataHliper.initCopyWareData().startCopySceneData();
@@ -100,7 +102,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                     MyApplication.mApplication.dismissLoadDialog();
                     WareDataHliper.initCopyWareData().startCopySceneData();
                     if (MyApplication.getWareData().getSceneEvents().size() != 0) {
-                        if (ScenePosition != 0)
+                        if (ScenePosition != 0 && longClickPsotion <= ScenePosition)
                             ScenePosition -= 1;
                     } else ScenePosition = 0;
                     initData();
@@ -154,8 +156,10 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         layout.Init(200, 100);
         layout.setInnerCircleMenuData(Data_InnerCircleList);
         layout.setOuterCircleMenuData(Data_OuterCircleList);
-        mScenesAdapter = new SceneSet_ScenesAdapter(WareDataHliper.initCopyWareData().getCopyScenes());
+        mScenesAdapter = new SceneSet_ScenesAdapter();
+        mScenesAdapter.setselect(ScenePosition);
         mSceneSetScenes.setAdapter(mScenesAdapter);
+
         if (WareDataHliper.initCopyWareData().getCopyScenes().size() == 0) {
             IsNoData = true;
             SendDataUtil.getSceneInfo();
@@ -166,6 +170,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         }
         initEvent();
     }
+
 
     @Override
     public void onClick(View v) {
@@ -195,7 +200,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initEvent() {
-
+        sceneEvent = WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition);
         layout.setOnInnerCircleLayoutClickListener(new CircleMenuLayout.OnInnerCircleLayoutClickListener() {
             @Override
             public void onClickInnerCircle(int position, View view) {
@@ -225,24 +230,29 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             }
         });
 
+        mScenesAdapter.setselect(ScenePosition);
         mScenesAdapter.setOnItemClick(new SceneSet_ScenesAdapter.SceneViewHolder.OnItemClick() {
             @Override
             public void OnItemClick(View view, int position) {
                 if (mSceneSetSceneClickListener != null)
                     mSceneSetSceneClickListener.SceneClickPosition(position, DevType, RoomName);
                 ScenePosition = position;
-                if (0 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+
+                sceneEvent = WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition);
+
+                if (0 == sceneEvent.getRev3())
                     scene_safetytype.setText("24小时布防");
-                if (1 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+                if (1 == sceneEvent.getRev3())
                     scene_safetytype.setText("在家布防");
-                if (2 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+                if (2 == sceneEvent.getRev3())
                     scene_safetytype.setText("外出布防");
-                if (255 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+                if (255 == sceneEvent.getRev3())
                     scene_safetytype.setText("撤防状态");
             }
 
             @Override
             public void OnItemLongClick(View view, final int position) {
+                longClickPsotion = position;
                 AlertDialog.Builder builder = new AlertDialog.Builder(SceneSetActivity.this);
                 builder.setTitle("提示 :");
                 builder.setMessage("是否删除此情景？");
@@ -256,6 +266,11 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        if (WareDataHliper.initCopyWareData().getCopyScenes().get(position).getEventId() == 10
+                                || WareDataHliper.initCopyWareData().getCopyScenes().get(position).getEventId() == 11) {
+                            ToastUtil.showText("此情景不可删除");
+                            return;
+                        }
                         MyApplication.mApplication.showLoadDialog(SceneSetActivity.this);
                         try {
                             SendDataUtil.deleteScene(WareDataHliper.initCopyWareData().getCopyScenes().get(position));
