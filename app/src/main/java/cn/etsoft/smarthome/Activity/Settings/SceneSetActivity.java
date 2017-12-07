@@ -240,13 +240,13 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
 
                 sceneEvent = WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition);
 
-                if (0 == sceneEvent.getRev3())
+                if (0 == sceneEvent.getExeSecu())
                     scene_safetytype.setText("24小时布防");
-                if (1 == sceneEvent.getRev3())
+                if (1 == sceneEvent.getExeSecu())
                     scene_safetytype.setText("在家布防");
-                if (2 == sceneEvent.getRev3())
+                if (2 == sceneEvent.getExeSecu())
                     scene_safetytype.setText("外出布防");
-                if (255 == sceneEvent.getRev3())
+                if (255 == sceneEvent.getExeSecu())
                     scene_safetytype.setText("撤防状态");
             }
 
@@ -282,13 +282,13 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                 builder.create().show();
             }
         });
-        if (0 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+        if (0 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getExeSecu())
             scene_safetytype.setText("24小时布防");
-        if (1 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+        if (1 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getExeSecu())
             scene_safetytype.setText("在家布防");
-        if (2 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+        if (2 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getExeSecu())
             scene_safetytype.setText("外出布防");
-        if (255 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getRev3())
+        if (255 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getExeSecu())
             scene_safetytype.setText("撤防状态");
 
         FragmentManager manager = getSupportFragmentManager();
@@ -417,7 +417,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView tv = (TextView) view_parent;
                 tv.setText(text.get(position));
-                WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).setRev3(position == 3 ? 255 : position);
+                WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).setExeSecu(position == 3 ? 255 : position);
                 popupWindow.dismiss();
             }
         });

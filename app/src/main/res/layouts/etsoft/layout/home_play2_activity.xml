@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/login_bg"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <!--上一层-->
         <cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout
@@ -454,4 +455,5 @@
 
 
     </cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout>
+
 </RelativeLayout>

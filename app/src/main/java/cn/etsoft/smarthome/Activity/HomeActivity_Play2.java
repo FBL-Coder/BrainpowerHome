@@ -14,6 +14,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -44,6 +45,8 @@ import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.PermissionsUtli;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.LinearLayout.BamLinearLayout;
+
+import static cn.semtec.community2.service.CloudCallServiceManager.TAG;
 
 /**
  * Author：FBL  Time： 2017/11/24.
@@ -86,6 +89,7 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.home_play2_activity);
 
         Window win = getWindow();
@@ -254,12 +258,36 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
                 startActivity(new Intent(HomeActivity_Play2.this, NewWorkSetActivity.class));
                 break;
             case R.id.home_scene_in:
-                SendDataUtil.executelScene(10);
-                ToastUtil.showText("正在启用情景");
+                if (MyApplication.getWareData().getSceneEvents().size() == 0) {
+                    ToastUtil.showText("未找到数据");
+                    return;
+                } else {
+                    SendDataUtil.executelScene(10);
+                    ToastUtil.showText("正在启用情景");
+                    for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
+                        if (MyApplication.getWareData().getSceneEvents().get(i).getEventId() == 10) {
+                            AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, MyApplication.getWareData().getSceneEvents().get(i).getExeSecu());
+                            SendDataUtil.setBuFangSafetyInfo(MyApplication.getWareData().getSceneEvents().get(i).getExeSecu());
+//                            Log.i(TAG, "AppSharePreferenceMgr: " + AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 888));
+                        }
+                    }
+                }
                 break;
             case R.id.home_scene_out:
-                SendDataUtil.executelScene(11);
-                ToastUtil.showText("正在启用情景");
+                if (MyApplication.getWareData().getSceneEvents().size() == 0) {
+                    ToastUtil.showText("未找到数据");
+                    return;
+                } else {
+                    SendDataUtil.executelScene(11);
+                    ToastUtil.showText("正在启用情景");
+                    for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
+                        if (MyApplication.getWareData().getSceneEvents().get(i).getEventId() == 11) {
+                            AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, MyApplication.getWareData().getSceneEvents().get(i).getExeSecu());
+                            SendDataUtil.setBuFangSafetyInfo(MyApplication.getWareData().getSceneEvents().get(i).getExeSecu());
+
+                        }
+                    }
+                }
                 break;
             case R.id.elevator_up:
                 ToastUtil.showText("找不到以关联电梯");

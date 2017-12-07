@@ -50,11 +50,7 @@ public class ControlSceneActivity extends BaseActivity {
     }
 
     private void initScene() {
-        if (WareDataHliper.initCopyWareData().getSceneControlData().size() < 6)
-            mControlSceneGirdView.setNumColumns(2);
-        else if (WareDataHliper.initCopyWareData().getSceneControlData().size() > 5
-                && WareDataHliper.initCopyWareData().getSceneControlData().size() < 10)
-            mControlSceneGirdView.setNumColumns(3);
+        mControlSceneGirdView.setNumColumns(4);
         if (mAdapter == null)
             mAdapter = new Control_Scene_DevAdapter(ControlSceneActivity.this);
         else mAdapter.notifyDataSetChanged();
@@ -64,24 +60,8 @@ public class ControlSceneActivity extends BaseActivity {
         mControlSceneGirdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(ControlSceneActivity.this);
-                builder.setTitle("提示");
-                builder.setMessage("您是否启用---" + WareDataHliper.initCopyWareData().getSceneControlData().get(position).getSceneName() + "---情景？");
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        SendDataUtil.executelScene(mSceneDatas.get(position).getEventId());
-                        ToastUtil.showText("正在执行情景");
-                    }
-                });
-                builder.create().show();
+                SendDataUtil.executelScene(mSceneDatas.get(position).getEventId());
+                ToastUtil.showText("正在执行情景");
             }
         });
     }

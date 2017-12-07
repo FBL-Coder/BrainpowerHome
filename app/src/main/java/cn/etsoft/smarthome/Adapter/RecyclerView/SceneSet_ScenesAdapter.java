@@ -21,7 +21,7 @@ public class SceneSet_ScenesAdapter extends RecyclerView.Adapter<SceneSet_Scenes
     private int mPosition = 0;
     private int[] image = {R.drawable.huike, R.drawable.xizao,
             R.drawable.yongcan, R.drawable.baitian,
-            R.drawable.yejian, R.drawable.lijia};
+            R.drawable.yejian, R.drawable.lijia,R.drawable.scene_home_in,R.drawable.scene_home_out};
     private SceneViewHolder.OnItemClick onItemClick;
 
     public SceneSet_ScenesAdapter() {
@@ -62,6 +62,10 @@ public class SceneSet_ScenesAdapter extends RecyclerView.Adapter<SceneSet_Scenes
             holder.iv.setImageResource(R.drawable.xizao);
         else if (list.get(position).getSceneName().contains("餐"))
             holder.iv.setImageResource(R.drawable.yongcan);
+        else if (list.get(position).getSceneName().contains("外出"))
+            holder.iv.setImageResource(R.drawable.scene_home_out);
+        else if (list.get(position).getSceneName().contains("在家"))
+            holder.iv.setImageResource(R.drawable.scene_home_in);
         else holder.iv.setImageResource(image[position % 6]);
 
         holder.tv.setText(list.get(position).getSceneName());

@@ -52,6 +52,7 @@ public class SafetyHomeActivity extends BaseActivity implements View.OnClickList
     private List<String> mSafetyType, mSafetyBuCheType;
     private int[] starttime_input, endtime_input;
     private TextView mSafetyHomeBuCheSelect, mSafetyHomeBuCheBuFang, mSafetyHomeBuChesCheFang;
+    private int SafatyType;
 
     @Override
     public void initView() {
@@ -84,13 +85,14 @@ public class SafetyHomeActivity extends BaseActivity implements View.OnClickList
                 if (datType == 32 && subtype1 == 1) {
                     MyApplication.mApplication.dismissLoadDialog();
                     ToastUtil.showText("操作成功");
-                    if (0 == (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0))
+                    SafatyType = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
+                    if (0 == SafatyType)
                         mSafetySetNow.setText("当前布撤状态 : 24小时布防");
-                    if (1 == (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0))
+                    if (1 == SafatyType)
                         mSafetySetNow.setText("当前布撤状态 : 在家布防");
-                    if (2 == (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0))
+                    if (2 == SafatyType)
                         mSafetySetNow.setText("当前布撤状态 : 外出布防");
-                    if (255 == (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0))
+                    if (255 == SafatyType)
                         mSafetySetNow.setText("当前布撤状态 : 撤防状态");
                 }
             }
@@ -111,13 +113,14 @@ public class SafetyHomeActivity extends BaseActivity implements View.OnClickList
         Safetyadapter = new SafetyRecordAdapter(mSafetyData_All.getSafetyTime(), this);
         mSafetyRecord.setAdapter(Safetyadapter);
 
-        if (0 == (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0))
+        SafatyType = (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 255);
+        if (0 == SafatyType)
             mSafetySetNow.setText("当前布撤状态 : 24小时布防");
-        if (1 == (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0))
+        if (1 == SafatyType)
             mSafetySetNow.setText("当前布撤状态 : 在家布防");
-        if (2 == (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0))
+        if (2 == SafatyType)
             mSafetySetNow.setText("当前布撤状态 : 外出布防");
-        if (255 == (int) AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 0))
+        if (255 == SafatyType)
             mSafetySetNow.setText("当前布撤状态 : 撤防状态");
 
         getLiftImage().setOnClickListener(new View.OnClickListener() {

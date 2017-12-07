@@ -24,9 +24,6 @@ public class Control_Scene_DevAdapter extends BaseAdapter {
 
     private List<WareSceneEvent> scenes;
     private Context mContext;
-    private static int[] images = new int[]{R.drawable.scene_baitian, R.drawable.scene_yejian,
-            R.drawable.scene_quankai, R.drawable.scene_quanguan, R.drawable.scene_yongcan,
-            R.drawable.scene_xiuxian};
 
     public Control_Scene_DevAdapter(Context context) {
         scenes = WareDataHliper.initCopyWareData().getSceneControlData();
@@ -82,8 +79,12 @@ public class Control_Scene_DevAdapter extends BaseAdapter {
             viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_quanguan);
         else if (scenes.get(position).getSceneName().contains("用餐"))
             viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_yongcan);
+        else if (scenes.get(position).getSceneName().contains("在家"))
+            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_home_in);
+        else if (scenes.get(position).getSceneName().contains("外出"))
+            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_home_out);
         else
-            viewHolder.mGirdviewIv.setImageResource(images[0]);
+            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_baitian);
         viewHolder.mGirdviewTv.setText(scenes.get(position).getSceneName());
         return convertView;
     }
