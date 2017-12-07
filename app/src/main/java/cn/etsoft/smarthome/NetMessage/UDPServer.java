@@ -108,7 +108,6 @@ public class UDPServer implements Runnable {
         }
     }
 
-
     public void UdpHeard() {
         new Thread(new Runnable() {
             @Override
@@ -129,7 +128,7 @@ public class UDPServer implements Runnable {
         int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
         if (NETWORK == 0) {
             ToastUtil.showText("请检查网络连接");
-        } else if (NETWORK != 0 && NETWORK < 10) {
+        } else if (NETWORK != 0 && NETWORK < 9) {
             GlobalVars.setIsLAN(false);
             String jsonToServer = "{\"uid\":\"" + GlobalVars.getUserid() + "\",\"type\":\"forward\",\"data\":" + msg + "}";
             MyApplication.mApplication.getWsClient().sendMsg(jsonToServer);

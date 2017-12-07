@@ -10,6 +10,10 @@ import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.util.Log;
 
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+
+import static android.net.ConnectivityManager.TYPE_ETHERNET;
+
 /**
  * 主要功能:App网络管理
  */
@@ -47,6 +51,7 @@ public class AppNetworkMgr {
 
     /**
      * 获取当前手机连接的网络类型
+     *
      * @param context 上下文
      * @return int 网络类型
      */
@@ -60,7 +65,7 @@ public class AppNetworkMgr {
             int currentNetWork = networkInfo.getType();
             //手机网络类型
             if (currentNetWork == ConnectivityManager.TYPE_MOBILE) {
-                if(networkInfo.getExtraInfo() != null){
+                if (networkInfo.getExtraInfo() != null) {
 //                    ToastUtil.showText("NETWORK  :当前是手机数据网络");
                     if (networkInfo.getExtraInfo().equals("cmnet")) {
                         Log.i("AppNetworkMgr", "当前网络为中国移动CMNET网络");
@@ -70,36 +75,39 @@ public class AppNetworkMgr {
                         Log.i("AppNetworkMgr", "当前网络为中国移动CMWAP网络");
                         return TYPE_MOBILE_CMWAP;
                     }
-                    if(networkInfo.getExtraInfo().equals("uniwap")) {
+                    if (networkInfo.getExtraInfo().equals("uniwap")) {
                         Log.i("AppNetworkMgr", "当前网络为中国联通UNIWAP网络");
                         return TYPE_MOBILE_UNIWAP;
                     }
-                    if(networkInfo.getExtraInfo().equals("3gwap")) {
+                    if (networkInfo.getExtraInfo().equals("3gwap")) {
                         Log.i("AppNetworkMgr", "当前网络为中国联通3GWAP网络");
                         return TYPE_MOBILE_3GWAP;
                     }
-                    if(networkInfo.getExtraInfo().equals("3gnet")) {
+                    if (networkInfo.getExtraInfo().equals("3gnet")) {
                         Log.i("AppNetworkMgr", "当前网络为中国联通3GNET网络");
                         return TYPE_MOBLIE_3GNET;
                     }
-                    if(networkInfo.getExtraInfo().equals("uninet")) {
+                    if (networkInfo.getExtraInfo().equals("uninet")) {
                         Log.i("AppNetworkMgr", "当前网络为中国联通UNINET网络");
                         return TYPE_MOBILE_UNINET;
                     }
-                    if(networkInfo.getExtraInfo().equals("ctwap")) {
+                    if (networkInfo.getExtraInfo().equals("ctwap")) {
                         Log.i("AppNetworkMgr", "当前网络为中国电信CTWAP网络");
                         return TYPE_MOBILE_UNINET;
                     }
-                    if(networkInfo.getExtraInfo().equals("ctnet")) {
+                    if (networkInfo.getExtraInfo().equals("ctnet")) {
                         Log.i("AppNetworkMgr", "当前网络为中国电信CTNET网络");
                         return TYPE_MOBILE_UNINET;
                     }
                 }
                 //WIFI网络类型
-            }else if (currentNetWork == ConnectivityManager.TYPE_WIFI) {
+            } else if (currentNetWork == ConnectivityManager.TYPE_WIFI) {
 //                ToastUtil.showText("NETWORK  :当前网络为WIFI网络");
                 Log.i("AppNetworkMgr", "当前网络为WIFI网络");
                 return TYPE_WIFI;
+            } else if (currentNetWork == TYPE_ETHERNET) {
+                Log.i("AppNetworkMgr", "当前网络为有线网络");
+                return TYPE_ETHERNET;
             }
         }
         Log.i("AppNetworkMgr", "当前网络为不是我们考虑的网络");
@@ -120,7 +128,7 @@ public class AppNetworkMgr {
             //获取连接对象
             if (mNetworkInfo != null) {
                 //判断是TYPE_MOBILE网络
-                if(ConnectivityManager.TYPE_MOBILE == mNetworkInfo.getType()){
+                if (ConnectivityManager.TYPE_MOBILE == mNetworkInfo.getType()) {
                     Log.i("AppNetworkMgr", "网络连接类型为：TYPE_MOBILE");
                     //判断移动网络连接状态
                     State STATE_MOBILE = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();
@@ -130,7 +138,7 @@ public class AppNetworkMgr {
                     }
                 }
                 //判断是TYPE_WIFI网络
-                if(ConnectivityManager.TYPE_WIFI == mNetworkInfo.getType()){
+                if (ConnectivityManager.TYPE_WIFI == mNetworkInfo.getType()) {
                     Log.i("AppNetworkMgr", "网络连接类型为：TYPE_WIFI");
                     //判断WIFI网络状态
                     State STATE_WIFI = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
@@ -150,17 +158,17 @@ public class AppNetworkMgr {
      * @param activity Activity
      * @return boolean 网络连接状态
      */
-    public static boolean isNetworkConnected(Activity activity){
+    public static boolean isNetworkConnected(Activity activity) {
         boolean falg = false;
         @SuppressLint("WrongConstant")
         ConnectivityManager mConnectivityManager = (ConnectivityManager) activity.getApplicationContext().getSystemService("connectivity");
-        if (mConnectivityManager == null){
+        if (mConnectivityManager == null) {
             return falg;
         }
         NetworkInfo[] arrayOfNetworkInfo = mConnectivityManager.getAllNetworkInfo();
-        if (arrayOfNetworkInfo != null){
-            for (int j = 0; j < arrayOfNetworkInfo.length; j++){
-                if (arrayOfNetworkInfo[j].getState() == State.CONNECTED){
+        if (arrayOfNetworkInfo != null) {
+            for (int j = 0; j < arrayOfNetworkInfo.length; j++) {
+                if (arrayOfNetworkInfo[j].getState() == State.CONNECTED) {
                     falg = true;
                     break;
                 }
@@ -193,13 +201,12 @@ public class AppNetworkMgr {
         if (cm != null) {
             NetworkInfo networkInfo = cm.getActiveNetworkInfo();
             if (networkInfo != null
-                && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                    && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
                 return true;
             }
         }
         return false;
     }
-
 
 
 }

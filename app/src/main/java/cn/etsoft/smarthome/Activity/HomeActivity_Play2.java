@@ -30,6 +30,12 @@ import com.example.abc.mybaseactivity.NetWorkListener.AppNetworkMgr;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -99,9 +105,7 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
         MyApplication.addActivity(this);
         MyApplication.mApplication.setmHomeActivity(this);
         initView();
-
         initData();
-
         //网络改变监听
         BaseActivity.setGetNetChangeListener(new BaseActivity.getNetChangeListener() {
             @Override
@@ -342,7 +346,38 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
 
     public void getIp() {
         int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
-        if (NETWORK >= 10) {
+        if (NETWORK == 9) {
+            String hostIp = null;
+            try {
+                // 获取本地设备的所有网络接口
+                Enumeration<NetworkInterface> enumerationNi = NetworkInterface
+                        .getNetworkInterfaces();
+                while (enumerationNi.hasMoreElements()) {
+                    NetworkInterface networkInterface = enumerationNi.nextElement();
+                    String interfaceName = networkInterface.getDisplayName();
+                    Log.i("tag", "网络名字" + interfaceName);
+
+                    // 如果是无线网卡
+                    if (interfaceName.equals("wlan0")) {
+                        Enumeration<InetAddress> enumIpAddr = networkInterface
+                                .getInetAddresses();
+                        while (enumIpAddr.hasMoreElements()) {
+                            // 返回枚举集合中的下一个IP地址信息
+                            InetAddress inetAddress = enumIpAddr.nextElement();
+                            // 不是回环地址，并且是ipv4的地址
+                            if (!inetAddress.isLoopbackAddress()
+                                    && inetAddress instanceof Inet4Address) {
+                                Log.i("tag", inetAddress.getHostAddress() + "   ");
+                                hostIp = inetAddress.getHostAddress();
+                            }
+                        }
+                    }
+                }
+                GlobalVars.LOCAL_IP = hostIp;
+            } catch (SocketException e) {
+                Log.i(TAG, "getIp: 有线IP地址获取失败" + e);
+            }
+        } else if (NETWORK >= 10) {
             //获取wifi服务
             WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             //判断wifi是否开启
@@ -356,6 +391,7 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
                 GlobalVars.WIFI_IP = ip;
             }
         }
+        ToastUtil.showText("IP地址：" + GlobalVars.WIFI_IP, 5000);
     }
 
     private String intToIp(int i) {
@@ -365,7 +401,6 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
                 ((i >> 16) & 0xFF) + "." +
                 (i >> 24 & 0xFF);
     }
-
 
     /**
      * 判断是否处于局域网

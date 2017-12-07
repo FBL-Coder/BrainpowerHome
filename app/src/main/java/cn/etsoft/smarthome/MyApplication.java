@@ -27,9 +27,15 @@ import com.google.gson.reflect.TypeToken;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.lang.ref.WeakReference;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -48,6 +54,8 @@ import cn.etsoft.smarthome.Utils.GetIPAddress;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.Utils.WratherUtil;
+
+import static cn.semtec.community2.service.CloudCallServiceManager.TAG;
 
 /**
  * Author：FBL  Time： 2017/6/12.
@@ -130,7 +138,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     private RoomTempBean mRoomTempBean;
 
     //软件启动时间是否足够
-    public boolean isStartTimeOk =false;
+    public boolean isStartTimeOk = false;
 
     @Override
     public void onCreate() {
@@ -169,20 +177,6 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         music = sp.load(this, R.raw.key_sound, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
 
         mRoomTempBean = new RoomTempBean();
-
-
-        int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
-        if (NETWORK >= 10) {
-            //获取wifi服务
-            WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-            //判断wifi是否开启
-            if (!wifiManager.isWifiEnabled()) {
-                wifiManager.setWifiEnabled(true);
-            }
-            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            int IPAddress_now = wifiInfo.getIpAddress();
-            GlobalVars.WIFI_IP = intToIp(IPAddress_now);
-        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -194,46 +188,55 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 }
             }
         }).start();
-//        queryIP();
+       getIp();
     }
 
-    static RcuInfo rcuInfo_Use;
 
-    public static void queryIP() {
-        //设置上次使用的联网模块ID；
-        GlobalVars.setDevid((String) AppSharePreferenceMgr.get(GlobalVars.RCUINFOID_SHAREPREFERENCE, ""));
-        List<RcuInfo> rcuInfos = MyApplication.mApplication.getRcuInfoList();
-        for (int i = 0; i < rcuInfos.size(); i++) {
-            if (GlobalVars.getDevid().equals(rcuInfos.get(i).getDevUnitID())) {
-                rcuInfo_Use = rcuInfos.get(i);
-            }
-        }
+    public void getIp() {
         int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
-        String IPAddress_now = "";
-        String netmask_now = "";
-        if (NETWORK == 0) {
-            ToastUtil.showText("请检查网络连接");
-        } else if (NETWORK != 0 && NETWORK < 10) {//数据流量
-            GlobalVars.setIPisEqual(GlobalVars.IPDIFFERENT);
-        } else {
-            String wifi_info = GetIPAddress.getWifiIP(MyApplication.mContext);
-            IPAddress_now = wifi_info.substring(0, wifi_info.indexOf("#"));
-            netmask_now = wifi_info.substring(wifi_info.indexOf("#"), 0);
+        if (NETWORK == 9) {
+            String hostIp = null;
+            try {
+                // 获取本地设备的所有网络接口
+                Enumeration<NetworkInterface> enumerationNi = NetworkInterface
+                        .getNetworkInterfaces();
+                while (enumerationNi.hasMoreElements()) {
+                    NetworkInterface networkInterface = enumerationNi.nextElement();
+                    String interfaceName = networkInterface.getDisplayName();
+                    Log.i("tag", "网络名字" + interfaceName);
 
-//            String ip_bin = Integer.toBinaryString();
-
-            if ("".equals(IPAddress_now))
-                GlobalVars.setIPisEqual(GlobalVars.NOCOMPARE);
-            else {
-                String rcuInfo_Use_ip = rcuInfo_Use.getIpAddr();
-                rcuInfo_Use_ip = rcuInfo_Use_ip.substring(0, rcuInfo_Use_ip.lastIndexOf("."));
-
-                IPAddress_now = IPAddress_now.substring(0, IPAddress_now.lastIndexOf("."));
-                if (rcuInfo_Use_ip.equals(IPAddress_now)) {//ip前三位一样，即局域网内的；
-                    GlobalVars.setIPisEqual(GlobalVars.IPEQUAL);
-                } else {//网段不一样，公网；
-                    GlobalVars.setIPisEqual(GlobalVars.IPDIFFERENT);
+                    // 如果是无线网卡
+                    if (interfaceName.equals("wlan0")) {
+                        Enumeration<InetAddress> enumIpAddr = networkInterface
+                                .getInetAddresses();
+                        while (enumIpAddr.hasMoreElements()) {
+                            // 返回枚举集合中的下一个IP地址信息
+                            InetAddress inetAddress = enumIpAddr.nextElement();
+                            // 不是回环地址，并且是ipv4的地址
+                            if (!inetAddress.isLoopbackAddress()
+                                    && inetAddress instanceof Inet4Address) {
+                                Log.i("tag", inetAddress.getHostAddress() + "   ");
+                                hostIp = inetAddress.getHostAddress();
+                            }
+                        }
+                    }
                 }
+                GlobalVars.LOCAL_IP = hostIp;
+            } catch (SocketException e) {
+                Log.i(TAG, "getIp: 有线IP地址获取失败" + e);
+            }
+        } else if (NETWORK >= 10) {
+            //获取wifi服务
+            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            //判断wifi是否开启
+            if (!wifiManager.isWifiEnabled()) {
+                wifiManager.setWifiEnabled(true);
+            }
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            int ipAddress = wifiInfo.getIpAddress();
+            String ip = intToIp(ipAddress);
+            if (!ip.equals(GlobalVars.WIFI_IP)) {
+                GlobalVars.WIFI_IP = ip;
             }
         }
     }
@@ -244,6 +247,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 ((i >> 16) & 0xFF) + "." +
                 (i >> 24 & 0xFF);
     }
+
 
     public SoundPool getSp() {
         if (sp == null) {
@@ -507,10 +511,9 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         return SeekRcuInfos;
     }
 
-    public RoomTempBean getRoomTempBean(){
+    public RoomTempBean getRoomTempBean() {
         return mRoomTempBean;
     }
-
 
 
     public void setSeekRcuInfos(List<RcuInfo> seekRcuInfos) {
@@ -572,7 +575,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                             "警报", contont, new Intent(MyApplication.mApplication, SafetyHomeActivity.class), NotificationID, 0);
                     NotificationID++;
                 }
-                if ((int) msg.obj  == 32 && msg.arg1 == 1) {
+                if ((int) msg.obj == 32 && msg.arg1 == 1) {
                     AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, msg.arg2);
                 }
                 if (onGetWareDataListener != null)

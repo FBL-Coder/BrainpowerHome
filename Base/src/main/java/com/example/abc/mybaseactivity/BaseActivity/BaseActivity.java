@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.MyApplication.MyApplication;
+import com.example.abc.mybaseactivity.NetWorkListener.AppNetworkMgr;
 import com.example.abc.mybaseactivity.NetWorkListener.NetBroadcastReceiver;
 import com.example.abc.mybaseactivity.NetWorkListener.NetUtil;
 import com.example.abc.mybaseactivity.OtherUtils.UIUtils;
@@ -56,15 +57,15 @@ public abstract class BaseActivity extends FragmentActivity {
             initData();
         } catch (Exception e) {
 
-            e.printStackTrace();
+//            e.printStackTrace();
 
-//            Log.e("Base_Exception", e + "");
-//
-//            //异常后自动重启
-//            Intent i = getBaseContext().getPackageManager()
-//                    .getLaunchIntentForPackage(getBaseContext().getPackageName());
-//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            startActivity(i);
+            Log.e("Base_Exception", e + "");
+
+            //异常后自动重启
+            Intent i = getBaseContext().getPackageManager()
+                    .getLaunchIntentForPackage(getBaseContext().getPackageName());
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
         }
     }
 
@@ -154,7 +155,8 @@ public abstract class BaseActivity extends FragmentActivity {
         llcontent_other = (FrameLayout) findViewById(R.id.llcontent_other);
 
         //判断网络是否可用
-        if (NetUtil.getNetWorkState(BaseActivity.this) == NetUtil.NETWORK_NONE)
+        int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
+        if (NETWORK == 0)
             network.setVisibility(View.VISIBLE);
         else network.setVisibility(View.GONE);
         //网络改变监听
@@ -162,7 +164,8 @@ public abstract class BaseActivity extends FragmentActivity {
             @Override
             public void onNetChange(int netMobile) {
                 getNetChangeListener.NetChange();
-                if (netMobile == NetUtil.NETWORK_NONE)
+                int NETWORK = AppNetworkMgr.getNetworkState(MyApplication.mContext);
+                if (NETWORK == 0)
                     network.setVisibility(View.VISIBLE);
                 else network.setVisibility(View.GONE);
             }
