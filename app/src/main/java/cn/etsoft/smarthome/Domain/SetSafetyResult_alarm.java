@@ -9,12 +9,12 @@ import java.io.Serializable;
 public class SetSafetyResult_alarm implements Serializable {
 
     /**
-     * devUnitID : 39ffd505484d303408650743
-     * datType : 32
-     * subType1 : 2
-     * subType2 : 0
-     * secStatus : 0
-     * secDat : 4
+     * {"devUnitID" : "39ffd505484d303408650743"
+     * "datType": 32,
+     * "subType1" : 2,
+     * "subType2": 0,
+     * "secStatus" : 0,
+     * "secDat" : 4}
      */
 
     private String devUnitID;

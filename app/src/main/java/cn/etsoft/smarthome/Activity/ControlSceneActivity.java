@@ -8,14 +8,17 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
+import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.util.List;
 
 import cn.etsoft.smarthome.Adapter.GridView.Control_Scene_DevAdapter;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
+import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 
 /**
@@ -61,6 +64,8 @@ public class ControlSceneActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
                 SendDataUtil.executelScene(mSceneDatas.get(position).getEventId());
+                AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, mSceneDatas.get(position).getExeSecu());
+                SendDataUtil.setBuFangSafetyInfo(mSceneDatas.get(position).getExeSecu());
                 ToastUtil.showText("正在执行情景");
             }
         });

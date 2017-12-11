@@ -783,7 +783,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 } else
                     return "";
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
                 System.out.println("MyApp" + "Safety_Baojing()" + e);
                 return "";
             }

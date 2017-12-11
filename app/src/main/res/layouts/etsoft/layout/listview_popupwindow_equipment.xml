@@ -7,6 +7,7 @@
     <ListView
         android:id="@+id/popupWindow_equipment_lv"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_height="match_parent"
         android:divider="@color/color_00000000"
         android:dividerHeight="@dimen/dp_1" />
