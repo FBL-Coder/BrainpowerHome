@@ -180,7 +180,10 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
                     startActivity(intent);
                 }
             } else {
-                SendDataUtil.executelScene(beanBean.getEventId());
+                for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
+                    if (MyApplication.getWareData().getSceneEvents().get(i).getEventId() == beanBean.getEventId())
+                        SendDataUtil.executelScene(MyApplication.getWareData().getSceneEvents().get(i));
+                }
             }
         } else {
             startActivity(new Intent(this, UserAddDevsActivty.class));

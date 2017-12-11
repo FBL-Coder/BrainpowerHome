@@ -63,9 +63,7 @@ public class ControlSceneActivity extends BaseActivity {
         mControlSceneGirdView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
-                SendDataUtil.executelScene(mSceneDatas.get(position).getEventId());
-                AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, mSceneDatas.get(position).getExeSecu());
-                SendDataUtil.setBuFangSafetyInfo(mSceneDatas.get(position).getExeSecu());
+                SendDataUtil.executelScene(mSceneDatas.get(position));
                 ToastUtil.showText("正在执行情景");
             }
         });

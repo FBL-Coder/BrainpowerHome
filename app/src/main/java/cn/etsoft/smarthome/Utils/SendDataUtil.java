@@ -6,7 +6,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import cn.etsoft.smarthome.Domain.UdpProPkt;
+import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.Domain.WareDev;
+import cn.etsoft.smarthome.Domain.WareEnvEvent;
 import cn.etsoft.smarthome.Domain.WareKeyOpItem;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.MyApplication;
@@ -152,12 +154,13 @@ public class SendDataUtil {
         MyApplication.mApplication.getUdpServer().send(str, 7);
     }
 
-    public static void executelScene(int sceneid) {
+    public static void executelScene(WareSceneEvent event) {
         String str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
                 ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_exeSceneEvents.getValue() +
+                ",\"exeSecu\":" + event.getExeSecu() +
                 ",\"subType1\":0" +
                 ",\"subType2\":0" +
-                ",\"eventId\":" + sceneid + "}";
+                ",\"eventId\":" + event.getEventId() + "}";
         MyApplication.mApplication.getUdpServer().send(str, 26);
     }
 

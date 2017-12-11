@@ -149,6 +149,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         safetytypes.add("在家布防");
         safetytypes.add("外出布防");
         safetytypes.add("全部撤防");
+        safetytypes.add("不关联");
 
         layout = getViewById(R.id.SceneSet_CircleMenu);
         Data_OuterCircleList = SceneSetHelper.initSceneCircleOUterData();
@@ -247,6 +248,8 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
                     scene_safetytype.setText("在家布防");
                 if (2 == sceneEvent.getExeSecu())
                     scene_safetytype.setText("外出布防");
+                if (4 == sceneEvent.getExeSecu())
+                    scene_safetytype.setText("不关联");
                 if (255 == sceneEvent.getExeSecu())
                     scene_safetytype.setText("撤防状态");
             }
@@ -289,6 +292,8 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             scene_safetytype.setText("在家布防");
         if (2 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getExeSecu())
             scene_safetytype.setText("外出布防");
+        if (3 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getExeSecu())
+            scene_safetytype.setText("不关联");
         if (255 == WareDataHliper.initCopyWareData().getCopyScenes().get(ScenePosition).getExeSecu())
             scene_safetytype.setText("撤防状态");
 

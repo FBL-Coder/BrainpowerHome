@@ -266,13 +266,10 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
                     ToastUtil.showText("未找到数据");
                     return;
                 } else {
-                    SendDataUtil.executelScene(10);
                     ToastUtil.showText("正在启用情景");
                     for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
                         if (MyApplication.getWareData().getSceneEvents().get(i).getEventId() == 10) {
-                            AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, MyApplication.getWareData().getSceneEvents().get(i).getExeSecu());
-                            SendDataUtil.setBuFangSafetyInfo(MyApplication.getWareData().getSceneEvents().get(i).getExeSecu());
-//                            Log.i(TAG, "AppSharePreferenceMgr: " + AppSharePreferenceMgr.get(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, 888));
+                            SendDataUtil.executelScene(MyApplication.getWareData().getSceneEvents().get(i));
                         }
                     }
                 }
@@ -282,13 +279,10 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
                     ToastUtil.showText("未找到数据");
                     return;
                 } else {
-                    SendDataUtil.executelScene(11);
                     ToastUtil.showText("正在启用情景");
                     for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
                         if (MyApplication.getWareData().getSceneEvents().get(i).getEventId() == 11) {
-                            AppSharePreferenceMgr.put(GlobalVars.SAFETY_TYPE_SHAREPREFERENCE, MyApplication.getWareData().getSceneEvents().get(i).getExeSecu());
-                            SendDataUtil.setBuFangSafetyInfo(MyApplication.getWareData().getSceneEvents().get(i).getExeSecu());
-
+                            SendDataUtil.executelScene(MyApplication.getWareData().getSceneEvents().get(i));
                         }
                     }
                 }
