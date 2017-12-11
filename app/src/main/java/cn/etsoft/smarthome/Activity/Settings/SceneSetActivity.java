@@ -160,6 +160,7 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
         mScenesAdapter.setselect(ScenePosition);
         mSceneSetScenes.setAdapter(mScenesAdapter);
 
+
         if (WareDataHliper.initCopyWareData().getCopyScenes().size() == 0) {
             IsNoData = true;
             SendDataUtil.getSceneInfo();
@@ -437,5 +438,4 @@ public class SceneSetActivity extends BaseActivity implements View.OnClickListen
             }
         });
     }
-
 }

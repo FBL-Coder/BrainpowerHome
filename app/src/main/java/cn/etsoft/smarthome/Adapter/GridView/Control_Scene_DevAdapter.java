@@ -22,6 +22,12 @@ import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 
 public class Control_Scene_DevAdapter extends BaseAdapter {
 
+    private int[] images = {
+            R.drawable.scene_baitian, R.drawable.scene_yejian, R.drawable.scene_huike,
+            R.drawable.scene_xiuxian, R.drawable.scene_quankai, R.drawable.scene_quanguan,
+            R.drawable.scene_yongcan};
+
+
     private List<WareSceneEvent> scenes;
     private Context mContext;
 
@@ -65,26 +71,14 @@ public class Control_Scene_DevAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        if (scenes.get(position).getSceneName().contains("白"))
-            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_baitian);
-        else if (scenes.get(position).getSceneName().contains("夜"))
-            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_yejian);
-        else if (scenes.get(position).getSceneName().contains("客"))
-            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_huike);
-        else if (scenes.get(position).getSceneName().contains("休"))
-            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_xiuxian);
-        else if (scenes.get(position).getSceneName().contains("全开"))
-            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_quankai);
-        else if (scenes.get(position).getSceneName().contains("全关"))
-            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_quanguan);
-        else if (scenes.get(position).getSceneName().contains("用餐"))
-            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_yongcan);
-        else if (scenes.get(position).getSceneName().contains("在家"))
+
+        if (scenes.get(position).getSceneName().contains("在家"))
             viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_home_in);
         else if (scenes.get(position).getSceneName().contains("外出"))
             viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_home_out);
-        else
-            viewHolder.mGirdviewIv.setImageResource(R.drawable.scene_baitian);
+        else {
+            viewHolder.mGirdviewIv.setImageResource(images[position % 7]);
+        }
         viewHolder.mGirdviewTv.setText(scenes.get(position).getSceneName());
         return convertView;
     }
