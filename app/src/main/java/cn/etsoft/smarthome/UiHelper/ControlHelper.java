@@ -35,15 +35,15 @@ public class ControlHelper {
         List<CircleDataEvent> Data_OuterCircleList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             CircleDataEvent event = new CircleDataEvent();
-            if (i == 0 ) {
+            if (i == 0) {
                 event.setTitle("空调");
                 event.setImage(R.drawable.air_icon);
             }
-            if (i == 1 ) {
+            if (i == 1) {
                 event.setTitle("电视");
                 event.setImage(R.drawable.tv_icon);
             }
-            if (i == 2 ) {
+            if (i == 2) {
                 event.setTitle("机顶盒");
                 event.setImage(R.drawable.tvup_icon);
             }
@@ -52,7 +52,7 @@ public class ControlHelper {
                 event.setImage(R.drawable.light_icon);
                 event.setSelect(true);
             }
-            if (i == 4 ) {
+            if (i == 4) {
                 event.setTitle("窗帘");
                 event.setImage(R.drawable.curtian_icon);
             }
@@ -80,43 +80,13 @@ public class ControlHelper {
         }
         return Data_OuterCircleList;
     }
+
     /**
      * 初始化内部转盘数据
      */
     public static List<CircleDataEvent> initSceneCircleInnerData() {
         List<CircleDataEvent> Data_InnerCircleList = new ArrayList<>();
-        switch (MyApplication.getWareData().getRooms().size()) {
-            case 1:
-                Data_InnerCircleList = initRoom(2, Data_InnerCircleList);
-                break;
-            case 2:
-                Data_InnerCircleList = initRoom(2, Data_InnerCircleList);
-                break;
-            case 3:
-                Data_InnerCircleList = initRoom(3, Data_InnerCircleList);
-                break;
-            case 4:
-                Data_InnerCircleList = initRoom(4, Data_InnerCircleList);
-                break;
-            case 5:
-                Data_InnerCircleList = initRoom(5, Data_InnerCircleList);
-                break;
-            case 6:
-                Data_InnerCircleList = initRoom(6, Data_InnerCircleList);
-                break;
-            case 7:
-                Data_InnerCircleList = initRoom(7, Data_InnerCircleList);
-                break;
-            case 8:
-                Data_InnerCircleList = initRoom(8, Data_InnerCircleList);
-                break;
-            case 9:
-                Data_InnerCircleList = initRoom(9, Data_InnerCircleList);
-                break;
-            case 10:
-                Data_InnerCircleList = initRoom(10, Data_InnerCircleList);
-                break;
-        }
+        Data_InnerCircleList = initRoom(MyApplication.getWareData().getRooms().size(), Data_InnerCircleList);
         return Data_InnerCircleList;
     }
 

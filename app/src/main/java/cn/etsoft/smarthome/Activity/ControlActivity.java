@@ -5,17 +5,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
-import java.net.Socket;
 import java.util.List;
 
+import cn.etsoft.smarthome.Adapter.ListView.Control_dev_room_Adapter;
+import cn.etsoft.smarthome.Adapter.RecyclerView.Control_Dev_TypeAdapter;
 import cn.etsoft.smarthome.Fragment.Control.AirControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.CurtarnControlFragment;
 import cn.etsoft.smarthome.Fragment.Control.DoorControlFragment;
@@ -31,7 +36,6 @@ import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.ControlHelper;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
-import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 
 /**
  * Author：FBL  Time： 2017/6/22.
@@ -40,7 +44,6 @@ import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 
 public class ControlActivity extends BaseActivity {
 
-    private CircleMenuLayout layout;
     private RelativeLayout CircleMenuLayout_RL, SceneSet_Info;
     private List<CircleDataEvent> Data_OuterCircleList;
     private List<CircleDataEvent> Data_InnerCircleList;
@@ -49,8 +52,11 @@ public class ControlActivity extends BaseActivity {
             mFreshAirFragment, mSocketFragment, mFloorHeatFragment;
     private int DevType = 3, OutCircleposition = 0;
     private String RoomName = "";
-    private TextView DevType_TV, RoomName_TV;
     private ImageView Control_Back;
+    private RecyclerView recyclerView;
+    private ListView listView;
+    private Control_Dev_TypeAdapter typeAdapter;
+    private Control_dev_room_Adapter room_adapter;
 
     @Override
     public void initView() {
@@ -60,12 +66,14 @@ public class ControlActivity extends BaseActivity {
     @Override
     public void initData() {
 
-        layout = getViewById(R.id.SceneSet_CircleMenu);
-        CircleMenuLayout_RL = getViewById(R.id.CircleMenuLayout_RL);
+        recyclerView = getViewById(R.id.control_dev_type);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        listView = getViewById(R.id.control_list_room);
         SceneSet_Info = getViewById(R.id.SceneSet_Info);
         Control_Back = getViewById(R.id.Control_Back);
-        DevType_TV = getViewById(R.id.DevType);
-        RoomName_TV = getViewById(R.id.RoomName);
         Data_OuterCircleList = ControlHelper.initSceneCircleOUterData();
         Data_InnerCircleList = ControlHelper.initSceneCircleInnerData();
 
@@ -80,62 +88,61 @@ public class ControlActivity extends BaseActivity {
             ToastUtil.showText("没有房间数据");
             return;
         }
-        layout.Init(200, 100);
-        layout.setInnerCircleMenuData(Data_InnerCircleList);
-        layout.setOuterCircleMenuData(Data_OuterCircleList);
+
         initEvent();
     }
 
     private void initEvent() {
-        layout.setOnInnerCircleLayoutClickListener(new CircleMenuLayout.OnInnerCircleLayoutClickListener() {
+
+        if (typeAdapter == null) {
+            typeAdapter = new Control_Dev_TypeAdapter(Data_OuterCircleList);
+            recyclerView.setAdapter(typeAdapter);
+        } else typeAdapter.upData(Data_OuterCircleList);
+
+        if (room_adapter == null) {
+            room_adapter = new Control_dev_room_Adapter(Data_InnerCircleList, this);
+            listView.setAdapter(room_adapter);
+        }else room_adapter.notifyDataSetChanged(Data_InnerCircleList);
+
+        typeAdapter.setOnItemClick(new Control_Dev_TypeAdapter.AdapterViewHolder.OnItemClick() {
             @Override
-            public void onClickInnerCircle(int position, View view) {
-                if (mControlDevClickListener != null)
-                    mControlDevClickListener.ControlClickPosition(DevType, Data_InnerCircleList.get(position).getTitle());
-                RoomName = Data_InnerCircleList.get(position).getTitle();
-                ControlHelper.setRoomName(RoomName);
-                RoomName_TV.setText(RoomName);
-            }
-        });
-        layout.setOnOuterCircleLayoutClickListener(new CircleMenuLayout.OnOuterCircleLayoutClickListener() {
-            @Override
-            public void onClickOuterCircle(int position, View view) {
+            public void OnItemClick(View view, int position) {
                 DevType = position;
                 OuterCircleClick(ControlActivity.this, position, ControlHelper.getRoomName());
                 if (mControlDevClickListener != null)
                     mControlDevClickListener.ControlClickPosition(position, ControlHelper.getRoomName());
-                if (DevType == 0)
-                    DevType_TV.setText("空调");
-                if (DevType == 1)
-                    DevType_TV.setText("电视");
-                if (DevType == 2)
-                    DevType_TV.setText("机顶盒");
-                if (DevType == 3)
-                    DevType_TV.setText("灯光");
-                if (DevType == 4)
-                    DevType_TV.setText("窗帘");
-                if (DevType == 7)
-                    DevType_TV.setText("新风");
-                if (DevType == 8)
-                    DevType_TV.setText("插座");
-                if (DevType == 9)
-                    DevType_TV.setText("地暖");
+            }
+
+            @Override
+            public void OnItemLongClick(View view, int position) {
+
             }
         });
 
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (mControlDevClickListener != null)
+                    mControlDevClickListener.ControlClickPosition(DevType, Data_InnerCircleList.get(i).getTitle());
+                RoomName = Data_InnerCircleList.get(i).getTitle();
+                ControlHelper.setRoomName(RoomName);
+                room_adapter.selected(i);
+                room_adapter.notifyDataSetChanged(Data_InnerCircleList);
+            }
+        });
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         Bundle bundle = new Bundle();
         RoomName = "全部";
         ControlHelper.setRoomName(RoomName);
         bundle.putString("RoomName", "全部");
+        room_adapter.selected(0);
         mLightFragment = new LightControlFragment();
         mLightFragment.setArguments(bundle);
         transaction.replace(R.id.SceneSet_Info, mLightFragment);
         transaction.commit();
         DevType = 3;
-        DevType_TV.setText("灯光");
-        RoomName_TV.setText("全部");
     }
 
     /**
