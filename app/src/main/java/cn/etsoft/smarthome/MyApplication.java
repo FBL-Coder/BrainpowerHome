@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.baidu.speech.asr.SpeechConstant;
 import com.example.abc.mybaseactivity.NetWorkListener.AppNetworkMgr;
 import com.example.abc.mybaseactivity.Notifications.NotificationUtils;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
@@ -36,7 +37,9 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -45,16 +48,28 @@ import cn.etsoft.smarthome.Domain.RcuInfo;
 import cn.etsoft.smarthome.Domain.RoomTempBean;
 import cn.etsoft.smarthome.Domain.Safety_Data;
 import cn.etsoft.smarthome.Domain.WareData;
+import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.Domain.Weather_Bean;
 import cn.etsoft.smarthome.NetMessage.UDPServer;
 import cn.etsoft.smarthome.NetMessage.WebSocket_Client;
+import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.Utils.CityDB;
 import cn.etsoft.smarthome.Utils.Data_Cache;
 import cn.etsoft.smarthome.Utils.GetIPAddress;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.Utils.WratherUtil;
+import cn.etsoft.smarthome.yuyin.control.MyRecognizer;
+import cn.etsoft.smarthome.yuyin.control.MyWakeup;
+import cn.etsoft.smarthome.yuyin.recognization.MessageStatusRecogListener;
+import cn.etsoft.smarthome.yuyin.recognization.PidBuilder;
+import cn.etsoft.smarthome.yuyin.recognization.StatusRecogListener;
+import cn.etsoft.smarthome.yuyin.util.Logger;
+import cn.etsoft.smarthome.yuyin.wakeup.IWakeupListener;
+import cn.etsoft.smarthome.yuyin.wakeup.RecogWakeupListener;
 
+import static cn.etsoft.smarthome.yuyin.recognization.IStatus.STATUS_FINISHED;
+import static cn.etsoft.smarthome.yuyin.recognization.IStatus.STATUS_WAKEUP_SUCCESS;
 import static cn.semtec.community2.service.CloudCallServiceManager.TAG;
 
 /**
@@ -117,7 +132,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public static String AddOrEditRoomName;
 
     private SoundPool sp;//声明一个SoundPool
-    private int music;//定义一个整型用load（）；来设置suondID
+    private int music, music_wozai, music_ok, music_sorry, music_dome, music_noexist;
+    ;//定义一个整型用load（）；来设置suondID
 
     //区分发82返回的0 0 1包还是发33返回的 0 0 1包，做标记
     private boolean isSeekNet = false;
@@ -139,6 +155,21 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     //软件启动时间是否足够
     public boolean isStartTimeOk = false;
+
+    //语音唤醒
+    public MyWakeup myWakeup;
+
+    /**
+     * 识别控制器，使用MyRecognizer控制识别的流程
+     */
+    public MyRecognizer myRecognizer;
+    /**
+     * 0: 方案1， 唤醒词说完后，直接接句子，中间没有停顿。
+     * >0 : 方案2： 唤醒词说完后，中间有停顿，然后接句子。推荐4个字 1500ms
+     * <p>
+     * backTrackInMs 最大 15000，即15s
+     */
+    private int backTrackInMs = 2500;
 
     @Override
     public void onCreate() {
@@ -175,6 +206,12 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
         sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
         music = sp.load(this, R.raw.key_sound, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
+        music_ok = sp.load(getApplicationContext(), R.raw.ok, 1); //把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
+        music_sorry = sp.load(getApplicationContext(), R.raw.sorry, 1);
+        music_wozai = sp.load(getApplicationContext(), R.raw.wozai, 1);
+        music_dome = sp.load(getApplicationContext(), R.raw.dome, 1);
+        music_noexist = sp.load(getApplicationContext(), R.raw.scene_noecist, 1);
+
 
         mRoomTempBean = new RoomTempBean();
         new Thread(new Runnable() {
@@ -188,7 +225,17 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 }
             }
         }).start();
-       getIp();
+        getIp();
+
+        Logger.setHandler(handler);
+
+        StatusRecogListener recogListener = new MessageStatusRecogListener(handler);
+        myRecognizer = new MyRecognizer(this, recogListener);
+
+        IWakeupListener listener = new RecogWakeupListener(handler);
+        myWakeup = new MyWakeup(this, listener);
+
+        myWakeup.start();
     }
 
 
@@ -261,6 +308,26 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             music = sp.load(this, R.raw.key_sound, 1);
         }
         return music;
+    }
+
+    public int getMusic_wozai() {
+        return music_wozai;
+    }
+
+    public int getMusic_ok() {
+        return music_ok;
+    }
+
+    public int getMusic_sorry() {
+        return music_sorry;
+    }
+
+    public int getMusic_dome() {
+        return music_dome;
+    }
+
+    public int getMusic_noexist() {
+        return music_noexist;
     }
 
     /**
@@ -532,6 +599,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         private int NotificationID = 10;
         private AlertDialog.Builder builder;
         private AlertDialog dialog;
+        private boolean isExist;
 
         APPHandler(MyApplication application) {
             this.weakReference = new WeakReference<>(application);
@@ -562,6 +630,34 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 WSIsOpen = false;
                 WS_againConnect();
 //                ToastUtil.showText("数据发送失败，与服务器连接已断开，请稍后再试！");
+            }
+            if (msg.what == STATUS_FINISHED) {
+                Log.i("最终识别结果--：", msg.obj.toString());
+                List<WareSceneEvent> list = WareDataHliper.initCopyWareData().getSceneControlData();
+                isExist = false;
+                for (int i = 0; i < list.size(); i++) {
+                    if (msg.obj.toString().contains(list.get(i).getSceneName())) {
+                        SendDataUtil.executelScene(list.get(i));
+                        isExist = true;
+                        MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic_ok(), 1, 1, 0, 0, 1);
+                    }
+                }
+                if (!isExist) {
+                    MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic_noexist(), 1, 1, 0, 0, 1);
+                }
+            }
+            if (msg.what == STATUS_WAKEUP_SUCCESS) {
+                // 此处 开始正常识别流程
+                Map<String, Object> params = new LinkedHashMap<String, Object>();
+                params.put(SpeechConstant.ACCEPT_AUDIO_VOLUME, false);
+                params.put(SpeechConstant.VAD, SpeechConstant.VAD_DNN);
+                int pid = PidBuilder.create().model(PidBuilder.INPUT).toPId(); //如识别短句，不需要需要逗号，将PidBuilder.INPUT改为搜索模型PidBuilder.SEARCH
+                params.put(SpeechConstant.PID, pid);
+                if (application.backTrackInMs > 0) { // 方案1， 唤醒词说完后，直接接句子，中间没有停顿。
+                    params.put(SpeechConstant.AUDIO_MILLS, System.currentTimeMillis() - application.backTrackInMs);
+                }
+                application.myRecognizer.cancel();
+                application.myRecognizer.start(params);
             }
             //UDP数据报
             if (msg.what == application.UDP_DATA_OK) {
@@ -838,6 +934,5 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         Data_Cache.writeFile(GlobalVars.getDevid(), MyApplication.getWareData());
         super.onTrimMemory(level);
     }
-
 
 }
