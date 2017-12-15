@@ -83,7 +83,7 @@ public class MessageStatusRecogListener extends StatusRecogListener {
 //        MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic_sorry(), 1, 1, 0, 0, 1);
         String message = "识别错误, 错误码：" + errorCode + "," + subErrorCode;
 //        sendStatusMessage(message + "；错误消息:" + errorMessage + "；描述信息：" + descMessage);
-        Log.i("识别错误", "onAsrFinishError: " + "；错误消息:" + errorMessage + "；描述信息：" + descMessage);
+        Log.i("识别错误", "onAsrFinishError: " + message + "；错误消息:" + errorMessage + "；描述信息：" + descMessage);
 //        if (speechEndTime > 0) {
 //            long diffTime = System.currentTimeMillis() - speechEndTime;
 //            message += "。说话结束到识别结束耗时【" + diffTime + "ms】";
