@@ -133,7 +133,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
 
     private SoundPool sp;//声明一个SoundPool
     private int music, music_wozai, music_ok, music_sorry, music_dome, music_noexist;
-    ;//定义一个整型用load（）；来设置suondID
+    //定义一个整型用load（）；来设置suondID
 
     //区分发82返回的0 0 1包还是发33返回的 0 0 1包，做标记
     private boolean isSeekNet = false;

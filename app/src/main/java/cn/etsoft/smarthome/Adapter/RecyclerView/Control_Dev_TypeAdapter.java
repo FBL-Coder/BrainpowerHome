@@ -34,6 +34,11 @@ public class Control_Dev_TypeAdapter extends RecyclerView.Adapter<Control_Dev_Ty
         notifyDataSetChanged();
     }
 
+    public void setselectItem(int position) {
+        mPosition = position;
+        notifyDataSetChanged();
+    }
+
     @Override
     public AdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_horizontal_item, null);

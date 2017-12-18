@@ -139,6 +139,7 @@ public class ControlActivity extends BaseActivity {
         bundle.putString("RoomName", "全部");
         room_adapter.selected(0);
         mLightFragment = new LightControlFragment();
+        typeAdapter.setselectItem(3);
         mLightFragment.setArguments(bundle);
         transaction.replace(R.id.SceneSet_Info, mLightFragment);
         transaction.commit();
