@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.icu.util.Calendar;
-import android.icu.util.TimeZone;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -24,21 +22,17 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.NetWorkListener.AppNetworkMgr;
 import com.example.abc.mybaseactivity.OtherUtils.AppSharePreferenceMgr;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
 
 import java.net.Inet4Address;
-import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import cn.etsoft.smarthome.Activity.Settings.ConfigPassActivity;
 import cn.etsoft.smarthome.Activity.Settings.NewWorkSetActivity;
