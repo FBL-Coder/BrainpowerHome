@@ -385,7 +385,8 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
                 GlobalVars.WIFI_IP = ip;
             }
         }
-        ToastUtil.showText("IP地址：" + GlobalVars.WIFI_IP, 5000);
+//        ToastUtil.showText("IP地址：" + GlobalVars.WIFI_IP, 5000);335418506
+
     }
 
     private String intToIp(int i) {

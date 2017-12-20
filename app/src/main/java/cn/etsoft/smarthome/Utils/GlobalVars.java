@@ -36,6 +36,10 @@ public class GlobalVars {
      * 用户配置密码
      */
     public static final String CONFIG_PASS_SHAREPREFERENCE = "CONFIG_PASS";
+    /**
+     * 用户本地数据存储
+     */
+    public static final String USER_DATA_SHAREPREFERENCE = "USER_DATA";
 
 
     public static String LOCAL_IP = "127.0.0.1";

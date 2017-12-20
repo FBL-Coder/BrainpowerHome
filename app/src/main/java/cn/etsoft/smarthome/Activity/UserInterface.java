@@ -1,6 +1,5 @@
 package cn.etsoft.smarthome.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -30,12 +29,7 @@ import cn.etsoft.smarthome.Activity.UserInterFace.Cur_Control;
 import cn.etsoft.smarthome.Activity.UserInterFace.Flo_Control;
 import cn.etsoft.smarthome.Activity.UserInterFace.Fre_Control;
 import cn.etsoft.smarthome.Adapter.GridView.GridViewAdapter_User;
-import cn.etsoft.smarthome.Domain.UdpProPkt;
 import cn.etsoft.smarthome.Domain.UserBean;
-import cn.etsoft.smarthome.Domain.WareAirCondDev;
-import cn.etsoft.smarthome.Domain.WareCurtain;
-import cn.etsoft.smarthome.Domain.WareFloorHeat;
-import cn.etsoft.smarthome.Domain.WareFreshAir;
 import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.Domain.WareSetBox;
 import cn.etsoft.smarthome.Domain.WareTv;
@@ -56,11 +50,11 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
     private UserBean bean;
     private Handler handler;
     private ImageView back;
-    private int count;
+    boolean isNet;
 
     @Override
     public void onResume() {
-        if (!MyApplication.mApplication.isVisitor())
+        if (!MyApplication.mApplication.isVisitor() || !isNet)
             getUserData(handler);
         MyApplication.setOnGetWareDataListener(new MyApplication.OnGetWareDataListener() {
             @Override
@@ -103,7 +97,13 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
                     //初始化GridView
                     initGridView(true);
                 else {
-                    ToastUtil.showText("用户数据获取失败");
+                    ToastUtil.showText("远程用户数据获取失败，提取本地数据");
+                    Gson gson = new Gson();
+                    UserBean userBean = gson.fromJson((String) AppSharePreferenceMgr.get(GlobalVars.USER_DATA_SHAREPREFERENCE, ""), UserBean.class);
+                    MyApplication.getWareData().setUserBeen(userBean);
+                    if (MyApplication.getWareData().getUserBeen() == null || MyApplication.getWareData().getUserBeen().getUser_bean().size() == 0)
+                        ToastUtil.showText("本地没有可用数据");
+                    initGridView(true);
                 }
             }
         };
@@ -218,6 +218,7 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
                                 Gson gson = new Gson();
                                 UserBean userBean = gson.fromJson(object1.toString(), UserBean.class);
                                 MyApplication.getWareData().setUserBeen(userBean);
+                                AppSharePreferenceMgr.put(GlobalVars.USER_DATA_SHAREPREFERENCE, object1.toString());
                                 Message message = handler.obtainMessage();
                                 message.what = 0;
                                 handler.sendMessage(message);
@@ -227,6 +228,7 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
                                 handler.sendMessage(message);
                             }
                         } catch (Exception e) {
+                            isNet = false;
                             Log.i("UserInterface", "Exception: " + e);
                             return;
                         }
@@ -238,6 +240,7 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
                         Message msg = handler.obtainMessage();
                         msg.what = 1;
                         handler.sendMessage(msg);
+                        isNet = false;
                         super.onFailure(code, message);
                     }
                 });

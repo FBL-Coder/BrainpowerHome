@@ -121,7 +121,6 @@ public class ConditionSetHelper {
                     }
 
                     //触发器触发类别  "envType"
-
                     if ("选择触发类别".equals(event_type.getText().toString())) {
                         MyApplication.mApplication.dismissLoadDialog();
                         ToastUtil.showText("请选择触发类别");
