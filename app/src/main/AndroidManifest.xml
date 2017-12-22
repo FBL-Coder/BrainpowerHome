@@ -74,6 +74,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
+
+        //百度语音
+        <meta-data
+            android:name="com.baidu.speech.APP_ID"
+            android:value="10510364" />
+        <meta-data
+            android:name="com.baidu.speech.API_KEY"
+            android:value="4Tsc9X8WtwBVKdKKZoUwvdm1" />
+        <meta-data
+            android:name="com.baidu.speech.SECRET_KEY"
+            android:value="2204f66d0c99e75d7c840cdc7fa3bdcb" />
+        <service
+            android:name="com.baidu.speech.VoiceRecognitionService"
+            android:exported="false" />
+
         <!--&lt;!&ndash;网络监听&ndash;&gt;-->
         <!--<receiver android:name="Utils.NetBroadcastReceiver">-->
         <!--<intent-filter>-->

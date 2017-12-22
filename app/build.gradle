@@ -71,4 +71,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.android.support:recyclerview-v7:25.0.0'
     compile files('libs/bugly_crash_release.jar')
+    compile files('libs/bdasr_V3_20170929_c8984af.jar')
 }

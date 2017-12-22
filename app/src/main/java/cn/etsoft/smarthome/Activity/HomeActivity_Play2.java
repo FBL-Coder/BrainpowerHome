@@ -269,7 +269,7 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
                     ToastUtil.showText("正在启用情景");
                     for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
                         if (MyApplication.getWareData().getSceneEvents().get(i).getEventId() == 10) {
-                            SendDataUtil.executelScene(MyApplication.getWareData().getSceneEvents().get(i));
+                            SendDataUtil.executelScene(MyApplication.getWareData().getSceneEvents().get(i).getEventId());
                         }
                     }
                 }
@@ -282,7 +282,7 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
                     ToastUtil.showText("正在启用情景");
                     for (int i = 0; i < MyApplication.getWareData().getSceneEvents().size(); i++) {
                         if (MyApplication.getWareData().getSceneEvents().get(i).getEventId() == 11) {
-                            SendDataUtil.executelScene(MyApplication.getWareData().getSceneEvents().get(i));
+                            SendDataUtil.executelScene(MyApplication.getWareData().getSceneEvents().get(i).getEventId());
                         }
                     }
                 }
