@@ -235,7 +235,8 @@ public class UserAddDevsActivty extends BaseActivity implements View.OnClickList
                             @Override
                             public void onFailure(int code, String message) {
                                 super.onFailure(code, message);
-                                ToastUtil.showText("保存失败");
+                                ToastUtil.showText("远程保存失败，本地保存成功");
+                                finish();
                             }
                         });
                 break;
