@@ -218,6 +218,11 @@ public class UserAddDevsActivty extends BaseActivity implements View.OnClickList
                 map.put("passwd", (String) AppSharePreferenceMgr.get(GlobalVars.USERPASSWORD_SHAREPREFERENCE, ""));
                 map.put("data", savedata);
                 Log.i("UserAddDevsActivty", "savedata: " + savedata);
+
+                //本地保存数据
+                AppSharePreferenceMgr.put(GlobalVars.USER_DATA_SHAREPREFERENCE, savedata);
+                //远程服务器保存数据
+
                 OkHttpUtils.postAsyn(NewHttpPort.ROOT + NewHttpPort.LOCATION + NewHttpPort.USER_ADD,
                         map, new HttpCallback() {
                             @Override

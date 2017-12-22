@@ -36,6 +36,10 @@ public class GlobalVars {
      * 用户配置密码
      */
     public static final String CONFIG_PASS_SHAREPREFERENCE = "CONFIG_PASS";
+    /**
+     * 用户配置密码
+     */
+    public static final String USER_DATA_SHAREPREFERENCE = "USER_DATA";
 
 
     public static String LOCAL_IP = "127.0.0.1";
@@ -47,7 +51,7 @@ public class GlobalVars {
     private static boolean isHeart = false;
     private static boolean isLAN = true;
 
-    public static int IPDIFFERENT = 1,IPEQUAL = 2,NOCOMPARE = 0;
+    public static int IPDIFFERENT = 1, IPEQUAL = 2, NOCOMPARE = 0;
     private static int IPisEqual = NOCOMPARE;
 
     public static void setContext(Context context) {

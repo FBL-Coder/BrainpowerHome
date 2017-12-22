@@ -57,6 +57,7 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
     private Handler handler;
     private ImageView back;
     private int count;
+    boolean isNet;
 
     @Override
     public void onResume() {
@@ -103,7 +104,14 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
                     //初始化GridView
                     initGridView(true);
                 else {
-                    ToastUtil.showText("用户数据获取失败");
+                    ToastUtil.showText("远程用户数据获取失败，提取本地数据");
+                    Gson gson = new Gson();
+                    UserBean userBean = gson.fromJson((String) AppSharePreferenceMgr.get(GlobalVars.USER_DATA_SHAREPREFERENCE, ""), UserBean.class);
+                    MyApplication.getWareData().setUserBeen(userBean);
+                    if (MyApplication.getWareData().getUserBeen() == null || MyApplication.getWareData().getUserBeen().getUser_bean().size() == 0)
+                        ToastUtil.showText("本地没有可用数据");
+                    initGridView(true);
+
                 }
             }
         };
@@ -218,6 +226,7 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
                                 Gson gson = new Gson();
                                 UserBean userBean = gson.fromJson(object1.toString(), UserBean.class);
                                 MyApplication.getWareData().setUserBeen(userBean);
+                                AppSharePreferenceMgr.put(GlobalVars.USER_DATA_SHAREPREFERENCE, object1.toString());
                                 Message message = handler.obtainMessage();
                                 message.what = 0;
                                 handler.sendMessage(message);
@@ -228,6 +237,7 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
                             }
                         } catch (Exception e) {
                             Log.i("UserInterface", "Exception: " + e);
+                            isNet = false;
                             return;
                         }
                     }
@@ -238,6 +248,7 @@ public class UserInterface extends BaseActivity implements AdapterView.OnItemCli
                         Message msg = handler.obtainMessage();
                         msg.what = 1;
                         handler.sendMessage(msg);
+                        isNet = false;
                         super.onFailure(code, message);
                     }
                 });
