@@ -685,7 +685,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
             //UDP接收数据异常
             if (msg.what == application.UDP_NORECEIVE)
                 Log.e("UDPException", "UDP数据接收失败");
-            //网络监听吐司
+            //网络监听吐丝
             if (msg.what == application.NONET) {
                 ToastUtil.showText("没有可用网络，请检查", 5000);
             }

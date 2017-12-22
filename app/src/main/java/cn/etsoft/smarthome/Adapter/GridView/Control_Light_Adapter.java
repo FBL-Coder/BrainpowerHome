@@ -73,7 +73,7 @@ public class Control_Light_Adapter extends BaseAdapter {
         if (mLights.get(position).getbTuneEn() == 1) {
             viewHoler.seekBar.setVisibility(View.VISIBLE);
             viewHoler.seekBar.setValue(mLights.get(position).getLmVal());
-        }
+        } else viewHoler.seekBar.setVisibility(View.INVISIBLE);
 
 
         if (mLights.get(position).getbOnOff() == 0)
