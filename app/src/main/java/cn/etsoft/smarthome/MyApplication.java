@@ -637,7 +637,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 isExist = false;
                 for (int i = 0; i < list.size(); i++) {
                     if (msg.obj.toString().contains(list.get(i).getSceneName())) {
-                        SendDataUtil.executelScene(list.get(i).getEventId());
+                        SendDataUtil.executelScene(list.get(i));
                         isExist = true;
                         MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic_ok(), 1, 1, 0, 0, 1);
                     }

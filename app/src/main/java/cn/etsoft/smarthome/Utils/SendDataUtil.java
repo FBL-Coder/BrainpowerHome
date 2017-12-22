@@ -10,6 +10,7 @@ import cn.etsoft.smarthome.Domain.WareData;
 import cn.etsoft.smarthome.Domain.WareDev;
 import cn.etsoft.smarthome.Domain.WareEnvEvent;
 import cn.etsoft.smarthome.Domain.WareKeyOpItem;
+import cn.etsoft.smarthome.Domain.WareLight;
 import cn.etsoft.smarthome.Domain.WareSceneEvent;
 import cn.etsoft.smarthome.MyApplication;
 
@@ -141,6 +142,20 @@ public class SendDataUtil {
         MyApplication.mApplication.getUdpServer().send(ctlStr, 4);
     }
 
+    public static void controlLight(WareLight dev, int cmd, int val) {
+        String ctlStr = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_ctrlDev.getValue() +
+                ",\"subType1\":0" +
+                ",\"subType2\":0" +
+                ",\"canCpuID\":\"" + dev.getDev().getCanCpuId() + "\"" +
+                ",\"devType\":" + dev.getDev().getType() +
+                ",\"devID\":" + dev.getDev().getDevId() +
+                ",\"lmval\":" + val +
+                ",\"cmd\":" + cmd +
+                "}";
+        MyApplication.mApplication.getUdpServer().send(ctlStr, 4);
+    }
+
     public static void deleteDev(WareDev dev) {
         String str = "{" +
                 "\"devUnitID\":\"" + GlobalVars.getDevid() + "\"," +
@@ -154,12 +169,13 @@ public class SendDataUtil {
         MyApplication.mApplication.getUdpServer().send(str, 7);
     }
 
-    public static void executelScene(int sceneid) {
+    public static void executelScene(WareSceneEvent event) {
         String str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
                 ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_exeSceneEvents.getValue() +
+                ",\"exeSecu\":" + event.getExeSecu() +
                 ",\"subType1\":0" +
                 ",\"subType2\":0" +
-                ",\"eventId\":" + sceneid + "}";
+                ",\"eventId\":" + event.getEventId() + "}";
         MyApplication.mApplication.getUdpServer().send(str, 26);
     }
 

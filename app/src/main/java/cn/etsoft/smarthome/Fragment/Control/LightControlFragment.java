@@ -96,15 +96,6 @@ public class LightControlFragment extends BaseFragment {
 
         TextView nulltv = findViewById(R.id.null_tv);
         mSceneSet_Light.setEmptyView(nulltv);
-        mSceneSet_Light.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MyApplication.mApplication.getSp().play(MyApplication.mApplication.getMusic(), 1, 1, 0, 0, 1);
-                if (mLight_Room.get(position).getbOnOff() == 0)
-                    SendDataUtil.controlDev(mLight_Room.get(position).getDev(), 0);
-                else SendDataUtil.controlDev(mLight_Room.get(position).getDev(), 1);
-            }
-        });
     }
 
     @Override

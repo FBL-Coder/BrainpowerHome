@@ -2,8 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="@dimen/dp_20"
-    android:background="@color/color_item_bg">
+    android:background="@color/home_time">
 
 
     <TextView
@@ -22,5 +23,26 @@
         android:layout_height="@dimen/dp_160"
         android:layout_below="@+id/Control_GridView_Item_Name"
         android:layout_centerHorizontal="true" />
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/Control_GridView_Item_Slide"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_60"
+        android:layout_below="@id/Control_GridView_Item_IV"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        app:rsb_cellMode="other"
+        app:rsb_cells="4"
+        app:rsb_max="9"
+        app:rsb_progressHintMode="alwaysHide"
+        app:rsb_hintBGHeight="@dimen/dp_28"
+        app:rsb_lineColorEdge="@color/colorAccent"
+        app:rsb_lineColorSelected="@color/color_10AEFF"
+        app:rsb_markTextArray="@array/wordsArray"
+        app:rsb_seekBarHeight="@dimen/dp_8"
+        app:rsb_seekBarMode="single"
+        app:rsb_textPadding="@dimen/sp_16"
+        app:rsb_textSize="@dimen/sp_12"
+        app:rsb_thumbSize="@dimen/sp_26" />
 
 </RelativeLayout>

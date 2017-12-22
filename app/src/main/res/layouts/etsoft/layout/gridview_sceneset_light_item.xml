@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/color_item_bg"
     android:padding="@dimen/dp_10">
 
@@ -56,17 +56,17 @@
         android:layout_height="@dimen/dp_60"
         android:layout_below="@id/SceneSet_GridView_Item_IV"
         android:layout_centerHorizontal="true"
-        app:cellMode="other"
-        app:cells="4"
-        app:hideProgressHint="true"
-        app:hintBGHeight="@dimen/dp_28"
-        app:lineColorEdge="@color/colorAccent"
-        app:lineColorSelected="@color/color_10AEFF"
-        app:markTextArray="@array/wordsArray"
-        app:seekBarHeight="@dimen/dp_8"
-        app:seekBarMode="single"
-        app:textPadding="@dimen/sp_16"
-        app:textSize="@dimen/sp_12"
-        app:thumbSize="@dimen/sp_26" />
+        app:rsb_cellMode="other"
+        app:rsb_cells="4"
+        app:rsb_progressHintMode="alwaysHide"
+        app:rsb_hintBGHeight="@dimen/dp_28"
+        app:rsb_lineColorEdge="@color/colorAccent"
+        app:rsb_lineColorSelected="@color/color_10AEFF"
+        app:rsb_markTextArray="@array/wordsArray"
+        app:rsb_seekBarHeight="@dimen/dp_8"
+        app:rsb_seekBarMode="single"
+        app:rsb_textPadding="@dimen/sp_16"
+        app:rsb_textSize="@dimen/sp_12"
+        app:rsb_thumbSize="@dimen/sp_26" />
 
 </RelativeLayout>
