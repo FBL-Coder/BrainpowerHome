@@ -1,5 +1,6 @@
 package cn.etsoft.smarthome.Adapter.RecyclerView;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+import com.example.abc.mybaseactivity.OtherUtils.UIUtils;
 
 import java.util.List;
 
@@ -57,9 +59,8 @@ public class Control_Dev_TypeAdapter extends RecyclerView.Adapter<Control_Dev_Ty
             holder.itemView.setBackgroundResource(R.color.color_00000000);  //其他项背景
         }
         if (position > 4) {
-            holder.itemView.setBackgroundResource(R.color.color_898C92);  //其他项背景
-
-        }
+            holder.iv.setColorFilter(UIUtils.getColor(R.color.color_88222223));
+        } else holder.iv.setColorFilter(Color.TRANSPARENT);
         holder.iv.setImageResource(list.get(position).getImage());
         holder.tv.setText(list.get(position).getTitle());
 
@@ -68,7 +69,7 @@ public class Control_Dev_TypeAdapter extends RecyclerView.Adapter<Control_Dev_Ty
             public void onClick(View v) {
                 int pos = holder.getLayoutPosition();
                 if (position > 4) {
-                    ToastUtil.showText("我们正在努力...");
+                    ToastUtil.showText("系统暂没开放此功能...");
                     return;
                 }
                 if (onItemClick != null) {
