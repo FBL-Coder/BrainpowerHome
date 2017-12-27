@@ -38,43 +38,34 @@ public class ControlHelper {
             if (i == 0) {
                 event.setTitle("空调");
                 event.setImage(R.drawable.air_icon);
-            }
-            if (i == 1) {
-                event.setTitle("电视");
-                event.setImage(R.drawable.tv_icon);
-            }
-            if (i == 2) {
-                event.setTitle("机顶盒");
-                event.setImage(R.drawable.tvup_icon);
-            }
-            if (i == 3) {
+            } else if (i == 1) {
                 event.setTitle("灯光");
                 event.setImage(R.drawable.light_icon);
                 event.setSelect(true);
-            }
-            if (i == 4) {
+            } else if (i == 2) {
                 event.setTitle("窗帘");
                 event.setImage(R.drawable.curtian_icon);
-            }
-            if (i == 5) {
-                event.setTitle("监控");
-                event.setImage(R.drawable.jiankong_icon);
-            }
-            if (i == 6) {
-                event.setTitle("门禁");
-                event.setImage(R.drawable.mensuo_icon);
-            }
-            if (i == 7) {
+            } else if (i == 3) {
                 event.setTitle("新风");
                 event.setImage(R.drawable.freshair);
-            }
-            if (i == 8) {
-                event.setTitle("插座");
-                event.setImage(R.drawable.socket_icon);
-            }
-            if (i == 9) {
+            } else if (i == 4) {
                 event.setTitle("地暖");
                 event.setImage(R.drawable.floorheat);
+            } else if (i == 5) {
+                event.setTitle("电视");
+                event.setImage(R.drawable.tv_icon);
+            } else if (i == 6) {
+                event.setTitle("插座");
+                event.setImage(R.drawable.socket_icon);
+            } else if (i == 7) {
+                event.setTitle("机顶盒");
+                event.setImage(R.drawable.tvup_icon);
+            } else if (i == 8) {
+                event.setTitle("监控");
+                event.setImage(R.drawable.jiankong_icon);
+            } else if (i == 9) {
+                event.setTitle("门禁");
+                event.setImage(R.drawable.mensuo_icon);
             }
             Data_OuterCircleList.add(event);
         }

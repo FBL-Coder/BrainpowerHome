@@ -102,7 +102,7 @@ public class ControlActivity extends BaseActivity {
         if (room_adapter == null) {
             room_adapter = new Control_dev_room_Adapter(Data_InnerCircleList, this);
             listView.setAdapter(room_adapter);
-        }else room_adapter.notifyDataSetChanged(Data_InnerCircleList);
+        } else room_adapter.notifyDataSetChanged(Data_InnerCircleList);
 
         typeAdapter.setOnItemClick(new Control_Dev_TypeAdapter.AdapterViewHolder.OnItemClick() {
             @Override
@@ -139,15 +139,15 @@ public class ControlActivity extends BaseActivity {
         bundle.putString("RoomName", "全部");
         room_adapter.selected(0);
         mLightFragment = new LightControlFragment();
-        typeAdapter.setselectItem(3);
+        typeAdapter.setselectItem(1);
         mLightFragment.setArguments(bundle);
         transaction.replace(R.id.SceneSet_Info, mLightFragment);
         transaction.commit();
-        DevType = 3;
+        DevType = 1;
     }
 
     /**
-     * 外圆菜单 点击事件
+     * item点击事件
      */
     public void OuterCircleClick(FragmentActivity activity, int position, String RoomName) {
         if ("".equals(RoomName)) {
@@ -158,6 +158,7 @@ public class ControlActivity extends BaseActivity {
         FragmentTransaction transaction = manager.beginTransaction();
         Bundle bundle = new Bundle();
         bundle.putString("RoomName", RoomName);
+
         switch (position) {
             case 0:
                 mAirFragment = new AirControlFragment();
@@ -165,51 +166,51 @@ public class ControlActivity extends BaseActivity {
                 transaction.replace(R.id.SceneSet_Info, mAirFragment);
                 break;
             case 1:
-                mTVFragment = new TVControlFragment();
-                mTVFragment.setArguments(bundle);
-                transaction.replace(R.id.SceneSet_Info, mTVFragment);
-                break;
-            case 2:
-                mTvUpFragment = new TvUpControlFragment();
-                mTvUpFragment.setArguments(bundle);
-                transaction.replace(R.id.SceneSet_Info, mTvUpFragment);
-                break;
-            case 3:
                 mLightFragment = new LightControlFragment();
                 mLightFragment.setArguments(bundle);
                 transaction.replace(R.id.SceneSet_Info, mLightFragment);
                 break;
-            case 4:
+            case 2:
                 mCurFragment = new CurtarnControlFragment();
                 mCurFragment.setArguments(bundle);
                 transaction.replace(R.id.SceneSet_Info, mCurFragment);
                 break;
-            case 5:
-                mVideoFragment = new VideoControlFragment();
-                mVideoFragment.setArguments(bundle);
-                transaction.replace(R.id.SceneSet_Info, mVideoFragment);
-                break;
-            case 6:
-                mDoorFragment = new DoorControlFragment();
-                mDoorFragment.setArguments(bundle);
-                transaction.replace(R.id.SceneSet_Info, mDoorFragment);
-                break;
-            case 7:
+            case 3:
                 mFreshAirFragment = new FreshAirFragment();
                 mFreshAirFragment.setArguments(bundle);
                 transaction.replace(R.id.SceneSet_Info, mFreshAirFragment);
                 break;
-            case 8:
-                mSocketFragment = new SocketFragment();
-                mSocketFragment.setArguments(bundle);
-                transaction.replace(R.id.SceneSet_Info, mSocketFragment);
-                break;
-            case 9:
+            case 4:
                 mFloorHeatFragment = new FloorHeatFragment();
                 mFloorHeatFragment.setArguments(bundle);
                 transaction.replace(R.id.SceneSet_Info, mFloorHeatFragment);
                 break;
 
+//            case 5:
+//                mTVFragment = new TVControlFragment();
+//                mTVFragment.setArguments(bundle);
+//                transaction.replace(R.id.SceneSet_Info, mTVFragment);
+//                break;
+//            case 6:
+//                mSocketFragment = new SocketFragment();
+//                mSocketFragment.setArguments(bundle);
+//                transaction.replace(R.id.SceneSet_Info, mSocketFragment);
+//                break;
+//            case 7:
+//                mTvUpFragment = new TvUpControlFragment();
+//                mTvUpFragment.setArguments(bundle);
+//                transaction.replace(R.id.SceneSet_Info, mTvUpFragment);
+//                break;
+//            case 8:
+//                mDoorFragment = new DoorControlFragment();
+//                mDoorFragment.setArguments(bundle);
+//                transaction.replace(R.id.SceneSet_Info, mDoorFragment);
+//                break;
+//            case 9:
+//                mDoorFragment = new DoorControlFragment();
+//                mDoorFragment.setArguments(bundle);
+//                transaction.replace(R.id.SceneSet_Info, mDoorFragment);
+//                break;
         }
         transaction.commit();
     }

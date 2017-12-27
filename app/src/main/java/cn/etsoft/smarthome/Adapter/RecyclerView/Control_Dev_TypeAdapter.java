@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+
 import java.util.List;
 
 import cn.etsoft.smarthome.R;
@@ -54,14 +56,22 @@ public class Control_Dev_TypeAdapter extends RecyclerView.Adapter<Control_Dev_Ty
         } else {
             holder.itemView.setBackgroundResource(R.color.color_00000000);  //其他项背景
         }
+        if (position > 4) {
+            holder.itemView.setBackgroundResource(R.color.color_898C92);  //其他项背景
+
+        }
         holder.iv.setImageResource(list.get(position).getImage());
         holder.tv.setText(list.get(position).getTitle());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int pos = holder.getLayoutPosition();
+                if (position > 4) {
+                    ToastUtil.showText("我们正在努力...");
+                    return;
+                }
                 if (onItemClick != null) {
-                    int pos = holder.getLayoutPosition();
                     if (holder.getLayoutPosition() != list.size())
                         mPosition = pos;
                     onItemClick.OnItemClick(holder.itemView, pos);
