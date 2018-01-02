@@ -29,7 +29,6 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import java.lang.ref.WeakReference;
 import java.net.Inet4Address;
-import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -55,7 +54,6 @@ import cn.etsoft.smarthome.NetMessage.WebSocket_Client;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
 import cn.etsoft.smarthome.Utils.CityDB;
 import cn.etsoft.smarthome.Utils.Data_Cache;
-import cn.etsoft.smarthome.Utils.GetIPAddress;
 import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.Utils.WratherUtil;

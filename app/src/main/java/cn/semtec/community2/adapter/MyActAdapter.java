@@ -22,9 +22,8 @@ import org.json.JSONObject;
 import java.util.Collections;
 import java.util.HashMap;
 
-import cn.semtec.community2.MyApplication;
 import cn.etsoft.smarthome.R;
-import cn.semtec.community2.activity.BaseActivity;
+import cn.semtec.community2.MyApplication;
 import cn.semtec.community2.activity.CodeActivity;
 import cn.semtec.community2.entity.HouseProperty;
 import cn.semtec.community2.fragment.VideoFragment;
@@ -163,7 +162,7 @@ public class MyActAdapter extends BaseAdapter {
             @Override
             public void onFailure(HttpException error, String msg) {
                 LogUtils.i("网络异常" + msg);
-                ToastUtil.s(BaseActivity.instance, "网络异常");
+                ToastUtil.s(MyApplication.getContext(), "网络异常");
             }
         });
         http.send();
