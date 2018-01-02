@@ -26,8 +26,8 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-    <uses-permission android:name="android.intent.action.BOOT_COMPLETED"></uses-permission>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+    <uses-permission android:name="android.intent.action.BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
 
     <!-- 这个权限用于进行网络定位-->
@@ -286,6 +286,24 @@
             android:value="cfa69e94e72e80aef433032fe101ff65" />
         <service android:name="com.amap.api.location.APSService" />
 
+
+        //百度 语音识别以及唤醒
+        //App ID: 10510364
+        //API Key: 4Tsc9X8WtwBVKdKKZoUwvdm1
+        //Secret Key: 2204f66d0c99e75d7c840cdc7fa3bdcb
+        <meta-data
+            android:name="com.baidu.speech.APP_ID"
+            android:value="10510364" />
+        <meta-data
+            android:name="com.baidu.speech.API_KEY"
+            android:value="4Tsc9X8WtwBVKdKKZoUwvdm1" />
+        <meta-data
+            android:name="com.baidu.speech.SECRET_KEY"
+            android:value="2204f66d0c99e75d7c840cdc7fa3bdcb" />
+
+        <service
+            android:name="com.baidu.speech.VoiceRecognitionService"
+            android:exported="false" />
 
         /* 视频对讲页面 */
         <!--/////////////////////////////////////////////////////////////////////////////////////////////////////////-->

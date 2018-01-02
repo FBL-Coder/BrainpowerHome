@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/dp_20"
-    android:background="@color/color_item_bg">
+    android:background="@color/home_time">
 
 
     <TextView
@@ -19,7 +19,7 @@
     <ImageView
         android:id="@+id/Control_GridView_Item_IV"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_160"
+        android:layout_height="@dimen/dp_100"
         android:layout_below="@id/Control_GridView_Item_Name"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/dp_20"

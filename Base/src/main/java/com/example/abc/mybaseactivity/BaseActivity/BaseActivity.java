@@ -59,6 +59,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
 //            e.printStackTrace();
 
+
             Log.e("Base_Exception", e + "");
 
             //异常后自动重启

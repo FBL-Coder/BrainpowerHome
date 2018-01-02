@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="wordsArray">
-        <item>最暗</item>
+        <item>关闭</item>
         <item>较暗</item>
-        <item>中间</item>
+        <item>温和</item>
         <item>较亮</item>
         <item>最亮</item>
     </string-array>
