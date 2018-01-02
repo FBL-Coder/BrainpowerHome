@@ -163,7 +163,7 @@ public class MyActAdapter extends BaseAdapter {
             @Override
             public void onFailure(HttpException error, String msg) {
                 LogUtils.i("网络异常" + msg);
-                ToastUtil.s(BaseActivity.instance, "网络异常");
+                ToastUtil.s(MyApplication.getContext(), "网络异常");
             }
         });
         http.send();
