@@ -21,7 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.etsoft.smarthome.R;
-import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 import cn.jpush.android.api.JPushInterface;
 import cn.semtec.community2.activity.BaseActivity;
 import cn.semtec.community2.activity.MyBaseActivity;

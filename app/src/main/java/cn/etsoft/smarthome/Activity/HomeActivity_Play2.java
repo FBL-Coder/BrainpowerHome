@@ -298,6 +298,7 @@ public class HomeActivity_Play2 extends Activity implements View.OnClickListener
                     ToastUtil.showText("这里您不可以操作哦~");
                     return;
                 }
+                MyApplication.mApplication.myWakeup.stop();
                 startActivity(new Intent(HomeActivity_Play2.this, cn.semtec.community2.WelcomeActivity.class));
                 break;
             case R.id.home_play2_user:

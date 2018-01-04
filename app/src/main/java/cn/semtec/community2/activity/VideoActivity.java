@@ -181,4 +181,10 @@ public class VideoActivity extends MyBaseActivity implements View.OnClickListene
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    protected void onDestroy() {
+        cn.etsoft.smarthome.MyApplication.mApplication.myWakeup.start();
+        super.onDestroy();
+    }
 }

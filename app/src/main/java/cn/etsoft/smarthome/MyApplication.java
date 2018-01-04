@@ -234,6 +234,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         myWakeup = new MyWakeup(this, listener);
 
         myWakeup.start();
+
     }
 
 
