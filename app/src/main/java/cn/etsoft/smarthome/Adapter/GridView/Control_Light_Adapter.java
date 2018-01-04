@@ -72,7 +72,9 @@ public class Control_Light_Adapter extends BaseAdapter {
 
         if (mLights.get(position).getbTuneEn() == 1) {
             viewHoler.seekBar.setVisibility(View.VISIBLE);
-            viewHoler.seekBar.setValue(mLights.get(position).getLmVal());
+            if (mLights.get(position).getLmVal() == 9)
+                viewHoler.seekBar.setValue(mLights.get(position).getLmVal() - 1);
+            else viewHoler.seekBar.setValue(mLights.get(position).getLmVal());
         }
 
 
@@ -107,10 +109,13 @@ public class Control_Light_Adapter extends BaseAdapter {
 
             @Override
             public void onStopTrackingTouch(RangeSeekBar rangeSeekBar, boolean b) {
-                if (min < mLights.get(position).getLmVal())
+                if (min < mLights.get(position).getLmVal()) {
                     SendDataUtil.controlLight(mLights.get(position), UdpProPkt.E_LGT_CMD.e_lgt_dark.getValue(), min);
-                else if (min > mLights.get(position).getLmVal())
+                } else if (min > mLights.get(position).getLmVal()) {
+                    if (min == 8)
+                        min = 9;
                     SendDataUtil.controlLight(mLights.get(position), UdpProPkt.E_LGT_CMD.e_lgt_bright.getValue(), min);
+                }
             }
         });
         return convertView;

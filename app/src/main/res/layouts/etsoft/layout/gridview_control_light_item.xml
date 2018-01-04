@@ -33,7 +33,7 @@
         android:visibility="gone"
         app:rsb_cellMode="other"
         app:rsb_cells="4"
-        app:rsb_max="9"
+        app:rsb_max="8"
         app:rsb_progressHintMode="alwaysHide"
         app:rsb_hintBGHeight="@dimen/dp_28"
         app:rsb_lineColorEdge="@color/colorAccent"
