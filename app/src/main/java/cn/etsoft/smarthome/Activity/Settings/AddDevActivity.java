@@ -285,11 +285,12 @@ public class AddDevActivity extends BaseActivity implements View.OnClickListener
                                     "\"devType\":" + type_position + "," +
                                     "\"devName\":" + "\"" + Save_DevName + "\"," +
                                     "\"roomName\":" + "\"" + Save_Roomname + "\"," +
+                                    "\"lmVal\":0," +
                                     "\"powChn\":" + Save_DevWay + "}";
                         Log.i(TAG, "onClick: " + chn_str);
                         MyApplication.setAddOrEditDevName(Save_DevName);
                         MyApplication.setAddOrEditRoomName(Save_Roomname);
-                        MyApplication.mApplication.getUdpServer().send(chn_str,5);
+                        MyApplication.mApplication.getUdpServer().send(chn_str, 5);
                         MyApplication.mApplication.showLoadDialog(AddDevActivity.this);
                     }
                 });

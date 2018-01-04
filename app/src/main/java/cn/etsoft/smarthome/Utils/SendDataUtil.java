@@ -164,6 +164,7 @@ public class SendDataUtil {
                 "\"canCpuID\":\"" + dev.getCanCpuId() + "\"," +
                 "\"devType\":" + dev.getType() + "," +
                 "\"devID\":" + dev.getDevId() + "," +
+                "\"lmval\":0," +
                 "\"cmd\":" + 1 + "}";
         MyApplication.mApplication.getUdpServer().send(str, 7);
     }

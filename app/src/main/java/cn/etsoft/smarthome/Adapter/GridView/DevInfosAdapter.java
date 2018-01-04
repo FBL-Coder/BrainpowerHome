@@ -502,7 +502,6 @@ public class DevInfosAdapter extends BaseAdapter {
                                                 "\"tempget\":" + floorHeat.getTempget() + "," +
                                                 "\"tempset\":" + floorHeat.getTempset() + "," +
                                                 "\"autoRun\":" + floorHeat.getAutoRun() + "," +
-                                                "\"cmd\":" + 1 + "," +
                                                 "\"powChn\":" + Save_DevWay + "}";
                                 }
                             else
@@ -516,6 +515,7 @@ public class DevInfosAdapter extends BaseAdapter {
                                         "\"devName\":" + "\"" + Save_DevName + "\"," +
                                         "\"roomName\":" + "\"" + Save_Roomname + "\"," +
                                         "\"powChn\":" + Save_DevWay + "," +
+                                        "\"lmVal\":0," +
                                         "\"cmd\":" + 1 + "}";
 //                            Log.i(TAG, "onClick: " + chn_str);
                             MyApplication.mApplication.getUdpServer().send(chn_str, 6);
