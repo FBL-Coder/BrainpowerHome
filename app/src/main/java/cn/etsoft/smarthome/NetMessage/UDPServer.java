@@ -322,7 +322,11 @@ public class UDPServer implements Runnable {
             return;
         }
 
-        show("WEB", inf®o);
+        if (devUnitID.equals(GlobalVars.getDevid()) && GlobalVars.isIsLAN()) {
+            Log.e("WEB数据", "ID相同，优先处理UDP数据，Web数据做处理");
+            return;
+        }
+        show("WEB", info);
         extractData(info);
     }
 
