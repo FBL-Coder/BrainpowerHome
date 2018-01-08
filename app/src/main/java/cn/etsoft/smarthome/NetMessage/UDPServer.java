@@ -216,7 +216,7 @@ public class UDPServer implements Runnable {
         }).start();
     }
 
-    public static void show(String str) {
+    public static void show(String flag, String str) {
 
         try {
             str = str.trim();
@@ -297,6 +297,7 @@ public class UDPServer implements Runnable {
         Message message = mhandler.obtainMessage();
         message.what = MyApplication.mApplication.UDP_HANR_DATA;
         mhandler.sendMessage(message);
+        show("UDP", info);
         extractData(info);
     }
 
@@ -320,6 +321,8 @@ public class UDPServer implements Runnable {
         } catch (JSONException e) {
             return;
         }
+
+        show("WEB", inf®o);
         extractData(info);
     }
 
@@ -327,7 +330,7 @@ public class UDPServer implements Runnable {
     long time = 0;
 
     public void extractData(String info) {
-        show(info);
+
         int datType = 0;
         int subType2 = 0;
         int subType1 = 0;
