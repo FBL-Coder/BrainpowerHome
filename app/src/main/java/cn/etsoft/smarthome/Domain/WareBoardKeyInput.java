@@ -13,7 +13,7 @@ public class WareBoardKeyInput implements Serializable {
     private int keyCnt;
     private int bResetKey;
     private int ledBkType;
-    private String keyName[]; //6-12
+    private String keyName_rows[]; //6-12
     /**
      * KeyAdapter_keyscene所需属性
      * 选中为1，不然为0，默认为键名数组长度的int数组全为0；
@@ -69,11 +69,11 @@ public class WareBoardKeyInput implements Serializable {
     }
 
     public String[] getKeyName() {
-        return keyName;
+        return keyName_rows;
     }
 
     public void setKeyName(String[] keyName) {
-        this.keyName = keyName;
+        this.keyName_rows = keyName;
     }
 
     //解决8个按键只有6个按键名的问题

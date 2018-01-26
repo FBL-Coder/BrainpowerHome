@@ -30,7 +30,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:layout_marginRight="@dimen/dp_30"
+                    android:layout_marginRight="@dimen/dp_10"
                     android:scrollbars="none" />
 
                 <TextView
@@ -45,15 +45,15 @@
                     android:textSize="@dimen/sp_20" />
 
                 <TextView
-                    android:id="@+id/Key_DevsSet_Test_Btn"
+                    android:id="@+id/Key_DevsSet_Edit_Btn"
                     android:layout_width="@dimen/dp_70"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="测试"
+                    android:text="修改"
                     android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_20"
-                    android:visibility="gone"/>
+                    />
 
                 <TextView
                     android:id="@+id/Key_DevsSet_Save_Btn"

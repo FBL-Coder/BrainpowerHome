@@ -14,9 +14,9 @@
         android:layout_marginLeft="@dimen/dp_10"
         android:gravity="center_vertical"
         android:paddingBottom="@dimen/dp_10"
-        android:text="添加联网模块"
+        android:text="修改按键信息"
         android:textColor="@color/blue"
-        android:textSize="@dimen/dp_28" />
+        android:textSize="@dimen/dp_24" />
 
     <View
         android:layout_width="match_parent"
@@ -34,16 +34,16 @@
             android:layout_weight="3"
             android:gravity="center"
             android:lines="1"
-            android:text="模块名称 :"
+            android:text="名称"
             android:textColor="@color/color_000"
             android:textSize="@dimen/sp_18" />
 
         <EditText
-            android:id="@+id/dialog_addnetmodule_name"
+            android:id="@+id/dialog_key_Board_name"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:hint="请输入模块名称"
+            android:hint="请输入按键板名称"
 
             android:textSize="@dimen/sp_18" />
     </LinearLayout>
@@ -59,19 +59,20 @@
             android:layout_weight="3"
             android:gravity="center"
             android:lines="1"
-            android:text="模  块  I D:"
+            android:text="有效按键"
             android:textColor="@color/color_000"
             android:textSize="@dimen/sp_18" />
 
         <!--android:text="39ffd505484d303408650743"-->
 
         <EditText
-            android:id="@+id/dialog_addnetmodule_id"
+            android:id="@+id/dialog_key_Board_cut"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:hint="请输入模块ID"
-            android:text="39ffd805484d303416600643"
+            android:hint="请输入有效按键个数"
+            android:inputType="number"
+            android:textColor="@color/color_000"
             android:textSize="@dimen/sp_18" />
     </LinearLayout>
 
@@ -82,7 +83,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/dialog_addnetmodule_cancle"
+            android:id="@+id/dialog_Board_cancle"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -99,14 +100,14 @@
             android:layout_height="match_parent" />
 
         <TextView
-            android:id="@+id/dialog_addnetmodule_ok"
+            android:id="@+id/dialog_Board_ok"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/selector_color_blue_btn_bg"
             android:gravity="center"
             android:padding="@dimen/dp_5"
-            android:text="添加"
+            android:text="确定"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_24"
             android:textStyle="bold" />

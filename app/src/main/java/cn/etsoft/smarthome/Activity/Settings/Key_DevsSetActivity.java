@@ -1,5 +1,7 @@
 package cn.etsoft.smarthome.Activity.Settings;
 
+import android.app.Dialog;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.abc.mybaseactivity.BaseActivity.BaseActivity;
 import com.example.abc.mybaseactivity.OtherUtils.ToastUtil;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +25,23 @@ import java.util.List;
 import cn.etsoft.smarthome.Adapter.GridView.Key_DevsSetAdapter;
 import cn.etsoft.smarthome.Adapter.PopupWindow.PopupWindowAdapter2;
 import cn.etsoft.smarthome.Adapter.RecyclerView.Key_Devs_KeysAdapter;
+import cn.etsoft.smarthome.Domain.UdpProPkt;
+import cn.etsoft.smarthome.Domain.WareBoardKeyInput;
 import cn.etsoft.smarthome.Domain.WareDev;
 import cn.etsoft.smarthome.Domain.WareKeyOpItem;
 import cn.etsoft.smarthome.MyApplication;
 import cn.etsoft.smarthome.R;
 import cn.etsoft.smarthome.UiHelper.Key_DevsSetHelper;
+import cn.etsoft.smarthome.UiHelper.Net_AddorDel_Helper;
 import cn.etsoft.smarthome.UiHelper.WareDataHliper;
+import cn.etsoft.smarthome.Utils.CommonUtils;
+import cn.etsoft.smarthome.Utils.GlobalVars;
 import cn.etsoft.smarthome.Utils.SendDataUtil;
 import cn.etsoft.smarthome.View.CircleMenu.CircleDataEvent;
 import cn.etsoft.smarthome.View.CircleMenu.CircleMenuLayout;
 import cn.etsoft.smarthome.View.SlideGridView;
+
+import static com.example.abc.mybaseactivity.MyApplication.MyApplication.mContext;
 
 /**
  * Author：FBL  Time： 2017/6/22.
@@ -45,7 +56,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
     private RecyclerView mKeyDevs_Keys;
     private SlideGridView mKeyDevs_Devs;
     private ImageView Control_Back;
-    private TextView mKeyDevs_KeyBoards, mKeyDevs_TestBtn, mKeyDevs_SaveBtn, mKey_null;
+    private TextView mKeyDevs_KeyBoards, mKeyDevs_Edittn, mKeyDevs_SaveBtn, mKey_null;
     //设备适配器
     private Key_DevsSetAdapter mKeyDevsKeysAdapter;
     //按键适配器
@@ -96,11 +107,20 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                     //保存成功之后将备用数据结果置空
                     MyApplication.getWareData().setResult(null);
                 }
+                if (datType == 9) {
+                    if (subtype1 == 1 && subtype2 == 1) {
+                        MyApplication.mApplication.dismissLoadDialog();
+                        ToastUtil.showText("操作成功");
+                        initData();
+                    } else {
+                        ToastUtil.showText("操作失败");
+                    }
+                }
             }
         });
 
         mKeyDevs_KeyBoards = getViewById(R.id.Key_DevsSet_KeyBoards);
-        mKeyDevs_TestBtn = getViewById(R.id.Key_DevsSet_Test_Btn);
+        mKeyDevs_Edittn = getViewById(R.id.Key_DevsSet_Edit_Btn);
         mKeyDevs_SaveBtn = getViewById(R.id.Key_DevsSet_Save_Btn);
         Control_Back = getViewById(R.id.Control_Back);
         mKeyDevs_Devs = getViewById(R.id.Key_DevsSet_Keys);
@@ -109,7 +129,7 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
 
 
         mKeyDevs_KeyBoards.setOnClickListener(this);
-        mKeyDevs_TestBtn.setOnClickListener(this);
+        mKeyDevs_Edittn.setOnClickListener(this);
         mKeyDevs_SaveBtn.setOnClickListener(this);
 
         Control_Back.setOnClickListener(new View.OnClickListener() {
@@ -205,7 +225,8 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                 initRadioPopupWindow(v, InputKey_names);
                 popupWindow.showAsDropDown(v, 0, 0);
                 break;
-            case R.id.Key_DevsSet_Test_Btn: // 测试
+            case R.id.Key_DevsSet_Edit_Btn: // 修改按键板名称以及keycut
+                editBoardName();
                 break;
             case R.id.Key_DevsSet_Save_Btn: // 保存
                 List<WareDev> devs = new ArrayList<>();
@@ -291,6 +312,74 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
         mKeyDevs_Devs.setAdapter(mKeyDevsKeysAdapter);
     }
 
+    /**
+     * 修改按键板名称以及修改按键有效按键个数值
+     */
+    public void editBoardName() {
+        final Dialog dialog = new Dialog(Key_DevsSetActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+        dialog.setContentView(R.layout.dialog_edit_board__name);
+        dialog.show();
+        final EditText mDialogName = (EditText) dialog.findViewById(R.id.dialog_key_Board_name);
+        final EditText mDialogCut = (EditText) dialog.findViewById(R.id.dialog_key_Board_cut);
+
+        TextView mDialogCancle = (TextView) dialog.findViewById(R.id.dialog_Board_cancle);
+        TextView mDialogOk = (TextView) dialog.findViewById(R.id.dialog_Board_ok);
+        final WareBoardKeyInput inputs = MyApplication.getWareData().getKeyInputs().get(position_keyinput);
+        mDialogName.setText(inputs.getBoardName());
+        mDialogCut.setText(inputs.getKeyCnt() + "");
+        mDialogCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        mDialogOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                try {
+                    int keyCut = inputs.getKeyCnt();
+                    if ("".equals(Integer.valueOf(mDialogCut.getText().toString())) || Integer.valueOf(mDialogCut.getText().toString()) > 8) {
+                        ToastUtil.showText("有效按键不能为空或者大于8");
+
+                        return;
+                    }
+
+                    keyCut = Integer.valueOf(mDialogCut.getText().toString());
+                    String[] nameKey = new String[keyCut];
+
+                    for (int i = 0; i < keyCut; i++) {
+                        if (i < inputs.getKeyName().length) {
+                            if ("".equals((inputs).getKeyName()[i])) {
+                                nameKey[i] = CommonUtils.bytesToHexString("未命名".getBytes("GB2312"));
+                            } else
+                                nameKey[i] = CommonUtils.bytesToHexString((inputs).getKeyName()[i].getBytes("GB2312"));
+                        } else {
+                            nameKey[i] = CommonUtils.bytesToHexString("未命名".getBytes("GB2312"));
+                        }
+                    }
+
+                    inputs.setKeyName(nameKey);
+                    inputs.setKeyCnt(keyCut);
+                    inputs.setBoardName(CommonUtils.bytesToHexString(mDialogName.getText().toString().getBytes("GB2312")));
+                    Gson gson = new Gson();
+                    String str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                            ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_editBoards.getValue() +
+                            ",\"subType1\":0" +
+                            ",\"subType2\":1" +
+                            ",\"keyinput_rows\":[" + gson.toJson(inputs) + "]" +
+                            ",\"keyinput\":1}";
+                    Log.i("修改输入按键板名称字符串   ", str);
+                    MyApplication.mApplication.showLoadDialog(Key_DevsSetActivity.this);
+                    MyApplication.mApplication.getUdpServer().send(str, 9);
+                } catch (Exception e) {
+                    Log.i("转码Name", "Key_Devs: " + e);
+                }
+            }
+        });
+    }
+
+
     private void RecyclerViewClick() {
         KeysAdapter.setOnItemClick(new Key_Devs_KeysAdapter.Dev_KeysSetViewHolder.OnItemClick() {
             @Override
@@ -301,8 +390,49 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
             }
 
             @Override
-            public void OnItemLongClick(View view, int position) {
+            public void OnItemLongClick(View view, final int position) {
+                final Dialog dialog = new Dialog(Key_DevsSetActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar);
+                dialog.setContentView(R.layout.dialog_keyname);
+                dialog.show();
+                final EditText mDialogName = (EditText) dialog.findViewById(R.id.dialog_key_name);
 
+                TextView mDialogCancle = (TextView) dialog.findViewById(R.id.dialog_key_cancle);
+                TextView mDialogOk = (TextView) dialog.findViewById(R.id.dialog_key_ok);
+                mDialogCancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                mDialogOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        try {
+
+                            WareBoardKeyInput inputs = MyApplication.getWareData().getKeyInputs().get(position_keyinput);
+                            inputs.getKeyName()[position] = mDialogName.getText().toString();
+                            String[] nameKey = new String[inputs.getKeyName().length];
+                            for (int i = 0; i < inputs.getKeyName().length; i++) {
+                                nameKey[i] = CommonUtils.bytesToHexString((inputs).getKeyName()[i].getBytes("GB2312"));
+                            }
+                            inputs.setKeyName(nameKey);
+                            inputs.setBoardName(CommonUtils.bytesToHexString(inputs.getBoardName().getBytes("GB2312")));
+                            Gson gson = new Gson();
+                            String str = "{\"devUnitID\":\"" + GlobalVars.getDevid() + "\"" +
+                                    ",\"datType\":" + UdpProPkt.E_UDP_RPO_DAT.e_udpPro_editBoards.getValue() +
+                                    ",\"subType1\":0" +
+                                    ",\"subType2\":1" +
+                                    ",\"keyinput_rows\":[" + gson.toJson(inputs) + "]" +
+                                    ",\"keyinput\":1}";
+                            Log.i("修改输入按键名称字符串   ", str);
+                            MyApplication.mApplication.showLoadDialog(Key_DevsSetActivity.this);
+                            MyApplication.mApplication.getUdpServer().send(str, 9);
+                        } catch (Exception e) {
+                            Log.i("转码Name", "Key_Devs: " + e);
+                        }
+                    }
+                });
             }
         });
     }
