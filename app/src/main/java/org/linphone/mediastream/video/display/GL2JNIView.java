@@ -14,22 +14,22 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.linphone.mediastream.video.display;
+
+import android.content.Context;
+import android.graphics.PixelFormat;
+import android.opengl.GLSurfaceView;
+import android.util.AttributeSet;
+
+import org.linphone.mediastream.Log;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 
-import org.linphone.mediastream.Log;
-
-import android.content.Context;
-import android.graphics.PixelFormat;
-import android.opengl.GLSurfaceView;
-import android.util.AttributeSet;
- 
 public class GL2JNIView extends GLSurfaceView {
     private static final boolean DEBUG = false;
 
@@ -122,7 +122,7 @@ public class GL2JNIView extends GLSurfaceView {
             EGL10.EGL_NONE
         };
 
-        public EGLConfig chooseConfig(EGL10 egl, EGLDisplay display) { 
+        public EGLConfig chooseConfig(EGL10 egl, EGLDisplay display) {
 
             /* Get the number of minimally matching EGL configurations
              */ 
@@ -149,7 +149,7 @@ public class GL2JNIView extends GLSurfaceView {
         }
 
         public EGLConfig chooseConfig(EGL10 egl, EGLDisplay display,
-                EGLConfig[] configs) {
+                                      EGLConfig[] configs) {
             for(EGLConfig config : configs) {
                 int d = findConfigAttrib(egl, display, config,
                         EGL10.EGL_DEPTH_SIZE, 0);
@@ -177,7 +177,7 @@ public class GL2JNIView extends GLSurfaceView {
         }
 
         private int findConfigAttrib(EGL10 egl, EGLDisplay display,
-                EGLConfig config, int attribute, int defaultValue) {
+                                     EGLConfig config, int attribute, int defaultValue) {
 
             if (egl.eglGetConfigAttrib(display, config, attribute, mValue)) {
                 return mValue[0];
@@ -186,7 +186,7 @@ public class GL2JNIView extends GLSurfaceView {
         }
 
         private void printConfigs(EGL10 egl, EGLDisplay display,
-            EGLConfig[] configs) {
+                                  EGLConfig[] configs) {
             int numConfigs = configs.length;
             Log.w(String.format("%d configurations", numConfigs));
             for (int i = 0; i < numConfigs; i++) {
@@ -196,7 +196,7 @@ public class GL2JNIView extends GLSurfaceView {
         }
 
         private void printConfig(EGL10 egl, EGLDisplay display,
-                EGLConfig config) {
+                                 EGLConfig config) {
             int[] attributes = {
                     EGL10.EGL_BUFFER_SIZE,
                     EGL10.EGL_ALPHA_SIZE,

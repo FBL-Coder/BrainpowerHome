@@ -33,6 +33,7 @@ public class VideoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_video, null);
+        cn.etsoft.smarthome.MyApplication.mApplication.myWakeup.stop();
         adapter = new MyAdapter();
         setView();
         return layout;
@@ -91,8 +92,8 @@ public class VideoFragment extends Fragment {
 //                    String s = SipCompress.compress(MyApplication.houseProperty.sipnum, MyApplication.cellphone);
                     // 开门
                     ((squirrelCallImpl) getActivity().getApplication()).squirrelSendMessage(map.get("obj_sipnum")
-                            ,MyApplication.houseProperty.sipaddr,squirrelCallImpl.serverport
-                            ,squirrelCallImpl.OPENDOOR,100);
+                            , MyApplication.houseProperty.sipaddr, squirrelCallImpl.serverport
+                            , squirrelCallImpl.OPENDOOR, 100);
                 }
             });
             holder.image.setOnClickListener(new View.OnClickListener() {
@@ -130,5 +131,11 @@ public class VideoFragment extends Fragment {
         instan.squirrelAccountLogin(MyApplication.houseProperty.sipaddr, squirrelCallImpl.serverport, 1, null,
                 MyApplication.houseProperty.sipnum, MyApplication.houseProperty.sippassword, null, 1);
         ToastUtil.l(getActivity(), "连接失败，请检查\n网络连接并重试！");
+    }
+
+    @Override
+    public void onDestroy() {
+        cn.etsoft.smarthome.MyApplication.mApplication.myWakeup.start();
+        super.onDestroy();
     }
 }

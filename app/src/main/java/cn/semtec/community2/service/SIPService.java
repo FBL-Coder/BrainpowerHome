@@ -32,7 +32,6 @@ import cn.semtec.community2.activity.IncomingActivity;
 import cn.semtec.community2.activity.LoginActivity;
 import cn.semtec.community2.activity.MyBaseActivity;
 import cn.semtec.community2.model.LoginHelper;
-import cn.semtec.community2.model.VoiceWaveHelper;
 import cn.semtec.community2.util.SharedPreferenceUtil;
 import cn.semtec.community2.util.ToastUtil;
 
@@ -41,7 +40,6 @@ import cn.semtec.community2.util.ToastUtil;
  */
 public class SIPService extends Service {
     private squirrelCallImpl squirrelCall = null;
-    public static VoiceWaveHelper voiceWaveHelper;
     Timer timer;
     Timer squirreltimer;
     TimerTask timerTask;
@@ -85,7 +83,6 @@ public class SIPService extends Service {
         // 20ms sip heartbeat
         squirrelCall = (squirrelCallImpl) getApplication();
         squirrelCall.setHandler(mMsgHandler);
-        voiceWaveHelper = new VoiceWaveHelper(this);
         autoLogin();
     }
 

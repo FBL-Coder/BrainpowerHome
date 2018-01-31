@@ -14,15 +14,15 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.linphone.mediastream.video.capture;
 
-import org.linphone.mediastream.Log;
-
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
- 
+
+import org.linphone.mediastream.Log;
+
 public class AndroidVideoApi8JniWrapper {
 	static public int detectCameras(int[] indexes, int[] frontFacing, int[] orientation) {
 		return AndroidVideoApi5JniWrapper.detectCameras(indexes, frontFacing, orientation);
@@ -34,7 +34,7 @@ public class AndroidVideoApi8JniWrapper {
 	
 	public static Object startRecording(int cameraId, int width, int height, int fps, int rotation, final long nativePtr) {
 		Log.d("startRecording(" + cameraId + ", " + width + ", " + height + ", " + fps + ", " + rotation + ", " + nativePtr + ")");
-		Camera camera = Camera.open(); 
+		Camera camera = Camera.open();
 
 		AndroidVideoApi5JniWrapper.applyCameraParameters(camera, width, height, fps);
 		  

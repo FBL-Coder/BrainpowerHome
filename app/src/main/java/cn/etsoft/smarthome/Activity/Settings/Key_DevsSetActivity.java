@@ -341,7 +341,6 @@ public class Key_DevsSetActivity extends BaseActivity implements View.OnClickLis
                     int keyCut = inputs.getKeyCnt();
                     if ("".equals(Integer.valueOf(mDialogCut.getText().toString())) || Integer.valueOf(mDialogCut.getText().toString()) > 8) {
                         ToastUtil.showText("有效按键不能为空或者大于8");
-
                         return;
                     }
 

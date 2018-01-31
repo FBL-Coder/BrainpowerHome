@@ -1,13 +1,5 @@
 package org.linphone.squirrel;
 
-import java.util.Timer;
-
-import cn.etsoft.smarthome.R;
-import cn.semtec.community2.MyApplication;
-import cn.semtec.community2.activity.CallingActivity;
-import cn.semtec.community2.service.SIPService;
-import cn.semtec.community2.util.ToastUtil;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +7,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+import org.linphone.mediastream.MediastreamerAndroidContext;
+
+import java.util.Timer;
+
+import cn.semtec.community2.MyApplication;
+import cn.semtec.community2.activity.CallingActivity;
+import cn.semtec.community2.service.SIPService;
+import cn.semtec.community2.util.ToastUtil;
 
 public class squirrelCallImpl extends MyApplication {
+    public static final int squirrelPlayerEof = 27;
     public static final int squirrelCallIdle = 0;
     /**
      * <Initial call state
@@ -134,8 +134,7 @@ public class squirrelCallImpl extends MyApplication {
     public static final String HANGUP = "qingguajiba :-)";
     public static final String OPENDOOR = "squirrelunlock";
 
-    public static squirrelCallImpl squirrelCall;
-    public int currentCallId = -1;
+    public long currentCallId = -1;
     private int currentCallState = -1;
     private int currentRegState = -1;
     private Timer timer = null;
@@ -164,7 +163,7 @@ public class squirrelCallImpl extends MyApplication {
         return 0;
     }
 
-    public int getCurrentCallId() {
+    public long getCurrentCallId() {
         return currentCallId;
     }
 
@@ -200,27 +199,42 @@ public class squirrelCallImpl extends MyApplication {
 
     @Override
     public void onCreate() {
-        Log.e(TAG, "onCreate: //***************************************" );
-        squirrelCall = squirrelCallImpl.this;
         try {
             super.onCreate();
-            System.loadLibrary("ffmpeg-linphone-arm");
-            System.loadLibrary("semtecphone-armeabi-v7a_tz");
-            System.loadLibrary("voiceRecog");
-            squirrelSetPowerManager(this.getSystemService(Context.POWER_SERVICE));
-            squirrelInit(this);
-            squirrelSetStunServer("stun.3cx.com");
-            squirrelSetFirewall(2);
-            // squirrelSetFirewall(1);
+            System.loadLibrary("gnustl_shared");
+            System.loadLibrary("ffmpeg-squirrel-armeabi-v7a");
+            System.loadLibrary("bctoolbox-armeabi-v7a");
+            System.loadLibrary("ortp-armeabi-v7a");
+            System.loadLibrary("openh264");
+            System.loadLibrary("mediastreamer_base-armeabi-v7a");
+            System.loadLibrary("mediastreamer_voip-armeabi-v7a");
+            System.loadLibrary("squirrel-armeabi-v7a");
+            System.loadLibrary("jcore100");
 
+            MediastreamerAndroidContext.setContext(this);
+            squirrelSetPowerManager(this.getSystemService(Context.POWER_SERVICE));
+            squirrelSetKeepAliveperiod(60 * 1000);
+            Log.d("SQUIRREL", "------------" + this.getApplicationInfo().nativeLibraryDir);
+            squirrelInit(this, this.getApplicationInfo().nativeLibraryDir);
+//            squirrelSetStunServer("stun.linphone.org");
+            squirrelSetStunServer("stun.3cx.com");
+            squirrelSetFirewall(1);
+            //	squirrelSetKeepAliveperiod(30);
+            squirrelSetAgent("android-weedoor");
+
+            squirrelGetICEState(0);
+            //squirrelGetICEState(1);
+            squirrelSetVideoSizeByName("cif");
+            squirrelSelectOnlyAudioCodec("iLBC", "opus");
             startService(new Intent(this, SIPService.class));
         } catch (Throwable ex) {
             ex.printStackTrace();
         }
     }
-    public void callState(String username, String nickname, int state, int callid)// 由用户实现，被底层调用。
-    {
 
+    public void callState(String username, String nickname, int state, long callid, int onlyaudio) {// 由用户实现，被底层调用。{
+
+//        Log.i(TAG, "callState:我就试试看怎么走");
         if (mHandler == null) {
             return;
         }
@@ -229,7 +243,7 @@ public class squirrelCallImpl extends MyApplication {
         Bundle bundle = new Bundle();
         msg.what = 2;
         bundle.putInt("state", state);
-        bundle.putInt("callid", callid);
+        bundle.putLong("callid", callid);
         bundle.putString("username", username);
         if (nickname != null) {
             _nickname = nickname;
@@ -247,7 +261,7 @@ public class squirrelCallImpl extends MyApplication {
         currentCallState = state;
     }
 
-    public void messageState(String from, String text, int state, int userdata)// 由用户实现，被底层调用
+    public void messageState(String from, String text, int state, long userdata)// 由用户实现，被底层调用
     {
         if (state == squirrelMessageArrived) {
             if (text.equals(HANGUP) && CallingActivity.instance != null && !CallingActivity.instance.isFinishing()) {
@@ -255,33 +269,59 @@ public class squirrelCallImpl extends MyApplication {
                 return;
             }
         }
-        switch (userdata) {
-            // 开门
-            case 100:
-                if (state == squirrelMessageDelivered) {
-                    // Log.d("SQUIRREL","send text "+userdata+" ok \n");
-                    ToastUtil.s(this, "开门成功");
-                } else if (state == squirrelMessageNotDelivered) {
-                    // Log.d("SQUIRREL","send text "+userdata+" failed \n");
-                    ToastUtil.s(this, "开门失败");
-                } else if (state == squirrelMessageArrived) {
-                    Log.d("SQUIRREL", "from " + from + "recevied text: " + text + "\n");
-                }
-                break;
+        if (userdata == 100) {
+            if (state == squirrelMessageDelivered) {
+                // Log.d("SQUIRREL","send text "+userdata+" ok \n");
+                ToastUtil.s(this, "开门成功");
+            } else if (state == squirrelMessageNotDelivered) {
+                // Log.d("SQUIRREL","send text "+userdata+" failed \n");
+                ToastUtil.s(this, "开门失败");
+            } else if (state == squirrelMessageArrived) {
+                Log.d("SQUIRREL", "from " + from + "recevied text: " + text + "\n");
+            }
+
             // 手机接听切换
-            case 200:
-                if (state == squirrelMessageDelivered) {
-                    // ToastUtil.s(this, "切换成功");
-                } else if (state == squirrelMessageNotDelivered) {
-                    // ToastUtil.s(this, "切换失败");
-                }
-                //挂断通话
-            default:
-                break;
+        } else if (userdata == 200) {
+            if (state == squirrelMessageDelivered) {
+                // ToastUtil.s(this, "切换成功");
+            } else if (state == squirrelMessageNotDelivered) {
+                // ToastUtil.s(this, "切换失败");
+            }
+            //挂断通话
+
+
+        } else {
         }
     }
 
-    public native void squirrelInit(Object obj);
+    public void testEchoValue(int state, int delay) {
+        Log.d("SQUIRREL", "......" + state + "-------" + delay);
+        if (mHandler == null)
+            return;
+        Message msg = new Message();
+        Bundle bundle = new Bundle();
+        msg.what = 1;
+        bundle.putInt("state", 1234);
+        bundle.putString("domain", "dd");
+        bundle.putString("reason", "11");
+        bundle.putInt("delay", delay);
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
+    }
+
+    public void playerEof() //由用户实现，被底层调用
+    {
+        if (mHandler == null)
+            return;
+
+        Message msg = new Message();
+        Bundle bundle = new Bundle();
+        msg.what = 3;
+        bundle.putInt("state", squirrelPlayerEof);
+        Log.d("SQUIRREL", "player eof--------------------------");
+        msg.setData(bundle);
+        mHandler.sendMessage(msg);
+    }
 
     public native void squirrelUninit();
 
@@ -368,4 +408,56 @@ public class squirrelCallImpl extends MyApplication {
 
     public native float squirrelGetCurrentQuality();
 
+    //////
+    public native void squirrelInit(Object obj, String pluginspath);
+
+    public native void squirrelAnswer(long callid, int av);
+
+    public native void squirrelTerminate(long callid);
+
+    public native void squirrelUnlock(long callid);
+
+    public native void squirrelUpdateCall(long callid);
+
+    public native void squirrelSwitchVideo(long callid, int oc);
+
+    public native void squirrelSetRecordFilePath(String filepath);
+
+    public native void squirrelStartRecord();
+
+    public native void squirrelStopRecord();
+
+    public native long squirrelCreateLocalPlayer(Object window); //return playerPtr
+
+    public native int squirrelDestroyLocalPlayer(long playerptr);
+
+    public native int squirrelPlayerOpen(long playerPtr, String filename);
+
+    public native int squirrelPlayerStart(long playerPtr);
+
+    public native int squirrelPlayerClose(long playerPtr);
+
+    public native void squirrelSetVideoSizeByName(String name);
+
+    public native int squirrelStartEchoTest();
+
+    public native int squirrelSetEchoValue(int delay);
+
+    public native int squirrelSelectOnlyAudioCodec(String name, String name1);
+
+    public native void squirrelSetPlaybackGainDB(float db);
+
+    public native void squirrelSetlePath(String path);
+
+    public native void squirrelSetRingbackFilePath(String path);
+
+    public native void squirrelSetRingFilePath(String path);
+
+    public native void squirrelSetEQ(String device, String value);
+
+    public native void squirrelSetMicGainDB(float db);
+
+    public native void squirrelSetAgent(String agent);
+
+    public native void squirrelSetKeepAliveperiod(int sec);
 }

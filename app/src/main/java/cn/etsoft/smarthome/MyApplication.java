@@ -12,6 +12,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -154,6 +155,10 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     //软件启动时间是否足够
     public boolean isStartTimeOk = false;
 
+    public MyWakeup getMyWakeup() {
+        return myWakeup;
+    }
+
     //语音唤醒
     public MyWakeup myWakeup;
 
@@ -168,6 +173,8 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
      * backTrackInMs 最大 15000，即15s
      */
     private int backTrackInMs = 2500;
+    private int mFinalCount = 0;
+    private int isback = 0;
 
 
     @Override
@@ -211,6 +218,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         music_dome = sp.load(getApplicationContext(), R.raw.dome, 1);
         music_noexist = sp.load(getApplicationContext(), R.raw.scene_noecist, 1);
 
+        //天气数据
         mRoomTempBean = new RoomTempBean();
         new Thread(new Runnable() {
             @Override
@@ -223,8 +231,10 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
                 }
             }
         }).start();
-       getIp();
+        //获取IP地址
+        getIp();
 
+        //百度语音唤醒以及语音识别
         Logger.setHandler(handler);
 
         StatusRecogListener recogListener = new MessageStatusRecogListener(handler);
@@ -234,6 +244,59 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
         myWakeup = new MyWakeup(this, listener);
 
         myWakeup.start();
+
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+                mFinalCount++;
+                //如果mFinalCount ==1，说明是从后台到前台
+                Log.e("onActivityStarted", mFinalCount +"");
+                if (mFinalCount == 1){
+                    //说明从后台回到了前台
+                    if (isback == 0)
+                        myWakeup.start();
+                    isback = 1;
+
+                }
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+                mFinalCount--;
+                isback = 0;
+                //如果mFinalCount ==0，说明是前台到后台
+                Log.i("onActivityStopped", mFinalCount +"");
+                if (mFinalCount == 0){
+                    //说明从前台回到了后台
+                    myWakeup.stop();
+                }
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
+            }
+        });
 
     }
 
@@ -328,6 +391,7 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public int getMusic_noexist() {
         return music_noexist;
     }
+
 
     /**
      * 获取CityDB
@@ -585,6 +649,9 @@ public class MyApplication extends com.example.abc.mybaseactivity.MyApplication.
     public void setSeekRcuInfos(List<RcuInfo> seekRcuInfos) {
         SeekRcuInfos = seekRcuInfos;
     }
+
+
+
 
     /**
      * 静态Handler WebSocket以及Udp连接，数据监听

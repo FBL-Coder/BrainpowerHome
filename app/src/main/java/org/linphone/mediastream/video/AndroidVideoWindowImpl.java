@@ -14,15 +14,9 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.linphone.mediastream.video;
-
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
-import org.linphone.mediastream.Log;
-import org.linphone.mediastream.video.display.OpenGLESDisplay;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -34,14 +28,20 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 
+import org.linphone.mediastream.Log;
+import org.linphone.mediastream.video.display.OpenGLESDisplay;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
 public class AndroidVideoWindowImpl {
 	private SurfaceView mVideoRenderingView;
 	private SurfaceView mVideoPreviewView;
 	
 	private boolean useGLrendering;
-	private Bitmap mBitmap = null; 
+	private Bitmap mBitmap = null;
 
-	private Surface mSurface = null; 
+	private Surface mSurface = null;
 	private VideoWindowListener mListener = null;
 	private Renderer renderer;
 	
@@ -89,11 +89,11 @@ public class AndroidVideoWindowImpl {
 		// register callback for rendering surface events
 		mVideoRenderingView.getHolder().addCallback(new Callback(){
 			public void surfaceChanged(SurfaceHolder holder, int format,
-					int width, int height) {
+                                       int width, int height) {
 				Log.i("Video display surface is being changed.");
 				if (!useGLrendering) {
 					synchronized(AndroidVideoWindowImpl.this){
-						mBitmap=Bitmap.createBitmap(width,height,Config.RGB_565);
+						mBitmap= Bitmap.createBitmap(width,height, Config.RGB_565);
 						mSurface=holder.getSurface();
 					}
 				}
@@ -114,14 +114,14 @@ public class AndroidVideoWindowImpl {
 				}
 				if (mListener!=null)
 					mListener.onVideoRenderingSurfaceDestroyed(AndroidVideoWindowImpl.this);
-				Log.d("Video display surface destroyed"); 
+				Log.d("Video display surface destroyed");
 			}
 		});
 		// register callback for preview surface events
 		if (mVideoPreviewView != null) {
 			mVideoPreviewView.getHolder().addCallback(new Callback(){
 				public void surfaceChanged(SurfaceHolder holder, int format,
-						int width, int height) {
+                                           int width, int height) {
 					Log.i("Video preview surface is being changed.");
 					if (mListener!=null) 
 						mListener.onVideoPreviewSurfaceReady(AndroidVideoWindowImpl.this, mVideoPreviewView);
@@ -135,7 +135,7 @@ public class AndroidVideoWindowImpl {
 				public void surfaceDestroyed(SurfaceHolder holder) {
 					if (mListener!=null)
 						mListener.onVideoPreviewSurfaceDestroyed(AndroidVideoWindowImpl.this);
-					Log.d("Video preview surface destroyed"); 
+					Log.d("Video preview surface destroyed");
 				}
 			});
 		}
@@ -170,7 +170,7 @@ public class AndroidVideoWindowImpl {
 		return mBitmap;
 	}
 	 
-	public void setOpenGLESDisplay(int ptr) {
+	public void setOpenGLESDisplay(long ptr) {
 		if (!useGLrendering)
 			Log.e("View class does not match Video display filter used (you must use a GL View)");
 		renderer.setOpenGLESDisplay(ptr);
@@ -184,22 +184,22 @@ public class AndroidVideoWindowImpl {
 	public synchronized void update(){
 		if (mSurface!=null){
 			try {
-				Canvas canvas=mSurface.lockCanvas(null); 
+				Canvas canvas=mSurface.lockCanvas(null);
 				canvas.drawBitmap(mBitmap, 0, 0, null);
 				mSurface.unlockCanvasAndPost(canvas);
 				 
 			} catch (IllegalArgumentException e) {
-
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (OutOfResourcesException e) {
-
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}  
 		} 
 	}
 	
     private static class Renderer implements GLSurfaceView.Renderer {
-    	int ptr;
+    	long ptr;
     	boolean initPending;
     	int width, height;
     	
@@ -208,7 +208,7 @@ public class AndroidVideoWindowImpl {
     		initPending = false;
     	}
     	 
-    	public void setOpenGLESDisplay(int ptr) {
+    	public void setOpenGLESDisplay(long ptr) {
     		/* 
     		 * Synchronize this with onDrawFrame:
     		 * - they are called from different threads (Rendering thread and Linphone's one)

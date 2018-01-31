@@ -14,15 +14,16 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.linphone.mediastream;
-
-import org.linphone.mediastream.video.capture.hwconf.Hacks;
 
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Centralize version access and allow simulation of lower versions.
@@ -47,6 +48,10 @@ public class Version {
 	public static final int API17_JELLY_BEAN_42 = 17;
 	public static final int API18_JELLY_BEAN_43 = 18;
 	public static final int API19_KITKAT_44 = 19;
+	public static final int API21_LOLLIPOP_50 = 21;
+	public static final int API22_LOLLIPOP_51 = 22;
+	public static final int API23_MARSHMALLOW_60 = 23;
+	public static final int API24_NOUGAT_70 = 24;
 
 	private static native boolean nativeHasZrtp();
 	private static native boolean nativeHasNeon();
@@ -57,7 +62,7 @@ public class Version {
 //		8; // 2.2
 //		7; // 2.1
 
-	public static boolean isXLargeScreen(Context context) 
+	public static boolean isXLargeScreen(Context context)
 	{
 		return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
 	}
@@ -74,18 +79,53 @@ public class Version {
 		return buildVersion;
 	}
 
-	public static boolean isArmv7() {
+	public static List<String> getCpuAbis(){
+		List<String> cpuabis=new ArrayList<String>();
+		if (sdkAboveOrEqual(API21_LOLLIPOP_50)){
+			try {
+				String abis[]=(String[])Build.class.getField("SUPPORTED_ABIS").get(null);
+				for (String abi: abis){
+					cpuabis.add(abi);
+				}
+			} catch (Throwable e) {
+				Log.e(e);
+			}
+		}else{
+			cpuabis.add(Build.CPU_ABI);
+			cpuabis.add(Build.CPU_ABI2);
+		}
+		return cpuabis;
+	}
+	private static boolean isArm64() {
 		try {
-			return sdkAboveOrEqual(4)
-			&& Build.class.getField("CPU_ABI").get(null).toString().startsWith("armeabi-v7");
-		} catch (Throwable e) {}
+			return getCpuAbis().get(0).startsWith("arm64-v8a");
+		} catch (Throwable e) {
+			Log.e(e);
+		}
 		return false;
 	}
-	public static boolean isX86() {
+	private static boolean isArmv7() {
 		try {
-			return sdkAboveOrEqual(4)
-			&& Build.class.getField("CPU_ABI").get(null).toString().startsWith("x86");
-		} catch (Throwable e) {}
+			return getCpuAbis().get(0).startsWith("armeabi-v7");
+		} catch (Throwable e) {
+			Log.e(e);
+		}
+		return false;
+	}
+	private static boolean isX86() {
+		try {
+			return getCpuAbis().get(0).startsWith("x86");
+		} catch (Throwable e) {
+			Log.e(e);
+		}
+		return false;
+	}
+	private static boolean isArmv5() {
+		try {
+			return getCpuAbis().get(0).equals("armeabi");
+		} catch (Throwable e) {
+			Log.e(e);
+		}
 		return false;
 	}
 	public static boolean hasNeon(){
@@ -93,13 +133,13 @@ public class Version {
 		return hasNeon;
 	}
 	public static boolean hasFastCpu() {
-		return isArmv7() || isX86();
+		return !isArmv5();
 	}
 	public static boolean hasFastCpuWithAsmOptim() {
-		return (isArmv7() && hasNeon()) || isX86();
+		return isX86() || isArm64() || (!isArmv5() && hasNeon());
 	}
 	public static boolean isVideoCapable() {
-		return !Version.sdkStrictlyBelow(5) && Version.hasFastCpu() && Hacks.hasCamera();
+		return !Version.sdkStrictlyBelow(5) && Version.hasFastCpu();
 	}
 	public static boolean isHDVideoCapable() {
 		int availableCores = Runtime.getRuntime().availableProcessors();
@@ -116,7 +156,7 @@ public class Version {
 
 	public static void dumpCapabilities(){
 		StringBuilder sb = new StringBuilder(" ==== Capabilities dump ====\n");
-		sb.append("Has neon: ").append(Boolean.toString(hasNeon())).append("\n");
+		if (isArmv7()) sb.append("Has neon: ").append(Boolean.toString(hasNeon())).append("\n");
 		sb.append("Has ZRTP: ").append(Boolean.toString(hasZrtp())).append("\n");
 		Log.i(sb.toString());
 	}

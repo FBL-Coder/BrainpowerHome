@@ -14,36 +14,35 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 package org.linphone.mediastream.video.capture;
 
-import java.util.List;
+import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
+import android.view.SurfaceView;
 
 import org.linphone.mediastream.Log;
 import org.linphone.mediastream.Version;
 import org.linphone.mediastream.video.capture.hwconf.AndroidCameraConfiguration;
 import org.linphone.mediastream.video.capture.hwconf.AndroidCameraConfiguration.AndroidCamera;
 
-import android.hardware.Camera;
-import android.hardware.Camera.Parameters;
-import android.hardware.Camera.Size;
-import android.view.SurfaceView;
- 
+import java.util.List;
+
 /**
- * Wrapper for Android Camera API. Used by Mediastreamer to record 
+ * Wrapper for Android Camera API. Used by Mediastreamer to record
  * video from webcam.
- * This file depends only on Android SDK >= 5
+ * This file depends only on Android SDK superior or egal to 5
  */
 public class AndroidVideoApi5JniWrapper {
 	public static boolean isRecording = false;
-	
+
 	public static native void putImage(long nativePtr, byte[] buffer);
-	
+
 	static public int detectCameras(int[] indexes, int[] frontFacing, int[] orientation) {
 		Log.d("detectCameras\n");
 		AndroidCamera[] cameras = AndroidCameraConfiguration.retrieveCameras();
-		
+
 		int nextIndex = 0;
 		for (AndroidCamera androidCamera : cameras) {
 			if (nextIndex == 2) {
@@ -58,7 +57,7 @@ public class AndroidVideoApi5JniWrapper {
 		}
 		return nextIndex;
 	}
-	
+
 	/**
 	 * Return the hw-available available resolution best matching the requested one.
 	 * Best matching meaning :
@@ -72,23 +71,23 @@ public class AndroidVideoApi5JniWrapper {
 	 */
 	static public int[] selectNearestResolutionAvailable(int cameraId, int requestedW, int requestedH) {
 		Log.d("mediastreamer", "selectNearestResolutionAvailable: " + cameraId + ", " + requestedW + "x" + requestedH);
-		
+
 		return selectNearestResolutionAvailableForCamera(cameraId, requestedW, requestedH);
 	}
-	
+
 	static public void activateAutoFocus(Object cam) {
 		Log.d("mediastreamer", "Turning on autofocus on camera " + cam);
 		Camera camera = (Camera) cam;
 		if (camera != null && (camera.getParameters().getFocusMode() == Parameters.FOCUS_MODE_AUTO || camera.getParameters().getFocusMode() == Parameters.FOCUS_MODE_MACRO))
 			camera.autoFocus(null); // We don't need to do anything after the focus finished, so we don't need a callback
 	}
-	
+
 	public static Object startRecording(int cameraId, int width, int height, int fps, int rotation, final long nativePtr) {
 		Log.d("mediastreamer", "startRecording(" + cameraId + ", " + width + ", " + height + ", " + fps + ", " + rotation + ", " + nativePtr + ")");
-		Camera camera = Camera.open(); 
-		
+		Camera camera = Camera.open();
+
 		applyCameraParameters(camera, width, height, fps);
-		  
+
 		camera.setPreviewCallback(new Camera.PreviewCallback() {
 			public void onPreviewFrame(byte[] data, Camera camera) {
 				if (isRecording) {
@@ -96,28 +95,28 @@ public class AndroidVideoApi5JniWrapper {
 					putImage(nativePtr, data);
 				}
 			}
-		});		
-		
+		});
+
 		camera.startPreview();
 		isRecording = true;
 		Log.d("mediastreamer", "Returning camera object: " + camera);
-		return camera; 
-	} 
-	
+		return camera;
+	}
+
 	public static void stopRecording(Object cam) {
 		isRecording = false;
-		Log.d("mediastreamer", "stopRecording(" + cam + ")"); 
+		Log.d("mediastreamer", "stopRecording(" + cam + ")");
 		Camera camera = (Camera) cam;
-		 
+
 		if (camera != null) {
 			camera.setPreviewCallback(null);
 			camera.stopPreview();
-			camera.release(); 
+			camera.release();
 		} else {
 			Log.i("mediastreamer", "Cannot stop recording ('camera' is null)");
 		}
-	} 
-	
+	}
+
 	public static void setPreviewDisplaySurface(Object cam, Object surf) {
 		Log.d("mediastreamer", "setPreviewDisplaySurface(" + cam + ", " + surf + ")");
 		Camera camera = (Camera) cam;
@@ -125,7 +124,7 @@ public class AndroidVideoApi5JniWrapper {
 		try {
 			camera.setPreviewDisplay(surface.getHolder());
 		} catch (Exception exc) {
-			exc.printStackTrace(); 
+			exc.printStackTrace();
 		}
 	}
 	//select nearest resolution equal or above requested, if none, return highest resolution from the supported list
@@ -136,9 +135,9 @@ public class AndroidVideoApi5JniWrapper {
 			requestedH = requestedW;
 			requestedW = t;
 		}
-				
+
 		AndroidCamera[] cameras = AndroidCameraConfiguration.retrieveCameras();
-		List<Size> supportedSizes = null;
+		List<AndroidCamera.Size> supportedSizes = null;
 		for(AndroidCamera c: cameras) {
 			if (c.id == id)
 				supportedSizes = c.resolutions;
@@ -148,32 +147,32 @@ public class AndroidVideoApi5JniWrapper {
 			return null;
 		}
 		Log.d("mediastreamer", supportedSizes.size() + " supported resolutions :");
-		for(Size s : supportedSizes) {
+		for(AndroidCamera.Size s : supportedSizes) {
 			Log.d("mediastreamer", "\t" + s.width + "x" + s.height);
 		}
 		int r[] = null;
-		
+
 		int rW = Math.max(requestedW, requestedH);
 		int rH = Math.min(requestedW, requestedH);
-		
-		try { 
+
+		try {
 			// look for nearest size
-			Size result = supportedSizes.get(0); /*by default return first value*/
+			AndroidCamera.Size result = supportedSizes.get(0); /*by default return first value*/
 			int req = rW * rH;
 			int minDist = Integer.MAX_VALUE;
 			int useDownscale = 0;
-			for(Size s: supportedSizes) {				
+			for(AndroidCamera.Size s: supportedSizes) {
 				int dist = /*Math.abs*/-1*(req - s.width * s.height);
 				if ( ((s.width >= rW && s.height >= rH) || (s.width >= rH && s.height >= rW)) && dist < minDist) {
 					minDist = dist;
 					result = s;
 					useDownscale = 0;
 				}
-				
+
 				/* MS2 has a NEON downscaler, so we test this too */
 				int downScaleDist = /*Math.abs*/-1*(req - s.width * s.height / 4);
 				if (((s.width/2 >= rW && s.height/2 >= rH) || (s.width/2 >= rH && s.height/2 >= rW)) && downScaleDist < minDist) {
-					if (Version.isArmv7() && Version.hasNeon()) {
+					if (Version.hasFastCpuWithAsmOptim()) {
 						minDist = downScaleDist;
 						result = s;
 						useDownscale = 1;
@@ -194,15 +193,14 @@ public class AndroidVideoApi5JniWrapper {
 		} catch (Exception exc) {
 			Log.e(exc,"mediastreamer", " resolution selection failed");
 			return null;
-		}	
+		}
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	protected static void applyCameraParameters(Camera camera, int width, int height, int requestedFps) {
 		Parameters params = camera.getParameters();
-		 
-		params.setPreviewSize(width, height); 
-		
+
+		params.setPreviewSize(width, height);
+
 		List<Integer> supported = params.getSupportedPreviewFrameRates();
 		if (supported != null) {
 			int nearest = Integer.MAX_VALUE;
@@ -215,7 +213,7 @@ public class AndroidVideoApi5JniWrapper {
 			}
 			Log.d("mediastreamer", "Preview framerate set:" + params.getPreviewFrameRate());
 		}
-		
+
 		camera.setParameters(params);
 	}
 }

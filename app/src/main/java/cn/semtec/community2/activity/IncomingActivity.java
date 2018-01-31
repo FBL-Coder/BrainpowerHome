@@ -31,7 +31,7 @@ public class IncomingActivity extends MyBaseActivity implements OnClickListener 
     private MediaPlayer mMediaPlayer;
     private Bundle _bundle;
     private squirrelCallImpl myCallImpl;
-    private int currentCallID;
+    private long currentCallID;
 //    private AudioManager audioManager;
     private Vibrator vibrator;
     private SharedPreferenceUtil preference;
@@ -60,7 +60,7 @@ public class IncomingActivity extends MyBaseActivity implements OnClickListener 
         setView();
         setListener();
         _bundle = getIntent().getExtras();
-        currentCallID = _bundle.getInt("callid");
+        currentCallID = _bundle.getLong("callid");
 //        if (!preference.getBoolean(MyApplication.cellphone + "isDND") && !inDNDTime()) {
             Util.OnPlayRing(getApplication());
             OnVibrator();

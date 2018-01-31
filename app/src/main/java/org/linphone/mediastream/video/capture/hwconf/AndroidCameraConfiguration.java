@@ -14,17 +14,17 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.linphone.mediastream.video.capture.hwconf;
 
-import java.util.List;
+import android.hardware.Camera;
 
 import org.linphone.mediastream.Log;
 import org.linphone.mediastream.Version;
 
-import android.hardware.Camera.Size;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -60,10 +60,15 @@ public class AndroidCameraConfiguration {
 			return;
 		
 		try {
-			if (Version.sdk() < 9)
+			if (Version.sdk() < 9) {
 				camerasCache = AndroidCameraConfiguration.probeCamerasSDK5();
-			else
-				camerasCache = AndroidCameraConfiguration.probeCamerasSDK9();
+			} else {
+				if (Version.sdk() >= 21) {
+					camerasCache = AndroidCameraConfiguration.probeCamerasSDK21();
+				} else {
+					camerasCache = AndroidCameraConfiguration.probeCamerasSDK9();
+				}
+			}
 		} catch (Exception exc) {
 			Log.e("Error: cannot retrieve cameras information (busy ?)", exc);
 			exc.printStackTrace();
@@ -79,21 +84,45 @@ public class AndroidCameraConfiguration {
 		return AndroidCameraConfigurationReader9.probeCameras();
 	}
 
+	static AndroidCamera[] probeCamerasSDK21() {
+		return AndroidCameraConfigurationReader21.probeCameras();
+	}
+
 	/**
 	 * Default: no front; rear=0; default=rear
 	 * @author Guillaume Beraudo
 	 *
 	 */
 	static public  class AndroidCamera {
-		public AndroidCamera(int i, boolean f, int o, List<Size> r) {
+		static public class Size{
+			public final int width;
+			public final int height;
+
+			public Size(int w, int h){
+				this.width = w;
+				this.height = h;
+			}
+		}
+
+		public AndroidCamera(int i, boolean f, List<Size> r, int o) {
 			this.id = i;
 			this.frontFacing = f;
 			this.orientation = o;
 			this.resolutions = r;
 		}
+		public AndroidCamera(int i, boolean f, int o, List<Camera.Size> origin) {
+			this.resolutions = new ArrayList<Size>(origin.size());
+			for (android.hardware.Camera.Size s : origin) {
+				this.resolutions.add(new Size(s.width,s.height));
+			}
+			this.id = i;
+			this.frontFacing = f;
+			this.orientation = o;
+		}
 		public int id;
 		public boolean frontFacing; // false => rear facing
 		public int orientation;
 		public List<Size> resolutions;
+
 	}
 }

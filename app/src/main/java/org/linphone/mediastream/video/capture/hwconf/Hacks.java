@@ -14,15 +14,15 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.linphone.mediastream.video.capture.hwconf;
 
-import org.linphone.mediastream.Log;
-import org.linphone.mediastream.Version;
-
 import android.hardware.Camera;
 import android.os.Build;
+
+import org.linphone.mediastream.Log;
+import org.linphone.mediastream.Version;
 
 public final class Hacks {
 
@@ -74,7 +74,7 @@ public final class Hacks {
 	} // HTC Thunderbolt
 
 	// Galaxy S variants
-	private static final boolean isSPHD700() {return Build.DEVICE.startsWith("SPH-D700");} // Epic 
+	private static final boolean isSPHD700() {return Build.DEVICE.startsWith("SPH-D700");} // Epic
 	private static boolean isSGHI896() {return Build.DEVICE.startsWith("SGH-I896");} // Captivate
 	private static boolean isGT9000() {return Build.DEVICE.startsWith("GT-I9000");} // Galaxy S
 	private static boolean isSC02B() {return Build.DEVICE.startsWith("SC-02B");} // Docomo

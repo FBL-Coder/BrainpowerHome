@@ -58,7 +58,7 @@ public class CallingActivity extends MyBaseActivity implements OnClickListener {
     AudioManager audioManager;
     private squirrelCallImpl myCallImpl;
     private AndroidVideoWindowImpl mVideoWindow;
-    int currentCallID;
+    long currentCallID;
     String username;
     String nickname;
     String devicename;
@@ -100,7 +100,7 @@ public class CallingActivity extends MyBaseActivity implements OnClickListener {
 
     void HandlerCallState(Bundle _bundle) {
         int state = _bundle.getInt("state");
-        currentCallID = _bundle.getInt("callid");
+        currentCallID = _bundle.getLong("callid");
         username = _bundle.getString("username");
         nickname = _bundle.getString("nickname");
         if (state == squirrelCallImpl.squirrelCallStreamsRunning) {
@@ -132,7 +132,7 @@ public class CallingActivity extends MyBaseActivity implements OnClickListener {
         Bundle _bundle = this.getIntent().getExtras();
         if (_bundle != null) {
             // int state = _bundle.getInt("state");
-            currentCallID = _bundle.getInt("callid");
+            currentCallID = _bundle.getLong("callid");
             username = _bundle.getString("username");
             nickname = _bundle.getString("nickname");
             devicename = _bundle.getString("devicename");
